@@ -134,3 +134,11 @@
 - Verified locally via `getComputedStyle` + `scrollHeight`/`clientHeight`: footer CTA padding
   40.96px and no clipping, `.cta--center` 80px, footer grid/bottom padding restored, nav overflow
   negative at 1440px.
+- Deployed (commit `347e857`) and re-verified on production: footer CTA padding `48px 56px`, kicker
+  now renders inside the card, nav CTA sits 11px inside the scrolled pill, and all four rules are
+  present verbatim in the shipped chunk.
+- Useful verification trick for "did my CSS actually ship?": grab the chunk URL out of the page HTML
+  and grep the rule straight out of it —
+  `CSS_URL=$(curl -s <site>/ | grep -o '/_next/static/[^"]*\.css' | head -1); curl -s "<site>$CSS_URL" | grep -o '\.my-rule{[^}]*}'`
+  Beats guessing from a browser screenshot, and instantly distinguishes "not deployed yet" from
+  "deployed but overridden".
