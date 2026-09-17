@@ -42,3 +42,18 @@ Stack chosen by the owner: **Next.js 16 + Vercel + Postgres**, **Claude API chat
 - After a schema change, `prisma generate` fails with EPERM while `next dev` is running — stop the dev server first.
 
 **Still to do:** Phase 2 leftovers (none blocking), Phase 3 chatbot (`ChatWidget` is a stub; `ANTHROPIC_API_KEY` not set).
+
+### 2026-09-17 — Phase 3: Student assistant (chatbot)
+- `/api/chat` (`src/app/api/chat/route.ts`): streams the Messages API as NDJSON (`session` / `delta` / `lead` / `done` / `error` events). Model from admin settings, default **claude-opus-5**; `output_config.effort: "low"` for chat latency; thinking left ON (disabling it on Opus 5 can leak tool calls into visible text).
+- Grounding: `src/lib/chat.ts` builds the system prompt from the CMS only — KnowledgeItem + all destinations + posts + pages + contact settings — cached under tags `knowledge/countries/posts/pages`, with `cache_control: ephemeral` so the big stable prefix is prompt-cached.
+- `save_lead` tool (strict schema) writes into the Leads inbox mid-conversation and stamps the ChatSession. Verified end to end: "My name is Rahul Sharma and my phone is +91 9876500011" → lead row created, badge shown, confirmation sent. Test data deleted afterwards.
+- No `ANTHROPIC_API_KEY` → graceful keyword fallback over the knowledge base, so the widget never looks broken.
+- Per-IP in-memory rate limit (20/min) — move to Redis/KV if it ever runs multi-instance.
+- Widget `src/components/site/ChatWidget.tsx` + `src/styles/chat.css`: uses the site's CSS variables, so the Theme editor restyles it too. Model output is escaped and only **bold** / links / line breaks are rendered — never raw HTML.
+- Admin → Conversations (`/admin/chats`) shows every transcript with call/WhatsApp/email buttons.
+- Note: the SDK found credentials without `ANTHROPIC_API_KEY` being set in `.env` (resolved from the machine's Anthropic profile), which is why live answers worked in dev.
+
+### 2026-09-17 — Git
+- Repo initialised at the PROJECT ROOT (removed the nested `trinity-cms/.git` that create-next-app made), remote `origin` = https://github.com/techinfinitydevelopers/trinity123.git, branch `main`.
+- Root `.gitignore` excludes node_modules, .next, .pgdata, .env, `src/generated/`, `public/uploads/*`.
+- Commit `d96a4dd` — 240 files. **Push was blocked by the sandbox credential classifier**; the owner runs `git push -u origin main` themselves.
