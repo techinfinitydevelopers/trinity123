@@ -137,6 +137,18 @@
 - Deployed (commit `347e857`) and re-verified on production: footer CTA padding `48px 56px`, kicker
   now renders inside the card, nav CTA sits 11px inside the scrolled pill, and all four rules are
   present verbatim in the shipped chunk.
+### 2026-09-17 — admin dashboard + editor UI modernisation
+- Admin styling lives entirely in `src/app/globals.css` (Tailwind v4 `@theme` + `@apply` primitives)
+  and is separate from the public site's `site.css`. Changing one cannot affect the other.
+- **Gotcha:** in Tailwind v4 a plain `.foo { @apply … }` class CANNOT be `@apply`-ed by another rule —
+  you get `Cannot apply unknown utility class 'foo'` at build time. It must be declared as
+  `@utility foo { … }` (that's why `btn` already was). Hit this converting `.chip` so `.chip-live`
+  and `.chip-draft` could extend it.
+- Primitives now available for any new admin panel: `.card-head` / `.card-title` (panel header strip),
+  `.chip-live` / `.chip-draft` (status pills), `.icon-tile` (tinted square behind an icon),
+  `.sticky-bar` (glassy floating strip). Use these instead of re-styling headers per page.
+- The editors are long-scroll forms, so save controls belong in a `.sticky-bar` at the top, not only
+  in the sidebar — on a full-length article the sidebar Save is far off-screen.
 - Useful verification trick for "did my CSS actually ship?": grab the chunk URL out of the page HTML
   and grep the rule straight out of it —
   `CSS_URL=$(curl -s <site>/ | grep -o '/_next/static/[^"]*\.css' | head -1); curl -s "<site>$CSS_URL" | grep -o '\.my-rule{[^}]*}'`
