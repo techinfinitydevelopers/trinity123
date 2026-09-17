@@ -64,12 +64,13 @@ export default function BlockEditor({ initial }: { initial: PageData }) {
   return (
     <div className="-mx-4 -my-6 flex h-[calc(100vh-56px)] flex-col sm:-mx-6 lg:-mx-10 lg:-my-8 lg:h-screen">
       {/* top bar */}
-      <div className="flex flex-wrap items-center gap-3 border-b border-line bg-white px-4 py-3 lg:px-6">
-        <Link href="/admin/pages" className="text-[13px] text-ink-3 hover:text-brand" onClick={(e) => { if (dirty && !confirm("You have unsaved changes. Leave without saving?")) e.preventDefault(); }}>‹ Pages</Link>
-        <input className="min-w-0 flex-1 rounded-lg border border-transparent bg-transparent px-2 py-1 text-[18px] font-bold text-navy outline-none hover:border-line focus:border-brand" value={page.title} onChange={(e) => update({ title: e.target.value })} />
+      <div className="flex flex-wrap items-center gap-3 border-b border-line bg-white/90 px-4 py-3 backdrop-blur-md lg:px-6">
+        <Link href="/admin/pages" className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[13px] text-ink-3 transition hover:bg-canvas hover:text-brand" onClick={(e) => { if (dirty && !confirm("You have unsaved changes. Leave without saving?")) e.preventDefault(); }}>‹ Pages</Link>
+        <input className="min-w-0 flex-1 rounded-lg border border-transparent bg-transparent px-2 py-1 text-[18px] font-bold tracking-tight text-navy outline-none transition hover:border-line hover:bg-canvas focus:border-brand focus:bg-white" value={page.title} onChange={(e) => update({ title: e.target.value })} />
+        {dirty ? <span className="hidden items-center gap-1.5 text-[12px] font-medium text-amber-600 sm:inline-flex"><span className="h-1.5 w-1.5 rounded-full bg-amber-500" />Unsaved</span> : null}
         <div className="flex items-center gap-1 rounded-xl bg-canvas p-1 text-[13px] font-semibold">
-          <button className={`rounded-lg px-3 py-1.5 ${tab === "blocks" ? "bg-white text-navy shadow-card" : "text-ink-3"}`} onClick={() => setTab("blocks")}>Content</button>
-          <button className={`rounded-lg px-3 py-1.5 ${tab === "seo" ? "bg-white text-navy shadow-card" : "text-ink-3"}`} onClick={() => setTab("seo")}>SEO</button>
+          <button className={`rounded-lg px-3 py-1.5 transition ${tab === "blocks" ? "bg-white text-navy shadow-card" : "text-ink-3 hover:text-ink"}`} onClick={() => setTab("blocks")}>Content</button>
+          <button className={`rounded-lg px-3 py-1.5 transition ${tab === "seo" ? "bg-white text-navy shadow-card" : "text-ink-3 hover:text-ink"}`} onClick={() => setTab("seo")}>SEO</button>
         </div>
         <button className="btn-ghost btn-sm hidden xl:inline-flex" onClick={() => setPreview((p) => !p)}>{preview ? "Hide preview" : "Show preview"}</button>
         <a className="btn-ghost btn-sm" href={path} target="_blank" rel="noopener">View ↗</a>
@@ -86,8 +87,9 @@ export default function BlockEditor({ initial }: { initial: PageData }) {
               <ol className="space-y-1">
                 {page.blocks.map((b, i) => (
                   <li key={i}>
-                    <button onClick={() => setSel(i)} className={`group flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left transition ${sel === i ? "bg-brand-soft text-brand" : "hover:bg-canvas"}`}>
-                      <span className={`grid h-6 w-6 shrink-0 place-items-center rounded-md text-[11px] font-bold ${sel === i ? "bg-brand text-white" : "bg-canvas text-ink-3"}`}>{i + 1}</span>
+                    <button onClick={() => setSel(i)} className={`group relative flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left transition duration-200 ${sel === i ? "bg-brand-soft text-brand" : "hover:bg-canvas"}`}>
+                      <span className={`absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full bg-brand transition-opacity ${sel === i ? "opacity-100" : "opacity-0"}`} />
+                      <span className={`grid h-6 w-6 shrink-0 place-items-center rounded-md text-[11px] font-bold transition ${sel === i ? "bg-brand text-white" : "bg-canvas text-ink-3 group-hover:bg-line"}`}>{i + 1}</span>
                       <span className="min-w-0 flex-1"><span className="block truncate text-[13px] font-semibold">{BLOCK_META[b.type]?.label ?? b.type}</span><span className="block truncate text-[11px] text-ink-3">{summary(b)}</span></span>
                     </button>
                   </li>

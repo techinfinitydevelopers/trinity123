@@ -31,13 +31,25 @@ export default function PostForm({ initial, categories }: { initial: PostInput; 
   };
 
   return (
-    <div className="grid gap-6 xl:grid-cols-[1fr_340px]">
+    <>
+      {/* Always-reachable save controls — the sidebar ones scroll away on a long post. */}
+      <div className="sticky-bar top-3 mb-5 flex flex-wrap items-center gap-3 px-4 py-2.5 lg:top-4">
+        <span className={p.status === "PUBLISHED" ? "chip-live" : "chip-draft"}>{p.status === "PUBLISHED" ? "Published" : "Draft"}</span>
+        <span className="min-w-0 flex-1 truncate text-[13px] font-semibold text-navy">{p.title || "Untitled post"}</span>
+        {dirty ? <span className="hidden items-center gap-1.5 text-[12px] font-medium text-amber-600 sm:inline-flex"><span className="h-1.5 w-1.5 rounded-full bg-amber-500" />Unsaved</span> : null}
+        <div className="flex items-center gap-2">
+          <button className="btn-ghost btn-sm" onClick={() => save("DRAFT")} disabled={saving}>{saving ? "Saving…" : "Save draft"}</button>
+          <button className="btn-primary btn-sm" onClick={() => save("PUBLISHED")} disabled={saving}>{p.status === "PUBLISHED" ? "Update" : "Publish"}</button>
+        </div>
+      </div>
+
+      <div className="grid gap-6 xl:grid-cols-[1fr_340px]">
       <div className="space-y-5">
         <div className="card p-5">
-          <input className="w-full border-0 bg-transparent px-0 text-[26px] font-bold text-navy outline-none placeholder:text-ink-3" placeholder="Post title" value={p.title} onChange={(e) => set({ title: e.target.value })} />
+          <input className="w-full border-0 bg-transparent px-0 text-[26px] font-bold tracking-tight text-navy outline-none placeholder:text-ink-3" placeholder="Post title" value={p.title} onChange={(e) => set({ title: e.target.value })} />
           <div className="mt-2 flex flex-wrap items-center gap-2 text-[13px] text-ink-3">
             <span>/blog/</span>
-            <input className="min-w-[200px] flex-1 rounded-lg border border-transparent bg-transparent px-1 py-0.5 font-mono text-[12px] text-ink-2 outline-none hover:border-line focus:border-brand" value={p.slug} onChange={(e) => { setSlugTouched(true); set({ slug: slugify(e.target.value) || e.target.value }); }} />
+            <input className="min-w-[200px] flex-1 rounded-lg border border-transparent bg-transparent px-1.5 py-0.5 font-mono text-[12px] text-ink-2 outline-none transition hover:border-line hover:bg-canvas focus:border-brand focus:bg-white" value={p.slug} onChange={(e) => { setSlugTouched(true); set({ slug: slugify(e.target.value) || e.target.value }); }} />
           </div>
         </div>
         <div className="card p-5">
@@ -97,6 +109,7 @@ export default function PostForm({ initial, categories }: { initial: PostInput; 
         </div>
         {p.id ? <div className="card p-5"><Confirm onConfirm={async () => { const res = await deletePostAction(p.id!); if (res.ok) { toast("Post deleted"); r.push("/admin/posts"); } else toast(res.error, "err"); }}>Delete post</Confirm></div> : null}
       </aside>
-    </div>
+      </div>
+    </>
   );
 }

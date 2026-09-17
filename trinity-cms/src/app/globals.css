@@ -13,32 +13,54 @@
   --color-ink-2: #55536b;
   --color-ink-3: #8a889e;
   --color-line: #e7e8f0;
-  --color-canvas: #f4f5fa;
+  --color-line-2: #f0f1f7;
+  --color-canvas: #f6f7fb;
   --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
   --font-display: Poppins, Inter, ui-sans-serif, sans-serif;
   --shadow-card: 0 1px 2px rgba(22, 20, 57, 0.04), 0 8px 24px -12px rgba(22, 20, 57, 0.12);
   --shadow-pop: 0 24px 60px -20px rgba(22, 20, 57, 0.35);
+  --shadow-lift: 0 2px 4px -2px rgba(22, 20, 57, 0.08), 0 16px 32px -16px rgba(22, 20, 57, 0.22);
   --radius-xl2: 18px;
+  --ease-spring: cubic-bezier(.2, .8, .2, 1);
 }
 
 html, body { height: 100%; }
-body { @apply bg-canvas text-ink antialiased; font-family: var(--font-sans); }
-h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.01em; }
+body {
+  @apply text-ink antialiased;
+  font-family: var(--font-sans);
+  /* Flat grey reads cheap at this size; two barely-there tints give the cards something to sit on. */
+  background:
+    radial-gradient(1200px 600px at 12% -10%, #eeedfd 0%, transparent 55%),
+    radial-gradient(900px 500px at 100% 0%, #fdf6e6 0%, transparent 45%),
+    var(--color-canvas);
+  background-attachment: fixed;
+}
+h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.02em; }
 
 /* form primitives */
-.inp { @apply w-full rounded-xl border border-line bg-white px-3.5 py-2.5 text-[14px] text-ink outline-none transition placeholder:text-ink-3 focus:border-brand focus:ring-4 focus:ring-brand/10; }
+.inp { @apply w-full rounded-xl border border-line bg-white px-3.5 py-2.5 text-[14px] text-ink outline-none transition placeholder:text-ink-3 hover:border-ink-3/40 focus:border-brand focus:ring-4 focus:ring-brand/10; }
 .inp-sm { @apply px-3 py-2 text-[13px]; }
 textarea.inp { @apply min-h-[88px] leading-relaxed; }
+select.inp { @apply cursor-pointer; }
 .lbl { @apply mb-1.5 block text-[12px] font-semibold uppercase tracking-wide text-ink-3; }
 .card { @apply rounded-2xl border border-line bg-white shadow-card; }
-@utility btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-[14px] font-semibold transition disabled:cursor-not-allowed disabled:opacity-50; }
-.btn-primary { @apply btn bg-brand text-white shadow-[0_8px_20px_-8px_rgba(87,81,225,.7)] hover:bg-brand-2; }
+/* Header strip for a card — keeps every panel's title row identical. */
+.card-head { @apply flex flex-wrap items-center justify-between gap-3 border-b border-line-2 px-5 py-3.5; }
+.card-title { @apply flex items-center gap-2 text-[15px] font-bold text-navy; }
+@utility btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-[14px] font-semibold transition-[background-color,border-color,color,box-shadow,transform] duration-200 active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50 disabled:active:translate-y-0; }
+.btn-primary { @apply btn bg-gradient-to-b from-brand to-brand-2 text-white shadow-[0_8px_20px_-8px_rgba(87,81,225,.7)] hover:shadow-[0_12px_24px_-8px_rgba(87,81,225,.85)] hover:brightness-[1.06]; }
 .btn-dark { @apply btn bg-navy text-white hover:bg-navy-2; }
-.btn-ghost { @apply btn border border-line bg-white text-ink hover:border-brand/40 hover:text-brand; }
+.btn-ghost { @apply btn border border-line bg-white text-ink hover:border-brand/40 hover:bg-brand-soft/40 hover:text-brand; }
 .btn-danger { @apply btn border border-red-200 bg-red-50 text-red-700 hover:bg-red-100; }
 .btn-sm { @apply px-3 py-1.5 text-[13px]; }
 .btn-xs { @apply rounded-lg px-2 py-1 text-[12px]; }
-.chip { @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold; }
+@utility chip { @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold; }
+.chip-live { @apply chip bg-emerald-50 text-emerald-700 ring-1 ring-emerald-600/10; }
+.chip-draft { @apply chip bg-amber-50 text-amber-700 ring-1 ring-amber-600/10; }
+/* Soft tinted square behind an icon — used for stat cards and empty states. */
+.icon-tile { @apply grid shrink-0 place-items-center rounded-xl; }
+/* Glassy strip that floats over content while editing. */
+.sticky-bar { @apply sticky z-30 rounded-2xl border border-line bg-white/85 shadow-lift backdrop-blur-md supports-[backdrop-filter]:bg-white/70; }
 
 /* rich editor content */
 .rte { @apply min-h-[420px] rounded-xl border border-line bg-white px-5 py-4 text-[15px] leading-7 outline-none focus:border-brand focus:ring-4 focus:ring-brand/10; }

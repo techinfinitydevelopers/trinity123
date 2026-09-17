@@ -24,15 +24,19 @@ export default function Sidebar({ user, logo, unread }: { user: SessionUser; log
   const active = (h: string) => (h === "/admin" ? path === "/admin" : path.startsWith(h));
 
   const nav = (
-    <nav className="flex flex-1 flex-col gap-1 px-3">
-      {NAV.map((n) => (
-        <Link key={n.href} href={n.href} onClick={() => setOpen(false)}
-          className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-[14px] font-medium transition ${active(n.href) ? "bg-white/10 text-white shadow-[inset_3px_0_0_0_#FFC224]" : "text-white/60 hover:bg-white/5 hover:text-white"}`}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={active(n.href) ? "text-gold" : "text-white/50 group-hover:text-white"}><path d={n.icon} /></svg>
-          <span className="flex-1">{n.label}</span>
-          {n.badge && unread > 0 ? <span className="rounded-full bg-gold px-2 py-0.5 text-[11px] font-bold text-navy">{unread}</span> : null}
-        </Link>
-      ))}
+    <nav className="nice-scroll flex flex-1 flex-col gap-0.5 overflow-y-auto px-3 py-1">
+      {NAV.map((n) => {
+        const on = active(n.href);
+        return (
+          <Link key={n.href} href={n.href} onClick={() => setOpen(false)}
+            className={`group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-[14px] font-medium transition duration-200 ${on ? "bg-white/[0.12] text-white" : "text-white/55 hover:bg-white/[0.06] hover:text-white"}`}>
+            <span className={`absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full bg-gold transition-opacity ${on ? "opacity-100" : "opacity-0"}`} />
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={`transition ${on ? "text-gold" : "text-white/45 group-hover:text-white/80"}`}><path d={n.icon} /></svg>
+            <span className="flex-1">{n.label}</span>
+            {n.badge && unread > 0 ? <span className="rounded-full bg-gold px-2 py-0.5 text-[11px] font-bold text-navy shadow-[0_2px_8px_rgba(255,194,36,.45)]">{unread}</span> : null}
+          </Link>
+        );
+      })}
     </nav>
   );
 
@@ -59,12 +63,12 @@ export default function Sidebar({ user, logo, unread }: { user: SessionUser; log
       <div className="h-14 lg:hidden" />
       {open ? <button className="fixed inset-0 z-40 bg-navy/60 backdrop-blur-sm lg:hidden" aria-label="Close menu" onClick={() => setOpen(false)} /> : null}
 
-      <aside className={`fixed inset-y-0 left-0 z-50 flex w-[260px] flex-col bg-navy transition-transform lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 ${open ? "translate-x-0" : "-translate-x-full"}`}>
+      <aside className={`fixed inset-y-0 left-0 z-50 flex w-[260px] flex-col bg-navy bg-gradient-to-b from-navy-2 via-navy to-navy-3 transition-transform lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 ${open ? "translate-x-0" : "-translate-x-full"}`}>
         <div className="flex items-center gap-3 px-5 pb-4 pt-5">
-          <div className="inline-flex items-center rounded-lg bg-white px-2 py-1.5">
+          <div className="inline-flex items-center rounded-lg bg-white px-2 py-1.5 shadow-[0_4px_14px_rgba(0,0,0,.25)]">
             <img src={logo} alt="" className="h-6 w-auto" />
           </div>
-          <span className="rounded-md bg-white/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-gold">Admin</span>
+          <span className="rounded-md bg-gold/15 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-gold ring-1 ring-gold/25">Admin</span>
         </div>
         {nav}
         {foot}

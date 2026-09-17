@@ -89,7 +89,7 @@ export default function FieldEditor({ value, onChange, name, depth = 0 }: { valu
     const primitive = arr.length ? typeof arr[0] !== "object" : !remembered;
 
     return (
-      <div className="rounded-xl border border-line bg-canvas/60 p-3">
+      <div className="rounded-xl border border-line-2 bg-canvas/70 p-3">
         <div className="mb-2 flex items-center justify-between"><span className="lbl mb-0">{label} <span className="text-ink-3">({arr.length})</span></span><button type="button" className="btn-ghost btn-xs" onClick={add}>+ Add</button></div>
         <div className="space-y-2">
           {arr.map((item, i) => (
@@ -117,7 +117,7 @@ export default function FieldEditor({ value, onChange, name, depth = 0 }: { valu
     const obj = value as Obj;
     if (name === "aside") {
       return (
-        <div className="rounded-xl border border-line bg-canvas/60 p-3">
+        <div className="rounded-xl border border-line-2 bg-canvas/70 p-3">
           <Row label="Hero side content">
             <select className="inp inp-sm" value={String(obj.kind)} onChange={(e) => onChange(deepClone(ASIDE_TEMPLATES[e.target.value]))}>
               <option value="none">None</option><option value="statchips">Stat chips</option><option value="visual">Image + chips</option><option value="svcchips">Service chips</option><option value="quick">Quick contact (WhatsApp / call / email)</option>
@@ -128,7 +128,7 @@ export default function FieldEditor({ value, onChange, name, depth = 0 }: { valu
       );
     }
     return (
-      <div className="rounded-xl border border-line bg-canvas/60 p-3">
+      <div className="rounded-xl border border-line-2 bg-canvas/70 p-3">
         <span className="lbl">{label}</span>
         <ObjectFields value={obj} onChange={onChange} depth={depth + 1} />
       </div>
