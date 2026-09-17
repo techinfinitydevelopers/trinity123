@@ -1,0 +1,171 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String
+  role      Role     @default(EDITOR)
+  createdAt DateTime @default(now())
+  posts     Post[]
+}
+
+/// A front-end page. `blocks` holds the ordered section list rendered by the site.
+model Page {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  navLabel    String
+  seoTitle    String?
+  seoDesc     String?
+  ogImage     String?
+  blocks      Json     @default("[]")
+  isSystem    Boolean  @default(false)
+  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now())
+}
+
+model Post {
+  id         String     @id @default(cuid())
+  slug       String     @unique
+  title      String
+  excerpt    String     @default("")
+  coverImage String?
+  category   String     @default("Guides")
+  readMins   Int        @default(5)
+  body       String     @default("")
+  faqs       Json       @default("[]")
+  takeaways  Json       @default("[]")
+  sources    Json       @default("[]")
+  tags       String[]   @default([])
+  seoTitle   String?
+  seoDesc    String?
+  status     PostStatus @default(DRAFT)
+  publishedAt DateTime?
+  authorId   String?
+  author     User?      @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  updatedAt  DateTime   @updatedAt
+  createdAt  DateTime   @default(now())
+
+  @@index([status, publishedAt])
+}
+
+model Media {
+  id        String   @id @default(cuid())
+  url       String
+  filename  String
+  alt       String   @default("")
+  width     Int?
+  height    Int?
+  bytes     Int      @default(0)
+  mimeType  String   @default("image/jpeg")
+  folder    String   @default("uploads")
+  createdAt DateTime @default(now())
+}
+
+/// Singleton-ish key/value store: theme tokens, contact details, socials, nav, chatbot config.
+model Setting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+model Lead {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String
+  subject   String   @default("")
+  message   String   @default("")
+  source    String   @default("contact-form")
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([isRead, createdAt])
+}
+
+model ChatSession {
+  id        String        @id @default(cuid())
+  visitorId String
+  name      String?
+  phone     String?
+  email     String?
+  createdAt DateTime      @default(now())
+  messages  ChatMessage[]
+
+  @@index([createdAt])
+}
+
+model ChatMessage {
+  id        String      @id @default(cuid())
+  sessionId String
+  session   ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  role      String
+  content   String
+  flagged   Boolean     @default(false)
+  createdAt DateTime    @default(now())
+
+  @@index([sessionId, createdAt])
+}
+
+/// Curated Q&A the chatbot is grounded on; editable from the dashboard.
+model KnowledgeItem {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String
+  tags      String   @default("")
+  isActive  Boolean  @default(true)
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+/// A study-destination page (/destinations/[slug]). Content is edited as JSON in the admin.
+model Country {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  slug      String   @unique
+  name      String
+  tag       String   @default("")
+  img       String   @default("")
+  hero      String   @default("")
+  intro     String   @default("")
+  stats     Json     @default("[]")
+  why       Json     @default("[]")
+  courses   Json     @default("[]")
+  unis      Json     @default("[]")
+  visa      String   @default("")
+  intakes   String   @default("")
+  cost      Json     @default("[]")
+  req       Json     @default("[]")
+  sch       Json     @default("[]")
+  steps     Json     @default("[]")
+  work      String   @default("")
+  workPoints Json    @default("[]")
+  faq       Json     @default("[]")
+  seoTitle  String?
+  seoDesc   String?
+  isActive  Boolean  @default(true)
+  order     Int      @default(0)
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  @@index([isActive, order])
+}

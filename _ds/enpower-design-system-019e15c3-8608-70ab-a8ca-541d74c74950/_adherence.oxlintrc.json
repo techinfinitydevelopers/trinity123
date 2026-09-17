@@ -1,0 +1,215 @@
+{
+  "plugins": [
+    "react",
+    "import"
+  ],
+  "rules": {
+    "react/forbid-elements": [
+      "warn",
+      {
+        "forbid": []
+      }
+    ],
+    "no-restricted-imports": [
+      "warn",
+      {
+        "patterns": [
+          {
+            "group": [
+              "ui_kits/website/**"
+            ],
+            "message": "Import design-system components from 'index.js', not component internals."
+          }
+        ]
+      }
+    ],
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "Literal[value=/#[0-9a-fA-F]{3,8}\\b/]",
+        "message": "Raw hex color — use a design-system color token via var()."
+      },
+      {
+        "selector": "Literal[value=/\\b\\d+px\\b/]",
+        "message": "Raw px value — use a design-system spacing token via var()."
+      },
+      {
+        "selector": "Literal[value=/font-family\\s*:\\s*(?!['\\\"]?(?:Montserrat|Space Grotesk|Material Icons|Material Symbols Outlined))/i]",
+        "message": "Font not provided by the design system. Available: Montserrat, Space Grotesk, Material Icons, Material Symbols Outlined."
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/index.js"
+      ],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    }
+  ],
+  "x-omelette": {
+    "components": {},
+    "tokens": [
+      "--cream",
+      "--enp-bg",
+      "--enp-bg-alt",
+      "--enp-bg-cream",
+      "--enp-bg-grey",
+      "--enp-bg-soft",
+      "--enp-body",
+      "--enp-border",
+      "--enp-border-soft",
+      "--enp-font-body",
+      "--enp-font-display",
+      "--enp-grad-cta",
+      "--enp-grad-cta-hover",
+      "--enp-grad-text",
+      "--enp-grad-vision",
+      "--enp-h-hero",
+      "--enp-h1",
+      "--enp-h2",
+      "--enp-h3",
+      "--enp-h4",
+      "--enp-h5",
+      "--enp-h6",
+      "--enp-ink-purple",
+      "--enp-purple",
+      "--enp-purple-darker",
+      "--enp-purple-darkest",
+      "--enp-purple-deep",
+      "--enp-purple-mid",
+      "--enp-r-2xl",
+      "--enp-r-3xl",
+      "--enp-r-lg",
+      "--enp-r-md",
+      "--enp-r-pill",
+      "--enp-r-sm",
+      "--enp-r-xl",
+      "--enp-r-xs",
+      "--enp-shadow-card",
+      "--enp-shadow-card-hover",
+      "--enp-shadow-cta",
+      "--enp-shadow-lg",
+      "--enp-shadow-md",
+      "--enp-shadow-sm",
+      "--enp-small",
+      "--enp-text",
+      "--enp-text-grey",
+      "--enp-text-ink",
+      "--enp-text-muted",
+      "--enp-text-soft",
+      "--enp-text-strong",
+      "--enp-white",
+      "--enp-xs",
+      "--enp-yellow",
+      "--enp-yellow-bright",
+      "--enp-yellow-deep",
+      "--enp-yellow-hover",
+      "--gold",
+      "--gold-2",
+      "--grad-deep",
+      "--grad-text",
+      "--grad-vision",
+      "--ink",
+      "--ink-2",
+      "--ink-3",
+      "--ink-muted",
+      "--lav",
+      "--lav-2",
+      "--lav-3",
+      "--line",
+      "--line-d",
+      "--purple",
+      "--purple-d",
+      "--purple-x",
+      "--shadow-card",
+      "--shadow-lift",
+      "--white"
+    ],
+    "tokenKinds": {
+      "--enp-purple": "color",
+      "--enp-purple-deep": "color",
+      "--enp-purple-darker": "color",
+      "--enp-purple-darkest": "color",
+      "--enp-ink-purple": "color",
+      "--enp-purple-mid": "color",
+      "--enp-yellow": "color",
+      "--enp-yellow-bright": "color",
+      "--enp-yellow-hover": "color",
+      "--enp-yellow-deep": "color",
+      "--enp-bg": "color",
+      "--enp-bg-alt": "color",
+      "--enp-bg-soft": "color",
+      "--enp-bg-cream": "color",
+      "--enp-bg-grey": "color",
+      "--enp-white": "color",
+      "--enp-text": "font",
+      "--enp-text-strong": "font",
+      "--enp-text-ink": "font",
+      "--enp-text-muted": "font",
+      "--enp-text-grey": "font",
+      "--enp-text-soft": "font",
+      "--enp-border": "color",
+      "--enp-border-soft": "color",
+      "--enp-grad-vision": "other",
+      "--enp-grad-cta": "other",
+      "--enp-grad-cta-hover": "other",
+      "--enp-grad-text": "font",
+      "--enp-shadow-sm": "shadow",
+      "--enp-shadow-md": "shadow",
+      "--enp-shadow-lg": "shadow",
+      "--enp-shadow-card": "shadow",
+      "--enp-shadow-card-hover": "shadow",
+      "--enp-shadow-cta": "shadow",
+      "--enp-r-xs": "spacing",
+      "--enp-r-sm": "spacing",
+      "--enp-r-md": "spacing",
+      "--enp-r-lg": "spacing",
+      "--enp-r-xl": "spacing",
+      "--enp-r-2xl": "spacing",
+      "--enp-r-3xl": "spacing",
+      "--enp-r-pill": "spacing",
+      "--enp-font-display": "font",
+      "--enp-font-body": "font",
+      "--enp-h-hero": "other",
+      "--enp-h1": "spacing",
+      "--enp-h2": "spacing",
+      "--enp-h3": "spacing",
+      "--enp-h4": "spacing",
+      "--enp-h5": "spacing",
+      "--enp-h6": "spacing",
+      "--enp-body": "spacing",
+      "--enp-small": "spacing",
+      "--enp-xs": "spacing",
+      "--ink": "color",
+      "--ink-2": "color",
+      "--ink-3": "color",
+      "--ink-muted": "color",
+      "--purple": "color",
+      "--purple-d": "color",
+      "--purple-x": "color",
+      "--lav": "color",
+      "--lav-2": "color",
+      "--lav-3": "color",
+      "--cream": "color",
+      "--gold": "color",
+      "--gold-2": "color",
+      "--white": "color",
+      "--line": "color",
+      "--line-d": "color",
+      "--grad-vision": "other",
+      "--grad-deep": "other",
+      "--grad-text": "font",
+      "--shadow-card": "shadow",
+      "--shadow-lift": "shadow"
+    },
+    "fontFamilies": [
+      "Material Icons",
+      "Material Symbols Outlined",
+      "Montserrat",
+      "Space Grotesk"
+    ]
+  }
+}

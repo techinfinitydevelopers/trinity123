@@ -1,0 +1,40 @@
+/* Helper classes ported from the design canvas (Trinity Study Abroad.dc.html) for the
+   floating pill navigation, Study Destinations dropdown, destination pages and the
+   upgraded blog-post layout. Prefixed `cv-` so they never collide with site.css. */
+
+[data-word]{display:inline-block;opacity:0;transform:translateY(100%);animation:wordUp .9s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes wordUp{to{opacity:1;transform:none}}
+
+/* nav */
+.cv-nav{position:fixed;top:0;left:0;right:0;z-index:50;transition:all .4s}
+.cv-npill{white-space:nowrap}
+.cv-npill:hover{color:#161439!important;background:rgba(255,255,255,.7)!important}
+.cv-ddwrap:hover .cv-ddmenu{opacity:1!important;visibility:visible!important;transform:translate(-50%,0)!important}
+.cv-ddwrap:hover .cv-ddchev{transform:rotate(180deg)}
+.cv-ditem:hover{background:#5751E1!important;color:#fff!important}
+.cv-ditem:hover .cv-dsub{color:rgba(255,255,255,.72)!important}
+.cv-btny{white-space:nowrap}
+.cv-btny:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(22,20,57,.24)}
+.cv-btny.cv-dsk:hover{background:#5751E1!important;color:#fff!important}
+.cv-soc:hover{background:#5751E1!important;border-color:#5751E1!important;color:#fff!important;transform:translateY(-3px)}
+@media (max-width:1320px){.cv-dsk{display:none!important}.cv-mob{display:flex!important}}
+@media (min-width:1321px){.cv-mob{display:none!important}}
+
+/* cards */
+.cv-jcard:hover{transform:translateY(-8px);border-color:transparent!important}
+.cv-jcard:hover .cv-jfill{opacity:1!important}
+.cv-hcard:hover{transform:translateY(-8px);box-shadow:0 34px 66px rgba(22,20,57,.2)!important}
+.cv-hcard:hover .cv-zoom{transform:scale(1.07)}
+.cv-ccard:hover{transform:translateY(-6px);box-shadow:0 20px 44px rgba(87,81,225,.25);border-color:transparent!important}
+.cv-ccard:hover .cv-cfill{transform:translateY(0)!important}
+.cv-ccard:hover .cv-cname,.cv-ccard:hover .cv-csub{color:#fff!important}
+.cv-ccard:hover .cv-carrow{background:#FFC224!important;transform:rotate(-45deg)}
+.cv-jumper:hover{background:#5751E1!important;color:#fff!important;transform:translateY(-2px)}
+
+/* layout */
+@media (max-width:900px){.cv-postgrid{grid-template-columns:1fr!important;gap:36px!important}}
+@media (max-width:640px){
+  .cv-faqside{position:static!important}
+  .cv-section{padding-left:18px!important;padding-right:18px!important}
+  .cv-hero{padding-top:130px!important;padding-bottom:64px!important;min-height:auto!important}
+}

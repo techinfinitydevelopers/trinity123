@@ -1,0 +1,61 @@
+/* Student assistant widget — uses the site's brand tokens so the Theme editor restyles it too. */
+
+.tc-fab{position:fixed;right:22px;bottom:92px;z-index:61;width:58px;height:58px;border-radius:50%;background:var(--primary);color:#fff;border:0;display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;box-shadow:0 12px 30px rgba(87,81,225,.45);transition:transform .3s var(--ease),background .3s}
+.tc-fab:hover{transform:translateY(-3px) scale(1.04)}
+.tc-fab.is-open{background:var(--navy);transform:rotate(90deg)}
+.tc-fab__dot{position:absolute;top:4px;right:4px;width:12px;height:12px;border-radius:50%;background:var(--gold);border:2px solid #fff}
+
+.tc-nudge{position:fixed;right:92px;bottom:96px;z-index:61;max-width:270px;text-align:left;background:#fff;border:1px solid var(--line);border-radius:18px 18px 4px 18px;padding:14px 16px;box-shadow:var(--shadow);cursor:pointer;animation:fadeUpChat .45s var(--ease) both;font-family:var(--font-b)}
+.tc-nudge strong{display:block;font-family:var(--font-h);font-weight:600;font-size:14px;color:var(--navy);margin-bottom:3px}
+.tc-nudge small{font-size:12.5px;line-height:1.5;color:var(--muted)}
+.tc-nudge__x{position:absolute;top:6px;right:10px;font-size:17px;line-height:1;color:var(--muted)}
+.tc-nudge__x:hover{color:var(--navy)}
+
+.tc-panel{position:fixed;right:22px;bottom:92px;z-index:62;width:min(calc(100vw - 32px),390px);height:min(calc(100vh - 140px),580px);background:#fff;border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow-lg);display:flex;flex-direction:column;overflow:hidden;opacity:0;visibility:hidden;transform:translateY(16px) scale(.97);transform-origin:bottom right;transition:all .32s var(--ease);font-family:var(--font-b)}
+.tc-panel.is-open{opacity:1;visibility:visible;transform:none}
+
+.tc-head{display:flex;align-items:center;gap:12px;padding:16px 14px 16px 18px;background:var(--navy);color:#fff;position:relative;flex-shrink:0}
+.tc-head::after{content:"";position:absolute;width:170px;height:170px;border-radius:50%;background:var(--primary);filter:blur(60px);opacity:.55;right:-50px;top:-70px;pointer-events:none}
+.tc-avatar{position:relative;width:42px;height:42px;border-radius:50%;background:var(--primary);display:grid;place-items:center;font-size:17px;color:#fff;flex-shrink:0;z-index:1}
+.tc-avatar .tc-live{position:absolute;right:-1px;bottom:-1px;width:12px;height:12px;border-radius:50%;background:#25D366;border:2px solid var(--navy)}
+.tc-head__txt{flex:1;min-width:0;z-index:1}
+.tc-head__txt strong{display:block;font-family:var(--font-h);font-weight:600;font-size:15px}
+.tc-head__txt small{font-size:11.5px;color:rgba(255,255,255,.6)}
+.tc-icon{z-index:1;width:32px;height:32px;border-radius:10px;background:rgba(255,255,255,.1);color:#fff;border:0;cursor:pointer;font-size:13px;transition:background .25s}
+.tc-icon:hover{background:rgba(255,255,255,.22)}
+
+.tc-body{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:10px;background:var(--grey)}
+.tc-msg{max-width:86%;font-size:14px;line-height:1.6;padding:11px 14px;word-wrap:break-word}
+.tc-msg--in{align-self:flex-start;background:#fff;color:var(--navy);border-radius:16px 16px 16px 4px;box-shadow:0 2px 8px rgba(22,20,57,.06)}
+.tc-msg--out{align-self:flex-end;background:var(--primary);color:#fff;border-radius:16px 16px 4px 16px}
+.tc-msg a{color:var(--primary);text-decoration:underline;word-break:break-word}
+.tc-msg--out a{color:#fff}
+.tc-msg strong{font-weight:600}
+.tc-typing{display:inline-flex;gap:5px;padding:3px 0}
+.tc-typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:dot 1.2s infinite}
+.tc-typing i:nth-child(2){animation-delay:.2s}
+.tc-typing i:nth-child(3){animation-delay:.4s}
+.tc-note{align-self:center;display:flex;align-items:center;gap:8px;background:rgba(37,211,102,.12);color:#0f7a3d;font-size:12.5px;padding:9px 14px;border-radius:12px;text-align:center}
+
+.tc-quick{display:flex;flex-wrap:wrap;gap:7px;padding:0 14px 12px;background:var(--grey);flex-shrink:0}
+.tc-quick button{background:#fff;border:1px solid var(--line);color:var(--navy);font-family:var(--font-h);font-weight:500;font-size:12.5px;padding:8px 13px;border-radius:var(--r-pill);cursor:pointer;transition:all .25s}
+.tc-quick button:hover{background:var(--primary);border-color:var(--primary);color:#fff}
+
+.tc-form{display:flex;align-items:flex-end;gap:8px;padding:12px 14px 6px;border-top:1px solid var(--line);background:#fff;flex-shrink:0}
+.tc-form textarea{flex:1;resize:none;border:1px solid var(--line);border-radius:18px;padding:11px 14px;font:inherit;font-size:14px;line-height:1.45;color:var(--navy);max-height:96px;outline:none;transition:border-color .25s,box-shadow .25s}
+.tc-form textarea:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(87,81,225,.12)}
+.tc-form button{width:42px;height:42px;flex-shrink:0;border:0;border-radius:50%;background:var(--primary);color:#fff;font-size:15px;cursor:pointer;transition:all .25s}
+.tc-form button:hover:not(:disabled){background:var(--navy)}
+.tc-form button:disabled{opacity:.4;cursor:not-allowed}
+.tc-foot{padding:0 16px 12px;font-size:10.5px;color:var(--muted);text-align:center;background:#fff;flex-shrink:0}
+
+@keyframes fadeUpChat{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+@media (max-width:640px){
+  .tc-panel{right:8px;left:8px;bottom:84px;width:auto;height:min(calc(100vh - 120px),540px)}
+  .tc-nudge{right:88px;left:12px;max-width:none}
+  .tc-fab{right:16px;bottom:86px;width:52px;height:52px;font-size:21px}
+}
+@media (prefers-reduced-motion:reduce){
+  .tc-panel,.tc-fab,.tc-nudge{transition:none;animation:none}
+}
