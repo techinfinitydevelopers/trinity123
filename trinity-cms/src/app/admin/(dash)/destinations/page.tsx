@@ -1,3 +1,4 @@
+import { requireAdminPage } from "@/lib/auth";
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { PageHeader } from "@/components/admin/ui";
@@ -6,6 +7,7 @@ import { fmt } from "@/lib/format";
 export const metadata = { title: "Destinations" };
 
 export default async function DestinationsPage() {
+  await requireAdminPage();
   const rows = await db.country.findMany({ orderBy: { order: "asc" } });
   return (
     <>

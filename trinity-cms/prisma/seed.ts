@@ -11,7 +11,8 @@ const force = process.argv.includes("--force");
 
 async function main() {
   const email = (process.env.ADMIN_EMAIL ?? "admin@trinitystudyabroad.com").toLowerCase();
-  const password = process.env.ADMIN_PASSWORD ?? "Trinity@2026";
+  const password = process.env.ADMIN_PASSWORD ?? (process.env.NODE_ENV === "production" ? "" : "Trinity@2026");
+  if (!password) throw new Error("ADMIN_PASSWORD must be set when seeding a production database. Pick a strong one — it is the only login to the dashboard.");
   const admin = await db.user.upsert({
     where: { email },
     create: { email, name: "Trinity Admin", role: "ADMIN", password: await bcrypt.hash(password, 12) },
@@ -56,7 +57,7 @@ async function main() {
     await db.knowledgeItem.createMany({ data: seedKnowledge });
   }
 
-  console.log(`seeded. admin login → ${email} / ${password}`);
+  console.log(`seeded. admin login → ${email}` + (process.env.ADMIN_PASSWORD ? "" : " / Trinity@2026  (LOCAL DEV DEFAULT — change it in Settings → Security)"));
 }
 
 main().finally(() => db.$disconnect());

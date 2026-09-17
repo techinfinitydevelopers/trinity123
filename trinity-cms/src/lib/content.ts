@@ -3,7 +3,10 @@ import { db } from "./db";
 import type { Block } from "./blocks";
 
 /* `unstable_cache` serialises its result as JSON, so Date columns come back as ISO strings.
-   These helpers revive them, letting callers rely on Date methods. */
+   These helpers revive them, letting callers rely on Date methods.
+   They MUST be applied *outside* the cached function: anything returned from inside
+   `unstable_cache` is re-serialised on every cache hit, so a Date revived in there
+   would be handed back to the caller as a string again. */
 type DateKeys = "publishedAt" | "updatedAt" | "createdAt";
 function revive<T extends Partial<Record<DateKeys, unknown>>>(row: T): T {
   const out = { ...row } as Record<string, unknown>;
@@ -14,47 +17,52 @@ function revive<T extends Partial<Record<DateKeys, unknown>>>(row: T): T {
 }
 const reviveAll = <T extends Partial<Record<DateKeys, unknown>>>(rows: T[]) => rows.map(revive);
 
-export const getPage = unstable_cache(
-  async (slug: string) => {
-    const p = await db.page.findUnique({ where: { slug } });
-    if (!p) return null;
-    return { ...revive(p), blocks: (p.blocks as unknown as Block[]) ?? [] };
-  },
+const pageCached = unstable_cache(
+  async (slug: string) => db.page.findUnique({ where: { slug } }),
   ["page"],
   { tags: ["pages"] },
 );
+export async function getPage(slug: string) {
+  const p = await pageCached(slug);
+  if (!p) return null;
+  return { ...revive(p), blocks: (p.blocks as unknown as Block[]) ?? [] };
+}
 
-export const getPageSlugs = unstable_cache(
-  async () => reviveAll(await db.page.findMany({ select: { slug: true, updatedAt: true } })),
+const pageSlugsCached = unstable_cache(
+  async () => db.page.findMany({ select: { slug: true, updatedAt: true } }),
   ["page-slugs"],
   { tags: ["pages"] },
 );
+export const getPageSlugs = async () => reviveAll(await pageSlugsCached());
 
-export const getPost = unstable_cache(
-  async (slug: string) => {
-    const p = await db.post.findUnique({ where: { slug, status: "PUBLISHED" }, include: { author: { select: { name: true } } } });
-    return p ? revive(p) : null;
-  },
+const postCached = unstable_cache(
+  async (slug: string) => db.post.findUnique({ where: { slug, status: "PUBLISHED" }, include: { author: { select: { name: true } } } }),
   ["post"],
   { tags: ["posts"] },
 );
+export async function getPost(slug: string) {
+  const p = await postCached(slug);
+  return p ? revive(p) : null;
+}
 
-export const getRelatedPosts = unstable_cache(
+const relatedPostsCached = unstable_cache(
   async (slug: string, take = 2) =>
-    reviveAll(await db.post.findMany({
+    db.post.findMany({
       where: { status: "PUBLISHED", slug: { not: slug } },
       orderBy: { publishedAt: "desc" }, take,
       select: { slug: true, title: true, excerpt: true, coverImage: true, category: true, readMins: true, publishedAt: true },
-    })),
+    }),
   ["related"],
   { tags: ["posts"] },
 );
+export const getRelatedPosts = async (slug: string, take = 2) => reviveAll(await relatedPostsCached(slug, take));
 
-export const getPublishedPostSlugs = unstable_cache(
-  async () => reviveAll(await db.post.findMany({ where: { status: "PUBLISHED" }, select: { slug: true, updatedAt: true } })),
+const publishedPostSlugsCached = unstable_cache(
+  async () => db.post.findMany({ where: { status: "PUBLISHED" }, select: { slug: true, updatedAt: true } }),
   ["post-slugs"],
   { tags: ["posts"] },
 );
+export const getPublishedPostSlugs = async () => reviveAll(await publishedPostSlugsCached());
 
 export const getAdjacentPosts = unstable_cache(
   async (slug: string) => {
@@ -74,14 +82,15 @@ export const getCountries = unstable_cache(
   { tags: ["countries"] },
 );
 
-export const getCountry = unstable_cache(
-  async (slug: string) => {
-    const c = await db.country.findUnique({ where: { slug } });
-    return c ? revive(c) : null;
-  },
+const countryCached = unstable_cache(
+  async (slug: string) => db.country.findUnique({ where: { slug } }),
   ["country"],
   { tags: ["countries"] },
 );
+export async function getCountry(slug: string) {
+  const c = await countryCached(slug);
+  return c ? revive(c) : null;
+}
 
 export function revalidateSite() {
   revalidateTag("pages", "max");

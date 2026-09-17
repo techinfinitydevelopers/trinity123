@@ -1,14 +1,12 @@
 import type { ReactNode } from "react";
-import { redirect } from "next/navigation";
-import { getSession } from "@/lib/auth";
+import { requireAdminPage } from "@/lib/auth";
 import { getSetting } from "@/lib/settings-server";
 import { db } from "@/lib/db";
 import Sidebar from "@/components/admin/Sidebar";
 import { ToastHost } from "@/components/admin/ui";
 
 export default async function DashLayout({ children }: { children: ReactNode }) {
-  const me = await getSession();
-  if (!me) redirect("/admin/login");
+  const me = await requireAdminPage();
   const [site, unread] = await Promise.all([getSetting("site"), db.lead.count({ where: { isRead: false } })]);
   return (
     <div className="flex min-h-screen">

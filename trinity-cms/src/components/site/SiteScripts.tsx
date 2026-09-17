@@ -27,6 +27,8 @@ export default function SiteScripts() {
   }, []);
 
   useEffect(() => {
+    // The CSS media query cannot stop these — they are the heaviest motion on the site.
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const header = document.getElementById("siteHeader");
     const toTop = document.getElementById("toTop");
     const heroGlows = document.querySelector<HTMLElement>("[data-hero-parallax]");
@@ -42,7 +44,14 @@ export default function SiteScripts() {
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
     }, { threshold: 0.12 });
-    document.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
+    if (reduce) document.querySelectorAll("[data-reveal]").forEach((el) => el.classList.add("in"));
+    else document.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
+
+    // Safety net: if the observer ever fails to fire for something already on screen
+    // (a stalled layout, a missed frame), content must not stay invisible forever.
+    const revealTimer = window.setTimeout(() => {
+      document.querySelectorAll("[data-reveal]:not(.in)").forEach((el) => el.classList.add("in"));
+    }, 4000);
 
     /* counters */
     const stats = document.getElementById("stats");
@@ -64,7 +73,7 @@ export default function SiteScripts() {
       sio.observe(stats);
     }
 
-    const onTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+    const onTop = () => window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
     toTop?.addEventListener("click", onTop);
 
     /* scroll-driven */
@@ -73,6 +82,8 @@ export default function SiteScripts() {
       const y = window.scrollY, vh = window.innerHeight, vw = window.innerWidth;
       header?.classList.toggle("is-scrolled", y > 40);
       toTop?.classList.toggle("is-visible", y > 40);
+      // Everything past this point is decorative transform work.
+      if (reduce) { ticking = false; return; }
       if (heroGlows) heroGlows.style.transform = `translateY(${y * 0.3}px)`;
 
       plx.forEach((el) => {
@@ -119,6 +130,7 @@ export default function SiteScripts() {
 
     return () => {
       io.disconnect(); sio?.disconnect();
+      window.clearTimeout(revealTimer);
       toTop?.removeEventListener("click", onTop);
       window.removeEventListener("scroll", onScrollRaf);
       window.removeEventListener("resize", onScroll);

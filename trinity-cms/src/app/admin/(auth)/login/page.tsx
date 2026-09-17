@@ -13,7 +13,9 @@ export default async function LoginPage() {
       <aside className="relative hidden overflow-hidden bg-navy text-white lg:flex lg:flex-col lg:justify-between lg:p-12">
         <div className="pointer-events-none absolute inset-0 opacity-70" style={{ background: "radial-gradient(60% 50% at 20% 20%, rgba(87,81,225,.55), transparent 60%), radial-gradient(40% 40% at 90% 80%, rgba(255,194,36,.25), transparent 60%)" }} />
         <div className="pointer-events-none absolute inset-0 opacity-[.07]" style={{ backgroundImage: "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)", backgroundSize: "44px 44px" }} />
-        <img src={site.logo} alt={site.siteName} className="relative h-12 w-auto brightness-0 invert" />
+        <div className="relative inline-flex w-fit items-center rounded-xl bg-white px-3 py-2 shadow-sm">
+          <img src={site.logo} alt={site.siteName} className="h-9 w-auto" />
+        </div>
         <div className="relative max-w-md">
           <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[.18em] text-gold">Admin Console</p>
           <h1 className="text-4xl font-bold leading-tight">Everything on your website, <span className="text-gold">editable in one place.</span></h1>

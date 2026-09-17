@@ -51,9 +51,11 @@ export default function ChatWidget({ cfg }: { cfg: ChatbotSettings }) {
   }, []);
 
   const restored = useRef(false);
+  const fabRef = useRef<HTMLButtonElement>(null);
   const toggle = (next: boolean) => {
     setOpen(next);
-    if (!next) return;
+    // Closing hides the panel with visibility:hidden, which would strand focus on a hidden node.
+    if (!next) { fabRef.current?.focus(); return; }
     setNudge(false);
     safeSet(STORAGE.seen, "1");
     if (!restored.current) {
@@ -80,7 +82,9 @@ export default function ChatWidget({ cfg }: { cfg: ChatbotSettings }) {
     try {
       const res = await fetch("/api/chat", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ visitorId: visitorRef.current, sessionId: sessionRef.current, messages: next.slice(-20) }),
+        // Only the new message goes up — the server rebuilds the conversation from its own
+        // stored transcript, so a tampered client cannot forge assistant turns.
+        body: JSON.stringify({ visitorId: visitorRef.current, sessionId: sessionRef.current, message: q }),
       });
       if (!res.ok || !res.body) {
         const j = await res.json().catch(() => ({}));
@@ -121,14 +125,16 @@ export default function ChatWidget({ cfg }: { cfg: ChatbotSettings }) {
   return (
     <>
       {nudge && !open ? (
-        <button className="tc-nudge" onClick={() => toggle(true)}>
-          <span className="tc-nudge__x" onClick={(e) => { e.stopPropagation(); setNudge(false); safeSet(STORAGE.seen, "1"); }} role="button" aria-label="Dismiss">×</span>
-          <strong>Planning to study abroad?</strong>
-          <small>Ask me about countries, fees, visas or intakes.</small>
-        </button>
+        <div className="tc-nudge">
+          <button type="button" className="tc-nudge__x" onClick={() => { setNudge(false); safeSet(STORAGE.seen, "1"); }} aria-label="Dismiss">×</button>
+          <button type="button" className="tc-nudge__open" onClick={() => toggle(true)}>
+            <strong>Planning to study abroad?</strong>
+            <small>Ask me about countries, fees, visas or intakes.</small>
+          </button>
+        </div>
       ) : null}
 
-      <button className={`tc-fab${open ? " is-open" : ""}`} onClick={() => toggle(!open)} aria-label={open ? "Close chat" : `Chat with ${cfg.name}`} aria-expanded={open}>
+      <button ref={fabRef} className={`tc-fab${open ? " is-open" : ""}`} onClick={() => toggle(!open)} aria-label={open ? "Close chat" : `Chat with ${cfg.name}`} aria-expanded={open}>
         <i className={open ? "fas fa-times" : "fas fa-comment-dots"} />
         {!open && msgs.length === 0 ? <span className="tc-fab__dot" /> : null}
       </button>
@@ -141,7 +147,7 @@ export default function ChatWidget({ cfg }: { cfg: ChatbotSettings }) {
           <button className="tc-icon" onClick={() => toggle(false)} title="Close" aria-label="Close chat"><i className="fas fa-chevron-down" /></button>
         </div>
 
-        <div className="tc-body nice-scroll" ref={bodyRef}>
+        <div className="tc-body nice-scroll" ref={bodyRef} role="log" aria-live="polite" aria-relevant="additions text" aria-label="Conversation">
           <div className="tc-msg tc-msg--in"><div dangerouslySetInnerHTML={{ __html: render(cfg.greeting) }} /></div>
           {msgs.map((m, i) => (
             <div key={i} className={`tc-msg tc-msg--${m.role === "user" ? "out" : "in"}`}>
@@ -157,7 +163,7 @@ export default function ChatWidget({ cfg }: { cfg: ChatbotSettings }) {
 
         <form className="tc-form" onSubmit={(e) => { e.preventDefault(); void send(input); }}>
           <textarea
-            ref={inputRef} rows={1} value={input} placeholder="Ask about countries, fees, visas…" maxLength={1000} disabled={busy}
+            ref={inputRef} rows={1} value={input} placeholder="Ask about countries, fees, visas…" aria-label="Your message" maxLength={1000} disabled={busy}
             onChange={(e) => { setInput(e.target.value); e.target.style.height = "auto"; e.target.style.height = `${Math.min(96, e.target.scrollHeight)}px`; }}
             onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); void send(input); } }}
           />

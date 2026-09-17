@@ -7,6 +7,11 @@ import { Toggle } from "./ui";
 import { humanize, deepClone } from "@/lib/block-defaults";
 
 type Obj = Record<string, unknown>;
+
+/* Shape of each list, keyed by field name, so an emptied array can still be re-populated
+   with the right kind of item. Module-scoped: it only has to survive re-renders. */
+const shapeMemory = new Map<string, object>();
+const shapeKey = (name: string, depth: number) => `${depth}:${name}`;
 const IMG_KEY = /(img|image|logo|cover|capsule|icon$)/i;
 const LONG_KEY = /^(text|sub|lead|paragraph|a|answer|noteText|excerpt|okMsg|statText|greeting|systemPrompt|footerText|handoffMessage)$/;
 const isImgVal = (v: string) => /^(\/|https?:).*\.(png|jpe?g|webp|gif|svg|avif)(\?.*)?$/i.test(v) || v.startsWith("/uploads/");
@@ -34,6 +39,10 @@ export function Row({ label, children, hint }: { label: string; children: ReactN
 
 export default function FieldEditor({ value, onChange, name, depth = 0 }: { value: unknown; onChange: (v: unknown) => void; name: string; depth?: number }) {
   const label = humanize(name);
+  /* The control is chosen once, from the value this field mounted with. Deciding it from the
+     CURRENT value made the control swap while the owner typed — a different DOM subtree, so
+     React remounted it and focus was lost mid-word. */
+  const [atMount] = useState(() => (typeof value === "string" ? value : ""));
 
   if (typeof value === "boolean") return <div className="pt-1"><Toggle checked={value} onChange={onChange} label={label} /></div>;
   if (typeof value === "number") return <Row label={label}><input type="number" className="inp inp-sm" value={value} onChange={(e) => onChange(Number(e.target.value))} /></Row>;
@@ -48,25 +57,36 @@ export default function FieldEditor({ value, onChange, name, depth = 0 }: { valu
     if (name === "layout") return <Row label="Layout"><select className="inp inp-sm" value={value} onChange={(e) => onChange(e.target.value)}><option value="split">Split (text + visual)</option><option value="center">Centered</option></select></Row>;
     if (name === "secondaryKind") return <Row label="Secondary button"><select className="inp inp-sm" value={value} onChange={(e) => onChange(e.target.value)}><option value="phone">Phone pill</option><option value="whatsapp">WhatsApp button</option></select></Row>;
     if (name === "flag" || name === "flags") return <Row label={label} hint="ISO country code, e.g. us, gb, de"><input className="inp inp-sm" value={value} onChange={(e) => onChange(e.target.value.toLowerCase())} /></Row>;
-    if ((IMG_KEY.test(name) && !isFa(value)) || isImgVal(value)) return <ImagePicker label={label} value={value} onChange={onChange} />;
-    if (isFa(value) || /icon/i.test(name)) return (
+    // `icon`-suffixed keys are always Font Awesome classes except Journey's SVG icons,
+    // which live under `icon` with an image path — so judge those two by the mounted value.
+    const iconKey = /icon$/i.test(name);
+    const looksImage = (IMG_KEY.test(name) && !iconKey) || isImgVal(atMount);
+    if (looksImage && !isFa(atMount)) return <ImagePicker label={label} value={value} onChange={onChange} />;
+    if (iconKey ? !isImgVal(atMount) : (isFa(atMount) || /icon/i.test(name))) return (
       <Row label={label} hint="Font Awesome 5 class, e.g. fas fa-star">
         <div className="flex items-center gap-2"><span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-brand-soft text-brand"><i className={value} /></span><input className="inp inp-sm" value={value} onChange={(e) => onChange(e.target.value)} /></div>
       </Row>
     );
     if (name === "href") return <Row label="Link" hint='Use "whatsapp", "phone" or "email" to link to contact settings'><input className="inp inp-sm" value={value} onChange={(e) => onChange(e.target.value)} /></Row>;
     if (name === "title" && /[\[{]/.test(value) || /^(title)$/.test(name) && depth === 0) return <Row label={label} hint="Wrap words in [brackets] for purple accent or {braces} for gold"><input className="inp" value={value} onChange={(e) => onChange(e.target.value)} /></Row>;
-    if (LONG_KEY.test(name) || value.length > 90) return <Row label={label}><textarea className="inp" rows={Math.min(8, Math.max(2, Math.ceil(value.length / 70)))} value={value} onChange={(e) => onChange(e.target.value)} /></Row>;
+    if (LONG_KEY.test(name) || atMount.length > 90) return <Row label={label}><textarea className="inp" rows={Math.min(8, Math.max(2, Math.ceil((value.length || 60) / 70)))} value={value} onChange={(e) => onChange(e.target.value)} /></Row>;
     return <Row label={label}><input className="inp inp-sm" value={value} onChange={(e) => onChange(e.target.value)} /></Row>;
   }
 
   if (Array.isArray(value)) {
     const arr = value as unknown[];
+    // Remember what an item of THIS list looks like, so "+ Add" still works after the
+    // owner deletes every row (otherwise a list of objects would gain a bare string).
+    if (arr.length && typeof arr[0] === "object" && arr[0]) shapeMemory.set(shapeKey(name, depth), arr[0] as object);
     const set = (i: number, v: unknown) => { const n = [...arr]; n[i] = v; onChange(n); };
     const move = (i: number, dir: -1 | 1) => { const j = i + dir; if (j < 0 || j >= arr.length) return; const n = [...arr]; [n[i], n[j]] = [n[j], n[i]]; onChange(n); };
     const remove = (i: number) => onChange(arr.filter((_, k) => k !== i));
-    const add = () => onChange([...arr, arr.length ? (typeof arr[arr.length - 1] === "object" ? deepClone(arr[arr.length - 1]) : "") : ""]);
-    const primitive = arr.length === 0 || typeof arr[0] !== "object";
+    const remembered = shapeMemory.get(shapeKey(name, depth));
+    const add = () => {
+      if (arr.length) return onChange([...arr, typeof arr[arr.length - 1] === "object" ? deepClone(arr[arr.length - 1]) : ""]);
+      return onChange([...arr, remembered ? (emptyLike(remembered) as unknown) : ""]);
+    };
+    const primitive = arr.length ? typeof arr[0] !== "object" : !remembered;
 
     return (
       <div className="rounded-xl border border-line bg-canvas/60 p-3">
@@ -133,7 +153,6 @@ export function ObjectFields({ value, onChange, depth = 0, skip = [], collapsibl
           const wide = Array.isArray(v) || (v && typeof v === "object") || k === "html" || (typeof v === "string" && (LONG_KEY.test(k) || v.length > 90));
           return <div key={k} className={wide ? "sm:col-span-2" : ""}><FieldEditor name={k} value={v} depth={depth} onChange={(nv) => onChange({ ...value, [k]: nv })} /></div>;
         })}
-        {value.chip === null ? <div><FieldEditor name="chip" value={null} onChange={(nv) => onChange({ ...value, chip: nv })} /></div> : null}
       </div>
     </div>
   );

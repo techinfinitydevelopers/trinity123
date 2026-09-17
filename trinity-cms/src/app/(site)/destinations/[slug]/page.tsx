@@ -6,6 +6,8 @@ import CountryPage from "@/components/site/CountryPage";
 
 type Props = { params: Promise<{ slug: string }> };
 const base = () => process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+/** JSON.stringify does not escape "<", so a title containing </script> would break out of the tag. */
+const jsonLd = (o: unknown) => JSON.stringify(o).replace(/</g, "\\u003c");
 
 export async function generateStaticParams() {
   const all = await getCountries().catch(() => []);
@@ -31,7 +33,7 @@ export default async function DestinationPage({ params }: Props) {
   const ld = {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "WebPage", name: `Study in ${c.name}`, description: c.intro, url, inLanguage: "en-IN" },
+      { "@type": "Article", headline: `Study in ${c.name} — cost, requirements, visa and scholarships`, description: c.intro, url, inLanguage: "en-IN", dateModified: c.updatedAt.toISOString(), image: c.img ? `${base()}${c.img}` : undefined, publisher: { "@id": `${base()}/#org` } },
       { "@type": "BreadcrumbList", itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: `${base()}/` },
         { "@type": "ListItem", position: 2, name: "Study Destinations", item: `${base()}/why-study-abroad` },
@@ -42,7 +44,7 @@ export default async function DestinationPage({ params }: Props) {
   };
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(ld) }} />
       <CountryPage c={c} others={others} contact={contact} />
     </>
   );

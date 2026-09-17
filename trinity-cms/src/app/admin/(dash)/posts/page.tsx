@@ -1,3 +1,4 @@
+import { requireAdminPage } from "@/lib/auth";
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { PageHeader } from "@/components/admin/ui";
@@ -6,6 +7,7 @@ import { fmt } from "@/lib/format";
 export const metadata = { title: "Blog" };
 
 export default async function PostsPage({ searchParams }: { searchParams: Promise<{ status?: string }> }) {
+  await requireAdminPage();
   const { status } = await searchParams;
   const posts = await db.post.findMany({ where: status === "draft" ? { status: "DRAFT" } : status === "published" ? { status: "PUBLISHED" } : undefined, orderBy: { updatedAt: "desc" }, include: { author: { select: { name: true } } } });
   const counts = { all: await db.post.count(), published: await db.post.count({ where: { status: "PUBLISHED" } }), draft: await db.post.count({ where: { status: "DRAFT" } }) };

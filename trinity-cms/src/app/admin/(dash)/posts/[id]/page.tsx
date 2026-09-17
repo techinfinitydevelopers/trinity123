@@ -1,3 +1,4 @@
+import { requireAdminPage } from "@/lib/auth";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
@@ -12,6 +13,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 }
 
 export default async function EditPost({ params }: { params: Promise<{ id: string }> }) {
+  await requireAdminPage();
   const { id } = await params;
   const cats = (await db.post.findMany({ select: { category: true }, distinct: ["category"] })).map((c) => c.category);
   let initial: PostInput = { title: "", slug: "", excerpt: "", coverImage: "", category: "Guides", readMins: 0, body: "", faqs: [], takeaways: [], sources: [], tags: [], seoTitle: "", seoDesc: "", status: "DRAFT", publishedAt: new Date().toISOString().slice(0, 10) };

@@ -1,3 +1,4 @@
+import { requireAdminPage } from "@/lib/auth";
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { PageHeader, Empty } from "@/components/admin/ui";
@@ -6,6 +7,7 @@ import { fmt } from "@/lib/format";
 export const metadata = { title: "Conversations" };
 
 export default async function ChatsPage({ searchParams }: { searchParams: Promise<{ id?: string }> }) {
+  await requireAdminPage();
   const { id } = await searchParams;
   const sessions = await db.chatSession.findMany({
     orderBy: { createdAt: "desc" }, take: 100,

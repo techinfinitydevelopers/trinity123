@@ -10,6 +10,8 @@ import { FLAG } from "@/components/site/ui";
 
 type Props = { params: Promise<{ slug: string }> };
 const base = () => process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+/** JSON.stringify does not escape "<", so a title containing </script> would break out of the tag. */
+const jsonLd = (o: unknown) => JSON.stringify(o).replace(/</g, "\\u003c");
 const P = "Poppins,sans-serif";
 const jcard: CSSProperties = { position: "relative", background: "#fff", border: "1px solid #E6EAEF", borderRadius: 20, padding: "20px 22px", color: "#161439", transition: "all .4s", overflow: "hidden", display: "block" };
 
@@ -48,8 +50,8 @@ export default async function PostPage({ params }: Props) {
       {
         "@type": "BlogPosting", headline: post.title, description: post.excerpt, image: post.coverImage ? `${base()}${post.coverImage}` : undefined,
         datePublished: post.publishedAt?.toISOString(), dateModified: post.updatedAt.toISOString(), inLanguage: "en-IN", keywords: post.tags.join(", "), articleSection: post.category, mainEntityOfPage: url,
-        author: { "@type": "Organization", name: author, url: `${base()}/` },
-        publisher: { "@type": "EducationalOrganization", name: settings.site.siteName, logo: { "@type": "ImageObject", url: `${base()}${settings.site.logo}` } },
+        author: { "@type": post.author ? "Person" : "Organization", name: author },
+        publisher: { "@id": `${base()}/#org` },
       },
       { "@type": "BreadcrumbList", itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: `${base()}/` },
@@ -62,7 +64,7 @@ export default async function PostPage({ params }: Props) {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(ld) }} />
       <article className="post" itemScope itemType="https://schema.org/Article">
         <header className="post__hero">
           <div className="page-hero__bg" /><div className="page-hero__grid" />

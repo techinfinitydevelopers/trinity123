@@ -3,7 +3,9 @@ import { getSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { storeFile } from "@/lib/storage";
 
-const ALLOWED = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/svg+xml", "image/avif"];
+// SVG is deliberately excluded: it is scriptable, and on a self-hosted deploy uploads are served
+// from the site origin, which would turn an uploaded SVG into stored XSS on /admin.
+const ALLOWED = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/avif"];
 const MAX = 8 * 1024 * 1024;
 
 export async function POST(req: Request) {

@@ -28,9 +28,14 @@ export default function BlockEditor({ initial }: { initial: PageData }) {
   const setBlocks = (blocks: Block[]) => update({ blocks });
   const setBlock = (i: number, b: Block) => setBlocks(page.blocks.map((x, k) => (k === i ? b : x)));
   const move = (i: number, d: -1 | 1) => { const j = i + d; if (j < 0 || j >= page.blocks.length) return; const n = [...page.blocks]; [n[i], n[j]] = [n[j], n[i]]; setBlocks(n); setSel(j); };
-  const remove = (i: number) => { setBlocks(page.blocks.filter((_, k) => k !== i)); setSel(Math.max(0, i - 1)); };
+  const remove = (i: number) => { const n = page.blocks.filter((_, k) => k !== i); setBlocks(n); setSel(Math.min(Math.max(0, i - 1), Math.max(0, n.length - 1))); };
   const duplicate = (i: number) => { const n = [...page.blocks]; n.splice(i + 1, 0, deepClone(page.blocks[i])); setBlocks(n); setSel(i + 1); };
-  const add = (t: BlockType) => { const n = [...page.blocks]; n.splice(sel + 1, 0, deepClone(templates[t])); setBlocks(n); setSel(sel + 1); setAdding(false); };
+  const add = (t: BlockType) => {
+    const n = [...page.blocks];
+    const at = n.length ? sel + 1 : 0; // splice(1,…) on an empty list appends at 0, so sel+1 would point past the end
+    n.splice(at, 0, deepClone(templates[t]));
+    setBlocks(n); setSel(at); setAdding(false);
+  };
 
   const save = useCallback(async () => {
     setSaving(true);
@@ -60,7 +65,7 @@ export default function BlockEditor({ initial }: { initial: PageData }) {
     <div className="-mx-4 -my-6 flex h-[calc(100vh-56px)] flex-col sm:-mx-6 lg:-mx-10 lg:-my-8 lg:h-screen">
       {/* top bar */}
       <div className="flex flex-wrap items-center gap-3 border-b border-line bg-white px-4 py-3 lg:px-6">
-        <Link href="/admin/pages" className="text-[13px] text-ink-3 hover:text-brand">‹ Pages</Link>
+        <Link href="/admin/pages" className="text-[13px] text-ink-3 hover:text-brand" onClick={(e) => { if (dirty && !confirm("You have unsaved changes. Leave without saving?")) e.preventDefault(); }}>‹ Pages</Link>
         <input className="min-w-0 flex-1 rounded-lg border border-transparent bg-transparent px-2 py-1 text-[18px] font-bold text-navy outline-none hover:border-line focus:border-brand" value={page.title} onChange={(e) => update({ title: e.target.value })} />
         <div className="flex items-center gap-1 rounded-xl bg-canvas p-1 text-[13px] font-semibold">
           <button className={`rounded-lg px-3 py-1.5 ${tab === "blocks" ? "bg-white text-navy shadow-card" : "text-ink-3"}`} onClick={() => setTab("blocks")}>Content</button>

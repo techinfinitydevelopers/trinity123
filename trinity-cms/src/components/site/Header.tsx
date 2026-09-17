@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ContactSettings, NavSettings, SiteSettings } from "@/lib/settings";
 import { Socials, FLAG } from "./ui";
 
@@ -13,11 +13,21 @@ const LEFT = ["/", "/about-us", "/why-study-abroad", "/our-service"];
 export default function Header({ nav, contact, site, destinations }: { nav: NavSettings; contact: ContactSettings; site: SiteSettings; destinations: Destination[] }) {
   const path = usePathname();
   const [open, setOpen] = useState(false);
+  const [destOpen, setDestOpen] = useState(false);
   const active = (h: string) => (h === "/" ? path === "/" : path.startsWith(h));
   const isDest = path.startsWith("/destinations");
   const tel = `tel:${contact.phones[0]?.replace(/[^\d+]/g, "")}`;
   const left = nav.items.filter((i) => LEFT.includes(i.href));
   const right = nav.items.filter((i) => !LEFT.includes(i.href));
+  const destRef = useRef<HTMLLIElement>(null);
+  // Click-opened menus must close when the visitor clicks anywhere else.
+  useEffect(() => {
+    if (!destOpen) return;
+    const onDown = (e: MouseEvent) => { if (!destRef.current?.contains(e.target as Node)) setDestOpen(false); };
+    document.addEventListener("mousedown", onDown);
+    return () => document.removeEventListener("mousedown", onDown);
+  }, [destOpen]);
+
   const pill = (it: { href: string; label: string }) => (
     <li key={it.href}><Link href={it.href} className={active(it.href) ? "is-active" : undefined} aria-current={active(it.href) ? "page" : undefined}>{it.label}</Link></li>
   );
@@ -42,14 +52,23 @@ export default function Header({ nav, contact, site, destinations }: { nav: NavS
           <ul className="nav__links" id="navLinks">
             {left.map(pill)}
             {destinations.length ? (
-              <li className="cv-ddwrap" style={{ position: "relative" }}>
-                <Link href="/why-study-abroad" className={isDest ? "is-active" : undefined} aria-haspopup="true">
+              <li ref={destRef} className={destOpen ? "cv-ddwrap is-open" : "cv-ddwrap"} style={{ position: "relative" }}>
+                {/* A real button with aria-expanded: the menu used to open on CSS :hover only,
+                    which put all 11 destination links out of reach of keyboard and screen readers. */}
+                <button
+                  type="button"
+                  className={isDest ? "is-active cv-ddbtn" : "cv-ddbtn"}
+                  aria-expanded={destOpen}
+                  aria-controls="destinations-menu"
+                  onClick={() => setDestOpen((o) => !o)}
+                  onKeyDown={(e) => { if (e.key === "Escape") setDestOpen(false); }}
+                >
                   Study Destinations <i className="fas fa-chevron-down cv-ddchev" style={{ fontSize: 9, transition: "transform .3s" }} />
-                </Link>
-                <div className="cv-ddmenu" style={{ position: "absolute", left: "50%", top: "calc(100% + 14px)", transform: "translate(-50%,10px)", width: 440, background: "#fff", border: "1px solid var(--line)", borderRadius: 24, boxShadow: "0 30px 70px rgba(22,20,57,.22)", padding: 14, opacity: 0, visibility: "hidden", transition: "all .32s cubic-bezier(.4,0,.2,1)", zIndex: 60 }}>
+                </button>
+                <div className="cv-ddmenu" id="destinations-menu" onKeyDown={(e) => { if (e.key === "Escape") setDestOpen(false); }} style={{ position: "absolute", left: "50%", top: "calc(100% + 14px)", transform: "translate(-50%,10px)", width: 440, background: "#fff", border: "1px solid var(--line)", borderRadius: 24, boxShadow: "0 30px 70px rgba(22,20,57,.22)", padding: 14, opacity: 0, visibility: "hidden", transition: "all .32s cubic-bezier(.4,0,.2,1)", zIndex: 60 }}>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4 }}>
                     {destinations.map((c) => (
-                      <Link key={c.code} href={`/destinations/${c.slug}`} className="cv-ditem" style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 14, transition: "all .25s", color: "var(--navy)", background: "transparent", boxShadow: "none" }}>
+                      <Link key={c.code} href={`/destinations/${c.slug}`} className="cv-ditem" onClick={() => setDestOpen(false)} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 14, transition: "all .25s", color: "var(--navy)", background: "transparent", boxShadow: "none" }}>
                         <img src={FLAG(c.code)} alt="" style={{ width: 26, height: 26, borderRadius: "50%", objectFit: "cover", boxShadow: "0 3px 8px rgba(22,20,57,.18)", flexShrink: 0 }} />
                         <span style={{ display: "flex", flexDirection: "column", gap: 1, minWidth: 0 }}>
                           <span style={{ fontFamily: "var(--font-h)", fontWeight: 600, fontSize: 14, lineHeight: 1.2 }}>{c.name}</span>

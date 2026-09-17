@@ -10,6 +10,7 @@ import Footer from "@/components/site/Footer";
 import SiteScripts from "@/components/site/SiteScripts";
 import ThemeStyle, { fontHref } from "@/components/site/ThemeStyle";
 import ChatWidget from "@/components/site/ChatWidget";
+import OrgSchema from "@/components/site/OrgSchema";
 
 export async function generateMetadata(): Promise<Metadata> {
   const s = await getAllSettings();
@@ -30,6 +31,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
       <link href={fontHref(settings.theme)} rel="stylesheet" />
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
       <ThemeStyle t={settings.theme} />
+      <OrgSchema site={settings.site} contact={settings.contact} />
       <Header nav={settings.nav} contact={settings.contact} site={settings.site} destinations={destinations} />
       <main id="main">{children}</main>
       <Footer nav={settings.nav} contact={settings.contact} site={settings.site} destinations={destinations} />

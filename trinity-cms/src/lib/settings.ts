@@ -29,7 +29,7 @@ export type SiteSettings = {
 export const DEFAULTS: SettingsMap = {
   theme: {
     primary: "#5751E1", primary2: "#4640c9", navy: "#161439", navy2: "#1C1A4A", navy3: "#0f0e2b",
-    gold: "#FFC224", gold2: "#F8BC24", text: "#6D6C80", muted: "#7F7E97", grey: "#EFEFF2", line: "#E6EAEF",
+    gold: "#FFC224", gold2: "#F8BC24", text: "#5F5E73", muted: "#605F78", grey: "#EFEFF2", line: "#E6EAEF",
     fontHeading: "Poppins", fontBody: "Inter", radiusCard: 28, radiusPill: 50, container: 1320,
   } satisfies ThemeSettings,
   contact: {

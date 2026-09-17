@@ -54,7 +54,7 @@ export function Words({ words, start = 0.15, step = 0.1, capsule }: { words: Wor
 }
 
 export const Stars = () => (
-  <span className="stars" aria-label="5 star rating">
+  <span className="stars" role="img" aria-label="5 star rating">
     <i className="fas fa-star" /><i className="fas fa-star" /><i className="fas fa-star" /><i className="fas fa-star" /><i className="fas fa-star" />
   </span>
 );

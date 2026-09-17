@@ -14,13 +14,17 @@ npm run db:seed       # admin user + 6 pages + 3 posts + settings + chatbot fact
 npm run dev           # http://localhost:3000  ·  admin: http://localhost:3000/admin
 ```
 
-Default admin login (change it in **Settings → Security** right after first login):
+Local development seeds `admin@trinitystudyabroad.com` with a well-known default password,
+printed by the seed command. **Change it in Settings → Security before the site is public.**
 
-```
-admin@trinitystudyabroad.com / Trinity@2026
+Seeding a production database *requires* `ADMIN_PASSWORD` — the seed refuses to run without it,
+so a live site can never end up with the documented default:
+
+```bash
+ADMIN_EMAIL="you@trinitystudyabroad.com" ADMIN_PASSWORD="<a long random password>" npx prisma db seed
 ```
 
-Override at seed time with `ADMIN_EMAIL` / `ADMIN_PASSWORD` env vars. `npm run db:reset` re-seeds and **overwrites** page content with the defaults.
+`npm run db:reset` re-seeds and **overwrites** page content with the defaults.
 
 ## Environment variables
 

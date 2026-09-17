@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
-import { getSession } from "@/lib/auth";
+import { getSession, requireAdminPage } from "@/lib/auth";
 import { PageHeader } from "@/components/admin/ui";
 import { fmt } from "@/lib/format";
 
@@ -17,6 +17,7 @@ const Stat = ({ label, value, href, accent }: { label: string; value: string | n
 
 
 export default async function Dashboard() {
+  await requireAdminPage();
   const me = await getSession();
   const [pages, published, drafts, leads, unread, media, chats, recent, recentPosts] = await Promise.all([
     db.page.count(), db.post.count({ where: { status: "PUBLISHED" } }), db.post.count({ where: { status: "DRAFT" } }),

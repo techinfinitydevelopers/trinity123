@@ -34,7 +34,7 @@ export function Faq({ b, contact }: { b: FaqBlock; contact: ContactSettings }) {
               <button className="faq__q" type="button" aria-expanded={open === i} aria-controls={`faq-a-${i}`} id={`faq-q-${i}`} onClick={() => setOpen(open === i ? -1 : i)}>
                 {f.q}<span className="faq__icon"><i className="fas fa-plus" /></span>
               </button>
-              <div className="faq__a" id={`faq-a-${i}`} role="region" aria-labelledby={`faq-q-${i}`}><p>{f.a}</p></div>
+              <div className="faq__a" id={`faq-a-${i}`} aria-labelledby={`faq-q-${i}`} hidden={open !== i}><p>{f.a}</p></div>
             </div>
           ))}
         </div>

@@ -24,6 +24,8 @@ model User {
   name      String
   password  String
   role      Role     @default(EDITOR)
+  /// Bumped on password change so outstanding session cookies stop validating.
+  tokenVersion Int   @default(0)
   createdAt DateTime @default(now())
   posts     Post[]
 }

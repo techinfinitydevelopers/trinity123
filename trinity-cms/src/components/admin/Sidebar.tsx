@@ -61,7 +61,9 @@ export default function Sidebar({ user, logo, unread }: { user: SessionUser; log
 
       <aside className={`fixed inset-y-0 left-0 z-50 flex w-[260px] flex-col bg-navy transition-transform lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 ${open ? "translate-x-0" : "-translate-x-full"}`}>
         <div className="flex items-center gap-3 px-5 pb-4 pt-5">
-          <img src={logo} alt="" className="h-9 w-auto brightness-0 invert" />
+          <div className="inline-flex items-center rounded-lg bg-white px-2 py-1.5">
+            <img src={logo} alt="" className="h-6 w-auto" />
+          </div>
           <span className="rounded-md bg-white/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-gold">Admin</span>
         </div>
         {nav}

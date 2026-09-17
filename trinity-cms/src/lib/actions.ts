@@ -3,7 +3,9 @@ import { redirect } from "next/navigation";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 import { db } from "./db";
-import { signIn, signOut, requireSession, hashPassword } from "./auth";
+import { signIn, signOut, requireSession, requireAdminRole, hashPassword } from "./auth";
+import { rateLimit, clientIp } from "./chat";
+import { headers } from "next/headers";
 import { revalidateSite } from "./content";
 import { type SettingsKey, type SettingsMap } from "./settings";
 import { saveSetting } from "./settings-server";
@@ -13,11 +15,25 @@ import { removeFile } from "./storage";
 
 export type ActionResult = { ok: true; message?: string; id?: string } | { ok: false; error: string };
 
-const fail = (e: unknown): ActionResult => ({ ok: false, error: e instanceof Error ? e.message : "Something went wrong" });
+function fail(e: unknown): ActionResult {
+  const msg = e instanceof Error ? e.message : "";
+  if (msg === "UNAUTHORIZED") return { ok: false, error: "Your session expired. Sign in again in another tab, then press Save — your work is still here." };
+  if (msg.includes("Unique constraint")) return { ok: false, error: "Something with that name or URL already exists. Try a different one." };
+  if (msg.includes("Record to update not found") || msg.includes("P2025")) return { ok: false, error: "That item no longer exists — it may have been deleted in another tab." };
+  if (msg.startsWith("This action requires")) return { ok: false, error: msg };
+  console.error("[action]", e);
+  return { ok: false, error: "Something went wrong. Please try again." };
+}
 
 /* ---------- auth ---------- */
 export async function loginAction(_prev: ActionResult | null, fd: FormData): Promise<ActionResult> {
   const email = String(fd.get("email") ?? ""), password = String(fd.get("password") ?? "");
+  // Throttle on IP and on the account, so neither one host nor a distributed attempt
+  // can brute-force the single admin account.
+  const ip = clientIp(await headers());
+  if (!rateLimit(`login:${ip}`, 8, 15 * 60_000) || !rateLimit(`login:${email.toLowerCase().trim()}`, 8, 15 * 60_000)) {
+    return { ok: false, error: "Too many attempts. Please wait 15 minutes and try again." };
+  }
   const user = await signIn(email, password);
   if (!user) return { ok: false, error: "Invalid email or password" };
   redirect("/admin");
@@ -43,7 +59,8 @@ export async function createPageAction(input: { title: string; slug?: string }):
   try {
     await requireSession();
     const slug = slugify(input.slug || input.title);
-    if (!slug || ["admin", "api", "blog", "home"].includes(slug)) return { ok: false, error: "Invalid slug" };
+    if (!slug || ["admin", "api", "blog", "home", "destinations"].includes(slug)) return { ok: false, error: "That URL is reserved. Please choose another." };
+    if (await db.page.findUnique({ where: { slug }, select: { slug: true } })) return { ok: false, error: `A page already uses /${slug}. Choose a different URL.` };
     const blocks: Block[] = [
       { type: "pageHero", ghost: input.title.toUpperCase(), crumb: input.title, words: input.title.split(" ").map((t, i, a) => ({ t, s: i === a.length - 1 ? "gold" : undefined })), sub: "", aside: { kind: "none" } },
       { type: "richText", html: `<h2>${input.title}</h2><p>Start writing…</p>`, grey: false },
@@ -56,7 +73,7 @@ export async function createPageAction(input: { title: string; slug?: string }):
 
 export async function deletePageAction(slug: string): Promise<ActionResult> {
   try {
-    await requireSession();
+    await requireAdminRole();
     const p = await db.page.findUnique({ where: { slug } });
     if (!p) return { ok: false, error: "Not found" };
     if (p.isSystem) return { ok: false, error: "System pages cannot be deleted" };
@@ -125,7 +142,7 @@ export async function deletePostAction(id: string): Promise<ActionResult> {
 
 /* ---------- settings ---------- */
 export async function saveSettingsAction<K extends SettingsKey>(key: K, value: SettingsMap[K]): Promise<ActionResult> {
-  try { await requireSession(); await saveSetting(key, value); revalidateSite(); return { ok: true, message: "Saved" }; } catch (e) { return fail(e); }
+  try { await requireAdminRole(); await saveSetting(key, value); revalidateSite(); return { ok: true, message: "Saved" }; } catch (e) { return fail(e); }
 }
 
 /* ---------- leads ---------- */
@@ -133,12 +150,12 @@ export async function toggleLeadAction(id: string, isRead: boolean): Promise<Act
   try { await requireSession(); await db.lead.update({ where: { id }, data: { isRead } }); revalidatePath("/admin/leads"); return { ok: true }; } catch (e) { return fail(e); }
 }
 export async function deleteLeadAction(id: string): Promise<ActionResult> {
-  try { await requireSession(); await db.lead.delete({ where: { id } }); revalidatePath("/admin/leads"); return { ok: true }; } catch (e) { return fail(e); }
+  try { await requireAdminRole(); await db.lead.delete({ where: { id } }); revalidatePath("/admin/leads"); return { ok: true }; } catch (e) { return fail(e); }
 }
 
 /* ---------- media ---------- */
 export async function updateMediaAction(id: string, alt: string): Promise<ActionResult> {
-  try { await requireSession(); await db.media.update({ where: { id }, data: { alt } }); return { ok: true }; } catch (e) { return fail(e); }
+  try { await requireSession(); await db.media.update({ where: { id }, data: { alt } }); revalidatePath("/admin/media"); return { ok: true }; } catch (e) { return fail(e); }
 }
 export async function deleteMediaAction(id: string): Promise<ActionResult> {
   try {
@@ -159,8 +176,8 @@ export async function changePasswordAction(current: string, next: string): Promi
     const bcrypt = (await import("bcryptjs")).default;
     if (!(await bcrypt.compare(current, u.password))) return { ok: false, error: "Current password is incorrect" };
     if (next.length < 8) return { ok: false, error: "New password must be at least 8 characters" };
-    await db.user.update({ where: { id: me.id }, data: { password: await hashPassword(next) } });
-    return { ok: true, message: "Password updated" };
+    await db.user.update({ where: { id: me.id }, data: { password: await hashPassword(next), tokenVersion: { increment: 1 } } });
+    return { ok: true, message: "Password updated. Other devices have been signed out." };
   } catch (e) { return fail(e); }
 }
 
@@ -204,5 +221,5 @@ export async function saveCountryAction(input: CountryInput): Promise<ActionResu
   }
 }
 export async function deleteCountryAction(id: string): Promise<ActionResult> {
-  try { await requireSession(); await db.country.delete({ where: { id } }); revalidateSite(); return { ok: true }; } catch (e) { return fail(e); }
+  try { await requireAdminRole(); await db.country.delete({ where: { id } }); revalidateSite(); return { ok: true }; } catch (e) { return fail(e); }
 }

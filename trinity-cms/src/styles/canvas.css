@@ -9,8 +9,23 @@
 .cv-nav{position:fixed;top:0;left:0;right:0;z-index:50;transition:all .4s}
 .cv-npill{white-space:nowrap}
 .cv-npill:hover{color:#161439!important;background:rgba(255,255,255,.7)!important}
-.cv-ddwrap:hover .cv-ddmenu{opacity:1!important;visibility:visible!important;transform:translate(-50%,0)!important}
-.cv-ddwrap:hover .cv-ddchev{transform:rotate(180deg)}
+/* Open on hover (mouse), on focus anywhere inside (keyboard), and when React marks it open (click). */
+.cv-ddwrap:hover .cv-ddmenu,
+.cv-ddwrap:focus-within .cv-ddmenu,
+.cv-ddwrap.is-open .cv-ddmenu{opacity:1!important;visibility:visible!important;transform:translate(-50%,0)!important}
+.cv-ddwrap:hover .cv-ddchev,
+.cv-ddwrap:focus-within .cv-ddchev,
+.cv-ddwrap.is-open .cv-ddchev{transform:rotate(180deg)}
+/* The trigger is a <button> but must look exactly like the sibling nav pills. */
+.nav__links .cv-ddbtn{font:inherit;background:transparent;border:0;cursor:pointer;color:var(--text);padding:10px 18px;border-radius:var(--r-pill);display:inline-flex;align-items:center;gap:8px;transition:all .3s;white-space:nowrap}
+.nav__links .cv-ddbtn:hover{color:var(--primary);background:#fff}
+.nav__links .cv-ddbtn.is-active{color:var(--navy);background:#fff;box-shadow:0 6px 16px rgba(22,20,57,.1)}
+.nav__links .cv-ddbtn.is-active::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold)}
+
+/* A visible focus indicator everywhere. Gold reads on navy (10.9:1) and on white. */
+:where(a,button,[role="button"],[tabindex]:not([tabindex="-1"])):focus-visible{
+  outline:3px solid var(--gold);outline-offset:3px;border-radius:6px
+}
 .cv-ditem:hover{background:#5751E1!important;color:#fff!important}
 .cv-ditem:hover .cv-dsub{color:rgba(255,255,255,.72)!important}
 .cv-btny{white-space:nowrap}

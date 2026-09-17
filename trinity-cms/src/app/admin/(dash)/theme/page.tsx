@@ -1,3 +1,4 @@
+import { requireAdminPage } from "@/lib/auth";
 import { getSetting } from "@/lib/settings-server";
 import { PageHeader } from "@/components/admin/ui";
 import ThemeForm from "@/components/admin/ThemeForm";
@@ -5,6 +6,7 @@ import ThemeForm from "@/components/admin/ThemeForm";
 export const metadata = { title: "Theme & UI" };
 
 export default async function ThemePage() {
+  await requireAdminPage();
   const theme = await getSetting("theme");
   return (
     <>

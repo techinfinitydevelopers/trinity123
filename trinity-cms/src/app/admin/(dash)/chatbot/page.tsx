@@ -1,3 +1,4 @@
+import { requireAdminPage } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { getSetting } from "@/lib/settings-server";
 import { PageHeader } from "@/components/admin/ui";
@@ -7,6 +8,7 @@ import KnowledgeEditor from "@/components/admin/KnowledgeEditor";
 export const metadata = { title: "Chatbot" };
 
 export default async function ChatbotPage() {
+  await requireAdminPage();
   const [cfg, items, sessions] = await Promise.all([
     getSetting("chatbot"),
     db.knowledgeItem.findMany({ orderBy: { updatedAt: "desc" } }),
