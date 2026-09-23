@@ -57,6 +57,48 @@
 - Verified: `npx tsc --noEmit` clean, `npx eslint src --quiet` clean,
   cold + 2 warm builds exit 0, all 13 checked routes return 200 under `npm start`.
 
+### 2026-09-23 — Home hero redesign
+Owner-requested changes to the home hero (`src/components/site/blocks/Hero.tsx`), confirmed via
+AskUserQuestion before building:
+- Removed the rotating country-flag "orbit" + its `chipA`/`chipB` floating stat chips and the
+  "Your Gateway to Global Education" badge pill. The orbit is NOT deleted — pulled out intact
+  into `src/components/site/OrbitFlags.tsx` (self-contained, hardcoded defaults) per the owner's
+  explicit "retain it, we'll reuse it elsewhere with different flags" request. Nothing renders it
+  yet.
+- New hero visual: student cutout photo (placeholder `home-page-2.png`, already used elsewhere,
+  swap via Media picker once a real photo is supplied) on a gradient card
+  (`.hero-visual__img--cutout`, object-fit:contain since it's a transparent-background cutout —
+  the base `.hero-visual__img` is object-fit:cover for real photography, used by PageHero's
+  "visual" aside kind, so don't reuse that modifier for cutouts elsewhere) + a 3-hexagon
+  honeycomb stat cluster (new `.hive`/`.hive__item`/`.hive__item__face` CSS, gold-bordered via
+  padding-trick nested clip-paths) overlapping it — modelled on a reference screenshot the owner
+  supplied (SIEC India-style honeycomb).
+  **Gotcha**: `.chip--c` (still used by `OrbitFlags`) carries its own legacy `right:4%;bottom:6%`
+  position rule. Reusing the `chip--c` class name for the new hero's "Trusted by students" chip
+  while also adding `.chip--hv-a` for positioning made both rules apply at once (conflicting
+  left+right → the chip stretched to ~465px wide). Fixed by dropping `chip--c` entirely there and
+  using the unrelated `.chip--hv-b` position class instead. When reusing a positioned chip
+  variant in a new context, check it doesn't already carry positioning CSS from its old home.
+- New tagline: "Every Dream needs a direction" / "Let Trinity Study Abroad help you find yours."
+  (`HeroBlock.words`/`.text`), replacing "Transform Your Future with TSA".
+- Removed the blue marquee `<Band>` block ("Dream Big…", "Free Counselling", etc.) from the home
+  page entirely (component/type kept, just not in `homeBlocks`).
+- Fixed a real mobile bug flagged by the owner: the "Free Counselling" header CTA
+  (`.nav__cta`) was `display:none` below 1120px — desktop-only by accident, not by design (unlike
+  the orbit, which really was meant to be desktop-only). Made it visible on mobile in a
+  compact form; that overflowed the header until the wordmark next to the logo
+  (`.nav__logo-name`) was also hidden below 640px to make room — the mobile header was already
+  tight with just phone+hamburger, before this CTA needed a third slot.
+- `HeroBlock` type (`src/lib/blocks.ts`) changed: removed `badge/badgeIcon/flags/centerImg/
+  centerLabel/chipA/chipB`, added `photo: string` and `hive: {img,value,label}[]`. Old DB content
+  for the home page's hero block is a different shape — **pushed the new defaults live via the
+  admin's own "Reset to default" button** (`resetPageAction`, home page only; that action fully
+  replaces the page's blocks with `seed-content.ts` and there was nothing else customized on
+  Home to lose). Any other page with a stale hero block shape would need the same treatment.
+- Verified: `npx tsc --noEmit` clean, `npx eslint src --quiet` clean, `npm run build` exit 0,
+  live-checked home page at 1440px (hero-visual + hive render, chip fixed) and 375px
+  (hero-visual correctly hidden, nav CTA + hamburger both fit and both work).
+
 ### 2026-09-17 — local live preview, chatbot fallback, header blur bug
 - Exposed local dev server via a Cloudflare quick tunnel for a shareable link
   (`trycloudflare.com`, no account, dies when the tunnel process/PC stops).

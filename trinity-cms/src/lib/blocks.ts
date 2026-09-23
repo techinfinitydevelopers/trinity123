@@ -7,12 +7,12 @@ export type Chip = { icon?: string; strong: string; small: string };
 
 export type HeroBlock = {
   type: "hero";
-  badge: string; badgeIcon: string; sideText: string;
+  sideText: string;
   words: Word[]; capsuleImg: string; text: string;
   primary: Btn; ghost: Btn;
   stats: { value: string; label: string }[];
-  flags: string[]; centerImg: string; centerLabel: string;
-  chipA: Chip; chipB: Chip; chipCText: string;
+  photo: string; chipCText: string;
+  hive: { img: string; value: string; label: string }[];
 };
 
 export type PageHeroBlock = {
@@ -115,7 +115,7 @@ export type Block =
 export type BlockType = Block["type"];
 
 export const BLOCK_META: Record<BlockType, { label: string; desc: string }> = {
-  hero: { label: "Home Hero", desc: "Animated headline, orbit of flags, stats" },
+  hero: { label: "Home Hero", desc: "Animated headline, student photo, honeycomb stats" },
   pageHero: { label: "Page Hero", desc: "Inner page banner with breadcrumb" },
   band: { label: "Marquee Band", desc: "Scrolling ticker strip" },
   about: { label: "About Split", desc: "Bento images + story text" },

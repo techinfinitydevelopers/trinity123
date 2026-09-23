@@ -1,10 +1,9 @@
 import Link from "next/link";
 import type { HeroBlock, PageHeroBlock } from "@/lib/blocks";
 import type { ContactSettings } from "@/lib/settings";
-import { A, FLAG, Words, Stars, resolveHref } from "../ui";
+import { A, Words, Stars, resolveHref } from "../ui";
 
 export function Hero({ b, contact }: { b: HeroBlock; contact: ContactSettings }) {
-  const n = b.flags.length;
   return (
     <section className="hero">
       <div className="hero__bg" /><div className="hero__grid" />
@@ -12,7 +11,6 @@ export function Hero({ b, contact }: { b: HeroBlock; contact: ContactSettings })
       <p className="hero__side" aria-hidden="true">{b.sideText}</p>
       <div className="container hero__inner">
         <div className="hero__copy">
-          <p className="badge w__in" style={{ animationDelay: ".1s" }}><i className={b.badgeIcon} /> {b.badge}</p>
           <h1 className="h1 hero__title"><Words words={b.words} start={0.25} capsule={b.capsuleImg} /></h1>
           <p className="hero__text w__in" style={{ animationDelay: ".85s" }}>{b.text}</p>
           <div className="btn-row w__in" style={{ animationDelay: "1s" }}>
@@ -23,24 +21,20 @@ export function Hero({ b, contact }: { b: HeroBlock; contact: ContactSettings })
             {b.stats.map((s) => <li key={s.label}><strong>{s.value}</strong><span>{s.label}</span></li>)}
           </ul>
         </div>
-        <div className="orbit" aria-hidden="true">
-          <span className="orbit__ring orbit__ring--dash" /><span className="orbit__ring orbit__ring--inner" /><span className="orbit__ring orbit__ring--sweep" />
-          <div className="orbit__flags">
-            {b.flags.map((f, i) => {
-              const deg = Math.round((360 / n) * i);
-              return (
-                <span key={f} className="orbit__slot" style={{ transform: `rotate(${deg}deg)` }}>
-                  <span className="orbit__flag" style={{ transform: `translate(-50%,-50%) rotate(${-deg}deg)` }}><img src={FLAG(f)} alt="" /></span>
-                </span>
-              );
-            })}
-          </div>
-          <div className="orbit__center"><img src={b.centerImg} alt="" /><span>{b.centerLabel}</span></div>
-          <div className="chip chip--a"><span className="chip__ico"><i className={b.chipA.icon} /></span><span><strong>{b.chipA.strong}</strong><small>{b.chipA.small}</small></span></div>
-          <div className="chip chip--b chip--gold"><i className={b.chipB.icon} /><span><strong>{b.chipB.strong}</strong><small>{b.chipB.small}</small></span></div>
-          <div className="chip chip--c chip--glass">
+        <div className="hero-visual w__in" style={{ animationDelay: ".3s" }}>
+          <div className="hero-visual__img hero-visual__img--cutout"><img src={b.photo} alt="Student ready to study abroad" /></div>
+          <div className="chip chip--glass chip--hv-b">
             <span className="avatars"><img src="/assets/img/home/client-1.png" alt="" /><img src="/assets/img/home/client-2.png" alt="" /></span>
             <span><Stars /><small>{b.chipCText}</small></span>
+          </div>
+          <div className="hive" aria-hidden="true">
+            {b.hive.map((h, i) => (
+              <div key={i} className={`hive__item hive__item--${i + 1}`}>
+                <div className="hive__item__face" style={{ backgroundImage: `url(${h.img})` }}>
+                  <strong>{h.value}</strong><span>{h.label}</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

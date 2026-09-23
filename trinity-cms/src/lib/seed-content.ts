@@ -48,18 +48,20 @@ export const offer: OfferBlock = {
 const homeBlocks: Block[] = [
   {
     type: "hero",
-    badge: "Your Gateway to Global Education", badgeIcon: "fas fa-globe-asia", sideText: "Est. 1982 · Mumbai · Trinity Group",
-    words: [{ t: "Transform" }, { t: "Your", br: true }, { t: "Future", s: "gold", br: true }, { t: "with" }, { t: "TSA", s: "grad" }],
+    sideText: "Est. 1982 · Mumbai · Trinity Group",
+    words: [{ t: "Every" }, { t: "Dream", s: "gold", br: true }, { t: "needs" }, { t: "a" }, { t: "direction", s: "grad" }],
     capsuleImg: `${IMG}/unversity/z1.jpg`,
-    text: "Studying abroad is a transformative journey that opens doors to world-class education, new skills, and a global mindset. Let Trinity Study Abroad help you with end-to-end solutions for your international education journey.",
+    text: "Let Trinity Study Abroad help you find yours.",
     primary: { label: "Learn More", href: C }, ghost: { label: "Chat with us", href: "whatsapp" },
     stats: [{ value: "33+", label: "Countries" }, { value: "1100+", label: "Universities" }, { value: "100k+", label: "Courses" }],
-    flags: ["us", "gb", "ca", "au", "de", "ie"], centerImg: `${IMG}/home/home-page.png`, centerLabel: "Think Global",
-    chipA: { icon: "fas fa-university", strong: "1100+", small: "Partner Universities" },
-    chipB: { icon: "fas fa-passport", strong: "Visa Success", small: "End-to-end support" },
+    photo: `${IMG}/home/home-page-2.png`,
     chipCText: "Trusted by students",
+    hive: [
+      { img: `${IMG}/unversity/z1.jpg`, value: "33+", label: "Countries" },
+      { img: `${IMG}/unversity/z5.jpg`, value: "100+", label: "Courses" },
+      { img: `${IMG}/unversity/z8.jpg`, value: "1100+", label: "Universities" },
+    ],
   },
-  band,
   {
     type: "about",
     mainImg: `${IMG}/home/inner_about_img-1.jpg`, mainAlt: "Trinity Study Abroad team", capSmall: "Since 1982", capStrong: "A unit of Trinity Air Travel & Tours Pvt. Ltd.",
