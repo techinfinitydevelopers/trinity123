@@ -4,6 +4,9 @@ import type { ContactSettings } from "@/lib/settings";
 import { A, Words, Stars, resolveHref } from "../ui";
 
 export function Hero({ b, contact }: { b: HeroBlock; contact: ContactSettings }) {
+  /* Blocks are stored as JSON, so a page saved before the 2026-09 hero redesign still has the old
+     orbit fields and none of these. Render the copy column rather than throwing on the home page. */
+  const hive = Array.isArray(b.hive) ? b.hive : [];
   return (
     <section className="hero">
       <div className="hero__bg" /><div className="hero__grid" />
@@ -21,14 +24,15 @@ export function Hero({ b, contact }: { b: HeroBlock; contact: ContactSettings })
             {b.stats.map((s) => <li key={s.label}><strong>{s.value}</strong><span>{s.label}</span></li>)}
           </ul>
         </div>
+        {b.photo || hive.length ? (
         <div className="hero-visual w__in" style={{ animationDelay: ".3s" }}>
-          <div className="hero-visual__img hero-visual__img--cutout"><img src={b.photo} alt="Student ready to study abroad" /></div>
+          {b.photo ? <div className="hero-visual__img hero-visual__img--cutout"><img src={b.photo} alt="Student ready to study abroad" /></div> : null}
           <div className="chip chip--glass chip--hv-b">
             <span className="avatars"><img src="/assets/img/home/client-1.png" alt="" /><img src="/assets/img/home/client-2.png" alt="" /></span>
             <span><Stars /><small>{b.chipCText}</small></span>
           </div>
           <div className="hive" aria-hidden="true">
-            {b.hive.map((h, i) => (
+            {hive.map((h, i) => (
               <div key={i} className={`hive__item hive__item--${i + 1}`}>
                 <div className="hive__item__face" style={{ backgroundImage: `url(${h.img})` }}>
                   <strong>{h.value}</strong><span>{h.label}</span>
@@ -37,6 +41,7 @@ export function Hero({ b, contact }: { b: HeroBlock; contact: ContactSettings })
             ))}
           </div>
         </div>
+        ) : null}
       </div>
       <p className="hero__scroll" aria-hidden="true">Scroll<span /></p>
     </section>
