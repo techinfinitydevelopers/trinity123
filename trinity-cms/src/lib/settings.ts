@@ -4,6 +4,7 @@
 export type ThemeSettings = {
   primary: string; primary2: string; navy: string; navy2: string; navy3: string;
   gold: string; gold2: string; text: string; muted: string; grey: string; line: string;
+  cream: string; teal: string;
   fontHeading: string; fontBody: string; radiusCard: number; radiusPill: number; container: number;
 };
 
@@ -27,9 +28,12 @@ export type SiteSettings = {
 };
 
 export const DEFAULTS: SettingsMap = {
+  /* Trinity brand palette (client brand sheet, 2026): Trinity Blue #232F70 · Sky #5B84C4 ·
+     Teal #1ABC9C · Gold #F7DD7D · Cream #FFE8BE · Charcoal #333 · Grey #6B7280 · Light grey #F5F7FA */
   theme: {
-    primary: "#5751E1", primary2: "#4640c9", navy: "#161439", navy2: "#1C1A4A", navy3: "#0f0e2b",
-    gold: "#FFC224", gold2: "#F8BC24", text: "#5F5E73", muted: "#605F78", grey: "#EFEFF2", line: "#E6EAEF",
+    primary: "#232F70", primary2: "#5B84C4", navy: "#232F70", navy2: "#2E3D8C", navy3: "#1A2456",
+    gold: "#F7DD7D", gold2: "#F0D064", text: "#333333", muted: "#6B7280", grey: "#F5F7FA", line: "#E4E8F0",
+    cream: "#FFE8BE", teal: "#1ABC9C",
     fontHeading: "Poppins", fontBody: "Inter", radiusCard: 28, radiusPill: 50, container: 1320,
   } satisfies ThemeSettings,
   contact: {

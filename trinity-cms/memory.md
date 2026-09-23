@@ -149,6 +149,32 @@
   `.sticky-bar` (glassy floating strip). Use these instead of re-styling headers per page.
 - The editors are long-scroll forms, so save controls belong in a `.sticky-bar` at the top, not only
   in the sidebar — on a full-length article the sidebar Save is far off-screen.
+### 2026-09-23 — client brand palette rollout
+- **Theme colours live in the DATABASE, not just in code.** `getSetting` returns
+  `{ ...DEFAULTS[key], ...row.value }`, so the `Setting` row named `theme` WINS over `DEFAULTS` in
+  `src/lib/settings.ts`. Editing DEFAULTS alone changes nothing on a seeded install — the row must
+  be updated too (local dev DB *and* production Neon).
+- **`unstable_cache` keeps settings in memory for the life of the dev server process.** Writing to
+  the DB directly (bypassing `saveSetting`, which calls `revalidateTag("settings")`) leaves the old
+  values served until a *full* restart. Deleting `.next/cache` is not enough and neither is
+  `pkill -f "next dev"` on Windows — that does not kill the real process. Use
+  `Get-NetTCPConnection -LocalPort 3000 … | Stop-Process -Force`, then `rm -rf .next`, then restart.
+  Changing the theme through **/admin/theme** avoids all of this — it invalidates the tag properly.
+- Client brand palette (brand sheet, 2026): Trinity Blue `#232F70` (dominant) · Sky `#5B84C4` ·
+  Teal `#1ABC9C` · Gold `#F7DD7D` · Cream `#FFE8BE` · Charcoal `#333` · Grey `#6B7280` ·
+  Light grey `#F5F7FA`. Approved combination is "Modern & Fresh" = Navy + Teal + Cream + White.
+- Client asked for the big blue page backgrounds to go. Hero, inner page hero, post hero and the
+  pinned universities scroller are now cream/light; the footer, CTA band, stack cards and small
+  dark cards stay Trinity Blue so the brand still anchors the page.
+- `.badge` / `.btn--ghost` / `.w__in.gold` / `.w__in.grad` / `.kicker--gold` were written as
+  white-on-navy. There is now a **"Light-surface overrides"** block at the bottom of `site.css`
+  that flips them, scoped to `.hero`, `.page-hero` and `.post__hero` only — do not unscope it or the
+  still-dark panels lose their contrast.
+- `CountryPage.tsx` and `blog/[slug]/page.tsx` had ~128 hardcoded old-palette hexes in inline
+  styles and so ignored the Theme editor entirely. They now use `var(--primary)` etc. Keep it that
+  way — inline `style={{ color: "var(--token)" }}` resolves fine at runtime.
+- Gradients that ran navy → primary go flat now that both tokens are Trinity Blue; end them on
+  `var(--primary-2)` (Sky) instead.
 - Useful verification trick for "did my CSS actually ship?": grab the chunk URL out of the page HTML
   and grep the rule straight out of it —
   `CSS_URL=$(curl -s <site>/ | grep -o '/_next/static/[^"]*\.css' | head -1); curl -s "<site>$CSS_URL" | grep -o '\.my-rule{[^}]*}'`

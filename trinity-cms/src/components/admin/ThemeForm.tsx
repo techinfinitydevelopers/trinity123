@@ -7,14 +7,15 @@ import { Field, toast } from "./ui";
 
 const FONTS = ["Poppins", "Inter", "Manrope", "DM Sans", "Plus Jakarta Sans", "Outfit", "Sora", "Urbanist", "Montserrat", "Nunito", "Raleway", "Lato", "Open Sans", "Roboto", "Work Sans", "Space Grotesk", "Playfair Display", "Lora", "Merriweather"];
 const COLORS: { k: keyof ThemeSettings; l: string; d: string }[] = [
-  { k: "primary", l: "Primary (purple)", d: "Buttons, links, accents" }, { k: "primary2", l: "Primary hover", d: "Darker shade on hover" },
-  { k: "navy", l: "Navy", d: "Headings, dark sections" }, { k: "navy2", l: "Navy 2", d: "Cards on dark" }, { k: "navy3", l: "Navy 3", d: "Deepest background" },
+  { k: "primary", l: "Trinity Blue", d: "Buttons, links, accents" }, { k: "primary2", l: "Sky Blue", d: "Gradients and hover" },
+  { k: "navy", l: "Deep Blue", d: "Headings, dark panels" }, { k: "navy2", l: "Deep Blue 2", d: "Cards on dark" }, { k: "navy3", l: "Deep Blue 3", d: "Footer" },
+  { k: "cream", l: "Cream", d: "Hero and soft backgrounds" }, { k: "teal", l: "Teal", d: "Success and fresh accents" },
   { k: "gold", l: "Gold", d: "Highlights, badges" }, { k: "gold2", l: "Gold hover", d: "" },
-  { k: "text", l: "Body text", d: "" }, { k: "muted", l: "Muted text", d: "" }, { k: "grey", l: "Grey background", d: "Alternate sections" }, { k: "line", l: "Borders", d: "" },
+  { k: "text", l: "Body text", d: "Charcoal" }, { k: "muted", l: "Muted text", d: "" }, { k: "grey", l: "Light grey background", d: "Alternate sections" }, { k: "line", l: "Borders", d: "" },
 ];
 
 export const themeCss = (t: ThemeSettings) =>
-  `:root{--primary:${t.primary};--primary-2:${t.primary2};--navy:${t.navy};--navy-2:${t.navy2};--navy-3:${t.navy3};--gold:${t.gold};--gold-2:${t.gold2};--text:${t.text};--muted:${t.muted};--grey:${t.grey};--line:${t.line};--font-h:${t.fontHeading},sans-serif;--font-b:${t.fontBody},sans-serif;--r-card:${t.radiusCard}px;--r-pill:${t.radiusPill}px;--container:${t.container}px}`;
+  `:root{--primary:${t.primary};--primary-2:${t.primary2};--navy:${t.navy};--navy-2:${t.navy2};--navy-3:${t.navy3};--gold:${t.gold};--gold-2:${t.gold2};--text:${t.text};--muted:${t.muted};--grey:${t.grey};--line:${t.line};--cream:${t.cream ?? "#FFE8BE"};--teal:${t.teal ?? "#1ABC9C"};--font-h:${t.fontHeading},sans-serif;--font-b:${t.fontBody},sans-serif;--r-card:${t.radiusCard}px;--r-pill:${t.radiusPill}px;--container:${t.container}px}`;
 
 export default function ThemeForm({ initial }: { initial: ThemeSettings }) {
   const [t, setT] = useState(initial);

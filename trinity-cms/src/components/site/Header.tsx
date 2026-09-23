@@ -36,19 +36,24 @@ export default function Header({ nav, contact, site, destinations }: { nav: NavS
     <header className="site-header" id="siteHeader">
       <div className="topbar">
         <div className="container topbar__inner">
+          <form className="topsearch" role="search" action="/search" onSubmit={(e) => { e.preventDefault(); const q = new FormData(e.currentTarget).get("q"); if (String(q ?? "").trim()) location.href = `/search?q=${encodeURIComponent(String(q))}`; }}>
+            <i className="fas fa-search" aria-hidden="true" />
+            <input name="q" type="search" placeholder="Search universities or courses…" aria-label="Search universities or courses" />
+          </form>
           <div className="topbar__group">
-            <span><i className="fas fa-map-marker-alt" /> {contact.address}</span>
-            <a href={`mailto:${contact.email}`}><i className="fas fa-envelope" /> {contact.email}</a>
-          </div>
-          <div className="topbar__group">
-            <a href={tel}><i className="fas fa-phone-alt" /> Call us: {contact.phones[0]}</a>
+            <a className="topbar__ico" href={tel} aria-label={`Call ${contact.phones[0]}`} title={contact.phones[0]}><i className="fas fa-phone-alt" /></a>
             <div className="topbar__social"><Socials contact={contact} cls="" /></div>
           </div>
         </div>
       </div>
       <div className="navwrap">
         <nav className="nav" aria-label="Main navigation">
-          <Link className="nav__logo" href="/"><img src={site.logo} alt={site.siteName} width={160} height={54} /></Link>
+          {/* The mark alone reads as an unlabelled crest at desktop sizes, so the name is locked
+              under it. width/height are intrinsic only — CSS sizes it to keep the aspect ratio. */}
+          <Link className="nav__logo" href="/">
+            <img src={site.logo} alt="" width={160} height={54} />
+            <span className="nav__logo-name">{site.siteName}</span>
+          </Link>
           <ul className="nav__links" id="navLinks">
             {left.map(pill)}
             {destinations.length ? (
