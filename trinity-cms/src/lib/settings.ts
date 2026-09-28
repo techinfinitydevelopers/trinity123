@@ -18,8 +18,13 @@ export type NavItem = { label: string; href: string };
 export type NavSettings = { items: NavItem[]; ctaLabel: string; ctaHref: string };
 
 export type ChatbotSettings = {
-  enabled: boolean; name: string; greeting: string; systemPrompt: string;
-  model: string; collectLead: boolean; handoffMessage: string;
+  enabled: boolean; name: string; greeting: string;
+  /** 0–1. Below this, the matcher treats the question as unanswered instead of guessing. */
+  matchThreshold: number;
+  unmatchedMessage: string;
+  urgentMessage: string;
+  /** Where urgent-query email alerts go. Falls back to contact.email when empty. */
+  notifyEmail: string;
 };
 
 export type SiteSettings = {
@@ -67,11 +72,11 @@ export const DEFAULTS: SettingsMap = {
   chatbot: {
     enabled: true,
     name: "Trinity Assistant",
-    greeting: "Hi! 👋 I'm the Trinity Study Abroad assistant. Ask me about countries, courses, visas, fees or intakes.",
-    systemPrompt: "",
-    model: "claude-opus-5",
-    collectLead: true,
-    handoffMessage: "I'll connect you with a counsellor. Please share your name and phone number.",
+    greeting: "Hi! 👋 I'm the Trinity Study Abroad assistant. Share a few details and I'll help with countries, courses, visas, fees or intakes. Please ask your questions in English.",
+    matchThreshold: 0.55,
+    unmatchedMessage: "I couldn't find a suitable answer to your question. Would you like to contact our support team?",
+    urgentMessage: "Thanks — I've flagged this as urgent for our team. Someone will reach out to you shortly, or call us right away for immediate help.",
+    notifyEmail: "",
   } satisfies ChatbotSettings,
   site: {
     siteName: "Trinity Study Abroad",

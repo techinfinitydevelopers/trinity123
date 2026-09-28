@@ -1,5 +1,85 @@
 # Project memory — trinity-cms
 
+## Build log
+### 2026-09-28 — Full student-support chatbot system
+Rebuilt the chatbot from "open chat, whole-KB-in-prompt, no escalation" into the client's full
+spec: pre-chat lead form, real two-level FAQ matching with a confidence threshold, bulk CSV/Excel
+import, an honest "I don't know" flow with escalation, urgent-query email alerts, full
+conversation history with match metadata, and a much richer admin dashboard. Confirmed with the
+owner first: **Resend** for email (`RESEND_API_KEY`), bulk upload accepts **CSV + Excel**.
+
+**Data model** (`prisma/schema.prisma`): `ChatSession` gained `status` (OPEN/IN_PROGRESS/RESOLVED),
+`isUrgent`/`urgentQuestion`/`urgentAt`. `ChatMessage` gained `matchedKnowledgeId`, `matchedQuestion`,
+`confidence`, `fromKnowledgeBase`, `unmatched`, `unmatchedResolved`. `KnowledgeItem` gained
+`keywords`, `category`, `relatedQuestions` (kept unused legacy `tags`). New `ChatNote` model for
+timestamped admin notes. **Deliberately did NOT add separate `Student`/`UrgentRequest`/`Category`
+tables** — `ChatSession` already *is* the conversation (has name/email/phone), so "Urgent Requests"
+and "Student Conversations" in the admin are the same list, just filtered — avoids duplicate,
+driftable data. Category is free text with datalist autocomplete, not its own CRUD screen.
+
+**Matching** (`src/lib/chat-match.ts`) is two-level, with no new vector-DB infra:
+1. Fast keyword/substring overlap scorer against `KnowledgeItem` (active only) + each destination's
+   own `Country.faq` entries (so existing country FAQ content still answers questions without
+   retyping it — corpus = `getMatchCorpus()`).
+2. If inconclusive and `ANTHROPIC_API_KEY` is set: one cheap `claude-haiku-4-5` call that picks the
+   best-matching FAQ by meaning + last 4 turns of context, returning `{index, confidence}` JSON.
+Below the admin-configured `matchThreshold` (default 0.55) → unmatched flow, **never** a guess.
+Matched answers are served **verbatim** from the stored `KnowledgeItem.answer` (not
+model-regenerated) — this is what makes "never invent beyond the approved KB" actually true, and
+it's also why the chatbot no longer needs `buildSystemPrompt`/the old full-KB-prompt-stuffing
+approach at all; `src/lib/chat.ts` is now just the IP/rate-limit abuse guards.
+
+**English-only** (owner request, same day): `isNonEnglish()` in chat-match.ts checks for
+Devanagari script OR ≥2 common romanised-Hindi function words ("kya", "hai", "chahiye", "mujhe",
+etc. — see `HINGLISH_WORDS`) among a message's words; `/api/chat` intercepts before matching and
+replies with a fixed "ask in English" message instead of processing the question. This catches
+native-script Hindi and common Hinglish reliably; it's a heuristic, not real language detection,
+so unusual phrasing can slip through — that's an accepted, documented limitation, not a bug to
+chase further.
+
+**Removed the `save_lead` Claude tool entirely** — redundant now that the pre-chat form
+(`startChatSessionAction` in `src/lib/chat-session.ts`) captures name/email/phone *before* any
+question, unlike the old mid-conversation tool-call capture.
+
+**Gotcha (cost real debugging time): `unstable_cache` persists across `next dev` restarts.**
+`getSetting()` merges `{...DEFAULTS[key], ...row.value}`, so changing `DEFAULTS` or a `Setting`
+row's DB value does **not** take effect on the next request even after restarting `next dev` —
+Next's dev cache is stored on disk under `.next/cache`, keyed by the literal `unstable_cache` key
+array, not by source hash or row `updatedAt`. Symptom hit here: `cfg.notifyEmail` was `undefined`
+(crashing `sendUrgentEmail` on `.trim()`) even though `DEFAULTS.chatbot.notifyEmail` was clearly
+`""` in the edited source, because a stale cached settings object from before the edit was still
+being served. **Fix: `rm -rf .next` and restart** whenever a `Setting` row or a `DEFAULTS` value
+changes and the running dev server doesn't seem to pick it up — don't waste time re-reading the
+code, the code is usually already correct. (Also hardened `notify.ts` defensively either way:
+`(cfg.notifyEmail || "").trim()`.)
+
+**Gotcha: reused chip CSS classes carry their old positioning.** N/A here directly, but the same
+class of bug as the earlier hero redesign — always check a shared class (`chip--c`, etc.) doesn't
+already have `left/right/top/bottom` baked in before combining it with a new position modifier.
+
+**Verified end-to-end in the browser** (not just tsc/eslint/build, all clean): pre-chat form blocks
+chat until submitted; exact-wording question → verbatim KB answer, confidence 1.0,
+`fromKnowledgeBase:true`; Hinglish-phrased version of the same question → matched via the semantic
+pass at confidence 0.95 (proves the two-level matcher genuinely works, not just luck); unrelated
+question → unmatched flow with the three buttons, no invented answer; "Ask Admin" → session flagged
+urgent in the DB + confirmation shown (no `RESEND_API_KEY` configured locally, so email send is a
+verified no-op, not tested live); `/admin/chats` search/urgent-filter/status/notes all verified
+against real data; `/admin/chatbot` bulk CSV upload verified for valid-import, duplicate-skip and
+per-row-validation-error cases. **Excel (.xlsx) upload could not get a clean live browser test** —
+the generated test file was proven byte-valid by reading it back with the `xlsx` package in Node,
+but got corrupted specifically in transit through this session's own base64-inline test method; the
+xlsx-specific code (`XLSX.read` + `sheet_to_json`) is a few lines of standard SheetJS API shared
+with the already-verified CSV path, so this is a test-tooling gap, not a known product bug — worth
+a real manual check with an actual Excel file before calling it fully proven.
+
+**Fixed a real bug found during manual verification**: the "Unanswered questions" admin list was
+showing the bot's own canned reply text instead of the student's actual question, because
+`unmatched:true` was being set on the assistant's reply message, not the preceding user message.
+Fixed in `/api/chat/route.ts` by creating the user `ChatMessage` first (capturing its id) and
+setting `unmatched` on *that* row when no match is found; repaired the handful of test rows already
+in the dev DB that had it backwards.
+
+
 ## Knowledge base
 - `unstable_cache` JSON-serialises its return value on **every** cache hit. Any `Date`
   revived *inside* the cached function is handed back to callers as a string again.

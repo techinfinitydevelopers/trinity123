@@ -3,7 +3,6 @@ import { useState } from "react";
 import type { SettingsMap } from "@/lib/settings";
 import { saveSettingsAction, changePasswordAction } from "@/lib/actions";
 import ImagePicker from "./ImagePicker";
-import { CHAT_MODELS } from "@/lib/chat";
 import { Field, Toggle, toast } from "./ui";
 
 type Tab = "site" | "contact" | "nav" | "security";
@@ -109,14 +108,14 @@ export function ChatbotSettingsForm({ initial }: { initial: SettingsMap["chatbot
   return (
     <div className="card space-y-4 p-5">
       <div className="flex items-center justify-between"><h3 className="text-[15px] font-bold text-navy">Assistant settings</h3><Toggle checked={c.enabled} onChange={(v) => setC({ ...c, enabled: v })} label={c.enabled ? "Enabled on site" : "Disabled"} /></div>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Assistant name"><input className="inp inp-sm" value={c.name} onChange={(e) => setC({ ...c, name: e.target.value })} /></Field>
-        <Field label="Model"><select className="inp inp-sm" value={c.model} onChange={(e) => setC({ ...c, model: e.target.value })}>{CHAT_MODELS.map((m) => <option key={m.id} value={m.id}>{m.label}</option>)}</select></Field>
-      </div>
+      <Field label="Assistant name"><input className="inp inp-sm" value={c.name} onChange={(e) => setC({ ...c, name: e.target.value })} /></Field>
       <Field label="Greeting message"><textarea className="inp" rows={2} value={c.greeting} onChange={(e) => setC({ ...c, greeting: e.target.value })} /></Field>
-      <Field label="Extra instructions (optional)" hint="Tone, what to avoid, promotions to mention. The knowledge base below is always included automatically."><textarea className="inp" rows={4} value={c.systemPrompt} onChange={(e) => setC({ ...c, systemPrompt: e.target.value })} placeholder="e.g. Always answer in the language the student writes in. Mention our free first consultation." /></Field>
-      <Field label="Hand-off message" hint="Shown when the assistant collects contact details for a counsellor."><input className="inp inp-sm" value={c.handoffMessage} onChange={(e) => setC({ ...c, handoffMessage: e.target.value })} /></Field>
-      <Toggle checked={c.collectLead} onChange={(v) => setC({ ...c, collectLead: v })} label="Ask for name & phone to save as a lead" />
+      <Field label="Matching confidence threshold" hint="0–1. Below this, the assistant admits it doesn't have an answer instead of guessing.">
+        <div className="flex items-center gap-3"><input type="range" min={0.1} max={0.95} step={0.05} value={c.matchThreshold} onChange={(e) => setC({ ...c, matchThreshold: Number(e.target.value) })} className="flex-1" /><span className="w-12 text-right text-[13px] font-semibold text-navy">{c.matchThreshold.toFixed(2)}</span></div>
+      </Field>
+      <Field label="Unmatched-question message" hint="Shown when nothing in the knowledge base is a confident match."><textarea className="inp" rows={2} value={c.unmatchedMessage} onChange={(e) => setC({ ...c, unmatchedMessage: e.target.value })} /></Field>
+      <Field label="Urgent-request confirmation" hint="Shown to the student after they click Ask Admin."><textarea className="inp" rows={2} value={c.urgentMessage} onChange={(e) => setC({ ...c, urgentMessage: e.target.value })} /></Field>
+      <Field label="Urgent-query notification email" hint="Gets an email when a student marks a query urgent. Leave blank to use the support email above."><input className="inp inp-sm" type="email" value={c.notifyEmail} onChange={(e) => setC({ ...c, notifyEmail: e.target.value })} placeholder="admissions@trinitystudyabroad.com" /></Field>
       <button className="btn-primary" disabled={saving} onClick={async () => { setSaving(true); const r = await saveSettingsAction("chatbot", c); setSaving(false); r.ok ? toast("Saved") : toast(r.error, "err"); }}>Save</button>
     </div>
   );

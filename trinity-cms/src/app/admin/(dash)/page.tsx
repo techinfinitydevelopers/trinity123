@@ -11,6 +11,10 @@ const ICONS = {
   inbox: "M4 13h4l2 3h4l2-3h4M4 13l2-8h12l2 8v5a1 1 0 01-1 1H5a1 1 0 01-1-1v-5z",
   posts: "M5 4h14v16H5V4zm3 4h8M8 12h8M8 16h5",
   pages: "M7 3h7l5 5v13H7V3zm7 1.5V9h4.5",
+  chat: "M8 10h8M8 14h5M21 12a9 9 0 11-3.5-7.1L21 4v8h-8",
+  question: "M4 5h16v11H9l-5 4V5zm4 4h8M8 12h5",
+  urgent: "M12 9v4m0 4h.01M10.3 3.9L2.4 18a2 2 0 001.7 3h15.8a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z",
+  today: "M8 3v3m8-3v3M4 9h16M5 6h14a1 1 0 011 1v12a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1z",
 } as const;
 
 const Stat = ({ label, value, href, icon, tint, accent }: {
@@ -35,11 +39,18 @@ const Stat = ({ label, value, href, icon, tint, accent }: {
 export default async function Dashboard() {
   await requireAdminPage();
   const me = await getSession();
-  const [pages, published, drafts, leads, unread, media, chats, recent, recentPosts] = await Promise.all([
+  const todayStart = new Date(); todayStart.setHours(0, 0, 0, 0);
+  const [pages, published, drafts, leads, unread, media, chats, recent, recentPosts, questions, answered, unmatched, urgentQueries, openUrgent, todayChats] = await Promise.all([
     db.page.count(), db.post.count({ where: { status: "PUBLISHED" } }), db.post.count({ where: { status: "DRAFT" } }),
     db.lead.count(), db.lead.count({ where: { isRead: false } }), db.media.count(), db.chatSession.count(),
     db.lead.findMany({ orderBy: { createdAt: "desc" }, take: 6 }),
     db.post.findMany({ orderBy: { updatedAt: "desc" }, take: 5, select: { id: true, title: true, status: true, updatedAt: true } }),
+    db.knowledgeItem.count(),
+    db.chatMessage.count({ where: { fromKnowledgeBase: true } }),
+    db.chatMessage.count({ where: { unmatched: true, unmatchedResolved: false } }),
+    db.chatSession.count({ where: { isUrgent: true } }),
+    db.chatSession.count({ where: { isUrgent: true, status: { not: "RESOLVED" } } }),
+    db.chatSession.count({ where: { createdAt: { gte: todayStart } } }),
   ]);
   const hour = new Date().getHours();
   const greet = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
@@ -61,6 +72,15 @@ export default async function Dashboard() {
         <Stat label="Total leads" value={leads} href="/admin/leads" icon="leads" tint="bg-emerald-50 text-emerald-600" />
         <Stat label="Blog posts" value={`${published}${drafts ? ` +${drafts} draft` : ""}`} href="/admin/posts" icon="posts" tint="bg-amber-50 text-amber-600" />
         <Stat label="Pages" value={pages} href="/admin/pages" icon="pages" tint="bg-sky-50 text-sky-600" />
+      </div>
+
+      <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <Stat label="Conversations" value={chats} href="/admin/chats" icon="chat" tint="bg-brand-soft text-brand" />
+        <Stat label="Today's conversations" value={todayChats} href="/admin/chats" icon="today" tint="bg-sky-50 text-sky-600" />
+        <Stat label="Knowledge base questions" value={`${questions} · ${answered} answered`} href="/admin/chatbot" icon="question" tint="bg-emerald-50 text-emerald-600" />
+        <Stat label="Unmatched questions" value={unmatched} href="/admin/chatbot" icon="question" tint="bg-amber-50 text-amber-600" accent={unmatched ? "text-amber-600" : undefined} />
+        <Stat label="Urgent queries" value={urgentQueries} href="/admin/chats?urgent=1" icon="urgent" tint="bg-red-50 text-red-600" accent={urgentQueries ? "text-red-600" : undefined} />
+        <Stat label="Open urgent requests" value={openUrgent} href="/admin/chats?urgent=1" icon="urgent" tint="bg-red-50 text-red-600" accent={openUrgent ? "text-red-600" : undefined} />
       </div>
 
       <div className="mt-6 grid gap-6 xl:grid-cols-[1.4fr_1fr]">

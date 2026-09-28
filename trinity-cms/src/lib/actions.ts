@@ -182,10 +182,19 @@ export async function changePasswordAction(current: string, next: string): Promi
 }
 
 /* ---------- knowledge (chatbot) ---------- */
-export async function saveKnowledgeAction(input: { id?: string; question: string; answer: string; tags: string; isActive: boolean }): Promise<ActionResult> {
+const knowledgeSchema = z.object({
+  id: z.string().optional(),
+  question: z.string().trim().min(1).max(400),
+  answer: z.string().trim().min(1).max(4000),
+  keywords: z.string().trim().max(500).default(""),
+  category: z.string().trim().max(80).default("General"),
+  relatedQuestions: z.array(z.string().trim().max(400)).default([]),
+  isActive: z.boolean().default(true),
+});
+export async function saveKnowledgeAction(input: z.infer<typeof knowledgeSchema>): Promise<ActionResult> {
   try {
     await requireSession();
-    const { id, ...data } = input;
+    const { id, ...data } = knowledgeSchema.parse(input);
     if (id) await db.knowledgeItem.update({ where: { id }, data });
     else await db.knowledgeItem.create({ data });
     revalidateTag("knowledge", "max");
@@ -195,6 +204,64 @@ export async function saveKnowledgeAction(input: { id?: string; question: string
 }
 export async function deleteKnowledgeAction(id: string): Promise<ActionResult> {
   try { await requireSession(); await db.knowledgeItem.delete({ where: { id } }); revalidateTag("knowledge", "max"); revalidatePath("/admin/chatbot"); return { ok: true }; } catch (e) { return fail(e); }
+}
+
+export type BulkRow = { question: string; answer: string; keywords?: string; category?: string };
+export type BulkReport = { imported: number; skipped: number; errors: { row: number; reason: string }[] };
+/** Bulk import from the admin's client-parsed CSV/Excel rows. Validates, de-duplicates against
+    existing questions (case-insensitive) and within the batch itself, upserts the rest. */
+export async function bulkImportKnowledgeAction(rows: BulkRow[]): Promise<ActionResult & { report?: BulkReport }> {
+  try {
+    await requireSession();
+    if (!Array.isArray(rows) || rows.length === 0) return { ok: false, error: "No rows to import." };
+    if (rows.length > 2000) return { ok: false, error: "Please upload 2000 rows or fewer at a time." };
+
+    const existing = new Set((await db.knowledgeItem.findMany({ select: { question: true } })).map((r) => r.question.trim().toLowerCase()));
+    const seenInBatch = new Set<string>();
+    const report: BulkReport = { imported: 0, skipped: 0, errors: [] };
+    const toCreate: { question: string; answer: string; keywords: string; category: string }[] = [];
+
+    rows.forEach((raw, i) => {
+      const rowNum = i + 2; // header row is line 1 in the source file
+      const question = String(raw.question ?? "").trim();
+      const answer = String(raw.answer ?? "").trim();
+      const keywords = String(raw.keywords ?? "").trim();
+      const category = String(raw.category ?? "").trim() || "General";
+      if (!question || !answer) { report.errors.push({ row: rowNum, reason: "Question and answer are both required." }); return; }
+      if (question.length > 400 || answer.length > 4000) { report.errors.push({ row: rowNum, reason: "Question or answer is too long." }); return; }
+      const key = question.toLowerCase();
+      if (existing.has(key) || seenInBatch.has(key)) { report.skipped++; return; }
+      seenInBatch.add(key);
+      toCreate.push({ question, answer, keywords, category });
+    });
+
+    if (toCreate.length) await db.knowledgeItem.createMany({ data: toCreate });
+    report.imported = toCreate.length;
+
+    revalidateTag("knowledge", "max");
+    revalidatePath("/admin/chatbot");
+    return { ok: true, report, message: `Imported ${report.imported}, skipped ${report.skipped} duplicate(s), ${report.errors.length} error(s).` };
+  } catch (e) { return fail(e); }
+}
+
+/* ---------- chat sessions (conversations, notes, urgent, unanswered) ---------- */
+export async function updateChatStatusAction(id: string, status: "OPEN" | "IN_PROGRESS" | "RESOLVED"): Promise<ActionResult> {
+  try { await requireSession(); await db.chatSession.update({ where: { id }, data: { status } }); revalidatePath("/admin/chats"); return { ok: true }; } catch (e) { return fail(e); }
+}
+
+export async function addChatNoteAction(sessionId: string, body: string): Promise<ActionResult> {
+  try {
+    const me = await requireSession();
+    const text = body.trim();
+    if (!text) return { ok: false, error: "Note cannot be empty." };
+    await db.chatNote.create({ data: { sessionId, authorName: me.name, body: text.slice(0, 2000) } });
+    revalidatePath("/admin/chats");
+    return { ok: true };
+  } catch (e) { return fail(e); }
+}
+
+export async function resolveUnmatchedAction(messageId: string): Promise<ActionResult> {
+  try { await requireSession(); await db.chatMessage.update({ where: { id: messageId }, data: { unmatchedResolved: true } }); revalidatePath("/admin/chatbot"); return { ok: true }; } catch (e) { return fail(e); }
 }
 
 /* ---------- destinations ---------- */

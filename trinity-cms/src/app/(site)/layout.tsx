@@ -35,7 +35,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
       <Header nav={settings.nav} contact={settings.contact} site={settings.site} destinations={destinations} />
       <main id="main">{children}</main>
       <Footer nav={settings.nav} contact={settings.contact} site={settings.site} destinations={destinations} />
-      {settings.chatbot.enabled ? <ChatWidget cfg={settings.chatbot} /> : null}
+      {settings.chatbot.enabled ? <ChatWidget cfg={settings.chatbot} contact={settings.contact} /> : null}
       <SiteScripts />
     </>
   );
