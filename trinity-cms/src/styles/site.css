@@ -741,9 +741,21 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .page-hero h1,.post__hero h1,.page-hero__title{color:var(--navy)}
 .page-hero p,.post__hero p{color:var(--text)}
 .page-hero__ghost,.pin__ghost{color:transparent;-webkit-text-stroke-color:rgba(35,47,112,.10)}
-.pin__lead h2,.pin__lead .h2{color:var(--navy)}
-.pin__lead p,.pin__hint{color:var(--muted)}
-.pin__hint{color:var(--muted)}
+/* The pinned university scroller (--grey) and the journey band (--cream) are light surfaces now,
+   so every white-on-navy token inside them has to flip. The cards themselves stay photo-backed. */
+.pin .h2--light,.section--dark .h2--light{color:var(--navy)}
+.pin .kicker--gold,.section--dark .kicker--gold,.pin .gold,.section--dark .gold{color:var(--teal)}
+.pin__lead,.pin__hint,.section--dark .lead--light{color:var(--muted)}
+.pin__count{color:var(--navy)}
+.pin__count small{color:var(--muted)}
+.pin__bar{background:rgba(35,47,112,.12)}
+.pin__glow,.section--dark .section__glow{opacity:.1}
+.section--dark .jcard{background:#fff;border-color:var(--line);box-shadow:0 10px 30px rgba(35,47,112,.06)}
+.section--dark .jcard h3{color:var(--navy)}
+.section--dark .jcard p{color:var(--muted)}
+.section--dark .jcard__num{color:rgba(35,47,112,.09)}
+.section--dark .jcard__ico{background:var(--grey)}
+.section--dark .jcard:hover h3,.section--dark .jcard:hover p,.section--dark .jcard:hover .jcard__num{color:#fff}
 .crumbs,.crumbs a{color:var(--muted)}
 .crumbs a:hover{color:var(--primary)}
 .crumbs span[aria-current],.crumbs .is-current{color:var(--navy)}

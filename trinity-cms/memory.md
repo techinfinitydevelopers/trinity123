@@ -222,3 +222,21 @@ AskUserQuestion before building:
   `CSS_URL=$(curl -s <site>/ | grep -o '/_next/static/[^"]*\.css' | head -1); curl -s "<site>$CSS_URL" | grep -o '\.my-rule{[^}]*}'`
   Beats guessing from a browser screenshot, and instantly distinguishes "not deployed yet" from
   "deployed but overridden".
+- Flipping a surface from dark to light is never just the `background`. `.pin` (universities
+  scroller, now `--grey`) and `.section--dark` (journey band, now `--cream`) still carried
+  `h2--light`, `lead--light`, `.pin__count`, `.pin__bar`, `.jcard` white-on-navy ink, so their
+  headings and body copy were invisible. The Light-surface overrides block now has `.pin …` and
+  `.section--dark …` rules alongside the hero ones. Rule of thumb: when a background token changes,
+  grep the block's component for `--light`, `#fff` and `rgba(255,255,255` before calling it done.
+- `.gold` (`#F7DD7D`) as *text* is unreadable on cream or light grey. On any light surface the
+  highlight word flips to `var(--teal)` — that is why the overrides map `.gold` → teal inside
+  `.hero`, `.page-hero`, `.pin` and `.section--dark`.
+
+## Build log — 2026-09-28
+- Fixed invisible copy in the "Explore Our World's Best Courses" (`.pin`) and "Start your Learning
+  Journey Today!" (`.section--dark`) sections after the cream palette rollout. Extended the
+  Light-surface overrides in `src/styles/site.css`: headings → `--navy`, leads/hints → `--muted`,
+  gold highlights → `--teal`, `.pin__count`/`.pin__bar` re-inked, `.jcard` turned into a white card
+  with navy title and muted body (white text restored on its hover fill), decorative glows damped
+  to `.1`. Verified with `getComputedStyle` on `/` and `/about-us`. `tsc --noEmit` clean, lint
+  0 errors (9 pre-existing warnings).
