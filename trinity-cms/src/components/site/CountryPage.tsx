@@ -13,13 +13,16 @@ type Stat = { v: string; l: string };
 type Uni = { name: string; img: string };
 export type DestinationLite = { code: string; slug: string; name: string; tag: string };
 
-const P = "Poppins,sans-serif";
+const P = "var(--font-h)";
 const d = (i: number, m = 4) => `${((i % m) * 0.08).toFixed(2)}s`;
 const kicker = (text: string, gold?: boolean): CSSProperties & { children?: never } => ({ color: gold ? "var(--gold)" : "var(--primary)", fontFamily: P, fontWeight: 600, fontSize: 13, letterSpacing: 2, textTransform: "uppercase", marginBottom: 14, display: "flex", alignItems: "center", gap: 10 } as CSSProperties);
 const Kicker = ({ text, gold }: { text: string; gold?: boolean }) => <div data-reveal style={kicker(text, gold)}><span style={{ width: 28, height: 2, background: "var(--gold)" }} />{text}</div>;
 const h2: CSSProperties = { fontSize: "clamp(1.9rem,3.2vw,2.8rem)", fontWeight: 700, letterSpacing: -1, textWrap: "balance" as never };
 const btnGold: CSSProperties = { display: "inline-flex", alignItems: "center", gap: 10, background: "var(--gold)", color: "var(--navy)", fontFamily: P, fontWeight: 600, fontSize: 15, padding: "16px 30px", borderRadius: 50, transition: "all .3s" };
 const btnGhost: CSSProperties = { display: "inline-flex", alignItems: "center", gap: 10, border: "1.5px solid rgba(255,255,255,.3)", color: "#fff", fontFamily: P, fontWeight: 600, fontSize: 15, padding: "16px 30px", borderRadius: 50, transition: "all .3s" };
+/* The hero sits on cream now; the closing CTA band is still navy, so both inks are needed. */
+const btnSolid: CSSProperties = { ...btnGold, background: "var(--navy)", color: "#fff" };
+const btnGhostInk: CSSProperties = { ...btnGhost, border: "1.5px solid rgba(35,47,112,.28)", color: "var(--navy)" };
 const num = (bg = "var(--primary)", size = 38, r = 12): CSSProperties => ({ position: "relative", fontFamily: P, fontWeight: 700, fontSize: 13, color: "#fff", background: bg, width: size, height: size, borderRadius: r, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 });
 const jfill: CSSProperties = { position: "absolute", inset: 0, background: "var(--grey)", opacity: 0, transition: "opacity .45s" };
 
@@ -34,23 +37,23 @@ export default function CountryPage({ c, others, contact }: { c: Country; others
   return (
     <div>
       {/* hero */}
-      <section className="cv-hero cv-section" style={{ position: "relative", minHeight: 560, display: "flex", alignItems: "flex-end", padding: "190px 24px 70px", overflow: "hidden", background: "var(--navy)" }}>
-        <img data-plx="0.16" src={c.img} alt={c.name} style={{ position: "absolute", inset: "-10% 0", width: "100%", height: "120%", objectFit: "cover", opacity: 0.5, willChange: "transform" }} />
-        <span style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg,rgba(22,20,57,.85) 0%,rgba(22,20,57,.55) 45%,rgba(22,20,57,.96) 100%)" }} />
-        <span data-plx="0.1" aria-hidden="true" style={{ position: "absolute", right: "-1%", bottom: -24, fontFamily: P, fontWeight: 800, fontSize: "clamp(5rem,15vw,14rem)", lineHeight: 0.8, letterSpacing: -8, color: "transparent", WebkitTextStroke: "1px rgba(255,255,255,.1)", pointerEvents: "none", userSelect: "none", willChange: "transform", textTransform: "uppercase" }}>{c.name}</span>
+      <section className="cv-hero cv-section" style={{ position: "relative", minHeight: 560, display: "flex", alignItems: "flex-end", padding: "190px 24px 70px", overflow: "hidden", background: "var(--cream)" }}>
+        <img data-plx="0.16" src={c.img} alt={c.name} style={{ position: "absolute", inset: "-10% 0", width: "100%", height: "120%", objectFit: "cover", opacity: 0.22, willChange: "transform" }} />
+        <span style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg,rgba(255,248,236,.9) 0%,rgba(255,232,190,.68) 45%,rgba(255,232,190,.94) 100%)" }} />
+        <span data-plx="0.1" aria-hidden="true" style={{ position: "absolute", right: "-1%", bottom: -24, fontFamily: P, fontWeight: 800, fontSize: "clamp(5rem,15vw,14rem)", lineHeight: 0.8, letterSpacing: -8, color: "transparent", WebkitTextStroke: "1px rgba(35,47,112,.12)", pointerEvents: "none", userSelect: "none", willChange: "transform", textTransform: "uppercase" }}>{c.name}</span>
         <div style={{ position: "relative", maxWidth: 1320, margin: "0 auto", width: "100%", display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-          <div data-word style={{ animationDelay: ".05s", color: "rgba(255,255,255,.65)", fontFamily: P, fontWeight: 500, fontSize: 13, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 24 }}>
-            <Link href="/" style={{ color: "rgba(255,255,255,.65)" }}>Home</Link> <i className="fas fa-chevron-right" style={{ fontSize: 9, color: "var(--gold)", margin: "0 8px" }} /> <Link href="/why-study-abroad" style={{ color: "rgba(255,255,255,.65)" }}>Destinations</Link> <i className="fas fa-chevron-right" style={{ fontSize: 9, color: "var(--gold)", margin: "0 8px" }} /> <span style={{ color: "var(--gold)", fontWeight: 600 }}>{c.name}</span>
+          <div data-word style={{ animationDelay: ".05s", color: "var(--muted-ink)", fontFamily: P, fontWeight: 500, fontSize: 13, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 24 }}>
+            <Link href="/" style={{ color: "var(--muted-ink)" }}>Home</Link> <i className="fas fa-chevron-right" style={{ fontSize: 9, color: "var(--teal-ink)", margin: "0 8px" }} /> <Link href="/why-study-abroad" style={{ color: "var(--muted-ink)" }}>Destinations</Link> <i className="fas fa-chevron-right" style={{ fontSize: 9, color: "var(--teal-ink)", margin: "0 8px" }} /> <span style={{ color: "var(--navy)", fontWeight: 600 }}>{c.name}</span>
           </div>
-          <div data-word style={{ animationDelay: ".15s", display: "inline-flex", alignItems: "center", gap: 14, background: "rgba(255,255,255,.12)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,.25)", padding: "8px 18px 8px 8px", borderRadius: 50, marginBottom: 24 }}>
-            <img src={flag} alt="" style={{ width: 34, height: 34, borderRadius: "50%", objectFit: "cover", border: "2px solid rgba(255,255,255,.5)" }} />
-            <span style={{ color: "#fff", fontFamily: P, fontWeight: 600, fontSize: 14 }}>{c.tag}</span>
+          <div data-word style={{ animationDelay: ".15s", display: "inline-flex", alignItems: "center", gap: 14, background: "rgba(255,255,255,.75)", backdropFilter: "blur(12px)", border: "1px solid rgba(35,47,112,.12)", padding: "8px 18px 8px 8px", borderRadius: 50, marginBottom: 24 }}>
+            <img src={flag} alt="" style={{ width: 34, height: 34, borderRadius: "50%", objectFit: "cover", border: "2px solid rgba(255,255,255,.9)" }} />
+            <span style={{ color: "var(--navy)", fontFamily: P, fontWeight: 600, fontSize: 14 }}>{c.tag}</span>
           </div>
-          <h1 data-word style={{ animationDelay: ".25s", color: "#fff", fontSize: "clamp(2.4rem,5vw,4.4rem)", fontWeight: 800, letterSpacing: -2, lineHeight: 1.03, textWrap: "balance" as never }}>{c.hero}</h1>
-          <p data-word style={{ animationDelay: ".4s", color: "rgba(255,255,255,.78)", marginTop: 24, fontSize: 17, maxWidth: 680, lineHeight: 1.8 }}>{c.intro}</p>
+          <h1 data-word style={{ animationDelay: ".25s", color: "var(--navy)", fontSize: "clamp(2.4rem,5vw,4.4rem)", fontWeight: 800, letterSpacing: -2, lineHeight: 1.03, textWrap: "balance" as never }}>{c.hero}</h1>
+          <p data-word style={{ animationDelay: ".4s", color: "var(--text)", marginTop: 24, fontSize: 17, maxWidth: 680, lineHeight: 1.8 }}>{c.intro}</p>
           <div data-word style={{ animationDelay: ".5s", display: "flex", gap: 14, flexWrap: "wrap", marginTop: 34 }}>
-            <Link className="cv-btny" href="/contact-us" style={btnGold}>Get free counselling <i className="fas fa-arrow-right" style={{ fontSize: 12 }} /></Link>
-            <a href={wa} target="_blank" rel="noopener" style={btnGhost}><i className="fab fa-whatsapp" style={{ color: "var(--gold)" }} /> WhatsApp us</a>
+            <Link className="cv-btny" href="/contact-us" style={btnSolid}>Get free counselling <i className="fas fa-arrow-right" style={{ fontSize: 12 }} /></Link>
+            <a href={wa} target="_blank" rel="noopener" style={btnGhostInk}><i className="fab fa-whatsapp" style={{ color: "var(--teal-ink)" }} /> WhatsApp us</a>
           </div>
         </div>
       </section>

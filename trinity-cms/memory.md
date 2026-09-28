@@ -273,3 +273,22 @@ AskUserQuestion before building:
 - No horizontal scroll on any page at either width. Remaining audit hits are text over photos.
 - Still open for the client: destination-page heroes (`.cv-hero`) and the footer are the last big
   Trinity Blue surfaces — the brief said remove blue backgrounds, so they may want these cream too.
+- Client signed off (2026-09-28) on cream for the last two blue surfaces: the destination-page hero
+  (`.cv-hero` in `CountryPage.tsx`) and the site footer. What is still deliberately dark: the footer
+  CTA card, the home CTA band, the stack cards, the destination page's "Visa requirements" card and
+  closing CTA, and the `.marquee` strips. Those are accents on light, not page backgrounds.
+- `CountryPage.tsx` keeps two button styles on purpose — `btnSolid`/`btnGhostInk` for the cream hero
+  and `btnGold`/`btnGhost` for the still-navy closing CTA. Don't collapse them.
+
+## Build log — 2026-09-28 (4)
+- Turned the destination hero cream: cream base, hero photo down to 0.22 opacity under a cream wash
+  instead of the navy gradient, navy h1, `--text` intro, `--muted-ink` crumbs, `--teal-ink` chevrons,
+  white-glass flag chip, and new light button variants.
+- Turned the footer cream: cream base, navy titles, `--muted-ink` links and contact lines, white
+  glass social/tag pills with navy ink, `--teal-ink` accents, navy grid lines and watermark stroke.
+  The footer CTA card stays on the primary gradient as the accent.
+- Replaced the last two `const P = "Poppins,sans-serif"` literals (`CountryPage.tsx`,
+  `blog/[slug]/page.tsx`) with `var(--font-h)`, so the Theme editor's font picker now reaches
+  every inline style on those pages.
+- Re-ran the sweep on /, /about-us, /contact-us, /destinations/uk, /destinations/canada, /blog and
+  the blog post: no new contrast failures, no horizontal scroll. `tsc` clean, lint 0 errors.

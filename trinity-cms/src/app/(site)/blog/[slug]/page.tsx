@@ -12,7 +12,7 @@ type Props = { params: Promise<{ slug: string }> };
 const base = () => process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 /** JSON.stringify does not escape "<", so a title containing </script> would break out of the tag. */
 const jsonLd = (o: unknown) => JSON.stringify(o).replace(/</g, "\\u003c");
-const P = "Poppins,sans-serif";
+const P = "var(--font-h)";
 const jcard: CSSProperties = { position: "relative", background: "#fff", border: "1px solid var(--line)", borderRadius: 20, padding: "20px 22px", color: "var(--navy)", transition: "all .4s", overflow: "hidden", display: "block" };
 
 export async function generateStaticParams() {
