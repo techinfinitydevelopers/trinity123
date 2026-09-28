@@ -204,9 +204,12 @@ export default function ChatWidget({ cfg, contact }: { cfg: ChatbotSettings; con
         {!sessionId ? (
           <form className="tc-gate" onSubmit={submitForm}>
             <p className="tc-gate__hi"><i className="fas fa-hand-sparkles" /> Before we chat, tell us a little about you. Please ask your questions in English.</p>
-            <input className="tc-gate__inp" placeholder="Full name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} autoComplete="name" />
-            <input className="tc-gate__inp" type="email" placeholder="Email address" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} autoComplete="email" />
-            <input className="tc-gate__inp" type="tel" placeholder="Phone number" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} autoComplete="tel" />
+            <label className="tc-gate__lbl" htmlFor="tc-gate-name">Full name</label>
+            <input id="tc-gate-name" className="tc-gate__inp" placeholder="e.g. Rahul Sharma" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} autoComplete="name" />
+            <label className="tc-gate__lbl" htmlFor="tc-gate-email">Email address</label>
+            <input id="tc-gate-email" className="tc-gate__inp" type="email" placeholder="e.g. rahul@gmail.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} autoComplete="email" />
+            <label className="tc-gate__lbl" htmlFor="tc-gate-phone">Phone number</label>
+            <input id="tc-gate-phone" className="tc-gate__inp" type="tel" placeholder="e.g. 9876543210" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} autoComplete="tel" />
             {formErr ? <p className="tc-gate__err">{formErr}</p> : null}
             <button type="submit" className="tc-gate__go" disabled={formBusy}>{formBusy ? "Starting…" : "Start chatting"}</button>
             <p className="tc-foot">We&apos;ll only use these details to help with your enquiry.</p>

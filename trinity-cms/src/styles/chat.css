@@ -45,6 +45,7 @@
 .tc-gate{flex:1;display:flex;flex-direction:column;gap:10px;padding:22px 20px;overflow-y:auto}
 .tc-gate__hi{font-size:14px;color:var(--navy);line-height:1.5;margin:0 0 4px;display:flex;align-items:center;gap:8px}
 .tc-gate__hi i{color:var(--gold)}
+.tc-gate__lbl{font-size:12px;font-weight:600;color:var(--muted);margin:2px 2px -6px}
 .tc-gate__inp{border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;font-size:14px;color:var(--navy);outline:none;transition:border-color .25s,box-shadow .25s}
 .tc-gate__inp:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(87,81,225,.12)}
 .tc-gate__err{color:#c0392b;font-size:12.5px;margin:0}
