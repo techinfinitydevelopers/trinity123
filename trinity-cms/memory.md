@@ -240,14 +240,36 @@ AskUserQuestion before building:
   with navy title and muted body (white text restored on its hover fill), decorative glows damped
   to `.1`. Verified with `getComputedStyle` on `/` and `/about-us`. `tsc --noEmit` clean, lint
   0 errors (9 pre-existing warnings).
-- `.ucard__img` is deliberately 120% wide with `margin-left:-10%` so the pin scroller can parallax
-  it. That budget is ~12% of the card width either side (the extra `scale(1.04)` eats 2%), so any
-  `translateX` driven from `dn` must be clamped — `dn` runs past ±1 for cards far off-centre and an
-  unclamped `dn * 40` slid the photo right off the left edge, leaving a bare strip on the card.
-  Clamped to `±22px` in `SiteScripts.tsx`.
+- `.ucard__img` used to declare `width:120%;margin-left:-10%` for parallax headroom, but the global
+  `img{max-width:100%}` (site.css line 25) capped it, so the photo had no headroom at all and the
+  scroller's `translateX(dn*40)` slid it off the card, leaving a bare strip. The headroom now comes
+  from `transform:scale(1.14)` on the image and the travel is `clamp(dn,-1,1) * cardWidth * 0.05`,
+  which stays inside the 7% overhang at every scroll position. Lesson: a percentage `width` on an
+  `img` is meaningless here unless `max-width` is lifted too — check the computed width, not the rule.
 
 ## Build log — 2026-09-28 (2)
 - Fixed the university cards in the pinned scroller showing a bare strip down the left. Cause was
   the parallax in `src/components/site/SiteScripts.tsx` translating the cover image further than
   its 10% overhang; clamped `dn` to ±1 and the travel to 22px. Verified across the whole pin scroll
   range in the browser (image edges stay outside the card at every step). `tsc --noEmit` clean.
+- Brand teal `#1ABC9C` and grey `#6B7280` are fill colours; as **type** on cream or light grey they
+  measure ~2:1 and ~4.0:1. `site.css` now derives `--teal-ink` and `--muted-ink` with `color-mix()`
+  off the theme tokens, so they still follow whatever the dashboard sets. Use the `-ink` variants for
+  copy on light surfaces (kickers, highlight words, crumbs, hero stat labels, post byline).
+- Contrast/overflow sweep recipe: stash an auditor in `localStorage` from the browser pane, then
+  `navigate` + `eval(localStorage.getItem('__audit'))` per page — it survives reloads, so the script
+  is only sent once. Ignore hits whose background resolves to `body`/a light section but whose text
+  actually sits over a photo with an overlay `<span>`: the walker follows ancestors, not siblings
+  (`.ocard`, `.bento__cap`, `.ucard__body`, `.cv-hcard` are all this kind of false positive).
+
+## Build log — 2026-09-28 (3)
+- Swept every public page (home, about, why, services, contact, blog index, blog post, destination,
+  search) at 1009px and 375px for contrast failures and horizontal overflow.
+- Real fixes: blog post byline was white on the cream post hero (invisible); teal kickers and
+  highlight words measured 2.0–2.2:1 on cream/light grey; breadcrumbs, hero stat labels and the
+  scroll hint sat at 4.04:1. Added `--teal-ink` / `--muted-ink` derived tokens and applied them.
+- Also rebuilt the university-card parallax after finding `img{max-width:100%}` was defeating the
+  `width:120%` headroom the effect assumed (user asked for `margin-left:-10%` to go).
+- No horizontal scroll on any page at either width. Remaining audit hits are text over photos.
+- Still open for the client: destination-page heroes (`.cv-hero`) and the footer are the last big
+  Trinity Blue surfaces — the brief said remove blue backgrounds, so they may want these cream too.

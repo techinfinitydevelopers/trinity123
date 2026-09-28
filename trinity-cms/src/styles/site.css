@@ -9,6 +9,11 @@
   --primary:#232F70;--primary-2:#5B84C4;--navy:#232F70;--navy-2:#2E3D8C;--navy-3:#1A2456;
   --gold:#F7DD7D;--gold-2:#F0D064;--text:#333333;--muted:#6B7280;--grey:#F5F7FA;--line:#E4E8F0;--white:#fff;--wa:#25D366;
   --cream:#FFE8BE;--teal:#1ABC9C;
+  /* Brand teal and grey are picked for fills, not for type: as text on cream or light grey they
+     land around 2:1. These darkened derivations track whatever the Theme editor sets, so the
+     dashboard stays the single source of colour. Use them for copy on light surfaces. */
+  --teal-ink:color-mix(in srgb,var(--teal) 48%,var(--text));
+  --muted-ink:color-mix(in srgb,var(--muted) 78%,var(--navy));
   --font-h:Poppins,sans-serif;--font-b:Inter,sans-serif;
   --r-card:28px;--r-pill:50px;--ease:cubic-bezier(.4,0,.2,1);
   --shadow:0 20px 50px rgba(35,47,112,.10);--shadow-lg:0 40px 90px rgba(35,47,112,.20);
@@ -171,8 +176,8 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .hero__text{color:var(--text);font-size:clamp(1rem,1.3vw,1.15rem);line-height:1.75;max-width:560px;margin:28px 0 38px;text-wrap:pretty}
 .hero__stats{display:flex;gap:34px;flex-wrap:wrap;margin-top:54px}
 .hero__stats strong{display:block;font-family:var(--font-h);font-weight:700;font-size:28px;color:var(--navy);letter-spacing:-1px}
-.hero__stats span{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
-.hero__scroll{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:12px;letter-spacing:2px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px}
+.hero__stats span{font-size:13px;color:var(--muted-ink);text-transform:uppercase;letter-spacing:1px}
+.hero__scroll{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);color:var(--muted-ink);font-size:12px;letter-spacing:2px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px}
 .hero__scroll span{width:1px;height:38px;background:linear-gradient(var(--navy),transparent)}
 /* orbit */
 .orbit{position:relative;justify-self:center;width:100%;max-width:560px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;animation:heroIn 1.4s .3s var(--ease) both}
@@ -329,7 +334,10 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .pin__lead{color:rgba(255,255,255,.7);max-width:440px;line-height:1.75;font-size:15px}
 .pin__track{display:flex;gap:24px;padding:0 max(24px,calc((100vw - 1320px)/2 + 24px));width:max-content;will-change:transform;margin-top:clamp(16px,3.5vh,44px)}
 .ucard{width:min(340px,78vw);height:clamp(340px,56vh,460px);flex-shrink:0;border-radius:28px;overflow:hidden;display:block;position:relative;box-shadow:0 30px 60px rgba(0,0,0,.35);will-change:transform,opacity;transform-origin:center bottom;border:1px solid rgba(255,255,255,.12);color:#fff}
-.ucard__img{position:absolute;inset:0;width:120%;height:100%;object-fit:cover;margin-left:-10%;will-change:transform}
+/* The parallax headroom comes from the scale below, not from an over-wide box: the global
+   `img{max-width:100%}` capped the 120% this used to declare, so the photo had nothing to
+   slide into and left a bare strip down the card. */
+.ucard__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.14);will-change:transform}
 .ucard__shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(22,20,57,.1) 0%,rgba(22,20,57,.2) 40%,rgba(22,20,57,.92) 100%)}
 .ucard__city{position:absolute;left:16px;top:16px;display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.25);color:#fff;font-family:var(--font-h);font-weight:600;font-size:12px;padding:6px 12px 6px 6px;border-radius:50px}
 .ucard__city img{width:20px;height:20px;border-radius:50%;object-fit:cover}
@@ -420,9 +428,9 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .page-hero__inner{position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:40px;align-items:center;padding:0}
 .page-hero .h1{color:var(--navy)}
 .page-hero__sub{color:var(--text);margin-top:22px;font-size:17px;max-width:600px;line-height:1.7;text-wrap:pretty;opacity:0;animation:wordUp .9s .5s var(--ease) forwards}
-.crumbs{display:inline-flex;align-items:center;gap:10px;color:var(--muted);font-family:var(--font-h);font-weight:500;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:22px}
-.crumbs a{color:var(--muted)}
-.crumbs i{font-size:9px;color:var(--teal)}
+.crumbs{display:inline-flex;align-items:center;gap:10px;color:var(--muted-ink);font-family:var(--font-h);font-weight:500;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:22px}
+.crumbs a{color:var(--muted-ink)}
+.crumbs i{font-size:9px;color:var(--teal-ink)}
 .crumbs span{color:var(--navy);font-weight:600}
 .statchips{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:420px;justify-self:end;width:100%}
 .statchip{border-radius:22px;padding:22px;color:#fff}
@@ -681,9 +689,9 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .post__hero{background:var(--cream);padding:180px 24px 140px;position:relative;overflow:hidden}
 .post__hero-inner{position:relative;max-width:900px;padding:0}
 .post__title{color:#fff;font-size:clamp(2rem,4.2vw,3.6rem);font-weight:800;letter-spacing:-1.5px;line-height:1.1;text-wrap:balance}
-.post__meta{display:flex;flex-wrap:wrap;gap:22px;align-items:center;margin-top:26px;color:rgba(255,255,255,.7);font-size:14px}
-.post__author{display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:500}
-.post__author img{height:26px;background:#fff;border-radius:6px;padding:3px}
+.post__meta{display:flex;flex-wrap:wrap;gap:22px;align-items:center;margin-top:26px;color:var(--muted-ink);font-size:14px}
+.post__author{display:inline-flex;align-items:center;gap:10px;color:var(--navy);font-weight:500}
+.post__author img{height:26px;background:rgba(35,47,112,.06);border-radius:6px;padding:3px}
 .post__cover{margin-top:-90px;position:relative;padding:0 24px}
 .post__cover img{width:100%;max-height:520px;object-fit:cover;border-radius:32px;box-shadow:var(--shadow-lg)}
 .post__layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:56px;padding:70px 24px 100px;align-items:start}
@@ -732,19 +740,19 @@ html.no-js [data-reveal]{opacity:1;transform:none}
    post hero and pinned scroller are cream now, so they need the ink flipped. Scoped on purpose —
    the CTA band, stack cards and footer are still dark and must keep the original treatment. */
 .hero .badge,.page-hero .badge,.post__hero .badge{background:rgba(255,255,255,.75);border-color:rgba(35,47,112,.12);color:var(--navy);box-shadow:0 6px 18px rgba(35,47,112,.07)}
-.hero .badge i,.page-hero .badge i,.post__hero .badge i{color:var(--teal)}
+.hero .badge i,.page-hero .badge i,.post__hero .badge i{color:var(--teal-ink)}
 .hero .btn--ghost,.page-hero .btn--ghost,.post__hero .btn--ghost{color:var(--navy);border-color:rgba(35,47,112,.28)}
 .hero .btn--ghost:hover,.page-hero .btn--ghost:hover,.post__hero .btn--ghost:hover{color:var(--navy);border-color:var(--navy);background:rgba(255,255,255,.6)}
-.hero .w__in.gold,.page-hero .w__in.gold,.post__hero .w__in.gold,.hero .gold,.page-hero .gold{color:var(--teal)}
+.hero .w__in.gold,.page-hero .w__in.gold,.post__hero .w__in.gold,.hero .gold,.page-hero .gold{color:var(--teal-ink)}
 .hero .w__in.grad,.page-hero .w__in.grad,.post__hero .w__in.grad{background:linear-gradient(90deg,var(--navy),var(--primary-2));-webkit-background-clip:text;background-clip:text;color:transparent}
-.page-hero .kicker--gold,.post__hero .kicker--gold,.hero .kicker--gold{color:var(--teal)}
+.page-hero .kicker--gold,.post__hero .kicker--gold,.hero .kicker--gold{color:var(--teal-ink)}
 .page-hero h1,.post__hero h1,.page-hero__title{color:var(--navy)}
 .page-hero p,.post__hero p{color:var(--text)}
 .page-hero__ghost,.pin__ghost{color:transparent;-webkit-text-stroke-color:rgba(35,47,112,.10)}
 /* The pinned university scroller (--grey) and the journey band (--cream) are light surfaces now,
    so every white-on-navy token inside them has to flip. The cards themselves stay photo-backed. */
 .pin .h2--light,.section--dark .h2--light{color:var(--navy)}
-.pin .kicker--gold,.section--dark .kicker--gold,.pin .gold,.section--dark .gold{color:var(--teal)}
+.pin .kicker--gold,.section--dark .kicker--gold,.pin .gold,.section--dark .gold{color:var(--teal-ink)}
 .pin__lead,.pin__hint,.section--dark .lead--light{color:var(--muted)}
 .pin__count{color:var(--navy)}
 .pin__count small{color:var(--muted)}
@@ -756,7 +764,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .section--dark .jcard__num{color:rgba(35,47,112,.09)}
 .section--dark .jcard__ico{background:var(--grey)}
 .section--dark .jcard:hover h3,.section--dark .jcard:hover p,.section--dark .jcard:hover .jcard__num{color:#fff}
-.crumbs,.crumbs a{color:var(--muted)}
+.crumbs,.crumbs a{color:var(--muted-ink)}
 .crumbs a:hover{color:var(--primary)}
 .crumbs span[aria-current],.crumbs .is-current{color:var(--navy)}
 
