@@ -116,7 +116,11 @@ export default function SiteScripts() {
           card.style.transform = `perspective(1200px) translateY(${ad * 26}px) scale(${1 - ad * 0.1}) rotateY(${-dn * 14}deg)`;
           card.style.opacity = String(1 - ad * 0.45);
           const img = card.querySelector<HTMLElement>(".ucard__img");
-          if (img) img.style.transform = `translateX(${dn * 40}px) scale(1.04)`;
+          /* The image only overhangs its card by 10% a side (see .ucard__img), so the parallax
+             has to stay inside that. dn runs past ±1 for cards far off-centre, which used to
+             slide the photo clean off the left edge and leave a bare strip. */
+          const px = Math.max(-1, Math.min(1, dn)) * 22;
+          if (img) img.style.transform = `translateX(${px}px) scale(1.04)`;
           if (Math.abs(dn) < bestD) { bestD = Math.abs(dn); best = i; }
         });
         if (pinCount?.firstChild) pinCount.firstChild.nodeValue = `${String(best + 1).padStart(2, "0")} `;

@@ -240,3 +240,14 @@ AskUserQuestion before building:
   with navy title and muted body (white text restored on its hover fill), decorative glows damped
   to `.1`. Verified with `getComputedStyle` on `/` and `/about-us`. `tsc --noEmit` clean, lint
   0 errors (9 pre-existing warnings).
+- `.ucard__img` is deliberately 120% wide with `margin-left:-10%` so the pin scroller can parallax
+  it. That budget is ~12% of the card width either side (the extra `scale(1.04)` eats 2%), so any
+  `translateX` driven from `dn` must be clamped — `dn` runs past ±1 for cards far off-centre and an
+  unclamped `dn * 40` slid the photo right off the left edge, leaving a bare strip on the card.
+  Clamped to `±22px` in `SiteScripts.tsx`.
+
+## Build log — 2026-09-28 (2)
+- Fixed the university cards in the pinned scroller showing a bare strip down the left. Cause was
+  the parallax in `src/components/site/SiteScripts.tsx` translating the cover image further than
+  its 10% overhang; clamped `dn` to ±1 and the travel to 22px. Verified across the whole pin scroll
+  range in the browser (image edges stay outside the card at every step). `tsc --noEmit` clean.
