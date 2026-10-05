@@ -20,9 +20,9 @@ export function Hero({ b, contact }: { b: HeroBlock; contact: ContactSettings })
             <A href={b.primary.href} contact={contact} className="btn btn--primary">{b.primary.label} <i className="fas fa-arrow-right" /></A>
             <A href={b.ghost.href} contact={contact} className="btn btn--ghost"><i className="fab fa-whatsapp gold" /> {b.ghost.label}</A>
           </div>
-          <ul className="hero__stats w__in" style={{ animationDelay: "1.15s" }}>
-            {b.stats.map((s) => <li key={s.label}><strong>{s.value}</strong><span>{s.label}</span></li>)}
-          </ul>
+          {/* The plain stat row is gone: the honeycomb carries the same claims, and the two
+              disagreed on screen ("100k+ Courses" here against "1 lakh+ Courses" there).
+              `stats` stays on the block so it can be brought back from the editor. */}
         </div>
         {b.photo || hive.length ? (
         <div className="hero-visual w__in" style={{ animationDelay: ".3s" }}>
@@ -31,7 +31,7 @@ export function Hero({ b, contact }: { b: HeroBlock; contact: ContactSettings })
             <span className="avatars"><img src="/assets/img/home/client-1.png" alt="" /><img src="/assets/img/home/client-2.png" alt="" /></span>
             <span><Stars /><small>{b.chipCText}</small></span>
           </div>
-          <div className="hive" aria-hidden="true">
+          <div className="hive">
             {hive.map((h, i) => (
               <div key={i} className={`hive__item hive__item--${i + 1}`}>
                 <div className="hive__item__face"><strong>{h.value}</strong><span>{h.label}</span></div>

@@ -419,3 +419,30 @@ AskUserQuestion before building:
 - Swept /, /about-us, /why-study-abroad, /our-service, /contact-us, /destinations/uk and a blog post
   at 1440, 768 and 375: no contrast failures left outside text-over-photo, no horizontal scroll.
   `tsc` clean, lint 0 errors.
+- Honeycomb geometry, learned the hard way (2026-10-05): a hex lattice only interlocks if the
+  clip-path and the aspect ratio agree. Pointy-top `polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,
+  0 25%)` needs `H = 1.1547 * W`; columns then step by exactly `W`, rows by `0.75 * H`, and every
+  other row shifts `W/2`. The first version mixed a flat-top clip-path with a pointy-top aspect at
+  arbitrary steps, which is why it read as five loose badges. The mortar comes from
+  `transform:scale(1 - gap/W)` on the cell — all six neighbours are `W` away, so one scale gives an
+  equal gap on every edge. Padding plus a second inner clip-path skews the inner hexagon.
+- A hexagon's usable text width is about 70% of its box. At a 104px cell that is ~73px, and
+  "UNIVERSITIES" in caps with 1.4px tracking needs ~92px — which is why the labels are sentence
+  case, not uppercase. `.hive__item span` also had no `font-family` and was silently falling back
+  to Inter.
+- White on `--teal` is 2.41:1 — never do it. The teal accent cell takes `--navy-3` ink (6.09:1).
+  `--primary-2` (Sky) fails as a cell fill against white, navy and navy-3 alike; it is a wash
+  colour only.
+- The hero's plain `.hero__stats` row was removed because the honeycomb repeats the same claims and
+  the two disagreed on screen — "100k+ Courses" against "1 lakh+ Courses". The `stats` field stays
+  on the hero block so it can be brought back from the editor.
+
+## Build log — 2026-10-05 (3)
+- Redesigned the hero honeycomb after the client called it odd. Root cause was a flat-top
+  clip-path on a pointy-top aspect with mismatched steps. Now a true lattice (W110/H127 desktop,
+  W88/H101.6 under 860px), tonal navy ladder with a teal accent cell, cream sentence-case labels,
+  one shared drop-shadow on the wrapper instead of five gold frames and photo fills.
+- Dropped the duplicate `.hero__stats` row; removed `aria-hidden` from the comb since two of its
+  five claims appear nowhere else.
+- Verified at 1440, 1180, 375 and 320: lattice steps exact, no text clipped, no horizontal scroll,
+  cell contrast 6.09-14.68:1. `tsc` clean, lint 0 errors.
