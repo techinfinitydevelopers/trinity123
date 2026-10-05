@@ -1,4 +1,4 @@
-import type { BandBlock, StatsBlock, CtaBlock, CountriesBlock, OfferBlock, RichTextBlock } from "@/lib/blocks";
+import type { BandBlock, UspBlock, StatsBlock, CtaBlock, CountriesBlock, OfferBlock, RichTextBlock } from "@/lib/blocks";
 import type { ContactSettings } from "@/lib/settings";
 import { A, FLAG, SectionHead, Title, PhonePill, d } from "../ui";
 
@@ -12,6 +12,23 @@ export function Band({ b }: { b: BandBlock }) {
         )))}
       </div>
     </div>
+  );
+}
+
+export function Usp({ b }: { b: UspBlock }) {
+  /* The rail scrolls; the centre claim does not. It is painted over the strip so the two never
+     collide, and the track is duplicated so the loop has no seam. */
+  return (
+    <section className="usp" aria-label="What we help with">
+      <div className="usp__rail">
+        <div className="usp__track">
+          {[0, 1].map((r) => b.items.map((it, i) => (
+            <span className="usp__item" key={`${r}-${i}`}><i className="fas fa-check" aria-hidden="true" />{it}</span>
+          )))}
+        </div>
+      </div>
+      <p className="usp__center">{b.center}</p>
+    </section>
   );
 }
 

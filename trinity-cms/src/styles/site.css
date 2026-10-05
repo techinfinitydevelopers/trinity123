@@ -12,6 +12,7 @@
   /* Brand teal and grey are picked for fills, not for type: as text on cream or light grey they
      land around 2:1. These darkened derivations track whatever the Theme editor sets, so the
      dashboard stays the single source of colour. Use them for copy on light surfaces. */
+  --teal-ink:#277868;--muted-ink:#5d657d;
   --teal-ink:color-mix(in srgb,var(--teal) 48%,var(--text));
   --muted-ink:color-mix(in srgb,var(--muted) 78%,var(--navy));
   --font-h:Poppins,sans-serif;--font-b:Inter,sans-serif;
@@ -168,7 +169,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .glow{position:absolute;border-radius:50%;filter:blur(150px)}
 .glow--a{width:640px;height:640px;background:var(--primary-2);opacity:.16;right:-160px;top:-160px;animation:floaty 9s ease-in-out infinite}
 .glow--b{width:420px;height:420px;background:var(--teal);opacity:.12;left:30%;bottom:-200px;animation:floaty 12s 2s ease-in-out infinite reverse}
-.hero__side{position:absolute;left:24px;top:50%;transform:translateY(-50%) rotate(-90deg);transform-origin:left center;color:rgba(35,47,112,.35);font-size:11px;letter-spacing:4px;text-transform:uppercase;white-space:nowrap;font-family:var(--font-h);font-weight:500}
+.hero__side{position:absolute;left:24px;top:50%;transform:translateY(-50%) rotate(-90deg);transform-origin:left center;color:rgba(35,47,112,.62);font-size:11px;letter-spacing:4px;text-transform:uppercase;white-space:nowrap;font-family:var(--font-h);font-weight:500}
 .hero__inner{position:relative;width:100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:48px;align-items:center;padding:0}
 .hero__title{color:var(--navy)}
 .capsule{display:inline-block;vertical-align:middle;width:clamp(90px,2.2em,190px);height:clamp(44px,.9em,80px);border-radius:100px;overflow:hidden;border:3px solid #fff;box-shadow:0 14px 34px rgba(35,47,112,.25);margin:0 6px;position:relative;top:-.08em}
@@ -452,15 +453,19 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .chip--hv-b{right:-16px;top:24px;animation-delay:1s}.chip--hv-b strong{font-size:15px}
 
 /* Honeycomb stat cluster overlapping the hero photo — see Hero.tsx `hive` field. */
-.hive{position:absolute;left:-64px;bottom:-56px;width:280px;height:240px;z-index:3}
-.hive__item{position:absolute;width:140px;height:160px;clip-path:polygon(25% 3%,75% 3%,100% 50%,75% 97%,25% 97%,0% 50%);background:var(--gold);padding:5px;box-shadow:0 24px 45px rgba(22,20,57,.35)}
+.hive{position:absolute;left:-64px;bottom:-56px;width:338px;height:232px;z-index:3}
+.hive__item{position:absolute;width:118px;height:136px;clip-path:polygon(25% 3%,75% 3%,100% 50%,75% 97%,25% 97%,0% 50%);background:var(--gold);padding:5px;box-shadow:0 24px 45px rgba(22,20,57,.35)}
 .hive__item__face{position:relative;width:100%;height:100%;clip-path:polygon(25% 3%,75% 3%,100% 50%,75% 97%,25% 97%,0% 50%);background-size:cover;background-position:center;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff;overflow:hidden}
 .hive__item__face::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(22,20,57,.15),rgba(22,20,57,.78))}
-.hive__item strong{position:relative;z-index:1;font-family:var(--font-h);font-weight:800;font-size:24px;letter-spacing:-.5px}
-.hive__item span{position:relative;z-index:1;font-size:9px;text-transform:uppercase;letter-spacing:1.4px;margin-top:4px;color:rgba(255,255,255,.88)}
+.hive__item strong{position:relative;z-index:1;font-family:var(--font-h);font-weight:800;font-size:19px;letter-spacing:-.5px}
+.hive__item span{position:relative;z-index:1;font-size:8px;text-transform:uppercase;letter-spacing:1.4px;margin-top:4px;color:rgba(255,255,255,.88)}
+/* Five cells in two rows (3 over 2), sized so the cluster still tucks under the hero photo.
+   Columns step by 110px and rows by 96px — that is the hex pitch for a 118x136 cell. */
 .hive__item--1{top:0;left:0}
-.hive__item--2{top:0;left:132px}
-.hive__item--3{top:116px;left:66px}
+.hive__item--2{top:0;left:110px}
+.hive__item--3{top:0;left:220px}
+.hive__item--4{top:96px;left:55px}
+.hive__item--5{top:96px;left:165px}
 .svc-chips{justify-self:end;width:100%;max-width:400px;display:flex;flex-direction:column;gap:12px}
 .svc-chip{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(12px);border-radius:18px;padding:14px 18px;color:#fff;transform:translateX(var(--x,0))}
 .svc-chip strong{font-family:var(--font-h);font-weight:600;font-size:15px}
@@ -620,7 +625,10 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 
 /* ---------- Responsive ---------- */
 @media (max-width:1120px){
-  .nav__links,.orbit,.hero__side,.pin__lead,.pin__hint,.statchips,.hero-visual,.svc-chips,.quick{display:none}
+  .nav__links,.orbit,.hero__side,.pin__lead,.pin__hint,.statchips,.svc-chips,.quick{display:none}
+  /* The student photo and the honeycomb stay on narrow screens — they stack under the copy
+     and the honeycomb drops from 3+2 to 2+2+1 so it never leaves the card. */
+  .hero-visual{justify-self:center;max-width:420px;margin-top:40px}
   .nav__toggle{display:inline-flex}
   /* Client asked for the call button on phones too — it used to be desktop-only. */
   .nav__call{display:inline-flex;width:42px;height:42px}
@@ -632,7 +640,16 @@ html.no-js [data-reveal]{opacity:1;transform:none}
   .topbar__inner{gap:10px;flex-wrap:nowrap}
   .topsearch{max-width:none}
 }
+@media (max-width:860px){
+  /* Honeycomb moves inside the photo's footprint on narrow screens: 2 + 2 + 1, centred. */
+  .hive{position:static;width:min(100%,264px);height:auto;margin:-26px auto 0;display:grid;grid-template-columns:repeat(2,1fr);justify-items:center;gap:6px 10px}
+  .hive__item{position:static;width:104px;height:120px}
+  .hive__item--5{grid-column:1/-1}
+  .hive__item strong{font-size:17px}
+}
 @media (max-width:640px){
+  .hero-visual{margin-top:32px}
+  .hero-visual__img{border-radius:26px 26px 26px 80px}
   .topbar__social{display:none}
   .topsearch{padding:5px 14px}
   .topsearch input{font-size:12.5px}
@@ -764,6 +781,17 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .section--dark .jcard__num{color:rgba(35,47,112,.09)}
 .section--dark .jcard__ico{background:var(--grey)}
 .section--dark .jcard:hover h3,.section--dark .jcard:hover p,.section--dark .jcard:hover .jcard__num{color:#fff}
+/* The inner page hero's aside widgets (stat chips, service chips, quick links) were glass-on-navy.
+   The hero is cream now, so the glass variants need light-surface ink; the solid gold/purple/
+   WhatsApp ones already carry their own background and are left alone. */
+.page-hero .statchip--glass{background:rgba(255,255,255,.72);border-color:rgba(35,47,112,.12);color:var(--navy);box-shadow:0 10px 26px rgba(35,47,112,.07)}
+.page-hero .statchip--glass small{color:var(--muted-ink)}
+.page-hero .statchip--glass > i{background:rgba(35,47,112,.08);color:var(--navy)}
+.page-hero .statchip--glass em{color:var(--teal-ink)}
+.page-hero .svc-chip,.page-hero .quick__item:not(.quick__item--wa){background:rgba(255,255,255,.72);border-color:rgba(35,47,112,.12);color:var(--navy);box-shadow:0 10px 26px rgba(35,47,112,.07)}
+.page-hero .svc-chip > i{color:var(--teal-ink)}
+.page-hero .quick__item:not(.quick__item--wa) small{color:var(--muted-ink)}
+.page-hero .quick__item:not(.quick__item--wa):hover{color:var(--navy);border-color:rgba(35,47,112,.3)}
 .crumbs,.crumbs a{color:var(--muted-ink)}
 .crumbs a:hover{color:var(--primary)}
 .crumbs span[aria-current],.crumbs .is-current{color:var(--navy)}
@@ -781,3 +809,20 @@ html.no-js [data-reveal]{opacity:1;transform:none}
   .searchbig i{display:none}
   .searchbig .btn{width:100%;order:2;justify-content:center}
 }
+
+
+/* ---------- USP rail ----------
+   One scrolling strip of everything we handle, with a single claim pinned over the middle. */
+.usp{position:relative;background:var(--grey);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 0;overflow:hidden}
+.usp__rail{overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.usp__track{display:flex;width:max-content;align-items:center;gap:14px;animation:marquee 48s linear infinite}
+.usp__item{display:inline-flex;align-items:center;gap:9px;flex-shrink:0;white-space:nowrap;background:#fff;border:1px solid var(--line);border-radius:var(--r-pill);padding:10px 18px;font-family:var(--font-h);font-weight:500;font-size:14px;color:var(--navy)}
+.usp__item i{font-size:10px;color:var(--teal-ink)}
+.usp__center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2;white-space:nowrap;background:var(--navy);color:#fff;font-family:var(--font-h);font-weight:700;font-size:14px;letter-spacing:.3px;padding:12px 26px;border-radius:var(--r-pill);box-shadow:0 0 0 10px var(--grey),0 14px 34px rgba(35,47,112,.28)}
+@media (max-width:900px){
+  /* No room to float the claim over the rail on a phone, so it sits above it instead. */
+  .usp{padding:18px 0;display:flex;flex-direction:column;gap:14px}
+  .usp__center{position:static;transform:none;order:-1;align-self:center;box-shadow:0 10px 24px rgba(35,47,112,.24);font-size:13px;padding:10px 22px}
+  .usp__item{font-size:13px;padding:9px 15px}
+}
+@media (prefers-reduced-motion:reduce){.usp__track{animation:none}}

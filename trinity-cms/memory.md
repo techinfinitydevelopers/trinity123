@@ -389,3 +389,33 @@ AskUserQuestion before building:
 - Removed the photo capsule from the hero headline per the client: `capsuleImg` blanked in
   `seed-content.ts` and in the local `home` page row. Verified 0 `.capsule` nodes at both widths,
   no horizontal overflow. `tsc` clean.
+- Client brief round 2 (2026-10-05), points 5–15. Delivered: the blue `band` page breaker is gone
+  from every page; the hero honeycomb carries the client's five claims (42+ years · 50+ countries ·
+  1200+ universities · 1 lakh+ courses · 100% visa success); a new `usp` block renders a scrolling
+  rail of their 13 services with "One Stop Solution" pinned in the middle; "Gateway to Global" is
+  out of the home title and the site tagline; headline figures moved 33+→50+ and 1100→1200 site-wide.
+- The client's figures contradict the rest of the copy that existed (33+ countries, 1100
+  universities, 30 years). We now claim 50+ countries while `/destinations` lists 11 — flagged to
+  the client, not invented.
+- Live databases are never re-seeded, so content-shape changes need a script as well as a seed edit.
+  `scripts/apply-client-brief-2026-10.mjs` is idempotent and takes `DATABASE_URL` — run it once
+  against production.
+- `.hero-visual` used to be hidden below 1120px. The client wants everything on phones, so it now
+  stacks under the copy and `.hive` reflows 3+2 → 2+2+1 under 860px.
+- `color-mix()` needs Safari 16.2+. `--teal-ink` / `--muted-ink` now declare a static hex first and
+  the `color-mix()` version second, so older iPhones still get readable ink.
+- The inner page hero's aside widgets (`.statchip--glass`, `.svc-chip`, `.quick__item`) were
+  glass-on-navy and became invisible on the cream hero — but only above 1120px, which is why the
+  earlier sweep at 1009px missed them. **Audit at 1440 as well as 375.**
+
+## Build log — 2026-10-05 (2)
+- Applied client brief points 8, 11, 13, 14, 15 (5, 6, 7 were already satisfied by the hero rebuild).
+  New `usp` block type + `Usp` component + admin label; seed and local DB migrated; one-off
+  production script added.
+- Made the hero visual responsive (photo + honeycomb now show on tablet and phone), added a phone
+  layout for the USP rail, and added `color-mix()` fallbacks for older iOS.
+- Fixed contrast the change exposed: `.hero__side` (1.96:1) and the page-hero glass widgets on
+  /about-us and /our-service, which were white-on-cream and unreadable.
+- Swept /, /about-us, /why-study-abroad, /our-service, /contact-us, /destinations/uk and a blog post
+  at 1440, 768 and 375: no contrast failures left outside text-over-photo, no horizontal scroll.
+  `tsc` clean, lint 0 errors.

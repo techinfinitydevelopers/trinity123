@@ -28,6 +28,10 @@ export type PageHeroBlock = {
 
 export type BandBlock = { type: "band"; items: { text: string; strong?: boolean }[] };
 
+/* Scrolling USP rail. `center` is the one claim that stays pinned in the middle of the strip
+   rather than scrolling past with the rest. */
+export type UspBlock = { type: "usp"; center: string; items: string[] };
+
 export type AboutBlock = {
   type: "about";
   mainImg: string; mainAlt: string; capSmall: string; capStrong: string; capSpan?: string;
@@ -108,7 +112,7 @@ export type BlogListBlock = { type: "blogList"; tags: string[] };
 export type RichTextBlock = { type: "richText"; html: string; grey: boolean };
 
 export type Block =
-  | HeroBlock | PageHeroBlock | BandBlock | AboutBlock | OfferBlock | StepsBlock | CountriesBlock
+  | HeroBlock | PageHeroBlock | BandBlock | UspBlock | AboutBlock | OfferBlock | StepsBlock | CountriesBlock
   | UniversitiesBlock | StatsBlock | CtaBlock | FaqBlock | JourneyBlock | TestimonialsBlock
   | IntroBlock | FeatureCardsBlock | ServicesBlock | ContactBlock | BlogListBlock | RichTextBlock;
 
@@ -118,6 +122,7 @@ export const BLOCK_META: Record<BlockType, { label: string; desc: string }> = {
   hero: { label: "Home Hero", desc: "Animated headline, student photo, honeycomb stats" },
   pageHero: { label: "Page Hero", desc: "Inner page banner with breadcrumb" },
   band: { label: "Marquee Band", desc: "Scrolling ticker strip" },
+  usp: { label: "USP Rail", desc: "Scrolling list of services with one pinned claim" },
   about: { label: "About Split", desc: "Bento images + story text" },
   offer: { label: "Offer Cards", desc: "3 image cards with metrics" },
   steps: { label: "Journey Steps", desc: "Stacked step cards" },

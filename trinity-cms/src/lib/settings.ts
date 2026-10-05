@@ -80,7 +80,7 @@ export const DEFAULTS: SettingsMap = {
   } satisfies ChatbotSettings,
   site: {
     siteName: "Trinity Study Abroad",
-    tagline: "Your Gateway to Global Education",
+    tagline: "Every Dream Needs a Direction",
     logo: "/assets/img/logo/logo.png",
     footerText: "Trinity Study Abroad guides Indian students to top universities across 11 countries — counselling, admissions, visas and beyond.",
     copyright: "Copyright © Trinity Study Abroad Private Limited. All Rights Reserved.",
