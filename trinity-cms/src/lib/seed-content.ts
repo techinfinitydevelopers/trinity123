@@ -95,6 +95,11 @@ const homeBlocks: Block[] = [
   usp,
   leadForm,
   {
+    type: "countries", kicker: "Shape your direction", title: "Choose your [Country]",
+    lead: "We connect students with world-class education in 11 countries, giving you access to some of the best universities and courses internationally. Whether you're looking to study in the USA, Canada, UK, or any of the major education destinations, we have you covered.",
+    layout: "split", marquee: true, items: countryItems, dark: darkCountry,
+  },
+  {
     type: "about",
     mainImg: `${IMG}/home/inner_about_img-1.jpg`, mainAlt: "Trinity Study Abroad team", capSmall: "Since 1982", capStrong: "A unit of Trinity Air Travel & Tours Pvt. Ltd.",
     sideImg: `${IMG}/unversity/z8.jpg`, sideAlt: "University campus", statNum: "42", statText: "Years of legacy in travel, visas & global education",
@@ -122,13 +127,8 @@ const homeBlocks: Block[] = [
     ],
   },
   {
-    type: "countries", kicker: "Trending Categories", title: "Explore Educational Opportunities [Across the Globe]",
-    lead: "We connect students with world-class education in 11 countries, giving you access to some of the best universities and courses internationally. Whether you're looking to study in the USA, Canada, UK, or any of the major education destinations, we have you covered.",
-    layout: "split", marquee: true, items: countryItems, dark: darkCountry,
-  },
-  {
     type: "universities", kicker: "1200 Universities", title: "Explore Our World's {Best Courses}", ghost: "UNIVERSITIES · WORLDWIDE · 1200+",
-    lead: "Choose from over 1,100 renowned universities worldwide, ranging from Ivy League institutions to globally recognized universities in every field of study.",
+    lead: "Choose from over 1,200 renowned universities worldwide, ranging from Ivy League institutions to globally recognized universities in every field of study.",
     items: [
       { img: `${IMG}/unversity/z1.jpg`, name: "University College London", flag: "gb", city: "London", rating: "4.8", href: C },
       { img: `${IMG}/unversity/z2.jpg`, name: "University of Warwick", flag: "gb", city: "Warwick", rating: "4.5", href: C },
@@ -180,7 +180,7 @@ const aboutBlocks: Block[] = [
     sub: "A unit of Trinity Air Travel & Tours Pvt. Ltd. — a well-established 42-year-old company in travel & tourism, now guiding students to universities worldwide.",
     aside: { kind: "statchips", items: [
       { strong: "42", suffix: "+", small: "Years legacy", style: "glass" },
-      { strong: "33", suffix: "+", small: "Countries", style: "gold" },
+      { strong: "11", small: "Countries", style: "gold" },
       { strong: "1200", small: "Partner universities", style: "purple", icon: "fas fa-university" },
     ] },
   },

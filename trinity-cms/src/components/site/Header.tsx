@@ -70,11 +70,11 @@ export default function Header({ nav, contact, site, destinations }: { nav: NavS
                 >
                   Study Destinations <i className="fas fa-chevron-down cv-ddchev" style={{ fontSize: 9, transition: "transform .3s" }} />
                 </button>
-                <div className="cv-ddmenu" id="destinations-menu" onKeyDown={(e) => { if (e.key === "Escape") setDestOpen(false); }} style={{ position: "absolute", left: "50%", top: "calc(100% + 14px)", transform: "translate(-50%,10px)", width: 440, background: "#fff", border: "1px solid var(--line)", borderRadius: 24, boxShadow: "0 30px 70px rgba(22,20,57,.22)", padding: 14, opacity: 0, visibility: "hidden", transition: "all .32s cubic-bezier(.4,0,.2,1)", zIndex: 60 }}>
+                <div className="cv-ddmenu" id="destinations-menu" onKeyDown={(e) => { if (e.key === "Escape") setDestOpen(false); }} style={{ position: "absolute", left: "50%", top: "calc(100% + 14px)", transform: "translate(-50%,10px)", width: 440, background: "#fff", border: "1px solid var(--line)", borderRadius: 24, boxShadow: "0 30px 70px rgba(26,36,86,.22)", padding: 14, opacity: 0, visibility: "hidden", transition: "all .32s cubic-bezier(.4,0,.2,1)", zIndex: 60 }}>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4 }}>
                     {destinations.map((c) => (
                       <Link key={c.code} href={`/destinations/${c.slug}`} className="cv-ditem" onClick={() => setDestOpen(false)} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 14, transition: "all .25s", color: "var(--navy)", background: "transparent", boxShadow: "none" }}>
-                        <img src={FLAG(c.code)} alt="" style={{ width: 26, height: 26, borderRadius: "50%", objectFit: "cover", boxShadow: "0 3px 8px rgba(22,20,57,.18)", flexShrink: 0 }} />
+                        <img src={FLAG(c.code)} alt="" style={{ width: 26, height: 26, borderRadius: "50%", objectFit: "cover", boxShadow: "0 3px 8px rgba(26,36,86,.18)", flexShrink: 0 }} />
                         <span style={{ display: "flex", flexDirection: "column", gap: 1, minWidth: 0 }}>
                           <span style={{ fontFamily: "var(--font-h)", fontWeight: 600, fontSize: 14, lineHeight: 1.2 }}>{c.name}</span>
                           <span className="cv-dsub" style={{ fontSize: 11, color: "var(--muted)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{c.tag}</span>

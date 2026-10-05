@@ -62,7 +62,7 @@ export default function CountryPage({ c, others, contact }: { c: Country; others
       <section className="cv-section" style={{ padding: "0 24px", marginTop: -54, position: "relative", zIndex: 3 }}>
         <div style={{ maxWidth: 1320, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 18 }}>
           {stats.map((s, i) => (
-            <div key={i} className="cv-jcard" data-reveal style={{ position: "relative", background: "#fff", border: "1px solid var(--line)", borderRadius: 22, padding: "24px 26px", boxShadow: "0 18px 40px rgba(22,20,57,.08)", transition: "all .45s cubic-bezier(.4,0,.2,1)", transitionDelay: d(i), overflow: "hidden" }}>
+            <div key={i} className="cv-jcard" data-reveal style={{ position: "relative", background: "#fff", border: "1px solid var(--line)", borderRadius: 22, padding: "24px 26px", boxShadow: "0 18px 40px rgba(26,36,86,.08)", transition: "all .45s cubic-bezier(.4,0,.2,1)", transitionDelay: d(i), overflow: "hidden" }}>
               <span className="cv-jfill" style={jfill} />
               <div style={{ position: "relative", fontFamily: P, fontWeight: 800, fontSize: 28, letterSpacing: -1, lineHeight: 1, color: "var(--navy)" }}>{s.v}</div>
               <div style={{ position: "relative", fontSize: 13, color: "var(--muted)", marginTop: 8, fontWeight: 500 }}>{s.l}</div>
@@ -203,9 +203,9 @@ export default function CountryPage({ c, others, contact }: { c: Country; others
               {workPoints.map((w, i) => <div key={i} data-reveal style={{ display: "flex", gap: 14, alignItems: "center", background: "var(--grey)", borderRadius: 16, padding: "16px 20px", transitionDelay: d(i) }}><i className="fas fa-check-circle" style={{ color: "var(--primary)", fontSize: 16 }} /><span style={{ fontFamily: P, fontWeight: 500, fontSize: 15.5, color: "var(--navy)" }}>{w}</span></div>)}
             </div>
           </div>
-          <div data-reveal="scale" style={{ position: "relative", borderRadius: 32, overflow: "hidden", minHeight: 420, boxShadow: "0 30px 70px rgba(22,20,57,.2)" }}>
+          <div data-reveal="scale" style={{ position: "relative", borderRadius: 32, overflow: "hidden", minHeight: 420, boxShadow: "0 30px 70px rgba(26,36,86,.2)" }}>
             <img src={c.img} alt={c.name} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-            <span style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg,rgba(22,20,57,0) 40%,rgba(22,20,57,.9) 100%)" }} />
+            <span style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg,rgba(26,36,86,0) 40%,rgba(26,36,86,.9) 100%)" }} />
             <span style={{ position: "absolute", left: 26, right: 26, bottom: 26, display: "flex", alignItems: "center", gap: 14, background: "rgba(255,255,255,.14)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,.25)", borderRadius: 20, padding: "16px 20px" }}>
               <img src={flag} alt="" style={{ width: 34, height: 34, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }} />
               <span style={{ display: "flex", flexDirection: "column" }}><span style={{ color: "#fff", fontFamily: P, fontWeight: 600, fontSize: 16 }}>{c.name}</span><span style={{ color: "rgba(255,255,255,.75)", fontSize: 13 }}>{c.tag}</span></span>
@@ -224,9 +224,9 @@ export default function CountryPage({ c, others, contact }: { c: Country; others
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 24 }}>
               {unis.map((u, i) => (
-                <Link key={i} className="cv-hcard" href="/contact-us" data-reveal style={{ position: "relative", height: 320, borderRadius: 28, overflow: "hidden", display: "block", transition: "all .45s cubic-bezier(.4,0,.2,1)", transitionDelay: d(i), boxShadow: "0 20px 45px rgba(22,20,57,.12)" }}>
+                <Link key={i} className="cv-hcard" href="/contact-us" data-reveal style={{ position: "relative", height: 320, borderRadius: 28, overflow: "hidden", display: "block", transition: "all .45s cubic-bezier(.4,0,.2,1)", transitionDelay: d(i), boxShadow: "0 20px 45px rgba(26,36,86,.12)" }}>
                   <img className="cv-zoom" src={u.img} alt={u.name} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", transition: "transform .8s cubic-bezier(.4,0,.2,1)" }} />
-                  <span style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg,rgba(22,20,57,.1) 35%,rgba(22,20,57,.92) 100%)" }} />
+                  <span style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg,rgba(26,36,86,.1) 35%,rgba(26,36,86,.92) 100%)" }} />
                   <span style={{ position: "absolute", left: 24, right: 24, bottom: 24, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
                     <span style={{ color: "#fff", fontFamily: P, fontWeight: 600, fontSize: 20, lineHeight: 1.25 }}>{u.name}</span>
                     <span style={{ width: 40, height: 40, borderRadius: "50%", background: "var(--gold)", color: "var(--navy)", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 13, flexShrink: 0 }}><i className="fas fa-arrow-right" /></span>
@@ -271,7 +271,7 @@ export default function CountryPage({ c, others, contact }: { c: Country; others
               {others.map((o, i) => (
                 <Link key={o.code} className="cv-ccard" href={`/destinations/${o.slug}`} data-reveal style={{ position: "relative", display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 14, background: "#fff", border: "1px solid var(--line)", borderRadius: 22, padding: "20px 18px 18px", color: "var(--navy)", transition: "all .4s cubic-bezier(.4,0,.2,1)", transitionDelay: d(i), overflow: "hidden" }}>
                   <span className="cv-cfill" style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg,var(--primary),var(--primary-2))", transform: "translateY(100%)", transition: "transform .45s cubic-bezier(.4,0,.2,1)", borderRadius: 22 }} />
-                  <span style={{ position: "relative", width: 52, height: 52, borderRadius: "50%", overflow: "hidden", boxShadow: "0 8px 20px rgba(22,20,57,.15)", border: "2px solid #fff", flexShrink: 0 }}><img src={FLAG(o.code)} alt={o.name} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></span>
+                  <span style={{ position: "relative", width: 52, height: 52, borderRadius: "50%", overflow: "hidden", boxShadow: "0 8px 20px rgba(26,36,86,.15)", border: "2px solid #fff", flexShrink: 0 }}><img src={FLAG(o.code)} alt={o.name} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></span>
                   <span style={{ position: "relative", display: "flex", flexDirection: "column", gap: 4 }}>
                     <span className="cv-cname" style={{ fontFamily: P, fontWeight: 600, fontSize: 16, lineHeight: 1.2, transition: "color .4s" }}>{o.name}</span>
                     <span className="cv-csub" style={{ fontSize: 12, color: "var(--muted)", transition: "color .4s" }}>{o.tag}</span>

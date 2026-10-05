@@ -1,6 +1,6 @@
 /* Student assistant widget — uses the site's brand tokens so the Theme editor restyles it too. */
 
-.tc-fab{position:fixed;right:22px;bottom:92px;z-index:61;width:58px;height:58px;border-radius:50%;background:var(--primary);color:#fff;border:0;display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;box-shadow:0 12px 30px rgba(87,81,225,.45);transition:transform .3s var(--ease),background .3s}
+.tc-fab{position:fixed;right:22px;bottom:92px;z-index:61;width:58px;height:58px;border-radius:50%;background:var(--primary);color:#fff;border:0;display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;box-shadow:0 12px 30px rgba(35,47,112,.45);transition:transform .3s var(--ease),background .3s}
 .tc-fab:hover{transform:translateY(-3px) scale(1.04)}
 .tc-fab.is-open{background:var(--navy);transform:rotate(90deg)}
 .tc-fab__dot{position:absolute;top:4px;right:4px;width:12px;height:12px;border-radius:50%;background:var(--gold);border:2px solid #fff}
@@ -27,7 +27,7 @@
 
 .tc-body{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:10px;background:var(--grey)}
 .tc-msg{max-width:86%;font-size:14px;line-height:1.6;padding:11px 14px;word-wrap:break-word}
-.tc-msg--in{align-self:flex-start;background:#fff;color:var(--navy);border-radius:16px 16px 16px 4px;box-shadow:0 2px 8px rgba(22,20,57,.06)}
+.tc-msg--in{align-self:flex-start;background:#fff;color:var(--navy);border-radius:16px 16px 16px 4px;box-shadow:0 2px 8px rgba(26,36,86,.06)}
 .tc-msg--out{align-self:flex-end;background:var(--primary);color:#fff;border-radius:16px 16px 4px 16px}
 .tc-msg a{color:var(--primary);text-decoration:underline;word-break:break-word}
 .tc-msg--out a{color:#fff}
@@ -47,7 +47,7 @@
 .tc-gate__hi i{color:var(--gold)}
 .tc-gate__lbl{font-size:12px;font-weight:600;color:var(--muted);margin:2px 2px -6px}
 .tc-gate__inp{border:1px solid var(--line);border-radius:12px;padding:11px 14px;font:inherit;font-size:14px;color:var(--navy);outline:none;transition:border-color .25s,box-shadow .25s}
-.tc-gate__inp:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(87,81,225,.12)}
+.tc-gate__inp:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(35,47,112,.12)}
 .tc-gate__err{color:#c0392b;font-size:12.5px;margin:0}
 .tc-gate__go{margin-top:4px;background:var(--primary);color:#fff;border:0;border-radius:14px;padding:12px;font:inherit;font-weight:600;font-size:14px;cursor:pointer;transition:background .25s}
 .tc-gate__go:hover:not(:disabled){background:var(--navy)}
@@ -67,7 +67,7 @@
 
 .tc-form{display:flex;align-items:flex-end;gap:8px;padding:12px 14px 6px;border-top:1px solid var(--line);background:#fff;flex-shrink:0}
 .tc-form textarea{flex:1;resize:none;border:1px solid var(--line);border-radius:18px;padding:11px 14px;font:inherit;font-size:14px;line-height:1.45;color:var(--navy);max-height:96px;outline:none;transition:border-color .25s,box-shadow .25s}
-.tc-form textarea:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(87,81,225,.12)}
+.tc-form textarea:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(35,47,112,.12)}
 .tc-form button{width:42px;height:42px;flex-shrink:0;border:0;border-radius:50%;background:var(--primary);color:#fff;font-size:15px;cursor:pointer;transition:all .25s}
 .tc-form button:hover:not(:disabled){background:var(--navy)}
 .tc-form button:disabled{opacity:.4;cursor:not-allowed}

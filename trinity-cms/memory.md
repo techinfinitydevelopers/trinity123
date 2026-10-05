@@ -492,3 +492,29 @@ AskUserQuestion before building:
 - `scripts/apply-feedback-2026-09-23.mjs` carries all three to production, idempotently.
 - Verified at 1440, 375 and 320: tagline one line on desktop, form fields fit, no horizontal
   scroll, no new contrast failures. `tsc` clean, lint 0 errors.
+- The page-hero asides (`.statchips`, `.svc-chips`, `.quick`) used to be `display:none` below
+  1120px alongside the nav links. That took the contact page's **Call us** and **Email** links off
+  every phone and tablet — the client reported it on 25/09. They stack under the copy now. If
+  anything else is ever added to that hide list, check whether it carries content.
+- Stat chips store the figure and its "+" in **separate fields** (`strong: "33"`, `suffix: "+"`),
+  so a string pass for "33+" silently misses them. Any figure migration has to handle
+  `pageHero.aside.items` explicitly — this is why About still showed "33+ Countries" after two
+  earlier sweeps.
+- Legacy palette hues were still all over the stylesheets in shadows and tints: `87,81,225` (old
+  purple), `22,20,57` and `15,17,40` (old navy), `255,194,36` (old gold). All swapped for brand
+  values across `site.css`, `chat.css`, `canvas.css`, `CountryPage.tsx` and `Header.tsx`. The admin
+  (`globals.css`, admin pages) still has a few — internal only, left alone.
+
+## Build log — 2026-10-05 (6)
+- 25/09 item 1: unhid the page-hero asides below 1120px, so Call us and Email are reachable on
+  phones again; stacked them under the copy and gave `.statchips` a single column under 640px.
+- 25/09 item 2: swapped every legacy palette hue for the brand ones (53 occurrences across the
+  public stylesheets and components, plus 8 in chat/canvas), and moved `.post__body` off its
+  off-palette slate to `var(--text)`.
+- 29/09: the countries block now sits right after the USP rail and the enquiry card, titled
+  "Choose your Country" over the kicker "Shape your direction".
+- Caught a stale "33+ Countries" on the About hero that two earlier figure sweeps had missed, and
+  taught `fix-country-count.mjs` about stat chips so it cannot recur.
+- `scripts/apply-feedback-2026-09-29.mjs` carries the content half to production.
+- Verified at 1440 and 375 on home, about, services and contact: no horizontal scroll, no new
+  contrast failures. `tsc` clean, lint 0 errors.

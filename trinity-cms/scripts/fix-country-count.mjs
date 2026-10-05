@@ -38,6 +38,15 @@ for (const page of await db.page.findMany()) {
       for (const cell of b.hive ?? []) if (isCountries(cell.label)) cell.value = String(n);
       for (const stat of b.stats ?? []) if (isCountries(stat.label)) stat.value = String(n);
     }
+    /* Stat chips split the figure and its "+" across two fields, so the string pass above never
+       sees "33+" or "50+" as one token. */
+    if (b.type === "pageHero" && b.aside?.kind === "statchips") {
+      for (const chip of b.aside.items) {
+        if (!isCountries(chip.small)) continue;
+        chip.strong = String(n);
+        delete chip.suffix;
+      }
+    }
   }
   const seoDesc = page.seoDesc ? renum(page.seoDesc) : page.seoDesc;
   await db.page.update({ where: { id: page.id }, data: { blocks, seoDesc } });
