@@ -464,3 +464,31 @@ AskUserQuestion before building:
   `scripts/fix-country-count.mjs` (idempotent, derives the count from the `country` table) so the
   same fix can run against production.
 - Verified: no "50+", "33+" or "1100" in the HTML of any of the six core pages. `tsc` clean.
+- Client feedback 23/09/2026 + brief point 16. Done: socials on mobile (already), "Est. 1982 ·
+  Mumbai · Trinity Group" removed from the hero, tagline on one line, enquiry card added.
+  **Still waiting on the client**: a student picture that "depicts the tagline" (the current one is
+  the existing cut-out), and which font they want for the tagline — the family is a dropdown in
+  /admin/theme, so that is a settings change, not code.
+- The tagline cannot fit one line inside half the hero grid: at hero size the string needs about
+  15x its font-size (1154px at 76.8px) against a 636px column. The `<h1>` now spans
+  `.hero__inner` above a `.hero__cols` split, at `min(5.4rem,6vw)` with `white-space:nowrap`, and
+  reverts to wrapping below 640px. If the tagline text ever changes, re-check that multiplier.
+- `/api/leads` takes name/email/phone/subject/message/source only. The enquiry card's "nearest
+  city" and "destination" fold into `message` and `subject` so the Lead table and the admin inbox
+  did not need a migration. Source is `home-enquiry`, so those leads are filterable.
+- `.leadsec__img` repeats the hero's navy gradient + grid treatment because `home-page-2.png` is a
+  cut-out with no background of its own — dropped straight onto the grey section it looked like a
+  mistake.
+
+## Build log — 2026-10-05 (5)
+- Removed the rotated "Est. 1982" strip from the hero (brief point 16) and its CSS.
+- Put the tagline on one line (feedback 4): the headline moved above the hero split and spans the
+  container; sized off the viewport so it holds one line from 1440 down to 640, wrapping below.
+- Added the enquiry card from the client's sample (feedback 6): new `leadForm` block +
+  `LeadForm.tsx`, navy panel with Name / Email ID / code + Mobile No / Choose Nearest City /
+  Destination(s) of Interest / CONTACT ME, beside the picture and the tagline. Destinations come
+  from the `country` table. Submitted a test lead end-to-end and removed the row.
+- Fixed the gold kicker on the new grey section (1.25:1) by extending the light-surface override.
+- `scripts/apply-feedback-2026-09-23.mjs` carries all three to production, idempotently.
+- Verified at 1440, 375 and 320: tagline one line on desktop, form fields fit, no horizontal
+  scroll, no new contrast failures. `tsc` clean, lint 0 errors.

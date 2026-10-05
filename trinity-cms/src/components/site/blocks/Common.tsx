@@ -1,6 +1,7 @@
-import type { BandBlock, UspBlock, StatsBlock, CtaBlock, CountriesBlock, OfferBlock, RichTextBlock } from "@/lib/blocks";
+import type { BandBlock, UspBlock, LeadFormBlock, StatsBlock, CtaBlock, CountriesBlock, OfferBlock, RichTextBlock } from "@/lib/blocks";
 import type { ContactSettings } from "@/lib/settings";
 import { A, FLAG, SectionHead, Title, PhonePill, d } from "../ui";
+import LeadForm from "../LeadForm";
 
 export function Band({ b }: { b: BandBlock }) {
   const reps = [0, 1, 2, 3];
@@ -28,6 +29,24 @@ export function Usp({ b }: { b: UspBlock }) {
         </div>
       </div>
       <p className="usp__center">{b.center}</p>
+    </section>
+  );
+}
+
+export function LeadFormSection({ b }: { b: LeadFormBlock }) {
+  return (
+    <section className="section leadsec" id="enquiry">
+      <div className="container leadsec__grid">
+        <div className="leadsec__copy" data-reveal>
+          <p className="kicker kicker--gold">{b.kicker}</p>
+          <h2 className="h2 leadsec__tagline"><Title text={b.tagline} /></h2>
+          <p className="leadsec__text">{b.text}</p>
+          <div className="leadsec__img"><img src={b.image} alt={b.imageAlt} loading="lazy" /></div>
+        </div>
+        <div data-reveal="right">
+          <LeadForm title={b.formTitle} cities={b.cities} destinations={b.destinations} okMsg={b.okMsg} submitLabel={b.submitLabel} />
+        </div>
+      </div>
     </section>
   );
 }

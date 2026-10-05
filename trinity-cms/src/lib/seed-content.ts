@@ -1,6 +1,6 @@
 /* Default site content — mirrors the original static export exactly.
    Used by `prisma db seed` and by the admin "Reset to default" action. */
-import type { Block, BandBlock, UspBlock, StatsBlock, CountriesBlock, OfferBlock } from "./blocks";
+import type { Block, BandBlock, UspBlock, LeadFormBlock, StatsBlock, CountriesBlock, OfferBlock } from "./blocks";
 
 const IMG = "/assets/img";
 const C = "/contact-us";
@@ -22,6 +22,21 @@ export const usp: UspBlock = {
     "Visa Assistance", "Accommodation", "Loan Assistance", "Pre-Departure Support", "Forex",
     "Insurance", "Coaching for IELTS", "Language Coaching", "Air Ticketing",
   ],
+};
+
+/* Client's sample enquiry card (feedback 23/09/2026 item 6), beside the picture + tagline. */
+export const leadForm: LeadFormBlock = {
+  type: "leadForm",
+  kicker: "Talk to a counsellor",
+  tagline: "Every Dream Needs [a Direction]",
+  text: "Tell us where you want to study and a Trinity counsellor will call you back — no cost, no obligation.",
+  image: `${IMG}/home/home-page-2.png`,
+  imageAlt: "Student ready to study abroad",
+  formTitle: "Get in touch with us",
+  submitLabel: "Contact me",
+  okMsg: "Thank you — a counsellor will call you within one working day.",
+  cities: ["Mumbai", "Navi Mumbai", "Thane", "Pune", "Other"],
+  destinations: ["USA", "UK", "Canada", "Ireland", "Germany", "Australia", "New Zealand", "France", "Italy", "Sweden", "Denmark", "Not decided yet"],
 };
 
 export const stats: StatsBlock = {
@@ -60,7 +75,7 @@ const homeBlocks: Block[] = [
   {
     type: "hero",
     sideText: "Est. 1982 · Mumbai · Trinity Group",
-    words: [{ t: "Every" }, { t: "Dream", s: "gold", br: true }, { t: "needs" }, { t: "a" }, { t: "direction", s: "grad" }],
+    words: [{ t: "Every" }, { t: "Dream", s: "gold" }, { t: "needs" }, { t: "a" }, { t: "direction", s: "grad" }],
     /* Blank: the client asked for the photo pill inside the headline to go. Keep the field so it
        can be set again from the hero editor without a code change. */
     capsuleImg: "",
@@ -78,6 +93,7 @@ const homeBlocks: Block[] = [
     ],
   },
   usp,
+  leadForm,
   {
     type: "about",
     mainImg: `${IMG}/home/inner_about_img-1.jpg`, mainAlt: "Trinity Study Abroad team", capSmall: "Since 1982", capStrong: "A unit of Trinity Air Travel & Tours Pvt. Ltd.",

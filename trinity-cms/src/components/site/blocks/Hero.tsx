@@ -11,10 +11,12 @@ export function Hero({ b, contact }: { b: HeroBlock; contact: ContactSettings })
     <section className="hero">
       <div className="hero__bg" /><div className="hero__grid" />
       <div className="hero__glows" data-hero-parallax><span className="glow glow--a" /><span className="glow glow--b" /></div>
-      <p className="hero__side" aria-hidden="true">{b.sideText}</p>
       <div className="container hero__inner">
+        {/* The headline spans the container rather than sitting in the left column: the client
+            wants the tagline on one line, and half the grid cannot hold it at hero size. */}
+        <h1 className="h1 hero__title"><Words words={b.words} start={0.25} capsule={b.capsuleImg} /></h1>
+        <div className="hero__cols">
         <div className="hero__copy">
-          <h1 className="h1 hero__title"><Words words={b.words} start={0.25} capsule={b.capsuleImg} /></h1>
           <p className="hero__text w__in" style={{ animationDelay: ".85s" }}>{b.text}</p>
           <div className="btn-row w__in" style={{ animationDelay: "1s" }}>
             <A href={b.primary.href} contact={contact} className="btn btn--primary">{b.primary.label} <i className="fas fa-arrow-right" /></A>
@@ -40,6 +42,7 @@ export function Hero({ b, contact }: { b: HeroBlock; contact: ContactSettings })
           </div>
         </div>
         ) : null}
+        </div>
       </div>
       <p className="hero__scroll" aria-hidden="true">Scroll<span /></p>
     </section>
