@@ -542,3 +542,18 @@ AskUserQuestion before building:
 - `scripts/apply-world-map.mjs` carries both to production.
 - Verified at 1180 and 375: 14 pins and 14 pills, no horizontal scroll, no contrast failures.
   `tsc` clean, lint 0 errors.
+- `Title` (src/components/site/ui.tsx) renders its **own** heading element — `as` defaults to
+  `"h2"`. Wrapping it in another heading nests `<h2>` inside `<h2>`, which is invalid HTML and
+  fails hydration. Pass `className` to `Title` instead of wrapping it. This is how the enquiry
+  section's tagline broke.
+- A bare inline `<script>` in a React component makes Next 16 log "Encountered a script tag while
+  rendering React component" — it never runs on a client navigation. The root layout's
+  `no-js` → `js` flip now uses `next/script` with `strategy="beforeInteractive"`, which still runs
+  before paint and silences the warning.
+
+## Build log — 2026-10-05 (8)
+- Fixed the four dev-overlay errors the client's screenshots showed: a nested `<h2>` in the enquiry
+  section (my own bug from the enquiry card, and the cause of the hydration failure), and the root
+  layout's inline script, moved to `next/script` `beforeInteractive`.
+- Verified on home, about, contact, a destination page and a blog post: zero nested headings, the
+  `js` class still applied, console error-free. `tsc` clean, lint 0 errors.

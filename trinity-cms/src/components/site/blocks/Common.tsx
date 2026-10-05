@@ -40,7 +40,9 @@ export function LeadFormSection({ b }: { b: LeadFormBlock }) {
       <div className="container leadsec__grid">
         <div className="leadsec__copy" data-reveal>
           <p className="kicker kicker--gold">{b.kicker}</p>
-          <h2 className="h2 leadsec__tagline"><Title text={b.tagline} /></h2>
+          {/* `Title` renders its own heading — wrapping it in another <h2> nested one inside the
+             other, which is invalid HTML and broke hydration. */}
+          <Title text={b.tagline} className="h2 leadsec__tagline" />
           <p className="leadsec__text">{b.text}</p>
           <div className="leadsec__img"><img src={b.image} alt={b.imageAlt} loading="lazy" /></div>
         </div>
