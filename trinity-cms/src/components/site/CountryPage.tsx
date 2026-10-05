@@ -291,7 +291,7 @@ export default function CountryPage({ c, others, contact }: { c: Country; others
           <div style={{ position: "relative", maxWidth: 660, margin: "0 auto" }}>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "rgba(255,255,255,.12)", border: "1px solid rgba(255,255,255,.22)", color: "var(--gold)", fontFamily: P, fontWeight: 600, fontSize: 13, padding: "8px 18px", borderRadius: 50, marginBottom: 22 }}><i className="fas fa-graduation-cap" /> Free counselling</div>
             <h2 style={{ color: "#fff", fontSize: "clamp(1.9rem,3.4vw,2.9rem)", fontWeight: 700, letterSpacing: -1, lineHeight: 1.15 }}>Ready to apply to <span style={{ color: "var(--gold)" }}>{c.name}</span>?</h2>
-            <p style={{ color: "rgba(255,255,255,.78)", marginTop: 18, fontSize: 16.5, lineHeight: 1.8 }}>30 years of experience, 1100+ partner universities and end-to-end support — from shortlisting to your first week on campus.</p>
+            <p style={{ color: "rgba(255,255,255,.78)", marginTop: 18, fontSize: 16.5, lineHeight: 1.8 }}>42 years of experience, 1200+ partner universities and end-to-end support — from shortlisting to your first week on campus.</p>
             <div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center", marginTop: 32 }}>
               <Link className="cv-btny" href="/contact-us" style={btnGold}>Book free consultation <i className="fas fa-arrow-right" style={{ fontSize: 12 }} /></Link>
               <a href={wa} target="_blank" rel="noopener" style={btnGhost}><i className="fab fa-whatsapp" style={{ color: "var(--gold)" }} /> Chat on WhatsApp</a>

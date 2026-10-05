@@ -12,7 +12,7 @@ export type HeroBlock = {
   primary: Btn; ghost: Btn;
   stats: { value: string; label: string }[];
   photo: string; chipCText: string;
-  hive: { img: string; value: string; label: string }[];
+  hive: { value: string; label: string; img?: string }[];
 };
 
 export type PageHeroBlock = {

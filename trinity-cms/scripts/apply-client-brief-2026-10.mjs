@@ -13,11 +13,11 @@
 import { PrismaClient } from "../src/generated/prisma/index.js";
 
 const HIVE = [
-  { img: "/assets/img/unversity/z2.jpg", value: "42+", label: "Years" },
-  { img: "/assets/img/unversity/z1.jpg", value: "50+", label: "Countries" },
-  { img: "/assets/img/unversity/z8.jpg", value: "1200+", label: "Universities" },
-  { img: "/assets/img/unversity/z5.jpg", value: "1 lakh+", label: "Courses" },
-  { img: "/assets/img/unversity/z9.jpg", value: "100%", label: "Visa success" },
+  { value: "42+", label: "Years" },
+  { value: "50+", label: "Countries" },
+  { value: "1200+", label: "Universities" },
+  { value: "1 lakh+", label: "Courses" },
+  { value: "100%", label: "Visa success" },
 ];
 
 const USP = {
@@ -33,6 +33,8 @@ const USP = {
 /* The old figures are spread through headings, chips, leads and SEO copy, so rewrite them
    wherever they appear rather than listing every field. */
 const FIGURES = [[/\b33\+/g, "50+"], [/\b1100\+/g, "1200+"], [/\b1100\b/g, "1200"], [/\b30\+ ?([Yy]ears)/g, "42+ $1"]];
+/* The stats counters hold their figure as a number, so the string rules never reach them. */
+const COUNTS = { 30: 42, 33: 50, 1100: 1200 };
 const renum = (v) =>
   typeof v === "string" ? FIGURES.reduce((a, [re, to]) => a.replace(re, to), v)
   : Array.isArray(v) ? v.map(renum)
@@ -45,6 +47,12 @@ for (const page of await db.page.findMany()) {
   let blocks = renum(page.blocks).filter((b) => b.type !== "band");
   const hero = blocks.find((b) => b.type === "hero");
   if (hero) hero.hive = HIVE;
+  for (const stats of blocks.filter((b) => b.type === "stats")) {
+    for (const item of stats.items) item.count = COUNTS[item.count] ?? item.count;
+  }
+  /* Point 9: the phrase they asked us to drop also sat on the home About heading. */
+  const about = blocks.find((b) => b.type === "about" && /Transform Your Future/i.test(b.title ?? ""));
+  if (about) about.title = "Every Dream Needs [a Direction]";
   if (page.slug === "home" && !blocks.some((b) => b.type === "usp")) {
     blocks.splice(blocks.findIndex((b) => b.type === "hero") + 1, 0, USP);
   }
@@ -52,6 +60,14 @@ for (const page of await db.page.findMany()) {
   if (page.slug === "home") data.title = "Trinity Study Abroad — Every Dream Needs a Direction";
   await db.page.update({ where: { id: page.id }, data });
   console.log(`${page.slug}: ${blocks.map((b) => b.type).join(", ")}`);
+}
+
+/* The chatbot answers from its own table, so it quotes the figures too. */
+for (const item of await db.knowledgeItem.findMany()) {
+  const question = renum(item.question), answer = renum(item.answer);
+  if (question === item.question && answer === item.answer) continue;
+  await db.knowledgeItem.update({ where: { id: item.id }, data: { question, answer } });
+  console.log(`knowledge: ${question}`);
 }
 
 const site = await db.setting.findUnique({ where: { key: "site" } });

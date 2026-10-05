@@ -10,7 +10,7 @@ export function OrbitFlags({
   flags = ["us", "gb", "ca", "au", "de", "ie"],
   centerImg = "/assets/img/home/home-page.png",
   centerLabel = "Think Global",
-  chipA = { icon: "fas fa-university", strong: "1100+", small: "Partner Universities" },
+  chipA = { icon: "fas fa-university", strong: "1200+", small: "Partner Universities" },
   chipB = { icon: "fas fa-passport", strong: "Visa Success", small: "End-to-end support" },
   chipCText = "Trusted by students",
 }: {

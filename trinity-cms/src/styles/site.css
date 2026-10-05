@@ -169,7 +169,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .glow{position:absolute;border-radius:50%;filter:blur(150px)}
 .glow--a{width:640px;height:640px;background:var(--primary-2);opacity:.16;right:-160px;top:-160px;animation:floaty 9s ease-in-out infinite}
 .glow--b{width:420px;height:420px;background:var(--teal);opacity:.12;left:30%;bottom:-200px;animation:floaty 12s 2s ease-in-out infinite reverse}
-.hero__side{position:absolute;left:24px;top:50%;transform:translateY(-50%) rotate(-90deg);transform-origin:left center;color:rgba(35,47,112,.62);font-size:11px;letter-spacing:4px;text-transform:uppercase;white-space:nowrap;font-family:var(--font-h);font-weight:500}
+.hero__side{position:absolute;left:24px;top:50%;transform:translateY(-50%) rotate(-90deg);transform-origin:left center;color:rgba(35,47,112,.72);font-size:11px;letter-spacing:4px;text-transform:uppercase;white-space:nowrap;font-family:var(--font-h);font-weight:500}
 .hero__inner{position:relative;width:100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:48px;align-items:center;padding:0}
 .hero__title{color:var(--navy)}
 .capsule{display:inline-block;vertical-align:middle;width:clamp(90px,2.2em,190px);height:clamp(44px,.9em,80px);border-radius:100px;overflow:hidden;border:3px solid #fff;box-shadow:0 14px 34px rgba(35,47,112,.25);margin:0 6px;position:relative;top:-.08em}
@@ -650,8 +650,13 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 @media (max-width:640px){
   .hero-visual{margin-top:32px}
   .hero-visual__img{border-radius:26px 26px 26px 80px}
-  .topbar__social{display:none}
-  .topsearch{padding:5px 14px}
+  /* The client wants the wordmark and the social handles on phones too. The wordmark wraps inside
+     the logo's own footprint instead of widening the lockup, and the search box gives up the width
+     the icons need — it keeps `flex:1` so it just gets narrower, never pushed off-screen. */
+  .nav__logo-name{font-size:7.5px;letter-spacing:.4px;line-height:1.2;white-space:normal;max-width:76px;text-align:center}
+  .topbar__social{display:flex;gap:9px;font-size:12.5px;flex-shrink:0}
+  .topbar__group{gap:10px}
+  .topsearch{min-width:0;padding:5px 12px;gap:7px}
   .topsearch input{font-size:12.5px}
   .section{padding:80px 18px 70px}
   .hero{padding:120px 18px 70px;min-height:auto}
@@ -661,14 +666,27 @@ html.no-js [data-reveal]{opacity:1;transform:none}
   .faq__side{position:static}
   .marquee__track--rev{-webkit-text-stroke-width:1px}
   .nav__logo img{height:34px}
-  /* The wordmark text pushed the CTA + menu button off-screen once the CTA became visible
-     on phones too — icon-only logo below 640px keeps everything on-screen. */
-  .nav__logo-name{display:none}
   .contact__cards{margin-top:40px}
   .scard--wide{grid-column:span 1}
   .chip--hv-a,.chip--hv-b{left:8px;right:8px}
   .footer{padding:0 18px}
   .footer__marquee{margin:0 -18px}
+}
+@media (max-width:380px){
+  /* iPhone SE / 320px: the nav row runs out of width, so everything in it gets one size smaller
+     and the CTA drops its arrow bubble. Nothing is hidden — the client wants all of it on phones. */
+  .nav{gap:7px;padding:10px 14px}
+  .nav__logo img{height:30px}
+  .nav__logo-name{font-size:7px;max-width:68px}
+  .nav__call{width:36px;height:36px}
+  .nav__cta{padding:8px 11px;font-size:10.5px;gap:0}
+  .nav__cta .btn__circle{display:none}
+  .nav__toggle{width:38px;height:38px}
+  .topbar__inner{gap:8px}
+  .topbar__social{gap:7px;font-size:11.5px}
+  .topbar__ico{width:26px;height:26px}
+  .topsearch{padding:4px 10px}
+  .topsearch input{font-size:12px}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}

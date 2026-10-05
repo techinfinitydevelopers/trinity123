@@ -83,7 +83,7 @@ export default function Header({ nav, contact, site, destinations }: { nav: NavS
                     ))}
                   </div>
                   <Link href="/why-study-abroad" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 8, padding: "12px 14px", borderRadius: 16, background: "var(--grey)", fontFamily: "var(--font-h)", fontWeight: 600, fontSize: 13, color: "var(--primary)", boxShadow: "none" }}>
-                    View all 33+ destinations <i className="fas fa-arrow-right" style={{ fontSize: 11 }} />
+                    View all destinations <i className="fas fa-arrow-right" style={{ fontSize: 11 }} />
                   </Link>
                 </div>
               </li>
