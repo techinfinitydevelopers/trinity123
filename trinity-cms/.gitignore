@@ -43,3 +43,6 @@ next-env.d.ts
 # local dev database
 .pgdata
 .env
+
+# Local dev server config for the Claude Code preview pane
+.claude/
