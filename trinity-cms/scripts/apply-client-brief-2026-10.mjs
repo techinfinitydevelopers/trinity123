@@ -4,6 +4,10 @@
 
    It is idempotent — running it twice leaves the same result.
 
+   Writing straight to the database bypasses `revalidateSite()` (src/lib/content.ts), which only
+   runs from the admin's server actions, so the deployment keeps serving the cached pages until it
+   is redeployed. Redeploy from the Vercel dashboard, or `npx vercel --prod`, once this finishes.
+
      5/6  the hero's country orbit and floating badges are already gone (the hero was rebuilt)
      8    "Gateway to Global" drops out of the home title and the site tagline
      11   the blue animated page breaker (`band` block) is removed from every page
