@@ -446,3 +446,21 @@ AskUserQuestion before building:
   five claims appear nowhere else.
 - Verified at 1440, 1180, 375 and 320: lattice steps exact, no text clipped, no horizontal scroll,
   cell contrast 6.09-14.68:1. `tsc` clean, lint 0 errors.
+- Countries figure: the client's brief said "50+", but the site only has **11** destination pages
+  and the footer already said 11, so the claim contradicted itself on the same screen. On the
+  user's instruction (2026-10-05) it is now the real **11** everywhere — and without a "+", because
+  11 is exactly what is listed, not a floor. If destinations are added later, update the figure in
+  the same places: the hero honeycomb, the stats counters (`count` + `suffix`), the offer card
+  metric, the steps chip, the countries lead, both SEO descriptions, the chatbot knowledge row and
+  `site.footerText`. `scripts/fix-country-count.mjs` derives it from the `country` table, so
+  re-running it after adding destinations does the whole sweep.
+- The chatbot's "Which countries do you cover?" answer used to name Dubai, which has no destination
+  page. It now lists exactly the 11 rows in the `country` table.
+
+## Build log — 2026-10-05 (4)
+- Corrected the countries figure from the brief's "50+" to the real 11, in the seed and the local
+  database: hero honeycomb, stats counters, offer metric, steps chip, countries lead, both SEO
+  descriptions, the chatbot answer and the footer line. Added
+  `scripts/fix-country-count.mjs` (idempotent, derives the count from the `country` table) so the
+  same fix can run against production.
+- Verified: no "50+", "33+" or "1100" in the HTML of any of the six core pages. `tsc` clean.
