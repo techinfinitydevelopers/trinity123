@@ -1,7 +1,8 @@
-import type { BandBlock, UspBlock, LeadFormBlock, StatsBlock, CtaBlock, CountriesBlock, OfferBlock, RichTextBlock } from "@/lib/blocks";
+import type { BandBlock, UspBlock, LeadFormBlock, WorldMapBlock, StatsBlock, CtaBlock, CountriesBlock, OfferBlock, RichTextBlock } from "@/lib/blocks";
 import type { ContactSettings } from "@/lib/settings";
 import { A, FLAG, SectionHead, Title, PhonePill, d } from "../ui";
 import LeadForm from "../LeadForm";
+import WorldMap from "../WorldMap";
 
 export function Band({ b }: { b: BandBlock }) {
   const reps = [0, 1, 2, 3];
@@ -46,6 +47,17 @@ export function LeadFormSection({ b }: { b: LeadFormBlock }) {
         <div data-reveal="right">
           <LeadForm title={b.formTitle} cities={b.cities} destinations={b.destinations} okMsg={b.okMsg} submitLabel={b.submitLabel} />
         </div>
+      </div>
+    </section>
+  );
+}
+
+export function WorldMapSection({ b }: { b: WorldMapBlock }) {
+  return (
+    <section className="section wmapsec" id="map">
+      <div className="container">
+        <SectionHead kicker={b.kicker} title={b.title} lead={b.lead} center />
+        <WorldMap note={b.note} />
       </div>
     </section>
   );

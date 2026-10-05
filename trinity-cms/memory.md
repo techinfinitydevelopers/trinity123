@@ -518,3 +518,27 @@ AskUserQuestion before building:
 - `scripts/apply-feedback-2026-09-29.mjs` carries the content half to production.
 - Verified at 1440 and 375 on home, about, services and contact: no horizontal scroll, no new
   contrast failures. `tsc` clean, lint 0 errors.
+- The world map is generated, not an image asset. `scripts/build-world-map.mjs` turns
+  `world-atlas`'s countries-110m topology into one SVG path plus projected marker coordinates and
+  writes `src/components/site/world-map.ts`, which is committed. `world-atlas` and
+  `topojson-client` are **devDependencies** — nothing ships to the browser but the generated
+  string (~49KB raw, far less gzipped). Re-run the script if the destination list changes.
+- Two things that bite when projecting a world map: rings crossing the **antimeridian** (Russia,
+  Fiji) produce a point at lon +180 next to one at -180, which draws a stripe straight across the
+  box — split the ring wherever consecutive points jump more than half the width. And the raw
+  coastlines carry far more detail than a 1000px box can show, so thin points below a 3px
+  manhattan step and drop rings under 1.5 square pixels; that took the path from 112KB to 49KB.
+- Antarctica is excluded from the map: it costs a third of the height and no one studies there.
+- Destination list on the map (client's, 29/09) is **14** and deliberately wider than the 11
+  destination *pages*: it adds UAE, South Korea, Japan, Singapore, Malaysia and "Other European
+  countries". Only the ones with a page link through; the rest are plain pills.
+
+## Build log — 2026-10-05 (7)
+- Added the world-map section the client asked for: 14 pinned destinations, a graduation cap that
+  flies between them every 2.2s, pins that stay put so the map reads without the animation,
+  hover-to-pause, hover-a-pill-to-jump, and `prefers-reduced-motion` honoured. Generated the
+  geometry rather than shipping an image.
+- Retitled the universities scroller to "Universities" per "next header will be universities".
+- `scripts/apply-world-map.mjs` carries both to production.
+- Verified at 1180 and 375: 14 pins and 14 pills, no horizontal scroll, no contrast failures.
+  `tsc` clean, lint 0 errors.

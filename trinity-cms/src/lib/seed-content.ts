@@ -1,6 +1,6 @@
 /* Default site content — mirrors the original static export exactly.
    Used by `prisma db seed` and by the admin "Reset to default" action. */
-import type { Block, BandBlock, UspBlock, LeadFormBlock, StatsBlock, CountriesBlock, OfferBlock } from "./blocks";
+import type { Block, BandBlock, UspBlock, LeadFormBlock, WorldMapBlock, StatsBlock, CountriesBlock, OfferBlock } from "./blocks";
 
 const IMG = "/assets/img";
 const C = "/contact-us";
@@ -37,6 +37,16 @@ export const leadForm: LeadFormBlock = {
   okMsg: "Thank you — a counsellor will call you within one working day.",
   cities: ["Mumbai", "Navi Mumbai", "Thane", "Pune", "Other"],
   destinations: ["USA", "UK", "Canada", "Ireland", "Germany", "Australia", "New Zealand", "France", "Italy", "Sweden", "Denmark", "Not decided yet"],
+};
+
+/* Study destinations on a world map (client brief 29/09). The pins themselves are generated —
+   see scripts/build-world-map.mjs. */
+export const worldMap: WorldMapBlock = {
+  type: "worldMap",
+  kicker: "Explore · Learn · Grow",
+  title: "Study Abroad, [Across the World]",
+  lead: "Fourteen destinations, one counsellor who knows all of them. Follow the cap to see where Trinity places students.",
+  note: "Your global future awaits.",
 };
 
 export const stats: StatsBlock = {
@@ -99,6 +109,7 @@ const homeBlocks: Block[] = [
     lead: "We connect students with world-class education in 11 countries, giving you access to some of the best universities and courses internationally. Whether you're looking to study in the USA, Canada, UK, or any of the major education destinations, we have you covered.",
     layout: "split", marquee: true, items: countryItems, dark: darkCountry,
   },
+  worldMap,
   {
     type: "about",
     mainImg: `${IMG}/home/inner_about_img-1.jpg`, mainAlt: "Trinity Study Abroad team", capSmall: "Since 1982", capStrong: "A unit of Trinity Air Travel & Tours Pvt. Ltd.",
@@ -127,7 +138,7 @@ const homeBlocks: Block[] = [
     ],
   },
   {
-    type: "universities", kicker: "1200 Universities", title: "Explore Our World's {Best Courses}", ghost: "UNIVERSITIES · WORLDWIDE · 1200+",
+    type: "universities", kicker: "1200 Partner Institutions", title: "Universities", ghost: "UNIVERSITIES · WORLDWIDE · 1200+",
     lead: "Choose from over 1,200 renowned universities worldwide, ranging from Ivy League institutions to globally recognized universities in every field of study.",
     items: [
       { img: `${IMG}/unversity/z1.jpg`, name: "University College London", flag: "gb", city: "London", rating: "4.8", href: C },

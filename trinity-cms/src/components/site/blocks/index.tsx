@@ -1,7 +1,7 @@
 import type { Block } from "@/lib/blocks";
 import type { SettingsMap } from "@/lib/settings";
 import { Hero, PageHero } from "./Hero";
-import { Band, Usp, LeadFormSection, Stats, Cta, Countries, Offer, RichText } from "./Common";
+import { Band, Usp, LeadFormSection, WorldMapSection, Stats, Cta, Countries, Offer, RichText } from "./Common";
 import { About, Steps, Universities } from "./Home";
 import { Journey, Testimonials, Intro, FeatureCards, Services, Contact } from "./Pages";
 import { Faq } from "./Faq";
@@ -17,6 +17,7 @@ function renderBlock(b: Block, ctx: RenderCtx) {
     case "band": return <Band b={b} />;
     case "usp": return <Usp b={b} />;
     case "leadForm": return <LeadFormSection b={b} />;
+    case "worldMap": return <WorldMapSection b={b} />;
     case "about": return <About b={b} contact={contact} site={ctx.settings.site} />;
     case "offer": return <Offer b={b} contact={contact} />;
     case "steps": return <Steps b={b} contact={contact} />;

@@ -32,6 +32,10 @@ export type BandBlock = { type: "band"; items: { text: string; strong?: boolean 
    rather than scrolling past with the rest. */
 export type UspBlock = { type: "usp"; center: string; items: string[] };
 
+/* World map of the destinations we place students in. The pins and their coordinates live in
+   the generated `world-map.ts`, so only the surrounding copy is editable here. */
+export type WorldMapBlock = { type: "worldMap"; kicker: string; title: string; lead: string; note: string };
+
 /* Short enquiry card — the client's sample form. `image` sits beside it so the picture and the
    tagline read together. */
 export type LeadFormBlock = {
@@ -121,7 +125,7 @@ export type BlogListBlock = { type: "blogList"; tags: string[] };
 export type RichTextBlock = { type: "richText"; html: string; grey: boolean };
 
 export type Block =
-  | HeroBlock | PageHeroBlock | BandBlock | UspBlock | LeadFormBlock | AboutBlock | OfferBlock | StepsBlock | CountriesBlock
+  | HeroBlock | PageHeroBlock | BandBlock | UspBlock | LeadFormBlock | WorldMapBlock | AboutBlock | OfferBlock | StepsBlock | CountriesBlock
   | UniversitiesBlock | StatsBlock | CtaBlock | FaqBlock | JourneyBlock | TestimonialsBlock
   | IntroBlock | FeatureCardsBlock | ServicesBlock | ContactBlock | BlogListBlock | RichTextBlock;
 
@@ -133,6 +137,7 @@ export const BLOCK_META: Record<BlockType, { label: string; desc: string }> = {
   band: { label: "Marquee Band", desc: "Scrolling ticker strip" },
   usp: { label: "USP Rail", desc: "Scrolling list of services with one pinned claim" },
   leadForm: { label: "Enquiry Card", desc: "Short lead form beside a picture and the tagline" },
+  worldMap: { label: "World Map", desc: "Study destinations pinned on a world map" },
   about: { label: "About Split", desc: "Bento images + story text" },
   offer: { label: "Offer Cards", desc: "3 image cards with metrics" },
   steps: { label: "Journey Steps", desc: "Stacked step cards" },

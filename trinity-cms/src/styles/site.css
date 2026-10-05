@@ -903,3 +903,33 @@ html.no-js [data-reveal]{opacity:1;transform:none}
   .leadcard__row{grid-template-columns:96px minmax(0,1fr);gap:10px}
   .leadcard input,.leadcard select{padding:12px 14px;font-size:14px}
 }
+
+
+/* ---------- World map ----------
+   The land is one path, the pins are plain circles, and a single graduation cap transitions
+   between them. Everything reads without the animation, which is what runs under reduced motion. */
+.wmapsec{background:var(--grey)}
+.wmap{position:relative;margin-top:clamp(28px,4vw,48px)}
+.wmap__svg{display:block;width:100%;height:auto;overflow:visible}
+.wmap__land{fill:rgba(35,47,112,.17);stroke:rgba(35,47,112,.3);stroke-width:.6;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.wmap__dot{fill:var(--primary);transition:fill .4s var(--ease)}
+.wmap__halo{fill:var(--primary);opacity:.14;transform-box:fill-box;transform-origin:center;transition:opacity .4s var(--ease)}
+.wmap__pin.is-at .wmap__dot{fill:var(--teal)}
+.wmap__pin.is-at .wmap__halo{fill:var(--teal);opacity:.3;animation:wmapPulse 2.2s ease-out infinite}
+@keyframes wmapPulse{0%{transform:scale(.6);opacity:.42}70%{transform:scale(1.7);opacity:0}100%{opacity:0}}
+.wmap__cap{fill:var(--navy);stroke:var(--navy);stroke-width:1.4;stroke-linejoin:round;transition:transform 1s cubic-bezier(.45,0,.2,1)}
+.wmap__legend{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:clamp(22px,3vw,34px)}
+.wmap__legend li{display:inline-flex}
+.wmap__legend a,.wmap__legend span{display:inline-flex;align-items:center;background:#fff;border:1px solid var(--line);border-radius:var(--r-pill);padding:9px 16px;font-family:var(--font-h);font-weight:500;font-size:13.5px;color:var(--navy);transition:all .3s var(--ease);cursor:default}
+.wmap__legend a{cursor:pointer}
+.wmap__legend a:hover{border-color:var(--teal);color:var(--navy);transform:translateY(-2px)}
+.wmap__legend li.is-at a,.wmap__legend li.is-at span{background:var(--navy);border-color:var(--navy);color:#fff}
+.wmap__note{margin-top:18px;text-align:center;font-size:13.5px;color:var(--muted-ink)}
+@media (max-width:640px){
+  .wmap__legend{gap:6px}
+  .wmap__legend a,.wmap__legend span{padding:7px 12px;font-size:12.5px}
+}
+@media (prefers-reduced-motion:reduce){
+  .wmap__cap{transition:none}
+  .wmap__pin.is-at .wmap__halo{animation:none}
+}
