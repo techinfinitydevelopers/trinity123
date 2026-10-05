@@ -50,7 +50,9 @@ const homeBlocks: Block[] = [
     type: "hero",
     sideText: "Est. 1982 · Mumbai · Trinity Group",
     words: [{ t: "Every" }, { t: "Dream", s: "gold", br: true }, { t: "needs" }, { t: "a" }, { t: "direction", s: "grad" }],
-    capsuleImg: `${IMG}/unversity/z1.jpg`,
+    /* Blank: the client asked for the photo pill inside the headline to go. Keep the field so it
+       can be set again from the hero editor without a code change. */
+    capsuleImg: "",
     text: "Let Trinity Study Abroad help you find yours.",
     primary: { label: "Learn More", href: C }, ghost: { label: "Chat with us", href: "whatsapp" },
     stats: [{ value: "33+", label: "Countries" }, { value: "1100+", label: "Universities" }, { value: "100k+", label: "Courses" }],

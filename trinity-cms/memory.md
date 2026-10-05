@@ -372,3 +372,20 @@ AskUserQuestion before building:
   every inline style on those pages.
 - Re-ran the sweep on /, /about-us, /contact-us, /destinations/uk, /destinations/canada, /blog and
   the blog post: no new contrast failures, no horizontal scroll. `tsc` clean, lint 0 errors.
+- The hero headline's photo "capsule" (`capsuleImg` on the home hero block) is content, not code —
+  `Words` only renders it when the field is non-empty. The client asked for it gone (2026-10-05), so
+  the seed now ships `capsuleImg: ""` and the local `home` page row was blanked. **Production needs
+  the same**: clear the capsule image in /admin → Pages → Home → hero, or blank it in the Neon row.
+- Writing to the `page` table directly bypasses `revalidateTag("pages")`, so the dev server keeps
+  serving the old blocks until a full restart + `rm -rf .next`. Editing through /admin does not have
+  this problem — it revalidates properly.
+
+## Build log — 2026-10-05
+- Verified the client's four brief items on 7 pages at 1440px and 375px (no code changed for this):
+  palette matches the brand sheet exactly and is DB-driven; logo renders at its true aspect ratio
+  (1.913) with the wordmark stacked below in navy; topbar has search + phone icon + socials and no
+  address or email; the phone icon next to Free Counselling shows on phone. Two gaps reported to the
+  client: below 640px both `.nav__logo-name` and `.topbar__social` are hidden for space.
+- Removed the photo capsule from the hero headline per the client: `capsuleImg` blanked in
+  `seed-content.ts` and in the local `home` page row. Verified 0 `.capsule` nodes at both widths,
+  no horizontal overflow. `tsc` clean.
