@@ -12,6 +12,12 @@ import ThemeStyle, { fontHref } from "@/components/site/ThemeStyle";
 import ChatWidget from "@/components/site/ChatWidget";
 import OrgSchema from "@/components/site/OrgSchema";
 
+/* Every page under this layout reads its settings, nav and footer from the database, so there is
+   nothing to gain from prerendering them — and the build host cannot reach the database, which
+   made `generateMetadata` fail there. Rendering per request is also what a CMS wants: an admin
+   edit shows up immediately. `unstable_cache` still keeps the query count down. */
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata(): Promise<Metadata> {
   const s = await getAllSettings();
   return {

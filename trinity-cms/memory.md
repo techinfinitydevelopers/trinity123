@@ -557,3 +557,18 @@ AskUserQuestion before building:
   layout's inline script, moved to `next/script` `beforeInteractive`.
 - Verified on home, about, contact, a destination page and a blog post: zero nested headings, the
   `js` class still applied, console error-free. `tsc` clean, lint 0 errors.
+- `(site)/layout.tsx` is `export const dynamic = "force-dynamic"`. It reads settings, nav and
+  footer from the database in both `generateMetadata` and the layout body, and a build host that
+  cannot reach the database used to fail there. Everything else that touches the database at build
+  time — `sitemap.ts` and all three `generateStaticParams` — already has `.catch(() => [])`, so
+  `getAllSettings()` was the only unguarded call. Verified by building with a bogus `DATABASE_URL`:
+  it completes, logging `prisma:error` lines that the guards swallow.
+- Deployment is moving from Vercel + Neon to **Railway** (app + Postgres). Railway needs, on the
+  service: `DATABASE_URL`, `AUTH_SECRET` (32+ chars), `NEXT_PUBLIC_SITE_URL`, optionally
+  `ANTHROPIC_API_KEY`. The project has **no Prisma migrations** — it is a `db push` project — so
+  the schema is created with `prisma db push`, and the seed is run once.
+
+## Build log — 2026-10-06
+- Made the public layout render per request so the build no longer needs a reachable database.
+  Confirmed with a build against an unreachable `DATABASE_URL`: compiles, generates all 19 pages,
+  and `/` is now server-rendered on demand. `tsc` clean.
