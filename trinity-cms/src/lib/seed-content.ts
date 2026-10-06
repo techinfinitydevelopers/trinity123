@@ -9,7 +9,7 @@ export const band: BandBlock = {
   type: "band",
   items: [
     { text: "Dream Big. Make It Happen.", strong: true }, { text: "50+ Countries" }, { text: "1200 Universities" },
-    { text: "100,000+ Courses" }, { text: "Free Counselling" }, { text: "Visa Support" },
+    { text: "1 lakh+ Courses" }, { text: "Free Counselling" }, { text: "Visa Support" },
   ],
 };
 
@@ -108,7 +108,7 @@ export const offer: OfferBlock = {
   type: "offer", kicker: "What We Offer", title: "Discover Our Comprehensive [Study Abroad] Solutions",
   cards: [
     { img: `${IMG}/unversity/z2.jpg`, icon: `${IMG}/icons/h2_features_icon01.svg`, metric: "1200+", metricLabel: "Universities", title: "Expert Universities", text: "Access top-ranked global universities tailored to your goals.", href: C },
-    { img: `${IMG}/unversity/z5.jpg`, icon: `${IMG}/icons/h2_features_icon02.svg`, metric: "100,000+", metricLabel: "Courses", title: "Effective Courses", text: "Choose from a wide range of courses designed to enhance your skills.", href: C },
+    { img: `${IMG}/unversity/z5.jpg`, icon: `${IMG}/icons/h2_features_icon02.svg`, metric: "1 lakh+", metricLabel: "Courses", title: "Effective Courses", text: "Choose from a wide range of courses designed to enhance your skills.", href: C },
     { img: `${IMG}/unversity/z9.jpg`, icon: `${IMG}/icons/h2_features_icon03.svg`, metric: "50+", metricLabel: "Countries", title: "Certificates", text: "Gain valuable certifications to boost your career prospects.", href: C },
   ],
 };
@@ -123,14 +123,18 @@ const homeBlocks: Block[] = [
     capsuleImg: "",
     text: "Let Trinity Study Abroad help you find yours.",
     primary: { label: "Learn More", href: C }, ghost: { label: "Chat with us", href: "whatsapp" },
-    stats: [{ value: "50+", label: "Countries" }, { value: "1200+", label: "Universities" }, { value: "100k+", label: "Courses" }],
+    stats: [{ value: "50+", label: "Countries" }, { value: "1200+", label: "Universities" }, { value: "1 lakh+", label: "Courses" }],
     photo: `${IMG}/home/home-page-2.png`,
     chipCText: "Trusted by students",
     hive: [
-      { value: "42+", label: "Years" },
+      /* Only three cells carry a photo. Countries and Visa success have no honest image in the
+         library — a campus block under "50+ Countries" says nothing about reach, and a building
+         under "100% Visa success" makes the viewer hunt for a connection that is not there. The
+         crop shows the middle ~59% of the source width, so each subject is centred. */
+      { value: "42+", label: "Years", img: `${IMG}/unversity/z4.jpg` },
       { value: "50+", label: "Countries" },
-      { value: "1200+", label: "Universities" },
-      { value: "1 lakh+", label: "Courses" },
+      { value: "1200+", label: "Universities", img: `${IMG}/unversity/z1.jpg` },
+      { value: "1 lakh+", label: "Courses", img: `${IMG}/home/inner_about_img-1.jpg` },
       { value: "100%", label: "Visa success" },
     ],
   },
@@ -147,7 +151,7 @@ const homeBlocks: Block[] = [
     mainImg: `${IMG}/home/inner_about_img-1.jpg`, mainAlt: "Trinity Study Abroad team", capSmall: "Since 1982", capStrong: "A unit of Trinity Air Travel & Tours Pvt. Ltd.",
     sideImg: `${IMG}/unversity/z8.jpg`, sideAlt: "University campus", statNum: "42", statText: "Years of legacy in travel, visas & global education",
     chip: { strong: "Trusted Consultants", small: "Mumbai · Est. 1982" },
-    kicker: "About Trinity", title: "Every Dream Needs [a Direction]",
+    kicker: "About Trinity", title: "Four Decades of [Guiding Students]",
     paragraphs: [
       "Looking to study abroad? Studying abroad is a transformative journey that opens doors to world-class education, new skills, and a global mindset. It's your chance to enhance your employability and explore the world through an international lens.",
       "We're a solution-oriented company dedicated to crafting personalized career paths that fit your unique educational, financial, and personal needs. Let us help you navigate your overseas education journey with tailored solutions just for you!",
@@ -178,7 +182,7 @@ const homeBlocks: Block[] = [
       { img: `${IMG}/unversity/z3.jpg`, name: "University of Edinburgh", flag: "gb", city: "Edinburgh", rating: "4.3", href: C },
       { img: `${IMG}/unversity/z4.jpg`, name: "University of Dayton", flag: "us", city: "Dayton", rating: "4.8", href: C },
       { img: `${IMG}/unversity/z5.jpg`, name: "Florida International University", flag: "us", city: "Florida", rating: "4.5", href: C },
-      { img: `${IMG}/unversity/z6.jpg`, name: "University Of Alberta", flag: "ca", city: "USA", rating: "4.7", href: C },
+      { img: `${IMG}/unversity/z6.jpg`, name: "University of Alberta", flag: "ca", city: "Edmonton", rating: "4.7", href: C },
       { img: `${IMG}/unversity/z7.jpg`, name: "University of Waterloo", flag: "ca", city: "Waterloo", rating: "4.7", href: C },
       { img: `${IMG}/unversity/z8.jpg`, name: "University College Dublin", flag: "ie", city: "Dublin", rating: "4.7", href: C },
       { img: `${IMG}/unversity/z9.jpg`, name: "University of Galway, Ireland", flag: "ie", city: "Galway", rating: "4.7", href: C },
@@ -271,7 +275,7 @@ const whyBlocks: Block[] = [
     paragraph: "At TRINITY Study Abroad, we are more than just an overseas education consultancy, we are your trusted advisors on the path to international success. With deep expertise in global admissions and student support, we empower aspiring students from India to confidently pursue their academic dreams in top universities around the world.",
     noteIcon: "fas fa-lightbulb", noteStrong: "Trinity Study Abroad is a one-stop solution for all your study abroad needs.",
     noteText: "Studying abroad gives you the chance to attend top-ranking global universities, enhancing your skills and broadening your horizons. With stay-back options ranging from 3 to 5 years, you can gain valuable work experience at international companies, boosting your career prospects on a global scale.",
-    wideImg: `${IMG}/unversity/z6.jpg`, wideAlt: "University of Alberta", sqImg: `${IMG}/unversity/z7.jpg`, sqAlt: "University of Waterloo", statNum: "100k", statText: "Courses across every field of study",
+    wideImg: `${IMG}/unversity/z6.jpg`, wideAlt: "University of Alberta", sqImg: `${IMG}/unversity/z7.jpg`, sqAlt: "University of Waterloo", statNum: "1 lakh", statText: "Courses across every field of study",
   },
   {
     type: "featureCards", kicker: "Why Choose Us", title: "Why Choose [TRINITY Study Abroad?]",

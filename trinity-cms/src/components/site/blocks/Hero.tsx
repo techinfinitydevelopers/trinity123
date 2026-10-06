@@ -36,7 +36,12 @@ export function Hero({ b, contact }: { b: HeroBlock; contact: ContactSettings })
           <div className="hive">
             {hive.map((h, i) => (
               <div key={i} className={`hive__item hive__item--${i + 1}`}>
-                <div className="hive__item__face"><strong>{h.value}</strong><span>{h.label}</span></div>
+                <div
+                  className={h.img ? "hive__item__face has-photo" : "hive__item__face"}
+                  style={h.img ? ({ ["--photo" as string]: `url(${h.img})` }) : undefined}
+                >
+                  <strong>{h.value}</strong><span>{h.label}</span>
+                </div>
               </div>
             ))}
           </div>

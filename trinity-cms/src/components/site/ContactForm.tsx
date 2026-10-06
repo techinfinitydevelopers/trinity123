@@ -3,6 +3,7 @@ import { useState, type FormEvent } from "react";
 
 export default function ContactForm({ okMsg }: { okMsg: string }) {
   const [state, setState] = useState<"idle" | "busy" | "ok" | "err">("idle");
+  const [error, setError] = useState<string | null>(null);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -10,8 +11,18 @@ export default function ContactForm({ okMsg }: { okMsg: string }) {
     if (!form.checkValidity()) { form.reportValidity(); return; }
     setState("busy");
     const body = Object.fromEntries(new FormData(form).entries());
-    const res = await fetch("/api/leads", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-    setState(res.ok ? "ok" : "err");
+    /* Without the catch a dropped connection leaves the button on "Sending…" for ever and the
+       visitor walks away believing the message was sent. */
+    try {
+      const res = await fetch("/api/leads", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      if (res.ok) return setState("ok");
+      const json = await res.json().catch(() => null);
+      setError(json?.error ?? null);
+      setState("err");
+    } catch {
+      setError(null);
+      setState("err");
+    }
   }
 
   const done = state === "ok";
@@ -22,12 +33,12 @@ export default function ContactForm({ okMsg }: { okMsg: string }) {
       <div className="form__field" hidden={done}><label htmlFor="f-phone">Phone Number</label><input id="f-phone" name="phone" type="tel" autoComplete="tel" required placeholder="+91" /></div>
       <div className="form__field" hidden={done}><label htmlFor="f-subject">Subject</label><input id="f-subject" name="subject" type="text" placeholder="Country / course / visa" /></div>
       <div className="form__field form__field--full" hidden={done}><label htmlFor="f-msg">Message</label><textarea id="f-msg" name="message" rows={5} placeholder="Tell us about your plans" /></div>
-      <input type="text" name="website" tabIndex={-1} autoComplete="off" style={{ position: "absolute", left: -9999 }} aria-hidden="true" />
+      <input type="text" name="hp_url" tabIndex={-1} autoComplete="off" style={{ position: "absolute", left: -9999 }} aria-hidden="true" />
       <button className="btn btn--primary" type="submit" hidden={done} disabled={state === "busy"}>
         {state === "busy" ? "Sending…" : "Send a Message"} <i className="fas fa-paper-plane" />
       </button>
       <p className="form__ok" id="formOk" hidden={!done} role="status"><i className="fas fa-check-circle" /> {okMsg}</p>
-      {state === "err" ? <p className="form__ok" role="alert" style={{ color: "#c0392b" }}>Something went wrong. Please call or WhatsApp us.</p> : null}
+      {state === "err" ? <p className="form__ok" role="alert" style={{ color: "#c0392b" }}>{error ?? "Something went wrong. Please call or WhatsApp us."}</p> : null}
     </form>
   );
 }

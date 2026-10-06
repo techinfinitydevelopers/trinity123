@@ -3,6 +3,8 @@ import { z } from "zod";
 import { db } from "./db";
 import { getSetting } from "./settings-server";
 import { sendUrgentEmail } from "./notify";
+import { rateLimit, clientIp } from "./chat";
+import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 
 export type ActionResult = { ok: true; sessionId?: string } | { ok: false; error: string };
@@ -18,6 +20,11 @@ const startSchema = z.object({
 export async function startChatSessionAction(input: { name: string; email: string; phone: string; visitorId: string }): Promise<ActionResult> {
   const parsed = startSchema.safeParse(input);
   if (!parsed.success) return { ok: false, error: "Please enter a valid name, email and phone number." };
+  /* A server action is a public HTTP endpoint. Unthrottled, this writes an attacker's name, email
+     and phone into the sessions table as fast as they can loop. */
+  if (!rateLimit(`chat-start:${clientIp(await headers())}`, 10, 60 * 60_000)) {
+    return { ok: false, error: "Too many attempts. Please call or WhatsApp us instead." };
+  }
   const { name, email, phone, visitorId } = parsed.data;
   try {
     const session = await db.chatSession.create({ data: { visitorId, name, email, phone } });
@@ -43,6 +50,12 @@ export async function markUrgentAction(input: { sessionId: string; visitorId: st
   try {
     const session = await db.chatSession.findFirst({ where: { id: sessionId, visitorId } });
     if (!session) return { ok: false, error: "Session not found." };
+    /* Each call emails the owner, so without these two guards one visitor could loop this into an
+       email flood. Already-urgent sessions are a no-op rather than a second alert. */
+    if (session.isUrgent) return { ok: true };
+    if (!rateLimit(`chat-urgent:${clientIp(await headers())}`, 5, 60 * 60_000)) {
+      return { ok: false, error: "We already have your request. Please call or WhatsApp us for anything immediate." };
+    }
 
     const lastUserMsg = question || (await db.chatMessage.findFirst({ where: { sessionId, role: "user" }, orderBy: { createdAt: "desc" }, select: { content: true } }))?.content || "(no question given)";
 

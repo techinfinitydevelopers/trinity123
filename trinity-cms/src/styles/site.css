@@ -463,18 +463,28 @@ html.no-js [data-reveal]{opacity:1;transform:none}
    W/2. The old version mixed a flat-top clip-path with a pointy-top aspect at arbitrary steps,
    which is why it read as five loose badges. The mortar comes from scaling each cell about its
    centre: because all six neighbours sit W apart, one scale gives an equal gap on every edge. */
-.hive{--w:104px;--h:120px;--row:90px;--gap:5px;position:absolute;left:-62px;bottom:-74px;width:calc(var(--w)*3);height:calc(var(--row) + var(--h));
+.hive{--w:104px;--h:120px;--row:90px;--gap:5px;position:absolute;left:clamp(-62px,-4vw,-10px);bottom:-74px;width:calc(var(--w)*3);height:calc(var(--row) + var(--h));
   filter:drop-shadow(0 2px 3px rgba(26,36,86,.14)) drop-shadow(0 14px 24px rgba(26,36,86,.22))}
 .hive__item{position:absolute;width:var(--w);height:var(--h);transform:scale(calc(1 - var(--gap)/var(--w)))}
-.hive__item__face{width:100%;height:100%;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);
+.hive__item__face{position:relative;width:100%;height:100%;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);
   background:var(--navy);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.12);
   display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6px 17%}
+/* Cells that carry a photo (the client's reference shows imagery in the comb). The photo sits
+   under a navy scrim: at this size raw photography turns to mush and swallows the type, so it is
+   desaturated and held dark enough for the cream label to clear 4.5:1 even over a white pixel.
+   `background-size:cover` on a 560x380 source shows the full height and only the middle ~59% of
+   the width, so the subject has to be centred — see scripts/build-world-map.mjs's sibling note in
+   the seed for which image goes where. */
+.hive__item__face.has-photo::before{content:"";position:absolute;inset:0;z-index:0;
+  background:linear-gradient(180deg,rgba(26,36,86,.78) 0%,rgba(26,36,86,.78) 45%,rgba(26,36,86,.92) 100%),var(--photo) center/cover no-repeat;
+  filter:saturate(.25) contrast(.9)}
+.hive__item__face > *{position:relative;z-index:1}
 /* A tonal navy ladder keeps the five cells reading as one object; teal marks the payoff claim.
    White on teal is only 2.41:1, so that cell takes navy ink instead. */
 .hive__item--1 .hive__item__face{background:var(--navy-2)}
 .hive__item--3 .hive__item__face{background:var(--navy-3)}
 .hive__item--5 .hive__item__face{background:var(--teal);color:var(--navy-3);box-shadow:inset 0 1px 0 rgba(255,255,255,.28)}
-.hive__item strong{font-family:var(--font-h);font-weight:800;font-size:clamp(16px,1.35vw + 11px,19px);letter-spacing:-.4px;line-height:1;white-space:nowrap}
+.hive__item strong{font-family:var(--font-h);font-weight:800;font-size:clamp(15px,1.2vw + 10px,18px);letter-spacing:-.6px;line-height:1;white-space:nowrap}
 /* Sentence case on purpose: "Universities" in caps with tracking needs 92px inside a 73px cell. */
 .hive__item span{font-family:var(--font-h);font-weight:600;font-size:clamp(8px,.35vw + 6.8px,9px);letter-spacing:.2px;line-height:1.2;margin-top:3px;color:var(--cream)}
 .hive__item--5 span{color:var(--navy-3)}
@@ -637,11 +647,11 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .footer__bottom a{color:var(--teal-ink)}
 .fab-wa{position:fixed;right:22px;bottom:22px;z-index:60;width:58px;height:58px;border-radius:50%;background:var(--wa);color:#fff;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 12px 30px rgba(37,211,102,.4);animation:floaty 4s ease-in-out infinite}
 .fab-wa:hover{color:#fff}
-.to-top{position:fixed;right:22px;bottom:92px;z-index:60;width:44px;height:44px;border-radius:12px;background:var(--gold);color:var(--navy);border:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s}
+.to-top{position:fixed;left:22px;bottom:22px;z-index:60;width:44px;height:44px;border-radius:12px;background:var(--gold);color:var(--navy);border:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s}
 .to-top.is-visible{opacity:1;pointer-events:auto}
 
 /* ---------- Responsive ---------- */
-@media (max-width:1120px){
+@media (max-width:1420px){
   .nav__links,.orbit,.pin__lead,.pin__hint{display:none}
   /* The student photo and the honeycomb stay on narrow screens — they stack under the copy
      and the honeycomb drops from 3+2 to 2+2+1 so it never leaves the card. */
@@ -701,7 +711,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
   .footer{padding:0 18px}
   .footer__marquee{margin:0 -18px}
 }
-@media (max-width:380px){
+@media (max-width:400px){
   .hero{padding:166px 18px 70px}
   /* iPhone SE / 320px: the nav row runs out of width, so everything in it gets one size smaller
      and the CTA drops its arrow bubble. Nothing is hidden — the client wants all of it on phones. */

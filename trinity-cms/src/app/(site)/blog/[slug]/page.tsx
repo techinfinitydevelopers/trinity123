@@ -177,7 +177,7 @@ export default async function PostPage({ params }: Props) {
               <img src={settings.site.logo} alt={settings.site.siteName} />
               <div>
                 <strong>{author}</strong>
-                <span style={{ display: "block", fontSize: 13, color: "var(--primary)", fontWeight: 500, margin: "2px 0 8px" }}>Reviewed by Trinity’s senior counselling desk · 30 years of student placements</span>
+                <span style={{ display: "block", fontSize: 13, color: "var(--primary)", fontWeight: 500, margin: "2px 0 8px" }}>Reviewed by Trinity’s senior counselling desk · 42+ years of student placements</span>
                 <p>{settings.site.footerText}</p>
                 <Link href="/about-us">About us <i className="fas fa-arrow-right" /></Link>
               </div>

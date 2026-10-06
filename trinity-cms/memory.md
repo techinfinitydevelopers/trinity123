@@ -687,3 +687,27 @@ AskUserQuestion before building:
 - Countries figure back to **50+** (the client's brief) everywhere: home hero honeycomb, stats
   counters, offer card, steps chip, countries lead, About stat chip, both SEO descriptions, the
   chatbot answer and the footer. Applied locally and to production.
+- Ten parallel audits before handover (2026-10-06) found these, all now fixed: chat server actions
+  had **no rate limit** so anyone could loop `markUrgentAction` into an email flood; both lead forms
+  hung on "Sending…" for ever if `fetch` rejected, losing the enquiry silently; the honeypot was
+  named `website`, which password managers autofill — killing real leads; the nav overflowed
+  between 1121 and 1420px, i.e. on 1280 and 1366 laptops; the back-to-top button sat underneath the
+  chat launcher at every width; the compact nav tier stopped at 380px so iPhone 14/15 (390) and
+  Pixel (393) clipped the hamburger.
+- Content bugs the same audits found: a University of Alberta card labelled city "USA" beside a
+  Canadian flag; the courses figure written three ways on one page ("1 lakh+", "100,000+",
+  "100k+"); "Every Dream Needs a Direction" as an `<h2>` **twice** on home plus the hero `<h1>` and
+  the title.
+- Honeycomb photos: only three cells carry one (Years, Universities, Courses). There is no honest
+  image for Countries or Visa success, and a campus block under either makes the viewer hunt for a
+  connection that is not there. The photo sits under a navy scrim
+  (`rgba(26,36,86,.78→.92)` + `saturate(.25)`) because raw photography at ~104px turns to mush and
+  swallows the type; that scrim is what holds the cream label above 4.5:1.
+
+## Build log — 2026-10-06 (10)
+- Ran ten parallel audits (admin readiness, live content, accessibility, SEO, performance,
+  responsive, chatbot, leads, plus two on the honeycomb) and fixed the handover blockers: the chat
+  abuse vector, both forms' silent failure, the autofill-prone honeypot, the leads rate limit
+  (5/hr → 15/hr, which one school NAT could exhaust), and four responsive breaks.
+- Put photographs into three honeycomb cells, per the client's reference.
+- `scripts/apply-content-fixes-2026-10-06.mjs` carries the content half to production.
