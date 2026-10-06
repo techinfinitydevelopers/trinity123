@@ -1,4 +1,4 @@
-import type { BandBlock, UspBlock, LeadFormBlock, WorldMapBlock, StatsBlock, CtaBlock, CountriesBlock, OfferBlock, RichTextBlock } from "@/lib/blocks";
+import type { BandBlock, UspBlock, LeadFormBlock, WorldMapBlock, CoursesBlock, StatsBlock, CtaBlock, CountriesBlock, OfferBlock, RichTextBlock } from "@/lib/blocks";
 import type { ContactSettings } from "@/lib/settings";
 import { A, FLAG, SectionHead, Title, PhonePill, d } from "../ui";
 import LeadForm from "../LeadForm";
@@ -60,6 +60,29 @@ export function WorldMapSection({ b }: { b: WorldMapBlock }) {
       <div className="container">
         <SectionHead kicker={b.kicker} title={b.title} lead={b.lead} center />
         <WorldMap note={b.note} />
+      </div>
+    </section>
+  );
+}
+
+export function CoursesSection({ b }: { b: CoursesBlock }) {
+  return (
+    <section className="section coursesec" id="courses">
+      <div className="container">
+        <SectionHead kicker={b.kicker} title={b.title} lead={b.lead} center />
+        <div className="grid grid--4">
+          {b.items.map((c, i) => (
+            <article key={c.name} className="crs" data-reveal style={d(i)}>
+              <span className="crs__ico"><i className={c.icon} /></span>
+              <h3>{c.name}</h3>
+              <p>{c.text}</p>
+              <dl className="crs__meta">
+                <div><dt>Duration</dt><dd>{c.duration}</dd></div>
+                <div><dt>Strongest in</dt><dd>{c.where}</dd></div>
+              </dl>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );

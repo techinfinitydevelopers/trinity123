@@ -1,6 +1,6 @@
 /* Default site content — mirrors the original static export exactly.
    Used by `prisma db seed` and by the admin "Reset to default" action. */
-import type { Block, BandBlock, UspBlock, LeadFormBlock, WorldMapBlock, StatsBlock, CountriesBlock, OfferBlock } from "./blocks";
+import type { Block, BandBlock, UspBlock, LeadFormBlock, WorldMapBlock, CoursesBlock, StatsBlock, CountriesBlock, OfferBlock } from "./blocks";
 
 const IMG = "/assets/img";
 const C = "/contact-us";
@@ -47,6 +47,26 @@ export const worldMap: WorldMapBlock = {
   title: "Study Abroad, [Across the World]",
   lead: "Fourteen destinations, one counsellor who knows all of them. Follow the cap to see where Trinity places students.",
   note: "Your global future awaits.",
+};
+
+/* The fields Indian students actually apply for, in rough order of volume. Durations are the
+   common range across our destinations; fees are left out on purpose — they vary too much by
+   country and university for a single figure on a card to be honest. */
+export const courses: CoursesBlock = {
+  type: "courses",
+  kicker: "What you can study",
+  title: "Courses",
+  lead: "Whatever you want to study, there is a route to it. These are the fields our students apply for most — tell us yours and we will shortlist the universities that fit.",
+  items: [
+    { icon: "fas fa-briefcase", name: "MBA & Management", text: "General and specialised MBAs, plus one-year management master's for students with work experience.", duration: "1 – 2 years", where: "UK, USA, Ireland" },
+    { icon: "fas fa-laptop-code", name: "Computer Science & IT", text: "Software engineering, cybersecurity, cloud and networks — the largest intake across every destination we cover.", duration: "1 – 2 years", where: "USA, Canada, Germany" },
+    { icon: "fas fa-chart-line", name: "Data Science & AI", text: "Machine learning, analytics and applied statistics, with strong post-study work demand.", duration: "1 – 2 years", where: "USA, UK, Canada" },
+    { icon: "fas fa-cogs", name: "Engineering", text: "Mechanical, civil, electrical and automotive, including Germany's low-tuition public universities.", duration: "1.5 – 2 years", where: "Germany, Canada, Australia" },
+    { icon: "fas fa-chart-pie", name: "Business Analytics", text: "A business degree with a quantitative core — popular with commerce and engineering graduates alike.", duration: "1 – 2 years", where: "UK, USA, Ireland" },
+    { icon: "fas fa-heartbeat", name: "Nursing & Healthcare", text: "Nursing, public health and allied health, with registration pathways in the destination country.", duration: "2 – 4 years", where: "Australia, UK, New Zealand" },
+    { icon: "fas fa-concierge-bell", name: "Hospitality & Tourism", text: "Hotel and tourism management with paid internships built into the course.", duration: "1 – 3 years", where: "Switzerland, Australia, UAE" },
+    { icon: "fas fa-coins", name: "Finance & Accounting", text: "Finance, accounting and fintech, including courses aligned to ACCA and CFA.", duration: "1 – 2 years", where: "UK, Ireland, Canada" },
+  ],
 };
 
 export const stats: StatsBlock = {
@@ -153,6 +173,7 @@ const homeBlocks: Block[] = [
       { img: `${IMG}/unversity/z10.jpg`, name: "Berlin School of Business and Innovation", flag: "de", city: "Berlin", rating: "4.7", href: C },
     ],
   },
+  courses,
   stats,
   {
     type: "cta", layout: "split", badgeIcon: "fas fa-star", badge: "Dream Big. Make It Happen.", title: "Start Your Learning Journey {Today!}",

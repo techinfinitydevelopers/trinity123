@@ -942,3 +942,24 @@ html.no-js [data-reveal]{opacity:1;transform:none}
   .wmap__cap{transition:none}
   .wmap__pin.is-at .wmap__halo{animation:none}
 }
+
+
+/* ---------- Courses ---------- */
+.coursesec{background:#fff}
+.crs{background:#fff;border:1px solid var(--line);border-radius:var(--r-card);padding:30px 26px 24px;display:flex;flex-direction:column;transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .4s}
+.crs:hover{transform:translateY(-6px);border-color:transparent;box-shadow:0 26px 54px rgba(26,36,86,.12)}
+.crs__ico{width:54px;height:54px;border-radius:16px;background:var(--navy);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:21px;margin-bottom:20px;transition:background .4s}
+.crs:nth-child(4n+2) .crs__ico{background:var(--teal);color:var(--navy-3)}
+/* Sky is a wash colour — white on it is only 3.8:1, so the third tile uses the lighter navy. */
+.crs:nth-child(4n+3) .crs__ico{background:var(--navy-2)}
+.crs h3{font-size:18.5px;font-weight:600;color:var(--navy);margin-bottom:8px;text-wrap:balance}
+.crs p{font-size:14.5px;line-height:1.7;color:var(--muted-ink);flex:1}
+.crs__meta{margin-top:20px;padding-top:16px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:9px}
+.crs__meta div{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.crs__meta dt{font-family:var(--font-h);font-weight:500;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted-ink);flex-shrink:0}
+.crs__meta dd{margin:0;font-family:var(--font-h);font-weight:600;font-size:13.5px;color:var(--navy);text-align:right}
+@media (max-width:640px){
+  .crs{padding:26px 22px 22px}
+  .crs__meta div{flex-direction:column;align-items:flex-start;gap:2px}
+  .crs__meta dd{text-align:left}
+}

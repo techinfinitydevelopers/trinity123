@@ -32,6 +32,14 @@ export type BandBlock = { type: "band"; items: { text: string; strong?: boolean 
    rather than scrolling past with the rest. */
 export type UspBlock = { type: "usp"; center: string; items: string[] };
 
+/* Fields of study, with the typical length and where each one is strongest. Deliberately no
+   fees: they swing by country, university and intake, and a single number on a card would
+   mislead more than it helps. */
+export type CoursesBlock = {
+  type: "courses"; kicker: string; title: string; lead: string;
+  items: { icon: string; name: string; text: string; duration: string; where: string }[];
+};
+
 /* World map of the destinations we place students in. The pins and their coordinates live in
    the generated `world-map.ts`, so only the surrounding copy is editable here. */
 export type WorldMapBlock = { type: "worldMap"; kicker: string; title: string; lead: string; note: string };
@@ -125,7 +133,7 @@ export type BlogListBlock = { type: "blogList"; tags: string[] };
 export type RichTextBlock = { type: "richText"; html: string; grey: boolean };
 
 export type Block =
-  | HeroBlock | PageHeroBlock | BandBlock | UspBlock | LeadFormBlock | WorldMapBlock | AboutBlock | OfferBlock | StepsBlock | CountriesBlock
+  | HeroBlock | PageHeroBlock | BandBlock | UspBlock | LeadFormBlock | WorldMapBlock | CoursesBlock | AboutBlock | OfferBlock | StepsBlock | CountriesBlock
   | UniversitiesBlock | StatsBlock | CtaBlock | FaqBlock | JourneyBlock | TestimonialsBlock
   | IntroBlock | FeatureCardsBlock | ServicesBlock | ContactBlock | BlogListBlock | RichTextBlock;
 
@@ -138,6 +146,7 @@ export const BLOCK_META: Record<BlockType, { label: string; desc: string }> = {
   usp: { label: "USP Rail", desc: "Scrolling list of services with one pinned claim" },
   leadForm: { label: "Enquiry Card", desc: "Short lead form beside a picture and the tagline" },
   worldMap: { label: "World Map", desc: "Study destinations pinned on a world map" },
+  courses: { label: "Courses", desc: "Fields of study with duration and destinations" },
   about: { label: "About Split", desc: "Bento images + story text" },
   offer: { label: "Offer Cards", desc: "3 image cards with metrics" },
   steps: { label: "Journey Steps", desc: "Stacked step cards" },

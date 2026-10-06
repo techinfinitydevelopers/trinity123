@@ -607,3 +607,18 @@ AskUserQuestion before building:
 - Same overlap on phones, worse: 3px of clearance at 375px. Fixed per breakpoint.
 - Verified at 1440, 1024, 375 and 320: clearance 42-50px, one-line tagline on desktop, card and
   comb inside the hero, nothing clipped, no horizontal scroll. `tsc` clean, lint 0 errors.
+- The courses cards carry **no fees**, deliberately: tuition swings by country, university and
+  intake, and one figure on a card would mislead a prospective student more than it helps. Cards
+  show the field, a line of copy, a duration range and the destinations it is strongest in. If the
+  client wants fees, they need to supply per-course ranges — do not invent them.
+- `--primary-2` (Sky) with white is 3.79:1 and fails as an icon tile too, not just as type. The
+  third courses tile uses `--navy-2` (9.7:1). Sky stays a wash colour.
+
+## Build log — 2026-10-06 (4)
+- Built the Courses section (client brief 29/09, which named the section but gave no content).
+  New `courses` block type + `CoursesSection` + admin label, eight fields Indian students actually
+  apply for, each with duration and strongest destinations. Everything is editable from the admin.
+  Sits after the Universities scroller, which is the order the brief lists.
+- `scripts/apply-courses.mjs` carries it to production, idempotently.
+- Verified at 1440 and 375: 8 cards, 4-up on desktop and 1-up on phone, nothing clipped, no
+  horizontal scroll, card type 5.4–12.3:1. `tsc` clean, lint 0 errors.
