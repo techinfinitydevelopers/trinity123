@@ -160,7 +160,9 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 @keyframes dot{0%,80%,100%{opacity:.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-4px)}}
 
 /* ---------- Hero ---------- */
-.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;background:var(--cream);padding:150px 24px 90px}
+/* Height follows the content. Pinned at 100vh the hero left ~350px of empty cream under the
+   buttons, because the copy column is half the height of the photo. */
+.hero{position:relative;min-height:auto;display:flex;align-items:center;overflow:hidden;background:var(--cream);padding:130px 24px 118px}
 .hero__bg,.page-hero__bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 78% 38%,rgba(91,132,196,.22),transparent 68%),radial-gradient(ellipse 45% 45% at 12% 88%,rgba(26,188,156,.16),transparent 70%),linear-gradient(160deg,#fff8ec 0%,var(--cream) 55%,#fdf3e0 100%)}
 .stack__grid,.cta__grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:72px 72px;pointer-events:none}
 .hero__grid,.page-hero__grid{position:absolute;inset:0;background-image:linear-gradient(rgba(35,47,112,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(35,47,112,.05) 1px,transparent 1px);background-size:72px 72px;pointer-events:none}
@@ -170,14 +172,14 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .glow--a{width:640px;height:640px;background:var(--primary-2);opacity:.16;right:-160px;top:-160px;animation:floaty 9s ease-in-out infinite}
 .glow--b{width:420px;height:420px;background:var(--teal);opacity:.12;left:30%;bottom:-200px;animation:floaty 12s 2s ease-in-out infinite reverse}
 .hero__inner{position:relative;width:100%;padding:0}
-.hero__cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:48px;align-items:center;margin-top:34px}
+.hero__cols{display:grid;grid-template-columns:minmax(300px,1fr) minmax(300px,1.12fr);gap:clamp(32px,4vw,64px);align-items:start;margin-top:26px}
 /* Sized off the viewport so the tagline stays on one line: the string needs about 15x its font
    size, and the container is min(1320px, 100vw - 48px), so 6vw clears it down to the phone
    breakpoint — below that it is allowed to wrap rather than shrink to nothing. */
 .hero__title{color:var(--navy);font-size:min(5.4rem,6vw);white-space:nowrap}
 .capsule{display:inline-block;vertical-align:middle;width:clamp(90px,2.2em,190px);height:clamp(44px,.9em,80px);border-radius:100px;overflow:hidden;border:3px solid #fff;box-shadow:0 14px 34px rgba(35,47,112,.25);margin:0 6px;position:relative;top:-.08em}
 .capsule img{width:100%;height:100%;object-fit:cover}
-.hero__text{color:var(--text);font-size:clamp(1rem,1.3vw,1.15rem);line-height:1.75;max-width:560px;margin:28px 0 38px;text-wrap:pretty}
+.hero__text{color:var(--text);font-size:clamp(1.05rem,1.4vw,1.25rem);line-height:1.75;max-width:520px;margin:4px 0 32px;text-wrap:pretty}
 .hero__stats{display:flex;gap:34px;flex-wrap:wrap;margin-top:54px}
 .hero__stats strong{display:block;font-family:var(--font-h);font-weight:700;font-size:28px;color:var(--navy);letter-spacing:-1px}
 .hero__stats span{font-size:13px;color:var(--muted-ink);text-transform:uppercase;letter-spacing:1px}
@@ -446,7 +448,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .statchip--purple{background:linear-gradient(135deg,var(--primary),var(--primary-2))}.statchip--purple small{color:rgba(255,255,255,.75)}
 .statchip--wide{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .statchip--wide > i{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.15);display:inline-flex;align-items:center;justify-content:center;font-size:20px}
-.hero-visual{position:relative;justify-self:end;width:100%;max-width:460px}
+.hero-visual{position:relative;justify-self:end;width:100%;max-width:500px}
 .hero-visual__img{border-radius:32px 32px 32px 120px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.4);border:4px solid rgba(255,255,255,.12);aspect-ratio:5/4}
 .hero-visual__img img{width:100%;height:100%;object-fit:cover}
 .hero-visual__img--cutout{background:linear-gradient(165deg,var(--primary) 0%,var(--primary-2) 100%);display:flex;align-items:flex-end;justify-content:center;position:relative}
@@ -461,7 +463,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
    W/2. The old version mixed a flat-top clip-path with a pointy-top aspect at arbitrary steps,
    which is why it read as five loose badges. The mortar comes from scaling each cell about its
    centre: because all six neighbours sit W apart, one scale gives an equal gap on every edge. */
-.hive{--w:110px;--h:127px;--row:95.25px;--gap:5px;position:absolute;left:-26px;bottom:-56px;width:calc(var(--w)*3);height:calc(var(--row) + var(--h));
+.hive{--w:104px;--h:120px;--row:90px;--gap:5px;position:absolute;left:-62px;bottom:-74px;width:calc(var(--w)*3);height:calc(var(--row) + var(--h));
   filter:drop-shadow(0 2px 3px rgba(26,36,86,.14)) drop-shadow(0 14px 24px rgba(26,36,86,.22))}
 .hive__item{position:absolute;width:var(--w);height:var(--h);transform:scale(calc(1 - var(--gap)/var(--w)))}
 .hive__item__face{width:100%;height:100%;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);
@@ -661,6 +663,10 @@ html.no-js [data-reveal]{opacity:1;transform:none}
   .topsearch{max-width:none}
 }
 @media (max-width:860px){
+  /* The two hero columns are explicit tracks now, so they have to be told to stack — `auto-fit`
+     used to do it on its own and the photo was being clipped by `.hero{overflow:hidden}`. */
+  .hero__cols{grid-template-columns:1fr}
+  .hero-visual{justify-self:center}
   /* Same comb, smaller lattice, and it sits under the photo instead of overlapping it. */
   .hive{--w:88px;--h:101.6px;--row:76.2px;--gap:4px;position:static;margin:-20px auto 0;left:auto;bottom:auto}
 }

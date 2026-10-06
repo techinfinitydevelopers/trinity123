@@ -572,3 +572,25 @@ AskUserQuestion before building:
 - Made the public layout render per request so the build no longer needs a reachable database.
   Confirmed with a build against an unreachable `DATABASE_URL`: compiles, generates all 19 pages,
   and `/` is now server-rendered on demand. `tsc` clean.
+- The hero's two columns are **explicit grid tracks** now
+  (`minmax(300px,1fr) minmax(300px,1.12fr)`), not `repeat(auto-fit,…)`, so they do **not** collapse
+  on their own — there is a `grid-template-columns:1fr` under 860px. Without it a 375px phone got
+  two 300px tracks and `.hero{overflow:hidden}` silently cut the photo in half, with no horizontal
+  scroll to hint at it.
+- `.hero` is sized by its content (`min-height:auto`), not `100vh`. Pinned at full height it left
+  ~350px of empty cream under the buttons, because the copy column is half the height of the photo.
+  `.hero__cols` is also `align-items:start` for the same reason — centred, it opened a 141px hole
+  between the headline and the sub-line.
+- When measuring hero geometry in the browser pane, nudge the scroll first: the pane throttles CSS
+  animations when it is not painting, and `.hero-visual` reads as `opacity:0` with a
+  `translateY(100%)` still applied — which looks exactly like a layout bug and is not one.
+
+## Build log — 2026-10-06 (2)
+- Tightened the hero after the client said it looked empty: height follows content (900 → 763 at
+  1440), the copy column starts under the headline instead of centring (gap 141 → 60px), slightly
+  larger photo and sub-line, and the honeycomb tucks into the card's bottom-left corner rather than
+  lying across the student.
+- Fixed the regression that came with it: the explicit grid tracks did not collapse on phones, so
+  the photo was being clipped at 375px and 320px.
+- Verified at 1440, 1024, 375 and 320: one-line tagline on desktop, card and comb inside the hero
+  with slack, nothing clipped, no horizontal scroll. `tsc` clean, lint 0 errors.
