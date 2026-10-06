@@ -662,3 +662,14 @@ AskUserQuestion before building:
   that the database is unreachable. The site and /admin/login both still return 200.
 - The new password is in `trinity-cms/ADMIN-LOGIN.local.txt` (gitignored). **Left in place on
   purpose** — do not delete it until the owner confirms they have saved it.
+- `sitemap.ts` is `force-dynamic` for the same reason as the site layout: it queries the database,
+  the build host cannot reach one, and its three `.catch(() => [])` guards turned that into a
+  **silently empty sitemap** baked into the deployment — 0 URLs, which no amount of crawling would
+  have revealed. Worth remembering: a guard that degrades gracefully at runtime can bake a broken
+  artefact at build time.
+
+## Build log — 2026-10-06 (8)
+- Audited production: all 14 routes return 200, home carries every new section, and no page still
+  has the band, "33+", "1100" or a localhost URL.
+- Found and fixed the empty sitemap — it listed no URLs at all. Now rendered per request: 20 URLs
+  locally. `tsc` clean, lint 0 errors.

@@ -1,6 +1,11 @@
 import type { MetadataRoute } from "next";
 import { getPageSlugs, getPublishedPostSlugs, getCountries } from "@/lib/content";
 
+/* Built per request, not at build time. The build host cannot reach the database, so the three
+   lookups below all fell back to their empty catch and the deployed sitemap listed no URLs at
+   all. Crawlers hit this rarely, so there is nothing to save by caching it. */
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
   const [pages, posts, countries] = await Promise.all([
