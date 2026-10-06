@@ -673,3 +673,17 @@ AskUserQuestion before building:
   has the band, "33+", "1100" or a localhost URL.
 - Found and fixed the empty sitemap — it listed no URLs at all. Now rendered per request: 20 URLs
   locally. `tsc` clean, lint 0 errors.
+- The countries figure has flipped three times (33+ → 50+ → 11 → 50+), so it is no longer edited by
+  hand: `scripts/set-countries-figure.mjs` takes `COUNTRIES="50+"` (or `"11"`) and updates every
+  shape it lives in — prose, hero hive, stats counters (numeric `count` + separate `suffix`), offer
+  metric, steps chip, page-hero stat chips (`strong` + separate `suffix`), SEO descriptions, the
+  chatbot answer and `site.footerText`. Use it rather than grepping; two earlier sweeps missed the
+  split number/suffix fields.
+- With 50+ claimed and 11 destination pages, the chatbot answer now says 50+ countries *and* names
+  the eleven we have guides for, so it is not contradicted by the destinations menu. The nav's
+  "View all destinations" link is deliberately count-free for the same reason.
+
+## Build log — 2026-10-06 (9)
+- Countries figure back to **50+** (the client's brief) everywhere: home hero honeycomb, stats
+  counters, offer card, steps chip, countries lead, About stat chip, both SEO descriptions, the
+  chatbot answer and the footer. Applied locally and to production.

@@ -8,7 +8,7 @@ const C = "/contact-us";
 export const band: BandBlock = {
   type: "band",
   items: [
-    { text: "Dream Big. Make It Happen.", strong: true }, { text: "11 Countries" }, { text: "1200 Universities" },
+    { text: "Dream Big. Make It Happen.", strong: true }, { text: "50+ Countries" }, { text: "1200 Universities" },
     { text: "100,000+ Courses" }, { text: "Free Counselling" }, { text: "Visa Support" },
   ],
 };
@@ -84,7 +84,7 @@ export const testimonials: TestimonialsBlock = {
 export const stats: StatsBlock = {
   type: "stats",
   items: [
-    { count: 42, suffix: "+", label: "Years of Experience" }, { count: 11, suffix: "", label: "Countries" },
+    { count: 42, suffix: "+", label: "Years of Experience" }, { count: 50, suffix: "+", label: "Countries" },
     { count: 1200, suffix: "", label: "Universities" }, { count: 100000, suffix: "+", label: "Courses" },
   ],
 };
@@ -109,7 +109,7 @@ export const offer: OfferBlock = {
   cards: [
     { img: `${IMG}/unversity/z2.jpg`, icon: `${IMG}/icons/h2_features_icon01.svg`, metric: "1200+", metricLabel: "Universities", title: "Expert Universities", text: "Access top-ranked global universities tailored to your goals.", href: C },
     { img: `${IMG}/unversity/z5.jpg`, icon: `${IMG}/icons/h2_features_icon02.svg`, metric: "100,000+", metricLabel: "Courses", title: "Effective Courses", text: "Choose from a wide range of courses designed to enhance your skills.", href: C },
-    { img: `${IMG}/unversity/z9.jpg`, icon: `${IMG}/icons/h2_features_icon03.svg`, metric: "11", metricLabel: "Countries", title: "Certificates", text: "Gain valuable certifications to boost your career prospects.", href: C },
+    { img: `${IMG}/unversity/z9.jpg`, icon: `${IMG}/icons/h2_features_icon03.svg`, metric: "50+", metricLabel: "Countries", title: "Certificates", text: "Gain valuable certifications to boost your career prospects.", href: C },
   ],
 };
 
@@ -123,12 +123,12 @@ const homeBlocks: Block[] = [
     capsuleImg: "",
     text: "Let Trinity Study Abroad help you find yours.",
     primary: { label: "Learn More", href: C }, ghost: { label: "Chat with us", href: "whatsapp" },
-    stats: [{ value: "11", label: "Countries" }, { value: "1200+", label: "Universities" }, { value: "100k+", label: "Courses" }],
+    stats: [{ value: "50+", label: "Countries" }, { value: "1200+", label: "Universities" }, { value: "100k+", label: "Courses" }],
     photo: `${IMG}/home/home-page-2.png`,
     chipCText: "Trusted by students",
     hive: [
       { value: "42+", label: "Years" },
-      { value: "11", label: "Countries" },
+      { value: "50+", label: "Countries" },
       { value: "1200+", label: "Universities" },
       { value: "1 lakh+", label: "Courses" },
       { value: "100%", label: "Visa success" },
@@ -138,7 +138,7 @@ const homeBlocks: Block[] = [
   leadForm,
   {
     type: "countries", kicker: "Shape your direction", title: "Choose your [Country]",
-    lead: "We connect students with world-class education in 11 countries, giving you access to some of the best universities and courses internationally. Whether you're looking to study in the USA, Canada, UK, or any of the major education destinations, we have you covered.",
+    lead: "We connect students with world-class education in 50+ countries, giving you access to some of the best universities and courses internationally. Whether you're looking to study in the USA, Canada, UK, or any of the major education destinations, we have you covered.",
     layout: "split", marquee: true, items: countryItems, dark: darkCountry,
   },
   worldMap,
@@ -165,7 +165,7 @@ const homeBlocks: Block[] = [
     steps: [
       { icon: "fas fa-compass", title: "Career Counselling", text: "Our expert counsellors evaluate your interests, academic background and aspirations to craft a clear, strategic roadmap for your higher education goals.", checks: ["Profile Evaluation", "Country Selection", "Course Shortlist", "Budget Planning"], img: `${IMG}/home/inner_about_img-1.jpg`, chipIcon: "fas fa-user-graduate", chipStrong: "1:1", chipSmall: "Personal counsellor", live: "Free first consultation", href: C },
       { icon: "fas fa-university", title: "University Admissions", text: "From shortlisting universities to application submission, we ensure accuracy, compliance and competitive positioning across UK, Ireland, Germany, USA, Australia and more.", checks: ["SOP & LOR Drafting", "Applications", "Offer Letters", "Deadline Tracking"], img: `${IMG}/unversity/z1.jpg`, chipIcon: "fas fa-university", chipStrong: "1200+", chipSmall: "Partner universities", live: "Applications in progress", href: C },
-      { icon: "fas fa-passport", title: "Visa & Financial Aid", text: "Document preparation, mock interviews, scholarship identification and education loan support — a confident, well-prepared application every time.", checks: ["Visa Interview Prep", "Scholarships", "Education Loans", "Financial Proof"], img: `${IMG}/unversity/z8.jpg`, chipIcon: "fas fa-passport", chipStrong: "11", chipSmall: "Countries covered", live: "Mock interviews weekly", href: C },
+      { icon: "fas fa-passport", title: "Visa & Financial Aid", text: "Document preparation, mock interviews, scholarship identification and education loan support — a confident, well-prepared application every time.", checks: ["Visa Interview Prep", "Scholarships", "Education Loans", "Financial Proof"], img: `${IMG}/unversity/z8.jpg`, chipIcon: "fas fa-passport", chipStrong: "50+", chipSmall: "Countries covered", live: "Mock interviews weekly", href: C },
       { icon: "fas fa-plane-departure", title: "Departure & Beyond", text: "Accommodation, forex, travel checklist, insurance and settlement guidance. Our support continues even after you arrive.", checks: ["Accommodation", "Forex & Travel", "Health Insurance", "Post-arrival Help"], img: `${IMG}/unversity/z4.jpg`, chipIcon: "fas fa-plane", chipStrong: "42+", chipSmall: "Years in travel", live: "Support after you land", href: C },
     ],
   },
@@ -225,7 +225,7 @@ const aboutBlocks: Block[] = [
     sub: "A unit of Trinity Air Travel & Tours Pvt. Ltd. — a well-established 42-year-old company in travel & tourism, now guiding students to universities worldwide.",
     aside: { kind: "statchips", items: [
       { strong: "42", suffix: "+", small: "Years legacy", style: "glass" },
-      { strong: "11", small: "Countries", style: "gold" },
+      { strong: "50", suffix: "+", small: "Countries", style: "gold" },
       { strong: "1200", small: "Partner universities", style: "purple", icon: "fas fa-university" },
     ] },
   },
@@ -354,8 +354,8 @@ const blogBlocks: Block[] = [
 ];
 
 export const seedPages = [
-  { slug: "home", title: "Trinity Study Abroad — Every Dream Needs a Direction", navLabel: "Home", seoDesc: "Welcome to Trinity Study Abroad, your trusted partner in unlocking global opportunities for higher education. Tailored guidance and complete support for students aiming to study in 11 countries, including the USA, UK, Canada, and Australia.", blocks: homeBlocks, isSystem: true },
-  { slug: "about-us", title: "About Us - Trinity Study Abroad", navLabel: "About Us", seoDesc: "Trinity Study Abroad is a unit of Trinity Air Travel & Tours Pvt. Ltd., a 42-year-old Mumbai company guiding students to 1200+ universities in 11 countries.", blocks: aboutBlocks, isSystem: true },
+  { slug: "home", title: "Trinity Study Abroad — Every Dream Needs a Direction", navLabel: "Home", seoDesc: "Welcome to Trinity Study Abroad, your trusted partner in unlocking global opportunities for higher education. Tailored guidance and complete support for students aiming to study in 50+ countries, including the USA, UK, Canada, and Australia.", blocks: homeBlocks, isSystem: true },
+  { slug: "about-us", title: "About Us - Trinity Study Abroad", navLabel: "About Us", seoDesc: "Trinity Study Abroad is a unit of Trinity Air Travel & Tours Pvt. Ltd., a 42-year-old Mumbai company guiding students to 1200+ universities in 50+ countries.", blocks: aboutBlocks, isSystem: true },
   { slug: "why-study-abroad", title: "Why Study Abroad - Trinity Study Abroad", navLabel: "Why Study Abroad", seoDesc: "Top-ranking universities, 3–5 year stay-back options and single-window support — why Indian students choose Trinity Study Abroad.", blocks: whyBlocks, isSystem: true },
   { slug: "our-service", title: "Our Services - Trinity Study Abroad", navLabel: "Our Services", seoDesc: "Eight comprehensive services covering everything from career counselling to post-study work visas — all under one roof.", blocks: serviceBlocks, isSystem: true },
   { slug: "contact-us", title: "Contact Us - Trinity Study Abroad", navLabel: "Contact Us", seoDesc: "Get in touch with Trinity Study Abroad in Mumbai for free study abroad counselling. Call +91-8453045304 or email helpdesk@trinitystudyabroad.com.", blocks: contactBlocks, isSystem: true },
@@ -428,7 +428,7 @@ export const seedPosts = [
 
 export const seedKnowledge = [
   { question: "What services does Trinity Study Abroad offer?", answer: "Career counselling, university admissions (UG/PG), SOP/LOR/resume documentation, test prep guidance (IELTS, TOEFL, GMAT, GRE, SAT), student visa counselling and mock interviews, scholarships and education loan assistance, pre-departure (accommodation, forex, insurance, travel checklist) and post-arrival support, plus post-study work visa and PR guidance.", tags: "services", keywords: "services, what do you offer, help with", category: "General" },
-  { question: "Which countries do you cover?", answer: "11 countries — USA, UK, Canada, Ireland, Germany, Australia, New Zealand, France, Italy, Sweden and Denmark — with 1200+ partner universities.", tags: "countries", keywords: "countries, destinations, where can I study", category: "General" },
+  { question: "Which countries do you cover?", answer: "50+ countries worldwide. We have detailed guides for USA, UK, Canada, Ireland, Germany, Australia, New Zealand, France, Italy, Sweden and Denmark, and place students well beyond those — ask us about any destination. 1200+ partner universities.", tags: "countries", keywords: "countries, destinations, where can I study", category: "General" },
   { question: "Is the first consultation free?", answer: "Yes. The first counselling session is free. Book via the contact form, call +91-8453045304 or WhatsApp the same number.", tags: "pricing,consultation", keywords: "free consultation, pricing, cost of counselling", category: "Fees" },
   { question: "Where is your office?", answer: "301, 3rd Floor, Kumar Plaza, Kalina-Kurla Road, Kalina, Santacruz (East), Mumbai 400029. Landline +91-22-69655855.", tags: "contact,office", keywords: "office, address, location", category: "General" },
   { question: "How early should I start planning?", answer: "Ideally 10–12 months before the intake. Major intake is Fall (September); a smaller Spring (January) intake exists in most countries.", tags: "timeline,intake", keywords: "admission last date, apply, application deadline, when to start, intake", category: "Admissions" },
