@@ -640,3 +640,18 @@ AskUserQuestion before building:
 - `scripts/apply-testimonials-home.mjs` carries the home testimonials to production.
 - Verified: home renders 14 sections including the new Courses (8 cards) and Testimonials,
   no horizontal scroll. `tsc` clean, lint 0 errors.
+- The seed **creates** the admin user but never updates it (`user.upsert` has an empty `update`),
+  so re-running it does not reset a forgotten password. `scripts/set-admin-password.mjs` is the way
+  — it takes `ADMIN_PASSWORD` from the environment and rehashes.
+- Postgres public access on Railway is **off** again (removed after seeding). To reach the
+  production database from a laptop you have to add it back: Postgres → Settings → Networking →
+  Add Public Access, which recreates `DATABASE_PUBLIC_URL`. The internal
+  `postgres.railway.internal` host only resolves inside Railway.
+
+## Build log — 2026-10-06 (6)
+- Ran the Courses and home-Testimonials migrations against production; both verified live.
+- Removed the database's public TCP proxy now that seeding is done, and confirmed from this machine
+  that it is no longer reachable. Deleted the local credentials file.
+- Mistake worth recording: that file also held the generated admin password, which is now
+  unrecoverable (the database stores only the bcrypt hash). Added
+  `scripts/set-admin-password.mjs` so it can be set again.
