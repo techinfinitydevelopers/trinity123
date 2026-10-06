@@ -1,11 +1,14 @@
 import type { Block, BlockType } from "./blocks";
-import { seedPages } from "./seed-content";
+import { seedPages, band } from "./seed-content";
 
 /** First occurrence of each block type in the default content — used as the "Add block" template. */
 export function blockTemplates(): Record<BlockType, Block> {
   const out = {} as Record<BlockType, Block>;
   for (const p of seedPages) for (const b of p.blocks) if (!out[b.type]) out[b.type] = b;
   out.richText ??= { type: "richText", html: "<h2>New section</h2><p>Write something…</p>", grey: false };
+  /* The band is in the menu but on no page any more (the client had it removed), so it has no
+     first occurrence to clone — without this, adding one would push `undefined`. */
+  out.band ??= band;
   return out;
 }
 

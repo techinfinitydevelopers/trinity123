@@ -622,3 +622,21 @@ AskUserQuestion before building:
 - `scripts/apply-courses.mjs` carries it to production, idempotently.
 - Verified at 1440 and 375: 8 cards, 4-up on desktop and 1-up on phone, nothing clipped, no
   horizontal scroll, card type 5.4–12.3:1. `tsc` clean, lint 0 errors.
+- `blockTemplates()` builds the "Add block" menu by cloning the **first occurrence of each type in
+  the seed pages**. Remove a block type from every page — as happened to `band` — and it stays in
+  the menu with no template, so adding one pushes `undefined`. `band` now has an explicit fallback
+  next to `richText`. If a type is ever dropped from all seed pages again, give it one too.
+- **Testimonial quotes are not ours to write.** The client asked for a management message and two
+  named students (Sushant, Vaibhavi) on the home page but has not sent the words. The home page
+  carries the two genuine quotes we already have; the rest wait for the client. Inventing praise
+  attributed to named people would be fabricating reviews.
+
+## Build log — 2026-10-06 (5)
+- Home now ends with Courses → Testimonials → Stats → CTA → FAQ. The testimonials block is shared
+  between home and About, so the two real student quotes have a single source.
+- Audited the dashboard: all **23** block types have both a label and an add-template, so every
+  section on the home page can be edited, reordered, added and removed from /admin/pages.
+  Fixed `band`, which was in the menu but had lost its template.
+- `scripts/apply-testimonials-home.mjs` carries the home testimonials to production.
+- Verified: home renders 14 sections including the new Courses (8 cards) and Testimonials,
+  no horizontal scroll. `tsc` clean, lint 0 errors.

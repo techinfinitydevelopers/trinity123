@@ -1,6 +1,6 @@
 /* Default site content — mirrors the original static export exactly.
    Used by `prisma db seed` and by the admin "Reset to default" action. */
-import type { Block, BandBlock, UspBlock, LeadFormBlock, WorldMapBlock, CoursesBlock, StatsBlock, CountriesBlock, OfferBlock } from "./blocks";
+import type { Block, BandBlock, UspBlock, LeadFormBlock, WorldMapBlock, CoursesBlock, TestimonialsBlock, StatsBlock, CountriesBlock, OfferBlock } from "./blocks";
 
 const IMG = "/assets/img";
 const C = "/contact-us";
@@ -66,6 +66,18 @@ export const courses: CoursesBlock = {
     { icon: "fas fa-heartbeat", name: "Nursing & Healthcare", text: "Nursing, public health and allied health, with registration pathways in the destination country.", duration: "2 – 4 years", where: "Australia, UK, New Zealand" },
     { icon: "fas fa-concierge-bell", name: "Hospitality & Tourism", text: "Hotel and tourism management with paid internships built into the course.", duration: "1 – 3 years", where: "Switzerland, Australia, UAE" },
     { icon: "fas fa-coins", name: "Finance & Accounting", text: "Finance, accounting and fintech, including courses aligned to ACCA and CFA.", duration: "1 – 2 years", where: "UK, Ireland, Canada" },
+  ],
+};
+
+/* The two genuine student quotes we have. The client has asked for three more on the home
+   page — a management message and two named students — but has not sent the words yet, and
+   testimonials are not something to write on their behalf. They add them in the editor. */
+export const testimonials: TestimonialsBlock = {
+  type: "testimonials", kicker: "Testimonials", title: "Stories of [Success]",
+  lead: "Real students. Real admits. Hear from those who made it.",
+  items: [
+    { img: `${IMG}/home/client-2.png`, name: "Rohan Nair – Mumbai", course: "Master's in IT · Arizona State University", text: "I am extremely grateful to Trinity Study Abroad for their invaluable support during my journey to pursue my Master's degree in IT at Arizona State University, from which I graduated in December 2023. They were instrumental in helping me decide on the right university, taking into consideration the curriculum that best suited my academic and career goals. Their guidance throughout the application process, the documentation preparation, and the overall journey was exceptional. I would highly recommend Trinity Study Abroad if you are planning to pursue overseas education." },
+    { img: `${IMG}/home/client-1.png`, name: "Sharanya Santosh – Mumbai", course: "Master's · Maynooth University, Ireland", text: "I am thankful to Trinity Study Abroad in helping me with the admission and visa process for pursuing my Master's degree in Ireland. Trinity assisted me in choosing the best college for the subject of my choice. They guided me with the application process, the documentation required and coached and prepped me for the visa interview process. I am joining Maynooth University in Ireland for the Fall 2024 intake. Thank you Trinity Study Abroad for making this possible." },
   ],
 };
 
@@ -174,6 +186,7 @@ const homeBlocks: Block[] = [
     ],
   },
   courses,
+  testimonials,
   stats,
   {
     type: "cta", layout: "split", badgeIcon: "fas fa-star", badge: "Dream Big. Make It Happen.", title: "Start Your Learning Journey {Today!}",
@@ -243,13 +256,7 @@ const aboutBlocks: Block[] = [
       { icon: `${IMG}/icons/features_icon04.svg`, title: "Stay Informed", text: "Get expert advice on visas, applications, and studying abroad with ease." },
     ],
   },
-  {
-    type: "testimonials", kicker: "Testimonials", title: "Stories of [Success]", lead: "Real students. Real admits. Hear from those who made it.",
-    items: [
-      { img: `${IMG}/home/client-2.png`, name: "Rohan Nair – Mumbai", course: "Master's in IT · Arizona State University", text: "I am extremely grateful to Trinity Study Abroad for their invaluable support during my journey to pursue my Master's degree in IT at Arizona State University, from which I graduated in December 2023. They were instrumental in helping me decide on the right university, taking into consideration the curriculum that best suited my academic and career goals. Their guidance throughout the application process, the documentation preparation, and the overall journey was exceptional. I would highly recommend Trinity Study Abroad if you are planning to pursue overseas education." },
-      { img: `${IMG}/home/client-1.png`, name: "Sharanya Santosh – Mumbai", course: "Master's · Maynooth University, Ireland", text: "I am thankful to Trinity Study Abroad in helping me with the admission and visa process for pursuing my Master's degree in Ireland. Trinity assisted me in choosing the best college for the subject of my choice. They guided me with the application process, the documentation required and coached and prepped me for the visa interview process. I am joining Maynooth University in Ireland for the Fall 2024 intake. Thank you Trinity Study Abroad for making this possible." },
-    ],
-  },
+  testimonials,
 ];
 
 const whyBlocks: Block[] = [
