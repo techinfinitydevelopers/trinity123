@@ -655,3 +655,10 @@ AskUserQuestion before building:
 - Mistake worth recording: that file also held the generated admin password, which is now
   unrecoverable (the database stores only the bcrypt hash). Added
   `scripts/set-admin-password.mjs` so it can be set again.
+
+## Build log — 2026-10-06 (7)
+- Reset the production admin password after losing the first one: re-added Railway public access,
+  ran `scripts/set-admin-password.mjs`, removed public access again and confirmed from this machine
+  that the database is unreachable. The site and /admin/login both still return 200.
+- The new password is in `trinity-cms/ADMIN-LOGIN.local.txt` (gitignored). **Left in place on
+  purpose** — do not delete it until the owner confirms they have saved it.

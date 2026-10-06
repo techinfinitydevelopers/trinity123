@@ -46,3 +46,6 @@ next-env.d.ts
 
 # Local dev server config for the Claude Code preview pane
 .claude/
+
+# Credentials handed to the owner — never commit
+ADMIN-LOGIN.local.txt
