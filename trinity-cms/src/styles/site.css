@@ -162,7 +162,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 /* ---------- Hero ---------- */
 /* Height follows the content. Pinned at 100vh the hero left ~350px of empty cream under the
    buttons, because the copy column is half the height of the photo. */
-.hero{position:relative;min-height:auto;display:flex;align-items:center;overflow:hidden;background:var(--cream);padding:130px 24px 118px}
+.hero{position:relative;min-height:auto;display:flex;align-items:center;overflow:hidden;background:var(--cream);padding:176px 24px 118px}
 .hero__bg,.page-hero__bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 78% 38%,rgba(91,132,196,.22),transparent 68%),radial-gradient(ellipse 45% 45% at 12% 88%,rgba(26,188,156,.16),transparent 70%),linear-gradient(160deg,#fff8ec 0%,var(--cream) 55%,#fdf3e0 100%)}
 .stack__grid,.cta__grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:72px 72px;pointer-events:none}
 .hero__grid,.page-hero__grid{position:absolute;inset:0;background-image:linear-gradient(rgba(35,47,112,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(35,47,112,.05) 1px,transparent 1px);background-size:72px 72px;pointer-events:none}
@@ -172,7 +172,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .glow--a{width:640px;height:640px;background:var(--primary-2);opacity:.16;right:-160px;top:-160px;animation:floaty 9s ease-in-out infinite}
 .glow--b{width:420px;height:420px;background:var(--teal);opacity:.12;left:30%;bottom:-200px;animation:floaty 12s 2s ease-in-out infinite reverse}
 .hero__inner{position:relative;width:100%;padding:0}
-.hero__cols{display:grid;grid-template-columns:minmax(300px,1fr) minmax(300px,1.12fr);gap:clamp(32px,4vw,64px);align-items:start;margin-top:26px}
+.hero__cols{display:grid;grid-template-columns:minmax(280px,.92fr) minmax(300px,1.2fr);gap:clamp(32px,4vw,64px);align-items:start;margin-top:26px}
 /* Sized off the viewport so the tagline stays on one line: the string needs about 15x its font
    size, and the container is min(1320px, 100vw - 48px), so 6vw clears it down to the phone
    breakpoint — below that it is allowed to wrap rather than shrink to nothing. */
@@ -686,7 +686,9 @@ html.no-js [data-reveal]{opacity:1;transform:none}
   .topsearch{min-width:0;padding:5px 12px;gap:7px}
   .topsearch input{font-size:12.5px}
   .section{padding:80px 18px 70px}
-  .hero{padding:120px 18px 70px;min-height:auto}
+  /* The phone header is taller than the desktop one — the wordmark wraps under the mark — so
+     the headline needs more room or it sits right against the nav. */
+  .hero{padding:152px 18px 76px;min-height:auto}
   .page-hero{padding:130px 18px 64px}
   .h1{letter-spacing:-1px}
   .chip--float{display:none}
@@ -700,6 +702,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
   .footer__marquee{margin:0 -18px}
 }
 @media (max-width:380px){
+  .hero{padding:166px 18px 70px}
   /* iPhone SE / 320px: the nav row runs out of width, so everything in it gets one size smaller
      and the CTA drops its arrow bubble. Nothing is hidden — the client wants all of it on phones. */
   .nav{gap:7px;padding:10px 14px}

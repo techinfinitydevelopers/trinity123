@@ -594,3 +594,16 @@ AskUserQuestion before building:
   the photo was being clipped at 375px and 320px.
 - Verified at 1440, 1024, 375 and 320: one-line tagline on desktop, card and comb inside the hero
   with slack, nothing clipped, no horizontal scroll. `tsc` clean, lint 0 errors.
+- The site header overlays the hero, so `.hero`'s top padding has to clear it — and the **phone
+  header is taller than the desktop one** because the wordmark wraps under the mark (117px at
+  375px, 116px at 320px, against ~133px on desktop where the nav is roomier). Padding is 176px on
+  desktop, 152px under 640px and 166px under 380px, giving ~43-50px of clearance everywhere. If the
+  logo lockup changes, re-measure `h1.top - header.bottom`.
+
+## Build log — 2026-10-06 (3)
+- Desktop hero: the headline was sitting 3px *above* the header's bottom edge — the nav overlapped
+  it. Top padding raised to clear it by 43px, and the columns rebalanced (.92fr / 1.2fr) so the
+  photo carries more width and the band beside it reads as air rather than a gap.
+- Same overlap on phones, worse: 3px of clearance at 375px. Fixed per breakpoint.
+- Verified at 1440, 1024, 375 and 320: clearance 42-50px, one-line tagline on desktop, card and
+  comb inside the hero, nothing clipped, no horizontal scroll. `tsc` clean, lint 0 errors.
