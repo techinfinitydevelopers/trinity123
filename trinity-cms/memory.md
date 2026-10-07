@@ -734,3 +734,48 @@ someone saves the tab. Saving goes through `saveSettingsAction` → `revalidateT
 so it is live immediately.
 
 Verified: `tsc --noEmit` clean, `npm run build` clean. Commit `1346827`, pushed.
+
+## Build log — 2026-10-07 · Everything editable from the dashboard
+Asked for, in three messages: "har ak word edit or har ke image change sab kuch hona
+chaiye dashboard me", "sab jitne social media ko bhi edit kar saku", and drag-and-drop
+section reordering "sab pages ke liye".
+
+**Wording.** A scan of `src/components/site/**` and `src/app/(site)/**` for JSX text
+nodes and `placeholder`/`alt`/`title`/`aria-label` props turned up ~100 literals. They
+are now a `labels` settings key (header, common, contactCards, forms, blog, search,
+errors, destination) plus a `chatbot.ui` block, edited at Settings → **Text & labels**
+and the Chatbot page. Both admin forms render them with `ObjectFields` from
+`FieldEditor.tsx` — the schema-less editor already picks the right control per field,
+so ~100 inputs cost two lines of JSX and an image field gets an ImagePicker for free.
+
+- `{country}` in a destination string is filled per country; `[brackets]` mark the
+  accent word. Helpers `fillCountry` and `Marked` in `site/ui.tsx`.
+- Server components read `getLabels()` (`src/lib/labels.ts`, `import "server-only"`).
+  Several became `async` for it — fine in RSC. **Do not import that module into
+  `site/ui.tsx`**: the client `Header` imports from there, so it would pull a
+  server-only module into the browser bundle. That is why `Stars` takes `label` as a
+  prop instead.
+- Client components get props: `Header` ← layout, `ContactForm`/`LeadForm` ← their
+  blocks, `Faq` ← `blocks/index.tsx` (avatar only).
+- `error.tsx` keeps its literals deliberately — it renders when the request already
+  failed, and the settings it would read come from the database that may be down.
+
+**Socials.** `contact.socials` (five fixed keys) → `contact.socialLinks`, a list of
+`{label, icon, href}` the owner can add to, reorder, rename or blank. `href: "whatsapp"`
+reuses the number via the existing `resolveHref` sentinel. The old object stays in the
+type so pre-existing rows still load; `scripts/apply-social-links.mjs` copies edited
+URLs across. `OrgSchema`'s `sameAs` now filters to real `https://` profiles — a wa.me
+deep link is not a profile.
+
+**Drag-and-drop.** `BlockEditor.tsx` Sections rail uses native HTML5 DnD (no library):
+`drag`/`over` state, insertion point decided by whether the pointer is past a row's
+midpoint, a brand-coloured line as the drop indicator. Works on every page, since the
+rail is the same component for all of them. Up/Down buttons stay — touch devices do not
+fire HTML5 drag events.
+
+**No migration needed for the new keys**: `getSetting` spreads `DEFAULTS[key]` under the
+stored row, so production rendered the new captions immediately.
+
+Verified on production after deploy `0649e36`: home, a destination, a blog post, search,
+contact and the 404 all 200 with the new captions in the HTML; all six social icons
+render from the list; `/admin/settings` still 307s to login.
