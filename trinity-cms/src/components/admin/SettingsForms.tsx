@@ -5,7 +5,7 @@ import { saveSettingsAction, changePasswordAction } from "@/lib/actions";
 import ImagePicker from "./ImagePicker";
 import { Field, Toggle, toast } from "./ui";
 
-type Tab = "site" | "contact" | "nav" | "security";
+type Tab = "site" | "contact" | "nav" | "footer" | "security";
 
 export default function SettingsForms({ initial }: { initial: SettingsMap }) {
   const [tab, setTab] = useState<Tab>("site");
@@ -13,7 +13,7 @@ export default function SettingsForms({ initial }: { initial: SettingsMap }) {
   const [saving, setSaving] = useState(false);
   const save = async <K extends keyof SettingsMap>(k: K) => { setSaving(true); const r = await saveSettingsAction(k, s[k]); setSaving(false); r.ok ? toast("Saved · live") : toast(r.error, "err"); };
 
-  const tabs: [Tab, string][] = [["site", "General"], ["contact", "Contact & social"], ["nav", "Navigation"], ["security", "Security"]];
+  const tabs: [Tab, string][] = [["site", "General"], ["contact", "Contact & social"], ["nav", "Navigation"], ["footer", "Footer"], ["security", "Security"]];
 
   return (
     <div className="grid gap-6 lg:grid-cols-[220px_1fr]">
@@ -81,6 +81,38 @@ export default function SettingsForms({ initial }: { initial: SettingsMap }) {
               <Field label="Header button link"><input className="inp inp-sm font-mono" value={s.nav.ctaHref} onChange={(e) => setS({ ...s, nav: { ...s.nav, ctaHref: e.target.value } })} /></Field>
             </div>
             <button className="btn-primary" onClick={() => save("nav")} disabled={saving}>Save</button>
+          </div>
+        ) : null}
+
+        {tab === "footer" ? (
+          <div className="card space-y-4 p-5">
+            <h3 className="text-[15px] font-bold text-navy">Footer</h3>
+            <p className="text-[13px] text-ink-2">The logo, description and copyright live under General; the link list under Navigation; the address, phones and social icons under Contact &amp; social.</p>
+
+            <h4 className="pt-1 text-[14px] font-bold text-navy">Call-to-action band</h4>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field label="Small line above"><input className="inp inp-sm" value={s.footer.ctaKicker} onChange={(e) => setS({ ...s, footer: { ...s.footer, ctaKicker: e.target.value } })} /></Field>
+              <Field label="Heading"><input className="inp inp-sm" value={s.footer.ctaTitle} onChange={(e) => setS({ ...s, footer: { ...s.footer, ctaTitle: e.target.value } })} /></Field>
+              <Field label="Button label"><input className="inp inp-sm" value={s.footer.ctaPrimaryLabel} onChange={(e) => setS({ ...s, footer: { ...s.footer, ctaPrimaryLabel: e.target.value } })} /></Field>
+              <Field label="Button link"><input className="inp inp-sm font-mono" value={s.footer.ctaPrimaryHref} onChange={(e) => setS({ ...s, footer: { ...s.footer, ctaPrimaryHref: e.target.value } })} /></Field>
+              <Field label="WhatsApp button label" hint="The number itself is under Contact &amp; social."><input className="inp inp-sm" value={s.footer.ctaSecondaryLabel} onChange={(e) => setS({ ...s, footer: { ...s.footer, ctaSecondaryLabel: e.target.value } })} /></Field>
+            </div>
+
+            <h4 className="pt-2 text-[14px] font-bold text-navy">Column headings</h4>
+            <div className="grid gap-4 sm:grid-cols-3">
+              <Field label="Links column"><input className="inp inp-sm" value={s.footer.linksTitle} onChange={(e) => setS({ ...s, footer: { ...s.footer, linksTitle: e.target.value } })} /></Field>
+              <Field label="Destinations column"><input className="inp inp-sm" value={s.footer.destinationsTitle} onChange={(e) => setS({ ...s, footer: { ...s.footer, destinationsTitle: e.target.value } })} /></Field>
+              <Field label="Contact column"><input className="inp inp-sm" value={s.footer.contactTitle} onChange={(e) => setS({ ...s, footer: { ...s.footer, contactTitle: e.target.value } })} /></Field>
+            </div>
+
+            <h4 className="pt-2 text-[14px] font-bold text-navy">Bottom strip</h4>
+            <div className="grid gap-4 sm:grid-cols-3">
+              <Field label="Scrolling word" hint="Shown alternating with the site name."><input className="inp inp-sm" value={s.footer.marqueeWord} onChange={(e) => setS({ ...s, footer: { ...s.footer, marqueeWord: e.target.value } })} /></Field>
+              <Field label="&ldquo;Powered by&rdquo; name" hint="Leave empty to hide the line."><input className="inp inp-sm" value={s.footer.poweredByText} onChange={(e) => setS({ ...s, footer: { ...s.footer, poweredByText: e.target.value } })} /></Field>
+              <Field label="&ldquo;Powered by&rdquo; link"><input className="inp inp-sm font-mono" value={s.footer.poweredByUrl} onChange={(e) => setS({ ...s, footer: { ...s.footer, poweredByUrl: e.target.value } })} /></Field>
+            </div>
+
+            <button className="btn-primary" onClick={() => save("footer")} disabled={saving}>Save</button>
           </div>
         ) : null}
 

@@ -27,6 +27,17 @@ export type ChatbotSettings = {
   notifyEmail: string;
 };
 
+/* The footer strings that used to be hard-coded in `Footer.tsx`. The rest of the footer already
+   came from `site`, `nav` and `contact`; these are the last pieces, so the owner can reword the
+   whole band without a deploy. */
+export type FooterSettings = {
+  ctaKicker: string; ctaTitle: string;
+  ctaPrimaryLabel: string; ctaPrimaryHref: string; ctaSecondaryLabel: string;
+  linksTitle: string; destinationsTitle: string; contactTitle: string;
+  marqueeWord: string;
+  poweredByText: string; poweredByUrl: string;
+};
+
 export type SiteSettings = {
   siteName: string; tagline: string; logo: string; footerText: string; copyright: string;
   gaId: string;
@@ -86,7 +97,20 @@ export const DEFAULTS: SettingsMap = {
     copyright: "Copyright © Trinity Study Abroad Private Limited. All Rights Reserved.",
     gaId: "",
   } satisfies SiteSettings,
+  footer: {
+    ctaKicker: "Dream Big · Make It Happen",
+    ctaTitle: "Ready to start your study abroad journey?",
+    ctaPrimaryLabel: "Book Free Consultation",
+    ctaPrimaryHref: "/contact-us",
+    ctaSecondaryLabel: "WhatsApp",
+    linksTitle: "Quick Links",
+    destinationsTitle: "Destinations",
+    contactTitle: "Get in Touch",
+    marqueeWord: "Think Global",
+    poweredByText: "Itarsia India Limited",
+    poweredByUrl: "https://www.itarsia.com/",
+  } satisfies FooterSettings,
 };
 
-export type SettingsMap = { theme: ThemeSettings; contact: ContactSettings; nav: NavSettings; chatbot: ChatbotSettings; site: SiteSettings };
+export type SettingsMap = { theme: ThemeSettings; contact: ContactSettings; nav: NavSettings; chatbot: ChatbotSettings; site: SiteSettings; footer: FooterSettings };
 export type SettingsKey = keyof SettingsMap;

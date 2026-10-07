@@ -40,7 +40,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
       <OrgSchema site={settings.site} contact={settings.contact} />
       <Header nav={settings.nav} contact={settings.contact} site={settings.site} destinations={destinations} />
       <main id="main">{children}</main>
-      <Footer nav={settings.nav} contact={settings.contact} site={settings.site} destinations={destinations} />
+      <Footer nav={settings.nav} contact={settings.contact} site={settings.site} footer={settings.footer} destinations={destinations} />
       {settings.chatbot.enabled ? <ChatWidget cfg={settings.chatbot} contact={settings.contact} /> : null}
       <SiteScripts />
     </>
