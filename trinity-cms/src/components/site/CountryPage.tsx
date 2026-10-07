@@ -2,8 +2,9 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { Country } from "@/generated/prisma";
-import type { ContactSettings } from "@/lib/settings";
-import { FLAG } from "./ui";
+import type { ContactSettings, LabelSettings } from "@/lib/settings";
+import { FLAG, Marked, fillCountry } from "./ui";
+import { getLabels } from "@/lib/labels";
 
 type Pair = { label: string; value: string };
 type QA = { q: string; a: string };
@@ -26,9 +27,15 @@ const btnGhostInk: CSSProperties = { ...btnGhost, border: "1.5px solid rgba(35,4
 const num = (bg = "var(--primary)", size = 38, r = 12): CSSProperties => ({ position: "relative", fontFamily: P, fontWeight: 700, fontSize: 13, color: "#fff", background: bg, width: size, height: size, borderRadius: r, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 });
 const jfill: CSSProperties = { position: "absolute", inset: 0, background: "var(--grey)", opacity: 0, transition: "opacity .45s" };
 
-const JUMP: [string, (n: string) => string][] = [["c-why", (n) => `Why ${n}`], ["c-cost", () => "Costs"], ["c-admission", () => "Requirements"], ["c-funding", () => "Scholarships"], ["c-visa", () => "Visa process"], ["c-work", () => "Work & PR"], ["c-faq", () => "FAQs"]];
+/* The jump-nav captions, like every other word on this template, come from Settings → Text &
+   labels. `{country}` is filled in per destination. */
+const jumpItems = (L: LabelSettings["destination"], name: string): [string, string][] => [
+  ["c-why", fillCountry(L.jumpWhy, name)], ["c-cost", L.jumpCosts], ["c-admission", L.jumpRequirements],
+  ["c-funding", L.jumpScholarships], ["c-visa", L.jumpVisa], ["c-work", L.jumpWork], ["c-faq", L.jumpFaq],
+];
 
-export default function CountryPage({ c, others, contact }: { c: Country; others: DestinationLite[]; contact: ContactSettings }) {
+export default async function CountryPage({ c, others, contact }: { c: Country; others: DestinationLite[]; contact: ContactSettings }) {
+  const L = (await getLabels()).destination;
   const stats = c.stats as Stat[], why = c.why as string[], courses = c.courses as string[], unis = c.unis as Uni[];
   const cost = c.cost as Pair[], req = c.req as Pair[], sch = c.sch as Named[], steps = c.steps as Step[], workPoints = c.workPoints as string[], faq = c.faq as QA[];
   const wa = `https://wa.me/${contact.whatsapp}`;
@@ -43,7 +50,7 @@ export default function CountryPage({ c, others, contact }: { c: Country; others
         <span data-plx="0.1" aria-hidden="true" style={{ position: "absolute", right: "-1%", bottom: -24, fontFamily: P, fontWeight: 800, fontSize: "clamp(5rem,15vw,14rem)", lineHeight: 0.8, letterSpacing: -8, color: "transparent", WebkitTextStroke: "1px rgba(35,47,112,.12)", pointerEvents: "none", userSelect: "none", willChange: "transform", textTransform: "uppercase" }}>{c.name}</span>
         <div style={{ position: "relative", maxWidth: 1320, margin: "0 auto", width: "100%", display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
           <div data-word style={{ animationDelay: ".05s", color: "var(--muted-ink)", fontFamily: P, fontWeight: 500, fontSize: 13, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 24 }}>
-            <Link href="/" style={{ color: "var(--muted-ink)" }}>Home</Link> <i className="fas fa-chevron-right" style={{ fontSize: 9, color: "var(--teal-ink)", margin: "0 8px" }} /> <Link href="/why-study-abroad" style={{ color: "var(--muted-ink)" }}>Destinations</Link> <i className="fas fa-chevron-right" style={{ fontSize: 9, color: "var(--teal-ink)", margin: "0 8px" }} /> <span style={{ color: "var(--navy)", fontWeight: 600 }}>{c.name}</span>
+            <Link href="/" style={{ color: "var(--muted-ink)" }}>Home</Link> <i className="fas fa-chevron-right" style={{ fontSize: 9, color: "var(--teal-ink)", margin: "0 8px" }} /> <Link href="/why-study-abroad" style={{ color: "var(--muted-ink)" }}>{L.crumbDestinations}</Link> <i className="fas fa-chevron-right" style={{ fontSize: 9, color: "var(--teal-ink)", margin: "0 8px" }} /> <span style={{ color: "var(--navy)", fontWeight: 600 }}>{c.name}</span>
           </div>
           <div data-word style={{ animationDelay: ".15s", display: "inline-flex", alignItems: "center", gap: 14, background: "rgba(255,255,255,.75)", backdropFilter: "blur(12px)", border: "1px solid rgba(35,47,112,.12)", padding: "8px 18px 8px 8px", borderRadius: 50, marginBottom: 24 }}>
             <img src={flag} alt="" style={{ width: 34, height: 34, borderRadius: "50%", objectFit: "cover", border: "2px solid rgba(255,255,255,.9)" }} />
@@ -52,7 +59,7 @@ export default function CountryPage({ c, others, contact }: { c: Country; others
           <h1 data-word style={{ animationDelay: ".25s", color: "var(--navy)", fontSize: "clamp(2.4rem,5vw,4.4rem)", fontWeight: 800, letterSpacing: -2, lineHeight: 1.03, textWrap: "balance" as never }}>{c.hero}</h1>
           <p data-word style={{ animationDelay: ".4s", color: "var(--text)", marginTop: 24, fontSize: 17, maxWidth: 680, lineHeight: 1.8 }}>{c.intro}</p>
           <div data-word style={{ animationDelay: ".5s", display: "flex", gap: 14, flexWrap: "wrap", marginTop: 34 }}>
-            <Link className="cv-btny" href="/contact-us" style={btnSolid}>Get free counselling <i className="fas fa-arrow-right" style={{ fontSize: 12 }} /></Link>
+            <Link className="cv-btny" href="/contact-us" style={btnSolid}>{L.heroButton} <i className="fas fa-arrow-right" style={{ fontSize: 12 }} /></Link>
             <a href={wa} target="_blank" rel="noopener" style={btnGhostInk}><i className="fab fa-whatsapp" style={{ color: "var(--teal-ink)" }} /> WhatsApp us</a>
           </div>
         </div>
@@ -74,8 +81,8 @@ export default function CountryPage({ c, others, contact }: { c: Country; others
       {/* jump nav */}
       <nav className="cv-section" style={{ padding: "56px 24px 0", background: "#fff" }} aria-label="On this page">
         <div data-reveal style={{ maxWidth: 1320, margin: "0 auto", display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center", borderBottom: "1px solid var(--line)", paddingBottom: 18 }}>
-          <span className="cv-dsk" style={{ fontFamily: P, fontWeight: 600, fontSize: 12, letterSpacing: 1.5, textTransform: "uppercase", color: "var(--muted)", marginRight: 8 }}>On this page</span>
-          {JUMP.map(([id, l]) => <a key={id} className="cv-jumper" href={`#${id}`} style={{ fontFamily: P, fontWeight: 500, fontSize: 13.5, color: "var(--navy)", background: "var(--grey)", padding: "9px 16px", borderRadius: 50, transition: "all .3s" }}>{l(c.name)}</a>)}
+          <span className="cv-dsk" style={{ fontFamily: P, fontWeight: 600, fontSize: 12, letterSpacing: 1.5, textTransform: "uppercase", color: "var(--muted)", marginRight: 8 }}>{L.onThisPage}</span>
+          {jumpItems(L, c.name).map(([id, l]) => <a key={id} className="cv-jumper" href={`#${id}`} style={{ fontFamily: P, fontWeight: 500, fontSize: 13.5, color: "var(--navy)", background: "var(--grey)", padding: "9px 16px", borderRadius: 50, transition: "all .3s" }}>{l}</a>)}
         </div>
       </nav>
 
@@ -84,7 +91,7 @@ export default function CountryPage({ c, others, contact }: { c: Country; others
         <div className="cv-postgrid" style={{ maxWidth: 1320, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1.15fr) minmax(0,1fr)", gap: 56, alignItems: "start" }}>
           <div>
             <Kicker text="Why this destination" />
-            <h2 data-reveal style={{ ...h2, marginBottom: 34 }}>Why study in <span style={{ color: "var(--primary)" }}>{c.name}</span></h2>
+            <h2 data-reveal style={{ ...h2, marginBottom: 34 }}><Marked text={fillCountry(L.whyTitle, c.name)} accentStyle={{ color: "var(--primary)" }} /></h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               {why.map((w, i) => (
                 <div key={i} className="cv-jcard" data-reveal style={{ position: "relative", display: "flex", gap: 18, alignItems: "flex-start", background: "#fff", border: "1px solid var(--line)", borderRadius: 20, padding: "22px 24px", transition: "all .45s cubic-bezier(.4,0,.2,1)", transitionDelay: d(i), overflow: "hidden" }}>
@@ -98,18 +105,18 @@ export default function CountryPage({ c, others, contact }: { c: Country; others
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
             <div data-reveal style={{ background: "var(--grey)", borderRadius: 26, padding: 30 }}>
-              <div style={{ fontFamily: P, fontWeight: 600, fontSize: 13, letterSpacing: 2, textTransform: "uppercase", color: "var(--primary)", marginBottom: 18 }}>Popular courses</div>
+              <div style={{ fontFamily: P, fontWeight: 600, fontSize: 13, letterSpacing: 2, textTransform: "uppercase", color: "var(--primary)", marginBottom: 18 }}>{L.popularCourses}</div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
                 {courses.map((x, i) => <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#fff", border: "1px solid var(--line)", fontFamily: P, fontWeight: 500, fontSize: 14, color: "var(--navy)", padding: "10px 18px", borderRadius: 50 }}><i className="fas fa-circle" style={{ fontSize: 5, color: "var(--gold)" }} />{x}</span>)}
               </div>
             </div>
             <div data-reveal style={{ background: "var(--navy)", color: "#fff", borderRadius: 26, padding: 30, position: "relative", overflow: "hidden" }}>
               <span style={{ position: "absolute", width: 180, height: 180, borderRadius: "50%", background: "var(--primary)", filter: "blur(55px)", opacity: 0.55, right: -60, top: -60 }} />
-              <div style={{ position: "relative", fontFamily: P, fontWeight: 600, fontSize: 13, letterSpacing: 2, textTransform: "uppercase", color: "var(--gold)", marginBottom: 14 }}>Visa requirements</div>
+              <div style={{ position: "relative", fontFamily: P, fontWeight: 600, fontSize: 13, letterSpacing: 2, textTransform: "uppercase", color: "var(--gold)", marginBottom: 14 }}>{L.visaRequirements}</div>
               <p style={{ position: "relative", fontSize: 15.5, lineHeight: 1.8, color: "rgba(255,255,255,.8)" }}>{c.visa}</p>
             </div>
             <div data-reveal style={{ background: "#fff", border: "1px solid var(--line)", borderRadius: 26, padding: 30 }}>
-              <div style={{ fontFamily: P, fontWeight: 600, fontSize: 13, letterSpacing: 2, textTransform: "uppercase", color: "var(--primary)", marginBottom: 14 }}>Intakes &amp; timeline</div>
+              <div style={{ fontFamily: P, fontWeight: 600, fontSize: 13, letterSpacing: 2, textTransform: "uppercase", color: "var(--primary)", marginBottom: 14 }}>{L.intakes}</div>
               <p style={{ fontSize: 15.5, lineHeight: 1.8, color: "var(--text)" }}>{c.intakes}</p>
             </div>
           </div>
@@ -120,9 +127,9 @@ export default function CountryPage({ c, others, contact }: { c: Country; others
       <section id="c-cost" className="cv-section" style={{ padding: "90px 24px", background: "var(--grey)", scrollMarginTop: 110 }}>
         <div style={{ maxWidth: 1320, margin: "0 auto" }}>
           <div data-reveal style={{ marginBottom: 40, maxWidth: 620 }}>
-            <div style={kicker("Money matters")}><span style={{ width: 28, height: 2, background: "var(--gold)" }} />Money matters</div>
-            <h2 style={h2}>Cost of studying in <span style={{ color: "var(--primary)" }}>{c.name}</span></h2>
-            <p style={{ marginTop: 18, lineHeight: 1.8, fontSize: 16, color: "var(--text)" }}>Indicative figures for a one-year budget. Your counsellor prepares a written estimate for your exact course and city.</p>
+            <div style={kicker(L.costKicker)}><span style={{ width: 28, height: 2, background: "var(--gold)" }} />{L.costKicker}</div>
+            <h2 style={h2}><Marked text={fillCountry(L.costTitle, c.name)} accentStyle={{ color: "var(--primary)" }} /></h2>
+            <p style={{ marginTop: 18, lineHeight: 1.8, fontSize: 16, color: "var(--text)" }}>{L.costNote}</p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 16 }}>
             {cost.map((x, i) => {
@@ -144,7 +151,7 @@ export default function CountryPage({ c, others, contact }: { c: Country; others
         <div className="cv-postgrid" style={{ maxWidth: 1320, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 56, alignItems: "start" }}>
           <div>
             <Kicker text="Eligibility" />
-            <h2 data-reveal style={{ ...h2, marginBottom: 30 }}>Admission requirements</h2>
+            <h2 data-reveal style={{ ...h2, marginBottom: 30 }}>{L.admissionTitle}</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {req.map((r, i) => (
                 <div key={i} data-reveal style={{ display: "flex", gap: 18, alignItems: "flex-start", background: "var(--grey)", borderRadius: 20, padding: "22px 24px", transitionDelay: d(i) }}>
@@ -156,7 +163,7 @@ export default function CountryPage({ c, others, contact }: { c: Country; others
           </div>
           <div id="c-funding" style={{ scrollMarginTop: 110 }}>
             <Kicker text="Funding" />
-            <h2 data-reveal style={{ ...h2, marginBottom: 30 }}>Scholarships &amp; financial aid</h2>
+            <h2 data-reveal style={{ ...h2, marginBottom: 30 }}>{L.fundingTitle}</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {sch.map((s, i) => (
                 <div key={i} className="cv-jcard" data-reveal style={{ position: "relative", background: "#fff", border: "1px solid var(--line)", borderRadius: 20, padding: 24, transition: "all .45s cubic-bezier(.4,0,.2,1)", transitionDelay: d(i, 3), overflow: "hidden" }}>
@@ -165,7 +172,7 @@ export default function CountryPage({ c, others, contact }: { c: Country; others
                   <p style={{ position: "relative", fontSize: 15, lineHeight: 1.75, color: "var(--text)" }}>{s.text}</p>
                 </div>
               ))}
-              <Link className="cv-btny" href="/contact-us" style={{ display: "inline-flex", alignItems: "center", justifyContent: "space-between", gap: 10, background: "var(--navy)", color: "#fff", fontFamily: P, fontWeight: 600, fontSize: 15, padding: "18px 20px 18px 26px", borderRadius: 50, transition: "all .3s" }}>Check what you qualify for <span style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--gold)", color: "var(--navy)", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 12 }}><i className="fas fa-arrow-right" /></span></Link>
+              <Link className="cv-btny" href="/contact-us" style={{ display: "inline-flex", alignItems: "center", justifyContent: "space-between", gap: 10, background: "var(--navy)", color: "#fff", fontFamily: P, fontWeight: 600, fontSize: 15, padding: "18px 20px 18px 26px", borderRadius: 50, transition: "all .3s" }}>{L.fundingButton} <span style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--gold)", color: "var(--navy)", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 12 }}><i className="fas fa-arrow-right" /></span></Link>
             </div>
           </div>
         </div>
@@ -176,8 +183,8 @@ export default function CountryPage({ c, others, contact }: { c: Country; others
         <span style={{ position: "absolute", width: 420, height: 420, borderRadius: "50%", background: "var(--primary)", filter: "blur(120px)", opacity: 0.4, right: -120, top: -120 }} />
         <div style={{ maxWidth: 1320, margin: "0 auto", position: "relative" }}>
           <div data-reveal style={{ marginBottom: 44, maxWidth: 620 }}>
-            <div style={kicker("Step by step", true)}><span style={{ width: 28, height: 2, background: "var(--gold)" }} />Step by step</div>
-            <h2 style={{ ...h2, color: "#fff" }}>The visa process, simplified</h2>
+            <div style={kicker(L.visaKicker, true)}><span style={{ width: 28, height: 2, background: "var(--gold)" }} />{L.visaKicker}</div>
+            <h2 style={{ ...h2, color: "#fff" }}>{L.visaTitle}</h2>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 18 }}>
             {steps.map((s, i) => (
@@ -197,7 +204,7 @@ export default function CountryPage({ c, others, contact }: { c: Country; others
         <div className="cv-postgrid" style={{ maxWidth: 1320, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,.85fr)", gap: 56, alignItems: "center" }}>
           <div>
             <Kicker text="After graduation" />
-            <h2 data-reveal style={h2}>Work &amp; settlement options</h2>
+            <h2 data-reveal style={h2}>{L.workTitle}</h2>
             <p data-reveal style={{ marginTop: 20, fontSize: 16.5, lineHeight: 1.85, color: "var(--text)" }}>{c.work}</p>
             <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 28 }}>
               {workPoints.map((w, i) => <div key={i} data-reveal style={{ display: "flex", gap: 14, alignItems: "center", background: "var(--grey)", borderRadius: 16, padding: "16px 20px", transitionDelay: d(i) }}><i className="fas fa-check-circle" style={{ color: "var(--primary)", fontSize: 16 }} /><span style={{ fontFamily: P, fontWeight: 500, fontSize: 15.5, color: "var(--navy)" }}>{w}</span></div>)}
@@ -219,8 +226,8 @@ export default function CountryPage({ c, others, contact }: { c: Country; others
         <section className="cv-section" style={{ padding: "90px 24px", background: "var(--grey)" }}>
           <div style={{ maxWidth: 1320, margin: "0 auto" }}>
             <div data-reveal style={{ marginBottom: 40 }}>
-              <div style={kicker("Partner institutions")}><span style={{ width: 28, height: 2, background: "var(--gold)" }} />Partner institutions</div>
-              <h2 style={h2}>Universities we place students in</h2>
+              <div style={kicker(L.universitiesKicker)}><span style={{ width: 28, height: 2, background: "var(--gold)" }} />{L.universitiesKicker}</div>
+              <h2 style={h2}>{L.universitiesTitle}</h2>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 24 }}>
               {unis.map((u, i) => (
@@ -244,8 +251,8 @@ export default function CountryPage({ c, others, contact }: { c: Country; others
           <div>
             <Kicker text="Questions" />
             <h2 data-reveal style={h2}>{c.name} FAQs</h2>
-            <p data-reveal style={{ marginTop: 18, fontSize: 16, lineHeight: 1.8, color: "var(--text)" }}>Still unsure about something? Our counsellors answer profile-specific questions free of charge.</p>
-            <Link className="cv-btny" data-reveal href="/contact-us" style={{ display: "inline-flex", alignItems: "center", gap: 10, marginTop: 24, background: "var(--primary)", color: "#fff", fontFamily: P, fontWeight: 600, fontSize: 15, padding: "15px 28px", borderRadius: 50, transition: "all .3s" }}>Ask a counsellor <i className="fas fa-arrow-right" style={{ fontSize: 12 }} /></Link>
+            <p data-reveal style={{ marginTop: 18, fontSize: 16, lineHeight: 1.8, color: "var(--text)" }}>{L.faqNote}</p>
+            <Link className="cv-btny" data-reveal href="/contact-us" style={{ display: "inline-flex", alignItems: "center", gap: 10, marginTop: 24, background: "var(--primary)", color: "#fff", fontFamily: P, fontWeight: 600, fontSize: 15, padding: "15px 28px", borderRadius: 50, transition: "all .3s" }}>{L.faqButton} <i className="fas fa-arrow-right" style={{ fontSize: 12 }} /></Link>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {faq.map((f, i) => (
@@ -264,8 +271,8 @@ export default function CountryPage({ c, others, contact }: { c: Country; others
         <section className="cv-section" style={{ padding: "90px 24px 100px", background: "#fff" }}>
           <div style={{ maxWidth: 1320, margin: "0 auto" }}>
             <div data-reveal style={{ marginBottom: 34 }}>
-              <div style={kicker("Compare destinations")}><span style={{ width: 28, height: 2, background: "var(--gold)" }} />Compare destinations</div>
-              <h2 style={h2}>Other <span style={{ color: "var(--primary)" }}>study destinations</span></h2>
+              <div style={kicker(L.otherKicker)}><span style={{ width: 28, height: 2, background: "var(--gold)" }} />{L.otherKicker}</div>
+              <h2 style={h2}><Marked text={L.otherTitle} accentStyle={{ color: "var(--primary)" }} /></h2>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(180px,1fr))", gap: 14 }}>
               {others.map((o, i) => (
@@ -289,12 +296,12 @@ export default function CountryPage({ c, others, contact }: { c: Country; others
         <div data-reveal="scale" style={{ maxWidth: 1320, margin: "0 auto", position: "relative", overflow: "hidden", background: "linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 55%,var(--primary) 100%)", borderRadius: 36, padding: "clamp(40px,6vw,72px)", textAlign: "center" }}>
           <span style={{ position: "absolute", width: 360, height: 360, borderRadius: "50%", background: "var(--gold)", filter: "blur(130px)", opacity: 0.28, left: "50%", top: -140, transform: "translateX(-50%)" }} />
           <div style={{ position: "relative", maxWidth: 660, margin: "0 auto" }}>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "rgba(255,255,255,.12)", border: "1px solid rgba(255,255,255,.22)", color: "var(--gold)", fontFamily: P, fontWeight: 600, fontSize: 13, padding: "8px 18px", borderRadius: 50, marginBottom: 22 }}><i className="fas fa-graduation-cap" /> Free counselling</div>
-            <h2 style={{ color: "#fff", fontSize: "clamp(1.9rem,3.4vw,2.9rem)", fontWeight: 700, letterSpacing: -1, lineHeight: 1.15 }}>Ready to apply to <span style={{ color: "var(--gold)" }}>{c.name}</span>?</h2>
-            <p style={{ color: "rgba(255,255,255,.78)", marginTop: 18, fontSize: 16.5, lineHeight: 1.8 }}>42 years of experience, 1200+ partner universities and end-to-end support — from shortlisting to your first week on campus.</p>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "rgba(255,255,255,.12)", border: "1px solid rgba(255,255,255,.22)", color: "var(--gold)", fontFamily: P, fontWeight: 600, fontSize: 13, padding: "8px 18px", borderRadius: 50, marginBottom: 22 }}><i className="fas fa-graduation-cap" /> {L.ctaBadge}</div>
+            <h2 style={{ color: "#fff", fontSize: "clamp(1.9rem,3.4vw,2.9rem)", fontWeight: 700, letterSpacing: -1, lineHeight: 1.15 }}><Marked text={fillCountry(L.ctaTitle, c.name)} accentStyle={{ color: "var(--gold)" }} /></h2>
+            <p style={{ color: "rgba(255,255,255,.78)", marginTop: 18, fontSize: 16.5, lineHeight: 1.8 }}>{L.ctaText}</p>
             <div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center", marginTop: 32 }}>
-              <Link className="cv-btny" href="/contact-us" style={btnGold}>Book free consultation <i className="fas fa-arrow-right" style={{ fontSize: 12 }} /></Link>
-              <a href={wa} target="_blank" rel="noopener" style={btnGhost}><i className="fab fa-whatsapp" style={{ color: "var(--gold)" }} /> Chat on WhatsApp</a>
+              <Link className="cv-btny" href="/contact-us" style={btnGold}>{L.ctaPrimary} <i className="fas fa-arrow-right" style={{ fontSize: 12 }} /></Link>
+              <a href={wa} target="_blank" rel="noopener" style={btnGhost}><i className="fab fa-whatsapp" style={{ color: "var(--gold)" }} /> {L.ctaSecondary}</a>
             </div>
           </div>
         </div>

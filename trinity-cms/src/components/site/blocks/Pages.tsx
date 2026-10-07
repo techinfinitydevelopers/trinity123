@@ -1,5 +1,6 @@
 import type { JourneyBlock, TestimonialsBlock, IntroBlock, FeatureCardsBlock, ServicesBlock, ContactBlock } from "@/lib/blocks";
 import type { ContactSettings } from "@/lib/settings";
+import { getLabels } from "@/lib/labels";
 import { A, SectionHead, Title, Stars, d } from "../ui";
 import ContactForm from "../ContactForm";
 
@@ -26,7 +27,8 @@ export function Journey({ b }: { b: JourneyBlock }) {
   );
 }
 
-export function Testimonials({ b }: { b: TestimonialsBlock }) {
+export async function Testimonials({ b }: { b: TestimonialsBlock }) {
+  const L = (await getLabels()).common;
   return (
     <section className="section testi">
       <span className="testi__quote" aria-hidden="true">“</span>
@@ -40,7 +42,7 @@ export function Testimonials({ b }: { b: TestimonialsBlock }) {
                 <div className="tcard__who"><img src={t.img} alt={t.name} loading="lazy" /><div><strong>{t.name}</strong><small>{t.course}</small></div></div>
                 <span className="tcard__q"><i className="fas fa-quote-right" /></span>
               </div>
-              <Stars />
+              <Stars label={L.ratingLabel} />
               <p>{t.text}</p>
             </blockquote>
           ))}
@@ -109,22 +111,24 @@ export function Services({ b, contact }: { b: ServicesBlock; contact: ContactSet
   );
 }
 
-export function Contact({ b, contact }: { b: ContactBlock; contact: ContactSettings }) {
+export async function Contact({ b, contact }: { b: ContactBlock; contact: ContactSettings }) {
+  const all = await getLabels();
+  const L = all.contactCards;
   const mapQ = encodeURIComponent(contact.address);
   return (
     <section className="section section--grey contact">
       <div className="container grid grid--3 contact__cards">
         <div className="icard" data-reveal>
-          <span className="icard__blob" /><span className="icard__ico"><i className="fas fa-phone-alt" /></span><h3>Phone</h3>
+          <span className="icard__blob" /><span className="icard__ico"><i className="fas fa-phone-alt" /></span><h3>{L.phone}</h3>
           {contact.phones.map((p) => <a key={p} href={`tel:${p.replace(/[^\d+]/g, "")}`}>{p}</a>)}
           {contact.landline ? <a href={`tel:${contact.landline.replace(/[^\d+]/g, "")}`}>{contact.landline}</a> : null}
         </div>
         <div className="icard" data-reveal style={{ ["--d" as string]: ".08s" }}>
-          <span className="icard__blob" /><span className="icard__ico"><i className="fas fa-envelope" /></span><h3>E-mail Address</h3>
+          <span className="icard__blob" /><span className="icard__ico"><i className="fas fa-envelope" /></span><h3>{L.email}</h3>
           <a href={`mailto:${contact.email}`}>{contact.email}</a>
         </div>
         <div className="icard" data-reveal style={{ ["--d" as string]: ".16s" }}>
-          <span className="icard__blob" /><span className="icard__ico"><i className="fas fa-map-marker-alt" /></span><h3>Head Office</h3>
+          <span className="icard__blob" /><span className="icard__ico"><i className="fas fa-map-marker-alt" /></span><h3>{L.office}</h3>
           <a href={`https://maps.google.com/?q=${mapQ}`} target="_blank" rel="noopener">{contact.address}</a>
         </div>
       </div>
@@ -134,16 +138,16 @@ export function Contact({ b, contact }: { b: ContactBlock; contact: ContactSetti
           <p className="kicker">{b.kicker}</p>
           <Title text={b.title} className="h2 h2--sm" />
           <p className="lead">{b.lead}</p>
-          <ContactForm okMsg={b.okMsg} />
+          <ContactForm okMsg={b.okMsg} labels={all.forms} />
         </div>
         <div className="mapcol" data-reveal="right">
           <div className="map">
-            <iframe title="Office location" src={contact.mapEmbed || `https://www.google.com/maps?q=${mapQ}&output=embed`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+            <iframe title={L.mapTitle} src={contact.mapEmbed || `https://www.google.com/maps?q=${mapQ}&output=embed`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
             <div className="chip chip--map"><span className="chip__ico chip__ico--gold"><i className="fas fa-map-marker-alt" /></span><span><strong>{b.mapChipStrong}</strong><small>{b.mapChipSmall}</small></span></div>
           </div>
           <div className="joinstrip">
             <span className="glow" />
-            <span className="avatars"><img src="/assets/img/home/client-1.png" alt="" /><img src="/assets/img/home/client-2.png" alt="" /></span>
+            <span className="avatars"><img src={all.common.avatarImage1} alt="" /><img src={all.common.avatarImage2} alt="" /></span>
             <span><strong>{b.joinStrong}</strong><small>{b.joinSmall.split(" · ").map((s, i) => i ? <em key={i}> · {s}</em> : s)}</small></span>
           </div>
         </div>

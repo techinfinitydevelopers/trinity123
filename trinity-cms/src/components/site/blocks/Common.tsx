@@ -1,5 +1,6 @@
 import type { BandBlock, UspBlock, LeadFormBlock, WorldMapBlock, CoursesBlock, StatsBlock, CtaBlock, CountriesBlock, OfferBlock, RichTextBlock } from "@/lib/blocks";
 import type { ContactSettings } from "@/lib/settings";
+import { getLabels } from "@/lib/labels";
 import { A, FLAG, SectionHead, Title, PhonePill, d } from "../ui";
 import LeadForm from "../LeadForm";
 import WorldMap from "../WorldMap";
@@ -34,7 +35,8 @@ export function Usp({ b }: { b: UspBlock }) {
   );
 }
 
-export function LeadFormSection({ b }: { b: LeadFormBlock }) {
+export async function LeadFormSection({ b }: { b: LeadFormBlock }) {
+  const L = (await getLabels()).forms;
   return (
     <section className="section leadsec" id="enquiry">
       <div className="container leadsec__grid">
@@ -47,7 +49,7 @@ export function LeadFormSection({ b }: { b: LeadFormBlock }) {
           <div className="leadsec__img"><img src={b.image} alt={b.imageAlt} loading="lazy" /></div>
         </div>
         <div data-reveal="right">
-          <LeadForm title={b.formTitle} cities={b.cities} destinations={b.destinations} okMsg={b.okMsg} submitLabel={b.submitLabel} />
+          <LeadForm title={b.formTitle} cities={b.cities} destinations={b.destinations} okMsg={b.okMsg} submitLabel={b.submitLabel} labels={L} />
         </div>
       </div>
     </section>
@@ -65,7 +67,8 @@ export function WorldMapSection({ b }: { b: WorldMapBlock }) {
   );
 }
 
-export function CoursesSection({ b }: { b: CoursesBlock }) {
+export async function CoursesSection({ b }: { b: CoursesBlock }) {
+  const L = (await getLabels()).common;
   return (
     <section className="section coursesec" id="courses">
       <div className="container">
@@ -77,8 +80,8 @@ export function CoursesSection({ b }: { b: CoursesBlock }) {
               <h3>{c.name}</h3>
               <p>{c.text}</p>
               <dl className="crs__meta">
-                <div><dt>Duration</dt><dd>{c.duration}</dd></div>
-                <div><dt>Strongest in</dt><dd>{c.where}</dd></div>
+                <div><dt>{L.duration}</dt><dd>{c.duration}</dd></div>
+                <div><dt>{L.strongestIn}</dt><dd>{c.where}</dd></div>
               </dl>
             </article>
           ))}
@@ -104,7 +107,8 @@ export function Stats({ b }: { b: StatsBlock }) {
   );
 }
 
-export function Cta({ b, contact }: { b: CtaBlock; contact: ContactSettings }) {
+export async function Cta({ b, contact }: { b: CtaBlock; contact: ContactSettings }) {
+  const L = (await getLabels()).common;
   if (b.layout === "center") {
     return (
       <section className="section section--tight">
@@ -126,7 +130,7 @@ export function Cta({ b, contact }: { b: CtaBlock; contact: ContactSettings }) {
   return (
     <section className="section section--tight" id="cta">
       <div className="container cta" data-reveal="scale">
-        <span className="cta__grid" /><span className="cta__glow" /><p className="cta__ghost" aria-hidden="true">GO GLOBAL</p>
+        <span className="cta__grid" /><span className="cta__glow" /><p className="cta__ghost" aria-hidden="true">{L.ghostWord}</p>
         <div className="cta__copy">
           <p className="badge badge--gold"><i className={b.badgeIcon} /> {b.badge}</p>
           <Title text={b.title} className="h2 h2--light" />
@@ -140,7 +144,7 @@ export function Cta({ b, contact }: { b: CtaBlock; contact: ContactSettings }) {
           </div>
         </div>
         <div className="cta__visual">
-          <span className="cta__disc" /><span className="cta__ring" /><img src={b.img} alt="Student holding folder" data-plx="-0.05" loading="lazy" />
+          <span className="cta__disc" /><span className="cta__ring" /><img src={b.img} alt={L.ctaImageAlt} data-plx="-0.05" loading="lazy" />
           <div className="chip chip--ca"><span className="chip__ico"><i className={b.chipA.icon} /></span><span><strong>{b.chipA.strong}</strong><small>{b.chipA.small}</small></span></div>
           <div className="chip chip--cb chip--gold"><i className={b.chipB.icon} /><span><strong>{b.chipB.strong}</strong><small>{b.chipB.small}</small></span></div>
         </div>
@@ -190,7 +194,8 @@ export function Countries({ b, contact }: { b: CountriesBlock; contact: ContactS
   );
 }
 
-export function Offer({ b, contact }: { b: OfferBlock; contact: ContactSettings }) {
+export async function Offer({ b, contact }: { b: OfferBlock; contact: ContactSettings }) {
+  const L = (await getLabels()).common;
   return (
     <section className="section section--grey" id="offer">
       <div className="container">
@@ -207,7 +212,7 @@ export function Offer({ b, contact }: { b: OfferBlock; contact: ContactSettings 
               <div className="ocard__body">
                 <h3>{c.title}</h3>
                 <p>{c.text}</p>
-                <div className="ocard__foot"><span>Explore</span><span className="circle"><i className="fas fa-arrow-right" /></span></div>
+                <div className="ocard__foot"><span>{L.explore}</span><span className="circle"><i className="fas fa-arrow-right" /></span></div>
               </div>
             </A>
           ))}

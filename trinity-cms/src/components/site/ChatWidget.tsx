@@ -28,6 +28,7 @@ function render(text: string) {
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function ChatWidget({ cfg, contact }: { cfg: ChatbotSettings; contact: ContactSettings }) {
+  const U = cfg.ui;
   const [open, setOpen] = useState(false);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [sessionId, setSessionId] = useState<string | null>(null);
@@ -181,8 +182,8 @@ export default function ChatWidget({ cfg, contact }: { cfg: ChatbotSettings; con
         <div className="tc-nudge">
           <button type="button" className="tc-nudge__x" onClick={() => { setNudge(false); safeSet(STORAGE.seen, "1"); }} aria-label="Dismiss">×</button>
           <button type="button" className="tc-nudge__open" onClick={() => toggle(true)}>
-            <strong>Planning to study abroad?</strong>
-            <small>Ask me about countries, fees, visas or intakes.</small>
+            <strong>{U.nudgeTitle}</strong>
+            <small>{U.nudgeText}</small>
           </button>
         </div>
       ) : null}
@@ -195,7 +196,7 @@ export default function ChatWidget({ cfg, contact }: { cfg: ChatbotSettings; con
       <div className={`tc-panel${open ? " is-open" : ""}`} role="dialog" aria-label={cfg.name} aria-modal="false">
         <div className="tc-head">
           <span className="tc-avatar"><i className="fas fa-graduation-cap" /><i className="tc-live" /></span>
-          <div className="tc-head__txt"><strong>{cfg.name}</strong><small>Online · usually replies instantly</small></div>
+          <div className="tc-head__txt"><strong>{cfg.name}</strong><small>{U.status}</small></div>
           {sessionId ? <button className="tc-icon tc-icon--urgent" onClick={askAdmin} disabled={urgentState !== "idle"} title="This is urgent — contact admin" aria-label="This is urgent — contact admin"><i className="fas fa-triangle-exclamation" /></button> : null}
           {sessionId ? <button className="tc-icon" onClick={reset} title="Start a new chat" aria-label="Start a new chat"><i className="fas fa-rotate-right" /></button> : null}
           <button className="tc-icon" onClick={() => toggle(false)} title="Close" aria-label="Close chat"><i className="fas fa-chevron-down" /></button>
@@ -203,16 +204,16 @@ export default function ChatWidget({ cfg, contact }: { cfg: ChatbotSettings; con
 
         {!sessionId ? (
           <form className="tc-gate" onSubmit={submitForm}>
-            <p className="tc-gate__hi"><i className="fas fa-hand-sparkles" /> Before we chat, tell us a little about you. Please ask your questions in English.</p>
-            <label className="tc-gate__lbl" htmlFor="tc-gate-name">Full name</label>
-            <input id="tc-gate-name" className="tc-gate__inp" placeholder="e.g. Rahul Sharma" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} autoComplete="name" />
-            <label className="tc-gate__lbl" htmlFor="tc-gate-email">Email address</label>
-            <input id="tc-gate-email" className="tc-gate__inp" type="email" placeholder="e.g. rahul@gmail.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} autoComplete="email" />
-            <label className="tc-gate__lbl" htmlFor="tc-gate-phone">Phone number</label>
-            <input id="tc-gate-phone" className="tc-gate__inp" type="tel" placeholder="e.g. 9876543210" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} autoComplete="tel" />
+            <p className="tc-gate__hi"><i className="fas fa-hand-sparkles" /> {U.gateIntro}</p>
+            <label className="tc-gate__lbl" htmlFor="tc-gate-name">{U.gateName}</label>
+            <input id="tc-gate-name" className="tc-gate__inp" placeholder={U.gateNamePlaceholder} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} autoComplete="name" />
+            <label className="tc-gate__lbl" htmlFor="tc-gate-email">{U.gateEmail}</label>
+            <input id="tc-gate-email" className="tc-gate__inp" type="email" placeholder={U.gateEmailPlaceholder} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} autoComplete="email" />
+            <label className="tc-gate__lbl" htmlFor="tc-gate-phone">{U.gatePhone}</label>
+            <input id="tc-gate-phone" className="tc-gate__inp" type="tel" placeholder={U.gatePhonePlaceholder} value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} autoComplete="tel" />
             {formErr ? <p className="tc-gate__err">{formErr}</p> : null}
             <button type="submit" className="tc-gate__go" disabled={formBusy}>{formBusy ? "Starting…" : "Start chatting"}</button>
-            <p className="tc-foot">We&apos;ll only use these details to help with your enquiry.</p>
+            <p className="tc-foot">{U.gateFoot}</p>
           </form>
         ) : (
           <>
@@ -223,8 +224,8 @@ export default function ChatWidget({ cfg, contact }: { cfg: ChatbotSettings; con
                   {m.content ? <div dangerouslySetInnerHTML={{ __html: render(m.content) }} /> : <span className="tc-typing"><i /><i /><i /></span>}
                   {m.unmatched && i === msgs.length - 1 ? (
                     <div className="tc-unmatched">
-                      <a className="tc-unmatched__btn" href={telHref}><i className="fas fa-phone-alt" /> Call Support</a>
-                      <a className="tc-unmatched__btn" href={waHref} target="_blank" rel="noopener"><i className="fab fa-whatsapp" /> Send Message</a>
+                      <a className="tc-unmatched__btn" href={telHref}><i className="fas fa-phone-alt" /> {U.callButton}</a>
+                      <a className="tc-unmatched__btn" href={waHref} target="_blank" rel="noopener"><i className="fab fa-whatsapp" /> {U.messageButton}</a>
                       <button type="button" className="tc-unmatched__btn tc-unmatched__btn--gold" onClick={askAdmin} disabled={urgentState !== "idle"}>
                         <i className="fas fa-user-shield" /> {urgentState === "sent" ? "Admin notified ✓" : "Ask Admin"}
                       </button>
@@ -241,13 +242,13 @@ export default function ChatWidget({ cfg, contact }: { cfg: ChatbotSettings; con
 
             <form className="tc-form" onSubmit={(e) => { e.preventDefault(); void send(input); }}>
               <textarea
-                ref={inputRef} rows={1} value={input} placeholder="Ask your question in English…" aria-label="Your message" maxLength={1000} disabled={busy}
+                ref={inputRef} rows={1} value={input} placeholder={U.inputPlaceholder} aria-label="Your message" maxLength={1000} disabled={busy}
                 onChange={(e) => { setInput(e.target.value); e.target.style.height = "auto"; e.target.style.height = `${Math.min(96, e.target.scrollHeight)}px`; }}
                 onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); void send(input); } }}
               />
               <button type="submit" disabled={busy || !input.trim()} aria-label="Send"><i className="fas fa-paper-plane" /></button>
             </form>
-            <p className="tc-foot">AI assistant — please confirm fees and visa rules with a counsellor.</p>
+            <p className="tc-foot">{U.disclaimer}</p>
           </>
         )}
       </div>

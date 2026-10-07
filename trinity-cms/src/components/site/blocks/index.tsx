@@ -26,7 +26,7 @@ function renderBlock(b: Block, ctx: RenderCtx) {
     case "universities": return <Universities b={b} contact={contact} />;
     case "stats": return <Stats b={b} />;
     case "cta": return <Cta b={b} contact={contact} />;
-    case "faq": return <Faq b={b} contact={contact} />;
+    case "faq": return <Faq b={b} contact={contact} avatar={ctx.settings.labels.common.avatarImage1} />;
     case "journey": return <Journey b={b} />;
     case "testimonials": return <Testimonials b={b} />;
     case "intro": return <Intro b={b} />;

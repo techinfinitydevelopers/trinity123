@@ -4,7 +4,7 @@ import type { FaqBlock } from "@/lib/blocks";
 import type { ContactSettings } from "@/lib/settings";
 import { SectionHead, d } from "../ui";
 
-export function Faq({ b, contact }: { b: FaqBlock; contact: ContactSettings }) {
+export function Faq({ b, contact, avatar }: { b: FaqBlock; contact: ContactSettings; avatar: string }) {
   const [open, setOpen] = useState(0);
   return (
     <section className="section section--grey" id="faq">
@@ -14,7 +14,7 @@ export function Faq({ b, contact }: { b: FaqBlock; contact: ContactSettings }) {
           <div className="chatcard" data-reveal aria-hidden="true">
             <span className="chatcard__glow" />
             <div className="chatcard__head">
-              <span className="chatcard__avatar"><img src="/assets/img/home/client-1.png" alt="" /><i className="live" /></span>
+              <span className="chatcard__avatar"><img src={avatar} alt="" /><i className="live" /></span>
               <div><strong>{b.chat.name}</strong><small>{b.chat.status}</small></div>
             </div>
             <div className="chatcard__body">

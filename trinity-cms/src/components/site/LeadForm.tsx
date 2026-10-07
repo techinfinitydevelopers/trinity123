@@ -1,13 +1,14 @@
 "use client";
 import { useState, type FormEvent } from "react";
+import type { LabelSettings } from "@/lib/settings";
 
 /* The short enquiry card from the client's sample: name, email, phone with a country code,
    nearest branch and destination, then one button. It posts to the same /api/leads endpoint as
    the full contact form — `city` and `destination` are folded into the lead's subject and message
    so the leads table and the admin inbox stay as they are. */
 export default function LeadForm({
-  title, cities, destinations, okMsg, submitLabel,
-}: { title: string; cities: string[]; destinations: string[]; okMsg: string; submitLabel: string }) {
+  title, cities, destinations, okMsg, submitLabel, labels: L,
+}: { title: string; cities: string[]; destinations: string[]; okMsg: string; submitLabel: string; labels: LabelSettings["forms"] }) {
   const [state, setState] = useState<"idle" | "busy" | "ok" | "err">("idle");
   const [error, setError] = useState<string | null>(null);
 
@@ -53,8 +54,8 @@ export default function LeadForm({
         <p className="leadcard__ok" role="status"><i className="fas fa-check-circle" /> {okMsg}</p>
       ) : (
         <form className="leadcard__form" onSubmit={onSubmit} noValidate>
-          <input name="name" type="text" autoComplete="name" required placeholder="Name" aria-label="Name" />
-          <input name="email" type="email" autoComplete="email" required placeholder="Email ID" aria-label="Email ID" />
+          <input name="name" type="text" autoComplete="name" required placeholder={L.leadName} aria-label={L.leadName} />
+          <input name="email" type="email" autoComplete="email" required placeholder={L.leadEmail} aria-label={L.leadEmail} />
           <div className="leadcard__row">
             <select name="code" aria-label="Country code" defaultValue="+91">
               <option value="+91">+91 · IN</option>
@@ -63,14 +64,14 @@ export default function LeadForm({
               <option value="+1">+1 · US/CA</option>
               <option value="+61">+61 · AU</option>
             </select>
-            <input name="phone" type="tel" inputMode="tel" autoComplete="tel-national" required placeholder="Mobile No" aria-label="Mobile number" />
+            <input name="phone" type="tel" inputMode="tel" autoComplete="tel-national" required placeholder={L.leadPhone} aria-label={L.leadPhone} />
           </div>
-          <select name="city" required defaultValue="" aria-label="Nearest city">
-            <option value="" disabled>Choose Nearest City</option>
+          <select name="city" required defaultValue="" aria-label={L.leadCity}>
+            <option value="" disabled>{L.leadCity}</option>
             {cities.map((c) => <option key={c} value={c}>{c}</option>)}
           </select>
-          <select name="destination" required defaultValue="" aria-label="Destination of interest">
-            <option value="" disabled>Destination(s) of Interest</option>
+          <select name="destination" required defaultValue="" aria-label={L.leadDestination}>
+            <option value="" disabled>{L.leadDestination}</option>
             {destinations.map((d) => <option key={d} value={d}>{d}</option>)}
           </select>
           {/* Honeypot — the API rejects the submission if a bot fills this. */}

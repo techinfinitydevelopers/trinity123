@@ -1,4 +1,5 @@
 import { FLAG, Stars } from "./ui";
+import { getLabels } from "@/lib/labels";
 import type { Chip } from "@/lib/blocks";
 
 /**
@@ -6,7 +7,7 @@ import type { Chip } from "@/lib/blocks";
  * visual. Pulled out of Hero.tsx per the 2026-09 redesign (replaced there by a student photo +
  * honeycomb stats) but kept intact here for reuse elsewhere with a different flag set.
  */
-export function OrbitFlags({
+export async function OrbitFlags({
   flags = ["us", "gb", "ca", "au", "de", "ie"],
   centerImg = "/assets/img/home/home-page.png",
   centerLabel = "Think Global",
@@ -21,6 +22,7 @@ export function OrbitFlags({
   chipB?: Chip;
   chipCText?: string;
 }) {
+  const L = (await getLabels()).common;
   const n = flags.length;
   return (
     <div className="orbit" aria-hidden="true">
@@ -39,8 +41,8 @@ export function OrbitFlags({
       <div className="chip chip--a"><span className="chip__ico"><i className={chipA.icon} /></span><span><strong>{chipA.strong}</strong><small>{chipA.small}</small></span></div>
       <div className="chip chip--b chip--gold"><i className={chipB.icon} /><span><strong>{chipB.strong}</strong><small>{chipB.small}</small></span></div>
       <div className="chip chip--c chip--glass">
-        <span className="avatars"><img src="/assets/img/home/client-1.png" alt="" /><img src="/assets/img/home/client-2.png" alt="" /></span>
-        <span><Stars /><small>{chipCText}</small></span>
+        <span className="avatars"><img src={L.avatarImage1} alt="" /><img src={L.avatarImage2} alt="" /></span>
+        <span><Stars label={L.ratingLabel} /><small>{chipCText}</small></span>
       </div>
     </div>
   );

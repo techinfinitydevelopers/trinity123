@@ -38,7 +38,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
       <ThemeStyle t={settings.theme} />
       <OrgSchema site={settings.site} contact={settings.contact} />
-      <Header nav={settings.nav} contact={settings.contact} site={settings.site} destinations={destinations} />
+      <Header nav={settings.nav} contact={settings.contact} site={settings.site} labels={settings.labels.header} destinations={destinations} />
       <main id="main">{children}</main>
       <Footer nav={settings.nav} contact={settings.contact} site={settings.site} footer={settings.footer} destinations={destinations} />
       {settings.chatbot.enabled ? <ChatWidget cfg={settings.chatbot} contact={settings.contact} /> : null}

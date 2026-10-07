@@ -1,13 +1,15 @@
 import Link from "next/link";
 import type { BlogListBlock } from "@/lib/blocks";
 import { db } from "@/lib/db";
+import { getLabels } from "@/lib/labels";
 
 export const fmtDate = (d: Date | null) =>
   d ? d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) : "";
 
 export type PostCard = { slug: string; title: string; excerpt: string; coverImage: string | null; category: string; readMins: number; publishedAt: Date | null };
 
-export function PostCardView({ p, big }: { p: PostCard; big?: boolean }) {
+export async function PostCardView({ p, big }: { p: PostCard; big?: boolean }) {
+  const L = (await getLabels()).common;
   const href = `/blog/${p.slug}`;
   const H = big ? "h2" : "h3";
   return (
@@ -17,13 +19,14 @@ export function PostCardView({ p, big }: { p: PostCard; big?: boolean }) {
         <p className="pcard__meta"><time dateTime={p.publishedAt?.toISOString().slice(0, 10)}>{fmtDate(p.publishedAt)}</time><span>·</span><span>{p.readMins} min read</span></p>
         <H><Link href={href}>{p.title}</Link></H>
         <p>{p.excerpt}</p>
-        <Link className="pcard__more" href={href}>Read article <i className="fas fa-arrow-right" /></Link>
+        <Link className="pcard__more" href={href}>{L.readArticle} <i className="fas fa-arrow-right" /></Link>
       </div>
     </article>
   );
 }
 
 export async function BlogList({ b, tag }: { b: BlogListBlock; tag?: string }) {
+  const L = (await getLabels()).blog;
   const posts = await db.post.findMany({
     where: { status: "PUBLISHED", ...(tag ? { category: tag } : {}) },
     orderBy: { publishedAt: "desc" },
@@ -33,11 +36,11 @@ export async function BlogList({ b, tag }: { b: BlogListBlock; tag?: string }) {
     <section className="section section--grey">
       <div className="container">
         <div className="blog-tags" data-reveal>
-          <Link href="/blog" className={!tag ? "is-active" : ""}>All</Link>
+          <Link href="/blog" className={!tag ? "is-active" : ""}>{L.allTag}</Link>
           {b.tags.map((t) => <Link key={t} href={`/blog?tag=${encodeURIComponent(t)}`} className={tag === t ? "is-active" : ""}>{t}</Link>)}
         </div>
         <div className="bgrid">
-          {posts.length === 0 ? <p className="lead">No articles yet.</p> : null}
+          {posts.length === 0 ? <p className="lead">{L.empty}</p> : null}
           {posts.map((p, i) => <PostCardView key={p.slug} p={p} big={i === 0 && !tag} />)}
         </div>
       </div>

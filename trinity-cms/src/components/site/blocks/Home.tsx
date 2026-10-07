@@ -1,5 +1,6 @@
 import type { AboutBlock, StepsBlock, UniversitiesBlock } from "@/lib/blocks";
 import type { ContactSettings, SiteSettings } from "@/lib/settings";
+import { getLabels } from "@/lib/labels";
 import { A, FLAG, SectionHead, Stars, PhonePill, Title, d } from "../ui";
 
 export function About({ b, contact, site }: { b: AboutBlock; contact: ContactSettings; site: SiteSettings }) {
@@ -35,7 +36,8 @@ export function About({ b, contact, site }: { b: AboutBlock; contact: ContactSet
   );
 }
 
-export function Steps({ b, contact }: { b: StepsBlock; contact: ContactSettings }) {
+export async function Steps({ b, contact }: { b: StepsBlock; contact: ContactSettings }) {
+  const L = (await getLabels()).common;
   const n = b.steps.length;
   return (
     <section className="section" id="how">
@@ -57,7 +59,7 @@ export function Steps({ b, contact }: { b: StepsBlock; contact: ContactSettings 
                   <h3>{s.title}</h3>
                   <p>{s.text}</p>
                   <ul className="checks">{s.checks.map((c) => <li key={c}><i className="fas fa-check" />{c}</li>)}</ul>
-                  <A href={s.href} contact={contact} className="pill-link">Get started <span className="circle"><i className="fas fa-arrow-right" /></span></A>
+                  <A href={s.href} contact={contact} className="pill-link">{L.getStarted} <span className="circle"><i className="fas fa-arrow-right" /></span></A>
                 </div>
                 <div className="stack__visual">
                   <span className="stack__frame" />
@@ -74,7 +76,8 @@ export function Steps({ b, contact }: { b: StepsBlock; contact: ContactSettings 
   );
 }
 
-export function Universities({ b, contact }: { b: UniversitiesBlock; contact: ContactSettings }) {
+export async function Universities({ b, contact }: { b: UniversitiesBlock; contact: ContactSettings }) {
+  const L = (await getLabels()).common;
   const n = b.items.length;
   return (
     <section className="pin" id="universities" data-pin>
@@ -93,8 +96,8 @@ export function Universities({ b, contact }: { b: UniversitiesBlock; contact: Co
               <span className="ucard__city"><img src={FLAG(u.flag)} alt="" />{u.city}</span>
               <span className="ucard__idx">{String(i + 1).padStart(2, "0")} / {String(n).padStart(2, "0")}</span>
               <span className="ucard__body">
-                <Stars /><small>{u.rating} · Reviews</small><h3>{u.name}</h3>
-                <span className="ucard__foot"><span>Enroll Now</span><span className="circle"><i className="fas fa-arrow-right" /></span></span>
+                <Stars label={L.ratingLabel} /><small>{u.rating} · {L.reviews}</small><h3>{u.name}</h3>
+                <span className="ucard__foot"><span>{L.enrollNow}</span><span className="circle"><i className="fas fa-arrow-right" /></span></span>
               </span>
             </A>
           ))}
@@ -102,7 +105,7 @@ export function Universities({ b, contact }: { b: UniversitiesBlock; contact: Co
         <div className="container pin__prog">
           <span className="pin__count" data-pin-count>01 <small>/ {String(n).padStart(2, "0")}</small></span>
           <span className="pin__bar"><span data-pin-bar /></span>
-          <span className="pin__hint"><i className="fas fa-mouse" /> Scroll to explore</span>
+          <span className="pin__hint"><i className="fas fa-mouse" /> {L.scrollHint}</span>
         </div>
       </div>
     </section>

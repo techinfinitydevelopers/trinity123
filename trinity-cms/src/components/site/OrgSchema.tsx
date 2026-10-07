@@ -5,7 +5,9 @@ import type { ContactSettings, SiteSettings } from "@/lib/settings";
    single consistent entity rather than a new anonymous organisation per page. */
 export default function OrgSchema({ site, contact }: { site: SiteSettings; contact: ContactSettings }) {
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-  const sameAs = [contact.socials.facebook, contact.socials.twitter, contact.socials.instagram, contact.socials.linkedin, contact.socials.youtube].filter(Boolean);
+  /* Only real profile URLs belong in `sameAs` — the WhatsApp sentinel and a wa.me deep link
+     are not profiles Google can reconcile with the organisation. */
+  const sameAs = (contact.socialLinks ?? []).map((s) => s.href).filter((h) => /^https?:\/\//.test(h) && !/wa\.me/.test(h));
 
   const ld = {
     "@context": "https://schema.org",

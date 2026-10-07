@@ -19,6 +19,10 @@ export default function BlockEditor({ initial }: { initial: PageData }) {
   const [preview, setPreview] = useState(true);
   const [device, setDevice] = useState<"desktop" | "mobile">("desktop");
   const [adding, setAdding] = useState(false);
+  /* Drag state for the Sections rail. `over` is the row the pointer is on; the dragged row is
+     dropped *before* it, or at the end when `over` is the list length. */
+  const [drag, setDrag] = useState<number | null>(null);
+  const [over, setOver] = useState<number | null>(null);
   const [stamp, setStamp] = useState(0); // 0 on first render so server & client markup match
   const frame = useRef<HTMLIFrameElement>(null);
   const templates = useMemo(() => blockTemplates(), []);
@@ -28,6 +32,16 @@ export default function BlockEditor({ initial }: { initial: PageData }) {
   const setBlocks = (blocks: Block[]) => update({ blocks });
   const setBlock = (i: number, b: Block) => setBlocks(page.blocks.map((x, k) => (k === i ? b : x)));
   const move = (i: number, d: -1 | 1) => { const j = i + d; if (j < 0 || j >= page.blocks.length) return; const n = [...page.blocks]; [n[i], n[j]] = [n[j], n[i]]; setBlocks(n); setSel(j); };
+  /* Drag-and-drop reorder. `to` is an insertion point, so dropping below the dragged row has to
+     account for the row leaving its old slot first. */
+  const reorder = (from: number, to: number) => {
+    if (from === to || from === to - 1) return;
+    const n = [...page.blocks];
+    const [moved] = n.splice(from, 1);
+    n.splice(to > from ? to - 1 : to, 0, moved);
+    setBlocks(n);
+    setSel(to > from ? to - 1 : to);
+  };
   const remove = (i: number) => { const n = page.blocks.filter((_, k) => k !== i); setBlocks(n); setSel(Math.min(Math.max(0, i - 1), Math.max(0, n.length - 1))); };
   const duplicate = (i: number) => { const n = [...page.blocks]; n.splice(i + 1, 0, deepClone(page.blocks[i])); setBlocks(n); setSel(i + 1); };
   const add = (t: BlockType) => {
@@ -84,11 +98,28 @@ export default function BlockEditor({ initial }: { initial: PageData }) {
             {/* block list */}
             <aside className="nice-scroll hidden w-[250px] shrink-0 overflow-auto border-r border-line bg-white p-3 md:block">
               <p className="lbl px-1">Sections</p>
-              <ol className="space-y-1">
+              <p className="px-1 pb-1 text-[11px] text-ink-3">Drag a section to reorder it.</p>
+              <ol className="space-y-1" onDragOver={(e) => e.preventDefault()} onDragLeave={() => setOver(null)}>
                 {page.blocks.map((b, i) => (
-                  <li key={i}>
-                    <button onClick={() => setSel(i)} className={`group relative flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left transition duration-200 ${sel === i ? "bg-brand-soft text-brand" : "hover:bg-canvas"}`}>
+                  <li
+                    key={i}
+                    draggable
+                    onDragStart={(e) => { setDrag(i); e.dataTransfer.effectAllowed = "move"; e.dataTransfer.setData("text/plain", String(i)); }}
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      e.dataTransfer.dropEffect = "move";
+                      // Past the halfway line the row the pointer is on should end up *above* the
+                      // dragged one, so the insertion point is after it.
+                      const r = e.currentTarget.getBoundingClientRect();
+                      setOver(e.clientY - r.top > r.height / 2 ? i + 1 : i);
+                    }}
+                    onDrop={(e) => { e.preventDefault(); const from = drag ?? Number(e.dataTransfer.getData("text/plain")); if (over != null && !Number.isNaN(from)) reorder(from, over); setDrag(null); setOver(null); }}
+                    onDragEnd={() => { setDrag(null); setOver(null); }}
+                    className={`relative rounded-xl ${drag === i ? "opacity-40" : ""} ${over === i ? "before:absolute before:-top-0.5 before:left-1 before:right-1 before:h-0.5 before:rounded-full before:bg-brand" : ""} ${over === i + 1 && i === page.blocks.length - 1 ? "after:absolute after:-bottom-0.5 after:left-1 after:right-1 after:h-0.5 after:rounded-full after:bg-brand" : ""}`}
+                  >
+                    <button onClick={() => setSel(i)} className={`group relative flex w-full cursor-grab items-center gap-2 rounded-xl px-3 py-2 text-left transition duration-200 active:cursor-grabbing ${sel === i ? "bg-brand-soft text-brand" : "hover:bg-canvas"}`}>
                       <span className={`absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full bg-brand transition-opacity ${sel === i ? "opacity-100" : "opacity-0"}`} />
+                      <span className="shrink-0 select-none text-[12px] leading-none text-ink-3" aria-hidden="true">⋮⋮</span>
                       <span className={`grid h-6 w-6 shrink-0 place-items-center rounded-md text-[11px] font-bold transition ${sel === i ? "bg-brand text-white" : "bg-canvas text-ink-3 group-hover:bg-line"}`}>{i + 1}</span>
                       <span className="min-w-0 flex-1"><span className="block truncate text-[13px] font-semibold">{BLOCK_META[b.type]?.label ?? b.type}</span><span className="block truncate text-[11px] text-ink-3">{summary(b)}</span></span>
                     </button>

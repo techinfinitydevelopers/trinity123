@@ -26,6 +26,21 @@ export function A({ href, contact, className, children, ...rest }: { href: strin
 
 export const Fa = ({ i, className }: { i: string; className?: string }) => <i className={className ? `${i} ${className}` : i} />;
 
+/** `{country}` placeholder used by the destination template's editable headings. */
+export const fillCountry = (text: string, country: string) => text.replace(/\{country\}/g, country);
+
+/** The same `[accent]` / `{gold}` markers as `Title`, rendered inline. `accentStyle` is for the
+    destination template, which paints its accents with inline styles rather than classes. */
+export function Marked({ text, accentStyle }: { text: string; accentStyle?: CSSProperties }) {
+  return (
+    <>
+      {splitTitle(text).map((p, i) =>
+        p.cls ? <span key={i} className={accentStyle ? undefined : p.cls} style={accentStyle}>{p.t}</span> : <span key={i}>{p.t}</span>,
+      )}
+    </>
+  );
+}
+
 /** Heading with `[accent]` / `{gold}` markers. */
 export function Title({ text, as = "h2", className }: { text: string; as?: "h1" | "h2" | "h3"; className?: string }) {
   const Tag = as;
@@ -53,8 +68,8 @@ export function Words({ words, start = 0.15, step = 0.1, capsule }: { words: Wor
   return <>{out}</>;
 }
 
-export const Stars = () => (
-  <span className="stars" role="img" aria-label="5 star rating">
+export const Stars = ({ label = "5 star rating" }: { label?: string }) => (
+  <span className="stars" role="img" aria-label={label}>
     <i className="fas fa-star" /><i className="fas fa-star" /><i className="fas fa-star" /><i className="fas fa-star" /><i className="fas fa-star" />
   </span>
 );
@@ -85,10 +100,14 @@ export function BtnLink({ b, contact, cls, icon }: { b: Btn; contact: ContactSet
 export const d = (i: number, step = 0.08): CSSProperties => ({ ["--d" as string]: `${(i * step).toFixed(2).replace(/\.?0+$/, "") || "0"}s` });
 
 export function Socials({ contact, cls }: { contact: ContactSettings; cls: string }) {
-  const s = contact.socials;
-  const items = [
-    [s.facebook, "Facebook", "fab fa-facebook-f"], [s.twitter, "X (Twitter)", "fab fa-twitter"], [s.instagram, "Instagram", "fab fa-instagram"],
-    [`https://wa.me/${contact.whatsapp}`, "WhatsApp", "fab fa-whatsapp"], [s.linkedin, "LinkedIn", "fab fa-linkedin-in"], [s.youtube, "YouTube", "fab fa-youtube"],
-  ].filter(([h]) => h);
-  return <>{items.map(([h, l, i]) => <a key={l} className={cls} href={h} aria-label={l} target="_blank" rel="noopener"><i className={i} /></a>)}</>;
+  /* An entry with an empty link is the owner hiding that icon from the dashboard without
+     losing the row, so it is skipped rather than rendered as a dead anchor. */
+  const items = (contact.socialLinks ?? []).filter((s) => s.href.trim());
+  return (
+    <>
+      {items.map((s, i) => (
+        <a key={`${s.label}-${i}`} className={cls} href={resolveHref(s.href, contact)} aria-label={s.label} target="_blank" rel="noopener"><i className={s.icon} /></a>
+      ))}
+    </>
+  );
 }

@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import type { ContactSettings, NavSettings, SiteSettings } from "@/lib/settings";
+import type { ContactSettings, LabelSettings, NavSettings, SiteSettings } from "@/lib/settings";
 import { Socials, FLAG } from "./ui";
 
 export type Destination = { code: string; slug: string; name: string; tag: string };
@@ -10,7 +10,7 @@ export type Destination = { code: string; slug: string; name: string; tag: strin
 /* Nav items whose href sits before the Study Destinations dropdown (canvas: Home · About · Why · Services · [Destinations] · Blog · Contact). */
 const LEFT = ["/", "/about-us", "/why-study-abroad", "/our-service"];
 
-export default function Header({ nav, contact, site, destinations }: { nav: NavSettings; contact: ContactSettings; site: SiteSettings; destinations: Destination[] }) {
+export default function Header({ nav, contact, site, labels, destinations }: { nav: NavSettings; contact: ContactSettings; site: SiteSettings; labels: LabelSettings["header"]; destinations: Destination[] }) {
   const path = usePathname();
   const [open, setOpen] = useState(false);
   const [destOpen, setDestOpen] = useState(false);
@@ -38,7 +38,7 @@ export default function Header({ nav, contact, site, destinations }: { nav: NavS
         <div className="container topbar__inner">
           <form className="topsearch" role="search" action="/search" onSubmit={(e) => { e.preventDefault(); const q = new FormData(e.currentTarget).get("q"); if (String(q ?? "").trim()) location.href = `/search?q=${encodeURIComponent(String(q))}`; }}>
             <i className="fas fa-search" aria-hidden="true" />
-            <input name="q" type="search" placeholder="Search universities or courses…" aria-label="Search universities or courses" />
+            <input name="q" type="search" placeholder={labels.searchPlaceholder} aria-label={labels.searchPlaceholder} />
           </form>
           <div className="topbar__group">
             <a className="topbar__ico" href={tel} aria-label={`Call ${contact.phones[0]}`} title={contact.phones[0]}><i className="fas fa-phone-alt" /></a>
@@ -68,7 +68,7 @@ export default function Header({ nav, contact, site, destinations }: { nav: NavS
                   onClick={() => setDestOpen((o) => !o)}
                   onKeyDown={(e) => { if (e.key === "Escape") setDestOpen(false); }}
                 >
-                  Study Destinations <i className="fas fa-chevron-down cv-ddchev" style={{ fontSize: 9, transition: "transform .3s" }} />
+                  {labels.destinations} <i className="fas fa-chevron-down cv-ddchev" style={{ fontSize: 9, transition: "transform .3s" }} />
                 </button>
                 <div className="cv-ddmenu" id="destinations-menu" onKeyDown={(e) => { if (e.key === "Escape") setDestOpen(false); }} style={{ position: "absolute", left: "50%", top: "calc(100% + 14px)", transform: "translate(-50%,10px)", width: 440, background: "#fff", border: "1px solid var(--line)", borderRadius: 24, boxShadow: "0 30px 70px rgba(26,36,86,.22)", padding: 14, opacity: 0, visibility: "hidden", transition: "all .32s cubic-bezier(.4,0,.2,1)", zIndex: 60 }}>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4 }}>
@@ -91,7 +91,7 @@ export default function Header({ nav, contact, site, destinations }: { nav: NavS
             {right.map(pill)}
           </ul>
           <div className="nav__actions">
-            <a className="nav__call" href={tel} aria-label="Call us"><i className="fas fa-phone-alt" /></a>
+            <a className="nav__call" href={tel} aria-label={labels.callLabel}><i className="fas fa-phone-alt" /></a>
             <Link className="btn btn--dark nav__cta" href={nav.ctaHref}>{nav.ctaLabel} <span className="btn__circle"><i className="fas fa-arrow-right" /></span></Link>
             <button className="nav__toggle" id="navToggle" type="button" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} aria-controls="mobileMenu" onClick={() => setOpen((o) => !o)}>
               <i className={open ? "fas fa-times" : "fas fa-bars"} />
@@ -102,7 +102,7 @@ export default function Header({ nav, contact, site, destinations }: { nav: NavS
           {nav.items.map((it) => <Link key={it.href} href={it.href} onClick={() => setOpen(false)} className={active(it.href) ? "is-active" : undefined}>{it.label}</Link>)}
           {destinations.length ? (
             <div style={{ padding: "14px 0 4px" }}>
-              <div style={{ fontFamily: "var(--font-h)", fontWeight: 600, fontSize: 12, letterSpacing: 1.5, textTransform: "uppercase", color: "var(--primary)", marginBottom: 12 }}>Study Destinations</div>
+              <div style={{ fontFamily: "var(--font-h)", fontWeight: 600, fontSize: 12, letterSpacing: 1.5, textTransform: "uppercase", color: "var(--primary)", marginBottom: 12 }}>{labels.destinations}</div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
                 {destinations.map((c) => (
                   <Link key={c.code} href={`/destinations/${c.slug}`} onClick={() => setOpen(false)} style={{ display: "flex", alignItems: "center", gap: 10, padding: "9px 10px", borderRadius: 14, background: "var(--grey)", color: "var(--navy)", fontFamily: "var(--font-h)", fontWeight: 500, fontSize: 14, border: 0 }}>

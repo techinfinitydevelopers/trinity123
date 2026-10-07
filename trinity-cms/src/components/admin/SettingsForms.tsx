@@ -4,8 +4,9 @@ import type { SettingsMap } from "@/lib/settings";
 import { saveSettingsAction, changePasswordAction } from "@/lib/actions";
 import ImagePicker from "./ImagePicker";
 import { Field, Toggle, toast } from "./ui";
+import { ObjectFields } from "./FieldEditor";
 
-type Tab = "site" | "contact" | "nav" | "footer" | "security";
+type Tab = "site" | "contact" | "nav" | "footer" | "labels" | "security";
 
 export default function SettingsForms({ initial }: { initial: SettingsMap }) {
   const [tab, setTab] = useState<Tab>("site");
@@ -13,7 +14,7 @@ export default function SettingsForms({ initial }: { initial: SettingsMap }) {
   const [saving, setSaving] = useState(false);
   const save = async <K extends keyof SettingsMap>(k: K) => { setSaving(true); const r = await saveSettingsAction(k, s[k]); setSaving(false); r.ok ? toast("Saved · live") : toast(r.error, "err"); };
 
-  const tabs: [Tab, string][] = [["site", "General"], ["contact", "Contact & social"], ["nav", "Navigation"], ["footer", "Footer"], ["security", "Security"]];
+  const tabs: [Tab, string][] = [["site", "General"], ["contact", "Contact & social"], ["nav", "Navigation"], ["footer", "Footer"], ["labels", "Text & labels"], ["security", "Security"]];
 
   return (
     <div className="grid gap-6 lg:grid-cols-[220px_1fr]">
@@ -53,10 +54,26 @@ export default function SettingsForms({ initial }: { initial: SettingsMap }) {
             <Field label="Address"><textarea className="inp" rows={2} value={s.contact.address} onChange={(e) => setS({ ...s, contact: { ...s.contact, address: e.target.value } })} /></Field>
             <Field label="Google Maps embed URL" hint="Optional. Leave empty to auto-generate from the address."><input className="inp inp-sm" value={s.contact.mapEmbed} onChange={(e) => setS({ ...s, contact: { ...s.contact, mapEmbed: e.target.value } })} /></Field>
             <h3 className="pt-2 text-[15px] font-bold text-navy">Social links</h3>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {(Object.keys(s.contact.socials) as (keyof typeof s.contact.socials)[]).map((k) => (
-                <Field key={k} label={k[0].toUpperCase() + k.slice(1)}><input className="inp inp-sm" value={s.contact.socials[k]} onChange={(e) => setS({ ...s, contact: { ...s.contact, socials: { ...s.contact.socials, [k]: e.target.value } } })} placeholder="https://… (empty = hidden)" /></Field>
-              ))}
+            <p className="text-[13px] text-ink-2">Shown in the header, the footer and the contact rail, in this order. The icon is a Font Awesome 5 class &mdash; <code>fab fa-facebook-f</code>, <code>fab fa-telegram</code>, <code>fab fa-pinterest</code> and so on. Use <code>whatsapp</code> as the link to reuse the WhatsApp number above; leave a link empty to hide that icon without losing the row.</p>
+            <div className="space-y-2">
+              {s.contact.socialLinks.map((it, i) => {
+                const setAt = (v: Partial<typeof it>) => setS({ ...s, contact: { ...s.contact, socialLinks: s.contact.socialLinks.map((x, k) => (k === i ? { ...x, ...v } : x)) } });
+                const swap = (j: number) => { if (j < 0 || j >= s.contact.socialLinks.length) return; const n = [...s.contact.socialLinks]; [n[i], n[j]] = [n[j], n[i]]; setS({ ...s, contact: { ...s.contact, socialLinks: n } }); };
+                return (
+                  <div key={i} className="flex flex-wrap items-center gap-2 rounded-xl border border-line bg-canvas/60 p-2">
+                    <div className="flex shrink-0 flex-col gap-0.5">
+                      <button className="rounded px-1 text-[10px] text-ink-3 hover:bg-white disabled:opacity-30" onClick={() => swap(i - 1)} disabled={i === 0} aria-label="Move up">&#9650;</button>
+                      <button className="rounded px-1 text-[10px] text-ink-3 hover:bg-white disabled:opacity-30" onClick={() => swap(i + 1)} disabled={i === s.contact.socialLinks.length - 1} aria-label="Move down">&#9660;</button>
+                    </div>
+                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-brand-soft text-brand"><i className={it.icon} /></span>
+                    <input className="inp inp-sm w-28 shrink-0" placeholder="Name" value={it.label} onChange={(e) => setAt({ label: e.target.value })} />
+                    <input className="inp inp-sm w-44 shrink-0 font-mono" placeholder="fab fa-facebook-f" value={it.icon} onChange={(e) => setAt({ icon: e.target.value })} />
+                    <input className="inp inp-sm min-w-[180px] flex-1" placeholder="https://…" value={it.href} onChange={(e) => setAt({ href: e.target.value })} />
+                    <button className="btn-ghost btn-xs shrink-0" onClick={() => setS({ ...s, contact: { ...s.contact, socialLinks: s.contact.socialLinks.filter((_, k) => k !== i) } })} aria-label="Remove">&#10005;</button>
+                  </div>
+                );
+              })}
+              <button className="btn-ghost btn-xs" onClick={() => setS({ ...s, contact: { ...s.contact, socialLinks: [...s.contact.socialLinks, { label: "New", icon: "fab fa-link", href: "" }] } })}>+ Add social link</button>
             </div>
             <button className="btn-primary" onClick={() => save("contact")} disabled={saving}>Save</button>
           </div>
@@ -116,6 +133,20 @@ export default function SettingsForms({ initial }: { initial: SettingsMap }) {
           </div>
         ) : null}
 
+        {tab === "labels" ? (
+          <div className="card space-y-4 p-5">
+            <h3 className="text-[15px] font-bold text-navy">Text &amp; labels</h3>
+            <p className="text-[13px] text-ink-2">
+              Every word the site shows that is not part of a page section, a blog post or a destination: button captions,
+              form labels, the blog and search furniture, the 404 screen and the destination template&rsquo;s headings.
+              In a destination heading <code>{"{country}"}</code> is replaced with that country&rsquo;s name, and
+              [square brackets] colour a word with the brand accent.
+            </p>
+            <ObjectFields value={s.labels as unknown as Record<string, unknown>} onChange={(v) => setS({ ...s, labels: v as unknown as SettingsMap["labels"] })} />
+            <button className="btn-primary" onClick={() => save("labels")} disabled={saving}>Save</button>
+          </div>
+        ) : null}
+
         {tab === "security" ? <PasswordForm /> : null}
       </div>
     </div>
@@ -147,6 +178,11 @@ export function ChatbotSettingsForm({ initial }: { initial: SettingsMap["chatbot
       </Field>
       <Field label="Unmatched-question message" hint="Shown when nothing in the knowledge base is a confident match."><textarea className="inp" rows={2} value={c.unmatchedMessage} onChange={(e) => setC({ ...c, unmatchedMessage: e.target.value })} /></Field>
       <Field label="Urgent-request confirmation" hint="Shown to the student after they click Ask Admin."><textarea className="inp" rows={2} value={c.urgentMessage} onChange={(e) => setC({ ...c, urgentMessage: e.target.value })} /></Field>
+      <div className="rounded-xl border border-line-2 bg-canvas/70 p-3">
+        <p className="lbl">Widget wording</p>
+        <p className="mb-3 text-[12px] text-ink-3">The nudge bubble, the &ldquo;tell us about you&rdquo; form and the two buttons shown when the assistant has no answer.</p>
+        <ObjectFields value={c.ui as unknown as Record<string, unknown>} onChange={(v) => setC({ ...c, ui: v as unknown as SettingsMap["chatbot"]["ui"] })} depth={1} />
+      </div>
       <Field label="Urgent-query notification email" hint="Gets an email when a student marks a query urgent. Leave blank to use the support email above."><input className="inp inp-sm" type="email" value={c.notifyEmail} onChange={(e) => setC({ ...c, notifyEmail: e.target.value })} placeholder="admissions@trinitystudyabroad.com" /></Field>
       <button className="btn-primary" disabled={saving} onClick={async () => { setSaving(true); const r = await saveSettingsAction("chatbot", c); setSaving(false); r.ok ? toast("Saved") : toast(r.error, "err"); }}>Save</button>
     </div>
