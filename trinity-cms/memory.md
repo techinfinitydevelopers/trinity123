@@ -711,3 +711,26 @@ AskUserQuestion before building:
   (5/hr → 15/hr, which one school NAT could exhaust), and four responsive breaks.
 - Put photographs into three honeycomb cells, per the client's reference.
 - `scripts/apply-content-fixes-2026-10-06.mjs` carries the content half to production.
+
+## Build log — 2026-10-07 · Footer editable from the dashboard
+**Asked:** "footer ka bhi edit option dashboard me rehna chaiye".
+
+**Already editable before this** (so no work needed): logo, footer description,
+copyright (Settings → General), the Quick Links list (→ Navigation), address,
+phones, email, social icons (→ Contact & social). Destinations tags come from the
+country table.
+
+**Was hard-coded in `Footer.tsx`, now editable:** CTA kicker, CTA heading, both
+button labels and the primary button's link, the three column headings, the
+scrolling marquee word, and the "Powered by" name + URL (blank hides the line).
+
+**How:** new `footer` key in `src/lib/settings.ts` (`FooterSettings` + DEFAULTS +
+`SettingsMap`), read as a prop in `Footer.tsx`, passed from `(site)/layout.tsx`,
+and a **Footer** tab in `SettingsForms.tsx`.
+
+**No migration script.** `getSetting` spreads `DEFAULTS[key]` under the stored
+row, so production — which has no `footer` row — renders today's wording until
+someone saves the tab. Saving goes through `saveSettingsAction` → `revalidateTag`,
+so it is live immediately.
+
+Verified: `tsc --noEmit` clean, `npm run build` clean. Commit `1346827`, pushed.
