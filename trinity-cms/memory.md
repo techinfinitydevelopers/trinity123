@@ -779,3 +779,35 @@ stored row, so production rendered the new captions immediately.
 Verified on production after deploy `0649e36`: home, a destination, a blog post, search,
 contact and the 404 all 200 with the new captions in the HTML; all six social icons
 render from the list; `/admin/settings` still 307s to login.
+
+## Build log — 2026-10-13 · New navigation + four new pages
+Client's revised menu (screenshot): Home · About Us · Study Destinations · Services ·
+Resources (Events / Brochure) · Success Stories · Blog · Contact.
+
+**The menu is data now.** `NavItem` gained `children` (makes a dropdown) and
+`kind: "destinations"` (makes the country mega-menu). `Header.tsx` renders `nav.items`
+in order and decides per item — the hard-coded `LEFT` array that pinned the
+destinations menu to position five is gone, and it would have silently dropped the
+two new items behind it. Settings → Navigation has a type selector (Link / Dropdown /
+Study Destinations menu) and a sub-page editor. The mobile menu lists children under
+their parent: touch has no hover.
+
+**Four pages built** in the existing idiom (pageHero → content blocks → cta), all
+editable in the page editor: `success-stories` (stats + the client's two real
+testimonials + a five-step journey), `resources` (landing, links to the two below),
+`events`, `brochure`. **No invented dates on the events page** — the copy says we
+write to you when the next relevant event is confirmed, which is the only honest line
+without a calendar from the client. Both `events` and `brochure` reuse the `leadForm`
+block so an enquiry lands in the same leads inbox.
+
+`scripts/apply-nav-2026-10-13.ts` creates pages only when the slug is missing and
+rewrites `nav.items`. Run with `npx tsx` — note **tsx compiles a bare `.ts` as
+CommonJS, so top-level await fails**; wrap the body in `async function main()`.
+
+Drive-by: `.cv-ditem:hover` was `#5751E1`, a purple left from the canvas port. The
+Resources dropdown reuses that class, so it is `var(--primary)` now.
+
+Verified on production after `81921a8`: all four pages 200, full menu renders at
+1440px, the Resources dropdown opens with Events/Brochure, the mobile menu nests them.
+Careful with browser checks — a click sent immediately after `navigate` lands before
+hydration and does nothing; the second click worked.

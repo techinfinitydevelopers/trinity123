@@ -450,7 +450,7 @@ const brochureBlocks: Block[] = [
     aside: { kind: "statchips", items: [
       { strong: "50", suffix: "+", small: "Countries covered", style: "glass" },
       { strong: "1 lakh", suffix: "+", small: "Courses", style: "gold" },
-      { strong: "0", suffix: "", small: "Cost to you", style: "purple" },
+      { strong: "100", suffix: "%", small: "Free, no obligation", style: "purple" },
     ] },
   },
   {
