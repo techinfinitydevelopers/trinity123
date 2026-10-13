@@ -26,7 +26,7 @@
 :where(a,button,[role="button"],[tabindex]:not([tabindex="-1"])):focus-visible{
   outline:3px solid var(--gold);outline-offset:3px;border-radius:6px
 }
-.cv-ditem:hover{background:#5751E1!important;color:#fff!important}
+.cv-ditem:hover{background:var(--primary)!important;color:#fff!important}
 .cv-ditem:hover .cv-dsub{color:rgba(255,255,255,.72)!important}
 .cv-btny{white-space:nowrap}
 .cv-btny:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(26,36,86,.24)}

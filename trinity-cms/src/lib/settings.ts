@@ -22,7 +22,10 @@ export type ContactSettings = {
   socials: { facebook: string; twitter: string; instagram: string; linkedin: string; youtube: string };
 };
 
-export type NavItem = { label: string; href: string };
+/** A menu entry. `children` turns it into a dropdown; `kind: "destinations"` turns it into the
+    country mega-menu, built from the destinations table rather than from `children`. The order of
+    `nav.items` is the order in the header, dropdowns included. */
+export type NavItem = { label: string; href: string; kind?: "destinations"; children?: { label: string; href: string }[] };
 export type NavSettings = { items: NavItem[]; ctaLabel: string; ctaHref: string };
 
 export type ChatbotSettings = {
@@ -150,10 +153,12 @@ export const DEFAULTS: SettingsMap = {
     items: [
       { label: "Home", href: "/" },
       { label: "About Us", href: "/about-us" },
-      { label: "Why Study Abroad", href: "/why-study-abroad" },
-      { label: "Our Services", href: "/our-service" },
+      { label: "Study Destinations", href: "/why-study-abroad", kind: "destinations" },
+      { label: "Services", href: "/our-service" },
+      { label: "Resources", href: "/resources", children: [{ label: "Events", href: "/events" }, { label: "Brochure", href: "/brochure" }] },
+      { label: "Success Stories", href: "/success-stories" },
       { label: "Blog", href: "/blog" },
-      { label: "Contact Us", href: "/contact-us" },
+      { label: "Contact", href: "/contact-us" },
     ],
     ctaLabel: "Free Counselling",
     ctaHref: "/contact-us",

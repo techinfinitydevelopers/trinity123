@@ -82,15 +82,53 @@ export default function SettingsForms({ initial }: { initial: SettingsMap }) {
         {tab === "nav" ? (
           <div className="card space-y-4 p-5">
             <h3 className="text-[15px] font-bold text-navy">Menu</h3>
+            <p className="text-[13px] text-ink-2">The order here is the order in the header. A <strong>Dropdown</strong> item shows its sub-pages in a menu; the <strong>Study Destinations menu</strong> builds itself from the destinations table, so it needs no sub-pages &mdash; its own link is the &ldquo;View all&rdquo; row at the bottom.</p>
             <div className="space-y-2">
-              {s.nav.items.map((it, i) => (
-                <div key={i} className="flex items-center gap-2">
-                  <div className="flex flex-col"><button className="text-ink-3 hover:text-ink disabled:opacity-30" disabled={i === 0} onClick={() => { const n = [...s.nav.items]; [n[i - 1], n[i]] = [n[i], n[i - 1]]; setS({ ...s, nav: { ...s.nav, items: n } }); }}>▲</button><button className="text-ink-3 hover:text-ink disabled:opacity-30" disabled={i === s.nav.items.length - 1} onClick={() => { const n = [...s.nav.items]; [n[i + 1], n[i]] = [n[i], n[i + 1]]; setS({ ...s, nav: { ...s.nav, items: n } }); }}>▼</button></div>
-                  <input className="inp inp-sm" placeholder="Label" value={it.label} onChange={(e) => setS({ ...s, nav: { ...s.nav, items: s.nav.items.map((x, k) => (k === i ? { ...x, label: e.target.value } : x)) } })} />
-                  <input className="inp inp-sm font-mono" placeholder="/path" value={it.href} onChange={(e) => setS({ ...s, nav: { ...s.nav, items: s.nav.items.map((x, k) => (k === i ? { ...x, href: e.target.value } : x)) } })} />
-                  <button className="btn-ghost btn-xs" onClick={() => setS({ ...s, nav: { ...s.nav, items: s.nav.items.filter((_, k) => k !== i) } })}>✕</button>
-                </div>
-              ))}
+              {s.nav.items.map((it, i) => {
+                const setItems = (f: (n: typeof s.nav.items) => typeof s.nav.items) => setS({ ...s, nav: { ...s.nav, items: f([...s.nav.items]) } });
+                const setAt = (v: Partial<(typeof s.nav.items)[number]>) => setItems((n) => n.map((x, k) => (k === i ? { ...x, ...v } : x)));
+                const kind = it.kind === "destinations" ? "destinations" : it.children ? "dropdown" : "link";
+                return (
+                  <div key={i} className="rounded-xl border border-line bg-canvas/60 p-2">
+                    <div className="flex items-center gap-2">
+                      <div className="flex flex-col">
+                        <button className="text-ink-3 hover:text-ink disabled:opacity-30" disabled={i === 0} onClick={() => setItems((n) => { [n[i - 1], n[i]] = [n[i], n[i - 1]]; return n; })} aria-label="Move up">&#9650;</button>
+                        <button className="text-ink-3 hover:text-ink disabled:opacity-30" disabled={i === s.nav.items.length - 1} onClick={() => setItems((n) => { [n[i + 1], n[i]] = [n[i], n[i + 1]]; return n; })} aria-label="Move down">&#9660;</button>
+                      </div>
+                      <input className="inp inp-sm w-40 shrink-0" placeholder="Label" value={it.label} onChange={(e) => setAt({ label: e.target.value })} />
+                      <input className="inp inp-sm min-w-[140px] flex-1 font-mono" placeholder="/path" value={it.href} onChange={(e) => setAt({ href: e.target.value })} />
+                      <select
+                        className="inp inp-sm w-[170px] shrink-0"
+                        value={kind}
+                        onChange={(e) => {
+                          const v = e.target.value;
+                          if (v === "link") setAt({ kind: undefined, children: undefined });
+                          else if (v === "dropdown") setAt({ kind: undefined, children: it.children ?? [{ label: "Sub-page", href: "/" }] });
+                          else setAt({ kind: "destinations", children: undefined });
+                        }}
+                      >
+                        <option value="link">Link</option>
+                        <option value="dropdown">Dropdown</option>
+                        <option value="destinations">Study Destinations menu</option>
+                      </select>
+                      <button className="btn-ghost btn-xs shrink-0" onClick={() => setItems((n) => n.filter((_, k) => k !== i))} aria-label="Remove">&#10005;</button>
+                    </div>
+                    {kind === "dropdown" ? (
+                      <div className="mt-2 space-y-1.5 border-l-2 border-line pl-3">
+                        {(it.children ?? []).map((c, j) => (
+                          <div key={j} className="flex items-center gap-2">
+                            <i className="fas fa-chevron-right text-[9px] text-ink-3" />
+                            <input className="inp inp-sm w-40 shrink-0" placeholder="Label" value={c.label} onChange={(e) => setAt({ children: (it.children ?? []).map((x, k) => (k === j ? { ...x, label: e.target.value } : x)) })} />
+                            <input className="inp inp-sm min-w-[140px] flex-1 font-mono" placeholder="/path" value={c.href} onChange={(e) => setAt({ children: (it.children ?? []).map((x, k) => (k === j ? { ...x, href: e.target.value } : x)) })} />
+                            <button className="btn-ghost btn-xs shrink-0" onClick={() => setAt({ children: (it.children ?? []).filter((_, k) => k !== j) })} aria-label="Remove">&#10005;</button>
+                          </div>
+                        ))}
+                        <button className="btn-ghost btn-xs" onClick={() => setAt({ children: [...(it.children ?? []), { label: "Sub-page", href: "/" }] })}>+ Add sub-page</button>
+                      </div>
+                    ) : null}
+                  </div>
+                );
+              })}
               <button className="btn-ghost btn-xs" onClick={() => setS({ ...s, nav: { ...s.nav, items: [...s.nav.items, { label: "New page", href: "/" }] } })}>+ Add menu item</button>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
