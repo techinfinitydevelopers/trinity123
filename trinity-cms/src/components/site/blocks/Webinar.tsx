@@ -45,19 +45,17 @@ export function Webinar({ b }: { b: WebinarBlock }) {
             <h3>{b.pastTitle}</h3>
             {b.past.length ? (
               <div className="webinar__snips">
-                {b.past.map((w) =>
-                  w.href ? (
-                    <a key={w.title} className="webinar__snip" href={w.href} target="_blank" rel="noopener">
-                      <img src={w.img} alt="" loading="lazy" />
-                      <span><strong>{w.title}</strong>{w.when ? <small>{w.when}</small> : null}</span>
-                    </a>
-                  ) : (
-                    <span key={w.title} className="webinar__snip">
-                      <img src={w.img} alt="" loading="lazy" />
-                      <span><strong>{w.title}</strong>{w.when ? <small>{w.when}</small> : null}</span>
-                    </span>
-                  ),
-                )}
+                {b.past.map((w, i) => {
+                  /* The client sent photographs without captions, so a snippet renders as just
+                     the picture unless a title or date has been filled in. */
+                  const caption = w.title || w.when
+                    ? <span><strong>{w.title}</strong>{w.when ? <small>{w.when}</small> : null}</span>
+                    : null;
+                  const inner = <><img src={w.img} alt={w.title || ""} loading="lazy" />{caption}</>;
+                  return w.href
+                    ? <a key={i} className="webinar__snip" href={w.href} target="_blank" rel="noopener">{inner}</a>
+                    : <span key={i} className="webinar__snip">{inner}</span>;
+                })}
               </div>
             ) : (
               <p className="webinar__empty">{b.pastNote}</p>

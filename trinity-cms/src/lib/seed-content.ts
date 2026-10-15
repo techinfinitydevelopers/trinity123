@@ -95,7 +95,9 @@ export const webinar: WebinarBlock = {
   current: [],
   pastTitle: "From our past webinars",
   pastNote: "Snippets from recent sessions are on their way.",
-  past: [],
+  /* The client's own photographs from their most recent webinar. They came without captions, so
+     the strip shows the pictures alone until someone adds a title or a date in the editor. */
+  past: [1, 2, 3, 4, 5, 6].map((n) => ({ title: "", when: "", img: `${IMG}/webinar/snippet-${n}.webp`, href: "" })),
 };
 
 export const vision: VisionBlock = {
