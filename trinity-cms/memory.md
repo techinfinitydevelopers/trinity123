@@ -833,3 +833,31 @@ served by `npm run db:dev` (embedded Postgres, data in `.pgdata`). With it stopp
 every page renders empty — no map, no sections — because all content lives in the
 database. That is not "local is out of sync with git"; git and Railway were both at
 `b314fa6`. First thing to check when local looks blank: is `npm run db:dev` running.
+
+## Build log — 2026-10-15 (2) · Hero restructure + scroller
+Client brief, in three steps across one session:
+
+1. **Enquiry form into the hero.** `HeroBlock` gained an optional `form`; `LeadForm`
+   gained a `bar` variant (grid of fields, 6 → 3 → 1 columns). The standalone
+   `leadForm` section was removed from the **home page only** — Events and Brochure
+   keep theirs.
+2. **Scroller.** The client's sixteen services, and "One Stop Solution" moved from
+   *over* the rail to *above* it (under the hero's SCROLL cue). Painted on top it hid
+   whichever items were passing behind. Items are bold now.
+3. **Hero stacked.** One column instead of two: copy → photo+honeycomb → form.
+   `.hero__copy` capped at 620px so the headline breaks where it did; `.hero-visual`
+   keeps its 500px frame and left edge. **`margin-bottom:86px` on `.hero-visual` is
+   load-bearing** — `.hive` is `position:absolute; bottom:-74px`, so it hangs below
+   the frame and would otherwise land on the form. Verified: 68px gap.
+
+Applied with `scripts/apply-hero-form-2026-10-15.ts` (idempotent) to both databases.
+
+**Mistake worth remembering: I pushed without `npm run build` and the deploy failed.**
+`next build` type-checks `scripts/` as well as `src/`, and `npx tsc --noEmit` had been
+run *before* the new script existed. Prisma's `blocks` column takes `InputJsonValue`,
+which `Record<string, unknown>[]` does not satisfy — cast via `as unknown as object[]`.
+Run the build, not just tsc, before every push.
+
+Also: Railway's `deployment list` shows SUCCESS/FAILED, and `railway logs --build <id>`
+gives the real reason. A plain `railway logs --build` shows the *latest* build, which
+during a failure can still be the previous successful one — pass the id.
