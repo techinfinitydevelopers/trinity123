@@ -1009,3 +1009,35 @@ Three contradictions in the brief still unanswered by the client: Sweden is in t
 destination tabs but not in section 3's grid; section 3 says "UAE" where the tab says
 "Dubai"; and the nav's Success Stories is meant to point at the YouTube channel, not the
 page we built.
+
+## Build log — 2026-10-15 (9) · The client's brief, applied in bulk
+**Twelve agents** (not the fifty asked for — the work only has twelve independent units,
+and more would have duplicated each other): one per country, one for About Us, one to
+recover the images.
+
+**Reading the brief.** `curl ".../export?format=txt"` gives all tabs, no sign-in. For the
+images, `export?format=zip` works — 155MB, 119 images plus an HTML file whose text can be
+matched back against the txt export to place each picture.
+
+**Destination content.** Eleven countries extracted to one JSON each, applied by
+`scripts/apply-country-content.ts <dir>`. A key absent from the file leaves the existing
+value alone. **Dubai and Singapore did not exist and were created** — the site has
+thirteen destinations now. Extracted JSON is committed under `content/client-brief/`.
+
+**Empty sections now hide their heading.** Singapore has no scholarships, visa steps or
+FAQs in the brief, and those were rendering as a heading above nothing. Each section in
+`CountryPage.tsx` is conditional, and the jump nav lists only what is present (Singapore
+four, UK seven).
+
+**No country section in the brief has any image** — the pictures are About Us (51), an
+unanchored stock gallery (35), home page (17), webinar (9), logo grids (7). Six landscape
+webinar photographs now fill section 7's strip, captionless because the client sent no
+captions. The "university logos" seven are screenshots of grids, not logo files, so
+section 4 still waits.
+
+**Contradictions the client has to settle** (recorded, not guessed at): About says the
+parent group was "established in 1982" while the home page claims "42+ years" (1982→2026
+is 44), and the brief separately says "remove est since 1982 from hero banner"; several
+countries give tuition twice in different ranges (USA $25k–55k chip vs $15,000–55,000
+table, Canada, Ireland, Australia, Sweden the same); Singapore's own tables carry two
+euro figures that look like Ireland leakage.
