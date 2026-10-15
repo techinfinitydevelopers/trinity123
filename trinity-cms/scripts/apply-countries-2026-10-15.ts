@@ -11,8 +11,10 @@ import { PrismaClient } from "../src/generated/prisma/index.js";
 import { seedPages } from "../src/lib/seed-content";
 
 const home = seedPages.find((p) => p.slug === "home");
-const seedBlock = home?.blocks.find((b) => b.type === "countries");
-if (!seedBlock || !("items" in seedBlock)) throw new Error("No countries block in the seed home page.");
+const found = home?.blocks.find((b) => b.type === "countries");
+if (!found || !("items" in found)) throw new Error("No countries block in the seed home page.");
+/* Re-bound to a const: the narrowing above does not survive into the async function below. */
+const seedBlock = found;
 
 const db = new PrismaClient();
 
