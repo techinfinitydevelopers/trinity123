@@ -126,7 +126,7 @@ const homeBlocks: Block[] = [
     text: "Let Trinity Study Abroad help you find yours.",
     primary: { label: "Learn More", href: C }, ghost: { label: "Chat with us", href: "whatsapp" },
     stats: [{ value: "50+", label: "Countries" }, { value: "1200+", label: "Universities" }, { value: "1 lakh+", label: "Courses" }],
-    photo: `${IMG}/home/home-page-2.png`,
+    photo: `${IMG}/home/hero-student.png`,
     /* Second row of the hero. The fields and their options are the ones the standalone
        `leadForm` section used to carry, which is why they read the same. */
     form: {
