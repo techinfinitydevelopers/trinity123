@@ -7,6 +7,8 @@ import { Journey, Testimonials, Intro, FeatureCards, Services, Contact } from ".
 import { Faq } from "./Faq";
 import { BlogList } from "./BlogList";
 import Campus from "./Campus";
+import { Webinar } from "./Webinar";
+import Vision from "./Vision";
 
 export type RenderCtx = { settings: SettingsMap; searchParams?: Record<string, string | undefined> };
 
@@ -20,6 +22,8 @@ function renderBlock(b: Block, ctx: RenderCtx) {
     case "leadForm": return <LeadFormSection b={b} />;
     case "worldMap": return <WorldMapSection b={b} />;
     case "campus": return <Campus b={b} />;
+    case "webinar": return <Webinar b={b} />;
+    case "vision": return <Vision b={b} />;
     case "courses": return <CoursesSection b={b} />;
     case "about": return <About b={b} contact={contact} site={ctx.settings.site} />;
     case "offer": return <Offer b={b} contact={contact} />;

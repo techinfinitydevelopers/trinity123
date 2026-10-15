@@ -13,7 +13,7 @@ const csp = [
   /* `'self'` is what lets the dashboard frame the live preview of a page. Without it the
      preview pane just renders blank — `frame-ancestors` allows the framing, but `frame-src`
      governs what the admin page itself may load in a frame. */
-  "frame-src 'self' https://www.google.com https://maps.google.com",
+  "frame-src 'self' https://www.google.com https://maps.google.com https://www.youtube-nocookie.com",
   "frame-ancestors 'self'",
   "base-uri 'self'",
   "form-action 'self'",

@@ -98,6 +98,24 @@ export type CampusBlock = {
   }[];
 };
 
+/* Section 7 — the webinar hub. `current` is the one coming up; `past` are the ones already run.
+   Both start empty: the client is sending the dates and the snippets. */
+export type WebinarBlock = {
+  type: "webinar"; kicker: string; title: string; lead: string;
+  currentTitle: string; currentNote: string; ctaLabel: string; ctaHref: string;
+  current: { badge: string; title: string; when: string; text: string; img: string }[];
+  pastTitle: string; pastNote: string;
+  past: { title: string; when: string; img: string; href: string }[];
+};
+
+/* Section 8 — "Our Vision to their Journey". Each slot is a video; `youtube` is the watch or
+   shorts URL, and a slot without one renders as a placeholder rather than a dead player. */
+export type VisionBlock = {
+  type: "vision"; kicker: string; title: string; lead: string;
+  videos: { title: string; name: string; youtube: string; poster: string; note: string }[];
+  href: string; linkLabel: string;
+};
+
 export type UniversitiesBlock = {
   type: "universities"; kicker: string; title: string; lead: string; ghost: string;
   items: { img: string; name: string; flag: string; city: string; rating: string; href: string }[];
@@ -153,7 +171,7 @@ export type RichTextBlock = { type: "richText"; html: string; grey: boolean };
 
 export type Block =
   | HeroBlock | PageHeroBlock | BandBlock | UspBlock | LeadFormBlock | WorldMapBlock | CoursesBlock | AboutBlock | OfferBlock | StepsBlock | CountriesBlock
-  | CampusBlock | UniversitiesBlock | StatsBlock | CtaBlock | FaqBlock | JourneyBlock | TestimonialsBlock
+  | CampusBlock | WebinarBlock | VisionBlock | UniversitiesBlock | StatsBlock | CtaBlock | FaqBlock | JourneyBlock | TestimonialsBlock
   | IntroBlock | FeatureCardsBlock | ServicesBlock | ContactBlock | BlogListBlock | RichTextBlock;
 
 export type BlockType = Block["type"];
@@ -164,6 +182,8 @@ export const BLOCK_META: Record<BlockType, { label: string; desc: string }> = {
   band: { label: "Marquee Band", desc: "Scrolling ticker strip" },
   usp: { label: "USP Rail", desc: "Scrolling list of services with one pinned claim" },
   campus: { label: "Find your Campus", desc: "Public / private universities, criteria and logos" },
+  webinar: { label: "Knowledge Hub", desc: "Upcoming webinar, past snippets and a register button" },
+  vision: { label: "Our Vision to their Journey", desc: "Management and student videos" },
   leadForm: { label: "Enquiry Card", desc: "Short lead form beside a picture and the tagline" },
   worldMap: { label: "World Map", desc: "Study destinations pinned on a world map" },
   courses: { label: "Courses", desc: "Fields of study with duration and destinations" },

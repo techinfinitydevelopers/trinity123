@@ -1,6 +1,6 @@
 /* Default site content — mirrors the original static export exactly.
    Used by `prisma db seed` and by the admin "Reset to default" action. */
-import type { Block, BandBlock, UspBlock, LeadFormBlock, WorldMapBlock, CoursesBlock, TestimonialsBlock, StatsBlock, CountriesBlock, OfferBlock, CampusBlock} from "./blocks";
+import type { Block, BandBlock, UspBlock, LeadFormBlock, WorldMapBlock, CoursesBlock, TestimonialsBlock, StatsBlock, CountriesBlock, OfferBlock, CampusBlock, WebinarBlock, VisionBlock} from "./blocks";
 
 const IMG = "/assets/img";
 const C = "/contact-us";
@@ -80,6 +80,35 @@ export const campus: CampusBlock = {
       href: "/why-study-abroad", linkLabel: "See study destinations",
     },
   ],
+};
+
+export const webinar: WebinarBlock = {
+  type: "webinar",
+  kicker: "Be updated",
+  title: "Knowledge [Hub]",
+  lead: "Live sessions with our counsellors on countries, courses, visas and funding \u2014 free to attend, and open to parents too.",
+  currentTitle: "Coming up",
+  /* Empty until the client sends the dates. Saying so beats inventing a webinar. */
+  currentNote: "The next session will be announced here. Register your interest and we will email you the date.",
+  ctaLabel: "Register now",
+  ctaHref: "/contact-us",
+  current: [],
+  pastTitle: "From our past webinars",
+  pastNote: "Snippets from recent sessions are on their way.",
+  past: [],
+};
+
+export const vision: VisionBlock = {
+  type: "vision",
+  kicker: "In their words",
+  title: "Our Vision to [their Journey]",
+  lead: "Our counsellors, and the students who went through it \u2014 in their own words rather than ours.",
+  videos: [
+    { title: "Management speaks", name: "Trinity Study Abroad", youtube: "", poster: `${IMG}/unversity/z6.jpg`, note: "Video to follow." },
+    { title: "A student's journey", name: "Sushant", youtube: "https://youtube.com/shorts/LwHzS7EqjhA", poster: `${IMG}/campus/private.webp`, note: "" },
+    { title: "Getting the visa", name: "Vaibhavi", youtube: "", poster: `${IMG}/unversity/z8.jpg`, note: "Video to follow." },
+  ],
+  href: "/success-stories", linkLabel: "Know more",
 };
 
 export const worldMap: WorldMapBlock = {
@@ -243,7 +272,9 @@ const homeBlocks: Block[] = [
     ],
   },
   courses,
+  webinar,
   testimonials,
+  vision,
   stats,
   {
     type: "cta", layout: "split", badgeIcon: "fas fa-star", badge: "Dream Big. Make It Happen.", title: "Start Your Learning Journey {Today!}",
