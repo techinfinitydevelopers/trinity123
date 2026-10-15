@@ -17,13 +17,17 @@ export const band: BandBlock = {
 export const usp: UspBlock = {
   type: "usp",
   center: "One Stop Solution",
-  /* The client's list, in their order. It sits above the rail, not over it, so every item stays
-     readable as it passes. */
+  /* The brief carries the services twice: a numbered list of sixteen and an arrow flow. The
+     numbered list sets the order; the flow adds two the numbers leave out — "Test Preps" and
+     "University Application Support" — so both are here, at the point the flow puts them.
+     Eighteen in all. The rail sits below the label, not under it, so every item stays readable
+     as it passes. */
   items: [
-    "Personalized Counselling", "Profile Evaluation", "Shortlisting Universities", "Accommodation",
-    "Loan Assistance", "Pre-Departure Support", "Forex", "Insurance", "Coaching for IELTS",
-    "Language Coaching", "Air Ticketing", "Country & Course Selection", "SOP & LOR Support",
-    "Scholarships", "Student Visa Guidance", "Post-Arrival Support",
+    "Personalized Counselling", "Profile Evaluation", "Test Preps", "Shortlisting Universities",
+    "SOP & LOR Support", "University Application Support", "Scholarships", "Loan Assistance",
+    "Student Visa Guidance", "Accommodation", "Pre-Departure Support", "Post-Arrival Support",
+    "Country & Course Selection", "Coaching for IELTS", "Language Coaching", "Forex",
+    "Insurance", "Air Ticketing",
   ],
 };
 
