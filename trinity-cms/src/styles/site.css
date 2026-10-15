@@ -945,7 +945,16 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .wmapsec{background:var(--grey)}
 .wmap{position:relative;margin-top:clamp(28px,4vw,48px)}
 .wmap__svg{display:block;width:100%;height:auto;overflow:visible}
-.wmap__land{fill:rgba(35,47,112,.17);stroke:rgba(35,47,112,.3);stroke-width:.6;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+/* Continents are coloured individually, following the reference map the client sent. The tints
+   are held light so the navy pins, the cap and the country labels all stay legible over them. */
+.wmap__land{stroke:rgba(35,47,112,.26);stroke-width:.6;stroke-linejoin:round;vector-effect:non-scaling-stroke;fill:#DAD4C4}
+.wmap__land--northAmerica{fill:#9CC4E4}
+.wmap__land--southAmerica{fill:#A6C98B}
+.wmap__land--europe{fill:#EDC85D}
+.wmap__land--africa{fill:#DAD4C4}
+.wmap__land--asia{fill:#BFA6DC}
+.wmap__land--oceania{fill:#EE9F61}
+.wmap__lead{margin-top:20px;text-align:center;font-size:clamp(14.5px,.5vw + 13px,16.5px);line-height:1.7;color:var(--text);max-width:620px;margin-left:auto;margin-right:auto}
 .wmap__dot{fill:var(--primary);transition:fill .4s var(--ease)}
 .wmap__halo{fill:var(--primary);opacity:.14;transform-box:fill-box;transform-origin:center;transition:opacity .4s var(--ease)}
 .wmap__pin.is-at .wmap__dot{fill:var(--teal)}
@@ -958,7 +967,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .wmap__legend a{cursor:pointer}
 .wmap__legend a:hover{border-color:var(--teal);color:var(--navy);transform:translateY(-2px)}
 .wmap__legend li.is-at a,.wmap__legend li.is-at span{background:var(--navy);border-color:var(--navy);color:#fff}
-.wmap__note{margin-top:18px;text-align:center;font-size:13.5px;color:var(--muted-ink)}
+.wmap__note{margin-top:10px;text-align:center;font-size:13.5px;color:var(--muted-ink)}
 @media (max-width:640px){
   .wmap__legend{gap:6px}
   .wmap__legend a,.wmap__legend span{padding:7px 12px;font-size:12.5px}

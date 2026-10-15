@@ -1,11 +1,11 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { MAP_W, MAP_H, MAP_LAND, MAP_MARKERS } from "./world-map";
+import { MAP_W, MAP_H, MAP_REGIONS, MAP_MARKERS } from "./world-map";
 
 /* World map of the destinations we place students in. The graduation cap flies from one marker to
    the next; the pins stay put so the map still reads if the animation never runs. */
-export default function WorldMap({ note }: { note: string }) {
+export default function WorldMap({ lead, note }: { lead?: string; note: string }) {
   const [at, setAt] = useState(0);
   const paused = useRef(false);
 
@@ -26,7 +26,11 @@ export default function WorldMap({ note }: { note: string }) {
       onMouseLeave={() => { paused.current = false; }}
     >
       <svg viewBox={`0 0 ${MAP_W} ${MAP_H}`} className="wmap__svg" role="img" aria-label={`Study destinations: ${MAP_MARKERS.map((m) => m.name).join(", ")}`}>
-        <path className="wmap__land" d={MAP_LAND} />
+        {/* One path per continent so each can take its own colour, as the client's
+            reference map does. */}
+        {MAP_REGIONS.map((reg) => (
+          <path key={reg.id} className={`wmap__land wmap__land--${reg.id}`} d={reg.d} />
+        ))}
         {MAP_MARKERS.map((m, i) => (
           <g key={m.name} className={i === at ? "wmap__pin is-at" : "wmap__pin"}>
             <circle className="wmap__halo" cx={m.x} cy={m.y} r={11} />
@@ -53,6 +57,7 @@ export default function WorldMap({ note }: { note: string }) {
           );
         })}
       </ul>
+      {lead ? <p className="wmap__lead">{lead}</p> : null}
       {note ? <p className="wmap__note">{note}</p> : null}
     </div>
   );

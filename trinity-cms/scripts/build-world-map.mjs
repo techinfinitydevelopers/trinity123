@@ -78,11 +78,51 @@ function ring(points) {
   return d;
 }
 
-const land = feature(topology, topology.objects.countries).features
-  .filter((f) => f.properties.name !== "Antarctica")
-  .flatMap((f) => (f.geometry.type === "Polygon" ? [f.geometry.coordinates] : f.geometry.coordinates))
-  .flatMap((polygon) => polygon.map(ring))
-  .join("");
+/* The client wants the continents coloured separately, like the reference map they sent, so the
+   land goes out as one path per continent instead of a single blob. `world-atlas` carries only a
+   name and an ISO 3166-1 numeric id per country, so the grouping is by id.
+
+   Russia sits in Asia and Greenland in North America — both span two continents, and this is how
+   the client's reference colours them. Anything unmatched falls into `other`, which is painted
+   the same neutral as Africa; the generator logs those so a gap is noticed rather than silently
+   greyed out. */
+const CONTINENTS = {
+  africa: [12, 24, 204, 72, 854, 108, 120, 132, 140, 148, 174, 178, 180, 384, 262, 818, 226, 232,
+    748, 231, 266, 270, 288, 324, 624, 404, 426, 430, 434, 450, 454, 466, 478, 480, 504, 508, 516,
+    562, 566, 646, 678, 686, 690, 694, 706, 710, 728, 729, 834, 768, 788, 800, 894, 716, 732],
+  europe: [8, 20, 40, 112, 56, 70, 100, 191, 203, 208, 233, 246, 250, 276, 300, 348, 352, 372, 380, 428,
+    438, 440, 442, 470, 498, 492, 499, 528, 807, 578, 616, 620, 642, 688, 703, 705, 724, 752, 756,
+    804, 826, 336, 234, 292, 248],
+  asia: [4, 51, 31, 48, 50, 64, 96, 116, 156, 196, 268, 356, 360, 364, 368, 376, 392, 400, 398,
+    408, 410, 414, 417, 418, 422, 458, 462, 496, 104, 524, 512, 586, 275, 608, 634, 682, 702, 144,
+    760, 158, 762, 764, 626, 792, 795, 784, 860, 704, 887, 344, 446, 643],
+  northAmerica: [28, 44, 52, 84, 124, 188, 192, 212, 214, 222, 308, 320, 332, 340, 388, 484, 558,
+    591, 630, 659, 662, 670, 780, 840, 304, 60],
+  southAmerica: [32, 68, 76, 152, 170, 218, 238, 254, 328, 600, 604, 740, 858, 862],
+  oceania: [36, 242, 296, 584, 583, 520, 554, 585, 598, 882, 90, 776, 798, 548, 540, 258],
+};
+
+/* Four of the 177 features carry no ISO id at all — they are disputed or partially recognised —
+   so they are matched by name instead. */
+const BY_NAME = { "N. Cyprus": "asia", "Kosovo": "europe", "Somaliland": "africa" };
+
+const continentOf = (id, name) => {
+  const n = Number(id);
+  for (const [key, ids] of Object.entries(CONTINENTS)) if (ids.includes(n)) return key;
+  return BY_NAME[name] ?? "other";
+};
+
+const regions = {};
+const unmatched = [];
+for (const f of feature(topology, topology.objects.countries).features) {
+  if (f.properties.name === "Antarctica") continue;
+  const key = continentOf(f.id, f.properties.name);
+  if (key === "other") unmatched.push(`${f.properties.name} (${f.id})`);
+  const polygons = f.geometry.type === "Polygon" ? [f.geometry.coordinates] : f.geometry.coordinates;
+  regions[key] = (regions[key] ?? "") + polygons.flatMap((polygon) => polygon.map(ring)).join("");
+}
+
+const land = Object.values(regions).join("");
 
 /* The destinations the client listed, with the capital (or the city students actually go to)
    standing in for the country. "Other European countries" is pinned on Amsterdam. */
@@ -119,7 +159,17 @@ export const MAP_MARKERS: MapMarker[] = ${JSON.stringify(markers, null, 2)};
 
 export const MAP_LAND =
   "${land}";
+
+/* One path per continent, in the order they should paint. */
+export const MAP_REGIONS: { id: string; d: string }[] = ${JSON.stringify(
+  ["africa", "europe", "asia", "northAmerica", "southAmerica", "oceania", "other"]
+    .filter((k) => regions[k])
+    .map((k) => ({ id: k, d: regions[k] })),
+  null,
+  2,
+)};
 `;
 
 writeFileSync(new URL("../src/components/site/world-map.ts", import.meta.url), out);
-console.log(`world-map.ts written — ${markers.length} markers, land path ${land.length} chars, box ${W}x${H}`);
+console.log(`world-map.ts written — ${markers.length} markers, ${Object.keys(regions).length} regions, land path ${land.length} chars, box ${W}x${H}`);
+if (unmatched.length) console.log(`unmatched (painted neutral): ${unmatched.join(", ")}`);
