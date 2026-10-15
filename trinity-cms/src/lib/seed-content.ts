@@ -125,7 +125,8 @@ export const worldMap: WorldMapBlock = {
 export const courses: CoursesBlock = {
   type: "courses",
   kicker: "What you can study",
-  title: "Courses",
+  /* Section 5 of the brief: "add the above tagline instead of Courses". */
+  title: "Choose a [Course]",
   lead: "Whatever you want to study, there is a route to it. These are the fields our students apply for most — tell us yours and we will shortlist the universities that fit.",
   items: [
     { icon: "fas fa-briefcase", name: "MBA & Management", text: "General and specialised MBAs, plus one-year management master's for students with work experience.", duration: "1 – 2 years", where: "UK, USA, Ireland" },
