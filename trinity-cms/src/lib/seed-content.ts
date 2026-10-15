@@ -134,16 +134,15 @@ const homeBlocks: Block[] = [
       cities: leadForm.cities, destinations: leadForm.destinations,
     },
     chipCText: "Trusted by students",
+    /* The client supplied a photograph for every cell, so all five carry one now. They are
+       resized to 312x360 WebP in `public/assets/img/hive` — the originals were ~330KB PNGs for a
+       104px tile. Each sits under a navy scrim, so the label still clears 4.5:1. */
     hive: [
-      /* Only three cells carry a photo. Countries and Visa success have no honest image in the
-         library — a campus block under "50+ Countries" says nothing about reach, and a building
-         under "100% Visa success" makes the viewer hunt for a connection that is not there. The
-         crop shows the middle ~59% of the source width, so each subject is centred. */
-      { value: "42+", label: "Years", img: `${IMG}/unversity/z4.jpg` },
-      { value: "50+", label: "Countries" },
-      { value: "1200+", label: "Universities", img: `${IMG}/unversity/z1.jpg` },
-      { value: "1 lakh+", label: "Courses", img: `${IMG}/home/inner_about_img-1.jpg` },
-      { value: "100%", label: "Visa success" },
+      { value: "42+", label: "Years Experience", img: `${IMG}/hive/years.webp` },
+      { value: "50+", label: "Countries", img: `${IMG}/hive/countries.webp` },
+      { value: "1200+", label: "Universities", img: `${IMG}/hive/universities.webp` },
+      { value: "1 lakh+", label: "Courses", img: `${IMG}/hive/courses.webp` },
+      { value: "1", label: "Stop Solution", img: `${IMG}/hive/solution.webp` },
     ],
   },
   usp,
