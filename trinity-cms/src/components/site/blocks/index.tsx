@@ -6,6 +6,7 @@ import { About, Steps, Universities } from "./Home";
 import { Journey, Testimonials, Intro, FeatureCards, Services, Contact } from "./Pages";
 import { Faq } from "./Faq";
 import { BlogList } from "./BlogList";
+import Campus from "./Campus";
 
 export type RenderCtx = { settings: SettingsMap; searchParams?: Record<string, string | undefined> };
 
@@ -18,6 +19,7 @@ function renderBlock(b: Block, ctx: RenderCtx) {
     case "usp": return <Usp b={b} />;
     case "leadForm": return <LeadFormSection b={b} />;
     case "worldMap": return <WorldMapSection b={b} />;
+    case "campus": return <Campus b={b} />;
     case "courses": return <CoursesSection b={b} />;
     case "about": return <About b={b} contact={contact} site={ctx.settings.site} />;
     case "offer": return <Offer b={b} contact={contact} />;

@@ -83,6 +83,21 @@ export type CountriesBlock = {
   dark: { num: string; text: string; small: string; href: string };
 };
 
+/* "Find your Campus" — the client's section 4. Two options the visitor picks between: public
+   universities, which carry entry criteria, and private ones, which lead to the destination
+   pages. `logos` is empty until the client sends the files; the panel says so rather than
+   pretending the list is complete. */
+export type CampusBlock = {
+  type: "campus"; kicker: string; title: string; lead: string; prompt: string;
+  options: {
+    id: string; label: string; sub: string; img: string; imgAlt: string;
+    criteriaTitle: string; criteria: string[];
+    logosTitle: string; logosNote: string;
+    logos: { name: string; img: string; href: string }[];
+    href: string; linkLabel: string;
+  }[];
+};
+
 export type UniversitiesBlock = {
   type: "universities"; kicker: string; title: string; lead: string; ghost: string;
   items: { img: string; name: string; flag: string; city: string; rating: string; href: string }[];
@@ -138,7 +153,7 @@ export type RichTextBlock = { type: "richText"; html: string; grey: boolean };
 
 export type Block =
   | HeroBlock | PageHeroBlock | BandBlock | UspBlock | LeadFormBlock | WorldMapBlock | CoursesBlock | AboutBlock | OfferBlock | StepsBlock | CountriesBlock
-  | UniversitiesBlock | StatsBlock | CtaBlock | FaqBlock | JourneyBlock | TestimonialsBlock
+  | CampusBlock | UniversitiesBlock | StatsBlock | CtaBlock | FaqBlock | JourneyBlock | TestimonialsBlock
   | IntroBlock | FeatureCardsBlock | ServicesBlock | ContactBlock | BlogListBlock | RichTextBlock;
 
 export type BlockType = Block["type"];
@@ -148,6 +163,7 @@ export const BLOCK_META: Record<BlockType, { label: string; desc: string }> = {
   pageHero: { label: "Page Hero", desc: "Inner page banner with breadcrumb" },
   band: { label: "Marquee Band", desc: "Scrolling ticker strip" },
   usp: { label: "USP Rail", desc: "Scrolling list of services with one pinned claim" },
+  campus: { label: "Find your Campus", desc: "Public / private universities, criteria and logos" },
   leadForm: { label: "Enquiry Card", desc: "Short lead form beside a picture and the tagline" },
   worldMap: { label: "World Map", desc: "Study destinations pinned on a world map" },
   courses: { label: "Courses", desc: "Fields of study with duration and destinations" },

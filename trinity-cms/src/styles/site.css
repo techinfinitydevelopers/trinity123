@@ -1021,3 +1021,36 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 @media (min-width:981px) and (max-width:1199px){
   .hero-visual{max-width:none}
 }
+
+/* ---------- Find your Campus ---------- */
+.campus{background:var(--grey)}
+.campus__prompt{margin:clamp(26px,3vw,36px) 0 16px;text-align:center;font-family:var(--font-h);font-weight:600;font-size:13px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted-ink)}
+.campus__picks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,2.4vw,28px)}
+.campus__pick{display:flex;flex-direction:column;text-align:left;background:#fff;border:2px solid var(--line);border-radius:var(--r-card);overflow:hidden;padding:0;cursor:pointer;transition:border-color .3s var(--ease),transform .3s var(--ease),box-shadow .3s var(--ease)}
+.campus__pick:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.campus__pick.is-at{border-color:var(--primary);box-shadow:var(--shadow-lg)}
+.campus__pick-img{display:block;aspect-ratio:16/10;overflow:hidden;background:var(--line)}
+.campus__pick-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
+.campus__pick:hover .campus__pick-img img{transform:scale(1.04)}
+.campus__pick-txt{display:flex;flex-direction:column;gap:4px;padding:18px clamp(18px,2vw,24px) 20px}
+.campus__pick-txt strong{font-family:var(--font-h);font-weight:700;font-size:clamp(17px,1.2vw + 12px,21px);color:var(--navy)}
+.campus__pick-txt small{font-size:13.5px;color:var(--muted-ink);line-height:1.6}
+/* The chosen option gets a tick, so the selection is not carried by the border colour alone. */
+.campus__pick.is-at .campus__pick-txt strong::after{content:"¹3";margin-left:10px;color:var(--teal-ink);font-size:.85em}
+
+.campus__panel{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(24px,3.4vw,48px);align-items:start;margin-top:clamp(24px,3vw,38px);background:#fff;border:1px solid var(--line);border-radius:var(--r-card);padding:clamp(24px,3vw,38px)}
+.campus__panel h3{font-family:var(--font-h);font-weight:700;font-size:clamp(15px,1vw + 11px,18px);color:var(--navy);margin-bottom:16px}
+.campus__criteria ul{list-style:none;display:flex;flex-direction:column;gap:12px}
+.campus__criteria li{display:flex;gap:12px;align-items:flex-start;font-size:15.5px;line-height:1.6;color:var(--text)}
+.campus__criteria li i{flex-shrink:0;margin-top:5px;font-size:11px;color:var(--teal-ink)}
+.campus__logo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:14px}
+.campus__logo{display:grid;place-items:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;min-height:76px}
+.campus__logo img{max-width:100%;max-height:44px;object-fit:contain}
+/* The empty state is a real message, not a dashed box pretending to be a logo. */
+.campus__logos-empty{font-size:14.5px;line-height:1.7;color:var(--muted-ink);background:var(--grey);border:1px dashed var(--line-2,var(--line));border-radius:16px;padding:18px 20px}
+.campus__cta{margin-top:22px}
+/* One column when the two photo cards would be too narrow to read. */
+@media (max-width:860px){
+  .campus__picks{grid-template-columns:1fr}
+  .campus__panel{grid-template-columns:1fr}
+}

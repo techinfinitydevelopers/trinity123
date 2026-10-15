@@ -1,6 +1,6 @@
 /* Default site content — mirrors the original static export exactly.
    Used by `prisma db seed` and by the admin "Reset to default" action. */
-import type { Block, BandBlock, UspBlock, LeadFormBlock, WorldMapBlock, CoursesBlock, TestimonialsBlock, StatsBlock, CountriesBlock, OfferBlock } from "./blocks";
+import type { Block, BandBlock, UspBlock, LeadFormBlock, WorldMapBlock, CoursesBlock, TestimonialsBlock, StatsBlock, CountriesBlock, OfferBlock, CampusBlock} from "./blocks";
 
 const IMG = "/assets/img";
 const C = "/contact-us";
@@ -48,6 +48,40 @@ export const leadForm: LeadFormBlock = {
 
 /* Study destinations on a world map (client brief 29/09). The pins themselves are generated —
    see scripts/build-world-map.mjs. */
+export const campus: CampusBlock = {
+  type: "campus",
+  kicker: "What we offer",
+  title: "Find your [Campus]",
+  lead: "Our counsellors help students look beyond rankings to understand academic fit, location, employability, affordability and student experience.",
+  prompt: "Select one of the two below",
+  options: [
+    {
+      id: "public", label: "Public Universities", sub: "State-funded, and the entry bar is fixed",
+      img: `${IMG}/campus/public.webp`, imgAlt: "A public university quadrangle",
+      criteriaTitle: "Criteria to apply",
+      criteria: [
+        "CGPA of more than 75%",
+        "No academic backlogs or failed subjects",
+        "No education gaps",
+        "Past research, internships or work experience",
+      ],
+      logosTitle: "Public universities we place students in",
+      logosNote: "Logos to follow \u2014 the client is sending them.",
+      logos: [],
+      href: "/contact-us", linkLabel: "Check if you qualify",
+    },
+    {
+      id: "private", label: "Private Universities", sub: "Wider intake, and more courses to choose from",
+      img: `${IMG}/campus/private.webp`, imgAlt: "Students walking through a private university campus",
+      criteriaTitle: "", criteria: [],
+      logosTitle: "Private universities we place students in",
+      logosNote: "Logos to follow \u2014 the client is sending them.",
+      logos: [],
+      href: "/why-study-abroad", linkLabel: "See study destinations",
+    },
+  ],
+};
+
 export const worldMap: WorldMapBlock = {
   type: "worldMap",
   kicker: "Explore · Learn · Grow",
@@ -159,6 +193,7 @@ const homeBlocks: Block[] = [
     layout: "split", marquee: true, items: countryItems, dark: darkCountry,
   },
   worldMap,
+  campus,
   {
     type: "about",
     mainImg: `${IMG}/home/inner_about_img-1.jpg`, mainAlt: "Trinity Study Abroad team", capSmall: "Since 1982", capStrong: "A unit of Trinity Air Travel & Tours Pvt. Ltd.",
