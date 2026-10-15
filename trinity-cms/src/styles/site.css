@@ -462,7 +462,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
    W/2. The old version mixed a flat-top clip-path with a pointy-top aspect at arbitrary steps,
    which is why it read as five loose badges. The mortar comes from scaling each cell about its
    centre: because all six neighbours sit W apart, one scale gives an equal gap on every edge. */
-.hive{--w:104px;--h:120px;--row:90px;--gap:5px;position:absolute;left:clamp(-62px,-4vw,-10px);bottom:-74px;width:calc(var(--w)*3);height:calc(var(--row) + var(--h));
+.hive{--w:104px;--h:120px;--row:90px;--gap:5px;position:absolute;left:0;bottom:-74px;width:calc(var(--w)*3);height:calc(var(--row) + var(--h));
   filter:drop-shadow(0 2px 3px rgba(26,36,86,.14)) drop-shadow(0 14px 24px rgba(26,36,86,.22))}
 .hive__item{position:absolute;width:var(--w);height:var(--h);transform:scale(calc(1 - var(--gap)/var(--w)))}
 .hive__item__face{position:relative;width:100%;height:100%;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);
@@ -676,7 +676,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 @media (max-width:860px){
   /* The two hero columns are explicit tracks now, so they have to be told to stack — `auto-fit`
      used to do it on its own and the photo was being clipped by `.hero{overflow:hidden}`. */
-  .hero-visual{margin-left:auto;margin-right:auto}
+  .hero-visual{margin-bottom:0}
   /* Same comb, smaller lattice, and it sits under the photo instead of overlapping it. */
   .hive{--w:88px;--h:101.6px;--row:76.2px;--gap:4px;position:static;margin:-20px auto 0;left:auto;bottom:auto}
 }
