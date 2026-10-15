@@ -910,3 +910,23 @@ Verified at 1440, 1366, 1280, 1024, 900, 768, 430, 393, 360.
 Reminder that bit again: after a direct database write, the dev server keeps serving
 the old content from `.next/cache` — `rm -rf .next` and restart, or the change looks
 like it did not apply.
+
+## Build log — 2026-10-15 (5) · Closing the hero's empty gap
+The photo was pinned at 500px inside an ~866px left column, leaving a field of cream
+between it and the form. Fixed by width band:
+- **≥1200px** — `.hero-visual` becomes a flex row: photo (max 520) + the honeycomb
+  beside it (`position:static`). At 1440 that is 520 + comb + 60px before the form.
+- **981–1199px** — no room for the pair, so the photo grows to the column width
+  (653px at 1100) and the comb keeps overlapping its corner.
+- **≤980px** — unchanged.
+
+Three things this exposed, all worth remembering:
+1. **`.hero__copy{max-width:620px}` was squeezing the photo row**, not just the lead
+   line. Removed; the lead line and `.btn-row` carry their own caps.
+2. The rating chip is `position:absolute` inside `.hero-visual`. Once that became a
+   flex row the chip anchored to the row's right edge, past the comb. Photo + chip are
+   wrapped in `.hero-visual__frame` now.
+3. **Media-query order bit me:** the new `@media (min-width:1200px)` sat above
+   `@media (max-width:1420px)`, which re-capped `.hero-visual` at 420px — the photo
+   collapsed to 80px beside the comb. Equal specificity, so source order decides. New
+   hero rules go at the **end** of site.css.
