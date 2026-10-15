@@ -959,3 +959,30 @@ for a 440px slot, the ten university JPEGs at 1.4MB, `home-page.png` (722KB, dea
 `OrbitFlags` is imported by nothing), `:focus-visible` gold at 1.1–1.35:1 on light
 surfaces, and the world-map path data (49KB) shipping to the client bundle because
 `WorldMap` is `"use client"`.
+
+## Build log — 2026-10-15 (7) · Sections 4 and 6, and the client's brief doc
+**The whole brief is readable.** The Google Doc renders to canvas, so the browser's text
+extraction returns only the chrome. `curl -sL ".../export?format=txt"` returns the lot —
+71KB, no sign-in needed. Sections found: 2 (honeycomb + chat + form), 4 (Find your
+Campus), 5 (Choose a Course), 6 (How Your Journey Works), 7 (Webinar), 8 (Our Vision to
+their Journey). The doc's tab list also names the destination pages the client expects:
+UK, Ireland, France, Germany, USA, New Zealand, Australia, Canada, **Sweden, Dubai,
+Singapore, Netherlands**, "39+ more" — note Sweden is in that list but **not** in
+section 3's country grid, and section 3 says "UAE" where the tab says "Dubai".
+
+**Section 4, Find your Campus** — new `campus` block type and component, on the home page
+after the world map. Radio group (not tabs: the choice is about the visitor's own
+profile), tick as well as colour on the selected card. Public carries the four entry
+criteria; Private links to the destinations. **Logo grids are deliberately empty** with a
+"logos to follow" note — the brief says the client is sending the files. Card photos cut
+from the client's own split artwork, below its wordmarks since the cards set that text.
+
+**Section 6, How Your Journey Works** — the `steps` block goes from four steps to the
+client's seven, their wording, same design.
+
+**Still blocked on the client:** university logos (section 4), webinar content and pics
+(section 7 — "Knowledge Hub" / "Be Updated" / "Register now"), the three videos and
+Instagram access (section 8), testimonial quotes and the tagline student photo.
+
+Also in the brief and not yet done: Success Stories in the nav is meant to point at
+https://www.youtube.com/@TrinityStudyAbroad/featured, not the page I built.
