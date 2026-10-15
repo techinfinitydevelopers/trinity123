@@ -930,3 +930,32 @@ Three things this exposed, all worth remembering:
    `@media (max-width:1420px)`, which re-capped `.hero-visual` at 420px — the photo
    collapsed to 80px beside the comb. Equal specificity, so source order decides. New
    hero rules go at the **end** of site.css.
+
+## Build log — 2026-10-15 (6) · Countries grid, map labels, 5 audits
+**Section 3 (Choose your Country)** rebuilt from the client's brief: UK, Ireland,
+France, Germany, USA, New Zealand, Australia, Canada, UAE, Singapore, Netherlands,
+and "39+ & counting" on the dark card. That dark card had been stuck at "33" through
+two country-figure sweeps because the number lives in its own `num` field.
+UAE/Singapore/Netherlands have **no destination page**, so they point at
+/why-study-abroad rather than a 404 — real pages as soon as the client sends content.
+Their flags were missing from the library; drawn as SVG and rasterised to 160px.
+
+**World map**: continent colours (client's reference), and country names beside each
+pin with leader lines. Placements are **hand-set in `WorldMap.tsx`**, not derived —
+five of fourteen pins sit inside a 54px-wide European cluster. Labels are hidden
+below 900px: the SVG scales with its box so 9px becomes ~3px, and the chip row
+carries the same names. Section order is kicker → title → lead → chips → map → note.
+
+**Process mistake to not repeat:** I chained `npm run build` into a commit with
+`&& grep -i "Compiled successfully"`. That line prints *before* type checking, so the
+grep passed, the build had actually failed, and a broken commit was pushed (Railway
+caught it). **Check the build's exit code**, e.g. `npm run build > log 2>&1; echo $?`.
+
+**Five parallel audits** (accessibility, responsive, content, SEO, performance). Fixed
+immediately: the Journey block rendered Font Awesome classes as `<img src>`, so the
+Success Stories page I built shipped five broken images and five 404s. Everything else
+is written up for the client in the session; the big ones are `banner-1.png` at 1.5MB
+for a 440px slot, the ten university JPEGs at 1.4MB, `home-page.png` (722KB, dead —
+`OrbitFlags` is imported by nothing), `:focus-visible` gold at 1.1–1.35:1 on light
+surfaces, and the world-map path data (49KB) shipping to the client bundle because
+`WorldMap` is `"use client"`.
