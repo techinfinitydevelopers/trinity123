@@ -22,10 +22,6 @@ export async function Hero({ b, contact }: { b: HeroBlock; contact: ContactSetti
         <div className="hero__cols">
         <div className="hero__copy">
           <p className="hero__text w__in" style={{ animationDelay: ".85s" }}>{b.text}</p>
-          <div className="btn-row w__in" style={{ animationDelay: "1s" }}>
-            <A href={b.primary.href} contact={contact} className="btn btn--primary">{b.primary.label} <i className="fas fa-arrow-right" /></A>
-            <A href={b.ghost.href} contact={contact} className="btn btn--ghost"><i className="fab fa-whatsapp gold" /> {b.ghost.label}</A>
-          </div>
           {/* The plain stat row is gone: the honeycomb carries the same claims, and the two
               disagreed on screen ("100k+ Courses" here against "1 lakh+ Courses" there).
               `stats` stays on the block so it can be brought back from the editor. */}
@@ -50,6 +46,11 @@ export async function Hero({ b, contact }: { b: HeroBlock; contact: ContactSetti
           </div>
         </div>
         ) : null}
+          {/* Below the photo, not above it: the client wants the honeycomb read first. */}
+          <div className="btn-row w__in" style={{ animationDelay: "1s" }}>
+            <A href={b.primary.href} contact={contact} className="btn btn--primary">{b.primary.label} <i className="fas fa-arrow-right" /></A>
+            <A href={b.ghost.href} contact={contact} className="btn btn--ghost"><i className="fab fa-whatsapp gold" /> {b.ghost.label}</A>
+          </div>
         </div>
         {b.form ? (
           <div className="hero__form w__in" style={{ animationDelay: "1.15s" }}>

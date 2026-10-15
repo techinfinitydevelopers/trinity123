@@ -174,6 +174,9 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .hero__inner{position:relative;width:100%;padding:0}
 .hero__cols{display:grid;grid-template-columns:minmax(0,1fr) clamp(340px,30%,430px);gap:clamp(32px,4vw,60px);align-items:start;margin-top:26px}
 .hero__copy{max-width:620px;min-width:0}
+/* The buttons now follow the photo, so they need room of their own — and clear of the
+   honeycomb, which hangs 74px below the frame on desktop and sits inside it on phones. */
+.hero__copy .btn-row{margin-top:30px}
 /* Sized off the viewport so the tagline stays on one line: the string needs about 15x its font
    size, and the container is min(1320px, 100vw - 48px), so 6vw clears it down to the phone
    breakpoint — below that it is allowed to wrap rather than shrink to nothing. */
