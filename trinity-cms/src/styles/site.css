@@ -172,8 +172,8 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .glow--a{width:640px;height:640px;background:var(--primary-2);opacity:.16;right:-160px;top:-160px;animation:floaty 9s ease-in-out infinite}
 .glow--b{width:420px;height:420px;background:var(--teal);opacity:.12;left:30%;bottom:-200px;animation:floaty 12s 2s ease-in-out infinite reverse}
 .hero__inner{position:relative;width:100%;padding:0}
-.hero__cols{display:block;margin-top:26px}
-.hero__copy{max-width:620px}
+.hero__cols{display:grid;grid-template-columns:minmax(0,1fr) clamp(340px,30%,430px);gap:clamp(32px,4vw,60px);align-items:start;margin-top:26px}
+.hero__copy{max-width:620px;min-width:0}
 /* Sized off the viewport so the tagline stays on one line: the string needs about 15x its font
    size, and the container is min(1320px, 100vw - 48px), so 6vw clears it down to the phone
    breakpoint — below that it is allowed to wrap rather than shrink to nothing. */
@@ -652,8 +652,10 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 /* ---------- Responsive ---------- */
 @media (max-width:1420px){
   .nav__links,.orbit,.pin__lead,.pin__hint{display:none}
-  /* The student photo and the honeycomb stay on narrow screens — they stack under the copy
-     and the honeycomb drops from 3+2 to 2+2+1 so it never leaves the card. */
+  /* The student photo and the honeycomb stay on narrow screens — the honeycomb drops from 3+2
+     to 2+2+1 so it never leaves the card. The hero grid itself holds out until 980: this
+     breakpoint exists for the nav, and collapsing the columns here would push the enquiry form
+     below the fold on every 1280 and 1366 laptop. */
   .hero-visual{max-width:420px;margin-top:40px}
   /* The page-hero asides used to be hidden here, which took the contact page's Call us and Email
      links — and the About stat chips and the Services chips — off every phone and tablet. They
@@ -805,6 +807,12 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .post__author-box strong{font-family:var(--font-h);font-size:17px;color:var(--navy);display:block;margin-bottom:6px}
 .post__author-box p{font-size:14.5px;line-height:1.7}
 .post__author-box a{font-family:var(--font-h);font-weight:600;font-size:14px;display:inline-flex;gap:8px;align-items:center;margin-top:10px}
+/* Below this the two hero columns cannot both hold their content, so the form stacks under
+   the photo. */
+@media (max-width:980px){
+  .hero__cols{grid-template-columns:1fr}
+  .hero__form{margin-top:40px}
+}
 @media (max-width:900px){.post__layout{grid-template-columns:1fr;gap:36px}.post__side{position:static}.post__cover{margin-top:-60px}}
 
 
@@ -869,23 +877,9 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 
 /* ---------- USP rail ----------
    One scrolling strip of everything we handle, with a single claim pinned over the middle. */
-/* The enquiry form in the hero's second row. The card variant stacks its fields; across the
-   full container that would be a very tall column, so the bar lays them out side by side and
-   folds to three, then one, as the room runs out. */
-.hero__form{margin-top:clamp(34px,4vw,56px);position:relative;z-index:3}
-.leadcard--bar{padding:clamp(22px,2.4vw,30px) clamp(22px,2.6vw,34px)}
-.leadcard--bar .leadcard__title{margin-bottom:18px}
-.leadcard--bar .leadcard__form{display:grid;grid-template-columns:repeat(5,minmax(0,1fr)) auto;gap:12px;align-items:center}
-.leadcard--bar .leadcard__row{grid-template-columns:92px minmax(0,1fr);gap:10px}
-.leadcard--bar .leadcard__btn{margin-top:0;width:auto;padding:16px 28px;white-space:nowrap}
-.leadcard--bar .leadcard__ok,.leadcard--bar .leadcard__err{grid-column:1/-1}
-@media (max-width:1180px){
-  .leadcard--bar .leadcard__form{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .leadcard--bar .leadcard__btn{grid-column:1/-1;width:100%}
-}
-@media (max-width:640px){
-  .leadcard--bar .leadcard__form{grid-template-columns:1fr}
-}
+/* The enquiry form is the hero's right column. `position:relative` and a z-index keep it above
+   the honeycomb, which bleeds out of the left column towards it. */
+.hero__form{position:relative;z-index:3}
 .usp{position:relative;background:var(--grey);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 0;overflow:hidden}
 .usp__rail{overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
 .usp__track{display:flex;width:max-content;align-items:center;gap:14px;animation:marquee 48s linear infinite}

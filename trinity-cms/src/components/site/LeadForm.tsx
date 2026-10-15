@@ -7,8 +7,8 @@ import type { LabelSettings } from "@/lib/settings";
    the full contact form — `city` and `destination` are folded into the lead's subject and message
    so the leads table and the admin inbox stay as they are. */
 export default function LeadForm({
-  title, cities, destinations, okMsg, submitLabel, labels: L, variant = "card",
-}: { title: string; cities: string[]; destinations: string[]; okMsg: string; submitLabel: string; labels: LabelSettings["forms"]; variant?: "card" | "bar" }) {
+  title, cities, destinations, okMsg, submitLabel, labels: L,
+}: { title: string; cities: string[]; destinations: string[]; okMsg: string; submitLabel: string; labels: LabelSettings["forms"] }) {
   const [state, setState] = useState<"idle" | "busy" | "ok" | "err">("idle");
   const [error, setError] = useState<string | null>(null);
 
@@ -48,7 +48,7 @@ export default function LeadForm({
 
   const done = state === "ok";
   return (
-    <div className={variant === "bar" ? "leadcard leadcard--bar" : "leadcard"}>
+    <div className="leadcard">
       <h2 className="leadcard__title">{title}</h2>
       {done ? (
         <p className="leadcard__ok" role="status"><i className="fas fa-check-circle" /> {okMsg}</p>

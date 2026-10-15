@@ -51,11 +51,9 @@ export async function Hero({ b, contact }: { b: HeroBlock; contact: ContactSetti
         </div>
         ) : null}
         </div>
-        </div>
         {b.form ? (
           <div className="hero__form w__in" style={{ animationDelay: "1.15s" }}>
             <LeadForm
-              variant="bar"
               title={b.form.title}
               cities={b.form.cities}
               destinations={b.form.destinations}
@@ -65,6 +63,7 @@ export async function Hero({ b, contact }: { b: HeroBlock; contact: ContactSetti
             />
           </div>
         ) : null}
+        </div>
       </div>
       <p className="hero__scroll" aria-hidden="true">{L.scrollLabel}<span /></p>
     </section>
