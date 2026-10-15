@@ -861,3 +861,35 @@ Run the build, not just tsc, before every push.
 Also: Railway's `deployment list` shows SUCCESS/FAILED, and `railway logs --build <id>`
 gives the real reason. A plain `railway logs --build` shows the *latest* build, which
 during a failure can still be the previous successful one — pass the id.
+
+## Build log — 2026-10-15 (3) · Form to the right column + responsive audit
+Client: form beside the copy, not under it. Hero is two columns again — copy +
+student photo left, enquiry form right, both starting on the same line. The wide
+`bar` variant of `LeadForm` was deleted (prop, class and three breakpoints): a
+6-across field row does not fit a 400px column.
+
+**Hero grid now collapses at 980px, not 1420.** The 1420 breakpoint exists for the
+nav; collapsing the hero there pushed the form below the fold on every 1280 and
+1366 laptop.
+
+Two faults the column swap left behind, both fixed:
+- `.hive{left:clamp(-62px,-4vw,-10px)}` bled the honeycomb *out* from under the
+  photo. Fine when the photo was on the right; with it on the left the honeycomb
+  bled off the page edge and `.hero{overflow:hidden}` cut 12–34px off it. Now
+  `left:0`.
+- The photo's `margin-bottom:86px` reserves room for the honeycomb hanging below.
+  Under 860px the honeycomb is `position:static`, so that margin reserved room for
+  nothing — 86px of dead space above the form on every phone. Now 0 there.
+
+**Two measurement traps, both cost me time — remember them:**
+1. `getBoundingClientRect()` on hero elements includes the entrance animation's
+   transform while it is still running, so positions read wildly wrong (a child
+   appearing to start below its parent's end). Use `offsetTop`/`offsetLeft`, or
+   wait ~1s first.
+2. `documentElement.scrollWidth > clientWidth` reported 23px of "overflow" on
+   /events, /brochure and /contact-us — all transient, same cause. `body` already
+   has `overflow-x:hidden`, and it propagates to the viewport, so **no page can
+   actually be scrolled sideways**. Test by calling `scrollTo(400,y)` and reading
+   back `scrollX`, not by comparing widths.
+
+Verified at 1440, 1366, 1280, 1024, 900, 768, 430, 393, 360.
