@@ -955,6 +955,15 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .wmap__land--asia{fill:#BFA6DC}
 .wmap__land--oceania{fill:#EE9F61}
 .wmap__dot{fill:var(--primary);transition:fill .4s var(--ease)}
+/* Country names on the map. Uppercase and tracked like the reference, and small enough that the
+   European cluster's five labels fit without touching. `paint-order` puts a thin page-coloured
+   stroke behind the glyphs so a label still reads where it crosses a coastline. */
+.wmap__label{fill:var(--navy);font-family:var(--font-h);font-weight:700;font-size:9px;letter-spacing:.7px;text-transform:uppercase;paint-order:stroke;stroke:var(--grey);stroke-width:2.6px;stroke-linejoin:round;transition:fill .4s var(--ease)}
+.wmap__leader{stroke:rgba(35,47,112,.45);stroke-width:.8;vector-effect:non-scaling-stroke}
+.wmap__pin.is-at .wmap__label{fill:var(--teal-ink)}
+/* The SVG scales with its box, so a 9px label is ~3px once the map is down to phone width —
+   unreadable. The chips above the map carry the same fourteen names, so the labels go. */
+@media (max-width:900px){.wmap__label,.wmap__leader{display:none}}
 .wmap__halo{fill:var(--primary);opacity:.14;transform-box:fill-box;transform-origin:center;transition:opacity .4s var(--ease)}
 .wmap__pin.is-at .wmap__dot{fill:var(--teal)}
 .wmap__pin.is-at .wmap__halo{fill:var(--teal);opacity:.3;animation:wmapPulse 2.2s ease-out infinite}
