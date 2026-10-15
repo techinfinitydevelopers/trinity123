@@ -27,10 +27,15 @@ export async function Hero({ b, contact }: { b: HeroBlock; contact: ContactSetti
               `stats` stays on the block so it can be brought back from the editor. */}
         {b.photo || hive.length ? (
         <div className="hero-visual w__in" style={{ animationDelay: ".3s" }}>
-          {b.photo ? <div className="hero-visual__img hero-visual__img--cutout"><img src={b.photo} alt={L.heroPhotoAlt} /></div> : null}
-          <div className="chip chip--glass chip--hv-b">
-            <span className="avatars"><img src={L.avatarImage1} alt="" /><img src={L.avatarImage2} alt="" /></span>
-            <span><Stars label={L.ratingLabel} /><small>{b.chipCText}</small></span>
+          {/* The frame wraps photo and chip together: above 1200px the honeycomb sits beside
+              them as a flex sibling, and the chip has to stay pinned to the photo's corner
+              rather than to the whole row's right edge. */}
+          <div className="hero-visual__frame">
+            {b.photo ? <div className="hero-visual__img hero-visual__img--cutout"><img src={b.photo} alt={L.heroPhotoAlt} /></div> : null}
+            <div className="chip chip--glass chip--hv-b">
+              <span className="avatars"><img src={L.avatarImage1} alt="" /><img src={L.avatarImage2} alt="" /></span>
+              <span><Stars label={L.ratingLabel} /><small>{b.chipCText}</small></span>
+            </div>
           </div>
           <div className="hive">
             {hive.map((h, i) => (
