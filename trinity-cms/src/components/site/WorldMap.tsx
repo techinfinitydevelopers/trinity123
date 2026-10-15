@@ -5,7 +5,7 @@ import { MAP_W, MAP_H, MAP_REGIONS, MAP_MARKERS } from "./world-map";
 
 /* World map of the destinations we place students in. The graduation cap flies from one marker to
    the next; the pins stay put so the map still reads if the animation never runs. */
-export default function WorldMap({ lead, note }: { lead?: string; note: string }) {
+export default function WorldMap({ note }: { note: string }) {
   const [at, setAt] = useState(0);
   const paused = useRef(false);
 
@@ -25,6 +25,18 @@ export default function WorldMap({ lead, note }: { lead?: string; note: string }
       onMouseEnter={() => { paused.current = true; }}
       onMouseLeave={() => { paused.current = false; }}
     >
+      <ul className="wmap__legend">
+        {MAP_MARKERS.map((m, i) => {
+          const label = <>{m.name}</>;
+          return (
+            <li key={m.name} className={i === at ? "is-at" : undefined}>
+              {m.slug
+                ? <Link href={`/destinations/${m.slug}`} onMouseEnter={() => setAt(i)}>{label}</Link>
+                : <span onMouseEnter={() => setAt(i)}>{label}</span>}
+            </li>
+          );
+        })}
+      </ul>
       <svg viewBox={`0 0 ${MAP_W} ${MAP_H}`} className="wmap__svg" role="img" aria-label={`Study destinations: ${MAP_MARKERS.map((m) => m.name).join(", ")}`}>
         {/* One path per continent so each can take its own colour, as the client's
             reference map does. */}
@@ -45,19 +57,6 @@ export default function WorldMap({ lead, note }: { lead?: string; note: string }
         </g>
       </svg>
 
-      <ul className="wmap__legend">
-        {MAP_MARKERS.map((m, i) => {
-          const label = <>{m.name}</>;
-          return (
-            <li key={m.name} className={i === at ? "is-at" : undefined}>
-              {m.slug
-                ? <Link href={`/destinations/${m.slug}`} onMouseEnter={() => setAt(i)}>{label}</Link>
-                : <span onMouseEnter={() => setAt(i)}>{label}</span>}
-            </li>
-          );
-        })}
-      </ul>
-      {lead ? <p className="wmap__lead">{lead}</p> : null}
       {note ? <p className="wmap__note">{note}</p> : null}
     </div>
   );

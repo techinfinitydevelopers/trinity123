@@ -62,10 +62,8 @@ export function WorldMapSection({ b }: { b: WorldMapBlock }) {
   return (
     <section className="section wmapsec" id="map">
       <div className="container">
-        {/* The lead sits under the destination chips, not above the map — the client wants the
-            map and its chips to come first. */}
-        <SectionHead kicker={b.kicker} title={b.title} center />
-        <WorldMap lead={b.lead} note={b.note} />
+        <SectionHead kicker={b.kicker} title={b.title} lead={b.lead} center />
+        <WorldMap note={b.note} />
       </div>
     </section>
   );
