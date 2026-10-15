@@ -8,7 +8,7 @@ export type Chip = { icon?: string; strong: string; small: string };
 export type HeroBlock = {
   type: "hero";
   sideText: string;
-  words: Word[]; capsuleImg: string; text: string;
+  words: Word[]; text: string;
   primary: Btn; ghost: Btn;
   stats: { value: string; label: string }[];
   photo: string; chipCText: string;

@@ -117,10 +117,9 @@ const homeBlocks: Block[] = [
   {
     type: "hero",
     sideText: "Est. 1982 · Mumbai · Trinity Group",
-    words: [{ t: "Every" }, { t: "Dream", s: "gold" }, { t: "needs" }, { t: "a" }, { t: "direction", s: "grad" }],
-    /* Blank: the client asked for the photo pill inside the headline to go. Keep the field so it
-       can be set again from the hero editor without a code change. */
-    capsuleImg: "",
+    /* `br` after "Dream" rather than letting it wrap: `.hero__title` is `white-space:nowrap` on
+       desktop, so the two lines have to be set explicitly or the headline runs off the page. */
+    words: [{ t: "Because" }, { t: "Every" }, { t: "Dream", s: "gold", br: true }, { t: "Needs" }, { t: "a" }, { t: "Direction", s: "grad" }],
     text: "Let Trinity Study Abroad help you find yours.",
     primary: { label: "Learn More", href: C }, ghost: { label: "Chat with us", href: "whatsapp" },
     stats: [{ value: "50+", label: "Countries" }, { value: "1200+", label: "Universities" }, { value: "1 lakh+", label: "Courses" }],

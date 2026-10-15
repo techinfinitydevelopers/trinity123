@@ -12,7 +12,7 @@ type Obj = Record<string, unknown>;
    with the right kind of item. Module-scoped: it only has to survive re-renders. */
 const shapeMemory = new Map<string, object>();
 const shapeKey = (name: string, depth: number) => `${depth}:${name}`;
-const IMG_KEY = /(img|image|logo|cover|capsule|icon$)/i;
+const IMG_KEY = /(img|image|logo|cover|icon$)/i;
 const LONG_KEY = /^(text|sub|lead|paragraph|a|answer|noteText|excerpt|okMsg|statText|greeting|systemPrompt|footerText|handoffMessage)$/;
 const isImgVal = (v: string) => /^(\/|https?:).*\.(png|jpe?g|webp|gif|svg|avif)(\?.*)?$/i.test(v) || v.startsWith("/uploads/");
 const isFa = (v: string) => /^fa[srb]? fa-/.test(v);

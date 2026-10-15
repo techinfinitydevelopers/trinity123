@@ -16,7 +16,7 @@ export async function Hero({ b, contact }: { b: HeroBlock; contact: ContactSetti
       <div className="container hero__inner">
         {/* The headline spans the container rather than sitting in the left column: the client
             wants the tagline on one line, and half the grid cannot hold it at hero size. */}
-        <h1 className="h1 hero__title"><Words words={b.words} start={0.25} capsule={b.capsuleImg} /></h1>
+        <h1 className="h1 hero__title"><Words words={b.words} start={0.25} /></h1>
         <div className="hero__cols">
         <div className="hero__copy">
           <p className="hero__text w__in" style={{ animationDelay: ".85s" }}>{b.text}</p>

@@ -52,16 +52,13 @@ export function Title({ text, as = "h2", className }: { text: string; as?: "h1" 
 }
 
 /** Animated word-by-word H1 used by all heroes. */
-export function Words({ words, start = 0.15, step = 0.1, capsule }: { words: Word[]; start?: number; step?: number; capsule?: string }) {
+export function Words({ words, start = 0.15, step = 0.1 }: { words: Word[]; start?: number; step?: number }) {
   const out: ReactNode[] = [];
   words.forEach((w, i) => {
     const delay = `${(start + i * step).toFixed(2)}s`;
     out.push(
       <span key={`w${i}`} className="w"><span className={w.s ? `w__in ${w.s}` : "w__in"} style={{ animationDelay: delay }}>{w.t}</span></span>,
     );
-    if (capsule && w.s === "gold") {
-      out.push(" ", <span key={`c${i}`} className="capsule w__in" style={{ animationDelay: ".5s" }}><img src={capsule} alt="" /></span>);
-    }
     if (w.br) out.push(<br key={`b${i}`} />);
     else if (i < words.length - 1) out.push(" ");
   });
