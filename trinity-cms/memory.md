@@ -986,3 +986,26 @@ Instagram access (section 8), testimonial quotes and the tagline student photo.
 
 Also in the brief and not yet done: Success Stories in the nav is meant to point at
 https://www.youtube.com/@TrinityStudyAbroad/featured, not the page I built.
+
+## Build log — 2026-10-15 (8) · Sections 7 and 8
+**Knowledge Hub** (`webinar` block, after Courses): "coming up" panel, past-snippet
+strip, "Register now" CTA. Both lists empty with their own worded empty states — the
+client is sending dates and snippets.
+
+**Our Vision to their Journey** (`vision` block, after Testimonials): three video slots.
+Only Sushant's URL exists in the brief (youtube.com/shorts/LwHzS7EqjhA); the other two
+show "video to follow" over their poster rather than a dead play button. "Know more" →
+/success-stories.
+
+**The players are facades** — poster image until clicked, iframe created on click. Three
+live embeds would pull YouTube's player for every visitor. `youtube-nocookie`, and
+`frame-src` in `next.config.ts` widened to exactly that host (it already had to be
+widened once before, for the admin live preview).
+
+Home order is now: hero · usp · countries · worldMap · **campus** · about · offer ·
+steps · universities · courses · **webinar** · testimonials · **vision** · stats · cta · faq.
+
+Three contradictions in the brief still unanswered by the client: Sweden is in the doc's
+destination tabs but not in section 3's grid; section 3 says "UAE" where the tab says
+"Dubai"; and the nav's Success Stories is meant to point at the YouTube channel, not the
+page we built.
