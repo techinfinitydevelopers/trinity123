@@ -893,3 +893,20 @@ Two faults the column swap left behind, both fixed:
    back `scrollX`, not by comparing widths.
 
 Verified at 1440, 1366, 1280, 1024, 900, 768, 430, 393, 360.
+
+## Build log — 2026-10-15 (4) · New hero photo, buttons below the honeycomb
+- Client supplied `Isolated Smiling Woman with Backpack Strap.png` at 1121x1403 /
+  2.3MB — nine times the image it replaced, above the fold. Resized with sharp to
+  719x900 and re-encoded to 280KB (`public/assets/img/home/hero-student.png`). The
+  frame shows it at ~250x320, so 900px tall still covers 2x screens. **Always check
+  the weight of a client-supplied hero image before shipping it.**
+- The old `home-page-2.png` stays: the lead-capture section on Events and Brochure
+  still uses it, so the boy appears there. Worth asking the client whether they want
+  that swapped too.
+- Hero order is now text → photo + honeycomb → buttons. `.hero__copy .btn-row` gets
+  `margin-top:30px`; without it the buttons touched the honeycomb on phones (where it
+  is `position:static` inside the frame) and cleared it by only 12px on desktop.
+
+Reminder that bit again: after a direct database write, the dev server keeps serving
+the old content from `.next/cache` — `rm -rf .next` and restart, or the change looks
+like it did not apply.
