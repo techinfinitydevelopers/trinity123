@@ -537,6 +537,8 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .jcard__num,.wcard__num,.scard__num{position:absolute;right:20px;top:14px;font-family:var(--font-h);font-weight:800;font-size:48px;letter-spacing:-2px;line-height:1;transition:color .4s}
 .jcard__num{color:rgba(255,255,255,.08)}
 .jcard__ico{position:relative;width:64px;height:64px;border-radius:18px;background:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:26px}
+/* A Font Awesome glyph in the same tile as the SVG icons it replaces. */
+.jcard__ico i{font-size:26px;color:var(--primary)}
 .jcard h3{position:relative;color:#fff;font-size:19px;font-weight:600;margin-bottom:10px}
 .jcard p{position:relative;line-height:1.75;font-size:15px;color:rgba(255,255,255,.7)}
 .jcard:hover{transform:translateY(-8px);border-color:transparent}.jcard:hover .jcard__fill{opacity:1}

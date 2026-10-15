@@ -17,7 +17,12 @@ export function Journey({ b }: { b: JourneyBlock }) {
           {b.cards.map((c, i) => (
             <div key={i} className="jcard" data-reveal style={d(i)}>
               <span className="jcard__fill" /><span className="jcard__num">{String(i + 1).padStart(2, "0")}</span>
-              <span className="jcard__ico"><img src={c.icon} alt="" width={34} height={34} /></span>
+              {/* `icon` holds either an image path or a Font Awesome class. The original journey cards
+                  used SVG files; the Success Stories page uses classes, like every other block on the
+                  site, and rendering those as an <img src> gave five broken images and five 404s. */}
+              <span className="jcard__ico">
+                {/^(\/|https?:)/.test(c.icon) ? <img src={c.icon} alt="" width={34} height={34} /> : <i className={c.icon} />}
+              </span>
               <h3>{c.title}</h3><p>{c.text}</p>
             </div>
           ))}
