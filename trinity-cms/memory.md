@@ -811,3 +811,25 @@ Verified on production after `81921a8`: all four pages 200, full menu renders at
 1440px, the Resources dropdown opens with Events/Brochure, the mobile menu nests them.
 Careful with browser checks — a click sent immediately after `navigate` lands before
 hydration and does nothing; the second click worked.
+
+## Build log — 2026-10-15 · Hero headline, capsule removed for good
+"Because Every Dream Needs a Direction", with an explicit `br` after "Dream".
+**`.hero__title` is `white-space:nowrap` on desktop** (`site.css`), so a longer
+headline does not wrap — it runs off the page. Any future headline change has to
+set its own line breaks or relax that rule. Checked at 1440px and 375px.
+
+The photo capsule is gone from the code, not just blanked: `capsuleImg` off
+`HeroBlock`, the capsule branch out of `Words`, the two `.capsule` rules out of
+`site.css`, and `capsule` dropped from `FieldEditor`'s `IMG_KEY`. It had been left
+as an empty field "so it can be set again without a code change", which is exactly
+how it would have come back.
+
+Note: `site.tagline` in Settings → General is still "Every Dream Needs a Direction"
+and feeds the browser-tab title and SEO title. Left alone deliberately — changing
+page titles is an SEO decision for the client.
+
+**Local dev needs its own database.** `DATABASE_URL` points at `localhost:5433`,
+served by `npm run db:dev` (embedded Postgres, data in `.pgdata`). With it stopped
+every page renders empty — no map, no sections — because all content lives in the
+database. That is not "local is out of sync with git"; git and Railway were both at
+`b314fa6`. First thing to check when local looks blank: is `npm run db:dev` running.
