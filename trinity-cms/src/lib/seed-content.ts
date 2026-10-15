@@ -218,7 +218,7 @@ const homeBlocks: Block[] = [
   usp,
   {
     type: "countries", kicker: "Shape your direction", title: "Choose your [Country]",
-    lead: "We connect students with world-class education in 50+ countries, giving you access to some of the best universities and courses internationally. Whether you're looking to study in the USA, Canada, UK, or any of the major education destinations, we have you covered.",
+    lead: "We connect students with world-class education in 50+ countries, giving you access to some of the best universities and courses internationally.",
     layout: "split", marquee: true, items: countryItems, dark: darkCountry,
   },
   worldMap,

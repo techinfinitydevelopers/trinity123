@@ -26,6 +26,7 @@ async function main() {
   let touched = false;
   for (const b of blocks) {
     if (b.type !== "countries") continue;
+    b.lead = seedBlock.lead;
     b.items = seedBlock.items;
     b.dark = seedBlock.dark;
     touched = true;
@@ -33,7 +34,8 @@ async function main() {
   if (!touched) throw new Error("The home page has no countries block.");
 
   await db.page.update({ where: { slug: "home" }, data: { blocks: blocks as unknown as object[] } });
-  console.log(`home: ${seedBlock.items.map((i) => i.name).join(", ")} + ${seedBlock.dark.num} ${seedBlock.dark.text}`);
+  console.log(`home: ${seedBlock.items.length} countries + ${seedBlock.dark.num} ${seedBlock.dark.text}`);
+  console.log(`lead: ${seedBlock.lead}`);
   await db.$disconnect();
 }
 
