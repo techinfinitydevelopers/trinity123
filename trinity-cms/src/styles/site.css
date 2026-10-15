@@ -468,7 +468,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
    W/2. The old version mixed a flat-top clip-path with a pointy-top aspect at arbitrary steps,
    which is why it read as five loose badges. The mortar comes from scaling each cell about its
    centre: because all six neighbours sit W apart, one scale gives an equal gap on every edge. */
-.hive{--w:104px;--h:120px;--row:90px;--gap:5px;position:absolute;left:0;bottom:-74px;width:calc(var(--w)*3);height:calc(var(--row) + var(--h));
+.hive{--w:118px;--h:136px;--row:102px;--gap:5px;position:absolute;left:0;bottom:-74px;width:calc(var(--w)*3);height:calc(var(--row) + var(--h));
   filter:drop-shadow(0 2px 3px rgba(26,36,86,.14)) drop-shadow(0 14px 24px rgba(26,36,86,.22))}
 .hive__item{position:absolute;width:var(--w);height:var(--h);transform:scale(calc(1 - var(--gap)/var(--w)))}
 .hive__item__face{position:relative;width:100%;height:100%;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);
@@ -481,17 +481,17 @@ html.no-js [data-reveal]{opacity:1;transform:none}
    the width, so the subject has to be centred — see scripts/build-world-map.mjs's sibling note in
    the seed for which image goes where. */
 .hive__item__face.has-photo::before{content:"";position:absolute;inset:0;z-index:0;
-  background:linear-gradient(180deg,rgba(26,36,86,.74),rgba(26,36,86,.74)),var(--photo) center/cover no-repeat;
-  filter:saturate(.25) contrast(.9)}
+  background:linear-gradient(180deg,rgba(26,36,86,.54) 0%,rgba(26,36,86,.74) 52%,rgba(26,36,86,.9) 100%),var(--photo) center/cover no-repeat;
+  filter:saturate(.6) contrast(1.06)}
 .hive__item__face > *{position:relative;z-index:1}
 /* A tonal navy ladder keeps the five cells reading as one object; teal marks the payoff claim.
    White on teal is only 2.41:1, so that cell takes navy ink instead. */
 .hive__item--1 .hive__item__face{background:var(--navy-2)}
 .hive__item--3 .hive__item__face{background:var(--navy-3)}
 .hive__item--5 .hive__item__face:not(.has-photo){background:var(--teal);color:var(--navy-3);box-shadow:inset 0 1px 0 rgba(255,255,255,.28)}
-.hive__item strong{font-family:var(--font-h);font-weight:800;font-size:clamp(15px,1.2vw + 10px,18px);letter-spacing:-.6px;line-height:1;white-space:nowrap}
+.hive__item strong{font-family:var(--font-h);font-weight:800;font-size:clamp(16px,1.3vw + 10px,20px);letter-spacing:-.6px;line-height:1;white-space:nowrap}
 /* Sentence case on purpose: "Universities" in caps with tracking needs 92px inside a 73px cell. */
-.hive__item span{font-family:var(--font-h);font-weight:600;font-size:clamp(8px,.35vw + 6.8px,9px);letter-spacing:.2px;line-height:1.2;margin-top:3px;color:var(--cream)}
+.hive__item span{font-family:var(--font-h);font-weight:600;font-size:clamp(8.5px,.4vw + 7px,10px);letter-spacing:.2px;line-height:1.2;margin-top:3px;color:var(--cream)}
 .hive__item--5 .hive__item__face:not(.has-photo) span{color:var(--navy-3)}
 .hive__item--1{top:0;left:0}
 .hive__item--2{top:0;left:var(--w)}
@@ -1014,9 +1014,9 @@ html.no-js [data-reveal]{opacity:1;transform:none}
    under the photo and sits beside it, which is what fills the column; between 981 and 1200
    there is no room for that, so the photo simply grows to the column's width instead. */
 @media (min-width:1200px){
-  .hero-visual{display:flex;align-items:flex-end;gap:clamp(20px,2.2vw,40px);max-width:none;margin-bottom:0}
+  .hero-visual{display:flex;align-items:center;gap:clamp(24px,2.6vw,46px);max-width:none;margin-bottom:0}
   .hero-visual__frame{flex:1 1 auto;max-width:520px;min-width:0}
-  .hive{position:static;flex:0 0 auto;margin-bottom:14px}
+  .hive{position:static;flex:0 0 auto;margin:0}
 }
 @media (min-width:981px) and (max-width:1199px){
   .hero-visual{max-width:none}

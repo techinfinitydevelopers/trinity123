@@ -175,7 +175,9 @@ const countryItems: CountriesBlock["items"] = [
   { flag: "sg", name: "Singapore", tag: "Business & technology hub", href: "/why-study-abroad" },
   { flag: "nl", name: "Netherlands", tag: "English-taught degrees", href: "/why-study-abroad" },
 ];
-const darkCountry = { num: "39+", text: "& counting", small: "Ask us about yours", href: C };
+/* The card's markup already appends the "+", so `num` is the bare figure — putting it here too
+   printed "39++". */
+const darkCountry = { num: "39", text: "& counting", small: "Ask us about yours", href: C };
 
 export const offer: OfferBlock = {
   type: "offer", kicker: "What We Offer", title: "Discover Our Comprehensive [Study Abroad] Solutions",
