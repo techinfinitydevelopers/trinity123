@@ -43,7 +43,7 @@ async function main() {
     }
 
     if (!note.length) continue;
-    await db.page.update({ where: { id: page.id }, data: { blocks } });
+    await db.page.update({ where: { id: page.id }, data: { blocks: blocks as unknown as object[] } });
     console.log(`${page.slug}: ${[...new Set(note)].join(", ")}`);
   }
 
