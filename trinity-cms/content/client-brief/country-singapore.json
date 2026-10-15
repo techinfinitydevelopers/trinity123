@@ -1,0 +1,40 @@
+{
+  "slug": "singapore",
+  "code": "sg",
+  "name": "Singapore",
+  "tag": "Banking & service industry",
+  "hero": "Study in Singapore",
+  "intro": "Singapore is attractive as a global business hub as almost every MNC has its Asia-Pacific Head Office in Singapore making it easier for students to find jobs.",
+  "stats": [
+    { "v": "300+", "l": "Universities / Colleges / Polytechnics" },
+    { "v": "2 yrs", "l": "Stay-back (master's)" },
+    { "v": "3 to 4", "l": "Intakes" },
+    { "v": "€12k–25k", "l": "Tuition / year" }
+  ],
+  "why": [
+    "HUB of Business in Asia – Good for Banking & Service Industry.",
+    "37,000 international companies, including 7,000 MNCs with their regional headquarters in the country",
+    "Singapore is a safe city with a low crime rate and a stable political environment."
+  ],
+  "courses": [
+    "Data Analytics & Computing",
+    "Pharmaceutical & Biotech",
+    "Business & Fintech",
+    "Construction & Engineering",
+    "Agri & Food Science"
+  ],
+  "visa": "Funds to be shown – tuition fees + living expenses for 1st year of study. Acceptable evidence includes a bank statement, loan approval letter, fixed deposits and a bank balance certificate (savings A/c). Average living expenses per month = SGD 700 – SGD 800. Parents and siblings are the only acceptable sponsors for financial purposes.",
+  "intakes": "February / July / November",
+  "cost": [
+    { "label": "Tuition (master's)", "value": "SGD 16,000 – SGD 30,000 / year" },
+    { "label": "Living expenses", "value": "SGD 17,000 – SGD 24,000 / year" },
+    { "label": "Health insurance", "value": "€150 – €500 / year" }
+  ],
+  "req": [
+    { "label": "Academics", "value": "65%+ for bachelor programs and 50%+ for Master programs" },
+    { "label": "English test", "value": "IELTS 6.5 overall with 6.0 in each band" },
+    { "label": "Funds", "value": "Tuition fees + living expenses for 1st year of study" },
+    { "label": "Documents", "value": "SOP, 2 LORs, CV, transcripts, passport, insurance" }
+  ],
+  "work": "International students are normally not permitted to work part time during their studies. However, they can apply for a work permit after their studies are completed and if they have found a job. In case the students are enrolled in a course that has a built-in internship the students can work during that time. On a case-to-case basis student can get 1-month extension + 1 additional extension of 15 days is possible."
+}

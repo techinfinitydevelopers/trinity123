@@ -1,0 +1,75 @@
+{
+  "slug": "uk",
+  "tag": "1-year master's",
+  "hero": "Study in the United Kingdom",
+  "intro": "The UK is one of the world's leading destinations for international students, known for its well-established higher education system, respected universities and wide range of courses.\n\nUK offers one-year master's degrees that reduce both tuition and living costs and a 18 months Graduate Route work visa after graduation.",
+  "stats": [
+    { "v": "150+", "l": "Universities" },
+    { "v": "18 months", "l": "Graduate Route" },
+    { "v": "Sept / Jan", "l": "Intakes" },
+    { "v": "£16k–30k", "l": "Tuition / year" }
+  ],
+  "why": [
+    "One-year master's — faster return on investment",
+    "Graduate Route lets you work for 18 months after the degree",
+    "PhD and other doctoral graduates can receive 3 years stay back",
+    "Strong in business, law, media, design and engineering",
+    "No entrance exam required for most programmes"
+  ],
+  "courses": [
+    "Computer Science, AI & Data Science",
+    "Business, Finance & Management",
+    "Engineering",
+    "Biotechnology & Life Sciences",
+    "Healthcare & Public Health",
+    "Architecture & Construction Management",
+    "Aviation & Aerospace",
+    "Design, Media & Creative Industries",
+    "Law",
+    "International Relations & Development"
+  ],
+  "visa": "Student Route visa. You apply with your CAS letter, financial proof held for 28 days, and TB test where applicable. Most decisions arrive within three weeks.",
+  "intakes": "September is the primary intake; January is a strong secondary intake. Apply 8–10 months ahead — popular courses close early.",
+  "cost": [
+    { "label": "Tuition (master's)", "value": "£12,000 – £35,000 / year" },
+    { "label": "Living (outside London)", "value": "£14,436 / year (as per UKVI)" },
+    { "label": "Living (London)", "value": "£18,840 / year (as per UKVI)" },
+    { "label": "IHS health surcharge", "value": "£776 / year" },
+    { "label": "Total year one", "value": "£30,000 – £50,000" }
+  ],
+  "req": [
+    { "label": "Academics", "value": "55–65%+ in bachelor's; 2:1 equivalent for top universities" },
+    { "label": "English test", "value": "IELTS UKVI 6.5 overall (6.0 in each band typical)" },
+    { "label": "Work experience", "value": "Preferred for MBA and executive programmes" },
+    { "label": "Documents", "value": "Marksheets, Resume, SOP, 2 LORs, CV, transcripts, passport, 28-day bank statement" }
+  ],
+  "sch": [
+    { "name": "Chevening Scholarships", "text": "Fully funded UK master's for future leaders" },
+    { "name": "Commonwealth Scholarships", "text": "Tuition, stipend and airfare for developing Commonwealth students" },
+    { "name": "University bursaries", "text": "£2,000 – £10,000 India-specific awards at most universities" }
+  ],
+  "steps": [
+    { "title": "Accept offer", "text": "Pay the deposit and receive your CAS letter" },
+    { "title": "Hold funds 28 days", "text": "Maintain tuition + living costs in the account for 28 consecutive days" },
+    { "title": "TB test", "text": "Complete TB screening at an approved clinic" },
+    { "title": "Apply online", "text": "Submit the Student Route application and pay IHS" },
+    { "title": "Biometrics", "text": "Attend the visa centre; decisions typically in 3 weeks" }
+  ],
+  "work": "Students can work 20 hours a week during terms. The Graduate Route then allows you to stay and work for 18 months without employer sponsorship — ideal for finding a Skilled Worker role.",
+  "workPoints": [
+    "20 hrs/week during term time",
+    "18 month Graduate Route visa",
+    "Skilled Worker route for long-term stay"
+  ],
+  "faq": [
+    { "q": "Is a one-year master's valid in India?", "a": "Yes — UK master's degrees are widely recognised by employers and for further study." },
+    { "q": "Do I need IELTS for the UK?", "a": "Most universities require IELTS UKVI, though some accept MOI letters for Indian students." },
+    { "q": "How much does the Graduate Route cost?", "a": "There is an application fee plus IHS; it is applied for from within the UK after graduation." },
+    { "q": "Are January intakes worth it?", "a": "Yes — January offers less competition and a wider scholarship window at many universities." }
+  ],
+  "unis": [
+    { "name": "University College London", "img": "" },
+    { "name": "University of Warwick", "img": "" },
+    { "name": "University of Edinburgh", "img": "" }
+  ]
+}

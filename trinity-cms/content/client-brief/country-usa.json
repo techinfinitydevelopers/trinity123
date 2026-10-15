@@ -1,0 +1,69 @@
+{
+  "slug": "usa",
+  "tag": "Top-ranked universities",
+  "hero": "Study in the United States",
+  "intro": "The USA offers an exceptional range of top-ranked universities, world-leading research opportunities and flexible curricula that allow students to explore different majors. It remains a leading choice for Indian students pursuing STEM, business and research-intensive postgraduate programmes.\n\nA degree from a recognised US university can open up career opportunities across different countries and industries, making the USA a popular study-abroad destination for international students.",
+  "stats": [
+    { "v": "300+", "l": "Universities" },
+    { "v": "3 yrs", "l": "STEM OPT" },
+    { "v": "Fall / Spring", "l": "Intakes" },
+    { "v": "$25k–55k", "l": "Tuition / year" }
+  ],
+  "why": [
+    "Largest choice of universities and program specialisations available",
+    "Assistantships, fellowships and merit scholarships options",
+    "STEM graduates get up to 3 years of OPT work authorisation",
+    "Strong campus research and industry linkage"
+  ],
+  "courses": [
+    "Computer Science & IT",
+    "Data Science & Analytics",
+    "Business & Management (MBA, Finance, Marketing)",
+    "Engineering (all branches)",
+    "Healthcare & Life Sciences",
+    "Economics & Finance",
+    "Engineering (Mechanical, Civil, Electrical)"
+  ],
+  "visa": "To study in the USA, you'll need an F-1 Student Visa. Requirements: Admission letter (I-20 form) from the university, SEVIS fee payment, proof of financials, proof of English proficiency (IELTS/TOEFL) and a visa interview at the consulate.",
+  "intakes": "Fall (August–September) is the main intake with the widest course and funding choice. Spring (January) is smaller. Start 10–12 months ahead for GRE/GMAT, TOEFL/IELTS and applications.",
+  "cost": [
+    { "label": "Tuition", "value": "$15,000 – $55,000 / year" },
+    { "label": "Living expenses", "value": "$12,000 – $18,000 / year" },
+    { "label": "Health insurance", "value": "$1,200 – $2,500 / year" },
+    { "label": "Visa + SEVIS fees", "value": "$535 one-time" },
+    { "label": "Total year one", "value": "$40,000 – $75,000" }
+  ],
+  "req": [
+    { "label": "Academics", "value": "65%+ in bachelor's (16 years of education preferred for master's)" },
+    { "label": "English test", "value": "IELTS 6.5 / TOEFL 90 / PTE 65" },
+    { "label": "Aptitude test", "value": "GRE for STEM, GMAT for MBA (waivers available)" },
+    { "label": "Documents", "value": "Marksheets, Resume, SOP, 2 LORs, Transcripts, passport" }
+  ],
+  "sch": [
+    { "name": "University merit scholarships", "text": "Partial to full tuition waivers based on academics and test scores" },
+    { "name": "Graduate assistantships", "text": "Teaching or research roles covering tuition plus a stipend" },
+    { "name": "External scholarships", "text": "Fulbright-Nehru, Inlaks, Tata Scholarships for Indian students" }
+  ],
+  "steps": [
+    { "title": "Receive I-20", "text": "University issues your I-20 after admission and financial documents" },
+    { "title": "Pay SEVIS fee", "text": "Pay I-901 SEVIS fee and keep the receipt" },
+    { "title": "Fill DS-160", "text": "Complete the online visa form and pay the MRV fee" },
+    { "title": "Book appointments", "text": "Biometrics (VAC) followed by the consular interview" },
+    { "title": "Interview", "text": "Answer questions on course, funding and post-study plans" }
+  ],
+  "work": "You may work 20 hours a week on campus during terms and full time on vacations. After graduation, OPT gives 12 months of work authorisation, extended to 36 months for STEM degrees.",
+  "workPoints": [
+    "20 hrs/week on-campus during study",
+    "12 months OPT (36 for STEM)"
+  ],
+  "faq": [
+    { "q": "Is GRE mandatory for the USA?", "a": "Many universities have made GRE optional, but a good score still strengthens funding chances for STEM programmes." },
+    { "q": "How much proof of funds is needed?", "a": "Typically one year of tuition plus living costs as shown on your I-20." },
+    { "q": "Can my spouse join me?", "a": "Yes, on an F-2 dependent visa, though F-2 holders cannot work." },
+    { "q": "What is the visa success rate with Trinity?", "a": "Our counsellors screen documents and run mock interviews, which is where most refusals are prevented." }
+  ],
+  "unis": [
+    { "name": "University of Dayton", "img": "" },
+    { "name": "Florida International University", "img": "" }
+  ]
+}

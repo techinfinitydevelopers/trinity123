@@ -1,0 +1,65 @@
+{
+  "slug": "canada",
+  "tag": "PR-friendly pathways",
+  "hero": "Study in Canada",
+  "intro": "Canada is one of the world's most popular study destinations for international students, known for its high-quality education, respected universities and welcoming multicultural society.\n\nCanada combines affordable, high-quality education with generous post-graduation work permits and a well-defined permanent residency pathway — the reason it is the most PR-friendly destination for Indian students.",
+  "stats": [
+    { "v": "100+", "l": "Universities" },
+    { "v": "3 yrs", "l": "PGWP" },
+    { "v": "Sep / Jan / May", "l": "Intakes" },
+    { "v": "CAD 18k–35k", "l": "Tuition / year" }
+  ],
+  "why": [
+    "Post-Graduation Work Permit up to 3 years",
+    "Express Entry and PNP pathways to permanent residency",
+    "Lower tuition than the USA, UK and Australia",
+    "Safe, multicultural cities with large Indian communities"
+  ],
+  "courses": [
+    "Computer Science & IT",
+    "Healthcare, Nursing & Life Sciences",
+    "Supply Chain & Logistics",
+    "Engineering Technology",
+    "Hospitality Management",
+    "Business, Finance & Management"
+  ],
+  "visa": "Study Permit, usually via SDS-style documentation: acceptance letter, GIC, first-year tuition payment, IELTS and medical examination.",
+  "intakes": "Three intakes — September (largest), January and May. Apply 6–9 months ahead; GIC and medicals take time.",
+  "cost": [
+    { "label": "Tuition (master's)", "value": "CAD 18,000 – 40,000 / year" },
+    { "label": "Living expenses", "value": "CAD 12,000 – 15,000 / year" },
+    { "label": "GIC (proof of funds)", "value": "CAD 20,635 one-time" },
+    { "label": "Health insurance", "value": "CAD 600 – 900 / year" },
+    { "label": "Total year one", "value": "CAD 32,000 – 52,000" }
+  ],
+  "req": [
+    { "label": "Academics", "value": "65%+ in bachelor's; 3-year degrees accepted for many programmes" },
+    { "label": "English test", "value": "IELTS 6.5 with no band below 6.0 (SDS requirement)" },
+    { "label": "Funds", "value": "GIC of CAD 20,635 plus first-year tuition payment" },
+    { "label": "Documents", "value": "SOP, LORs, transcripts, passport, medicals, PAL/TAL letter" }
+  ],
+  "sch": [
+    { "name": "University entrance awards", "text": "Automatic merit awards on admission at many institutions" },
+    { "name": "Ontario Graduate Scholarship", "text": "Merit-based funding for graduate research students" },
+    { "name": "Vanier CGS", "text": "Doctoral-level scholarship worth CAD 50,000/year" }
+  ],
+  "steps": [
+    { "title": "Get the LOA", "text": "Accept the offer and pay first-year tuition" },
+    { "title": "Buy GIC", "text": "Purchase a Guaranteed Investment Certificate from an approved bank" },
+    { "title": "Secure PAL/TAL", "text": "Province issues the attestation letter needed for the permit" },
+    { "title": "Medicals + application", "text": "Complete upfront medical exam and submit the study permit application" },
+    { "title": "Biometrics", "text": "Give biometrics; SDS decisions are usually quick" }
+  ],
+  "work": "You may work 24 hours a week off campus during terms and full time in scheduled breaks. A Post-Graduation Work Permit of up to 3 years follows, feeding directly into Express Entry and Provincial Nominee PR pathways.",
+  "workPoints": [
+    "24 hrs/week off-campus work",
+    "PGWP up to 3 years",
+    "Express Entry / PNP route to PR"
+  ],
+  "faq": [
+    { "q": "Is a 3-year degree accepted in Canada?", "a": "Yes, most Canadian universities and colleges accept 3-year Indian bachelor's degrees for master's and PG diplomas." },
+    { "q": "What is the GIC used for?", "a": "GIC stands for Guaranteed Investment Certificate. A student deposits money for living expenses with an eligible Canadian financial institution, and the funds are released to the student in instalments after arrival." },
+    { "q": "Which intake is best?", "a": "September has the widest course choice; January and May are good for faster starts." },
+    { "q": "Does college study qualify for PGWP?", "a": "Yes, when the programme and institution are PGWP-eligible — we verify this before you apply." }
+  ]
+}

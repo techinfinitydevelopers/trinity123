@@ -1,0 +1,60 @@
+{
+  "slug": "dubai",
+  "code": "ae",
+  "name": "Dubai",
+  "tag": "Value for money",
+  "hero": "Study in Dubai",
+  "intro": "Dubai is a global city and aviation hub, offering a multicultural environment and a popular, value-for-money study destination for Indian students. With international universities from the UK, Australia, Europe and the USA offering programmes in Dubai, students can explore shorter, intensive courses and, where permitted, opportunities to transfer to the parent campus.",
+  "stats": [
+    { "v": "40+", "l": "Universities" },
+    { "v": "9 months", "l": "Job-search permit" },
+    { "v": "Sep / Jan", "l": "Intakes" },
+    { "v": "AED 70k–140k", "l": "Tuition / year" }
+  ],
+  "why": [
+    "Global & Multicultural Environment",
+    "International University Campuses",
+    "Flexible Study Options",
+    "Accessible Entry Pathways",
+    "Career & Study Flexibility"
+  ],
+  "courses": [
+    "Software Engineering, Computer Science",
+    "Business Administration & Analytics",
+    "Hospitality & Tourism Management",
+    "Accounts & Finance",
+    "Logistics & Supply chain management",
+    "Nursing & Healthcare"
+  ],
+  "visa": "For Dubai the respective universities will file the visa application. Student visa is granted for one year and is to be renewed every year. Initially the student gets an entry permit to enter Dubai and then the visa is granted at the visa office of Dubai airport.",
+  "intakes": "Dubai Universities have two major intakes: January and September.",
+  "cost": [
+    { "label": "Tuition (master's)", "value": "AED 70,000 – 140,000 / year" },
+    { "label": "Living expenses", "value": "AED 5000 to 7000 / year" },
+    { "label": "Medical Insurance", "value": "AED 1500 - 2500" },
+    { "label": "Visa processing fee", "value": "AED 3000 - 4000" }
+  ],
+  "req": [
+    { "label": "Academics", "value": "A bachelor's degree with 50%+ and relevant prerequisite courses" },
+    { "label": "English test", "value": "6.0 / 5.5" },
+    { "label": "Age / Gap", "value": "No age barriers and educational gaps are accepted" },
+    { "label": "Documents", "value": "SOP, CV, LORs, transcripts, passport, insurance" }
+  ],
+  "sch": [
+    { "name": "University based", "text": "Upto 50% based on the student's profile" }
+  ],
+  "steps": [
+    { "title": "Submit Documents", "text": "Students must submit all required documents, preferably at least 4 weeks before the course commencement date, to allow sufficient time for processing." },
+    { "title": "Accept offer and make payment", "text": "Students must pay the first tuition fee instalment and visa fees as per the university's payment plan." },
+    { "title": "Visa File Submission", "text": "Submit documents as per check list. University will lodge visa application. Evisa issued for 90 days." },
+    { "title": "Arrive in Dubai", "text": "Complete formalities like medical, biometrics, insurance for Emirates ID processing." },
+    { "title": "E-Visa", "text": "Processing typically 2 to 3 weeks" }
+  ],
+  "work": "Post Graduate students can legally change their student visa to work visa in case if they find an employer. The same student can continue his studies as a part time student. The classes will be from 6 PM to 9 PM or on weekends (depending upon University).",
+  "faq": [
+    { "q": "Can students work part time?", "a": "Students in Dubai are permitted to work part-time with a No Objection Certificate (NOC) from their university. They can work up to 20 hours per week and can expect to earn a minimum monthly wage ranging between 5,000 to 10,000 AED." },
+    { "q": "Does Dubai offer PSWV?", "a": "There is no Post-Study Work Visa in Dubai; however, if a student secures a job, they can convert the study visa to a work visa." },
+    { "q": "Can I get the IELTS waiver option?", "a": "IELTS waiver is possible in Dubai. Universities such as Heriot Watt University, Middlesex University, Manipal University, Global Business School, Murdoch University, De Montfort University, Regent College Dubai, University of Birmingham, UK College of Business and Computing, Dubai provide IELTS Waiver with certain criteria." },
+    { "q": "Do I need to show funds for visa?", "a": "There is no need for a Show Fund in Dubai. Student needs to pay the first instalment which is approximately 25% to 50% of first year tuition fees along with visa fees. Students can pay the remaining fees after reaching Dubai." }
+  ]
+}

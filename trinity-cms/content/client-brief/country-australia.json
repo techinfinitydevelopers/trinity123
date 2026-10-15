@@ -1,0 +1,84 @@
+{
+  "slug": "australia",
+  "tag": "Post-study work visa",
+  "hero": "Study in Australia",
+  "intro": "Australia is one of the world's leading destinations for international students, known for its high-quality education, globally ranked universities, generous post-study work rights and strong part-time work allowances and wide range of study options.",
+  "stats": [
+    { "v": "40+", "l": "Universities" },
+    { "v": "2–4 yrs", "l": "Post-study work" },
+    { "v": "Feb / July", "l": "Intakes" },
+    { "v": "AUD 25k–45k", "l": "Tuition / year" }
+  ],
+  "why": [
+    "Temporary Graduate visa of 2–4 years",
+    "High part-time earning potential during study",
+    "8 universities in the global top 150",
+    "Regional study bonuses add extra stay-back time"
+  ],
+  "courses": [
+    "Information Technology",
+    "Business & Management",
+    "Engineering",
+    "Education & Teaching",
+    "Psychology & Social Work",
+    "Nursing & Health",
+    "Building & Construction",
+    "Hospitality & Tourism"
+  ],
+  "visa": "Subclass 500 Student visa — CoE, Genuine Student requirement, OSHC health cover and financial capacity evidence. International students generally apply for the Student visa (subclass 500). Key requirements include: Confirmation of Enrolment (CoE) from an eligible institution; evidence of financial capacity; ITRs of sponsors; English-language requirements, where applicable; Overseas Student Health Cover (OSHC); Genuine Student assessment requirement; health and character assessments; valid passport and supporting documentation.",
+  "intakes": "February and July are the two main intakes, with some November starts. Apply 6–9 months ahead.",
+  "cost": [
+    { "label": "Tuition (master's)", "value": "AUD 25,000 – 45,000 / year" },
+    { "label": "Living expenses", "value": "AUD 29,710 / year (visa minimum)" },
+    { "label": "OSHC health cover", "value": "AUD 600 – 800 / year" },
+    { "label": "Visa fee", "value": "AUD 1,600 one-time" },
+    { "label": "Total year one", "value": "AUD 55,000 – 78,000" }
+  ],
+  "req": [
+    { "label": "Academics", "value": "60%+ in bachelor's; some programmes accept 55%" },
+    { "label": "English test", "value": "IELTS 6.5 overall with no band below 6.0" },
+    { "label": "GS requirement", "value": "Genuine Student statement explaining course choice and plans" },
+    { "label": "Documents", "value": "Marksheet, Resume, SOP/GS, LORs, transcripts, passport, OSHC, funds proof." }
+  ],
+  "sch": [
+    { "name": "Australia Awards", "text": "Fully funded scholarships including tuition and living allowance" },
+    { "name": "University international awards", "text": "15–50% tuition reductions for strong academics" },
+    { "name": "Destination Australia", "text": "Support for study in regional campuses" },
+    { "name": "Merit Scholarships", "text": "Based on academic performance and overall student profile." },
+    { "name": "University Scholarships", "text": "Individual universities offer scholarships that may provide partial or substantial tuition fee reductions." },
+    { "name": "Research Scholarships", "text": "Particularly relevant for Master's by Research and PhD students, where funding may include tuition support and/or a living stipend." },
+    { "name": "Faculty-Specific Scholarships", "text": "Available for selected disciplines such as engineering, business, science and healthcare." },
+    { "name": "Government & External Scholarships", "text": "Some scholarships are funded through Australian government programmes or external organisations." }
+  ],
+  "steps": [
+    { "title": "Accept offer", "text": "Pay deposit and receive your Confirmation of Enrolment (CoE)" },
+    { "title": "Buy OSHC", "text": "Arrange overseas student health cover for the visa period" },
+    { "title": "Prepare GS", "text": "Draft the Genuine Student statement with your counsellor" },
+    { "title": "Apply subclass 500", "text": "Lodge the online application with CoE, GS and funds evidence" },
+    { "title": "Health + biometrics", "text": "Complete medicals and biometrics; decisions in 4–12 weeks" }
+  ],
+  "work": "Student visa holders can work 48 hours a fortnight during study and unrestricted hours in breaks. The Temporary Graduate visa (subclass 485) gives 2–3 years of post-study work rights, with extra time for regional study.",
+  "workPoints": [
+    "48 hrs/fortnight during study",
+    "485 visa: 2–3 years post-study work",
+    "Regional study adds 1–2 extra years"
+  ],
+  "faq": [
+    {
+      "q": "What is the Genuine Student requirement?",
+      "a": "It is a mandatory requirement for international students applying for an Australian Student Visa (Subclass 500). The purpose is to assess whether the applicant genuinely intends to study in Australia and whether the proposed course makes sense in light of their academic background, circumstances and future plans."
+    },
+    {
+      "q": "Is regional study better?",
+      "a": "It can help lower living costs, give extra post-study work time and additional PR points."
+    },
+    {
+      "q": "Can I work full time after the course ends?",
+      "a": "Yes, once your course is complete and until your student visa expires."
+    },
+    {
+      "q": "How much funds must I show?",
+      "a": "Tuition plus AUD 29,710 living costs, as required for subclass 500."
+    }
+  ]
+}

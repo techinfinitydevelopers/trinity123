@@ -1,0 +1,73 @@
+{
+  "slug": "ireland",
+  "tag": "Tech & pharma hub",
+  "hero": "Study in Ireland",
+  "intro": "Ireland is an increasingly popular study destination for international students looking for high-quality education in an English-speaking European country. It is the European base for global technology and pharmaceutical companies, which makes internships and graduate hiring unusually accessible for international students.",
+  "stats": [
+    { "v": "20+", "l": "Universities" },
+    { "v": "2 yrs", "l": "Stay-back (master's)" },
+    { "v": "Sept / Jan", "l": "Intakes" },
+    { "v": "€13k–25k", "l": "Tuition / year" }
+  ],
+  "why": [
+    "European HQs of major tech and pharma employers",
+    "Two-year stay-back for master's graduates",
+    "English-speaking, EU-member destination",
+    "Strong scholarship support for Indian students"
+  ],
+  "courses": [
+    "Computer Science & Information Technology",
+    "Artificial Intelligence & Data Science",
+    "Cybersecurity",
+    "Pharmaceutical & Life Sciences",
+    "Engineering",
+    "Business, Finance & Management",
+    "Business Analytics",
+    "Biotechnology",
+    "Healthcare & Public Health",
+    "Supply Chain & Logistics"
+  ],
+  "visa": "International students generally apply for a Stamp 2 visa. Documents required for the visa: letter of acceptance from an eligible institution; evidence of tuition fee payment, as applicable; proof of sufficient funds; ITRs of sponsors; evidence of medical insurance; valid passport and supporting documentation; English-language evidence where applicable; and a visa SOP.",
+  "intakes": "September is the main intake, January is secondary. Apply 7–9 months ahead.",
+  "cost": [
+    { "label": "Tuition (master's)", "value": "€12,000 – €25,000 / year" },
+    { "label": "Living expenses", "value": "€13,000 / year" },
+    { "label": "Proof of funds", "value": "€10,000 one-time" },
+    { "label": "Health insurance", "value": "Coverage of €30,000" },
+    { "label": "Total year one", "value": "€23,000 – €38,000" }
+  ],
+  "req": [
+    { "label": "Academics", "value": "60%+ in bachelor's (2:1 equivalent for top programmes)" },
+    { "label": "English test", "value": "IELTS 6.5 overall with 6.0 in each band" },
+    { "label": "Funds", "value": "€10,000 available for the first year of living costs" },
+    { "label": "Documents", "value": "Marksheets, Resume, SOP, 2 LORs, CV, transcripts, passport, 28-day bank statement" }
+  ],
+  "sch": [
+    { "name": "Government of Ireland Scholarships", "text": "€10,000 stipend plus full tuition waiver for one year" },
+    { "name": "University merit awards", "text": "€2,000 – €5,000 India-specific scholarships" },
+    { "name": "Walsh / Faculty awards", "text": "Programme-specific funding for research students" }
+  ],
+  "steps": [
+    { "title": "Accept offer", "text": "Pay tuition deposit and receive the acceptance letter" },
+    { "title": "Arrange insurance", "text": "Purchase private medical insurance valid in Ireland" },
+    { "title": "Show funds", "text": "Evidence of required funds in your or your sponsor's account" },
+    { "title": "Apply for visa", "text": "Submit the AVATS online application with supporting documents" },
+    { "title": "Biometrics", "text": "Submit documents to the VFS; decisions in 4–8 weeks" }
+  ],
+  "work": "Stamp 2 permission allows 20 hours a week during term and 40 hours in holiday periods. Master's graduates get a 2-year Third Level Graduate Programme stay-back to find skilled employment.",
+  "workPoints": [
+    "20 hrs/week term, 40 in holidays",
+    "2-year stay-back for master's",
+    "Critical Skills permit for long-term stay"
+  ],
+  "faq": [
+    { "q": "Why is Ireland popular for tech?", "a": "Google, Meta, Microsoft, Apple, Pfizer and many other tech and pharma companies run European operations from Ireland, creating graduate demand." },
+    { "q": "Is IELTS mandatory?", "a": "Most universities require it, though some accept English-medium instruction letters." },
+    { "q": "How long does the visa take?", "a": "Typically 4–8 weeks, so apply as soon as you have paid the deposit." },
+    { "q": "Can I bring dependants?", "a": "Spouses may accompany you but usually cannot work on a student dependant stamp." }
+  ],
+  "unis": [
+    { "name": "University College Dublin", "img": "" },
+    { "name": "University of Galway", "img": "" }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "slug": "germany",
+  "tag": "Low-tuition engineering",
+  "hero": "Study in Germany",
+  "intro": "Most public universities in Germany charge no tuition fee — you fund living costs through a blocked account. For engineering and applied sciences it is the best value destination in Europe.\n\nGermany is a popular study destination for international students, particularly for those interested in STEM, Engineering, Technology and research-based programs. Many public universities in Germany offer high-quality education with low or no tuition fees for many programs, making Germany an attractive option for students looking for affordable higher education in Europe.",
+  "stats": [
+    { "v": "40+", "l": "Institutions" },
+    { "v": "18 months", "l": "Job-seeker visa" },
+    { "v": "Winter / Summer", "l": "Intakes" },
+    { "v": "€0–1.5k", "l": "Tuition fees for Public universities" }
+  ],
+  "why": [
+    "No or very low tuition at public universities",
+    "18-month post-study job-seeking permit",
+    "Europe's largest engineering job market",
+    "English-taught master's programmes widely available"
+  ],
+  "courses": [
+    "Mechanical & Automotive Engineering",
+    "Electrical & Embedded Systems",
+    "Computer Science & Software Engineering",
+    "Renewable Energy & Sustainability",
+    "Data Engineering",
+    "Artificial Intelligence & Data Science",
+    "Industrial & Manufacturing Engineering",
+    "Biotechnology & Life Sciences"
+  ],
+  "visa": "German National Student Visa — admission letter, blocked account of roughly €11,900, health insurance and APS certificate for Indian students.",
+  "intakes": "Winter (October) is the major intake, Summer (April) is smaller. Start 10–12 months ahead — APS and blocked account add lead time.",
+  "cost": [
+    { "label": "Tuition (public universities)", "value": "€0 – €500 / semester" },
+    { "label": "Semester contribution", "value": "€150 – €350 / semester" },
+    { "label": "Blocked account", "value": "€11,904 one-time" },
+    { "label": "Health insurance", "value": "€120 / month" },
+    { "label": "Total year one", "value": "€13,000 – €16,000" }
+  ],
+  "req": [
+    { "label": "Academics", "value": "70%+ in bachelor's; APS certificate mandatory for Indian students" },
+    { "label": "English test", "value": "IELTS 6.5 for English-taught programmes" },
+    { "label": "German", "value": "A1–B1 for some courses; B2/C1 for German-taught degrees" },
+    { "label": "Documents", "value": "APS, Marksheets, Resume, SOP, 2 LORs, transcripts, passport, Blocked account proof" }
+  ],
+  "sch": [
+    { "name": "DAAD Scholarships", "text": "Monthly stipend plus travel and insurance for master's students" },
+    { "name": "Deutschlandstipendium", "text": "€300/month merit scholarship at participating universities" },
+    { "name": "Erasmus+ funding", "text": "Mobility grants for eligible European study periods" }
+  ],
+  "steps": [
+    { "title": "Get APS certificate", "text": "Apply to the APS India office — takes about 4 weeks" },
+    { "title": "Secure admission", "text": "Apply via uni-assist or directly to the university" },
+    { "title": "Open blocked account", "text": "Deposit approximately €11,904 with an approved provider" },
+    { "title": "Book visa appointment", "text": "Slots fill fast — book as soon as admission arrives" },
+    { "title": "Visa interview", "text": "Attend with APS, admission letter, blocked account and insurance" }
+  ],
+  "work": "You can work 120 full days or 240 half days a year. After graduating you get an 18-month job-seeker residence permit, and an EU Blue Card follows once you have a qualifying salary offer.",
+  "workPoints": [
+    "120 full days / 240 half days per year",
+    "18-month job-seeker permit",
+    "EU Blue Card and PR pathway"
+  ],
+  "faq": [
+    { "q": "Is German necessary?", "a": "Not for English-taught master's, but B1 German significantly improves part-time work and hiring prospects." },
+    { "q": "What is APS?", "a": "A mandatory academic evaluation certificate for Indian students applying to German universities." }
+  ],
+  "unis": [
+    { "name": "Berlin School of Business and Innovation", "img": "" }
+  ]
+}

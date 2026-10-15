@@ -1,0 +1,65 @@
+{
+  "slug": "new-zealand",
+  "tag": "Safe & scenic study",
+  "hero": "All eight New Zealand universities rank in the global top 3%, with small class sizes, strong pastoral care and a three-year post-study work visa for degree graduates.",
+  "intro": "New Zealand is an increasingly popular study destination for international students, offering a high-quality education system, a strong international reputation and a wide range of career-focused programs.\n\nAs New Zealand's economy has evolved beyond its traditional agricultural base towards a more diverse and service-driven economy, there are growing opportunities in areas such as Science, Technology, Engineering and Mathematics (STEM).",
+  "stats": [
+    { "v": "8", "l": "Universities" },
+    { "v": "3 yrs", "l": "Post-study work" },
+    { "v": "Feb / July", "l": "Intakes" },
+    { "v": "NZD 22k–38k", "l": "Tuition / year" }
+  ],
+  "why": [
+    "Every university globally ranked",
+    "Up to 3 years post-study work for degree holders",
+    "Safe, English-speaking, outdoor lifestyle",
+    "Lower cost of living than Australia"
+  ],
+  "courses": [
+    "Agriculture & Environment",
+    "IT & Software Engineering",
+    "Construction Management",
+    "Science, Health Sciences, Nursing",
+    "Civil engineering",
+    "Supply Chain and Logistics"
+  ],
+  "visa": "Fee Paying Student visa — Requirements for visa include admission/acceptance from a recognised institution, evidence of tuition fee payment or ability to pay, proof of sufficient funds for living expenses, medical assessment, PCC and ITRs of sponsors.",
+  "intakes": "February and July intakes. Apply 6–8 months ahead.",
+  "cost": [
+    { "label": "Tuition (master's)", "value": "NZD 22,000 – 38,000 / year" },
+    { "label": "Living expenses", "value": "NZD 20,000 / year (visa minimum)" },
+    { "label": "Health insurance", "value": "NZD 600 – 900 / year" },
+    { "label": "Visa fee", "value": "NZD 375 one-time" },
+    { "label": "Total year one", "value": "NZD 43,000 – 60,000" }
+  ],
+  "req": [
+    { "label": "Academics", "value": "60%+ in bachelor's; 3-year degrees accepted for PG diplomas" },
+    { "label": "English test", "value": "IELTS 6.5 overall with no band below 6.0" },
+    { "label": "Funds", "value": "NZD 20,000 per year of living costs plus tuition" },
+    { "label": "Documents", "value": "SOP, LORs, transcripts, passport, medicals, insurance" }
+  ],
+  "sch": [
+    { "name": "New Zealand Excellence Awards", "text": "NZD 5,000 – 10,000 for Indian students across all eight universities" },
+    { "name": "University international scholarships", "text": "Merit-based tuition reductions on admission" },
+    { "name": "Manaaki New Zealand Scholarships", "text": "Fully funded government awards including living allowance" }
+  ],
+  "steps": [
+    { "title": "Accept the offer", "text": "Pay tuition and receive your Offer of Place" },
+    { "title": "Arrange insurance", "text": "Buy approved travel and medical insurance" },
+    { "title": "Complete medicals", "text": "Chest x-ray and general medical with a panel physician" },
+    { "title": "Apply online", "text": "Lodge the Fee Paying Student visa with funds evidence" },
+    { "title": "Decision", "text": "Processing usually takes 4–8 weeks" }
+  ],
+  "work": "Students can work 20 hours a week during study and full time in scheduled breaks. Degree graduates receive a Post Study Work visa of up to 3 years, and Green List occupations offer a fast track to residence.",
+  "workPoints": [
+    "20 hrs/week during study",
+    "Post Study Work visa up to 3 years",
+    "Green List roles fast-track residence"
+  ],
+  "faq": [
+    { "q": "Is New Zealand affordable?", "a": "Living costs are lower than Australia, and tuition sits in the mid range for English-speaking destinations." },
+    { "q": "Are all universities recognised?", "a": "Yes — all eight New Zealand universities rank in the global top 3%." },
+    { "q": "Which intakes exist?", "a": "February and July, with some November starts for select programmes." },
+    { "q": "Can my partner work?", "a": "Partners of master's and doctoral students can often apply for an open work visa." }
+  ]
+}

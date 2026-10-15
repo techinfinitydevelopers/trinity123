@@ -1,0 +1,78 @@
+{
+  "slug": "france",
+  "tag": "Business & fashion",
+  "hero": "Study in France",
+  "intro": "France is one of the world's leading destinations for both international education and tourism, offering a rich cultural experience alongside a wide range of higher education opportunities. France has a distinctive higher education system that includes universities, Grandes Écoles, specialised schools and institutes.",
+  "stats": [
+    { "v": "60+", "l": "Universities" },
+    { "v": "2 yrs", "l": "APS stay-back" },
+    { "v": "Sept / Jan", "l": "Intakes" },
+    { "v": "€6k–20k", "l": "Tuition / year" }
+  ],
+  "why": [
+    "Top-tier grandes écoles for business and management",
+    "Rich cultural and international experience",
+    "Two-year job search permit after master's",
+    "Fashion, luxury and culinary programmes unmatched in Europe"
+  ],
+  "courses": [
+    "International Business & MIM",
+    "Luxury Brand & Fashion Management",
+    "Culinary Arts",
+    "Tourism and hospitality management",
+    "Marketing Management"
+  ],
+  "visa": "VLS-TS long-stay student visa via Campus France — Études en France registration, admission proof and €615/month funds evidence.",
+  "intakes": "September is the main intake; January is available for many business programmes. Apply 8–10 months ahead.",
+  "cost": [
+    { "label": "Tuition (public university)", "value": "€2,770 – €3,770 / year" },
+    { "label": "Tuition (business school)", "value": "€12,000 – €25,000 / year" },
+    { "label": "Living expenses", "value": "€9,000 – €14,000 / year" },
+    { "label": "Visa + Campus France fees", "value": "€350 one-time" },
+    { "label": "Total year one", "value": "€13,000 – €38,000" },
+    { "label": "Tuition fee Bachelors", "value": "€9,000 to €12,000" },
+    { "label": "Tuition fee Masters", "value": "€9,000 – €15,000" }
+  ],
+  "req": [
+    { "label": "Academics", "value": "60%+ in bachelor's; GMAT/GRE for top business schools" },
+    { "label": "English test", "value": "IELTS 6.5 for English-taught programmes" },
+    { "label": "French", "value": "B2 required for French-taught degrees; A1–A2 useful otherwise" },
+    { "label": "Documents", "value": "Campus France registration, Marksheets, Resume, SOP, 2 LORs, transcripts, passport" }
+  ],
+  "sch": [
+    { "name": "Eiffel Excellence Scholarship", "text": "Monthly allowance plus travel and insurance for master's students" },
+    { "name": "Charpak Scholarship", "text": "India-specific programme with tuition waiver and living support" },
+    { "name": "School merit awards", "text": "10–50% tuition reductions at grandes écoles" }
+  ],
+  "steps": [
+    { "title": "Register on Campus France", "text": "Create your Études en France account and pay the fee" },
+    { "title": "Attend the interview", "text": "Campus France academic interview at your regional office" },
+    { "title": "Accept admission", "text": "Confirm the place and pay the tuition deposit" },
+    { "title": "Apply for VLS-TS", "text": "Book the VFS appointment with funds and accommodation proof" },
+    { "title": "Validate on arrival", "text": "Validate the long-stay visa online within three months" }
+  ],
+  "work": "Students may work up to 20 hours a week. After a master's you can apply for the APS permit to stay two years and search for work, leading to the Talent Passport.",
+  "workPoints": [
+    "20 work hours permitted in a week",
+    "2-year APS job-search permit",
+    "Talent Passport for skilled roles"
+  ],
+  "faq": [
+    {
+      "q": "Do I need to learn the French language to study in France?",
+      "a": "French proficiency is not required for English-taught programmes, but basic French can be helpful for part-time jobs and everyday life in France."
+    },
+    {
+      "q": "Are public universities cheap?",
+      "a": "Yes — public tuition is a few thousand euros a year, far below business-school fees. Public universities generally charge tuition fees of a few thousand euros per year, making them more affordable than many private business schools."
+    },
+    {
+      "q": "What is Campus France?",
+      "a": "The mandatory application platform and interview process for students applying from India."
+    },
+    {
+      "q": "Which fields are strongest?",
+      "a": "Luxury and Brand management, fashion, hospitality and culinary arts & business management."
+    }
+  ]
+}

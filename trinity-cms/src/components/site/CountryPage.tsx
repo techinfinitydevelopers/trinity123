@@ -38,6 +38,12 @@ export default async function CountryPage({ c, others, contact }: { c: Country; 
   const L = (await getLabels()).destination;
   const stats = c.stats as Stat[], why = c.why as string[], courses = c.courses as string[], unis = c.unis as Uni[];
   const cost = c.cost as Pair[], req = c.req as Pair[], sch = c.sch as Named[], steps = c.steps as Step[], workPoints = c.workPoints as string[], faq = c.faq as QA[];
+  /* Which sections actually have content — the jump nav lists only those. */
+  const shown = new Set<string>(["c-why", "c-cost", "c-admission"]);
+  if (sch.length) shown.add("c-funding");
+  if (steps.length) shown.add("c-visa");
+  if (workPoints.length || c.work) shown.add("c-work");
+  if (faq.length) shown.add("c-faq");
   const wa = `https://wa.me/${contact.whatsapp}`;
   const flag = FLAG(c.code);
 
@@ -82,7 +88,7 @@ export default async function CountryPage({ c, others, contact }: { c: Country; 
       <nav className="cv-section" style={{ padding: "56px 24px 0", background: "#fff" }} aria-label="On this page">
         <div data-reveal style={{ maxWidth: 1320, margin: "0 auto", display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center", borderBottom: "1px solid var(--line)", paddingBottom: 18 }}>
           <span className="cv-dsk" style={{ fontFamily: P, fontWeight: 600, fontSize: 12, letterSpacing: 1.5, textTransform: "uppercase", color: "var(--muted)", marginRight: 8 }}>{L.onThisPage}</span>
-          {jumpItems(L, c.name).map(([id, l]) => <a key={id} className="cv-jumper" href={`#${id}`} style={{ fontFamily: P, fontWeight: 500, fontSize: 13.5, color: "var(--navy)", background: "var(--grey)", padding: "9px 16px", borderRadius: 50, transition: "all .3s" }}>{l}</a>)}
+          {jumpItems(L, c.name).filter(([id]) => shown.has(id)).map(([id, l]) => <a key={id} className="cv-jumper" href={`#${id}`} style={{ fontFamily: P, fontWeight: 500, fontSize: 13.5, color: "var(--navy)", background: "var(--grey)", padding: "9px 16px", borderRadius: 50, transition: "all .3s" }}>{l}</a>)}
         </div>
       </nav>
 
@@ -161,65 +167,74 @@ export default async function CountryPage({ c, others, contact }: { c: Country; 
               ))}
             </div>
           </div>
-          <div id="c-funding" style={{ scrollMarginTop: 110 }}>
-            <Kicker text="Funding" />
-            <h2 data-reveal style={{ ...h2, marginBottom: 30 }}>{L.fundingTitle}</h2>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {sch.map((s, i) => (
-                <div key={i} className="cv-jcard" data-reveal style={{ position: "relative", background: "#fff", border: "1px solid var(--line)", borderRadius: 20, padding: 24, transition: "all .45s cubic-bezier(.4,0,.2,1)", transitionDelay: d(i, 3), overflow: "hidden" }}>
-                  <span className="cv-jfill" style={jfill} />
-                  <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}><span style={{ width: 36, height: 36, borderRadius: 12, background: "var(--gold)", color: "var(--navy)", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 14 }}><i className="fas fa-award" /></span><span style={{ fontFamily: P, fontWeight: 600, fontSize: 17, color: "var(--navy)" }}>{s.name}</span></div>
-                  <p style={{ position: "relative", fontSize: 15, lineHeight: 1.75, color: "var(--text)" }}>{s.text}</p>
-                </div>
-              ))}
-              <Link className="cv-btny" href="/contact-us" style={{ display: "inline-flex", alignItems: "center", justifyContent: "space-between", gap: 10, background: "var(--navy)", color: "#fff", fontFamily: P, fontWeight: 600, fontSize: 15, padding: "18px 20px 18px 26px", borderRadius: 50, transition: "all .3s" }}>{L.fundingButton} <span style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--gold)", color: "var(--navy)", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 12 }}><i className="fas fa-arrow-right" /></span></Link>
+          {/* Scholarships, only when the client has listed any. */}
+          {sch.length ? (
+            <div id="c-funding" style={{ scrollMarginTop: 110 }}>
+              <Kicker text="Funding" />
+              <h2 data-reveal style={{ ...h2, marginBottom: 30 }}>{L.fundingTitle}</h2>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {sch.map((s, i) => (
+                  <div key={i} className="cv-jcard" data-reveal style={{ position: "relative", background: "#fff", border: "1px solid var(--line)", borderRadius: 20, padding: 24, transition: "all .45s cubic-bezier(.4,0,.2,1)", transitionDelay: d(i, 3), overflow: "hidden" }}>
+                    <span className="cv-jfill" style={jfill} />
+                    <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}><span style={{ width: 36, height: 36, borderRadius: 12, background: "var(--gold)", color: "var(--navy)", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 14 }}><i className="fas fa-award" /></span><span style={{ fontFamily: P, fontWeight: 600, fontSize: 17, color: "var(--navy)" }}>{s.name}</span></div>
+                    <p style={{ position: "relative", fontSize: 15, lineHeight: 1.75, color: "var(--text)" }}>{s.text}</p>
+                  </div>
+                ))}
+                <Link className="cv-btny" href="/contact-us" style={{ display: "inline-flex", alignItems: "center", justifyContent: "space-between", gap: 10, background: "var(--navy)", color: "#fff", fontFamily: P, fontWeight: 600, fontSize: 15, padding: "18px 20px 18px 26px", borderRadius: 50, transition: "all .3s" }}>{L.fundingButton} <span style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--gold)", color: "var(--navy)", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 12 }}><i className="fas fa-arrow-right" /></span></Link>
+              </div>
             </div>
-          </div>
+          ) : null}
         </div>
       </section>
 
       {/* visa steps */}
-      <section id="c-visa" className="cv-section" style={{ padding: "90px 24px", background: "var(--navy)", position: "relative", overflow: "hidden", scrollMarginTop: 110 }}>
-        <span style={{ position: "absolute", width: 420, height: 420, borderRadius: "50%", background: "var(--primary)", filter: "blur(120px)", opacity: 0.4, right: -120, top: -120 }} />
-        <div style={{ maxWidth: 1320, margin: "0 auto", position: "relative" }}>
-          <div data-reveal style={{ marginBottom: 44, maxWidth: 620 }}>
-            <div style={kicker(L.visaKicker, true)}><span style={{ width: 28, height: 2, background: "var(--gold)" }} />{L.visaKicker}</div>
-            <h2 style={{ ...h2, color: "#fff" }}>{L.visaTitle}</h2>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 18 }}>
-            {steps.map((s, i) => (
-              <div key={i} data-reveal style={{ position: "relative", background: "rgba(255,255,255,.06)", border: "1px solid rgba(255,255,255,.12)", backdropFilter: "blur(10px)", borderRadius: 22, padding: "26px 24px", transitionDelay: d(i, 5), display: "flex", flexDirection: "column", gap: 12 }}>
-                <span style={{ position: "absolute", left: 24, right: 24, top: 0, height: 2, background: "linear-gradient(90deg,var(--gold),transparent)" }} />
-                <span style={{ fontFamily: P, fontWeight: 800, fontSize: 15, color: "var(--gold)", letterSpacing: 1 }}>{String(i + 1).padStart(2, "0")}</span>
-                <span style={{ color: "#fff", fontFamily: P, fontWeight: 600, fontSize: 17, lineHeight: 1.3 }}>{s.title}</span>
-                <span style={{ color: "rgba(255,255,255,.72)", fontSize: 14.5, lineHeight: 1.7 }}>{s.text}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* work */}
-      <section id="c-work" className="cv-section" style={{ padding: "90px 24px", background: "#fff", scrollMarginTop: 110 }}>
-        <div className="cv-postgrid" style={{ maxWidth: 1320, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,.85fr)", gap: 56, alignItems: "center" }}>
-          <div>
-            <Kicker text="After graduation" />
-            <h2 data-reveal style={h2}>{L.workTitle}</h2>
-            <p data-reveal style={{ marginTop: 20, fontSize: 16.5, lineHeight: 1.85, color: "var(--text)" }}>{c.work}</p>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 28 }}>
-              {workPoints.map((w, i) => <div key={i} data-reveal style={{ display: "flex", gap: 14, alignItems: "center", background: "var(--grey)", borderRadius: 16, padding: "16px 20px", transitionDelay: d(i) }}><i className="fas fa-check-circle" style={{ color: "var(--primary)", fontSize: 16 }} /><span style={{ fontFamily: P, fontWeight: 500, fontSize: 15.5, color: "var(--navy)" }}>{w}</span></div>)}
+      {/* The visa walkthrough, only when there are steps for it. */}
+      {steps.length ? (
+        <section id="c-visa" className="cv-section" style={{ padding: "90px 24px", background: "var(--navy)", position: "relative", overflow: "hidden", scrollMarginTop: 110 }}>
+          <span style={{ position: "absolute", width: 420, height: 420, borderRadius: "50%", background: "var(--primary)", filter: "blur(120px)", opacity: 0.4, right: -120, top: -120 }} />
+          <div style={{ maxWidth: 1320, margin: "0 auto", position: "relative" }}>
+            <div data-reveal style={{ marginBottom: 44, maxWidth: 620 }}>
+              <div style={kicker(L.visaKicker, true)}><span style={{ width: 28, height: 2, background: "var(--gold)" }} />{L.visaKicker}</div>
+              <h2 style={{ ...h2, color: "#fff" }}>{L.visaTitle}</h2>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 18 }}>
+              {steps.map((s, i) => (
+                <div key={i} data-reveal style={{ position: "relative", background: "rgba(255,255,255,.06)", border: "1px solid rgba(255,255,255,.12)", backdropFilter: "blur(10px)", borderRadius: 22, padding: "26px 24px", transitionDelay: d(i, 5), display: "flex", flexDirection: "column", gap: 12 }}>
+                  <span style={{ position: "absolute", left: 24, right: 24, top: 0, height: 2, background: "linear-gradient(90deg,var(--gold),transparent)" }} />
+                  <span style={{ fontFamily: P, fontWeight: 800, fontSize: 15, color: "var(--gold)", letterSpacing: 1 }}>{String(i + 1).padStart(2, "0")}</span>
+                  <span style={{ color: "#fff", fontFamily: P, fontWeight: 600, fontSize: 17, lineHeight: 1.3 }}>{s.title}</span>
+                  <span style={{ color: "rgba(255,255,255,.72)", fontSize: 14.5, lineHeight: 1.7 }}>{s.text}</span>
+                </div>
+              ))}
             </div>
           </div>
-          <div data-reveal="scale" style={{ position: "relative", borderRadius: 32, overflow: "hidden", minHeight: 420, boxShadow: "0 30px 70px rgba(26,36,86,.2)" }}>
-            <img src={c.img} alt={c.name} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-            <span style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg,rgba(26,36,86,0) 40%,rgba(26,36,86,.9) 100%)" }} />
-            <span style={{ position: "absolute", left: 26, right: 26, bottom: 26, display: "flex", alignItems: "center", gap: 14, background: "rgba(255,255,255,.14)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,.25)", borderRadius: 20, padding: "16px 20px" }}>
-              <img src={flag} alt="" style={{ width: 34, height: 34, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }} />
-              <span style={{ display: "flex", flexDirection: "column" }}><span style={{ color: "#fff", fontFamily: P, fontWeight: 600, fontSize: 16 }}>{c.name}</span><span style={{ color: "rgba(255,255,255,.75)", fontSize: 13 }}>{c.tag}</span></span>
-            </span>
+        </section>
+      ) : null}
+
+      {/* work */}
+      {/* Work and settlement, only when there is something on it. */}
+      {workPoints.length || c.work ? (
+        <section id="c-work" className="cv-section" style={{ padding: "90px 24px", background: "#fff", scrollMarginTop: 110 }}>
+          <div className="cv-postgrid" style={{ maxWidth: 1320, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,.85fr)", gap: 56, alignItems: "center" }}>
+            <div>
+              <Kicker text="After graduation" />
+              <h2 data-reveal style={h2}>{L.workTitle}</h2>
+              <p data-reveal style={{ marginTop: 20, fontSize: 16.5, lineHeight: 1.85, color: "var(--text)" }}>{c.work}</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 28 }}>
+                {workPoints.map((w, i) => <div key={i} data-reveal style={{ display: "flex", gap: 14, alignItems: "center", background: "var(--grey)", borderRadius: 16, padding: "16px 20px", transitionDelay: d(i) }}><i className="fas fa-check-circle" style={{ color: "var(--primary)", fontSize: 16 }} /><span style={{ fontFamily: P, fontWeight: 500, fontSize: 15.5, color: "var(--navy)" }}>{w}</span></div>)}
+              </div>
+            </div>
+            <div data-reveal="scale" style={{ position: "relative", borderRadius: 32, overflow: "hidden", minHeight: 420, boxShadow: "0 30px 70px rgba(26,36,86,.2)" }}>
+              <img src={c.img} alt={c.name} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+              <span style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg,rgba(26,36,86,0) 40%,rgba(26,36,86,.9) 100%)" }} />
+              <span style={{ position: "absolute", left: 26, right: 26, bottom: 26, display: "flex", alignItems: "center", gap: 14, background: "rgba(255,255,255,.14)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,.25)", borderRadius: 20, padding: "16px 20px" }}>
+                <img src={flag} alt="" style={{ width: 34, height: 34, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }} />
+                <span style={{ display: "flex", flexDirection: "column" }}><span style={{ color: "#fff", fontFamily: P, fontWeight: 600, fontSize: 16 }}>{c.name}</span><span style={{ color: "rgba(255,255,255,.75)", fontSize: 13 }}>{c.tag}</span></span>
+              </span>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
       {/* universities */}
       {unis.length ? (
@@ -246,25 +261,28 @@ export default async function CountryPage({ c, others, contact }: { c: Country; 
       ) : null}
 
       {/* faq */}
-      <section id="c-faq" className="cv-section" style={{ padding: "90px 24px", background: "var(--grey)", scrollMarginTop: 110 }}>
-        <div className="cv-postgrid" style={{ maxWidth: 1320, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,.8fr) minmax(0,1.2fr)", gap: 48, alignItems: "start" }}>
-          <div>
-            <Kicker text="Questions" />
-            <h2 data-reveal style={h2}>{c.name} FAQs</h2>
-            <p data-reveal style={{ marginTop: 18, fontSize: 16, lineHeight: 1.8, color: "var(--text)" }}>{L.faqNote}</p>
-            <Link className="cv-btny" data-reveal href="/contact-us" style={{ display: "inline-flex", alignItems: "center", gap: 10, marginTop: 24, background: "var(--primary)", color: "#fff", fontFamily: P, fontWeight: 600, fontSize: 15, padding: "15px 28px", borderRadius: 50, transition: "all .3s" }}>{L.faqButton} <i className="fas fa-arrow-right" style={{ fontSize: 12 }} /></Link>
+      {/* FAQs, only when there are any. */}
+      {faq.length ? (
+        <section id="c-faq" className="cv-section" style={{ padding: "90px 24px", background: "var(--grey)", scrollMarginTop: 110 }}>
+          <div className="cv-postgrid" style={{ maxWidth: 1320, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,.8fr) minmax(0,1.2fr)", gap: 48, alignItems: "start" }}>
+            <div>
+              <Kicker text="Questions" />
+              <h2 data-reveal style={h2}>{c.name} FAQs</h2>
+              <p data-reveal style={{ marginTop: 18, fontSize: 16, lineHeight: 1.8, color: "var(--text)" }}>{L.faqNote}</p>
+              <Link className="cv-btny" data-reveal href="/contact-us" style={{ display: "inline-flex", alignItems: "center", gap: 10, marginTop: 24, background: "var(--primary)", color: "#fff", fontFamily: P, fontWeight: 600, fontSize: 15, padding: "15px 28px", borderRadius: 50, transition: "all .3s" }}>{L.faqButton} <i className="fas fa-arrow-right" style={{ fontSize: 12 }} /></Link>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {faq.map((f, i) => (
+                <div key={i} className="cv-jcard" data-reveal style={{ position: "relative", background: "#fff", border: "1px solid var(--line)", borderRadius: 20, padding: "24px 26px", transition: "all .45s cubic-bezier(.4,0,.2,1)", transitionDelay: d(i), overflow: "hidden" }}>
+                  <span className="cv-jfill" style={jfill} />
+                  <div style={{ position: "relative", display: "flex", gap: 14, alignItems: "flex-start" }}><span style={{ width: 28, height: 28, borderRadius: 9, background: "var(--gold)", color: "var(--navy)", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 12, flexShrink: 0, marginTop: 2 }}><i className="fas fa-question" /></span><span style={{ fontFamily: P, fontWeight: 600, fontSize: 16.5, color: "var(--navy)", lineHeight: 1.4 }}>{f.q}</span></div>
+                  <p style={{ position: "relative", margin: "12px 0 0 42px", fontSize: 15, lineHeight: 1.8, color: "var(--text)" }}>{f.a}</p>
+                </div>
+              ))}
+            </div>
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            {faq.map((f, i) => (
-              <div key={i} className="cv-jcard" data-reveal style={{ position: "relative", background: "#fff", border: "1px solid var(--line)", borderRadius: 20, padding: "24px 26px", transition: "all .45s cubic-bezier(.4,0,.2,1)", transitionDelay: d(i), overflow: "hidden" }}>
-                <span className="cv-jfill" style={jfill} />
-                <div style={{ position: "relative", display: "flex", gap: 14, alignItems: "flex-start" }}><span style={{ width: 28, height: 28, borderRadius: 9, background: "var(--gold)", color: "var(--navy)", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 12, flexShrink: 0, marginTop: 2 }}><i className="fas fa-question" /></span><span style={{ fontFamily: P, fontWeight: 600, fontSize: 16.5, color: "var(--navy)", lineHeight: 1.4 }}>{f.q}</span></div>
-                <p style={{ position: "relative", margin: "12px 0 0 42px", fontSize: 15, lineHeight: 1.8, color: "var(--text)" }}>{f.a}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
       {/* other destinations */}
       {others.length ? (
