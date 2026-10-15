@@ -96,20 +96,23 @@ export const stats: StatsBlock = {
   ],
 };
 
+/* The client's list and their order (brief, section 3). UAE, Singapore and the Netherlands have
+   no destination page of their own yet, so they point at the destinations overview rather than a
+   URL that would 404 — give me the country content and they become proper pages. */
 const countryItems: CountriesBlock["items"] = [
-  { flag: "us", name: "USA", tag: "Top-ranked universities", href: "/destinations/usa" },
-  { flag: "au", name: "Australia", tag: "Post-study work visa", href: "/destinations/australia" },
-  { flag: "ca", name: "Canada", tag: "PR-friendly pathways", href: "/destinations/canada" },
-  { flag: "dk", name: "Denmark", tag: "Innovation & design", href: "/destinations/denmark" },
+  { flag: "gb", name: "UK", tag: "1-year master’s", href: "/destinations/uk" },
+  { flag: "ie", name: "Ireland", tag: "Tech & pharma hub", href: "/destinations/ireland" },
   { flag: "fr", name: "France", tag: "Business & fashion", href: "/destinations/france" },
   { flag: "de", name: "Germany", tag: "Low-tuition engineering", href: "/destinations/germany" },
-  { flag: "ie", name: "Ireland", tag: "Tech & pharma hub", href: "/destinations/ireland" },
-  { flag: "it", name: "Italy", tag: "Arts & architecture", href: "/destinations/italy" },
-  { flag: "se", name: "Sweden", tag: "Sustainability leaders", href: "/destinations/sweden" },
-  { flag: "gb", name: "UK", tag: "1-year master’s", href: "/destinations/uk" },
+  { flag: "us", name: "USA", tag: "Top-ranked universities", href: "/destinations/usa" },
   { flag: "nz", name: "New Zealand", tag: "Safe & scenic study", href: "/destinations/new-zealand" },
+  { flag: "au", name: "Australia", tag: "Post-study work visa", href: "/destinations/australia" },
+  { flag: "ca", name: "Canada", tag: "PR-friendly pathways", href: "/destinations/canada" },
+  { flag: "ae", name: "UAE", tag: "Global campuses, close to home", href: "/why-study-abroad" },
+  { flag: "sg", name: "Singapore", tag: "Business & technology hub", href: "/why-study-abroad" },
+  { flag: "nl", name: "Netherlands", tag: "English-taught degrees", href: "/why-study-abroad" },
 ];
-const darkCountry = { num: "33", text: "Countries & counting", small: "Ask us about yours", href: C };
+const darkCountry = { num: "39+", text: "& counting", small: "Ask us about yours", href: C };
 
 export const offer: OfferBlock = {
   type: "offer", kicker: "What We Offer", title: "Discover Our Comprehensive [Study Abroad] Solutions",
