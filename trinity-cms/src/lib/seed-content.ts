@@ -17,10 +17,13 @@ export const band: BandBlock = {
 export const usp: UspBlock = {
   type: "usp",
   center: "One Stop Solution",
+  /* The client's list, in their order. It sits above the rail, not over it, so every item stays
+     readable as it passes. */
   items: [
-    "Personalised Counselling", "Profile Analysis", "SOP & LOR Assistance", "Shortlisting Universities",
-    "Visa Assistance", "Accommodation", "Loan Assistance", "Pre-Departure Support", "Forex",
-    "Insurance", "Coaching for IELTS", "Language Coaching", "Air Ticketing",
+    "Personalized Counselling", "Profile Evaluation", "Shortlisting Universities", "Accommodation",
+    "Loan Assistance", "Pre-Departure Support", "Forex", "Insurance", "Coaching for IELTS",
+    "Language Coaching", "Air Ticketing", "Country & Course Selection", "SOP & LOR Support",
+    "Scholarships", "Student Visa Guidance", "Post-Arrival Support",
   ],
 };
 
@@ -124,6 +127,12 @@ const homeBlocks: Block[] = [
     primary: { label: "Learn More", href: C }, ghost: { label: "Chat with us", href: "whatsapp" },
     stats: [{ value: "50+", label: "Countries" }, { value: "1200+", label: "Universities" }, { value: "1 lakh+", label: "Courses" }],
     photo: `${IMG}/home/home-page-2.png`,
+    /* Second row of the hero. The fields and their options are the ones the standalone
+       `leadForm` section used to carry, which is why they read the same. */
+    form: {
+      title: leadForm.formTitle, submitLabel: leadForm.submitLabel, okMsg: leadForm.okMsg,
+      cities: leadForm.cities, destinations: leadForm.destinations,
+    },
     chipCText: "Trusted by students",
     hive: [
       /* Only three cells carry a photo. Countries and Visa success have no honest image in the
@@ -138,7 +147,6 @@ const homeBlocks: Block[] = [
     ],
   },
   usp,
-  leadForm,
   {
     type: "countries", kicker: "Shape your direction", title: "Choose your [Country]",
     lead: "We connect students with world-class education in 50+ countries, giving you access to some of the best universities and courses internationally. Whether you're looking to study in the USA, Canada, UK, or any of the major education destinations, we have you covered.",

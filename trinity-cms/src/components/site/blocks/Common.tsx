@@ -19,10 +19,13 @@ export function Band({ b }: { b: BandBlock }) {
 }
 
 export function Usp({ b }: { b: UspBlock }) {
-  /* The rail scrolls; the centre claim does not. It is painted over the strip so the two never
-     collide, and the track is duplicated so the loop has no seam. */
+  /* The claim sits above the rail rather than over it. Painted on top it hid whichever items
+     happened to be passing behind, and the client asked for the whole strip to stay readable
+     with the label under the hero's "scroll" cue. The track is duplicated so the loop has no
+     seam. */
   return (
     <section className="usp" aria-label="What we help with">
+      <p className="usp__center">{b.center}</p>
       <div className="usp__rail">
         <div className="usp__track">
           {[0, 1].map((r) => b.items.map((it, i) => (
@@ -30,7 +33,6 @@ export function Usp({ b }: { b: UspBlock }) {
           )))}
         </div>
       </div>
-      <p className="usp__center">{b.center}</p>
     </section>
   );
 }

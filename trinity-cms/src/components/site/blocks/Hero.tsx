@@ -3,9 +3,11 @@ import type { HeroBlock, PageHeroBlock } from "@/lib/blocks";
 import { getLabels } from "@/lib/labels";
 import type { ContactSettings } from "@/lib/settings";
 import { A, Words, Stars, resolveHref } from "../ui";
+import LeadForm from "../LeadForm";
 
 export async function Hero({ b, contact }: { b: HeroBlock; contact: ContactSettings }) {
-  const L = (await getLabels()).common;
+  const all = await getLabels();
+  const L = all.common;
   /* Blocks are stored as JSON, so a page saved before the 2026-09 hero redesign still has the old
      orbit fields and none of these. Render the copy column rather than throwing on the home page. */
   const hive = Array.isArray(b.hive) ? b.hive : [];
@@ -50,6 +52,19 @@ export async function Hero({ b, contact }: { b: HeroBlock; contact: ContactSetti
         </div>
         ) : null}
         </div>
+        {b.form ? (
+          <div className="hero__form w__in" style={{ animationDelay: "1.15s" }}>
+            <LeadForm
+              variant="bar"
+              title={b.form.title}
+              cities={b.form.cities}
+              destinations={b.form.destinations}
+              okMsg={b.form.okMsg}
+              submitLabel={b.form.submitLabel}
+              labels={all.forms}
+            />
+          </div>
+        ) : null}
       </div>
       <p className="hero__scroll" aria-hidden="true">{L.scrollLabel}<span /></p>
     </section>

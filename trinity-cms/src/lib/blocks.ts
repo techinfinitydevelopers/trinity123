@@ -9,6 +9,10 @@ export type HeroBlock = {
   type: "hero";
   sideText: string;
   words: Word[]; text: string;
+  /* The enquiry form sits in the hero's second row. It used to be its own `leadForm` section
+     lower down the page; the client asked for it above the fold. Optional, so a hero without
+     one (every inner page) renders exactly as before. */
+  form?: { title: string; submitLabel: string; okMsg: string; cities: string[]; destinations: string[] };
   primary: Btn; ghost: Btn;
   stats: { value: string; label: string }[];
   photo: string; chipCText: string;
