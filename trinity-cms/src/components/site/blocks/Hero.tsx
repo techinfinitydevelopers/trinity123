@@ -29,7 +29,6 @@ export async function Hero({ b, contact }: { b: HeroBlock; contact: ContactSetti
           {/* The plain stat row is gone: the honeycomb carries the same claims, and the two
               disagreed on screen ("100k+ Courses" here against "1 lakh+ Courses" there).
               `stats` stays on the block so it can be brought back from the editor. */}
-        </div>
         {b.photo || hive.length ? (
         <div className="hero-visual w__in" style={{ animationDelay: ".3s" }}>
           {b.photo ? <div className="hero-visual__img hero-visual__img--cutout"><img src={b.photo} alt={L.heroPhotoAlt} /></div> : null}
@@ -51,6 +50,7 @@ export async function Hero({ b, contact }: { b: HeroBlock; contact: ContactSetti
           </div>
         </div>
         ) : null}
+        </div>
         </div>
         {b.form ? (
           <div className="hero__form w__in" style={{ animationDelay: "1.15s" }}>
