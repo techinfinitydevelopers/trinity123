@@ -11,6 +11,24 @@ type Obj = Record<string, unknown>;
 /* Shape of each list, keyed by field name, so an emptied array can still be re-populated
    with the right kind of item. Module-scoped: it only has to survive re-renders. */
 const shapeMemory = new Map<string, object>();
+
+/* Lists that ship empty have nothing to learn a shape from, so "+ Add" used to push a bare
+   string into a list of objects — the owner got one text box and the site rendered a blank row.
+   These are the lists the owner is *expected* to fill in later, so their shape is declared. */
+const SHAPES: Record<string, object> = {
+  logos: { name: "", img: "", href: "" },
+  current: { badge: "", title: "", when: "", text: "", img: "" },
+  past: { title: "", when: "", img: "", href: "" },
+  videos: { title: "", name: "", youtube: "", poster: "", note: "" },
+  unis: { name: "", img: "" },
+  items: { label: "", value: "" },
+  stats: { v: "", l: "" },
+  cost: { label: "", value: "" },
+  req: { label: "", value: "" },
+  sch: { name: "", text: "" },
+  steps: { title: "", text: "" },
+  faq: { q: "", a: "" },
+};
 const shapeKey = (name: string, depth: number) => `${depth}:${name}`;
 const IMG_KEY = /(img|image|logo|cover|icon$)/i;
 const LONG_KEY = /^(text|sub|lead|paragraph|a|answer|noteText|excerpt|okMsg|statText|greeting|systemPrompt|footerText|handoffMessage)$/;
@@ -60,7 +78,7 @@ export default function FieldEditor({ value, onChange, name, depth = 0 }: { valu
     // `icon`-suffixed keys are always Font Awesome classes except Journey's SVG icons,
     // which live under `icon` with an image path — so judge those two by the mounted value.
     const iconKey = /icon$/i.test(name);
-    const looksImage = (IMG_KEY.test(name) && !iconKey) || isImgVal(atMount);
+    const looksImage = ((IMG_KEY.test(name) && !iconKey) || isImgVal(atMount)) && !/alt$/i.test(name);
     if (looksImage && !isFa(atMount)) return <ImagePicker label={label} value={value} onChange={onChange} />;
     if (iconKey ? !isImgVal(atMount) : (isFa(atMount) || /icon/i.test(name))) return (
       <Row label={label} hint="Font Awesome 5 class, e.g. fas fa-star">
@@ -81,7 +99,7 @@ export default function FieldEditor({ value, onChange, name, depth = 0 }: { valu
     const set = (i: number, v: unknown) => { const n = [...arr]; n[i] = v; onChange(n); };
     const move = (i: number, dir: -1 | 1) => { const j = i + dir; if (j < 0 || j >= arr.length) return; const n = [...arr]; [n[i], n[j]] = [n[j], n[i]]; onChange(n); };
     const remove = (i: number) => onChange(arr.filter((_, k) => k !== i));
-    const remembered = shapeMemory.get(shapeKey(name, depth));
+    const remembered = shapeMemory.get(shapeKey(name, depth)) ?? SHAPES[name];
     const add = () => {
       if (arr.length) return onChange([...arr, typeof arr[arr.length - 1] === "object" ? deepClone(arr[arr.length - 1]) : ""]);
       return onChange([...arr, remembered ? (emptyLike(remembered) as unknown) : ""]);

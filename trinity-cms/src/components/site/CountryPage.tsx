@@ -35,7 +35,9 @@ const jumpItems = (L: LabelSettings["destination"], name: string): [string, stri
 ];
 
 export default async function CountryPage({ c, others, contact }: { c: Country; others: DestinationLite[]; contact: ContactSettings }) {
-  const L = (await getLabels()).destination;
+  const all = await getLabels();
+  const L = all.destination;
+  const C = all.common;
   const stats = c.stats as Stat[], why = c.why as string[], courses = c.courses as string[], unis = c.unis as Uni[];
   const cost = c.cost as Pair[], req = c.req as Pair[], sch = c.sch as Named[], steps = c.steps as Step[], workPoints = c.workPoints as string[], faq = c.faq as QA[];
   /* Which sections actually have content — the jump nav lists only those. */
@@ -56,7 +58,7 @@ export default async function CountryPage({ c, others, contact }: { c: Country; 
         <span data-plx="0.1" aria-hidden="true" style={{ position: "absolute", right: "-1%", bottom: -24, fontFamily: P, fontWeight: 800, fontSize: "clamp(5rem,15vw,14rem)", lineHeight: 0.8, letterSpacing: -8, color: "transparent", WebkitTextStroke: "1px rgba(35,47,112,.12)", pointerEvents: "none", userSelect: "none", willChange: "transform", textTransform: "uppercase" }}>{c.name}</span>
         <div style={{ position: "relative", maxWidth: 1320, margin: "0 auto", width: "100%", display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
           <div data-word style={{ animationDelay: ".05s", color: "var(--muted-ink)", fontFamily: P, fontWeight: 500, fontSize: 13, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 24 }}>
-            <Link href="/" style={{ color: "var(--muted-ink)" }}>Home</Link> <i className="fas fa-chevron-right" style={{ fontSize: 9, color: "var(--teal-ink)", margin: "0 8px" }} /> <Link href="/why-study-abroad" style={{ color: "var(--muted-ink)" }}>{L.crumbDestinations}</Link> <i className="fas fa-chevron-right" style={{ fontSize: 9, color: "var(--teal-ink)", margin: "0 8px" }} /> <span style={{ color: "var(--navy)", fontWeight: 600 }}>{c.name}</span>
+            <Link href="/" style={{ color: "var(--muted-ink)" }}>{C.home}</Link> <i className="fas fa-chevron-right" style={{ fontSize: 9, color: "var(--teal-ink)", margin: "0 8px" }} /> <Link href="/why-study-abroad" style={{ color: "var(--muted-ink)" }}>{L.crumbDestinations}</Link> <i className="fas fa-chevron-right" style={{ fontSize: 9, color: "var(--teal-ink)", margin: "0 8px" }} /> <span style={{ color: "var(--navy)", fontWeight: 600 }}>{c.name}</span>
           </div>
           <div data-word style={{ animationDelay: ".15s", display: "inline-flex", alignItems: "center", gap: 14, background: "rgba(255,255,255,.75)", backdropFilter: "blur(12px)", border: "1px solid rgba(35,47,112,.12)", padding: "8px 18px 8px 8px", borderRadius: 50, marginBottom: 24 }}>
             <img src={flag} alt="" style={{ width: 34, height: 34, borderRadius: "50%", objectFit: "cover", border: "2px solid rgba(255,255,255,.9)" }} />
@@ -66,7 +68,7 @@ export default async function CountryPage({ c, others, contact }: { c: Country; 
           <p data-word style={{ animationDelay: ".4s", color: "var(--text)", marginTop: 24, fontSize: 17, maxWidth: 680, lineHeight: 1.8 }}>{c.intro}</p>
           <div data-word style={{ animationDelay: ".5s", display: "flex", gap: 14, flexWrap: "wrap", marginTop: 34 }}>
             <Link className="cv-btny" href="/contact-us" style={btnSolid}>{L.heroButton} <i className="fas fa-arrow-right" style={{ fontSize: 12 }} /></Link>
-            <a href={wa} target="_blank" rel="noopener" style={btnGhostInk}><i className="fab fa-whatsapp" style={{ color: "var(--teal-ink)" }} /> WhatsApp us</a>
+            <a href={wa} target="_blank" rel="noopener" style={btnGhostInk}><i className="fab fa-whatsapp" style={{ color: "var(--teal-ink)" }} /> {C.whatsappLabel}</a>
           </div>
         </div>
       </section>

@@ -17,7 +17,7 @@ export default async function EditDestination({ params }: { params: Promise<{ id
   const { id } = await params;
   let initial: CountryInput = {
     code: "", slug: "", name: "", tag: "", img: "", hero: "", intro: "",
-    stats: [{ v: "", l: "" }], why: [""], courses: [""], unis: [], visa: "", intakes: "",
+    stats: [{ v: "", l: "" }], why: [""], courses: [""], unis: [{ name: "", img: "" }], visa: "", intakes: "",
     cost: [{ label: "", value: "" }], req: [{ label: "", value: "" }], sch: [{ name: "", text: "" }], steps: [{ title: "", text: "" }],
     work: "", workPoints: [""], faq: [{ q: "", a: "" }], seoTitle: "", seoDesc: "", isActive: true, order: 99,
   };
