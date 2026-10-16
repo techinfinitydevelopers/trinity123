@@ -1117,3 +1117,9 @@ a.webinar__snip:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
   .hero__form .leadcard input,.hero__form .leadcard select,.hero__form .leadcard__btn{min-height:44px}
   .webinar__thumb{flex:0 0 64px;height:48px}
 }
+
+/* Destination pages: the breadcrumb links and the jump chips were 18px and 40px tall. */
+.cv-jumper{padding-top:12px!important;padding-bottom:12px!important}
+@media (max-width:640px){
+  .cv-crumbs a{display:inline-flex;align-items:center;min-height:44px}
+}

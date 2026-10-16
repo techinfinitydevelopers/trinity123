@@ -1081,3 +1081,42 @@ mega-menu; About Us sister-concern logos; hero CTA wording "FIND YOUR DIRECTION 
 COUNSELLING"; "last qualification" instead of "nearest city" in the hero form; TISA mascot;
 "Trusted advisors" not "Consultants"; the universities slider's invented star ratings and
 "Enroll Now"; the stats counter printing 99,996.
+
+---
+
+## 2026-10-16 — The thirteen destination pages, audited and corrected
+
+A pass over every `/destinations/<slug>` page. Four defects were in the content the client's
+document supplied, three in the component that renders it.
+
+**Code** (`CountryPage.tsx`, `site.css`):
+- The navy "total" cost card was always the **last** row in the table. France had two tuition
+  rows appended after its total, so "Tuition fee Masters" wore the total's styling; Singapore
+  has no total row at all, so "Health insurance" wore it. The card is now the row matching
+  `/\btotals?\b/i`, and when no row says it is the total, no card is one.
+- `intro` carries blank lines for five countries and they were being rendered into one block —
+  Germany's ran to 565 characters without a break. It is split on `\n{2,}` into paragraphs.
+- With no scholarships listed, the admission grid kept its second column: 580px of nothing
+  beside the requirements on Singapore. The grid is one column and 820px wide in that case.
+- The breadcrumb links were 18px tall and the jump chips 40px. Both are 44px+ on a phone now.
+  The breadcrumb needed a `cv-crumbs` class before the CSS could reach it.
+
+**Content** (`scripts/fix-country-content-2026-10-16.ts`, run against local and production):
+- New Zealand's `hero` held a 166-character sentence, so the `<h1>` ran to five lines. The
+  title is "Study in New Zealand" like the other twelve; the sentence opens the intro.
+- France: the two tuition rows after the total were duplicates of the two above it. Deleted.
+- Singapore: two figures arrived in **euros** inside a Singapore-dollar table — they are
+  Ireland's, pasted into the wrong section of the brief. The health-insurance row is gone
+  rather than converted at a rate nobody gave us; the tuition chip is restated from the table
+  above it. Its intakes chip said "3 to 4" where the page lists exactly three.
+- UK: "a 18 months Graduate Route" → "an 18-month".
+- `z3.jpg` is **Teviot Row House, Edinburgh** — and it was the hero photograph for both New
+  Zealand and Singapore. Ten photographs cover thirteen countries so some repetition is
+  unavoidable, but a named landmark on the wrong continent is not. Both now use the unbranded
+  campus shot. **Real photographs for these two are still wanted.**
+
+**Left alone deliberately, for the client to answer:**
+- **Dubai living expenses, "AED 5000 to 7000 / year"** — that is a monthly figure against a
+  yearly label; AED 5,000 a year is not a plausible cost of living in Dubai. Not guessed at.
+- Several stat chips disagree with their own cost tables (USA, Canada, Ireland, Australia,
+  Sweden all carry two different tuition figures). Flagged, not reconciled.
