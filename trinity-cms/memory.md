@@ -1120,3 +1120,13 @@ document supplied, three in the component that renders it.
   yearly label; AED 5,000 a year is not a plausible cost of living in Dubai. Not guessed at.
 - Several stat chips disagree with their own cost tables (USA, Canada, Ireland, Australia,
   Sweden all carry two different tuition figures). Flagged, not reconciled.
+
+**Same day — the enquiry forms could not accept Dubai or Singapore.** The destination dropdown
+was a hand-written list from when there were eleven countries, on the home hero form and on the
+Events and Brochure pages. `scripts/sync-form-destinations-2026-10-16.ts` rebuilds it from the
+destinations table in the site's own order and keeps the owner's trailing non-country options
+("Not decided yet") at the end. **Run it whenever a destination is added or retired** — nothing
+wires the two together automatically.
+
+Noticed, not changed: the map section's lead says "Fourteen destinations" where the table holds
+thirteen and that section lists eleven. The client's wording — their call which number is right.

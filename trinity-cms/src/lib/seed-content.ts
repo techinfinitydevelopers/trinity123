@@ -40,7 +40,9 @@ export const leadForm: LeadFormBlock = {
   submitLabel: "Contact me",
   okMsg: "Thank you — a counsellor will call you within one working day.",
   cities: ["Mumbai", "Navi Mumbai", "Thane", "Pune", "Other"],
-  destinations: ["USA", "UK", "Canada", "Ireland", "Germany", "Australia", "New Zealand", "France", "Italy", "Sweden", "Denmark", "Not decided yet"],
+  /* Keep in step with the destinations table — scripts/sync-form-destinations-2026-10-16.ts
+     rebuilds this from it on a live database. */
+  destinations: ["USA", "UK", "Canada", "Ireland", "Germany", "Australia", "New Zealand", "France", "Italy", "Sweden", "Denmark", "Dubai", "Singapore", "Not decided yet"],
 };
 
 /* Study destinations on a world map (client brief 29/09). The pins themselves are generated —
