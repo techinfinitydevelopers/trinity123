@@ -29,7 +29,15 @@ async function main() {
     if (at >= 0) {
       const was = blocks[at];
       /* Keep whatever the owner has filled in; refresh only the wording around it. */
-      blocks[at] = { ...block, ...pick(was, ["current", "past", "videos"]) };
+      blocks[at] = { ...block, ...pick(was, ["current", "past"]) };
+      /* `videos` is a fixed set of slots, so the whole array must not be carried over — that
+         also carried the old placeholder note. Only a URL the owner has added is kept. */
+      if (Array.isArray(was.videos) && Array.isArray(block.videos)) {
+        blocks[at].videos = (block.videos as Record<string, unknown>[]).map((v, i) => {
+          const url = (was.videos as Record<string, unknown>[])[i]?.youtube;
+          return typeof url === "string" && url ? { ...v, youtube: url } : v;
+        });
+      }
       done.push(`${block.type} refreshed`);
     } else {
       const i = blocks.findIndex((b) => b.type === after);
