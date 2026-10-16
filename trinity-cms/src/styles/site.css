@@ -214,7 +214,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .chip--gold strong{font-size:13px;font-weight:600}.chip--gold small{color:var(--navy);font-weight:400}
 .chip--gold > i{font-size:20px}
 .chip--glass{background:rgba(255,255,255,.72);backdrop-filter:blur(12px);border:1px solid rgba(35,47,112,.10);color:var(--navy);border-radius:50px;padding:10px 16px 10px 10px;font-size:12px}
-.chip--glass small{color:var(--muted);font-size:12px}
+.chip--glass small{color:var(--muted-ink);font-size:12px}
 .chip--a{left:-4%;bottom:18%}.chip--b{right:-2%;top:16%;animation-duration:6s;animation-delay:1s}.chip--c{right:4%;bottom:6%;animation-duration:7s;animation-delay:.5s}
 .avatars{display:flex}.avatars img{width:30px;height:30px;border-radius:50%;object-fit:cover;border:2px solid #fff}.avatars img + img{margin-left:-10px}
 .stars{color:var(--gold);font-size:11px;display:inline-flex;gap:3px}
@@ -930,7 +930,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .leadcard select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath fill='%236B7280' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;background-size:11px;padding-right:38px}
 .leadcard input::placeholder{color:var(--muted)}
 .leadcard select:invalid{color:var(--muted)}
-.leadcard input:focus,.leadcard select:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(26,188,156,.3)}
+.leadcard input:focus,.leadcard select:focus{outline:3px solid var(--gold);outline-offset:2px;border-color:var(--teal);box-shadow:0 0 0 3px rgba(26,188,156,.3)}
 .leadcard__btn{margin-top:8px;width:100%;background:#fff;color:var(--navy);border:0;border-radius:10px;padding:16px;font-family:var(--font-h);font-weight:700;font-size:14px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background .3s,color .3s}
 .leadcard__btn:hover{background:var(--teal);color:var(--navy-3)}
 .leadcard__btn:disabled{opacity:.6;cursor:default}
@@ -1044,7 +1044,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .campus__pick-txt strong{font-family:var(--font-h);font-weight:700;font-size:clamp(17px,1.2vw + 12px,21px);color:var(--navy)}
 .campus__pick-txt small{font-size:13.5px;color:var(--muted-ink);line-height:1.6}
 /* The chosen option gets a tick, so the selection is not carried by the border colour alone. */
-.campus__pick.is-at .campus__pick-txt strong::after{content:"¹3";margin-left:10px;color:var(--teal-ink);font-size:.85em}
+.campus__pick.is-at .campus__pick-txt strong::after{content:"\2713";margin-left:10px;color:var(--teal-ink);font-size:.85em}
 
 .campus__panel{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(24px,3.4vw,48px);align-items:start;margin-top:clamp(24px,3vw,38px);background:#fff;border:1px solid var(--line);border-radius:var(--r-card);padding:clamp(24px,3vw,38px)}
 .campus__panel h3{font-family:var(--font-h);font-weight:700;font-size:clamp(15px,1vw + 11px,18px);color:var(--navy);margin-bottom:16px}

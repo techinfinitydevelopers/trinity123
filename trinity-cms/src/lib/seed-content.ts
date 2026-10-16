@@ -171,8 +171,10 @@ const countryItems: CountriesBlock["items"] = [
   { flag: "nz", name: "New Zealand", tag: "Safe & scenic study", href: "/destinations/new-zealand" },
   { flag: "au", name: "Australia", tag: "Post-study work visa", href: "/destinations/australia" },
   { flag: "ca", name: "Canada", tag: "PR-friendly pathways", href: "/destinations/canada" },
-  { flag: "ae", name: "UAE", tag: "Global campuses, close to home", href: "/why-study-abroad" },
-  { flag: "sg", name: "Singapore", tag: "Business & technology hub", href: "/why-study-abroad" },
+  /* Dubai and Singapore have their own pages now, so these point at them rather than the
+     overview. The card is named for the page it opens. */
+  { flag: "ae", name: "Dubai", tag: "Global campuses, close to home", href: "/destinations/dubai" },
+  { flag: "sg", name: "Singapore", tag: "Business & technology hub", href: "/destinations/singapore" },
   { flag: "nl", name: "Netherlands", tag: "English-taught degrees", href: "/why-study-abroad" },
 ];
 /* The card's markup already appends the "+", so `num` is the bare figure — putting it here too
@@ -198,7 +200,7 @@ const homeBlocks: Block[] = [
     text: "Let Trinity Study Abroad help you find yours.",
     primary: { label: "Learn More", href: C }, ghost: { label: "Chat with us", href: "whatsapp" },
     stats: [{ value: "50+", label: "Countries" }, { value: "1200+", label: "Universities" }, { value: "1 lakh+", label: "Courses" }],
-    photo: `${IMG}/home/hero-student.png`,
+    photo: `${IMG}/home/hero-student.webp`,
     /* Second row of the hero. The fields and their options are the ones the standalone
        `leadForm` section used to carry, which is why they read the same. */
     form: {

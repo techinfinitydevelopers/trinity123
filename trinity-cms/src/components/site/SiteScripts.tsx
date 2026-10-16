@@ -83,7 +83,31 @@ export default function SiteScripts() {
       header?.classList.toggle("is-scrolled", y > 40);
       toTop?.classList.toggle("is-visible", y > 40);
       // Everything past this point is decorative transform work.
-      if (reduce) { ticking = false; return; }
+      if (reduce) {
+      /* Returning here used to skip the pinned scroller entirely, leaving six of the ten cards
+         off-screen behind 320vh of dead scroll. Turn it into an ordinary scrollable row instead
+         of freezing it — the motion goes, the content stays. */
+      const pinSticky = pin?.querySelector<HTMLElement>(".pin__sticky");
+      if (pin && pinSticky && pinTrack) {
+        pin.style.height = "auto";
+        pinSticky.style.position = "static";
+        pinSticky.style.height = "auto";
+        pinSticky.style.overflowX = "auto";
+        pinTrack.style.transform = "none";
+        pinTrack.style.width = "max-content";
+        for (const card of Array.from(pinTrack.children) as HTMLElement[]) {
+          card.style.transform = "none";
+          card.style.opacity = "1";
+          card.style.filter = "none";
+        }
+        const hint = document.querySelector<HTMLElement>(".pin__hint");
+        const prog = document.querySelector<HTMLElement>(".pin__prog");
+        if (hint) hint.style.display = "none";
+        if (prog) prog.style.display = "none";
+      }
+      ticking = false;
+      return;
+    }
       if (heroGlows) heroGlows.style.transform = `translateY(${y * 0.3}px)`;
 
       plx.forEach((el) => {

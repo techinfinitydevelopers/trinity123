@@ -65,7 +65,7 @@ export default function Header({ nav, contact, site, labels, destinations }: { n
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4 }}>
               {destinations.map((c) => (
                 <Link key={c.code} href={`/destinations/${c.slug}`} className="cv-ditem" onClick={() => setOpenMenu(-1)} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 14, transition: "all .25s", color: "var(--navy)", background: "transparent", boxShadow: "none" }}>
-                  <img src={FLAG(c.code)} alt="" style={{ width: 26, height: 26, borderRadius: "50%", objectFit: "cover", boxShadow: "0 3px 8px rgba(26,36,86,.18)", flexShrink: 0 }} />
+                  <img src={FLAG(c.code)} alt="" loading="lazy" style={{ width: 26, height: 26, borderRadius: "50%", objectFit: "cover", boxShadow: "0 3px 8px rgba(26,36,86,.18)", flexShrink: 0 }} />
                   <span style={{ display: "flex", flexDirection: "column", gap: 1, minWidth: 0 }}>
                     <span style={{ fontFamily: "var(--font-h)", fontWeight: 600, fontSize: 14, lineHeight: 1.2 }}>{c.name}</span>
                     <span className="cv-dsub" style={{ fontSize: 11, color: "var(--muted)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{c.tag}</span>
@@ -168,7 +168,7 @@ export default function Header({ nav, contact, site, labels, destinations }: { n
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
                 {destinations.map((c) => (
                   <Link key={c.code} href={`/destinations/${c.slug}`} onClick={() => setOpen(false)} style={{ display: "flex", alignItems: "center", gap: 10, padding: "9px 10px", borderRadius: 14, background: "var(--grey)", color: "var(--navy)", fontFamily: "var(--font-h)", fontWeight: 500, fontSize: 14, border: 0 }}>
-                    <img src={FLAG(c.code)} alt="" style={{ width: 22, height: 22, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }} />{c.name}
+                    <img src={FLAG(c.code)} alt="" loading="lazy" style={{ width: 22, height: 22, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }} />{c.name}
                   </Link>
                 ))}
               </div>

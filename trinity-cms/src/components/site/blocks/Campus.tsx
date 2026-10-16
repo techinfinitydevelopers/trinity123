@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { CampusBlock } from "@/lib/blocks";
 import { Title } from "../ui";
 
@@ -9,8 +9,22 @@ import { Title } from "../ui";
    and arrow-key selection is what screen-reader users expect from that. */
 export default function Campus({ b }: { b: CampusBlock }) {
   const [at, setAt] = useState(0);
+  const refs = useRef<(HTMLButtonElement | null)[]>([]);
   const cur = b.options[at];
   if (!cur) return null;
+
+  /* `role="radio"` promises arrow-key selection, so it has to be provided: the arrows move the
+     choice and the focus together, and Tab enters the group once (roving tabindex below). */
+  const onKey = (e: React.KeyboardEvent) => {
+    const n = b.options.length;
+    const step = e.key === "ArrowRight" || e.key === "ArrowDown" ? 1
+      : e.key === "ArrowLeft" || e.key === "ArrowUp" ? -1 : 0;
+    if (!step) return;
+    e.preventDefault();
+    const next = (at + step + n) % n;
+    setAt(next);
+    refs.current[next]?.focus();
+  };
 
   return (
     <section className="section campus" id="campus">
@@ -23,13 +37,17 @@ export default function Campus({ b }: { b: CampusBlock }) {
 
         <p className="campus__prompt" data-reveal>{b.prompt}</p>
 
-        <div className="campus__picks" role="radiogroup" aria-label={b.prompt}>
+        <div className="campus__picks" role="radiogroup" aria-label={b.prompt} onKeyDown={onKey}>
           {b.options.map((o, i) => (
             <button
               key={o.id}
               type="button"
               role="radio"
+              id={`campus-opt-${o.id}`}
+              ref={(el) => { refs.current[i] = el; }}
               aria-checked={i === at}
+              aria-controls="campus-panel"
+              tabIndex={i === at ? 0 : -1}
               className={i === at ? "campus__pick is-at" : "campus__pick"}
               onClick={() => setAt(i)}
               data-reveal
@@ -44,7 +62,7 @@ export default function Campus({ b }: { b: CampusBlock }) {
           ))}
         </div>
 
-        <div className="campus__panel" data-reveal key={cur.id}>
+        <div className="campus__panel" id="campus-panel" aria-live="polite" aria-labelledby={`campus-opt-${cur.id}`} data-reveal key={cur.id}>
           {cur.criteria.length ? (
             <div className="campus__criteria">
               <h3>{cur.criteriaTitle}</h3>

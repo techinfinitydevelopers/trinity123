@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { VisionBlock } from "@/lib/blocks";
 import { Title } from "../ui";
 
@@ -15,6 +15,14 @@ function videoId(url: string) {
    view would pull in YouTube's player for every visitor, almost none of whom press play. */
 export default function Vision({ b }: { b: VisionBlock }) {
   const [playing, setPlaying] = useState<number | null>(null);
+  const frames = useRef<(HTMLDivElement | null)[]>([]);
+
+  /* Clicking play unmounts the button and mounts the iframe, which left focus on <body> and
+     sent a keyboard user back to the top of the tab order. */
+  useEffect(() => {
+    if (playing === null) return;
+    frames.current[playing]?.focus();
+  }, [playing]);
 
   return (
     <section className="section vision" id="vision">
@@ -30,7 +38,7 @@ export default function Vision({ b }: { b: VisionBlock }) {
             const id = videoId(v.youtube);
             return (
               <div key={v.title} className="vision__card" data-reveal style={{ ["--d" as string]: `${i * 0.08}s` }}>
-                <div className="vision__media">
+                <div className="vision__media" tabIndex={playing === i ? -1 : undefined} ref={(el) => { frames.current[i] = el; }}>
                   {playing === i && id ? (
                     <iframe
                       src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`}
