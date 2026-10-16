@@ -197,8 +197,8 @@ export default function ChatWidget({ cfg, contact }: { cfg: ChatbotSettings; con
         <div className="tc-head">
           <span className="tc-avatar"><i className="fas fa-graduation-cap" /><i className="tc-live" /></span>
           <div className="tc-head__txt"><strong>{cfg.name}</strong><small>{U.status}</small></div>
-          {sessionId ? <button className="tc-icon tc-icon--urgent" onClick={askAdmin} disabled={urgentState !== "idle"} title="This is urgent — contact admin" aria-label="This is urgent — contact admin"><i className="fas fa-triangle-exclamation" /></button> : null}
-          {sessionId ? <button className="tc-icon" onClick={reset} title="Start a new chat" aria-label="Start a new chat"><i className="fas fa-rotate-right" /></button> : null}
+          {sessionId ? <button className="tc-icon tc-icon--urgent" onClick={askAdmin} disabled={urgentState !== "idle"} title="This is urgent — contact admin" aria-label="This is urgent — contact admin"><i className="fas fa-exclamation-triangle" /></button> : null}
+          {sessionId ? <button className="tc-icon" onClick={reset} title="Start a new chat" aria-label="Start a new chat"><i className="fas fa-redo" /></button> : null}
           <button className="tc-icon" onClick={() => toggle(false)} title="Close" aria-label="Close chat"><i className="fas fa-chevron-down" /></button>
         </div>
 

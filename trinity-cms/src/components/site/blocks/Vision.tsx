@@ -53,10 +53,11 @@ export default function Vision({ b }: { b: VisionBlock }) {
                         <button type="button" className="vision__play" onClick={() => setPlaying(i)} aria-label={`Play ${v.title} — ${v.name}`}>
                           <i className="fas fa-play" aria-hidden="true" />
                         </button>
-                      ) : (
-                        /* No URL yet: say so rather than showing a play button that does nothing. */
+                      ) : v.note ? (
+                        /* A note only when there is one to make; an empty slot is just its poster
+                           rather than a dimmed panel telling visitors something is missing. */
                         <span className="vision__soon">{v.note}</span>
-                      )}
+                      ) : null}
                     </>
                   )}
                 </div>

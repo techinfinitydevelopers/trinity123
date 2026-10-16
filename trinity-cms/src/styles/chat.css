@@ -83,3 +83,8 @@
 @media (prefers-reduced-motion:reduce){
   .tc-panel,.tc-fab,.tc-nudge{transition:none;animation:none}
 }
+
+/* The nudge sits above the two floating buttons and never goes away on its own. On a phone the
+   four fixed elements together cover roughly the bottom quarter of the screen, so it is hidden
+   there — the chat button beside it is still one tap away. */
+@media (max-width:640px){ .tc-nudge{display:none} }

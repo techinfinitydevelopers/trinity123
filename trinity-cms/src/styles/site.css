@@ -162,7 +162,8 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 /* ---------- Hero ---------- */
 /* Height follows the content. Pinned at 100vh the hero left ~350px of empty cream under the
    buttons, because the copy column is half the height of the photo. */
-.hero{position:relative;min-height:auto;display:flex;align-items:center;overflow:hidden;background:var(--cream);padding:176px 24px 118px}
+/* Trimmed from 176/118: the call-to-action row was landing just below the fold at 900px. */
+.hero{position:relative;min-height:auto;display:flex;align-items:center;overflow:hidden;background:var(--cream);padding:140px 24px 84px}
 .hero__bg,.page-hero__bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 78% 38%,rgba(91,132,196,.22),transparent 68%),radial-gradient(ellipse 45% 45% at 12% 88%,rgba(26,188,156,.16),transparent 70%),linear-gradient(160deg,#fff8ec 0%,var(--cream) 55%,#fdf3e0 100%)}
 .stack__grid,.cta__grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:72px 72px;pointer-events:none}
 .hero__grid,.page-hero__grid{position:absolute;inset:0;background-image:linear-gradient(rgba(35,47,112,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(35,47,112,.05) 1px,transparent 1px);background-size:72px 72px;pointer-events:none}
@@ -336,7 +337,8 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .ccard--dark:hover{color:#fff}
 
 /* ---------- Pinned universities ---------- */
-.pin{position:relative;height:320vh;background:var(--grey)}
+/* 320vh meant roughly 1,980px of empty grey scrolled past a 1,100px carousel. */
+.pin{position:relative;height:190vh;background:var(--grey)}
 .pin__sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding:clamp(70px,12vh,110px) 0 clamp(16px,3vh,32px)}
 .pin__glow{position:absolute;width:700px;height:700px;border-radius:50%;background:var(--primary);filter:blur(180px);opacity:.3;right:-200px;top:-200px;pointer-events:none}
 .pin__ghost{position:absolute;left:0;top:50%;transform:translateY(-50%);white-space:nowrap;font-family:var(--font-h);font-weight:800;font-size:clamp(8rem,22vw,20rem);line-height:1;letter-spacing:-8px;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.07);pointer-events:none;user-select:none;will-change:transform}

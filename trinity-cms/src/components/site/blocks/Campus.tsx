@@ -74,8 +74,11 @@ export default function Campus({ b }: { b: CampusBlock }) {
             </div>
           ) : null}
 
+          {/* Nothing to show and nothing to say about it: the panel drops the column rather than
+              printing a heading over an empty box. */}
+          {cur.logos.length || cur.logosNote || cur.href ? (
           <div className="campus__logos">
-            <h3>{cur.logosTitle}</h3>
+            {cur.logos.length || cur.logosNote ? <h3>{cur.logosTitle}</h3> : null}
             {cur.logos.length ? (
               <div className="campus__logo-grid">
                 {cur.logos.map((l) =>
@@ -84,17 +87,16 @@ export default function Campus({ b }: { b: CampusBlock }) {
                     : <span key={l.name} className="campus__logo"><img src={l.img} alt={l.name} loading="lazy" /></span>,
                 )}
               </div>
-            ) : (
-              /* Deliberately empty until the logo files arrive — an honest gap beats inventing a
-                 list of universities we have not been given. */
+            ) : cur.logosNote ? (
               <p className="campus__logos-empty">{cur.logosNote}</p>
-            )}
+            ) : null}
             {cur.href ? (
               <Link className="btn btn--primary campus__cta" href={cur.href}>
                 {cur.linkLabel} <i className="fas fa-arrow-right" />
               </Link>
             ) : null}
           </div>
+          ) : null}
         </div>
       </div>
     </section>
