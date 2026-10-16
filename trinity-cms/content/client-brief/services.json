@@ -1,0 +1,85 @@
+{
+  "title": "Our [Services]",
+  "lead": "At Trinity Study Abroad (TSA), we provide comprehensive study abroad counselling and overseas education services to help students make informed decisions about their international education.",
+  "items": [
+    {
+      "title": "Personalised Guidance",
+      "text": "We help you explore suitable countries, courses and universities based on your individual requirements rather than following a one-size-fits-all approach. Our counsellors explain the advantages, admission requirements, costs, career and other relevant considerations associated with different study prospects destinations.\n\nOur objective is to help students and parents make informed decisions and choose a study abroad pathway that is both ambitious and realistic.",
+      "icon": "fas fa-compass"
+    },
+    {
+      "title": "Profile Evaluation",
+      "text": "Our study abroad profile evaluation assesses your academic qualifications, grades, backlogs, work experience, English language proficiency, entrance test scores and other relevant factors.\n\nBased on your profile, we help identify suitable courses, universities and countries where you have realistic admission prospects. We also highlight areas that may need improvement and suggest ways to strengthen your overall application.\n\nThis process helps students develop a clear university application strategy instead of applying randomly to institutions.",
+      "icon": "fas fa-user-check"
+    },
+    {
+      "title": "English Language Test Preparation",
+      "text": "English language proficiency is an important requirement for admission to many international universities. We provide IELTS, TOEFL and PTE preparation to help students work towards the scores required by their chosen universities and destinations.\n\nOur preparation focuses on developing the skills required for the respective tests, including reading, writing, listening and speaking.\n\nStudents receive structured preparation, practice and guidance on test strategies and performance improvement.\n\nStarting test preparation early can also help students plan their university applications more effectively.",
+      "icon": "fas fa-headphones"
+    },
+    {
+      "title": "German & French Language Coaching",
+      "text": "Knowledge of an additional language can be valuable for students planning to study, work or build a career in European countries.\n\nFor students planning to study, work or build a career in German- or French-speaking environments, we offer German and French language coaching from A1 to B2 levels.\n\nThe training provides progressive language development from beginner to upper-intermediate proficiency levels. Our language training can support students who require German or French for their academic plans, everyday communication or future career objectives, depending on the requirements of their chosen destination and programme.",
+      "icon": "fas fa-language"
+    },
+    {
+      "title": "Entrance Exam Preparation",
+      "text": "Some universities and programmes require students to submit entrance or aptitude test scores as part of their admission process.\n\nOur entrance exam preparation support helps students prepare for tests such as GRE, GMAT and other country- or university-specific examinations depending on the student's chosen programme.\n\nWe help students understand the examination requirements, prepare systematically and work towards achieving competitive scores for their target universities.",
+      "icon": "fas fa-pencil-alt"
+    },
+    {
+      "title": "University Selection",
+      "text": "Choosing the right course and university is one of the most important decisions when planning to study abroad.\n\nWe help students compare universities based on factors such as programme structure, tuition fees, location, entry requirements, career opportunities and overall suitability.\n\nWhere appropriate, we create a balanced university shortlist covering ambitious, target and safer options, helping students build a more strategic application portfolio.",
+      "icon": "fas fa-university"
+    },
+    {
+      "title": "SOP & LOR Assistance",
+      "text": "A strong Statement of Purpose (SOP) and well-prepared Letters of Recommendation (LORs) can play an important role in a university application.\n\nYour application should communicate more than your academic scores. A well-prepared Statement of Purpose (SOP) can help universities understand your academic journey, motivation, career goals and reasons for choosing a particular programme.\n\nOur SOP and LOR assistance provides structured guidance to help students present their experiences, achievements and aspirations clearly and authentically.\n\nWe also guide students on preparing appropriate Letters of Recommendation (LORs) that support their academic and professional profile.\n\nThe objective is to ensure that these documents are relevant to the selected course and university and meet international application expectations.",
+      "icon": "fas fa-file-signature"
+    },
+    {
+      "title": "University Application Support",
+      "text": "Preparing university applications requires attention to detail. Missing information, incorrect documentation or missed deadlines can affect the application process.\n\nOur university application assistance covers the preparation and submission of applications to selected institutions.\n\nWe help students organise academic records and supporting documents, complete application forms, review information and submit applications according to university requirements.\n\nOur team helps students navigate different application systems and ensures that important application deadlines and requirements are properly tracked.",
+      "icon": "fas fa-clipboard-list"
+    },
+    {
+      "title": "Scholarship Assistance",
+      "text": "Studying abroad can involve significant tuition and living expenses. The cost of international education can be a major consideration for students and parents. Scholarships and financial aid can help reduce the overall cost of studying abroad.\n\nOur study abroad scholarship assistance helps students identify scholarships, grants, tuition fee waivers and other financial support opportunities that may be available based on their academic profile, destination, university or course.\n\nWe guide students on eligibility criteria, documentation, application requirements and timelines so that they can explore relevant funding opportunities alongside their university applications.",
+      "icon": "fas fa-award"
+    },
+    {
+      "title": "Education Loan Guidance",
+      "text": "Education loans can help students manage the cost of tuition fees and other study abroad expenses.\n\nOur education loan guidance for international education helps students and parents understand available financing options and the general documentation and eligibility requirements involved.\n\nWe provide guidance on preparing financial documents, understanding the loan process and exploring education financing options through trusted financial partners, where applicable.\n\nOur aim is to make the financial planning process clearer and help families make informed decisions about funding an overseas education.",
+      "icon": "fas fa-hand-holding-usd"
+    },
+    {
+      "title": "Student Visa Assistance",
+      "text": "Obtaining a student visa is a crucial stage of the study abroad process. Visa requirements can vary significantly depending on the destination, course, university and student's circumstances.\n\nOur student visa assistance provides guidance on visa documentation, financial requirements, application procedures and interview preparation.\n\nOur visa guidance focuses on preparing complete and consistent documentation and helping students understand the requirements applicable to their individual application.",
+      "icon": "fas fa-passport"
+    },
+    {
+      "title": "Accommodation Assistance",
+      "text": "Finding suitable accommodation is an important part of preparing to study abroad. Our student accommodation assistance helps students explore suitable on-campus and off-campus housing options based on their university location, budget and preferences.\n\nWe guide students on accommodation considerations such as location, accessibility, facilities, rental costs and proximity to the university.\n\nThis helps students make more informed accommodation decisions before travelling to their destination.",
+      "icon": "fas fa-home"
+    },
+    {
+      "title": "Pre-Departure Guidance",
+      "text": "Moving to another country for education is a significant transition. Our pre-departure guidance for international students helps students prepare for the practical aspects of living and studying overseas.\n\nOur goal is to help students feel better prepared and more confident as they begin their international education journey.",
+      "checks": [
+        "Travel and airport procedures",
+        "Packing and baggage planning",
+        "Accommodation and essential arrangements",
+        "Banking and financial planning",
+        "Local transportation",
+        "Cultural awareness",
+        "Important documents",
+        "Communication and practical preparations",
+        "Initial settling-in considerations"
+      ],
+      "icon": "fas fa-plane-departure"
+    }
+  ],
+  "cta": {
+    "title": "START WITH A FREE PROFILE DISCUSSION"
+  }
+}
