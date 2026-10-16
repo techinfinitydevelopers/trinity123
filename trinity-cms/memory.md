@@ -1041,3 +1041,43 @@ is 44), and the brief separately says "remove est since 1982 from hero banner"; 
 countries give tuition twice in different ranges (USA $25k–55k chip vs $15,000–55,000
 table, Canada, Ireland, Australia, Sweden the same); Singapore's own tables carry two
 euro figures that look like Ireland leakage.
+
+## Build log — 2026-10-16 · Ten agents, the brief closed out, and what they found
+**Services page** was still the eight legacy services; the brief has thirteen of its own
+(`content/client-brief/services.json`, applied by `scripts/apply-services-content.ts`).
+**The scroller had the wrong list** — the brief gives the services twice and its note
+**[e]** says "do not use the highlighted content, use the content in Bold". I had merged
+both into eighteen chips. Eleven now, the bold flow.
+
+**Read the brief's lettered notes [a]–[j].** They sit at the very end of the txt export,
+after all the section content, and they are corrections to everything above them. Missing
+them is how the scroller went wrong.
+
+**Things the audits caught that were visibly broken:**
+- `content:"¹3"` — a check mark mangled to mojibake, printing "Public Universities ¹3".
+- **Notes written for the client were published on the live page**: "Logos to follow — the
+  client is sending them." and "Video to follow.". An empty slot shows its poster now.
+- **Nine Font Awesome 6 names on a site loading FA 5.15** drew nothing — `fa-list-check`,
+  `fa-triangle-exclamation`, `fa-rotate-right`, `fa-calendar-days`, `fa-earth-americas`,
+  `fa-indian-rupee-sign`, `fa-chalkboard-user`, `fa-people-roof`, `fa-circle-question`.
+  **Check any new icon against FA5 before using it.**
+- **861–980px: the honeycomb covered 41% of the student photo.** The mobile comb rule was
+  keyed to 860 but the hero stacks at 980. Also `.w__in` is `inline-block`, so the photo
+  sat beside the lead instead of under it.
+- `prefers-reduced-motion` returned before the pinned scroller was laid out — six of ten
+  cards off-screen behind 320vh of dead scroll.
+- `webinar.current` and `campus.options[].logos` **could not be filled from the dashboard**:
+  the recursive editor learns a list's shape from its first row, and these ship empty, so
+  "+ Add" pushed a string into a list of objects. `FieldEditor` now has declared `SHAPES`.
+- A refresh script that preserved a whole array to keep the owner's edits also preserved
+  the placeholder note — clearing it in the seed changed nothing on a live database.
+
+**2.9MB off the site**: the z-series JPEGs were encoded at 3–5x the quality a 560x380 photo
+needs (1.44MB → 404KB), banner-1.png 1.44MB → 172KB, webinar snippets 226KB → 76KB, the
+hero PNG → WebP 280KB → 120KB. `home-page.png` (706KB) and `OrbitFlags.tsx` were both dead.
+
+**Still open** (client's call, all recorded): map left/countries right per note [b]; Services
+mega-menu; About Us sister-concern logos; hero CTA wording "FIND YOUR DIRECTION | BOOK FREE
+COUNSELLING"; "last qualification" instead of "nearest city" in the hero form; TISA mascot;
+"Trusted advisors" not "Consultants"; the universities slider's invented star ratings and
+"Enroll Now"; the stats counter printing 99,996.
