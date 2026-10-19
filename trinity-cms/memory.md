@@ -1540,3 +1540,58 @@ the clip-path and the 3D transform never fight.
   type legible, and the type is on the other face now.
 
 Swept 320 → 1440: no overflow, the comb stays inside the viewport at every width.
+
+## 2026-10-19 — Ten agents on the new hero, and what they caught
+
+**Two things I had broken and then reported as fixed:**
+- **The hero's CSS was unscoped and leaked onto /events and /brochure**, where the same
+  `leadcard` is a standalone section. `.leadcard__title{color:var(--navy)}` landed on the navy
+  card: **navy on navy, 1.00:1 — the heading was literally invisible**, with a green button and
+  white rounded fields on a navy card around it. Sixteen rule groups are now scoped under
+  `.hero__form`. The page heroes on /events, /why-study-abroad and /webinars had also lost their
+  photo's radius, shadow and border, because `.hero-visual__img` was restyled unscoped; that is
+  `--cutout` now, which only the home hero uses.
+- **The phone "fix" earlier today did not fix the chip — it hid it.** `.chip--hv-b` was painting
+  *behind* the student (the photo is `z-index:1`, the chip `auto`), so only a white sliver showed.
+  It is `z-index:4` with one avatar and smaller type at ≤860.
+
+**The sky was never visible, on any screen.** `.hero__sky{z-index:-1}` had no stacking context
+between it and the root, so it painted below `.hero`'s own opaque gradient — the blue field and
+both landmarks were drawn and then covered by the page. `isolation:isolate` on the photo frame
+is what the -1 always assumed.
+
+**The honeycomb:**
+- WebKit flattens a 3D scene inside a filtered ancestor, so the `drop-shadow()` on `.hive` would
+  have shown both faces at once on Safari and iOS. The shadow moved to the faces and the two
+  faces are separated by `translateZ(.01px)`.
+- Hover used `animation:none`, which **restarts** the animation on leave — the cell fell out of
+  the queue and dragged the other four out of step. `animation-play-state:paused` keeps the same
+  animation object.
+- `prefers-reduced-motion` parked every cell on the **photograph**, so those visitors never saw a
+  single figure. It parks on the figure now.
+- Below 980px a photograph in an 82px hexagon is a ~20px face. The fronts are a navy gradient
+  there, and on a phone the figures stay up permanently — there is no hover to reveal them.
+
+**The phone hero was two screens before it asked for anything.** The card now follows the lead
+line (`.hero__copy{display:contents}` so the nested picture can be reordered), the photograph and
+comb are the payoff below it, and the "Scroll" cue is gone — the card was covering its word and
+leaving the hairline dangling like a rendering fault.
+
+**Desktop, measured at fourteen sizes:** the headline's ink was **4px under the 134px fixed
+header** at 1440 and above (`elementFromPoint` returned the nav), the headline jumped 41.6px →
+66px across one pixel at the 1100/1101 boundary, and the trail ran off the card and was clipped
+by the window at 1100. All fixed; ink now clears by 14–55px at every size and the trail is
+343–453px clear of the nearest hexagon.
+
+**The form:** "+971" rendered as "+97" (28px of text box for a 32px string); `reportValidity()`
+scrolled the field under the fixed header; a **3-digit phone number was valid and would have been
+written to the database**; 14.5px fields made iOS zoom on every focus; the focus ring was gold on
+white at **1.35:1** and the global rule's comment claimed otherwise; the placeholder was 2.46:1
+as the field's only label; the input border was 1.20:1. All corrected, and `--green-3` (#227A4B,
+5.0:1) is the green that carries white type.
+
+**Still open, deliberately not done:** `--green` is not a Theme-editor token (the comment saying
+it is was wrong and has been corrected); `b.stats` and `b.sideText` are editable and render
+nothing; the hive is hard-positioned for exactly five cells; the plane is still fetched on phones
+where it is `display:none`. And the page below the hero has **two greens** — the hero's #2E9E63
+against `--teal-ink` #277565 on every tick and kicker — which wants one token, not two.

@@ -475,8 +475,8 @@ html.no-js [data-reveal]{opacity:1;transform:none}
    W/2. The old version mixed a flat-top clip-path with a pointy-top aspect at arbitrary steps,
    which is why it read as five loose badges. The mortar comes from scaling each cell about its
    centre: because all six neighbours sit W apart, one scale gives an equal gap on every edge. */
-.hive{--w:118px;--h:136px;--row:102px;--gap:5px;position:absolute;left:0;bottom:-74px;width:calc(var(--w)*3);height:calc(var(--row) + var(--h));
-  filter:drop-shadow(0 2px 3px rgba(26,36,86,.14)) drop-shadow(0 14px 24px rgba(26,36,86,.22))}
+.hive{--w:118px;--h:136px;--row:102px;--gap:5px;position:absolute;z-index:3;left:0;bottom:-74px;width:calc(var(--w)*3);height:calc(var(--row) + var(--h));
+  }
 .hive__item{position:absolute;width:var(--w);height:var(--h);transform:scale(calc(1 - var(--gap)/var(--w)))}
 .hive__item__face{position:relative;width:100%;height:100%;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);
   background:var(--navy);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.12);
@@ -1574,7 +1574,9 @@ main:has(> .cta-block:last-child) + .footer{margin-top:0}
    with an icon in each cell, and a white enquiry card with a green button. The green is a token
    with a fallback, so the Theme editor still owns it.
    ============================================================================================ */
-:root{ --green:#2E9E63; --green-2:#268154; --sky:#D7ECF8; }
+/* The green-3 token is the one that carries white type: #2E9E63 is 3.39:1 against white and the
+   button's label is 16px/600, which is not large text. This is 5.0:1. */
+:root{ --green:#2E9E63; --green-2:#268154; --green-3:#227A4B; --sky:#D7ECF8; }
 
 .hero{background:linear-gradient(110deg,#F2F9FD 0%,#FBFCFE 42%,#FFFDF8 100%)}
 /* The old decorative layers belonged to the previous treatment. */
@@ -1588,13 +1590,13 @@ main:has(> .cta-block:last-child) + .footer{margin-top:0}
 /* ---- the student, on her sky disc ---- */
 .hero-visual__img--cutout{background:none}
 .hero-visual__img--cutout::before{display:none}
-.hero-visual__img{
+.hero-visual__img--cutout{
   border-radius:0;box-shadow:none;border:0;overflow:visible;background:none;
   position:relative;display:flex;align-items:flex-end;justify-content:center;
 }
 /* The pale blue disc behind her, with a soft rim — the landmarks in the client's artwork are
    part of the photograph, so nothing here tries to redraw them. */
-.hero-visual__img::after{
+.hero-visual__img--cutout::after{
   content:"";position:absolute;left:50%;bottom:0;transform:translateX(-50%);
   width:104%;aspect-ratio:1;border-radius:50%;z-index:-1;
   background:radial-gradient(circle at 50% 55%,#EAF6FD 0%,var(--sky) 58%,rgba(215,236,248,0) 72%);
@@ -1608,41 +1610,43 @@ main:has(> .cta-block:last-child) + .footer{margin-top:0}
 
 /* ---- the enquiry card ---- */
 .hero__form .leadcard{border-radius:26px;box-shadow:0 24px 60px rgba(26,36,86,.12);border:1px solid #EEF2F7;padding:clamp(22px,2.4vw,30px)}
-.leadcard__title{font-size:clamp(19px,1.3vw + 13px,23px);color:var(--navy);margin-bottom:10px}
-.leadcard__rule{display:block;width:46px;height:3px;border-radius:3px;background:var(--green);margin-bottom:20px}
+.hero__form .leadcard__title{font-size:clamp(19px,1.3vw + 13px,23px);color:var(--navy);margin-bottom:10px}
+.hero__form .leadcard__rule{display:block;width:46px;height:3px;border-radius:3px;background:var(--green);margin-bottom:20px}
 
 /* Each control sits in a bordered shell with its icon in the left padding. */
-.leadcard__f{position:relative;display:block}
-.leadcard__f > i{
+.hero__form .leadcard__f{position:relative;display:block}
+.hero__form .leadcard__f > i{
   position:absolute;left:16px;top:50%;transform:translateY(-50%);
   font-size:14px;color:var(--green);pointer-events:none;z-index:1;
 }
-.leadcard__f input,.leadcard__f select{padding-left:44px!important}
-.leadcard__form input,.leadcard__form select{
-  background:#fff;border:1px solid #E6EBF2;border-radius:12px;min-height:50px;
+.hero__form .leadcard__f input,.hero__form .leadcard__f select{padding-left:44px!important}
+.hero__form .leadcard__form input,.hero__form .leadcard__form select{
+  background:#fff;border:1px solid #C3CBD8;border-radius:12px;min-height:50px;
   font-size:14.5px;color:var(--navy);
 }
-.leadcard__form input::placeholder{color:#9AA6B8}
-.leadcard__form input:focus,.leadcard__form select:focus{border-color:var(--green);outline:2px solid color-mix(in srgb,var(--green) 28%,transparent);outline-offset:0}
+.hero__form .leadcard__form input::placeholder{color:#9AA6B8}
+.hero__form .leadcard__form input:focus,.hero__form .leadcard__form select:focus{border-color:var(--green);outline:2px solid var(--green-3);outline-offset:1px}
 
-.leadcard__btn{
-  background:var(--green);color:#fff;border:0;border-radius:12px;min-height:54px;
+.hero__form .leadcard__btn{
+  background:var(--green-3);color:#fff;border:0;border-radius:12px;min-height:54px;
   font-family:var(--font-h);font-weight:600;font-size:16px;letter-spacing:.2px;
   transition:background .3s var(--ease),transform .3s var(--ease);
 }
-.leadcard__btn:hover:not(:disabled){background:var(--green-2);transform:translateY(-2px)}
+.hero__form .leadcard__btn:hover:not(:disabled){background:var(--green-2);transform:translateY(-2px)}
+/* The placeholder is the only label these fields have, so it cannot be 2.46:1. */
+.hero__form .leadcard__form input::placeholder{color:var(--muted-ink)}
 
 /* The three reassurances under the button. */
-.leadcard__trust{
+.hero__form .leadcard__trust{
   list-style:none;margin:18px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
   gap:10px;text-align:center;
 }
-.leadcard__trust li{
+.hero__form .leadcard__trust li{
   display:flex;flex-direction:column;align-items:center;gap:7px;
   font-family:var(--font-h);font-weight:600;font-size:11px;line-height:1.3;color:var(--navy);
 }
-.leadcard__trust i{font-size:17px;color:var(--navy)}
-@media (max-width:420px){ .leadcard__trust{grid-template-columns:1fr;text-align:left} .leadcard__trust li{flex-direction:row;gap:10px;font-size:12.5px} }
+.hero__form .leadcard__trust i{font-size:17px;color:var(--navy)}
+@media (max-width:420px){ .hero__form .leadcard__trust{grid-template-columns:1fr;text-align:left} .hero__form .leadcard__trust li{flex-direction:row;gap:10px;font-size:12.5px} }
 /* The card itself was navy with a white uppercase title — that was the previous treatment. The
    client's design is a white card with a navy sentence-case heading and a green rule. */
 .hero__form .leadcard{background:#fff}
@@ -1655,7 +1659,7 @@ main:has(> .cta-block:last-child) + .footer{margin-top:0}
 /* The pale blue disc behind the student needs the photo frame to stop clipping it. */
 .hero-visual__frame{overflow:visible}
 /* The shells are block-level so each control still fills the form's column. */
-.leadcard__f input,.leadcard__f select{width:100%}
+.hero__form .leadcard__f input,.hero__form .leadcard__f select{width:100%}
 
 /* ---- hero: the sky disc, the landmarks and the flight path ---- */
 /* The disc is drawn now, so the CSS pseudo-element version steps aside. */
@@ -1718,22 +1722,22 @@ main:has(> .cta-block:last-child) + .footer{margin-top:0}
 
 /* "Apply Now" is title case in the design, with an arrow. The base button rule uppercases it
    and tracks it out, which is the old card's styling. */
-.leadcard__btn{text-transform:none;letter-spacing:-.2px;display:inline-flex;align-items:center;justify-content:center;gap:10px}
-.leadcard__btn i{font-size:13px;transition:transform .3s var(--ease)}
-.leadcard__btn:hover:not(:disabled) i{transform:translateX(4px)}
+.hero__form .leadcard__btn{text-transform:none;letter-spacing:-.2px;display:inline-flex;align-items:center;justify-content:center;gap:10px}
+.hero__form .leadcard__btn i{font-size:13px;transition:transform .3s var(--ease)}
+.hero__form .leadcard__btn:hover:not(:disabled) i{transform:translateX(4px)}
 
 /* She was being cut off at the hero's lower edge; the reference shows her whole, inside the
    blue field. */
 @media (min-width:1200px){ .hero-visual__frame{max-width:420px} }
 
 /* The dialling code carries its flag, as in the design. */
-.leadcard__f--code{display:flex;align-items:center}
-.leadcard__f--code img{
+.hero__form .leadcard__f--code{display:flex;align-items:center}
+.hero__form .leadcard__f--code img{
   position:absolute;left:12px;top:50%;transform:translateY(-50%);
   width:22px;height:15px;object-fit:cover;border-radius:3px;z-index:1;
   box-shadow:0 0 0 1px rgba(26,36,86,.12);
 }
-.leadcard__f--code select{padding-left:42px!important}
+.hero__form .leadcard__f--code select{padding-left:42px!important}
 
 /* The headline spanned the whole container; in the design it sits above the photograph and
    leaves the right half to the enquiry card. Smaller, and kept to its own column. */
@@ -1802,24 +1806,25 @@ main:has(> .cta-block:last-child) + .footer{margin-top:0}
 }
 .hive__face{
   position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  filter:drop-shadow(0 2px 3px rgba(26,36,86,.14)) drop-shadow(0 14px 24px rgba(26,36,86,.22));
   clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   text-align:center;padding:6px 16%;color:#fff;
 }
 /* Front: the photograph, with only enough of a wash to hold the shape together. */
-.hive__face--front{background:var(--navy-2)}
+.hive__face--front{background:var(--navy-2);transform:translateZ(.01px)}
 .hive__face--front.has-photo{
   background:linear-gradient(180deg,rgba(26,36,86,.10) 0%,rgba(26,36,86,.26) 100%),var(--photo) center/cover no-repeat;
 }
 /* Back: the figure, on the navy the rest of the hero uses. */
 .hive__face--back{
-  transform:rotateY(180deg);
+  transform:rotateY(180deg) translateZ(.01px);
   background:linear-gradient(160deg,var(--navy-2) 0%,var(--navy-3) 100%);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.12);
 }
 
 /* Hover turns it and takes the queue off this cell, so the pointer always wins. */
-.hive__item:hover .hive__flip,.hive__item:focus-within .hive__flip{animation:none;transform:rotateY(180deg)}
+.hive__item:hover .hive__flip,.hive__item:focus-within .hive__flip{animation-play-state:paused;transform:rotateY(180deg)!important}
 
 /* Each cell holds its figure up for about two seconds, then turns back; the delay above walks
    the five of them round one at a time. */
@@ -1830,7 +1835,7 @@ main:has(> .cta-block:last-child) + .footer{margin-top:0}
   20%{transform:rotateY(0deg)}
 }
 @media (prefers-reduced-motion:reduce){
-  .hive__flip{animation:none;transition:none}
+  .hive__flip{animation:none;transition:none;transform:rotateY(180deg)}
 }
 
 /* The figures grew with the cells. */
@@ -1838,8 +1843,17 @@ main:has(> .cta-block:last-child) + .footer{margin-top:0}
 .hive__face span{font-family:var(--font-h);font-weight:600;font-size:clamp(9.5px,.5vw + 7px,11.5px);letter-spacing:.2px;line-height:1.2;margin-top:4px;color:var(--cream)}
 .hive__face .hive__ico{font-size:21px;color:#fff;margin-bottom:5px}
 
-@media (max-width:980px){ .hive{--w:112px;--h:130px;--row:97px} }
-@media (max-width:560px){ .hive{--w:94px;--h:109px;--row:81px} }
+@media (max-width:980px){
+  .hive{--w:112px;--h:130px;--row:97px}
+  .hive__face--front.has-photo{background:linear-gradient(160deg,var(--navy-2) 0%,var(--navy-3) 100%)}
+  .hive__face .hive__ico{font-size:17px}
+  .hive__face span{font-size:10.5px}
+}
+@media (max-width:560px){
+  .hive{--w:94px;--h:109px;--row:81px}
+  .hive__face .hive__ico{font-size:14px;margin-bottom:3px}
+  .hive__face span{font-size:10px}
+}
 
 /* ============================================================================================
    HERO ON A PHONE
@@ -1862,5 +1876,106 @@ main:has(> .cta-block:last-child) + .footer{margin-top:0}
   .hive{position:static;margin:0 auto;width:calc(var(--w) * 3);transform:none}
   .hive__item{position:absolute}
 }
-/* The trail passes behind the honeycomb wherever the two ever meet. */
-.hive{position:relative;z-index:3}
+
+/* ---- the sky was never visible, on any screen ----
+   `.hero__sky{z-index:-1}` has no stacking context between it and the root — `.hero-visual__img`,
+   `.hero-visual`, `.hero__inner` and `.hero` are all `z-index:auto` — so a negative-z descendant
+   painted *below* `.hero`'s own opaque gradient. The blue field and both landmarks were being
+   drawn and then covered by the page. The photo frame becomes its own stacking context, which is
+   what the -1 was always assuming. */
+.hero-visual__img--cutout{isolation:isolate}
+
+/* ---- phones: the hero was two screens before it asked for anything ---- */
+@media (max-width:860px){
+  /* The enquiry card follows the lead line; the photograph and the comb are the payoff below it.
+     `.hero__copy` has to dissolve first, because the picture is nested inside it. */
+  .hero__copy{display:contents}
+  .hero__text{order:1}
+  .hero__form{order:2}
+  .hero-visual{order:3;margin-top:26px}
+  .hero__cols{display:flex;flex-direction:column}
+  /* A short wide window (a phone on its side) was giving the card the full 749px. */
+  .hero__form .leadcard{max-width:440px;margin:0 auto}
+
+  /* The pill was not fixed earlier — it was hidden behind her. It needs to be above the
+     photograph, and small enough not to be the bar across her chest it was before. */
+  .chip--hv-b{z-index:4}
+  .chip--hv-b .avatars img:nth-child(2){display:none}
+  .chip--hv-b small{font-size:11px}
+
+  /* A "Scroll" cue means nothing on a touch screen, and the card covered the word and left its
+     hairline dangling below like a rendering fault. */
+  .hero__scroll{display:none}
+
+  /* No hover on a phone, so the flip only hides three claims out of five at any moment. The
+     figures stay up. */
+  .hive__flip{animation:none;transform:none}
+  .hive__face--front{display:none}
+  .hive__face--back{transform:none}
+}
+@media (max-height:500px) and (orientation:landscape){
+  .hero{padding-top:92px;padding-bottom:40px}
+  .hive{display:none}
+}
+
+/* ---- desktop: five measured corrections ---- */
+/* 124px put the headline's cap-heights 4px under the 134px fixed header at 1440 and above —
+   `elementFromPoint` returned the nav, so those pixels were not even selectable. */
+@media (min-width:1101px){ .hero{padding-top:146px} }
+
+/* The headline stepped 41.6px → 66px across one pixel of window width, because the clamp only
+   applied above 1100 and the base rule took over below it. The clamp now reaches the phone
+   breakpoint, so the size walks down instead of jumping. */
+@media (min-width:701px){ .hero__title{font-size:clamp(2.4rem,3.6vw,3.5rem)} }
+
+/* At 1100 the trail ran off the right of the card and the window clipped it — the plane flew
+   into the stub and vanished. */
+@media (min-width:701px) and (max-width:1100px){ .hero__path{right:6%} }
+
+/* Between 1201 and 1300 the trail dipped to within 7px of a hexagon's ink and the plane's
+   wingtip crossed it. Thirty pixels of lift clears every size in the band. */
+@media (min-width:1101px) and (max-width:1300px){ .hero__path{top:clamp(128px,16vh,165px)} }
+
+/* A 1366x650 or 1280x650 laptop had the hero's only call to action 70px below the fold, and the
+   three reassurances well past it. The card gives up some of its padding on a short window. */
+@media (min-width:1101px) and (max-height:700px){
+  /* The padding can never drop below the 134px fixed header — 112 put the headline's ink
+     under the nav again. On a 650px-tall window the card simply cannot also fit above the
+     fold; the headline being readable wins. */
+  .hero{padding-top:146px;padding-bottom:36px}
+  .hero__form .leadcard{padding:18px 22px}
+  .hero__form .leadcard__form{gap:10px}
+  .hero__form .leadcard__form input,.hero__form .leadcard__form select{min-height:44px}
+  .hero__form .leadcard__btn{min-height:48px}
+  .hero__form .leadcard__trust{margin-top:12px}
+}
+
+/* ---- the enquiry card, from the form audit ---- */
+/* The code column is 110px with 42px of flag padding and 38px for the chevron, leaving 28px of
+   text box for "+971", which needs 32px — the UAE code rendered as "+97". */
+.hero__form .leadcard__row{grid-template-columns:128px minmax(0,1fr)}
+
+/* `reportValidity()` scrolls the offending field to the very top of the window, which is under
+   the 134px fixed header — the visitor saw an error bubble pointing at nothing. */
+.hero__form .leadcard__form input,.hero__form .leadcard__form select{scroll-margin-top:150px}
+
+/* 14.5px makes iOS zoom the whole page on every focus. */
+.hero__form .leadcard__form input,.hero__form .leadcard__form select{font-size:16px}
+
+/* A teal glow left over from the navy card was still firing under the new green focus ring. */
+.hero__form .leadcard__form input:focus,.hero__form .leadcard__form select:focus{box-shadow:none}
+
+/* The button's own focus ring: navy on white is 12.3:1, where the global gold is 1.35:1. */
+.hero__form .leadcard__btn:focus-visible{outline:3px solid var(--navy);outline-offset:3px;box-shadow:none}
+
+@media (max-width:380px){
+  /* The narrow-phone rule dropped the chevron's clearance while the flag's padding stayed. */
+  .hero__form .leadcard__form select{padding-right:38px}
+  .hero__form .leadcard__row{grid-template-columns:118px minmax(0,1fr)}
+}
+
+/* The chat button sits at z-60 over the card's bottom-right corner between about 1200 and 1366,
+   so a thumb aimed at the end of "Apply Now" opened the chat instead of sending the enquiry. */
+@media (min-width:1101px) and (max-width:1400px){
+  .tc-fab{bottom:150px}
+}

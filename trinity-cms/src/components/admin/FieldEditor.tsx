@@ -18,6 +18,10 @@ const shapeMemory = new Map<string, object>();
 const SHAPES: Record<string, object> = {
   logos: { name: "", img: "", href: "" },
   pillars: { icon: "", title: "", text: "" },
+  /* The hero's honeycomb and the reassurances under its button. Without these, emptying either
+     list and reloading leaves "+ Add" pushing a bare string into a list of objects. */
+  hive: { value: "", label: "", img: "", icon: "" },
+  trust: { icon: "", text: "" },
   current: { badge: "", title: "", when: "", text: "", img: "" },
   past: { title: "", when: "", img: "", href: "" },
   videos: { title: "", name: "", youtube: "", poster: "", note: "" },

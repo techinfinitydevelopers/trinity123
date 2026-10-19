@@ -82,7 +82,7 @@ export default function LeadForm({
                 <option value="+61">+61</option>
               </select>
             </span>
-            <span className="leadcard__f"><i className="fas fa-mobile-alt" aria-hidden="true" /><input name="phone" type="tel" inputMode="tel" autoComplete="tel-national" required placeholder={L.leadPhone} aria-label={L.leadPhone} /></span>
+            <span className="leadcard__f"><i className="fas fa-mobile-alt" aria-hidden="true" /><input name="phone" type="tel" inputMode="tel" autoComplete="tel-national" required minLength={7} pattern="[0-9 ]{7,15}" title="Your number without the country code" placeholder={L.leadPhone} aria-label={L.leadPhone} /></span>
           </div>
           <span className="leadcard__f leadcard__f--sel"><i className="fas fa-map-marker-alt" aria-hidden="true" />
           <select name="city" required defaultValue="" aria-label={L.leadCity}>

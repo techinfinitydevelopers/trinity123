@@ -22,9 +22,13 @@
 .nav__links .cv-ddbtn.is-active{color:var(--navy);background:#fff;box-shadow:0 6px 16px rgba(26,36,86,.1)}
 .nav__links .cv-ddbtn.is-active::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold)}
 
-/* A visible focus indicator everywhere. Gold reads on navy (10.9:1) and on white. */
+/* A visible focus indicator everywhere. The old comment claimed gold "reads on navy (10.9:1)
+   and on white" — on white it is 1.35:1, so on every light surface the ring was invisible and
+   it also suppressed the browser's own. Two tones: a navy ring that reads on light ground, with
+   the gold outside it so it still reads on navy. */
 :where(a,button,[role="button"],[tabindex]:not([tabindex="-1"])):focus-visible{
-  outline:3px solid var(--gold);outline-offset:3px;border-radius:6px
+  outline:3px solid var(--navy);outline-offset:3px;border-radius:6px;
+  box-shadow:0 0 0 6px var(--gold)
 }
 .cv-ditem:hover{background:var(--primary)!important;color:#fff!important}
 .cv-ditem:hover .cv-dsub{color:rgba(255,255,255,.72)!important}

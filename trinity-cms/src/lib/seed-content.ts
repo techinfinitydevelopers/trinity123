@@ -206,19 +206,26 @@ const homeBlocks: Block[] = [
     /* Second row of the hero. The fields and their options are the ones the standalone
        `leadForm` section used to carry, which is why they read the same. */
     form: {
-      title: leadForm.formTitle, submitLabel: leadForm.submitLabel, okMsg: leadForm.okMsg,
+      title: leadForm.formTitle, submitLabel: "Apply Now", okMsg: leadForm.okMsg,
       cities: leadForm.cities, destinations: leadForm.destinations,
+      /* The three reassurances under the button in the client's design. They have to be here,
+         not only in the database: "Add a section" clones this block, and Reset restores it. */
+      trust: [
+        { icon: "fas fa-user-shield", text: "100% Genuine Guidance" },
+        { icon: "fas fa-user-friends", text: "Expert Counsellors" },
+        { icon: "fas fa-star", text: "Personalized Support" },
+      ],
     },
     chipCText: "Trusted by students",
     /* The client supplied a photograph for every cell, so all five carry one now. They are
        resized to 312x360 WebP in `public/assets/img/hive` — the originals were ~330KB PNGs for a
        104px tile. Each sits under a navy scrim, so the label still clears 4.5:1. */
     hive: [
-      { value: "42+", label: "Years Experience", img: `${IMG}/hive/years.webp` },
-      { value: "50+", label: "Countries", img: `${IMG}/hive/countries.webp` },
-      { value: "1200+", label: "Universities", img: `${IMG}/hive/universities.webp` },
-      { value: "1 lakh+", label: "Courses", img: `${IMG}/hive/courses.webp` },
-      { value: "1", label: "Stop Solution", img: `${IMG}/hive/solution.webp` },
+      { value: "42+", label: "Years Experience", img: `${IMG}/hive/years.webp`, icon: "fas fa-user-graduate" },
+      { value: "50+", label: "Countries", img: `${IMG}/hive/countries.webp`, icon: "fas fa-globe" },
+      { value: "1200+", label: "Universities", img: `${IMG}/hive/universities.webp`, icon: "fas fa-university" },
+      { value: "1 lakh+", label: "Courses", img: `${IMG}/hive/courses.webp`, icon: "fas fa-book-open" },
+      { value: "1", label: "Stop Solution", img: `${IMG}/hive/solution.webp`, icon: "fas fa-shield-alt" },
     ],
   },
   usp,

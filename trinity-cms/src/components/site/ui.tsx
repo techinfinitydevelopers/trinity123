@@ -59,7 +59,10 @@ export function Words({ words, start = 0.15, step = 0.1 }: { words: Word[]; star
     out.push(
       <span key={`w${i}`} className="w"><span className={w.s ? `w__in ${w.s}` : "w__in"} style={{ animationDelay: delay }}>{w.t}</span></span>,
     );
-    if (w.br) out.push(<br key={`b${i}`} />);
+    /* The space goes in before the break as well as between words on a line. Without it the
+       headline's accessible name ran two words together — "…Every DreamNeeds a Direction" —
+       which is what a rotor, an aria-labelledby reference or a testing tool reads. */
+    if (w.br) out.push(" ", <br key={`b${i}`} />);
     else if (i < words.length - 1) out.push(" ");
   });
   return <>{out}</>;
