@@ -1328,3 +1328,30 @@ pushed live without the client saying so.
 and the icon one rendered `{s.strong}` alone — so About Us printed a flat "1200" beside
 "42+" and "50+" no matter what the database held. The suffix was there all along; the branch
 dropped it.
+
+## 2026-10-19 — Countries back to 50, a collapsible phone menu, and the hero in the fold
+
+**Countries is 50+, confirmed by the client.** A session had changed it to 39+ everywhere
+(commit `dcc14fb`); that is reversed in the seed, and `scripts/set-countries-count-2026-10-19.ts`
+sets it across every page, setting and knowledge-base answer — run it with `COUNT=50`. It only
+rewrites a number with a countries word beside it, or one whose sibling label says "countries",
+so no unrelated figure is touched. 16 places locally, 16 on production.
+The dark "& counting" card on the home page was **39 before that commit too** — the client's own
+earlier instruction. It now says 50 like everything else; say so if that card is a different
+figure.
+
+**The phone menu printed everything at once** — nine links, the three Resources children and all
+thirteen country chips, 913px of it. A section that has something under it is a button now,
+shut until asked for, one open at a time: 583px closed, and the country grid is behind "Study
+Destinations" where it belongs.
+
+**The hero's call to action was below the fold on every laptop.** At 1440x900 the two buttons
+sat at y913. The top padding, the gap above the picture and 30px off the card bring it to y831
+(bottom 889). Short laptops needed more, so a `max-height:860px` query trims the headline, the
+padding, the card and the honeycomb a little further — **1366x768 and 1280x800 now end the hero
+with its buttons in view** (CTA bottom 715 and 707). Keyed to window height, so a tall monitor
+keeps the full-size layout.
+
+**Note:** `seed-content.ts` also carries another session's in-flight webinar change (the past
+strip retitled and pointed at `concluded-2026-*.jpg`). It is committed here because it shares
+the file; those image files are not in the repo yet.

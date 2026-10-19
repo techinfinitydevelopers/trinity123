@@ -145,35 +145,54 @@ export default function Header({ nav, contact, site, labels, destinations }: { n
             </button>
           </div>
         </nav>
+        {/* Everything used to be printed flat: the Resources children and all thirteen country
+            chips, open at once, under nine top-level links. The whole menu is what the visitor
+            has to read before finding anything. A section that has something under it is a
+            button now, shut until it is asked for, and only one opens at a time. */}
         <div className="mobile-menu" id="mobileMenu" hidden={!open}>
-          {nav.items.map((it, i) => (
-            <div key={`${it.href}-${i}`}>
-              <Link href={it.href} onClick={() => setOpen(false)} className={activeItem(it) ? "is-active" : undefined}>{it.label}</Link>
-              {/* Touch has no hover, so a dropdown's children are listed under their parent rather
-                  than hidden behind one. */}
-              {it.children?.length ? (
-                <div style={{ display: "grid", gap: 2, padding: "2px 0 8px 18px" }}>
-                  {it.children.map((c) => (
-                    <Link key={c.href} href={c.href} onClick={() => setOpen(false)} className={active(c.href) ? "is-active" : undefined} style={{ fontSize: 14, fontWeight: 500 }}>
-                      <i className="fas fa-chevron-right" style={{ fontSize: 8, color: "var(--teal)", marginRight: 8 }} />{c.label}
+          {nav.items.map((it, i) => {
+            const isCountries = it.kind === "destinations" && destinations.length > 0;
+            const kids = it.children ?? [];
+            if (!isCountries && !kids.length) {
+              return (
+                <Link key={`${it.href}-${i}`} href={it.href} onClick={() => setOpen(false)} className={activeItem(it) ? "is-active" : undefined}>{it.label}</Link>
+              );
+            }
+            const id = `mm-${i}`;
+            const isOpen = openMenu === i;
+            return (
+              <div key={`${it.href}-${i}`} className={isOpen ? "mm-sec is-open" : "mm-sec"}>
+                <button type="button" className={activeItem(it) ? "mm-head is-active" : "mm-head"} aria-expanded={isOpen} aria-controls={id} onClick={() => setOpenMenu((o) => (o === i ? -1 : i))}>
+                  {it.label}<i className="fas fa-chevron-down mm-chev" aria-hidden="true" />
+                </button>
+                <div className="mm-panel" id={id} hidden={!isOpen}>
+                  {/* The parent page itself is reachable, not only its children. */}
+                  {it.href ? (
+                    <Link href={it.href} onClick={() => setOpen(false)} className="mm-all">
+                      {labels.destinations && isCountries ? "View all destinations" : `Go to ${it.label}`} <i className="fas fa-arrow-right" aria-hidden="true" />
                     </Link>
-                  ))}
+                  ) : null}
+                  {isCountries ? (
+                    <div className="mm-countries">
+                      {destinations.map((c) => (
+                        <Link key={c.code} href={`/destinations/${c.slug}`} onClick={() => setOpen(false)}>
+                          <img src={FLAG(c.code)} alt="" loading="lazy" />{c.name}
+                        </Link>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="mm-kids">
+                      {kids.map((c) => (
+                        <Link key={c.href} href={c.href} onClick={() => setOpen(false)} className={active(c.href) ? "is-active" : undefined}>
+                          <i className="fas fa-chevron-right" aria-hidden="true" />{c.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              ) : null}
-            </div>
-          ))}
-          {destinations.length ? (
-            <div style={{ padding: "14px 0 4px" }}>
-              <div style={{ fontFamily: "var(--font-h)", fontWeight: 600, fontSize: 12, letterSpacing: 1.5, textTransform: "uppercase", color: "var(--primary)", marginBottom: 12 }}>{labels.destinations}</div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
-                {destinations.map((c) => (
-                  <Link key={c.code} href={`/destinations/${c.slug}`} onClick={() => setOpen(false)} style={{ display: "flex", alignItems: "center", gap: 10, padding: "9px 10px", borderRadius: 14, background: "var(--grey)", color: "var(--navy)", fontFamily: "var(--font-h)", fontWeight: 500, fontSize: 14, border: 0 }}>
-                    <img src={FLAG(c.code)} alt="" loading="lazy" style={{ width: 22, height: 22, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }} />{c.name}
-                  </Link>
-                ))}
               </div>
-            </div>
-          ) : null}
+            );
+          })}
           <Link className="btn btn--gold" href={nav.ctaHref} onClick={() => setOpen(false)}>{nav.ctaLabel}</Link>
         </div>
       </div>

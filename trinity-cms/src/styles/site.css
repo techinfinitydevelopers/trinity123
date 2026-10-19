@@ -1345,3 +1345,55 @@ a.seg__logo:hover .seg__logo-go i{transform:translate(2px,-2px)}
   /* Deeper overlap now that there is less dead card to overlap onto. */
   .hive{margin-left:clamp(-64px,-3.6vw,-36px)}
 }
+
+/* ---------- The hamburger menu's collapsible sections ---------- */
+.mm-sec{border-bottom:1px solid var(--grey)}
+.mm-head{
+  width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:none;border:0;padding:12px 0;cursor:pointer;text-align:left;
+  color:var(--navy);font-family:var(--font-h);font-weight:600;font-size:18px;
+}
+.mm-head.is-active{color:var(--primary)}
+.mm-chev{font-size:11px;color:var(--muted-ink);transition:transform .3s var(--ease)}
+.mm-sec.is-open .mm-chev{transform:rotate(180deg);color:var(--primary)}
+.mm-panel{padding:2px 0 14px}
+/* The section's own page, above whatever is inside it. */
+.mm-all{
+  display:flex!important;align-items:center;justify-content:space-between;gap:10px;
+  padding:10px 14px!important;margin-bottom:8px;border-radius:12px;border-bottom:0!important;
+  background:var(--grey);color:var(--primary)!important;font-size:14px!important;
+}
+.mm-all i{font-size:10px}
+.mm-kids{display:grid;gap:2px}
+.mm-kids a{display:flex;align-items:center;gap:10px;font-size:15px!important;font-weight:500!important;padding:10px 0!important;border-bottom:0!important}
+.mm-kids a i{font-size:8px;color:var(--teal)}
+.mm-countries{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.mm-countries a{
+  display:flex;align-items:center;gap:10px;padding:9px 10px!important;border-radius:14px;
+  background:var(--grey);color:var(--navy);font-family:var(--font-h);font-weight:500;
+  font-size:14px!important;border-bottom:0!important;
+}
+.mm-countries img{width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0}
+
+/* ---------- Hero: bringing the call to action above the fold ---------- */
+/* At 1440x900 the two buttons sat at y913 — 71px past the fold, so the first thing a visitor
+   saw had no way forward in it. The space comes from three places that had it to spare: the top
+   padding, the gap between the lead line and the picture, and 30px off the card. Nothing is
+   removed and no type gets smaller. */
+@media (min-width:1200px){
+  .hero{padding-top:116px;padding-bottom:64px}
+  .hero-visual{margin-top:10px}
+  .hero-visual__frame{max-width:400px}
+}
+
+/* A 1366x768 or 1280x800 laptop is 100-130px shorter than the layout above assumes, and that is
+   exactly where the button row fell. On a short window the headline, the padding and the card
+   each give up a little so the whole hero still ends with its call to action in view. Keyed to
+   the window's height, so a tall monitor is untouched. */
+@media (min-width:1200px) and (max-height:860px){
+  .hero{padding-top:92px;padding-bottom:52px}
+  .hero__title{font-size:clamp(2.6rem,3.4vw,3.4rem)}
+  .hero-visual{margin-top:4px}
+  .hero-visual__frame{max-width:340px}
+  .hive{--w:104px;--h:120px;--row:90px}
+}
