@@ -190,8 +190,12 @@ export default function ChatWidget({ cfg, contact }: { cfg: ChatbotSettings; con
       ) : null}
 
       <button ref={fabRef} className={`tc-fab${open ? " is-open" : ""}`} onClick={() => toggle(!open)} aria-label={open ? "Close chat" : `Chat with ${cfg.name}`} aria-expanded={open}>
-        {open ? <i className="fas fa-times" /> : <AgentAvatar />}
-        {!open && msgs.length === 0 ? <span className="tc-fab__dot" /> : null}
+        {open ? <i className="fas fa-times" /> : (
+          <>
+            <span className="tc-fab__face"><AgentAvatar /><i className="tc-fab__live" /></span>
+            <span className="tc-fab__txt"><strong>Chat with us</strong><small>Online · replies instantly</small></span>
+          </>
+        )}
       </button>
 
       <div className={`tc-panel${open ? " is-open" : ""}`} role="dialog" aria-label={cfg.name} aria-modal="false">
