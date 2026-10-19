@@ -1840,3 +1840,27 @@ main:has(> .cta-block:last-child) + .footer{margin-top:0}
 
 @media (max-width:980px){ .hive{--w:112px;--h:130px;--row:97px} }
 @media (max-width:560px){ .hive{--w:94px;--h:109px;--row:81px} }
+
+/* ============================================================================================
+   HERO ON A PHONE
+   Measured at 375: the "trusted by students" chip was a 308px bar straight across the student's
+   chest, the honeycomb sat on the bottom of the photograph, and the hero ran to 1,559px. The
+   three parts stack and keep out of each other's way instead.
+   ============================================================================================ */
+@media (max-width:860px){
+  .hero-visual{display:flex;flex-direction:column;align-items:center;gap:18px;max-width:none}
+  .hero-visual__frame{width:min(300px,78vw);max-width:none;margin:0 auto}
+  .hero-visual__img--cutout{aspect-ratio:1}
+
+  /* Not a full-width bar: a pill tucked into the photograph's lower-left, as on desktop. */
+  .chip--hv-b{
+    left:auto!important;right:auto!important;
+    position:absolute;inset:auto auto 6px -6px;width:max-content;max-width:86%;
+  }
+
+  /* The comb sits under the photograph, centred, clear of it. */
+  .hive{position:static;margin:0 auto;width:calc(var(--w) * 3);transform:none}
+  .hive__item{position:absolute}
+}
+/* The trail passes behind the honeycomb wherever the two ever meet. */
+.hive{position:relative;z-index:3}
