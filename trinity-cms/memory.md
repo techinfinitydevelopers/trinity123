@@ -1210,3 +1210,55 @@ one: the CTA sections carry a `cta-block` class and `main:has(> .cta-block:last-
 .footer__cta{display:none}` does the rest. No per-page hardcoding. Pages without one — About Us,
 Contact, Webinars, the destination pages — still get the footer's. The home page's CTA sits
 mid-page and asks something different ("Register Now" / "Call us now"), so it is untouched.
+
+## 2026-10-19 — Eleven agents over every page, looking for cut-off text
+
+Each took a slice of the 24 pages (plus one on the chrome that appears on all of them), measured
+the DOM at 1280 / 768 / 375 rather than trusting screenshots, and traced each finding to a rule.
+
+**Two measurement traps, worth knowing before any future audit of this site:**
+- The browser pane reports `document.visibilityState === "hidden"`, so the `[data-word]`
+  entrance animation (`canvas.css:5`, `translateY(100%)`) never completes and **every hero
+  element measures as overflowing its section by its own height**. Three agents hit this and
+  reported phantom 50–64px overflows. Neutralise with
+  `[data-word],[data-reveal],.w,.w__in{opacity:1!important;transform:none!important;animation:none!important}`
+  before measuring.
+- A wrapped inline `<span>`'s `getBoundingClientRect()` is the union of its line boxes, so any
+  two inline spans in one wrapped heading always report an overlap. Use `getClientRects()`
+  per line, or restrict the test to block-level boxes.
+
+**Six real defects, all now fixed:**
+1. **The hamburger menu ran off the bottom of the screen and could not be scrolled.** 913px tall
+   inside a `position:fixed` header with no `max-height` and no scroller. On a 375x812 phone the
+   last 178px were unreachable, "Free Counselling" among them; on a 1366x650 laptop every one of
+   the thirteen country links was. **This is not only a phone problem** — `.nav__links` is
+   hidden below 1421px, so on a 1280 or 1366 laptop this panel *is* the navigation.
+2. **Hero headlines lost their descenders.** `.w` is the clip box the words slide up through and
+   it was exactly one line box tall; Poppins' descenders reach past a 1.03 line-height, so the
+   tail of every g, y, p and j was sliced flat — 7.9px of it at 1280. Measured with
+   `fontBoundingBox*` vs `actualBoundingBoxDescent`. The fix adds `padding-bottom:.18em` with a
+   matching negative margin, and pushes `.w__in`'s start offset down by the same amount so the
+   word does not peek out of the new space before it animates.
+3. **The footer e-mail painted 35px into the next column** at 900px wide.
+   `helpdesk@trinitystudyabroad.com` is an anonymous flex item with no break opportunity, so its
+   287px min-content width beat the 252px track. `overflow-wrap:anywhere` is the form that also
+   lowers min-content width, which is what the track is sized from.
+4. **The back-to-top button sat on "Powered by"** at 375px and on "Copyright ©" at 768px, and
+   **the WhatsApp circle covered half the "Itarsia India Limited" link** — and being z-index 60,
+   made it unclickable. The footer's last row now keeps clear of both.
+5. **The top search placeholder was cut** — "Search universities or co" at 375px, 91px short at
+   320px. The row's other 133px went to a call icon and social links that are both already on
+   the page (the nav's call button is immediately below, the socials are in the footer), so on a
+   phone the search takes the whole row.
+6. **"On this page" was invisible on ordinary desktops.** The caption borrowed `cv-dsk` from the
+   header's desktop/mobile switch, which `canvas.css:35` hides below 1320px. It has its own
+   class and its own breakpoint now.
+
+Everything else came back clean: all 13 destination pages, home, About Us, Services, Why Study
+Abroad, Resources, Events, Success Stories, Contact, Brochure — no clipped, truncated or
+overlapping text at any of the three widths, and no real horizontal scroll anywhere
+(`window.scrollTo(50,0)` then `window.scrollX === 0` on every page).
+
+**Left for the client / a decision:** on a 1280 or 1366 laptop there is no horizontal navigation
+at all, only the hamburger, because `.nav__links` is hidden below 1421px. That is a product
+choice, not a bug, but it is a surprising one.

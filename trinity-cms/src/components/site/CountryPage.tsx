@@ -93,7 +93,9 @@ export default async function CountryPage({ c, others, contact }: { c: Country; 
       {/* jump nav */}
       <nav className="cv-section" style={{ padding: "56px 24px 0", background: "#fff" }} aria-label="On this page">
         <div data-reveal style={{ maxWidth: 1320, margin: "0 auto", display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center", borderBottom: "1px solid var(--line)", paddingBottom: 18 }}>
-          <span className="cv-dsk" style={{ fontFamily: P, fontWeight: 600, fontSize: 12, letterSpacing: 1.5, textTransform: "uppercase", color: "var(--muted)", marginRight: 8 }}>{L.onThisPage}</span>
+          {/* Its own class, not `cv-dsk`: that one belongs to the header's desktop/mobile switch
+              and is hidden below 1320px, which took this caption off ordinary desktops too. */}
+          <span className="cv-jumper-cap" style={{ fontFamily: P, fontWeight: 600, fontSize: 12, letterSpacing: 1.5, textTransform: "uppercase", color: "var(--muted)", marginRight: 8 }}>{L.onThisPage}</span>
           {jumpItems(L, c.name).filter(([id]) => shown.has(id)).map(([id, l]) => <a key={id} className="cv-jumper" href={`#${id}`} style={{ fontFamily: P, fontWeight: 500, fontSize: 13.5, color: "var(--navy)", background: "var(--grey)", padding: "9px 16px", borderRadius: 50, transition: "all .3s" }}>{l}</a>)}
         </div>
       </nav>

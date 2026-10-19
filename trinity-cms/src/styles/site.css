@@ -1227,3 +1227,49 @@ a.webinar__snip:hover,a.webinar__snip:focus-visible{border-color:var(--primary)}
    two, so where a page closes with one, the footer's banner stands down. Pages without one
    (About Us, Contact, the destination pages) still get the footer's. */
 main:has(> .cta-block:last-child) + .footer .footer__cta{display:none}
+
+/* The destination pages' "On this page" caption. It used to borrow `cv-dsk` from the header's
+   desktop/mobile switch, which is hidden below 1320px — so the caption vanished on an ordinary
+   1280 desktop. It belongs with the chips until the row gets tight. */
+@media (max-width:640px){ .cv-jumper-cap{display:none} }
+
+/* ---------- Hero headlines were losing their descenders ---------- */
+/* `.w` is the clip box the entrance animation slides each word up through, and it was exactly
+   one line box tall. Poppins' descenders reach further than a 1.03 line-height allows, so the
+   tail of every g, y, p and j below a hero headline was sliced flat — "Let's Plan Your Future
+   Together" lost the tail of its g at every width, on every page with such a word.
+   The padding grows the clip box below the baseline and the negative margin takes the space
+   straight back, so nothing moves; `.w` already aligns to the bottom of its line box. The word
+   has to start that much lower too, or it would peek out of the new space before it animates. */
+.w{padding-bottom:.18em;margin-bottom:-.18em}
+.w__in{transform:translateY(calc(100% + .18em))}
+
+/* The footer address rows are flex, and the e-mail is an anonymous flex item with no break
+   opportunity in it — so helpdesk@trinitystudyabroad.com kept its full 287px and painted 35px
+   past its column, into the one beside it. `overflow-wrap:anywhere` is the form that also
+   lowers the min-content width, which is what the flex track is sized from. */
+.footer__contact p,.footer__contact a{min-width:0;overflow-wrap:anywhere}
+
+/* ---------- The hamburger menu ran off the bottom of the screen ---------- */
+/* `.nav__links` is hidden below 1421px, so this panel is the only navigation on a 1280 or 1366
+   laptop as well as on a phone. It is 913px tall with thirteen destinations in it, it lives
+   inside a `position:fixed` header, and it had no height cap and no scroller — so it simply ran
+   past the bottom of the window and the page could not scroll it into view. On a 375x812 phone
+   the last 178px were unreachable, "Free Counselling" among them; on a 1366x650 laptop every
+   country link was. It gets the height that is actually available, and scrolls inside it.
+   `dvh` tracks the phone's collapsing address bar; the `vh` line above it is the fallback. */
+.mobile-menu{max-height:calc(100vh - 150px);max-height:calc(100dvh - 150px);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+
+/* The two floating buttons sat on the last line of the footer: the gold back-to-top square over
+   "Powered by" at 375px and over "Copyright ©" at 768px, and the WhatsApp circle over half of
+   the "Itarsia India Limited" link — which it also made unclickable, being z-index 60. The last
+   row keeps clear of both. */
+.footer .footer__bottom{padding-bottom:96px}
+@media (min-width:1500px){ .footer .footer__bottom{padding-bottom:40px} }
+
+/* The top bar's search box was 146px wide on a phone against a placeholder needing 182px, so it
+   read "Search universities or co" with a hard cut — and worse further down, 91px short at
+   320px. The row's other 133px go to a call icon and the social links, both of which are already
+   on the page: the call button sits in the nav immediately below, and the social links are in
+   the footer. On a phone the search gets the whole row. */
+@media (max-width:640px){ .topbar__group{display:none} }
