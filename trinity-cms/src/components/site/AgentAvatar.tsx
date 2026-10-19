@@ -4,7 +4,7 @@
 export default function AgentAvatar() {
   return (
     <span className="tc-av" aria-hidden="true">
-      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" focusable="false">
+      <svg viewBox="7 5 50 50" xmlns="http://www.w3.org/2000/svg" focusable="false">
         <defs>
           <linearGradient id="tcAvBg" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0" className="tc-av__s1" />
