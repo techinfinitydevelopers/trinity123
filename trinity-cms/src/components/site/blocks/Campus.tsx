@@ -63,21 +63,34 @@ export default function Campus({ b }: { b: CampusBlock }) {
         </div>
 
         <div className="campus__panel" id="campus-panel" aria-live="polite" aria-labelledby={`campus-opt-${cur.id}`} data-reveal key={cur.id}>
-          {cur.criteria.length ? (
-            <div className="campus__criteria">
-              <h3>{cur.criteriaTitle}</h3>
+          {/* The text column. One option has a criteria list and the other has none yet, and the
+              panel used to collapse to a lone button when it was the second one's turn — click
+              "Private Universities" and the section looked broken. Its own description carries
+              the column until the criteria arrive. */}
+          <div className="campus__criteria">
+            <h3>{cur.criteriaTitle || cur.label}</h3>
+            {cur.criteria.length ? (
               <ul>
                 {cur.criteria.map((t) => (
                   <li key={t}><i className="fas fa-check" aria-hidden="true" />{t}</li>
                 ))}
               </ul>
-            </div>
-          ) : null}
+            ) : (
+              <p className="campus__blurb">{cur.sub}</p>
+            )}
+            {cur.href ? (
+              <Link className="btn btn--primary campus__cta" href={cur.href}>
+                {cur.linkLabel} <i className="fas fa-arrow-right" />
+              </Link>
+            ) : null}
+          </div>
 
-          {/* Nothing to show and nothing to say about it: the panel drops the column rather than
-              printing a heading over an empty box. */}
-          {cur.logos.length || cur.logosNote || cur.href ? (
+          {/* The picture column: the option's own photograph, with the logos over it once the
+              client sends them. A heading over an empty box helps nobody, so it waits. */}
           <div className="campus__logos">
+            {cur.img ? (
+              <span className="campus__shot"><img src={cur.img} alt={cur.imgAlt} loading="lazy" /></span>
+            ) : null}
             {cur.logos.length || cur.logosNote ? <h3>{cur.logosTitle}</h3> : null}
             {cur.logos.length ? (
               <div className="campus__logo-grid">
@@ -90,13 +103,7 @@ export default function Campus({ b }: { b: CampusBlock }) {
             ) : cur.logosNote ? (
               <p className="campus__logos-empty">{cur.logosNote}</p>
             ) : null}
-            {cur.href ? (
-              <Link className="btn btn--primary campus__cta" href={cur.href}>
-                {cur.linkLabel} <i className="fas fa-arrow-right" />
-              </Link>
-            ) : null}
           </div>
-          ) : null}
         </div>
       </div>
     </section>

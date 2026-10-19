@@ -106,6 +106,11 @@ export type WebinarBlock = {
   current: { badge: string; title: string; when: string; text: string; img: string }[];
   pastTitle: string; pastNote: string;
   past: { title: string; when: string; img: string; href: string }[];
+  /* "split" is the home page's two columns. "gallery" gives the recordings the full width of
+     the page and prints each one whole, for the Webinars page. */
+  layout?: "split" | "gallery";
+  /* A link out to that page, shown under the home page's strip. */
+  moreHref?: string; moreLabel?: string;
 };
 
 /* Section 8 — "Our Vision to their Journey". Each slot is a video; `youtube` is the watch or

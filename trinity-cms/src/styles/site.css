@@ -1086,7 +1086,8 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .webinar__snips{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(150px,calc(50% - 7px)),1fr));gap:14px}
 .webinar__snip{display:flex;flex-direction:column;gap:8px;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
 a.webinar__snip:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
-.webinar__snip img{width:100%;aspect-ratio:16/10;object-fit:cover}
+/* The posters are 16:9. Cropping them to 16:10 sliced the heading off every one. */
+.webinar__snip img{width:100%;aspect-ratio:16/9;object-fit:cover}
 .webinar__snip span{display:flex;flex-direction:column;gap:2px;padding:10px 14px 12px}
 .webinar__snip strong{font-family:var(--font-h);font-weight:600;font-size:14px;color:var(--navy)}
 .webinar__snip small{font-size:12px;color:var(--muted-ink)}
@@ -1123,3 +1124,71 @@ a.webinar__snip:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
 @media (max-width:640px){
   .cv-crumbs a{display:inline-flex;align-items:center;min-height:44px}
 }
+
+/* The campus panel's text column used to vanish when an option had no criteria list, leaving a
+   lone button where a panel should be. It now always carries a heading, the option's own
+   description as a fallback, and the call to action; the picture column shows the photograph. */
+.campus__blurb{font-size:15.5px;line-height:1.75;color:var(--text);max-width:46ch}
+.campus__shot{display:block;border-radius:16px;overflow:hidden;border:1px solid var(--line)}
+.campus__shot img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover}
+.campus__logos h3{margin-top:18px}
+
+/* ---------- Webinars page: the gallery layout ---------- */
+/* On its own page the recordings are the point, so they take the full width and run three to a
+   row on a desktop, two on a tablet and one on a phone. */
+.webinar__past--wide{margin-top:clamp(20px,2.6vw,32px)}
+.webinar__snips--wide{grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2.2vw,26px)}
+.webinar__snips--wide .webinar__snip strong{font-size:15.5px}
+@media (max-width:980px){ .webinar__snips--wide{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:640px){ .webinar__snips--wide{grid-template-columns:1fr} }
+/* The link from the home page's strip through to the full set. */
+.webinar__more{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-family:var(--font-h);font-weight:600;font-size:14px;color:var(--primary)}
+.webinar__more i{font-size:11px;transition:transform .3s var(--ease)}
+.webinar__more:hover i{transform:translateX(4px)}
+
+/* ---------- Knowledge Hub, redesigned ---------- */
+/* The posters are what people came for, so they get the wider column; "Coming up" held one
+   sentence and a button and was stretching an empty grey box down the page beside them. It is a
+   navy card now — narrower, self-contained, and deliberate rather than unfinished. */
+.webinar__grid{grid-template-columns:minmax(0,.72fr) minmax(0,1fr)}
+.webinar__now{
+  position:relative;overflow:hidden;
+  background:linear-gradient(150deg,var(--navy) 0%,color-mix(in srgb,var(--navy) 82%,var(--primary)) 100%);
+  border-color:transparent;
+}
+/* A soft light behind the top corner, clipped by the card. */
+.webinar__now::after{
+  content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-110px;top:-130px;
+  background:var(--primary);filter:blur(90px);opacity:.55;pointer-events:none;
+}
+.webinar__now > *{position:relative}
+.webinar__now h3{display:flex;align-items:center;gap:10px;color:#fff}
+.webinar__now h3 i{
+  flex:0 0 auto;width:30px;height:30px;border-radius:10px;display:grid;place-items:center;
+  font-size:12px;color:var(--navy);background:var(--gold);
+}
+.webinar__now .webinar__empty{
+  color:rgba(255,255,255,.82);background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.18);
+}
+.webinar__now .webinar__item{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18)}
+.webinar__now .webinar__txt strong{color:#fff}
+.webinar__now .webinar__txt small{color:rgba(255,255,255,.7)}
+.webinar__now .webinar__txt p{color:rgba(255,255,255,.82)}
+
+/* The poster cards lift towards the reader and pick up a navy edge. */
+.webinar__snip{border-color:var(--line);box-shadow:0 1px 2px rgba(26,36,86,.05)}
+a.webinar__snip:hover,a.webinar__snip:focus-visible{border-color:var(--primary)}
+
+/* On the Webinars page the same card runs the full width, so it reads across instead of down. */
+.webinar__now--wide{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(16px,2.4vw,32px);align-items:center}
+.webinar__now--wide h3{margin-bottom:10px}
+.webinar__now--wide .webinar__cta{margin-top:0;white-space:nowrap}
+@media (max-width:760px){
+  .webinar__now--wide{grid-template-columns:1fr}
+  .webinar__now--wide .webinar__cta{margin-top:18px}
+}
+/* The two columns stack before the left one gets too narrow to hold its sentence. */
+@media (max-width:900px){ .webinar__grid{grid-template-columns:1fr} }
+/* `.webinar__now-body` is transparent in the split layout; the wide one lays it out as a cell. */
+.webinar__now--wide .webinar__now-body{min-width:0}

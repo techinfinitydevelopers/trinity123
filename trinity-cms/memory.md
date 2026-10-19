@@ -1158,3 +1158,27 @@ fixed it on home, why-study-abroad and success-stories. All four figures now agr
 42+ / 50+ / 1200+ / 1,00,000+ (the hero writes the last one as "1 lakh+" — same number).
 
 **Still the client's call**: they say "since 1982" and "42+ years". 2026 − 1982 = 44.
+
+## 2026-10-19 — The campus panel, and a page for the webinars
+
+**"Private Universities" showed an almost empty panel.** Both columns were conditional: that
+option has no criteria list yet and no logos, so clicking it left a heading and a lone button
+where a panel should be. The panel now always has a text column — the criteria when they exist,
+the option's own one-line description when they do not — with the call to action under it, and a
+picture column showing that option's photograph. **The private-university criteria are still
+missing from the client's brief**; the fallback is honest filler, not the real content.
+
+**Webinars now have a page of their own** (`scripts/add-webinars-page-2026-10-19.ts`): hero,
+the gallery, a CTA; added under Resources in the menu; the home strip links through to it.
+`WebinarBlock` gained `layout: "split" | "gallery"` and `moreHref`/`moreLabel`.
+
+- **The posters were being cropped.** They are 16:9 and `.webinar__snip img` forced 16:10 with
+  `object-fit:cover`, which sliced the heading off every one — "THE TEST UNIVERSE" rendered as
+  "HE TEST UNIVERSE". Now 16/9, so cover crops nothing.
+- **An earlier optimisation pass had shrunk them to 400x225**, too small to print at full size.
+  Restored from commit `0f5d010` at their original 900x507, WebP q82, 250KB for all six, lazy.
+  **Check an image's intended display size before down-scaling it.**
+- The Knowledge Hub was redesigned: "Coming up" held one sentence and a button and was
+  stretching an empty grey box down the page beside the posters. It is a narrower navy gradient
+  card now, and the posters take the wider column. On the Webinars page the same card runs full
+  width with its button beside it.
