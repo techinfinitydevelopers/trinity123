@@ -1314,3 +1314,34 @@ a.seg__logo:hover .seg__logo-go i{transform:translate(2px,-2px)}
 
 @media (max-width:900px){ .seg__pillars{grid-template-columns:1fr} .seg__logos{grid-template-columns:repeat(2,minmax(0,1fr))} }
 @media (max-width:560px){ .seg__logos{grid-template-columns:1fr} }
+
+/* ---------- Phones: less air between sections, and wider logo cards ---------- */
+@media (max-width:640px){
+  /* 80px above and 70px below every section is desktop spacing on a 375px screen: on About Us
+     alone that was 900px of padding, a screen and a half of nothing. The rhythm is kept, just
+     scaled to the device. */
+  .section{padding:56px 18px 48px}
+  .section--tight{padding-top:0}
+
+  /* Three centred logo cards stacked to 621px. On a phone the logo sits beside its name, which
+     is both shorter and the way a list reads on a narrow screen. */
+  .seg__logo{flex-direction:row;align-items:center;gap:16px;text-align:left;padding:16px 18px}
+  .seg__logo-img{width:84px;height:58px;flex:0 0 84px}
+  .seg__logo-name{font-size:14px}
+  .seg__logo-go{margin-left:auto;flex-shrink:0}
+  /* The name and the "Visit site" link share the rest of the row. */
+  .seg__logo > .seg__logo-name{flex:1 1 auto;min-width:0}
+}
+
+/* ---------- Hero: the student card and the honeycomb ---------- */
+/* The cut-out is a 719x900 portrait and the card was 5:4 landscape, so the girl filled 313px of
+   a 520px card and the rest was empty blue — the panel read as a box with a photo dropped in it
+   rather than as one object. A square card at the portrait's own scale fixes that: she fills it
+   top to bottom, and the card is narrower, which also gives the honeycomb more room to tuck in. */
+@media (min-width:1200px){
+  .hero-visual__frame{max-width:430px}
+  .hero-visual__img--cutout{aspect-ratio:1/1}
+  .hero-visual__img--cutout img{height:100%;max-width:100%}
+  /* Deeper overlap now that there is less dead card to overlap onto. */
+  .hive{margin-left:clamp(-64px,-3.6vw,-36px)}
+}

@@ -1302,3 +1302,24 @@ advisors wording that has no spec, and no URL for Trinity Car Rental.
 - Mobile audit @375px: /, /about-us, /why-study-abroad, /our-service, /contact-us, /destinations/canada, /blog — no horizontal scroll; chat panel + pre-chat form fit.
 - Note: running dev server may show stale "50+" (unstable_cache) → `rm -rf .next` + restart.
 - Uncommitted: AgentAvatar.tsx, ChatWidget.tsx, chat.css, seed-content.ts, settings.ts.
+
+## 2026-10-19 — Phone spacing, and the hero's student card
+
+**Phones were being given desktop spacing.** `.section` was 80px/70px at 375px — on About Us
+alone that is 900px of padding across six sections, a screen and a half of nothing. Now 56/48
+below 640px, which took that page from 11,207px to 10,667px. It applies site-wide.
+
+**The sister-company logo cards stacked to 621px on a phone** as three tall centred cards. On a
+phone the logo now sits beside its name with "Visit site" on the right: 207px per card → 92px.
+
+**The hero's student card.** The cut-out is a 719x900 portrait and the card was 5:4 landscape,
+so she filled 313px of a 520px card and the rest was empty blue — it read as a box with a photo
+dropped into it. The card is square now and narrower (430px), she fills it top to bottom, the
+side gap is 93px instead of 207px, and the honeycomb tucks 51px over the card's edge instead of
+sitting beside a gutter. The hero grew 14px.
+
+**Countries: 39 or 50?** `src/lib/seed-content.ts` was edited outside this session — every "50+"
+became "39+" (band, stats, offer card, hero strip, honeycomb, the Choose your Country lead) —
+and the local database already matches at 39. **Production still says 50+.** The two signals
+both point at 39, but it is a claim the company makes about itself, so the number is not being
+pushed live without the client saying so.
