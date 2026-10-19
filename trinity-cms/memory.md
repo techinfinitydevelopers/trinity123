@@ -1182,3 +1182,21 @@ the gallery, a CTA; added under Resources in the menu; the home strip links thro
   stretching an empty grey box down the page beside the posters. It is a narrower navy gradient
   card now, and the posters take the wider column. On the Webinars page the same card runs full
   width with its button beside it.
+
+**Same day, the Webinars page reviewed against a print of it.** Four things, two of which were
+site-wide:
+
+- **The two floating hero chips sat on top of one another** — "Free / No charge to attend" was
+  hidden behind "Online / Join from anywhere". Both were pinned near the bottom-left of the
+  picture. **This was wrong on every page using `pageHero`, not just this one** (confirmed on
+  Events). They stack now with a 16px gap. The home hero renders only the second chip, so it is
+  untouched.
+- **The ghost watermark ran 1,043px wide on a 1,280px window**, straight across the hero
+  picture — it read as a second headline. `clamp(4rem,10vw,9.5rem)` brings it to 652px.
+- **Two navy call-to-action panels, back to back.** The page carried its own "Ask a counsellor
+  directly" and the footer closes every page with "Ready to start your study abroad journey?" —
+  the same two buttons twice. The page's own block is gone. (`/events` still has this; left
+  alone as out of scope.)
+- The hero used poster 1, which is also the first card further down the same page. It uses the
+  students photograph now. The posters also lost their grey panel, and the empty note inside the
+  navy card no longer looks like a disabled text field.

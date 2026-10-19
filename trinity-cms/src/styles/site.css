@@ -1192,3 +1192,30 @@ a.webinar__snip:hover,a.webinar__snip:focus-visible{border-color:var(--primary)}
 @media (max-width:900px){ .webinar__grid{grid-template-columns:1fr} }
 /* `.webinar__now-body` is transparent in the split layout; the wide one lays it out as a cell. */
 .webinar__now--wide .webinar__now-body{min-width:0}
+
+/* ---------- Page hero: two fixes that show on every page using it ---------- */
+/* The two floating chips were both pinned near the bottom-left of the picture and sat on top of
+   one another — on the Webinars page "Free / No charge to attend" was hidden behind "Online".
+   They stack now, with a gap. (The home hero renders only the second one, so it is unaffected.) */
+.chip--hv-a{bottom:104px}
+
+/* "WEBINARS" at 16vw ran 1,043px wide on a 1,280px window, straight across the hero picture.
+   The word is meant to be a watermark behind the page, not a second headline. */
+.page-hero__ghost{font-size:clamp(4rem,10vw,9.5rem);letter-spacing:-5px;bottom:-18px}
+
+/* ---------- Webinars page ---------- */
+/* On its own page the posters are the content, so they sit on the page rather than inside a
+   grey panel, and the heading is a proper one. */
+.webinar__past--wide{background:transparent;border:0;padding:0}
+.webinar__past--wide > h3{
+  font-size:clamp(17px,1.1vw + 13px,22px);margin-bottom:18px;
+  display:flex;align-items:center;gap:12px;
+}
+.webinar__past--wide > h3::after{content:"";flex:1 1 auto;height:1px;background:var(--line)}
+
+/* The empty note inside the navy card read as a disabled text field. It is a line of type with
+   a gold rule beside it. */
+.webinar__now .webinar__empty{
+  background:transparent;border:0;border-left:3px solid var(--gold);
+  border-radius:0;padding:2px 0 2px 16px;
+}

@@ -25,24 +25,16 @@ const pageHero = {
   sub: "Free live sessions on countries, courses, tests, visas and funding — run by the counsellors who handle the applications. Parents are welcome, and every session ends with questions.",
   aside: {
     kind: "visual",
-    img: "/assets/img/webinar/snippet-1.webp",
+    /* Not one of the posters: all six are printed further down the same page. */
+    img: "/assets/img/home/inner_about_img-1.jpg",
     chipA: { big: "Free", small: "No charge to attend" },
     chipB: { icon: "fas fa-video", strong: "Online", small: "Join from anywhere" },
   },
 };
 
-const cta = {
-  type: "cta",
-  layout: "center",
-  badge: "Missed the last one?",
-  badgeIcon: "fas fa-calendar-check",
-  title: "Ask a counsellor {directly}",
-  text: "Register your interest and we will write to you when the next session on your country or course is scheduled.",
-  img: "", checks: [],
-  chipA: { strong: "", small: "" }, chipB: { strong: "", small: "" },
-  primary: { label: "Book Free Consultation", href: "/contact-us" },
-  secondary: { label: "WhatsApp", href: "whatsapp" }, secondaryKind: "whatsapp",
-};
+/* No call-to-action block here on purpose. The footer already closes every page with "Ready to
+   start your study abroad journey?" and the same two buttons, so a second navy panel directly
+   above it was the same ask twice. The "Register now" button in the card above does this job. */
 
 async function main() {
   const done: string[] = [];
@@ -62,7 +54,7 @@ async function main() {
     if (Array.isArray(kept) && kept.length) gallery[key] = kept;
   }
 
-  const blocks = [pageHero, gallery, cta];
+  const blocks = [pageHero, gallery];
   const data = {
     title: "Webinars - Trinity Study Abroad",
     seoDesc: "Free live webinars from Trinity Study Abroad on study destinations, entrance tests, student visas and funding — open to students and parents.",
