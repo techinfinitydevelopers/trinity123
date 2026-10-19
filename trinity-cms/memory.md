@@ -1271,3 +1271,27 @@ than lose a word. Desktop is untouched.
 
 **All eleven agents are in. 24 pages, three widths each, nothing else found.** The audit's own
 method notes are above; they are the part worth keeping.
+
+## 2026-10-19 — About Us, from the client's brief
+
+- **Their own wording** for the story, as two paragraphs. The block renders `paragraphs` (an
+  array), not `text` — setting `text` renders nothing, and putting both paragraphs in one array
+  entry runs them together into a 600-character block.
+- **Mission and Vision** have a section of their own now, a new `segments` block
+  (`src/components/site/blocks/Segments.tsx`). They used to be two extra lines tacked onto the
+  story paragraphs; those are gone, so neither is said twice.
+- **"OUR Business Segments"**: the three sister-company logos the client sent, as cards that
+  open the sister sites. **Trinity Car Rental has no website in the brief**, so its card is shown
+  without a link rather than pointed at a guess — give me the URL and it becomes a link.
+- **"Picture on left should depict a student and counsellor"** — it was a photograph of a
+  building in Edinburgh. Both of the client's counsellor-with-family photographs are in now
+  (`/assets/img/about/counsel-1.webp`, `-2.webp`). Their originals are only 512px wide; larger
+  files would render better on a big screen.
+- **"Trusted advisors" not "consultants"** (brief). The only occurrence was the home page's
+  story chip, "Trusted Consultants" — the rename in the script walks every page, so re-running
+  it catches any that come back.
+
+`scripts/apply-about-segments-2026-10-19.ts` does all of it, idempotently.
+
+**Still missing for this page:** the client's brief shows an "animated toggle" beside the
+advisors wording that has no spec, and no URL for Trinity Car Rental.

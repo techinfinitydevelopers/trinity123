@@ -9,6 +9,7 @@ import { BlogList } from "./BlogList";
 import Campus from "./Campus";
 import { Webinar } from "./Webinar";
 import Vision from "./Vision";
+import { Segments } from "./Segments";
 
 export type RenderCtx = { settings: SettingsMap; searchParams?: Record<string, string | undefined> };
 
@@ -24,6 +25,7 @@ function renderBlock(b: Block, ctx: RenderCtx) {
     case "campus": return <Campus b={b} />;
     case "webinar": return <Webinar b={b} />;
     case "vision": return <Vision b={b} />;
+    case "segments": return <Segments b={b} />;
     case "courses": return <CoursesSection b={b} />;
     case "about": return <About b={b} contact={contact} site={ctx.settings.site} />;
     case "offer": return <Offer b={b} contact={contact} />;

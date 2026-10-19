@@ -121,6 +121,17 @@ export type VisionBlock = {
   href: string; linkLabel: string;
 };
 
+/* About Us, section 'OUR Business Segments' in the client's brief: the mission and vision
+   statements, and the sister companies the group is made of. A logo without an `href` is shown
+   but not linked. */
+export type SegmentsBlock = {
+  type: "segments"; kicker: string; title: string; lead: string;
+  pillars: { icon: string; title: string; text: string }[];
+  logosTitle: string;
+  logos: { name: string; img: string; href: string }[];
+  ctaLabel: string; ctaHref: string;
+};
+
 export type UniversitiesBlock = {
   type: "universities"; kicker: string; title: string; lead: string; ghost: string;
   items: { img: string; name: string; flag: string; city: string; rating: string; href: string }[];
@@ -176,7 +187,7 @@ export type RichTextBlock = { type: "richText"; html: string; grey: boolean };
 
 export type Block =
   | HeroBlock | PageHeroBlock | BandBlock | UspBlock | LeadFormBlock | WorldMapBlock | CoursesBlock | AboutBlock | OfferBlock | StepsBlock | CountriesBlock
-  | CampusBlock | WebinarBlock | VisionBlock | UniversitiesBlock | StatsBlock | CtaBlock | FaqBlock | JourneyBlock | TestimonialsBlock
+  | CampusBlock | WebinarBlock | VisionBlock | SegmentsBlock | UniversitiesBlock | StatsBlock | CtaBlock | FaqBlock | JourneyBlock | TestimonialsBlock
   | IntroBlock | FeatureCardsBlock | ServicesBlock | ContactBlock | BlogListBlock | RichTextBlock;
 
 export type BlockType = Block["type"];
@@ -189,6 +200,7 @@ export const BLOCK_META: Record<BlockType, { label: string; desc: string }> = {
   campus: { label: "Find your Campus", desc: "Public / private universities, criteria and logos" },
   webinar: { label: "Knowledge Hub", desc: "Upcoming webinar, past snippets and a register button" },
   vision: { label: "Our Vision to their Journey", desc: "Management and student videos" },
+  segments: { label: "Mission, Vision & Group", desc: "Mission and vision statements, and the sister-company logos" },
   leadForm: { label: "Enquiry Card", desc: "Short lead form beside a picture and the tagline" },
   worldMap: { label: "World Map", desc: "Study destinations pinned on a world map" },
   courses: { label: "Courses", desc: "Fields of study with duration and destinations" },

@@ -4,6 +4,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ChatbotSettings, ContactSettings } from "@/lib/settings";
 import { startChatSessionAction, markUrgentAction } from "@/lib/chat-session";
+import AgentAvatar from "./AgentAvatar";
 
 type Msg = { role: "user" | "assistant"; content: string; unmatched?: boolean };
 type Profile = { name: string; email: string; phone: string };
@@ -189,13 +190,13 @@ export default function ChatWidget({ cfg, contact }: { cfg: ChatbotSettings; con
       ) : null}
 
       <button ref={fabRef} className={`tc-fab${open ? " is-open" : ""}`} onClick={() => toggle(!open)} aria-label={open ? "Close chat" : `Chat with ${cfg.name}`} aria-expanded={open}>
-        <i className={open ? "fas fa-times" : "fas fa-comment-dots"} />
+        {open ? <i className="fas fa-times" /> : <AgentAvatar />}
         {!open && msgs.length === 0 ? <span className="tc-fab__dot" /> : null}
       </button>
 
       <div className={`tc-panel${open ? " is-open" : ""}`} role="dialog" aria-label={cfg.name} aria-modal="false">
         <div className="tc-head">
-          <span className="tc-avatar"><i className="fas fa-graduation-cap" /><i className="tc-live" /></span>
+          <span className="tc-avatar"><AgentAvatar /><i className="tc-live" /></span>
           <div className="tc-head__txt"><strong>{cfg.name}</strong><small>{U.status}</small></div>
           {sessionId ? <button className="tc-icon tc-icon--urgent" onClick={askAdmin} disabled={urgentState !== "idle"} title="This is urgent — contact admin" aria-label="This is urgent — contact admin"><i className="fas fa-exclamation-triangle" /></button> : null}
           {sessionId ? <button className="tc-icon" onClick={reset} title="Start a new chat" aria-label="Start a new chat"><i className="fas fa-redo" /></button> : null}

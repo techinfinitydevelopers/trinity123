@@ -17,6 +17,7 @@ const shapeMemory = new Map<string, object>();
    These are the lists the owner is *expected* to fill in later, so their shape is declared. */
 const SHAPES: Record<string, object> = {
   logos: { name: "", img: "", href: "" },
+  pillars: { icon: "", title: "", text: "" },
   current: { badge: "", title: "", when: "", text: "", img: "" },
   past: { title: "", when: "", img: "", href: "" },
   videos: { title: "", name: "", youtube: "", poster: "", note: "" },
