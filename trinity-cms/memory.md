@@ -1262,3 +1262,12 @@ overlapping text at any of the three widths, and no real horizontal scroll anywh
 **Left for the client / a decision:** on a 1280 or 1366 laptop there is no horizontal navigation
 at all, only the hamburger, because `.nav__links` is hidden below 1421px. That is a product
 choice, not a bug, but it is a surprising one.
+
+**One more from the last agent back:** `.btn` carries `white-space:nowrap` and 32px of side
+padding, which is wider than some containers get on the narrowest phones. "Book Free
+Consultation" was sliced by the footer panel's rounded edge below ~340px, and the same button
+bulged past its centred row on /resources at 375px. Below 380px buttons take two lines rather
+than lose a word. Desktop is untouched.
+
+**All eleven agents are in. 24 pages, three widths each, nothing else found.** The audit's own
+method notes are above; they are the part worth keeping.

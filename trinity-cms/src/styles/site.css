@@ -1273,3 +1273,11 @@ main:has(> .cta-block:last-child) + .footer .footer__cta{display:none}
    on the page: the call button sits in the nav immediately below, and the social links are in
    the footer. On a phone the search gets the whole row. */
 @media (max-width:640px){ .topbar__group{display:none} }
+
+/* Buttons carry `white-space:nowrap` and 32px of side padding, which is wider than some
+   containers get on the narrowest phones: "Book Free Consultation" was being sliced by the
+   footer panel's rounded edge below about 340px, and the same button bulged past its row on
+   /resources at 375px. Below 380px it may take two lines rather than lose its last word. */
+@media (max-width:380px){
+  .btn{padding-left:20px;padding-right:20px;white-space:normal;text-align:center}
+}
