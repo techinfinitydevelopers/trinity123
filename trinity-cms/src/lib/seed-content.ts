@@ -8,7 +8,7 @@ const C = "/contact-us";
 export const band: BandBlock = {
   type: "band",
   items: [
-    { text: "Dream Big. Make It Happen.", strong: true }, { text: "50+ Countries" }, { text: "1200 Universities" },
+    { text: "Dream Big. Make It Happen.", strong: true }, { text: "39+ Countries" }, { text: "1200 Universities" },
     { text: "1 lakh+ Courses" }, { text: "Free Counselling" }, { text: "Visa Support" },
   ],
 };
@@ -154,7 +154,7 @@ export const testimonials: TestimonialsBlock = {
 export const stats: StatsBlock = {
   type: "stats",
   items: [
-    { count: 42, suffix: "+", label: "Years of Experience" }, { count: 50, suffix: "+", label: "Countries" },
+    { count: 42, suffix: "+", label: "Years of Experience" }, { count: 39, suffix: "+", label: "Countries" },
     /* The hero strip and the honeycomb both say "1200+"; this one said a flat "1200", so the
        same claim appeared on one page two different ways. */
     { count: 1200, suffix: "+", label: "Universities" }, { count: 100000, suffix: "+", label: "Courses" },
@@ -188,7 +188,7 @@ export const offer: OfferBlock = {
   cards: [
     { img: `${IMG}/unversity/z2.jpg`, icon: `${IMG}/icons/h2_features_icon01.svg`, metric: "1200+", metricLabel: "Universities", title: "Expert Universities", text: "Access top-ranked global universities tailored to your goals.", href: C },
     { img: `${IMG}/unversity/z5.jpg`, icon: `${IMG}/icons/h2_features_icon02.svg`, metric: "1 lakh+", metricLabel: "Courses", title: "Effective Courses", text: "Choose from a wide range of courses designed to enhance your skills.", href: C },
-    { img: `${IMG}/unversity/z9.jpg`, icon: `${IMG}/icons/h2_features_icon03.svg`, metric: "50+", metricLabel: "Countries", title: "Certificates", text: "Gain valuable certifications to boost your career prospects.", href: C },
+    { img: `${IMG}/unversity/z9.jpg`, icon: `${IMG}/icons/h2_features_icon03.svg`, metric: "39+", metricLabel: "Countries", title: "Certificates", text: "Gain valuable certifications to boost your career prospects.", href: C },
   ],
 };
 
@@ -201,7 +201,7 @@ const homeBlocks: Block[] = [
     words: [{ t: "Because" }, { t: "Every" }, { t: "Dream", s: "gold", br: true }, { t: "Needs" }, { t: "a" }, { t: "Direction", s: "grad" }],
     text: "Let Trinity Study Abroad help you find yours.",
     primary: { label: "Learn More", href: C }, ghost: { label: "Chat with us", href: "whatsapp" },
-    stats: [{ value: "50+", label: "Countries" }, { value: "1200+", label: "Universities" }, { value: "1 lakh+", label: "Courses" }],
+    stats: [{ value: "39+", label: "Countries" }, { value: "1200+", label: "Universities" }, { value: "1 lakh+", label: "Courses" }],
     photo: `${IMG}/home/hero-student.webp`,
     /* Second row of the hero. The fields and their options are the ones the standalone
        `leadForm` section used to carry, which is why they read the same. */
@@ -215,7 +215,7 @@ const homeBlocks: Block[] = [
        104px tile. Each sits under a navy scrim, so the label still clears 4.5:1. */
     hive: [
       { value: "42+", label: "Years Experience", img: `${IMG}/hive/years.webp` },
-      { value: "50+", label: "Countries", img: `${IMG}/hive/countries.webp` },
+      { value: "39+", label: "Countries", img: `${IMG}/hive/countries.webp` },
       { value: "1200+", label: "Universities", img: `${IMG}/hive/universities.webp` },
       { value: "1 lakh+", label: "Courses", img: `${IMG}/hive/courses.webp` },
       { value: "1", label: "Stop Solution", img: `${IMG}/hive/solution.webp` },
@@ -224,7 +224,7 @@ const homeBlocks: Block[] = [
   usp,
   {
     type: "countries", kicker: "Shape your direction", title: "Choose your [Country]",
-    lead: "We connect students with world-class education in 50+ countries, giving you access to some of the best universities and courses internationally.",
+    lead: "We connect students with world-class education in 39+ countries, giving you access to some of the best universities and courses internationally.",
     layout: "split", marquee: true, items: countryItems, dark: darkCountry,
   },
   worldMap,
@@ -256,7 +256,7 @@ const homeBlocks: Block[] = [
       { icon: "fas fa-clipboard-check", title: "Evaluate your profile", text: "Academics, experience, tests and eligibility, read honestly \u2014 so the options we put in front of you are ones you can actually get.", checks: ["Academics", "Experience", "Test scores", "Eligibility"], img: `${IMG}/unversity/z7.jpg`, chipIcon: "fas fa-chart-line", chipStrong: "42+", chipSmall: "Years reading profiles", live: "Profile review", href: C },
       { icon: "fas fa-tasks", title: "Build your shortlist", text: "Countries, courses and universities that fit the profile \u2014 not the ones that merely rank highest.", checks: ["Countries", "Courses", "Universities", "Intakes"], img: `${IMG}/unversity/z1.jpg`, chipIcon: "fas fa-university", chipStrong: "1200", chipSmall: "Partner universities", live: "Shortlists built weekly", href: C },
       { icon: "fas fa-file-signature", title: "Prepare and apply", text: "Documents, SOP and LOR, and the university applications themselves \u2014 prepared, checked and submitted on time.", checks: ["Documents", "SOP & LOR", "Applications", "Deadlines"], img: `${IMG}/unversity/z6.jpg`, chipIcon: "fas fa-file-alt", chipStrong: "100%", chipSmall: "Documents checked", live: "Applications in progress", href: C },
-      { icon: "fas fa-coins", title: "Plan your finances and visa", text: "Scholarships, education loans, proof of funds and visa preparation \u2014 the part that most often decides the outcome.", checks: ["Scholarships", "Loans", "Proof of funds", "Visa prep"], img: `${IMG}/unversity/z8.jpg`, chipIcon: "fas fa-passport", chipStrong: "50+", chipSmall: "Countries covered", live: "Mock interviews weekly", href: C },
+      { icon: "fas fa-coins", title: "Plan your finances and visa", text: "Scholarships, education loans, proof of funds and visa preparation \u2014 the part that most often decides the outcome.", checks: ["Scholarships", "Loans", "Proof of funds", "Visa prep"], img: `${IMG}/unversity/z8.jpg`, chipIcon: "fas fa-passport", chipStrong: "39+", chipSmall: "Countries covered", live: "Mock interviews weekly", href: C },
       { icon: "fas fa-plane-departure", title: "Get departure ready", text: "Accommodation, insurance, forex, flights and a pre-departure briefing, so the first week is not spent guessing.", checks: ["Accommodation", "Insurance", "Forex & flights", "Pre-departure"], img: `${IMG}/unversity/z4.jpg`, chipIcon: "fas fa-plane", chipStrong: "42+", chipSmall: "Years in travel", live: "Briefings before each intake", href: C },
       { icon: "fas fa-hands-helping", title: "Stay supported", text: "Practical post-arrival guidance once you land \u2014 bank account, SIM, registration, part-time work rules and settling in.", checks: ["Bank & SIM", "Registration", "Work rules", "Settling in"], img: `${IMG}/unversity/z9.jpg`, chipIcon: "fas fa-headset", chipStrong: "24/7", chipSmall: "Reachable from abroad", live: "Support after you land", href: C },
     ],
@@ -319,7 +319,7 @@ const aboutBlocks: Block[] = [
     sub: "A unit of Trinity Air Travel & Tours Pvt. Ltd. — a well-established 42-year-old company in travel & tourism, now guiding students to universities worldwide.",
     aside: { kind: "statchips", items: [
       { strong: "42", suffix: "+", small: "Years legacy", style: "glass" },
-      { strong: "50", suffix: "+", small: "Countries", style: "gold" },
+      { strong: "39", suffix: "+", small: "Countries", style: "gold" },
       { strong: "1200", small: "Partner universities", style: "purple", icon: "fas fa-university" },
     ] },
   },
@@ -455,7 +455,7 @@ const successBlocks: Block[] = [
     aside: { kind: "statchips", items: [
       { strong: "42", suffix: "+", small: "Years placing students", style: "glass" },
       { strong: "1200", suffix: "", small: "Partner universities", style: "gold" },
-      { strong: "50", suffix: "+", small: "Countries", style: "purple" },
+      { strong: "39", suffix: "+", small: "Countries", style: "purple" },
     ] },
   },
   stats,
@@ -538,7 +538,7 @@ const brochureBlocks: Block[] = [
     words: [{ t: "Read" }, { t: "It", br: true }, { t: "Together", s: "gold" } ],
     sub: "Countries, costs, entry requirements, intakes and stay-back rules \u2014 in one document you can go through with your family before deciding anything.",
     aside: { kind: "statchips", items: [
-      { strong: "50", suffix: "+", small: "Countries covered", style: "glass" },
+      { strong: "39", suffix: "+", small: "Countries covered", style: "glass" },
       { strong: "1 lakh", suffix: "+", small: "Courses", style: "gold" },
       { strong: "100", suffix: "%", small: "Free, no obligation", style: "purple" },
     ] },
@@ -565,8 +565,8 @@ const brochureBlocks: Block[] = [
 ];
 
 export const seedPages = [
-  { slug: "home", title: "Trinity Study Abroad — Every Dream Needs a Direction", navLabel: "Home", seoDesc: "Welcome to Trinity Study Abroad, your trusted partner in unlocking global opportunities for higher education. Tailored guidance and complete support for students aiming to study in 50+ countries, including the USA, UK, Canada, and Australia.", blocks: homeBlocks, isSystem: true },
-  { slug: "about-us", title: "About Us - Trinity Study Abroad", navLabel: "About Us", seoDesc: "Trinity Study Abroad is a unit of Trinity Air Travel & Tours Pvt. Ltd., a 42-year-old Mumbai company guiding students to 1200+ universities in 50+ countries.", blocks: aboutBlocks, isSystem: true },
+  { slug: "home", title: "Trinity Study Abroad — Every Dream Needs a Direction", navLabel: "Home", seoDesc: "Welcome to Trinity Study Abroad, your trusted partner in unlocking global opportunities for higher education. Tailored guidance and complete support for students aiming to study in 39+ countries, including the USA, UK, Canada, and Australia.", blocks: homeBlocks, isSystem: true },
+  { slug: "about-us", title: "About Us - Trinity Study Abroad", navLabel: "About Us", seoDesc: "Trinity Study Abroad is a unit of Trinity Air Travel & Tours Pvt. Ltd., a 42-year-old Mumbai company guiding students to 1200+ universities in 39+ countries.", blocks: aboutBlocks, isSystem: true },
   { slug: "why-study-abroad", title: "Why Study Abroad - Trinity Study Abroad", navLabel: "Why Study Abroad", seoDesc: "Top-ranking universities, 3–5 year stay-back options and single-window support — why Indian students choose Trinity Study Abroad.", blocks: whyBlocks, isSystem: true },
   { slug: "our-service", title: "Our Services - Trinity Study Abroad", navLabel: "Our Services", seoDesc: "Eight comprehensive services covering everything from career counselling to post-study work visas — all under one roof.", blocks: serviceBlocks, isSystem: true },
   { slug: "contact-us", title: "Contact Us - Trinity Study Abroad", navLabel: "Contact Us", seoDesc: "Get in touch with Trinity Study Abroad in Mumbai for free study abroad counselling. Call +91-8453045304 or email helpdesk@trinitystudyabroad.com.", blocks: contactBlocks, isSystem: true },
@@ -643,7 +643,7 @@ export const seedPosts = [
 
 export const seedKnowledge = [
   { question: "What services does Trinity Study Abroad offer?", answer: "Career counselling, university admissions (UG/PG), SOP/LOR/resume documentation, test prep guidance (IELTS, TOEFL, GMAT, GRE, SAT), student visa counselling and mock interviews, scholarships and education loan assistance, pre-departure (accommodation, forex, insurance, travel checklist) and post-arrival support, plus post-study work visa and PR guidance.", tags: "services", keywords: "services, what do you offer, help with", category: "General" },
-  { question: "Which countries do you cover?", answer: "50+ countries worldwide. We have detailed guides for USA, UK, Canada, Ireland, Germany, Australia, New Zealand, France, Italy, Sweden and Denmark, and place students well beyond those — ask us about any destination. 1200+ partner universities.", tags: "countries", keywords: "countries, destinations, where can I study", category: "General" },
+  { question: "Which countries do you cover?", answer: "39+ countries worldwide. We have detailed guides for USA, UK, Canada, Ireland, Germany, Australia, New Zealand, France, Italy, Sweden and Denmark, and place students well beyond those — ask us about any destination. 1200+ partner universities.", tags: "countries", keywords: "countries, destinations, where can I study", category: "General" },
   { question: "Is the first consultation free?", answer: "Yes. The first counselling session is free. Book via the contact form, call +91-8453045304 or WhatsApp the same number.", tags: "pricing,consultation", keywords: "free consultation, pricing, cost of counselling", category: "Fees" },
   { question: "Where is your office?", answer: "301, 3rd Floor, Kumar Plaza, Kalina-Kurla Road, Kalina, Santacruz (East), Mumbai 400029. Landline +91-22-69655855.", tags: "contact,office", keywords: "office, address, location", category: "General" },
   { question: "How early should I start planning?", answer: "Ideally 10–12 months before the intake. Major intake is Fall (September); a smaller Spring (January) intake exists in most countries.", tags: "timeline,intake", keywords: "admission last date, apply, application deadline, when to start, intake", category: "Admissions" },

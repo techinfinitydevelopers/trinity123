@@ -1295,3 +1295,10 @@ method notes are above; they are the part worth keeping.
 
 **Still missing for this page:** the client's brief shows an "animated toggle" beside the
 advisors wording that has no spec, and no URL for Trinity Car Rental.
+
+## Build log — 2026-10-19
+- Chatbot FAB + header: animated SVG girl-agent avatar (`AgentAvatar.tsx`, CSS in `chat.css`, reduced-motion safe).
+- Country count 50+ → 39+ site-wide (DB rows via script + `seed-content.ts`, `settings.ts`).
+- Mobile audit @375px: /, /about-us, /why-study-abroad, /our-service, /contact-us, /destinations/canada, /blog — no horizontal scroll; chat panel + pre-chat form fit.
+- Note: running dev server may show stale "50+" (unstable_cache) → `rm -rf .next` + restart.
+- Uncommitted: AgentAvatar.tsx, ChatWidget.tsx, chat.css, seed-content.ts, settings.ts.
