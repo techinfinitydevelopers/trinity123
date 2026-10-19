@@ -1130,3 +1130,31 @@ wires the two together automatically.
 
 Noticed, not changed: the map section's lead says "Fourteen destinations" where the table holds
 thirteen and that section lists eleven. The client's wording — their call which number is right.
+
+## 2026-10-19 — The stats counter, and the figure it never reached
+
+The counter animating 0 → 1,00,000 stopped at **99,996**. Two separate causes, both fixed in
+`SiteScripts.tsx`:
+
+- The easing loop wrote `round(target × eased)` on every frame and stopped when `k` reached 1.
+  **A background or hidden tab throttles `requestAnimationFrame`**, so the run simply ended a
+  few frames early and left the eased value showing. The last frame now writes the target
+  itself, and a `setTimeout(land, D + 400)` writes the figures whether or not the frames ever
+  arrive. The numbers matter more than the animation.
+- `threshold: 0.3` asked for 30% of the stats section to be on screen **at once**. The section
+  is 828px tall on a laptop and taller stacked on a phone, so on a short window the ratio never
+  got there and **all four numbers sat at zero for the entire visit**. Now `threshold: 0`.
+- `prefers-reduced-motion` now lands the figures immediately instead of animating, and the rAF
+  and timer are both cancelled on route change.
+
+**Verifying this in the Claude browser pane is unreliable**: the pane reports
+`document.visibilityState === "hidden"` even with its tab fronted, which defers
+IntersectionObserver callbacks and throttles rAF — the very condition that caused the bug. The
+counters read 0 there and land correctly once a frame is forced.
+
+**Stats consistency**: "Universities" carried no `+` while the hero strip and the honeycomb both
+say "1200+" — the same claim twice on one page, two ways. `scripts/fix-stats-suffix-2026-10-19.ts`
+fixed it on home, why-study-abroad and success-stories. All four figures now agree with the hero:
+42+ / 50+ / 1200+ / 1,00,000+ (the hero writes the last one as "1 lakh+" — same number).
+
+**Still the client's call**: they say "since 1982" and "42+ years". 2026 − 1982 = 44.

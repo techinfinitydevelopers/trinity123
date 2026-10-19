@@ -56,20 +56,40 @@ export default function SiteScripts() {
     /* counters */
     const stats = document.getElementById("stats");
     let sio: IntersectionObserver | undefined;
+    let countRaf = 0, countTimer = 0;
     if (stats) {
+      const els = stats.querySelectorAll<HTMLElement>(".counter");
+      const target = (el: HTMLElement) => parseInt(el.dataset.count ?? "0", 10);
+      const land = () => els.forEach((el) => { el.textContent = target(el).toLocaleString("en-IN"); });
+
       let counted = false;
-      sio = new IntersectionObserver((entries) => {
-        if (!entries[0].isIntersecting || counted) return;
+      const run = () => {
+        if (counted) return;
         counted = true;
-        const els = stats.querySelectorAll<HTMLElement>(".counter");
+        /* Nobody wants to watch a number crawl when they have asked for less motion. */
+        if (reduce) return land();
         const t0 = performance.now(), D = 2000;
+        /* A background tab throttles requestAnimationFrame, so the loop can simply stop partway
+           and leave the number short — this is where the 99,996 came from. The figures matter
+           more than the animation, so they are written once the run should have finished
+           whether or not the frames arrived. */
+        countTimer = window.setTimeout(land, D + 400);
         const tick = (t: number) => {
-          const k = Math.min(1, (t - t0) / D), e = 1 - Math.pow(1 - k, 4);
-          els.forEach((el) => { el.textContent = Math.round(parseInt(el.dataset.count ?? "0", 10) * e).toLocaleString("en-IN"); });
-          if (k < 1) requestAnimationFrame(tick);
+          const k = Math.min(1, (t - t0) / D);
+          /* The last frame writes the target itself rather than an eased approximation of it. */
+          if (k >= 1) return land();
+          const e = 1 - Math.pow(1 - k, 4);
+          els.forEach((el) => { el.textContent = Math.round(target(el) * e).toLocaleString("en-IN"); });
+          countRaf = requestAnimationFrame(tick);
         };
-        tick(t0);
-      }, { threshold: 0.3 });
+        countRaf = requestAnimationFrame(tick);
+      };
+
+      /* A threshold of 0.3 asked for 30% of the section to be on screen at once. The section is
+         828px tall on a laptop and taller once it stacks on a phone, so on a short window the
+         ratio never got there and all four numbers sat at zero for the whole visit. Any part of
+         it showing is enough. */
+      sio = new IntersectionObserver((entries) => { if (entries[0].isIntersecting) run(); }, { threshold: 0 });
       sio.observe(stats);
     }
 
@@ -158,6 +178,7 @@ export default function SiteScripts() {
     return () => {
       io.disconnect(); sio?.disconnect();
       window.clearTimeout(revealTimer);
+      cancelAnimationFrame(countRaf); window.clearTimeout(countTimer);
       toTop?.removeEventListener("click", onTop);
       window.removeEventListener("scroll", onScrollRaf);
       window.removeEventListener("resize", onScroll);

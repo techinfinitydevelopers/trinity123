@@ -155,7 +155,9 @@ export const stats: StatsBlock = {
   type: "stats",
   items: [
     { count: 42, suffix: "+", label: "Years of Experience" }, { count: 50, suffix: "+", label: "Countries" },
-    { count: 1200, suffix: "", label: "Universities" }, { count: 100000, suffix: "+", label: "Courses" },
+    /* The hero strip and the honeycomb both say "1200+"; this one said a flat "1200", so the
+       same claim appeared on one page two different ways. */
+    { count: 1200, suffix: "+", label: "Universities" }, { count: 100000, suffix: "+", label: "Courses" },
   ],
 };
 
