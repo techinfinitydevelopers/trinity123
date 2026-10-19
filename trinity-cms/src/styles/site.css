@@ -1671,7 +1671,13 @@ main:has(> .cta-block:last-child) + .footer{margin-top:0}
   width:clamp(180px,22vw,320px);height:auto;pointer-events:none;z-index:0;
   opacity:0;animation:ghostIn .9s .7s var(--ease) forwards;
 }
-@media (max-width:1100px){ .hero__path{display:none} }
+/* The trail follows the headline down the breakpoints rather than vanishing: smaller and
+   tucked closer to the corner on a tablet, and gone only on a phone, where the headline uses
+   the full width and there is no corner left for it. */
+@media (max-width:1100px){
+  .hero__path{right:1%;top:clamp(78px,10vh,120px);width:clamp(150px,26vw,230px)}
+}
+@media (max-width:700px){ .hero__path{display:none} }
 
 /* ---- honeycomb: the client's spacing and icon size ---- */
 .hive{--gap:11px}
@@ -1685,9 +1691,26 @@ main:has(> .cta-block:last-child) + .footer{margin-top:0}
    own image sitting at the end of them. */
 .hero__path{display:block}
 .hero__path svg{display:block;width:100%;height:auto}
+/* The plane rides the same curve the dashes are drawn from. `offset-path` on an SVG element
+   takes the viewBox's own units, so it stays on the line at any size, and `auto -90deg` keeps
+   its nose pointing along the trail — the artwork is drawn nose-down. */
 .hero__plane{
-  position:absolute;right:-4%;top:-14%;width:clamp(42px,4.4vw,62px);height:auto;
-  /* The artwork is drawn nose-down; this turns it to fly up and to the right along the trail. */
-  transform:rotate(217deg);
-  filter:drop-shadow(0 6px 12px rgba(26,36,86,.18));
+  offset-path:path("M4 112C70 112 128 92 176 56 206 33 236 16 272 10");
+  offset-rotate:auto -90deg;
+  offset-anchor:50% 50%;
+  animation:planeFly 11s linear infinite;
+  filter:drop-shadow(0 4px 8px rgba(26,36,86,.22));
 }
+/* It fades in as it leaves and out as it arrives, so the loop has no hard jump. */
+@keyframes planeFly{
+  0%{offset-distance:0%;opacity:0}
+  8%{opacity:1}
+  88%{opacity:1}
+  100%{offset-distance:100%;opacity:0}
+}
+@media (prefers-reduced-motion:reduce){
+  .hero__plane{animation:none;offset-distance:100%;opacity:1}
+}
+/* `.hero__path{display:block}` is declared after the breakpoint rules above, so it was winning
+   and the trail stayed on a phone where there is no room for it. Restated last. */
+@media (max-width:700px){ .hero__path{display:none} }

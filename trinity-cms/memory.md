@@ -1469,3 +1469,17 @@ They sent a mock-up and three close-ups. What the design changes, and where it l
 
 **The countries figure came back as 39 a third time** and was reset again. Something outside
 this session keeps writing it.
+
+**The plane flies the trail.** It is an SVG `<image>` inside the same SVG as the dashes, and
+`offset-path` on an SVG element takes the **viewBox's own units** — so one `path()` string drives
+both the dashes and the flight, and they stay on top of each other at every width without any
+JavaScript. `offset-rotate:auto -90deg` corrects for artwork drawn nose-down. It fades in as it
+leaves and out as it arrives so the 11s loop has no hard jump, and `prefers-reduced-motion`
+parks it at the end of the line.
+
+**Trail breakpoints:** full size above 1100, smaller and tucked into the corner 701–1100, gone
+at 700 and below where the headline takes the whole width. Note `.hero__path{display:block}` was
+declared after the breakpoints and was quietly winning — the phone rule had to be restated last.
+
+**Hero swept 320 → 1920** (320/375/414/480/640/700/768/900/1024/1100/1280/1366/1440/1920): zero
+horizontal overflow at every width, and the trail never crosses the headline's ink.

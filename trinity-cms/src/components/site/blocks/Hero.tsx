@@ -21,13 +21,14 @@ export async function Hero({ b, contact }: { b: HeroBlock; contact: ContactSetti
         <h1 className="h1 hero__title"><Words words={b.words} start={0.25} /></h1>
         {/* The dashed flight path from the client's design, arcing out of the headline towards
             the enquiry card. Decorative, and it draws itself once on load. */}
+        {/* The plane lives inside the SVG so it can travel the same curve as the dashes: the
+            CSS gives it that path as a motion path, in the viewBox's own units, so it stays on
+            the line at every width. It is drawn nose-down, hence the -90deg correction. */}
         <span className="hero__path" aria-hidden="true">
-          <svg viewBox="0 0 340 120" focusable="false">
+          <svg viewBox="0 0 340 120" focusable="false" overflow="visible">
             <path d="M4 112C70 112 128 92 176 56 206 33 236 16 272 10" fill="none" stroke="var(--green)" strokeWidth="2" strokeLinecap="round" strokeDasharray="7 9" opacity=".55" />
+            <image className="hero__plane" href="/assets/img/home/plane.webp" x="-21" y="-22" width="42" height="44" />
           </svg>
-          {/* The client's own plane, at the end of the trail. It is drawn nose-down, so it is
-              turned to fly along the path. */}
-          <img className="hero__plane" src="/assets/img/home/plane.webp" alt="" loading="lazy" />
         </span>
         <div className="hero__cols">
         <div className="hero__copy">
