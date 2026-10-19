@@ -17,7 +17,7 @@ export type CountrySeed = {
 
 export const seedCountries: CountrySeed[] = [
   {
-    code: "us", slug: "usa", name: "USA", tag: "Top-ranked universities", img: `${IMG}/unversity/z4.jpg`, hero: "Study in the United States", order: 1,
+    code: "us", slug: "usa", name: "USA", tag: "Top-ranked universities", img: `${IMG}/countries/usa.png`, hero: "Study in the United States", order: 1,
     intro: "The USA hosts more top-200 universities than any other country, with unmatched research funding, flexible curricula and the option to switch majors. For Indian students it remains the first choice for STEM, business and research-heavy master’s programmes.",
     stats: stat([["4,000+", "Universities"], ["3 yrs", "STEM OPT"], ["Fall / Spring", "Intakes"], ["$25k–55k", "Tuition / year"]]),
     why: ["Largest choice of universities and specialisations", "Assistantships, fellowships and merit scholarships", "STEM graduates get up to 3 years of OPT work authorisation", "Strong campus research and industry linkage"],
@@ -34,7 +34,7 @@ export const seedCountries: CountrySeed[] = [
     faq: qa([["Is GRE mandatory for the USA?", "Many universities have made GRE optional, but a good score still strengthens funding chances for STEM programmes."], ["How much funds proof is needed?", "Typically one year of tuition plus living costs as shown on your I-20."], ["Can my spouse join me?", "Yes, on an F-2 dependent visa, though F-2 holders cannot work."], ["What is the visa success rate with Trinity?", "Our counsellors screen documents and run mock interviews, which is where most refusals are prevented."]]),
   },
   {
-    code: "gb", slug: "uk", name: "UK", tag: "1-year master’s", img: `${IMG}/unversity/z1.jpg`, hero: "Study in the United Kingdom", order: 2,
+    code: "gb", slug: "uk", name: "UK", tag: "1-year master’s", img: `${IMG}/countries/uk.png`, hero: "Study in the United Kingdom", order: 2,
     intro: "The UK offers one-year master’s degrees that cut both tuition and living costs, with globally respected universities and a two-year Graduate Route work visa after graduation.",
     stats: stat([["160+", "Universities"], ["2 yrs", "Graduate Route"], ["Sept / Jan", "Intakes"], ["£16k–30k", "Tuition / year"]]),
     why: ["One-year master’s — faster return on investment", "Graduate Route lets you work for 2 years after the degree", "Strong in business, law, media, design and engineering", "No entrance exam required for most programmes"],
@@ -51,7 +51,7 @@ export const seedCountries: CountrySeed[] = [
     faq: qa([["Is a one-year master’s valid in India?", "Yes — UK master’s degrees are widely recognised by employers and for further study."], ["Do I need IELTS for the UK?", "Most universities require IELTS UKVI, though some accept MOI letters for Indian students."], ["How much does the Graduate Route cost?", "There is an application fee plus IHS; it is applied for from within the UK after graduation."], ["Are January intakes worth it?", "Yes — January offers less competition and a wider scholarship window at many universities."]]),
   },
   {
-    code: "ca", slug: "canada", name: "Canada", tag: "PR-friendly pathways", img: `${IMG}/unversity/z7.jpg`, hero: "Study in Canada", order: 3,
+    code: "ca", slug: "canada", name: "Canada", tag: "PR-friendly pathways", img: `${IMG}/countries/canada.png`, hero: "Study in Canada", order: 3,
     intro: "Canada combines affordable, high-quality education with generous post-graduation work permits and a well-defined permanent residency pathway — the reason it is the most PR-friendly destination for Indian students.",
     stats: stat([["100+", "Universities"], ["3 yrs", "PGWP"], ["Sep / Jan / May", "Intakes"], ["CAD 18k–35k", "Tuition / year"]]),
     why: ["Post-Graduation Work Permit up to 3 years", "Express Entry and PNP pathways to permanent residency", "Lower tuition than the USA, UK and Australia", "Safe, multicultural cities with large Indian communities"],
@@ -68,7 +68,7 @@ export const seedCountries: CountrySeed[] = [
     faq: qa([["Is a 3-year degree accepted in Canada?", "Yes, most Canadian universities and colleges accept 3-year Indian bachelor’s degrees for master’s and PG diplomas."], ["What is the GIC used for?", "It is your proof of living expenses; the bank releases it to you in instalments after arrival."], ["Which intake is best?", "September has the widest course choice; January and May are good for faster starts."], ["Does college study qualify for PGWP?", "Yes, when the programme and institution are PGWP-eligible — we verify this before you apply."]]),
   },
   {
-    code: "ie", slug: "ireland", name: "Ireland", tag: "Tech & pharma hub", img: `${IMG}/unversity/z8.jpg`, hero: "Study in Ireland", order: 4,
+    code: "ie", slug: "ireland", name: "Ireland", tag: "Tech & pharma hub", img: `${IMG}/countries/ireland.png`, hero: "Study in Ireland", order: 4,
     intro: "Ireland is the European base for global technology and pharmaceutical companies, which makes internships and graduate hiring unusually accessible for international students.",
     stats: stat([["20+", "Universities"], ["2 yrs", "Stay-back (master’s)"], ["Sept / Jan", "Intakes"], ["€12k–25k", "Tuition / year"]]),
     why: ["European HQs of major tech and pharma employers", "Two-year stay-back for master’s graduates", "English-speaking, EU-member destination", "Strong scholarship support for Indian students"],
@@ -85,7 +85,7 @@ export const seedCountries: CountrySeed[] = [
     faq: qa([["Why is Ireland popular for tech?", "Google, Meta, Microsoft, Apple, Pfizer and many others run European operations from Ireland, creating graduate demand."], ["Is IELTS mandatory?", "Most universities require it, though some accept English-medium instruction letters."], ["How long does the visa take?", "Typically 4–8 weeks, so apply as soon as you have paid the deposit."], ["Can I bring dependants?", "Spouses may accompany you but usually cannot work on a student dependant stamp."]]),
   },
   {
-    code: "de", slug: "germany", name: "Germany", tag: "Low-tuition engineering", img: `${IMG}/unversity/z10.jpg`, hero: "Study in Germany", order: 5,
+    code: "de", slug: "germany", name: "Germany", tag: "Low-tuition engineering", img: `${IMG}/countries/germany.png`, hero: "Study in Germany", order: 5,
     intro: "Most public universities in Germany charge no tuition fee — you fund living costs through a blocked account. For engineering and applied sciences it is the best value destination in Europe.",
     stats: stat([["400+", "Institutions"], ["18 mo", "Job-seeker visa"], ["Winter / Summer", "Intakes"], ["€0–1.5k", "Tuition / semester"]]),
     why: ["No or very low tuition at public universities", "18-month post-study job-seeking permit", "Europe’s largest engineering job market", "English-taught master’s programmes widely available"],
@@ -102,7 +102,7 @@ export const seedCountries: CountrySeed[] = [
     faq: qa([["Is German necessary?", "Not for English-taught master’s, but B1 German significantly improves part-time work and hiring prospects."], ["What is APS?", "A mandatory academic evaluation certificate for Indian students applying to German universities."], ["Are public universities really free?", "Yes — most charge no tuition, only a semester contribution of €150–€350."], ["How early should I start?", "10–12 months ahead: APS and blocked account add significant lead time."]]),
   },
   {
-    code: "au", slug: "australia", name: "Australia", tag: "Post-study work visa", img: `${IMG}/unversity/z6.jpg`, hero: "Study in Australia", order: 6,
+    code: "au", slug: "australia", name: "Australia", tag: "Post-study work visa", img: `${IMG}/countries/australia.png`, hero: "Study in Australia", order: 6,
     intro: "Australia pairs globally ranked universities with generous post-study work rights and strong part-time work allowances — a practical, well-supported destination for Indian students.",
     stats: stat([["40+", "Universities"], ["2–4 yrs", "Post-study work"], ["Feb / July", "Intakes"], ["AUD 25k–45k", "Tuition / year"]]),
     why: ["Temporary Graduate visa of 2–4 years", "High part-time earning potential during study", "8 universities in the global top 150", "Regional study bonuses add extra stay-back time"],
@@ -119,7 +119,7 @@ export const seedCountries: CountrySeed[] = [
     faq: qa([["What replaced the GTE requirement?", "The Genuine Student (GS) requirement — a structured set of questions about your course and plans."], ["Is regional study better?", "It can be: lower living costs, extra post-study work time and additional PR points."], ["Can I work full time after the course ends?", "Yes, once your course is complete and until your student visa expires."], ["How much funds must I show?", "Tuition plus AUD 29,710 living costs, as required for subclass 500."]]),
   },
   {
-    code: "nz", slug: "new-zealand", name: "New Zealand", tag: "Safe & scenic study", img: `${IMG}/unversity/z3.jpg`, hero: "Study in New Zealand", order: 7,
+    code: "nz", slug: "new-zealand", name: "New Zealand", tag: "Safe & scenic study", img: `${IMG}/countries/new-zealand.png`, hero: "Study in New Zealand", order: 7,
     intro: "All eight New Zealand universities rank in the global top 3%, with small class sizes, strong pastoral care and a three-year post-study work visa for degree graduates.",
     stats: stat([["8", "Universities"], ["3 yrs", "Post-study work"], ["Feb / July", "Intakes"], ["NZD 22k–38k", "Tuition / year"]]),
     why: ["Every university globally ranked", "Up to 3 years post-study work for degree holders", "Safe, English-speaking, outdoor lifestyle", "Lower cost of living than Australia"],
@@ -136,7 +136,7 @@ export const seedCountries: CountrySeed[] = [
     faq: qa([["Is New Zealand affordable?", "Living costs are lower than Australia, and tuition sits in the mid range for English-speaking destinations."], ["Are all universities recognised?", "Yes — all eight New Zealand universities rank in the global top 3%."], ["Which intakes exist?", "February and July, with some November starts for select programmes."], ["Can my partner work?", "Partners of master’s and doctoral students can often apply for an open work visa."]]),
   },
   {
-    code: "fr", slug: "france", name: "France", tag: "Business & fashion", img: `${IMG}/unversity/z2.jpg`, hero: "Study in France", order: 8,
+    code: "fr", slug: "france", name: "France", tag: "Business & fashion", img: `${IMG}/countries/france.png`, hero: "Study in France", order: 8,
     intro: "France hosts Europe’s leading business schools alongside strong public universities, with low public tuition and generous scholarships for Indian students.",
     stats: stat([["3,500+", "Institutions"], ["2 yrs", "APS stay-back"], ["Sept / Jan", "Intakes"], ["€3k–20k", "Tuition / year"]]),
     why: ["Top-tier grandes écoles for business and management", "Low public-university tuition", "Two-year job search permit after master’s", "Fashion, luxury and culinary programmes unmatched in Europe"],
