@@ -21,10 +21,14 @@ export async function Hero({ b, contact }: { b: HeroBlock; contact: ContactSetti
         <h1 className="h1 hero__title"><Words words={b.words} start={0.25} /></h1>
         {/* The dashed flight path from the client's design, arcing out of the headline towards
             the enquiry card. Decorative, and it draws itself once on load. */}
-        <svg className="hero__path" viewBox="0 0 340 120" aria-hidden="true" focusable="false">
-          <path d="M4 112C70 112 128 92 176 56 206 33 236 16 272 10" fill="none" stroke="var(--green)" strokeWidth="2" strokeLinecap="round" strokeDasharray="7 9" opacity=".55" />
-          <path d="M300 4l-26 11 11 4 2 11 13-26z" fill="var(--navy)" />
-        </svg>
+        <span className="hero__path" aria-hidden="true">
+          <svg viewBox="0 0 340 120" focusable="false">
+            <path d="M4 112C70 112 128 92 176 56 206 33 236 16 272 10" fill="none" stroke="var(--green)" strokeWidth="2" strokeLinecap="round" strokeDasharray="7 9" opacity=".55" />
+          </svg>
+          {/* The client's own plane, at the end of the trail. It is drawn nose-down, so it is
+              turned to fly along the path. */}
+          <img className="hero__plane" src="/assets/img/home/plane.webp" alt="" loading="lazy" />
+        </span>
         <div className="hero__cols">
         <div className="hero__copy">
           <p className="hero__text w__in" style={{ animationDelay: ".85s" }}>{b.text}</p>

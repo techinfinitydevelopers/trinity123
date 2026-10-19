@@ -1680,3 +1680,14 @@ main:has(> .cta-block:last-child) + .footer{margin-top:0}
 .hive__item--1 .hive__item__face,.hive__item--3 .hive__item__face{background:linear-gradient(160deg,var(--navy-2) 0%,var(--navy-3) 100%)}
 .hive__item strong{font-size:clamp(17px,1.4vw + 10px,21px)}
 .hive__item span{font-size:clamp(9px,.45vw + 7px,10.5px)}
+
+/* The flight trail is a positioned box now: the dashes are the SVG, the plane is the client's
+   own image sitting at the end of them. */
+.hero__path{display:block}
+.hero__path svg{display:block;width:100%;height:auto}
+.hero__plane{
+  position:absolute;right:-4%;top:-14%;width:clamp(42px,4.4vw,62px);height:auto;
+  /* The artwork is drawn nose-down; this turns it to fly up and to the right along the trail. */
+  transform:rotate(217deg);
+  filter:drop-shadow(0 6px 12px rgba(26,36,86,.18));
+}
