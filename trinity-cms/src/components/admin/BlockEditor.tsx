@@ -10,6 +10,23 @@ import { toast, Field } from "./ui";
 
 export type PageData = { slug: string; title: string; navLabel: string; seoTitle: string; seoDesc: string; ogImage: string; blocks: Block[]; isSystem: boolean };
 
+/* The editor builds its form from the keys a block actually has, so an optional field missing
+   from the stored JSON simply has no control — a service saved without `img` could never be
+   given a picture, and a webinar block without `layout` could never be switched to the gallery.
+   Each block is filled out against its template on the way in: only scalar keys the block is
+   missing, never arrays or objects, so nothing the owner has written is touched. */
+function withTemplateFields(b: Block, templates: Record<string, Block | undefined>): Block {
+  const t = templates[b.type] as Record<string, unknown> | undefined;
+  if (!t) return b;
+  const out = { ...(b as Record<string, unknown>) };
+  for (const [k, v] of Object.entries(t)) {
+    if (k in out) continue;
+    if (v === null || typeof v === "object") continue;
+    out[k] = typeof v === "string" ? "" : typeof v === "number" ? 0 : typeof v === "boolean" ? false : v;
+  }
+  return out as Block;
+}
+
 export default function BlockEditor({ initial }: { initial: PageData }) {
   const [page, setPage] = useState<PageData>(initial);
   const [sel, setSel] = useState(0);
@@ -26,6 +43,11 @@ export default function BlockEditor({ initial }: { initial: PageData }) {
   const [stamp, setStamp] = useState(0); // 0 on first render so server & client markup match
   const frame = useRef<HTMLIFrameElement>(null);
   const templates = useMemo(() => blockTemplates(), []);
+  /* Fill each block out against its template once, when the page arrives, so every optional
+     field has a control. It runs on `initial`, not on every edit, or typing would fight it. */
+  useEffect(() => {
+    setPage((s) => ({ ...s, blocks: s.blocks.map((b) => withTemplateFields(b, templates)) }));
+  }, [initial, templates]);
   const path = page.slug === "home" ? "/" : `/${page.slug}`;
 
   const update = (p: Partial<PageData>) => { setPage((s) => ({ ...s, ...p })); setDirty(true); };

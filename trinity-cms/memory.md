@@ -1401,3 +1401,45 @@ under `prefers-reduced-motion`.
 
 The destination pages' country name was a separate inline-styled span; it carries the same class
 and the same treatment now.
+
+## 2026-10-19 — Ten-agent review, and what it caught
+
+**Two blockers I had introduced the same day:**
+- The short-window hero rule cut the top padding to 92px while the header is **fixed and 134px
+  tall**, so on a 1366x768 or 1280x800 laptop the first line of the headline was painted over by
+  the nav: the page read "Needs a Direction". The padding can never go under the header — it is
+  138px there and 124px on a tall window, with the space taken from the gap below the lead
+  instead. Verified by **glyph ink**, not box top: ink clears the header at 1440x900, 1366x768,
+  1280x800 and 1920x1080, and the call to action is still in the fold at all four.
+- `.seg__logo-img img{max-height:100%}` — a percentage max-height on a `place-items:center`
+  grid item **resolves against an indefinite area in Chromium and is ignored**, so each 512x276
+  sister logo rendered 195px tall in a 92px box, straight over its own company name and "Visit
+  site" link. Explicit `width/height:100%` resolves.
+
+**And one that misrepresented a real person:** the About Us story photograph was swapped to the
+counsellor-and-family shot but the gold caption still read "Our Founder / Mr Baby John /
+Industry veteran & visionary" — a named person's credit sitting on a photograph of somebody
+else. The caption now describes the picture. **The founder's credit needs a place of its own.**
+
+**Other real finds, all fixed:** services CTA floating mid-card with up to 379px of white below
+it (`margin-top:auto`); the number scrim on the picture's bottom edge while the number is at the
+top (1.4:1 contrast on two cards); 22px tap target on the only link into each service;
+`exams.webp` cropped through a face; the hamburger section that could not be closed by tapping
+its own header (the outside-click handler only knew about the desktop list); 1,013px of empty
+white in the header at 1280/1366 (the links are shown, tighter, from 1180px up); the phone menu
+overflowing a 320px screen; the WhatsApp glow on "Itarsia India Limited" at exactly 1500px; the
+footer columns 20px under the last card where the banner is hidden; the webinar posters, which
+are portrait and were losing 55% of themselves to a 16:9 box; `.pin__ghost` rendering 4,984px
+wide in a 1,351px box; and the counters having no safety net if the observer never fires.
+
+**Every `repeat(auto-fit, minmax(300px,1fr))` on the site had a hard floor**, so at 320px the
+track stayed 300px inside a 269px container — 194 elements past the viewport on the home page
+alone. All seventeen are `minmax(min(Npx,100%),1fr)` now. Swept 320/360/414/480/600/768/900/1024:
+real overflow is zero at every width.
+
+**Countries went back to 39 again** — commit `c8dc4f7`, another session. Reset to 50 in the seed
+and in both databases. **If it comes back a third time, that session is doing it.**
+
+**Still open, not mine to touch:** the chat widget's expanded pill sits on the hero form's submit
+button at every desktop size (46-61% of it), and on a phone the two floating buttons cover the
+"1200+ Universities" honeycomb cell. `chat.css` is being actively edited by another session.

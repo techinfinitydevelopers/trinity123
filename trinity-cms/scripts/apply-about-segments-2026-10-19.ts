@@ -69,6 +69,14 @@ async function main() {
          building in Edinburgh. */
       mainImg: "/assets/img/about/counsel-1.webp",
       mainAlt: "A Trinity advisor with a student and her parents",
+      /* The gold caption on that photograph still read "Our Founder / Mr Baby John / Industry
+         veteran & visionary" — written for the founder's portrait, which this replaced. It was
+         putting a real person's name on a photograph of somebody else. The caption describes
+         what is actually in the picture. The founder's credit needs a place of its own; say
+         where and it goes back. */
+      capSmall: "In our office",
+      capStrong: "Guidance, one family at a time",
+      capSpan: "Mumbai · Kalina, Santacruz (E)",
       sideImg: "/assets/img/about/counsel-2.webp",
       sideAlt: "A family going through university brochures with their advisor",
     };

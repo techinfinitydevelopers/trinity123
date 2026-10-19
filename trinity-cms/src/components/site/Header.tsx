@@ -25,7 +25,15 @@ export default function Header({ nav, contact, site, labels, destinations }: { n
   // Click-opened menus must close when the visitor clicks anywhere else.
   useEffect(() => {
     if (openMenu < 0) return;
-    const onDown = (e: MouseEvent) => { if (!navRef.current?.contains(e.target as Node)) setOpenMenu(-1); };
+    /* `navRef` is the desktop list, so every mousedown inside the hamburger panel counted as
+       "outside" and reset `openMenu` — then the button's own click toggled against the already
+       reset value and re-opened the same section. Tapping an open section's header to close it
+       did nothing. The panel is part of the menu, so clicks inside it are not outside. */
+    const onDown = (e: MouseEvent) => {
+      const t = e.target as Element | null;
+      if (navRef.current?.contains(t as Node) || t?.closest?.(".mobile-menu")) return;
+      setOpenMenu(-1);
+    };
     document.addEventListener("mousedown", onDown);
     return () => document.removeEventListener("mousedown", onDown);
   }, [openMenu]);

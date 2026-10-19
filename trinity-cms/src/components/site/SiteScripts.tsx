@@ -56,7 +56,7 @@ export default function SiteScripts() {
     /* counters */
     const stats = document.getElementById("stats");
     let sio: IntersectionObserver | undefined;
-    let countRaf = 0, countTimer = 0;
+    let countRaf = 0, countTimer = 0, countSafety = 0;
     if (stats) {
       const els = stats.querySelectorAll<HTMLElement>(".counter");
       const target = (el: HTMLElement) => parseInt(el.dataset.count ?? "0", 10);
@@ -91,6 +91,11 @@ export default function SiteScripts() {
          it showing is enough. */
       sio = new IntersectionObserver((entries) => { if (entries[0].isIntersecting) run(); }, { threshold: 0 });
       sio.observe(stats);
+      /* The timer inside `run()` only rescues a stalled animation — it cannot help if the
+         observer never fires at all, which is what a hidden or backgrounded tab does. The
+         reveal code has the same safety net a few lines above; the figures get one too, so
+         they are never left sitting at zero. */
+      countSafety = window.setTimeout(run, 4000);
     }
 
     const onTop = () => window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
@@ -178,7 +183,7 @@ export default function SiteScripts() {
     return () => {
       io.disconnect(); sio?.disconnect();
       window.clearTimeout(revealTimer);
-      cancelAnimationFrame(countRaf); window.clearTimeout(countTimer);
+      cancelAnimationFrame(countRaf); window.clearTimeout(countTimer); window.clearTimeout(countSafety);
       toTop?.removeEventListener("click", onTop);
       window.removeEventListener("scroll", onScrollRaf);
       window.removeEventListener("resize", onScroll);

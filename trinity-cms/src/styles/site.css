@@ -129,13 +129,13 @@ button{font:inherit;cursor:pointer}
 .section--tight{padding-top:0}
 .section .container{padding:0}
 .section__glow{position:absolute;width:700px;height:700px;border-radius:50%;background:var(--primary);filter:blur(180px);opacity:.35;right:-250px;top:-250px;pointer-events:none}
-.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:64px;align-items:center}
+.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:64px;align-items:center}
 .split--top{align-items:start}
 .split--end{align-items:end;gap:40px;margin-bottom:56px}
 .grid{display:grid;gap:24px}
-.grid--2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px}
-.grid--3{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px}
-.grid--4{grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.grid--2{grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:28px}
+.grid--3{grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:28px}
+.grid--4{grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));gap:20px}
 
 /* ---------- Reveal & words ---------- */
 [data-reveal]{opacity:0;transform:translateY(34px);transition:opacity .8s var(--ease) var(--d,0s),transform .8s var(--ease) var(--d,0s)}
@@ -257,7 +257,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .ring{position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;border:1.5px dashed rgba(255,255,255,.3);animation:spin 24s linear infinite}
 .chip--float{left:-22px;top:42%;animation-duration:6s}
 .chip--float strong{font-size:13px;font-weight:600}
-.tagcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:30px 0 36px}
+.tagcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:12px;margin:30px 0 36px}
 .tagcard{background:var(--grey);border-radius:18px;padding:18px 16px;transition:all .4s var(--ease)}
 .tagcard:hover{transform:translateY(-8px);box-shadow:0 24px 50px rgba(26,36,86,.14)}
 .tagcard__ico{width:36px;height:36px;border-radius:10px;background:#fff;color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:15px;margin-bottom:12px}
@@ -287,7 +287,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .stack{display:flex;flex-direction:column}
 .stack__wrap{position:sticky;top:calc(110px + var(--i) * 16px);padding-bottom:48px;z-index:calc(var(--i) + 1)}
 .stack__wrap:last-child{padding-bottom:0}
-.stack__card{background:linear-gradient(135deg,var(--navy-2) 0%,var(--navy) 100%);color:#fff;border-radius:36px;padding:clamp(28px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(28px,4vw,56px);align-items:center;min-height:min(540px,74vh);box-shadow:var(--shadow-lg);border:1px solid rgba(255,255,255,.1);position:relative;overflow:hidden;transform-origin:top center;will-change:transform}
+.stack__card{background:linear-gradient(135deg,var(--navy-2) 0%,var(--navy) 100%);color:#fff;border-radius:36px;padding:clamp(28px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:clamp(28px,4vw,56px);align-items:center;min-height:min(540px,74vh);box-shadow:var(--shadow-lg);border:1px solid rgba(255,255,255,.1);position:relative;overflow:hidden;transform-origin:top center;will-change:transform}
 .stack__card--purple{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-2) 100%)}
 .stack__grid{background-size:56px 56px}
 .stack__glow{position:absolute;right:-120px;top:-120px;width:460px;height:460px;border-radius:50%;background:var(--primary);filter:blur(130px);opacity:.5;pointer-events:none}
@@ -302,7 +302,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .dots i.on{background:var(--gold)}.dots i.cur{width:28px}
 .stack__copy h3{color:#fff;font-size:clamp(1.8rem,3.2vw,2.8rem);font-weight:700;letter-spacing:-1.2px;line-height:1.05;text-wrap:balance}
 .stack__copy > p{margin-top:18px;line-height:1.8;font-size:16px;color:rgba(255,255,255,.75);max-width:520px;text-wrap:pretty}
-.checks{margin:26px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px 18px}
+.checks{margin:26px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(170px,100%),1fr));gap:10px 18px}
 .checks li{display:flex;align-items:center;gap:10px;font-size:14.5px;font-weight:500;color:#fff}
 .checks li i{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);display:inline-flex;align-items:center;justify-content:center;font-size:10px;color:var(--gold);flex-shrink:0}
 .stack__visual{position:relative;display:flex;justify-content:center;align-items:center;min-height:320px}
@@ -314,7 +314,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .chip--sb{left:0;bottom:4%;animation-duration:7s;animation-delay:1s;font-size:13px;font-weight:500;padding:10px 18px;gap:10px}
 
 /* ---------- Country cards ---------- */
-.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(150px,100%),1fr));gap:14px}
 .ccard{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:14px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px 18px 18px;color:var(--navy);transition:all .4s var(--ease);overflow:hidden}
 .ccard__fill{position:absolute;inset:0;background:linear-gradient(135deg,var(--primary),var(--primary-2));transform:translateY(100%);transition:transform .45s var(--ease);border-radius:22px}
 .ccard__flag{position:relative;width:52px;height:52px;border-radius:50%;overflow:hidden;box-shadow:0 8px 20px rgba(26,36,86,.15);border:2px solid #fff;flex-shrink:0}
@@ -381,7 +381,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .stat--dark .stat__label{color:rgba(255,255,255,.6)}
 
 /* ---------- CTA band ---------- */
-.cta{background:linear-gradient(120deg,var(--navy) 0%,var(--navy-2) 45%,var(--primary) 100%);border-radius:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));align-items:end;position:relative;overflow:hidden;box-shadow:var(--shadow-lg);color:#fff}
+.cta{background:linear-gradient(120deg,var(--navy) 0%,var(--navy-2) 45%,var(--primary) 100%);border-radius:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));align-items:end;position:relative;overflow:hidden;box-shadow:var(--shadow-lg);color:#fff}
 /* Also carries `.container`, so it must out-specify `.section .container{padding:0}`. */
 .section .cta--center{text-align:center;display:block;padding:clamp(40px,6vw,80px)}
 .cta--center > div{position:relative;max-width:760px;margin:0 auto}
@@ -437,7 +437,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .page-hero{background:var(--cream);padding:190px 24px 110px;position:relative;overflow:hidden}
 .page-hero__bg{background:radial-gradient(ellipse 55% 60% at 80% 30%,rgba(91,132,196,.20),transparent 70%),radial-gradient(ellipse 40% 40% at 10% 90%,rgba(26,188,156,.14),transparent 70%),linear-gradient(160deg,#fff8ec 0%,var(--cream) 55%,#fdf3e0 100%)}
 .page-hero__ghost{position:absolute;right:-2%;bottom:-30px;font-family:var(--font-h);font-weight:800;font-size:clamp(6rem,16vw,15rem);line-height:1;letter-spacing:-8px;color:transparent;-webkit-text-stroke:1px rgba(35,47,112,.10);pointer-events:none;user-select:none;white-space:nowrap;will-change:transform}
-.page-hero__inner{position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:40px;align-items:center;padding:0}
+.page-hero__inner{position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:40px;align-items:center;padding:0}
 .page-hero .h1{color:var(--navy)}
 .page-hero__sub{color:var(--text);margin-top:22px;font-size:17px;max-width:600px;line-height:1.7;text-wrap:pretty;opacity:0;animation:wordUp .9s .5s var(--ease) forwards}
 .crumbs{display:inline-flex;align-items:center;gap:10px;color:var(--muted-ink);font-family:var(--font-h);font-weight:500;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:22px}
@@ -557,7 +557,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .wcard p{position:relative;line-height:1.75;font-size:15px;transition:color .4s}
 .wcard:hover{transform:translateY(-8px);box-shadow:0 30px 60px rgba(26,36,86,.2)}
 .wcard:hover .wcard__fill{transform:scaleY(1)}.wcard:hover h3{color:#fff}.wcard:hover p{color:rgba(255,255,255,.72)}.wcard:hover .wcard__num{color:rgba(255,255,255,.1)}
-.sgrid{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}
+.sgrid{grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:22px}
 .scard{background:#fff;border-radius:28px;padding:38px 32px;display:flex;flex-direction:column;color:var(--navy)}
 .scard--wide{grid-column:span 2}
 .scard__fill{background:linear-gradient(135deg,var(--navy),var(--navy-2) 60%,var(--primary))}
@@ -565,7 +565,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .scard__ico{position:relative;width:64px;height:64px;border-radius:18px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:26px;transition:all .4s}
 .scard h3{position:relative;font-size:21px;font-weight:600;margin-bottom:12px;text-wrap:balance;transition:color .4s}
 .scard p{position:relative;line-height:1.75;font-size:15px;text-wrap:pretty;transition:color .4s}
-.checks--dark{margin-top:20px;position:relative;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.checks--dark{margin-top:20px;position:relative;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr))}
 .checks--dark li{color:var(--navy);font-size:14px;align-items:flex-start;transition:color .4s}
 .checks--dark li i{background:none;border:0;color:var(--gold);font-size:14px;width:auto;height:auto;margin-top:3px}
 .scard__link{position:relative;margin-top:26px;display:inline-flex;align-items:center;gap:10px;font-family:var(--font-h);font-weight:600;font-size:14px;color:var(--primary);width:fit-content;transition:color .4s}
@@ -600,7 +600,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .formcard{background:#fff;border-radius:32px;padding:clamp(28px,4vw,52px);box-shadow:0 20px 50px rgba(26,36,86,.06);position:relative;overflow:hidden}
 .formcard__ring{position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;border:40px solid var(--grey)}
 .formcard .lead{margin:12px 0 30px;position:relative}
-.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;position:relative}
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:16px;position:relative}
 .form__field{display:flex;flex-direction:column;gap:6px}
 .form__field--full{grid-column:1/-1}
 .form label{font-family:var(--font-h);font-weight:600;font-size:13px;color:var(--navy)}
@@ -633,7 +633,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .footer__cta::before{content:"";position:absolute;right:-60px;top:-80px;width:260px;height:260px;border-radius:50%;border:40px solid rgba(255,255,255,.07)}
 .footer__cta .kicker{font-size:12px;letter-spacing:2.5px;margin-bottom:10px}.footer__cta .kicker::before{display:none}
 .footer__cta-title{color:#fff;font-size:clamp(1.5rem,2.6vw,2.2rem);font-weight:700;letter-spacing:-1px;line-height:1.15;max-width:560px;text-wrap:balance}
-.footer .footer__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:48px 40px;padding-bottom:60px}
+.footer .footer__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));gap:48px 40px;padding-bottom:60px}
 .footer__logo{background:#fff;border:1px solid rgba(35,47,112,.08);border-radius:16px;padding:12px 18px;display:inline-block}
 .footer__logo img{height:50px;width:auto}
 .footer__brand p{margin-top:24px;line-height:1.8;font-size:15px;max-width:360px;text-wrap:pretty}
@@ -755,11 +755,11 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .blog-tags{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:40px}
 .blog-tags a{font-family:var(--font-h);font-weight:500;font-size:14px;color:var(--navy);background:#fff;border:1px solid var(--line);padding:10px 20px;border-radius:var(--r-pill);transition:all .3s}
 .blog-tags a:hover,.blog-tags a.is-active{background:var(--primary);border-color:var(--primary);color:#fff}
-.bgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px}
-.bgrid--2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.bgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:28px}
+.bgrid--2{grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
 .pcard{background:#fff;border-radius:var(--r-card);overflow:hidden;display:flex;flex-direction:column;transition:all .45s var(--ease);box-shadow:0 10px 30px rgba(26,36,86,.05)}
 .pcard:hover{transform:translateY(-8px);box-shadow:0 30px 60px rgba(26,36,86,.16)}
-.pcard--big{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.pcard--big{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))}
 .pcard__media{position:relative;display:block;aspect-ratio:16/10;overflow:hidden}
 .pcard--big .pcard__media{aspect-ratio:auto;min-height:340px}
 .pcard__media img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
@@ -1055,7 +1055,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .campus__criteria ul{list-style:none;display:flex;flex-direction:column;gap:12px}
 .campus__criteria li{display:flex;gap:12px;align-items:flex-start;font-size:15.5px;line-height:1.6;color:var(--text)}
 .campus__criteria li i{flex-shrink:0;margin-top:5px;font-size:11px;color:var(--teal-ink)}
-.campus__logo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:14px}
+.campus__logo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(120px,100%),1fr));gap:14px}
 .campus__logo{display:grid;place-items:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;min-height:76px}
 .campus__logo img{max-width:100%;max-height:44px;object-fit:contain}
 /* The empty state is a real message, not a dashed box pretending to be a logo. */
@@ -1381,7 +1381,9 @@ a.seg__logo:hover .seg__logo-go i{transform:translate(2px,-2px)}
    padding, the gap between the lead line and the picture, and 30px off the card. Nothing is
    removed and no type gets smaller. */
 @media (min-width:1200px){
-  .hero{padding-top:116px;padding-bottom:64px}
+  /* The header is fixed and 133px tall. 116 leaves the line box under it — the big type's
+     ascent gap means the glyphs still clear, but only just, so it is nudged to 124. */
+  .hero{padding-top:124px;padding-bottom:60px}
   .hero-visual{margin-top:10px}
   .hero-visual__frame{max-width:400px}
 }
@@ -1447,7 +1449,11 @@ a.seg__logo:hover .seg__logo-go i{transform:translate(2px,-2px)}
 @media (prefers-reduced-motion:reduce){ .page-hero__ghost{animation:none;opacity:1;transform:none} }
 /* On a phone it tucks a little closer to the corner; the size already comes from the word. */
 @media (max-width:640px){
-  .page-hero__ghost{right:14px;bottom:-8px;letter-spacing:-.03em}
+  /* 0.63em a character is an average; wide caps (W, M, D) blow past it, and the per-character
+     budget gets more generous as the word gets shorter — so six and seven-letter names with wide
+     letters were the worst case. "SWEDEN" lost its S off the screen edge and its N to the hero's
+     own overflow. A tighter budget on phones, where there is no room to absorb the error. */
+  .page-hero__ghost{font-size:min(calc(90vw / (var(--ghost-len,10) * 0.72)), 8.5rem);right:14px;bottom:-8px;letter-spacing:-.03em}
 }
 /* The destination pages carry the same watermark. They are not inside `.page-hero`, so they
    need the fill rule in their own right; the rest they inherit from the class. */
@@ -1456,3 +1462,103 @@ a.seg__logo:hover .seg__logo-go i{transform:translate(2px,-2px)}
   -webkit-text-stroke:1.5px rgba(35,47,112,.16);
   line-height:.8;text-transform:uppercase;pointer-events:none;user-select:none;will-change:transform;
 }
+
+/* ---------- Narrow screens: grids that could not shrink ---------- */
+/* Every `repeat(auto-fit, minmax(300px, 1fr))` on the site had a hard floor, so on a 320px
+   phone the track stayed 300px wide inside a 269px container and the whole page overflowed —
+   194 elements past the viewport edge on the home page alone. `min(300px, 100%)` keeps the
+   intended column width when there is room and lets the track collapse when there is not.
+   (Applied to all seventeen of them above; this note is where the reasoning lives.) */
+
+/* Grid and flex children default to `min-width:auto`, which is their min-content width — a long
+   unbroken word or a wide child then pushes the track open no matter what the track says. */
+.split > *,.page-hero__inner > *,.cta > *,.form > *,.footer__grid > *{min-width:0}
+
+/* ---------- Fixes from the ten-agent review ---------- */
+
+/* SERVICES — the call to action floated in the middle of a short card. `.scard` is a flex
+   column but the link had a fixed top margin, so in a stretched grid row a short card left up
+   to 379px of white below a stranded "Talk to an expert". It anchors to the bottom now and the
+   links across a row line up. */
+.scard__link{margin-top:auto;padding-top:26px}
+
+/* The scrim that keeps the white number legible was on the picture's BOTTOM edge while the
+   number sits at the top — so over a pale photo (scholarship, visa) the number was a smudge at
+   about 1.4:1. It belongs where the number is. */
+.scard__shot::after{inset:0 0 auto;height:46%;background:linear-gradient(rgba(26,36,86,.5),transparent)}
+
+/* The standing man's eyes sit in the top third of this portrait, and a centred 16:10 crop cut
+   straight through his glasses. */
+.scard__shot img[src*="exams"]{object-position:center 30%}
+
+@media (max-width:640px){
+  /* The only way into a service was a 22px-tall link — half the minimum tap target, and the
+     sole route into each card. */
+  .scard__link{min-height:44px;align-items:center}
+}
+
+/* HAMBURGER — the rows inside an open section were 40-42px, under the minimum. */
+.mm-countries a{padding:12px 10px!important}
+.mm-all{padding:12px 14px!important}
+
+/* The panel's height was capped at a hard-coded 150px of header chrome. The header is 155px
+   tall on a 320px phone, so the card's bottom edge fell 15px below the fold. The header is a
+   column now and the panel simply takes what is left of the screen. */
+.site-header{display:flex;flex-direction:column;max-height:100dvh}
+.mobile-menu{min-height:0;flex:0 1 auto}
+
+/* The WhatsApp button's glow landed on "Itarsia India Limited" at exactly 1500px, where the
+   last row's padding drops but the button has not yet moved clear. */
+@media (min-width:1500px){ .footer .footer__bottom{padding-bottom:40px;padding-right:80px} }
+
+/* NAVIGATION — the horizontal menu was hidden below 1421px, which left 1013px of empty white
+   between the logo and the hamburger on a 1280 or 1366 laptop: it read as a header whose menu
+   had failed to load. The links need about 1437px at full size, so between 1180 and 1420 they
+   are set a little tighter and shown instead of hidden. */
+@media (min-width:1180px) and (max-width:1420px){
+  .nav__links{display:flex;font-size:13px;gap:2px;padding:4px}
+  .nav__links a,.nav__links .cv-ddbtn{padding:9px 11px}
+  .nav{gap:12px}
+  .nav__cta{padding:11px 16px;font-size:12.5px}
+  .nav__toggle{display:none}
+}
+
+/* ABOUT US — the three sister logos were covering their own card text. `max-height:100%` on a
+   grid item resolves against an indefinite grid area in Chromium and is simply ignored, so a
+   512x276 logo rendered 195px tall inside a 92px box, straight over the company name and the
+   "Visit site" link, and 4px past the card's bottom edge. Explicit dimensions resolve. */
+.seg__logo-img{overflow:hidden}
+.seg__logo-img img{width:100%;height:100%;max-width:none;max-height:none;object-fit:contain}
+
+/* The story collage had no phone layout at all, so on a 375px screen the photograph was a
+   170px-wide vertical slice of a three-person group shot with a caption panel over most of it. */
+@media (max-width:640px){
+  .bento{grid-template-columns:1fr}
+  .bento__main{grid-row:auto;min-height:280px;border-radius:28px 60px 28px 28px}
+}
+
+/* Where a page ends with its own call to action the footer's banner is hidden — and with it the
+   60px of margin that was holding the footer's columns clear. They ended up 20px below the
+   page's last card. The pull-up only makes sense when the banner is there to fill it. */
+main:has(> .cta-block:last-child) + .footer{margin-top:0}
+
+/* WEBINARS — the posters are portrait (410x512) and the gallery forced them into a 16:9 box,
+   which threw away 55% of every one of them: the middle poster lost its "Thank You" line off the
+   bottom. On its own page a poster is printed whole, which is what the page is for. */
+.webinar__snips--wide .webinar__snip img{aspect-ratio:auto;height:auto;object-fit:contain;background:#fff}
+
+/* The short-window hero block above bought vertical space by cutting the top padding to 92px —
+   but the header is fixed and 134px tall, so on a 1366x768 or 1280x800 laptop the first line of
+   the headline was painted over by the nav bar: the page read "Needs a Direction". The padding
+   can never go under the header; the space comes from the gap below the lead instead. */
+@media (min-width:1200px) and (max-height:860px){
+  .hero{padding-top:138px}
+  .hero__cols{margin-top:10px}
+  .hero__text{margin-bottom:6px}
+}
+
+/* The pinned universities band kept the old flat `clamp(8rem,22vw,20rem)`: its 32-character
+   string rendered 4,984px wide inside a 1,351px box, so three quarters of it was clipped and it
+   read as a graphic glitch rather than a word. It is sized from its length like the others —
+   `--ghost-len` is set on the element, with 32 as the fallback for its seeded string. */
+.pin__ghost{font-size:min(calc(94vw / (var(--ghost-len,32) * 0.63)), 8.5rem)}

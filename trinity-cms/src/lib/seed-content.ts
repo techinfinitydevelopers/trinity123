@@ -180,7 +180,7 @@ const countryItems: CountriesBlock["items"] = [
   { flag: "nl", name: "Netherlands", tag: "English-taught degrees", href: "/why-study-abroad" },
 ];
 /* The card's markup already appends the "+", so `num` is the bare figure — putting it here too
-   printed "39++". */
+   printed "50++". */
 const darkCountry = { num: "39", text: "& counting", small: "Ask us about yours", href: C };
 
 export const offer: OfferBlock = {
@@ -188,7 +188,7 @@ export const offer: OfferBlock = {
   cards: [
     { img: `${IMG}/unversity/z2.jpg`, icon: `${IMG}/icons/h2_features_icon01.svg`, metric: "1200+", metricLabel: "Universities", title: "Expert Universities", text: "Access top-ranked global universities tailored to your goals.", href: C },
     { img: `${IMG}/unversity/z5.jpg`, icon: `${IMG}/icons/h2_features_icon02.svg`, metric: "1 lakh+", metricLabel: "Courses", title: "Effective Courses", text: "Choose from a wide range of courses designed to enhance your skills.", href: C },
-    { img: `${IMG}/unversity/z9.jpg`, icon: `${IMG}/icons/h2_features_icon03.svg`, metric: "39+", metricLabel: "Countries", title: "Certificates", text: "Gain valuable certifications to boost your career prospects.", href: C },
+    { img: `${IMG}/unversity/z9.jpg`, icon: `${IMG}/icons/h2_features_icon03.svg`, metric: "50+", metricLabel: "Countries", title: "Certificates", text: "Gain valuable certifications to boost your career prospects.", href: C },
   ],
 };
 
@@ -201,7 +201,7 @@ const homeBlocks: Block[] = [
     words: [{ t: "Because" }, { t: "Every" }, { t: "Dream", s: "gold", br: true }, { t: "Needs" }, { t: "a" }, { t: "Direction", s: "grad" }],
     text: "Let Trinity Study Abroad help you find yours.",
     primary: { label: "Learn More", href: C }, ghost: { label: "Chat with us", href: "whatsapp" },
-    stats: [{ value: "39+", label: "Countries" }, { value: "1200+", label: "Universities" }, { value: "1 lakh+", label: "Courses" }],
+    stats: [{ value: "50+", label: "Countries" }, { value: "1200+", label: "Universities" }, { value: "1 lakh+", label: "Courses" }],
     photo: `${IMG}/home/hero-student.webp`,
     /* Second row of the hero. The fields and their options are the ones the standalone
        `leadForm` section used to carry, which is why they read the same. */
@@ -215,7 +215,7 @@ const homeBlocks: Block[] = [
        104px tile. Each sits under a navy scrim, so the label still clears 4.5:1. */
     hive: [
       { value: "42+", label: "Years Experience", img: `${IMG}/hive/years.webp` },
-      { value: "39+", label: "Countries", img: `${IMG}/hive/countries.webp` },
+      { value: "50+", label: "Countries", img: `${IMG}/hive/countries.webp` },
       { value: "1200+", label: "Universities", img: `${IMG}/hive/universities.webp` },
       { value: "1 lakh+", label: "Courses", img: `${IMG}/hive/courses.webp` },
       { value: "1", label: "Stop Solution", img: `${IMG}/hive/solution.webp` },
@@ -256,7 +256,7 @@ const homeBlocks: Block[] = [
       { icon: "fas fa-clipboard-check", title: "Evaluate your profile", text: "Academics, experience, tests and eligibility, read honestly \u2014 so the options we put in front of you are ones you can actually get.", checks: ["Academics", "Experience", "Test scores", "Eligibility"], img: `${IMG}/unversity/z7.jpg`, chipIcon: "fas fa-chart-line", chipStrong: "42+", chipSmall: "Years reading profiles", live: "Profile review", href: C },
       { icon: "fas fa-tasks", title: "Build your shortlist", text: "Countries, courses and universities that fit the profile \u2014 not the ones that merely rank highest.", checks: ["Countries", "Courses", "Universities", "Intakes"], img: `${IMG}/unversity/z1.jpg`, chipIcon: "fas fa-university", chipStrong: "1200", chipSmall: "Partner universities", live: "Shortlists built weekly", href: C },
       { icon: "fas fa-file-signature", title: "Prepare and apply", text: "Documents, SOP and LOR, and the university applications themselves \u2014 prepared, checked and submitted on time.", checks: ["Documents", "SOP & LOR", "Applications", "Deadlines"], img: `${IMG}/unversity/z6.jpg`, chipIcon: "fas fa-file-alt", chipStrong: "100%", chipSmall: "Documents checked", live: "Applications in progress", href: C },
-      { icon: "fas fa-coins", title: "Plan your finances and visa", text: "Scholarships, education loans, proof of funds and visa preparation \u2014 the part that most often decides the outcome.", checks: ["Scholarships", "Loans", "Proof of funds", "Visa prep"], img: `${IMG}/unversity/z8.jpg`, chipIcon: "fas fa-passport", chipStrong: "39+", chipSmall: "Countries covered", live: "Mock interviews weekly", href: C },
+      { icon: "fas fa-coins", title: "Plan your finances and visa", text: "Scholarships, education loans, proof of funds and visa preparation \u2014 the part that most often decides the outcome.", checks: ["Scholarships", "Loans", "Proof of funds", "Visa prep"], img: `${IMG}/unversity/z8.jpg`, chipIcon: "fas fa-passport", chipStrong: "50+", chipSmall: "Countries covered", live: "Mock interviews weekly", href: C },
       { icon: "fas fa-plane-departure", title: "Get departure ready", text: "Accommodation, insurance, forex, flights and a pre-departure briefing, so the first week is not spent guessing.", checks: ["Accommodation", "Insurance", "Forex & flights", "Pre-departure"], img: `${IMG}/unversity/z4.jpg`, chipIcon: "fas fa-plane", chipStrong: "42+", chipSmall: "Years in travel", live: "Briefings before each intake", href: C },
       { icon: "fas fa-hands-helping", title: "Stay supported", text: "Practical post-arrival guidance once you land \u2014 bank account, SIM, registration, part-time work rules and settling in.", checks: ["Bank & SIM", "Registration", "Work rules", "Settling in"], img: `${IMG}/unversity/z9.jpg`, chipIcon: "fas fa-headset", chipStrong: "24/7", chipSmall: "Reachable from abroad", live: "Support after you land", href: C },
     ],
@@ -338,6 +338,29 @@ const aboutBlocks: Block[] = [
       { icon: "fas fa-heart", text: "Your Future, Our Priority." },
     ],
     primary: { label: "Learn More", href: C }, showPhone: false,
+  },
+  /* Mission, vision and the sister companies (client brief, "OUR Business Segments"). It has to
+     live here rather than only in the database: the "Add a section" menu clones the first
+     occurrence of each type in this file, and About Us is a system page whose Reset restores
+     this list — a block that exists only in the database would be unaddable, and one Reset
+     would delete it for good. */
+  {
+    type: "segments",
+    kicker: "What we stand for",
+    title: "Our Mission & [Vision]",
+    lead: "",
+    pillars: [
+      { icon: "fas fa-compass", title: "Our Mission", text: "To make international education simpler, more informed, and more accessible through personalized guidance." },
+      { icon: "fas fa-eye", title: "Our Vision", text: "To be a trusted global education partner for students and families." },
+    ],
+    logosTitle: "Our Business Segments",
+    /* Trinity Car Rental has no website in the brief, so its card is shown without a link. */
+    logos: [
+      { name: "Trinity Air Travel and Tours Pvt. Ltd.", img: `${IMG}/sister/air.webp`, href: "https://www.trinityairtravelandtours.com" },
+      { name: "Trinity World Holidays", img: `${IMG}/sister/holidays.webp`, href: "https://www.trinityworldholidays.com" },
+      { name: "Trinity Car Rental", img: `${IMG}/sister/car.webp`, href: "" },
+    ],
+    ctaLabel: "Talk to a trusted advisor", ctaHref: C,
   },
   offer,
   {

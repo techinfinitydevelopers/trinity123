@@ -83,7 +83,7 @@ export async function Universities({ b, contact }: { b: UniversitiesBlock; conta
     <section className="pin" id="universities" data-pin>
       <div className="pin__sticky">
         <span className="pin__glow" />
-        <p className="pin__ghost" data-pin-ghost aria-hidden="true">{b.ghost}</p>
+        <p className="pin__ghost" data-pin-ghost aria-hidden="true" style={{ ["--ghost-len" as string]: Math.max(b.ghost.length, 1) }}>{b.ghost}</p>
         <div className="container pin__head">
           <div><SectionHeadInline kicker={b.kicker} title={b.title} /></div>
           <p className="pin__lead">{b.lead}</p>

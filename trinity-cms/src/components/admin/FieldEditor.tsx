@@ -73,7 +73,15 @@ export default function FieldEditor({ value, onChange, name, depth = 0 }: { valu
     );
     if (name === "dir") return <Row label="Direction"><select className="inp inp-sm" value={value} onChange={(e) => onChange(e.target.value)}><option value="in">Incoming</option><option value="out">Outgoing</option></select></Row>;
     if (name === "style" && /^(glass|gold|purple)$/.test(value)) return <Row label="Style"><select className="inp inp-sm" value={value} onChange={(e) => onChange(e.target.value)}><option value="glass">Glass</option><option value="gold">Gold</option><option value="purple">Purple</option></select></Row>;
-    if (name === "layout") return <Row label="Layout"><select className="inp inp-sm" value={value} onChange={(e) => onChange(e.target.value)}><option value="split">Split (text + visual)</option><option value="center">Centered</option></select></Row>;
+    /* `layout` means different things to different blocks. The list was hard-coded to
+       split/centered, which is the CTA's vocabulary — so the Webinars page, stored as "gallery",
+       showed a blank select, and touching it dropped the page to the two-column layout with no
+       way back. Whatever the block is actually set to stays on the list. */
+    if (name === "layout") {
+      const LAYOUTS: [string, string][] = [["split", "Split (text + visual)"], ["center", "Centered"], ["gallery", "Gallery (full width)"]];
+      const opts = LAYOUTS.some(([v]) => v === value) ? LAYOUTS : [...LAYOUTS, [value, value] as [string, string]];
+      return <Row label="Layout"><select className="inp inp-sm" value={value} onChange={(e) => onChange(e.target.value)}>{opts.map(([v, l]) => <option key={v} value={v}>{l}</option>)}</select></Row>;
+    }
     if (name === "secondaryKind") return <Row label="Secondary button"><select className="inp inp-sm" value={value} onChange={(e) => onChange(e.target.value)}><option value="phone">Phone pill</option><option value="whatsapp">WhatsApp button</option></select></Row>;
     if (name === "flag" || name === "flags") return <Row label={label} hint="ISO country code, e.g. us, gb, de"><input className="inp inp-sm" value={value} onChange={(e) => onChange(e.target.value.toLowerCase())} /></Row>;
     // `icon`-suffixed keys are always Font Awesome classes except Journey's SVG icons,
