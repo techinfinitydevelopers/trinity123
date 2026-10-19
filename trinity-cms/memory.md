@@ -1355,3 +1355,27 @@ keeps the full-size layout.
 **Note:** `seed-content.ts` also carries another session's in-flight webinar change (the past
 strip retitled and pointed at `concluded-2026-*.jpg`). It is committed here because it shares
 the file; those image files are not in the repo yet.
+
+## 2026-10-19 — Photographs on the Services page
+
+The page was already built — thirteen services with the client's own copy — but every card was
+icon-only. The client sent twenty photographs; ten of the thirteen now carry one, pulled to the
+card's edges with the icon riding the picture's lower edge.
+
+**Three of the twenty are watermarked iStock previews and were not published**: the girl with
+the toy plane, the Departures/Arrivals sign, and the "Study Abroad Scholarship" application
+form. They need licensed copies. **Ask before publishing any image with a watermark on it.**
+
+So three services still have no picture — English Language Test Preparation, German & French
+Language Coaching, and Pre-Departure Guidance (the Departures sign was its obvious match). They
+render exactly as before, with their icon.
+
+Seven spare photographs are in `/assets/img/services/` for the owner to swap in from the
+dashboard: room-1, room-2, visa-decision, visa-form, loan-form, education-fund,
+scholarship-form (that last one is only 214x148, too small to use large).
+
+The hero said "Eight comprehensive services" where there are thirteen. Fixed.
+
+`ServicesBlock` items gained optional `img`/`imgAlt`; a service without one keeps the plain
+icon card rather than reserving an empty band. `scripts/apply-service-images-2026-10-19.ts`
+keys on the service's own title, so re-ordering the list cannot put a picture on the wrong one.

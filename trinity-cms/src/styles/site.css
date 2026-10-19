@@ -1397,3 +1397,19 @@ a.seg__logo:hover .seg__logo-go i{transform:translate(2px,-2px)}
   .hero-visual__frame{max-width:340px}
   .hive{--w:104px;--h:120px;--row:90px}
 }
+
+/* ---------- Services: the photograph on a card ---------- */
+/* The card is padded all round, so the picture is pulled back out to its edges and the card's
+   own radius is carried on its top corners. The icon then rides the picture's lower edge, which
+   is what ties the two together instead of stacking them. */
+.scard--shot{padding-top:0;overflow:hidden}
+.scard__shot{
+  display:block;position:relative;margin:0 -32px 0;border-radius:28px 28px 0 0;overflow:hidden;background:var(--grey);
+}
+.scard__shot img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;transition:transform .6s var(--ease)}
+.scard--shot:hover .scard__shot img{transform:scale(1.05)}
+/* A dark foot on the picture so the white number above it stays legible over a pale photo. */
+.scard__shot::after{content:"";position:absolute;inset:auto 0 0;height:44%;background:linear-gradient(transparent,rgba(26,36,86,.45));pointer-events:none}
+.scard--shot .scard__num{color:rgba(255,255,255,.55);text-shadow:0 2px 10px rgba(26,36,86,.35)}
+.scard--shot .scard__ico{margin-top:-32px;margin-bottom:20px;box-shadow:0 12px 26px rgba(26,36,86,.28)}
+/* The card keeps its 32px side padding at every width, so the pull-out is the same. */
