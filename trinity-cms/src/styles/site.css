@@ -1219,3 +1219,11 @@ a.webinar__snip:hover,a.webinar__snip:focus-visible{border-color:var(--primary)}
   background:transparent;border:0;border-left:3px solid var(--gold);
   border-radius:0;padding:2px 0 2px 16px;
 }
+
+/* ---------- One closing call to action per page, not two ---------- */
+/* Six pages ended with their own navy panel — "Book a session this week", "Start the story you
+   will tell" — directly above the footer's "Ready to start your study abroad journey?", which
+   offers the same two buttons to the same place. The page's own wording is the better of the
+   two, so where a page closes with one, the footer's banner stands down. Pages without one
+   (About Us, Contact, the destination pages) still get the footer's. */
+main:has(> .cta-block:last-child) + .footer .footer__cta{display:none}

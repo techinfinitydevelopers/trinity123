@@ -113,7 +113,7 @@ export async function Cta({ b, contact }: { b: CtaBlock; contact: ContactSetting
   const L = (await getLabels()).common;
   if (b.layout === "center") {
     return (
-      <section className="section section--tight">
+      <section className="section section--tight cta-block">
         <div className="container cta cta--center" data-reveal="scale">
           <span className="cta__grid" /><span className="cta__glow cta__glow--mid" />
           <div>
@@ -130,7 +130,7 @@ export async function Cta({ b, contact }: { b: CtaBlock; contact: ContactSetting
     );
   }
   return (
-    <section className="section section--tight" id="cta">
+    <section className="section section--tight cta-block" id="cta">
       <div className="container cta" data-reveal="scale">
         <span className="cta__grid" /><span className="cta__glow" /><p className="cta__ghost" aria-hidden="true">{L.ghostWord}</p>
         <div className="cta__copy">

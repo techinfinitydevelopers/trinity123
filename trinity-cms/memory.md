@@ -1200,3 +1200,13 @@ site-wide:
 - The hero used poster 1, which is also the first card further down the same page. It uses the
   students photograph now. The posters also lost their grey panel, and the empty note inside the
   navy card no longer looks like a disabled text field.
+
+**One closing call to action per page, not two.** Six pages — blog, brochure, events,
+our-service, resources, success-stories — ended with their own navy CTA panel directly above the
+footer's "Ready to start your study abroad journey?", which offers the same two buttons to the
+same place. The page's own wording is the better of the two ("Book a session this week", "Start
+the story you will tell"), so the footer's banner stands down where a page already closes with
+one: the CTA sections carry a `cta-block` class and `main:has(> .cta-block:last-child) + .footer
+.footer__cta{display:none}` does the rest. No per-page hardcoding. Pages without one — About Us,
+Contact, Webinars, the destination pages — still get the footer's. The home page's CTA sits
+mid-page and asks something different ("Register Now" / "Call us now"), so it is untouched.
