@@ -21,8 +21,9 @@ let hits = 0;
 /* "…in 39+ countries…", "39+ Countries", "Countries covered" — the number only counts when a
    countries word is right beside it. */
 function inText(s: string): string {
-  return s.replace(/\b(39|50)(\s*\+?)(\s*(?:countries|Countries|COUNTRIES))/g, (_m, _n, plus, word) => {
-    hits++;
+  return s.replace(/\b(39|50)(\s*\+?)(\s*(?:countries|Countries|COUNTRIES))/g, (_m, n, plus, word) => {
+    /* Only a figure that actually changes counts, so a second run reports nothing. */
+    if (n !== TO) hits++;
     return `${TO}${plus}${word}`;
   });
 }
@@ -32,20 +33,29 @@ function inText(s: string): string {
 const LABEL = /countr/i;
 const NUM_WITH_LABEL: [numKey: string, labelKey: string][] = [
   ["strong", "small"], ["value", "label"], ["metric", "metricLabel"],
-  ["count", "label"], ["chipStrong", "chipSmall"], ["num", "text"],
+  ["count", "label"], ["chipStrong", "chipSmall"],
 ];
+
+/* The home page's dark card is the one place where the number has no countries word next to it
+   — it reads "50+ / & counting / Ask us about yours" inside the destinations section. Matched by
+   its own shape instead. */
+function darkCard(o: Record<string, unknown>) {
+  if (typeof o.num !== "string" || !FROM.test(o.num)) return false;
+  return typeof o.text === "string" && /counting/i.test(o.text);
+}
 
 function walk(v: unknown): unknown {
   if (typeof v === "string") return inText(v);
   if (Array.isArray(v)) return v.map(walk);
   if (v && typeof v === "object") {
     const o = { ...(v as Record<string, unknown>) };
+    if (darkCard(o)) { const next = (o.num as string).replace(FROM, TO); if (next !== o.num) hits++; o.num = next; }
     for (const [numKey, labelKey] of NUM_WITH_LABEL) {
       const label = o[labelKey];
       const num = o[numKey];
       if (typeof label !== "string" || !LABEL.test(label)) continue;
-      if (typeof num === "string" && FROM.test(num)) { o[numKey] = num.replace(FROM, TO); hits++; }
-      else if (typeof num === "number" && (num === 39 || num === 50)) { o[numKey] = Number(TO); hits++; }
+      if (typeof num === "string" && FROM.test(num)) { const next = num.replace(FROM, TO); if (next !== num) hits++; o[numKey] = next; }
+      else if (typeof num === "number" && (num === 39 || num === 50)) { if (num !== Number(TO)) hits++; o[numKey] = Number(TO); }
     }
     for (const k of Object.keys(o)) o[k] = walk(o[k]);
     return o;
