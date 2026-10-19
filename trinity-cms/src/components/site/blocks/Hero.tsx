@@ -25,8 +25,11 @@ export async function Hero({ b, contact }: { b: HeroBlock; contact: ContactSetti
             CSS gives it that path as a motion path, in the viewBox's own units, so it stays on
             the line at every width. It is drawn nose-down, hence the -90deg correction. */}
         <span className="hero__path" aria-hidden="true">
-          <svg viewBox="0 0 340 120" focusable="false" overflow="visible">
-            <path id="trinity-flightpath" d="M4 112C70 112 128 92 176 56 206 33 236 16 272 10" fill="none" stroke="var(--green)" strokeWidth="2" strokeLinecap="round" strokeDasharray="7 9" opacity=".55" />
+          {/* The trail carries on past the enquiry card and ends underneath it, so it reads as
+              a flight leaving the frame rather than stopping dead at the card's edge. The card
+              sits above it (`.hero__form` is z-index 3, the trail 2). */}
+          <svg viewBox="0 0 470 120" focusable="false" overflow="visible">
+            <path id="trinity-flightpath" d="M4 112C70 112 128 92 176 56 206 33 236 16 272 10 326 1 396 -4 464 -10" fill="none" stroke="var(--green)" strokeWidth="2" strokeLinecap="round" strokeDasharray="7 9" opacity=".55" />
             {/* `animateMotion` follows the very same `<path>`, in the SVG's own user units, so
                 the plane cannot drift off the line however the box is scaled. CSS `offset-path`
                 was doing exactly that: it resolves in CSS pixels against the element's box, and
@@ -36,7 +39,7 @@ export async function Hero({ b, contact }: { b: HeroBlock; contact: ContactSetti
               <animateMotion dur="11s" repeatCount="indefinite" rotate="auto" keyPoints="0;1" keyTimes="0;1" calcMode="linear">
                 <mpath href="#trinity-flightpath" />
               </animateMotion>
-              <image href="/assets/img/home/plane.webp" x="-17" y="-18" width="34" height="36" transform="rotate(-90)" />
+              <image href="/assets/img/home/plane.webp" x="-24" y="-25" width="48" height="50" transform="rotate(-90)" />
             </g>
           </svg>
         </span>

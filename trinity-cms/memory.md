@@ -1516,3 +1516,9 @@ artwork is drawn nose-down.
 
 No media query can reach SMIL, so `SiteScripts` calls `svg.pauseAnimations()` on the trail when
 `prefers-reduced-motion` is set. The CSS keyframes that remain only fade it in and out.
+
+**The trail now finishes under the enquiry card.** The path runs 470 units instead of 340 and
+carries on past the card's left edge — measured at 1440: the line starts at x716 and ends at
+x1222, where the card spans 976–1372, so the last third of it is behind the card (`.hero__form`
+is z-index 3, the trail 2). The plane is 48 units instead of 34. Still 0px off the line at every
+sample, because the box stays a fixed coordinate space.
