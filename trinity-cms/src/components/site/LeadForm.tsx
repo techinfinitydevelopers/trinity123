@@ -2,6 +2,15 @@
 import { useState, type FormEvent } from "react";
 import type { LabelSettings } from "@/lib/settings";
 
+/* The dialling codes the form offers, and the flag that goes with each. */
+const CODE_FLAG: Record<string, string> = {
+  "+91": "/assets/img/flags/in.svg",
+  "+971": "/assets/img/flags/ae.png",
+  "+44": "/assets/img/flags/gb.png",
+  "+1": "/assets/img/flags/us.png",
+  "+61": "/assets/img/flags/au.png",
+};
+
 /* The short enquiry card from the client's sample: name, email, phone with a country code,
    nearest branch and destination, then one button. It posts to the same /api/leads endpoint as
    the full contact form — `city` and `destination` are folded into the lead's subject and message
@@ -10,6 +19,9 @@ export default function LeadForm({
   title, cities, destinations, okMsg, submitLabel, trust = [], labels: L,
 }: { title: string; cities: string[]; destinations: string[]; okMsg: string; submitLabel: string; trust?: { icon: string; text: string }[]; labels: LabelSettings["forms"] }) {
   const [state, setState] = useState<"idle" | "busy" | "ok" | "err">("idle");
+  /* The design shows a flag beside the dialling code. A <select> cannot hold an image, so the
+     flag sits in the field's padding and follows whatever the visitor picks. */
+  const [code, setCode] = useState("+91");
   const [error, setError] = useState<string | null>(null);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -60,13 +72,16 @@ export default function LeadForm({
           <span className="leadcard__f"><i className="far fa-user" aria-hidden="true" /><input name="name" type="text" autoComplete="name" required placeholder={L.leadName} aria-label={L.leadName} /></span>
           <span className="leadcard__f"><i className="far fa-envelope" aria-hidden="true" /><input name="email" type="email" autoComplete="email" required placeholder={L.leadEmail} aria-label={L.leadEmail} /></span>
           <div className="leadcard__row">
-            <select name="code" aria-label="Country code" defaultValue="+91">
-              <option value="+91">+91 · IN</option>
-              <option value="+971">+971 · AE</option>
-              <option value="+44">+44 · UK</option>
-              <option value="+1">+1 · US/CA</option>
-              <option value="+61">+61 · AU</option>
-            </select>
+            <span className="leadcard__f leadcard__f--code">
+              <img src={CODE_FLAG[code] ?? CODE_FLAG["+91"]} alt="" />
+              <select name="code" aria-label="Country code" value={code} onChange={(e) => setCode(e.target.value)}>
+                <option value="+91">+91</option>
+                <option value="+971">+971</option>
+                <option value="+44">+44</option>
+                <option value="+1">+1</option>
+                <option value="+61">+61</option>
+              </select>
+            </span>
             <span className="leadcard__f"><i className="fas fa-mobile-alt" aria-hidden="true" /><input name="phone" type="tel" inputMode="tel" autoComplete="tel-national" required placeholder={L.leadPhone} aria-label={L.leadPhone} /></span>
           </div>
           <span className="leadcard__f leadcard__f--sel"><i className="fas fa-map-marker-alt" aria-hidden="true" />
@@ -82,7 +97,7 @@ export default function LeadForm({
           {/* Honeypot — the API rejects the submission if a bot fills this. */}
           <input type="text" name="hp_url" tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ position: "absolute", left: -9999 }} />
           <button className="leadcard__btn" type="submit" disabled={state === "busy"}>
-            {state === "busy" ? "Sending…" : submitLabel}
+            {state === "busy" ? "Sending…" : <>{submitLabel} <i className="fas fa-arrow-right" aria-hidden="true" /></>}
           </button>
           {state === "err" ? <p className="leadcard__err" role="alert">{error ?? "Something went wrong. Please call or WhatsApp us."}</p> : null}
           {/* The three reassurances under the button in the client's design. */}

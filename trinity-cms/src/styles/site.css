@@ -1714,3 +1714,57 @@ main:has(> .cta-block:last-child) + .footer{margin-top:0}
 /* `.hero__path{display:block}` is declared after the breakpoint rules above, so it was winning
    and the trail stayed on a phone where there is no room for it. Restated last. */
 @media (max-width:700px){ .hero__path{display:none} }
+
+/* ---- matching the reference more closely ---- */
+/* The trail was sitting at 12vh, which on an 820px window is 98px — under a 134px fixed header,
+   so the plane and its dashes were simply hidden behind the nav. It belongs beside the
+   headline's second line, and above the form card rather than behind it. */
+.hero__path{top:auto;bottom:auto;z-index:2}
+@media (min-width:1101px){
+  .hero__path{right:clamp(18%,22vw,27%);top:clamp(196px,25vh,260px);width:clamp(210px,20vw,290px)}
+}
+@media (min-width:701px) and (max-width:1100px){
+  .hero__path{right:2%;top:clamp(170px,22vh,220px);width:clamp(150px,24vw,210px)}
+}
+
+/* The sky was a near-white gradient on a near-white hero, so it read as nothing. The reference
+   has a clear pale-blue field behind her with the landmarks drawn into it. */
+.hero__sky{width:138%;height:138%}
+
+/* "Apply Now" is title case in the design, with an arrow. The base button rule uppercases it
+   and tracks it out, which is the old card's styling. */
+.leadcard__btn{text-transform:none;letter-spacing:-.2px;display:inline-flex;align-items:center;justify-content:center;gap:10px}
+.leadcard__btn i{font-size:13px;transition:transform .3s var(--ease)}
+.leadcard__btn:hover:not(:disabled) i{transform:translateX(4px)}
+
+/* She was being cut off at the hero's lower edge; the reference shows her whole, inside the
+   blue field. */
+@media (min-width:1200px){ .hero-visual__frame{max-width:420px} }
+
+/* The dialling code carries its flag, as in the design. */
+.leadcard__f--code{display:flex;align-items:center}
+.leadcard__f--code img{
+  position:absolute;left:12px;top:50%;transform:translateY(-50%);
+  width:22px;height:15px;object-fit:cover;border-radius:3px;z-index:1;
+  box-shadow:0 0 0 1px rgba(26,36,86,.12);
+}
+.leadcard__f--code select{padding-left:42px!important}
+
+/* The headline spanned the whole container; in the design it sits above the photograph and
+   leaves the right half to the enquiry card. Smaller, and kept to its own column. */
+@media (min-width:1101px){
+  .hero__title{max-width:58%;font-size:clamp(2.6rem,3.6vw,3.5rem)}
+  .hero__text{max-width:52%}
+}
+
+/* The trail arcs above the headline's right in the design, not across the honeycomb. */
+@media (min-width:1101px){
+  .hero__path{right:clamp(20%,24vw,30%);top:clamp(132px,17vh,176px)}
+}
+/* The blue field needs room around her, and she should not be cut off by the hero's edge. */
+/* Big enough to read as a sky around her, small enough to stay clear of the headline — it
+   is anchored to the bottom of her frame rather than centred on it. */
+.hero__sky{width:132%;height:116%;top:auto;bottom:-4%;transform:translateX(-50%)}
+@media (min-width:1200px){ .hero{padding-bottom:76px} }
+/* The lead line sits over the top of the blue field, so it is lifted above the decoration. */
+.hero__title,.hero__text{position:relative;z-index:2}

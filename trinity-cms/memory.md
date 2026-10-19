@@ -1483,3 +1483,21 @@ declared after the breakpoints and was quietly winning — the phone rule had to
 
 **Hero swept 320 → 1920** (320/375/414/480/640/700/768/900/1024/1100/1280/1366/1440/1920): zero
 horizontal overflow at every width, and the trail never crosses the headline's ink.
+
+**Matching the reference, round two.** A screenshot comparison caught what measurements had not:
+- **The trail and plane were invisible** — positioned at `12vh`, which on an 820px window is
+  98px, under a **134px fixed header**. Moved beside the headline, `z-index:2`.
+- **The blue field read as nothing**: a near-white gradient on a near-white hero. It is a solid
+  `#DCEEF9` ellipse now, masked to fade at her feet, with bolder landmark silhouettes. Sized
+  132%/116% and anchored to the bottom of her frame — at 152% it covered the headline.
+- **The headline spanned the whole container**; in the design it keeps to its own column above
+  the photograph. `max-width:58%` and a smaller clamp above 1100px.
+- **"APPLY NOW"** was uppercase and tracked out by the old card's rule, with no arrow. It is
+  title case with an arrow that slides on hover.
+- **The dialling code has its flag.** A `<select>` cannot hold an image, so the flag sits in the
+  field's padding and follows the chosen code. India's is a local SVG — there was no `in.png`
+  in `/assets/img/flags/`, and the other four were already there.
+- The headline and lead are `z-index:2`, or the blue field washes over the lead line.
+
+Swept 320 → 1920 again: no overflow at any width, trail shown above 700 and hidden below, flag
+and arrow present everywhere.

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 40" role="img" aria-label="India">
+  <rect width="60" height="40" fill="#fff"/>
+  <rect width="60" height="13.333" fill="#FF9933"/>
+  <rect y="26.667" width="60" height="13.333" fill="#138808"/>
+  <g transform="translate(30 20)" fill="none" stroke="#000080">
+    <circle r="5.6" stroke-width="1"/>
+    <circle r="1.1" fill="#000080" stroke="none"/>
+    <g stroke-width=".5">
+      <path d="M0-5.6V5.6M-5.6 0H5.6"/>
+      <path d="M-3.96-3.96 3.96 3.96M-3.96 3.96 3.96-3.96"/>
+      <path d="M-2.14-5.18 2.14 5.18M-5.18-2.14 5.18 2.14M-5.18 2.14 5.18-2.14M-2.14 5.18 2.14-5.18"/>
+    </g>
+  </g>
+</svg>

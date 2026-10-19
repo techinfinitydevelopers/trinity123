@@ -48,18 +48,27 @@ export async function Hero({ b, contact }: { b: HeroBlock; contact: ContactSetti
                     client's artwork, as vectors so it stays crisp and weighs nothing. */}
                 <svg className="hero__sky" viewBox="0 0 400 400" aria-hidden="true" focusable="false">
                   <defs>
-                    <radialGradient id="skyFill" cx="50%" cy="54%" r="54%">
-                      <stop offset="0%" stopColor="#F2FAFE" /><stop offset="62%" stopColor="#D7ECF8" /><stop offset="100%" stopColor="#D7ECF8" stopOpacity="0" />
-                    </radialGradient>
+                    {/* The blue field has a soft edge at the bottom so she stands out of it
+                        rather than being pasted onto a disc. */}
+                    <linearGradient id="skyFade" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#fff" stopOpacity="1" />
+                      <stop offset="74%" stopColor="#fff" stopOpacity="1" />
+                      <stop offset="100%" stopColor="#fff" stopOpacity="0" />
+                    </linearGradient>
+                    <mask id="skyMask"><rect width="400" height="400" fill="url(#skyFade)" /></mask>
                   </defs>
-                  <ellipse cx="200" cy="208" rx="196" ry="186" fill="url(#skyFill)" />
-                  <g fill="#9CC9E6" opacity=".55">
-                    {/* Big Ben */}
-                    <path d="M52 330V214h20v116zM54 214l8-22 8 22zM56 224h12v16H56z" />
-                    {/* Eiffel Tower */}
-                    <path d="M330 330l16-96 16 96h-7l-9-54-9 54zM336 282h20v5h-20zM340 258h12v5h-12zM344 236h4v12h-4z" />
-                    {/* a low skyline */}
-                    <path d="M92 330v-34h14v34zM112 330v-46h12v46zM296 330v-40h13v40zM276 330v-28h14v28z" />
+                  <g mask="url(#skyMask)">
+                    <ellipse cx="200" cy="196" rx="192" ry="182" fill="#DCEEF9" />
+                    <g fill="#A3CCE8">
+                      {/* Big Ben, left */}
+                      <path d="M46 348V206h26v142zM45 206l14-26 14 26zM50 214h18v22H50z" />
+                      <circle cx="59" cy="225" r="7" fill="#DCEEF9" />
+                      {/* The Eiffel Tower, right */}
+                      <path d="M316 348l20-120 20 120h-9l-11-70-11 70z" />
+                      <path d="M322 300h28v6h-28zM328 272h16v6h-16zM333 248h6v16h-6z" />
+                      {/* a low skyline between them */}
+                      <path d="M96 348v-44h16v44zM120 348v-62h14v62zM142 348v-30h12v30zM262 348v-52h15v52zM284 348v-34h13v34z" />
+                    </g>
                   </g>
                 </svg>
                 <img src={b.photo} alt={L.heroPhotoAlt} />
