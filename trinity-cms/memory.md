@@ -1501,3 +1501,18 @@ horizontal overflow at every width, and the trail never crosses the headline's i
 
 Swept 320 → 1920 again: no overflow at any width, trail shown above 700 and hidden below, flag
 and arrow present everywhere.
+
+**The plane was flying 200px off its own line.** `offset-path:path()` resolves **in CSS pixels
+against the element's own box, not in the SVG's user units** — so the moment the SVG scaled
+responsively the plane and the dashes were reading the same numbers in two different coordinate
+spaces. Measured: the drawn line ran from (655,423) to (963,305) on screen while the plane sat
+207px away from the nearest point on it, at every sample.
+
+It is SMIL now — `<animateMotion><mpath href="#trinity-flightpath"/>` pointing at **the very
+same `<path>` element** that draws the dashes. One path, one coordinate space, no drift
+possible. Verified: 0px off the line at five positions, 327px travelled over the 11s loop.
+`rotate="auto"` turns the nose along the curve and the image carries a `rotate(-90)` because the
+artwork is drawn nose-down.
+
+No media query can reach SMIL, so `SiteScripts` calls `svg.pauseAnimations()` on the trail when
+`prefers-reduced-motion` is set. The CSS keyframes that remain only fade it in and out.

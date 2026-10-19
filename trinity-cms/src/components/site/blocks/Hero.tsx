@@ -26,8 +26,18 @@ export async function Hero({ b, contact }: { b: HeroBlock; contact: ContactSetti
             the line at every width. It is drawn nose-down, hence the -90deg correction. */}
         <span className="hero__path" aria-hidden="true">
           <svg viewBox="0 0 340 120" focusable="false" overflow="visible">
-            <path d="M4 112C70 112 128 92 176 56 206 33 236 16 272 10" fill="none" stroke="var(--green)" strokeWidth="2" strokeLinecap="round" strokeDasharray="7 9" opacity=".55" />
-            <image className="hero__plane" href="/assets/img/home/plane.webp" x="-21" y="-22" width="42" height="44" />
+            <path id="trinity-flightpath" d="M4 112C70 112 128 92 176 56 206 33 236 16 272 10" fill="none" stroke="var(--green)" strokeWidth="2" strokeLinecap="round" strokeDasharray="7 9" opacity=".55" />
+            {/* `animateMotion` follows the very same `<path>`, in the SVG's own user units, so
+                the plane cannot drift off the line however the box is scaled. CSS `offset-path`
+                was doing exactly that: it resolves in CSS pixels against the element's box, and
+                the plane ended up 200px below its own trail. `rotate="auto"` turns the nose
+                along the curve; the artwork is drawn nose-down, hence the -90 on the image. */}
+            <g className="hero__plane">
+              <animateMotion dur="11s" repeatCount="indefinite" rotate="auto" keyPoints="0;1" keyTimes="0;1" calcMode="linear">
+                <mpath href="#trinity-flightpath" />
+              </animateMotion>
+              <image href="/assets/img/home/plane.webp" x="-17" y="-18" width="34" height="36" transform="rotate(-90)" />
+            </g>
           </svg>
         </span>
         <div className="hero__cols">

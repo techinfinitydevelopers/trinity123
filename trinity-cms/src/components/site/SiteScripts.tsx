@@ -47,6 +47,12 @@ export default function SiteScripts() {
     if (reduce) document.querySelectorAll("[data-reveal]").forEach((el) => el.classList.add("in"));
     else document.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
 
+    /* The hero's plane moves with SMIL, which no media query can reach. Someone who has asked
+       for less motion gets it parked at the start of its line instead. */
+    if (reduce) {
+      document.querySelectorAll<SVGSVGElement>(".hero__path svg").forEach((svg) => svg.pauseAnimations?.());
+    }
+
     // Safety net: if the observer ever fails to fire for something already on screen
     // (a stalled layout, a missed frame), content must not stay invisible forever.
     const revealTimer = window.setTimeout(() => {

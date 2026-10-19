@@ -1691,26 +1691,11 @@ main:has(> .cta-block:last-child) + .footer{margin-top:0}
    own image sitting at the end of them. */
 .hero__path{display:block}
 .hero__path svg{display:block;width:100%;height:auto}
-/* The plane rides the same curve the dashes are drawn from. `offset-path` on an SVG element
-   takes the viewBox's own units, so it stays on the line at any size, and `auto -90deg` keeps
-   its nose pointing along the trail — the artwork is drawn nose-down. */
-.hero__plane{
-  offset-path:path("M4 112C70 112 128 92 176 56 206 33 236 16 272 10");
-  offset-rotate:auto -90deg;
-  offset-anchor:50% 50%;
-  animation:planeFly 11s linear infinite;
-  filter:drop-shadow(0 4px 8px rgba(26,36,86,.22));
-}
-/* It fades in as it leaves and out as it arrives, so the loop has no hard jump. */
-@keyframes planeFly{
-  0%{offset-distance:0%;opacity:0}
-  8%{opacity:1}
-  88%{opacity:1}
-  100%{offset-distance:100%;opacity:0}
-}
-@media (prefers-reduced-motion:reduce){
-  .hero__plane{animation:none;offset-distance:100%;opacity:1}
-}
+/* The movement is SMIL now (see Hero.tsx) so the plane and the dashes share one path. This
+   only dresses it: a fade at each end of the loop and a soft shadow. */
+.hero__plane{animation:planeFade 11s linear infinite;filter:drop-shadow(0 4px 8px rgba(26,36,86,.22))}
+@keyframes planeFade{0%{opacity:0}8%{opacity:1}88%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){ .hero__plane{animation:none;opacity:1} }
 /* `.hero__path{display:block}` is declared after the breakpoint rules above, so it was winning
    and the trail stayed on a phone where there is no room for it. Restated last. */
 @media (max-width:700px){ .hero__path{display:none} }
@@ -1768,3 +1753,21 @@ main:has(> .cta-block:last-child) + .footer{margin-top:0}
 @media (min-width:1200px){ .hero{padding-bottom:76px} }
 /* The lead line sits over the top of the blue field, so it is lifted above the decoration. */
 .hero__title,.hero__text{position:relative;z-index:2}
+
+/* ---- the flight trail, fixed ----
+   `offset-path:path()` resolves in CSS pixels against the element's own box, NOT in the SVG's
+   user units — so as soon as the SVG scaled responsively the plane drifted off the dashes it
+   was supposed to be riding. (That is exactly what was happening: the line was up near the
+   card and the plane was 150px below it.)
+   The fix is to stop scaling the coordinate space. The trail is a fixed 340x120 box, so one
+   user unit is one CSS pixel and the path means the same thing to both; the whole box is then
+   scaled as a unit for each breakpoint. */
+.hero__path{width:340px;height:120px;transform-origin:100% 0}
+.hero__path svg{width:340px;height:120px}
+@media (min-width:1101px){
+  .hero__path{right:clamp(19%,23vw,28%);top:clamp(150px,19vh,196px);width:340px;transform:scale(1)}
+}
+@media (min-width:1301px){ .hero__path{transform:scale(1.15)} }
+@media (min-width:701px) and (max-width:1100px){
+  .hero__path{right:2%;top:clamp(150px,20vh,200px);width:340px;transform:scale(.62)}
+}
