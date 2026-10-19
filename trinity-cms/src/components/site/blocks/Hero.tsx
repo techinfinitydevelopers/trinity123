@@ -94,13 +94,22 @@ export async function Hero({ b, contact }: { b: HeroBlock; contact: ContactSetti
           </div>
           <div className="hive">
             {hive.map((h, i) => (
-              <div key={i} className={`hive__item hive__item--${i + 1}`}>
-                <div
-                  className={h.img ? "hive__item__face has-photo" : "hive__item__face"}
-                  style={h.img ? ({ ["--photo" as string]: `url(${h.img})` }) : undefined}
-                >
-                  {h.icon ? <i className={`${h.icon} hive__ico`} aria-hidden="true" /> : null}
-                  <strong>{h.value}</strong><span>{h.label}</span>
+              /* Two faces: the photograph on the front, the figure on the back. It turns on
+                 hover, and on its own in sequence — `--i` is this cell's place in that queue.
+                 The figure is also in the front face's `aria-label`, so a screen reader and a
+                 visitor who never hovers both still get the claim. */
+              <div key={i} className={`hive__item hive__item--${i + 1}`} style={{ ["--i" as string]: i }}>
+                <div className="hive__flip">
+                  <div
+                    className={h.img ? "hive__face hive__face--front has-photo" : "hive__face hive__face--front"}
+                    style={h.img ? ({ ["--photo" as string]: `url(${h.img})` }) : undefined}
+                    role="img"
+                    aria-label={`${h.value} ${h.label}`}
+                  />
+                  <div className="hive__face hive__face--back" aria-hidden="true">
+                    {h.icon ? <i className={`${h.icon} hive__ico`} /> : null}
+                    <strong>{h.value}</strong><span>{h.label}</span>
+                  </div>
                 </div>
               </div>
             ))}

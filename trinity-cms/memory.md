@@ -1522,3 +1522,21 @@ carries on past the card's left edge — measured at 1440: the line starts at x7
 x1222, where the card spans 976–1372, so the last third of it is behind the card (`.hero__form`
 is z-index 3, the trail 2). The plane is 48 units instead of 34. Still 0px off the line at every
 sample, because the box stays a fixed coordinate space.
+
+**The honeycomb is a flip card now.** The client wanted the photographs readable and the figure
+revealed on the turn. Each cell has two faces — the photograph on the front, the figure on a
+navy back — with the hexagon clip on each face and the rotation on a flipper between them, so
+the clip-path and the 3D transform never fight.
+
+- **Auto**: `hiveTurn` 16s, `animation-delay: calc(var(--i) * 3.2s)` set from the cell's index,
+  so the five hold their figure up for about two seconds each, one at a time, round and round.
+- **Hover** sets `animation:none` and the rotation, so the pointer always beats the queue —
+  pausing it would not work, because a paused animation still holds its computed transform.
+  `:focus-within` too, for the keyboard.
+- The figure is on the **front** face's `aria-label`, so a screen reader and anyone who never
+  hovers still get the claim. The back is `aria-hidden`.
+- Cells went from 118x136 to **142x164**, stepping down at 980 and 560.
+- The scrim over the photograph dropped from .54/.74/.9 to .10/.26 — it was there to keep white
+  type legible, and the type is on the other face now.
+
+Swept 320 → 1440: no overflow, the comb stays inside the viewport at every width.
