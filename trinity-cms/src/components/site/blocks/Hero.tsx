@@ -96,7 +96,10 @@ export async function PageHero({ b, contact }: { b: PageHeroBlock; contact: Cont
             {a.items.map((s, i) => (
               <div key={i} className={`statchip statchip--${s.style}${s.icon ? " statchip--wide" : ""}`}>
                 {s.icon ? (
-                  <><span><strong>{s.strong}</strong><small>{s.small}</small></span><i className={s.icon} /></>
+                  /* The suffix used to be dropped on this branch, so a chip with an icon could
+                     never say "1200+" however it was filled in — it printed a flat "1200" while
+                     the rest of the page said "1200+". */
+                  <><span><strong>{s.strong}{s.suffix ? <em>{s.suffix}</em> : null}</strong><small>{s.small}</small></span><i className={s.icon} /></>
                 ) : (
                   <><strong>{s.strong}{s.suffix ? <em className={s.style === "gold" ? "purple" : undefined}>{s.suffix}</em> : null}</strong><small>{s.small}</small></>
                 )}

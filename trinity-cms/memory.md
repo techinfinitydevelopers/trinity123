@@ -1323,3 +1323,8 @@ became "39+" (band, stats, offer card, hero strip, honeycomb, the Choose your Co
 and the local database already matches at 39. **Production still says 50+.** The two signals
 both point at 39, but it is a claim the company makes about itself, so the number is not being
 pushed live without the client saying so.
+
+**The chip with an icon could never show its suffix.** `Hero.tsx`'s statchip has two branches,
+and the icon one rendered `{s.strong}` alone — so About Us printed a flat "1200" beside
+"42+" and "50+" no matter what the database held. The suffix was there all along; the branch
+dropped it.
