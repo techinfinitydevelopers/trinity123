@@ -1413,3 +1413,46 @@ a.seg__logo:hover .seg__logo-go i{transform:translate(2px,-2px)}
 .scard--shot .scard__num{color:rgba(255,255,255,.55);text-shadow:0 2px 10px rgba(26,36,86,.35)}
 .scard--shot .scard__ico{margin-top:-32px;margin-bottom:20px;box-shadow:0 12px 26px rgba(26,36,86,.28)}
 /* The card keeps its 32px side padding at every width, so the pull-out is the same. */
+
+/* ---------- The page-hero watermark word ---------- */
+/* It was never the outline it was meant to be. The ghost is a <p> inside `.page-hero`, and
+   `.page-hero p{color:var(--text)}` is more specific (0-1-1) than `.page-hero__ghost` (0-1-0),
+   so it won whatever the order — the word rendered as solid #333 on every page. Hence the slab
+   of black across the bottom of each hero. `-webkit-text-fill-color` settles it regardless of
+   which `color` wins, and the stroke is lifted a little so the outline actually reads. */
+.page-hero .page-hero__ghost,.pin .pin__ghost{
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+  -webkit-text-stroke:1.5px rgba(35,47,112,.16);
+}
+
+/* Responsive, and no longer running off the right edge. It is pinned to the container's own
+   right edge rather than the window's, scales with the viewport, and will not grow past the
+   width it has — a long word like "SUCCESS STORIES" shrinks to fit instead of being sliced. */
+.page-hero__ghost{
+  right:max(16px,calc((100vw - var(--container)) / 2));
+  bottom:-14px;
+  max-width:100%;
+  /* The word is sized from its own length, so every page gets a watermark of about the same
+     width: 94vw of budget, divided by the characters in it. The cap keeps a short word like
+     "BLOG" from becoming absurd. */
+  font-size:min(calc(94vw / (var(--ghost-len,10) * 0.63)), 8.5rem);
+  letter-spacing:-.04em;
+  /* One entrance for all of them: the same rise and fade the headline words use, a beat later
+     so it settles behind the title rather than competing with it. */
+  opacity:0;transform:translateY(26px);
+  animation:ghostIn .9s .55s var(--ease) forwards;
+}
+@keyframes ghostIn{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){ .page-hero__ghost{animation:none;opacity:1;transform:none} }
+/* On a phone it tucks a little closer to the corner; the size already comes from the word. */
+@media (max-width:640px){
+  .page-hero__ghost{right:14px;bottom:-8px;letter-spacing:-.03em}
+}
+/* The destination pages carry the same watermark. They are not inside `.page-hero`, so they
+   need the fill rule in their own right; the rest they inherit from the class. */
+.cv-ghost{
+  color:transparent;-webkit-text-fill-color:transparent;
+  -webkit-text-stroke:1.5px rgba(35,47,112,.16);
+  line-height:.8;text-transform:uppercase;pointer-events:none;user-select:none;will-change:transform;
+}

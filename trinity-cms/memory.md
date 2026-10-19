@@ -1379,3 +1379,25 @@ The hero said "Eight comprehensive services" where there are thirteen. Fixed.
 `ServicesBlock` items gained optional `img`/`imgAlt`; a service without one keeps the plain
 icon card rather than reserving an empty band. `scripts/apply-service-images-2026-10-19.ts`
 keys on the service's own title, so re-ordering the list cannot put a picture on the wrong one.
+
+## 2026-10-19 — The watermark word behind every page title
+
+**It was never an outline.** The ghost is a `<p>` inside `.page-hero`, and
+`.page-hero p{color:var(--text)}` is more specific (0-1-1) than `.page-hero__ghost` (0-1-0), so
+it won whatever the source order — the word rendered as **solid #333 on every page**. That is the
+slab of black across the bottom of each hero. `-webkit-text-fill-color:transparent` settles it
+whichever `color` wins. **Earlier audits were told this was intentional and skipped it; it was
+not.**
+
+**It is sized from its own length now.** `--ghost-len` is set on the element from the word's
+character count and the CSS divides a 94vw budget by it, so "BLOG", "EVENTS" and
+"WHY STUDY ABROAD" all span roughly the same width instead of one being tiny and the other
+running 16px off the left edge at 375px. Capped at 8.5rem so a four-letter word does not become
+a monster on a wide screen.
+
+**One entrance for all of them**: `ghostIn` — the same rise-and-fade as the headline words'
+`wordUp`, 0.55s later so it settles behind the title instead of competing with it. Disabled
+under `prefers-reduced-motion`.
+
+The destination pages' country name was a separate inline-styled span; it carries the same class
+and the same treatment now.

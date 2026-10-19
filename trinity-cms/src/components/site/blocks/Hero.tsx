@@ -83,7 +83,10 @@ export async function PageHero({ b, contact }: { b: PageHeroBlock; contact: Cont
     <section className={b.short ? "page-hero page-hero--short" : "page-hero"}>
       <div className="page-hero__bg" />
       <div className="page-hero__grid" />
-      <p className="page-hero__ghost" data-plx="0.12" aria-hidden="true">{b.ghost}</p>
+      {/* `--ghost-len` lets the CSS size the watermark from how long the word is, so "EVENTS"
+          and "WHY STUDY ABROAD" both span the hero instead of one being tiny and the other
+          running off the edge. */}
+      <p className="page-hero__ghost" data-plx="0.12" aria-hidden="true" style={{ ["--ghost-len" as string]: Math.max(b.ghost.length, 1) }}>{b.ghost}</p>
       <div className="container page-hero__inner">
         <div>
           <nav className="crumbs" aria-label="Breadcrumb"><Link href="/">{L.home}</Link><i className="fas fa-chevron-right" /><span>{b.crumb}</span></nav>
