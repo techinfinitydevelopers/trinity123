@@ -1567,3 +1567,116 @@ main:has(> .cta-block:last-child) + .footer{margin-top:0}
    read as a graphic glitch rather than a word. It is sized from its length like the others —
    `--ghost-len` is set on the element, with 32 as the fallback for its seeded string. */
 .pin__ghost{font-size:min(calc(94vw / (var(--ghost-len,32) * 0.63)), 8.5rem)}
+
+/* ============================================================================================
+   HOME HERO — the client's design (19/10)
+   Navy headline with green accent words, the student on a pale blue sky disc, a navy honeycomb
+   with an icon in each cell, and a white enquiry card with a green button. The green is a token
+   with a fallback, so the Theme editor still owns it.
+   ============================================================================================ */
+:root{ --green:#2E9E63; --green-2:#268154; --sky:#D7ECF8; }
+
+.hero{background:linear-gradient(110deg,#F2F9FD 0%,#FBFCFE 42%,#FFFDF8 100%)}
+/* The old decorative layers belonged to the previous treatment. */
+.hero .hero__bg,.hero .hero__grid,.hero .hero__glows{display:none}
+
+/* The accent words are green here, not gold and not a gradient. */
+.hero .w__in.gold,.hero .w__in.grad{color:var(--green);background:none;-webkit-text-fill-color:currentColor}
+.hero__title{color:var(--navy)}
+.hero__text{color:var(--muted-ink);font-size:17px}
+
+/* ---- the student, on her sky disc ---- */
+.hero-visual__img--cutout{background:none}
+.hero-visual__img--cutout::before{display:none}
+.hero-visual__img{
+  border-radius:0;box-shadow:none;border:0;overflow:visible;background:none;
+  position:relative;display:flex;align-items:flex-end;justify-content:center;
+}
+/* The pale blue disc behind her, with a soft rim — the landmarks in the client's artwork are
+   part of the photograph, so nothing here tries to redraw them. */
+.hero-visual__img::after{
+  content:"";position:absolute;left:50%;bottom:0;transform:translateX(-50%);
+  width:104%;aspect-ratio:1;border-radius:50%;z-index:-1;
+  background:radial-gradient(circle at 50% 55%,#EAF6FD 0%,var(--sky) 58%,rgba(215,236,248,0) 72%);
+}
+.hero-visual__img--cutout img{filter:none;height:100%;max-width:100%}
+
+/* ---- honeycomb: an icon over each figure ---- */
+.hive__item__face{gap:2px}
+.hive__ico{font-size:15px;color:#fff;opacity:.9;margin-bottom:3px}
+.hive__item--5 .hive__item__face:not(.has-photo) .hive__ico{color:var(--navy)}
+
+/* ---- the enquiry card ---- */
+.hero__form .leadcard{border-radius:26px;box-shadow:0 24px 60px rgba(26,36,86,.12);border:1px solid #EEF2F7;padding:clamp(22px,2.4vw,30px)}
+.leadcard__title{font-size:clamp(19px,1.3vw + 13px,23px);color:var(--navy);margin-bottom:10px}
+.leadcard__rule{display:block;width:46px;height:3px;border-radius:3px;background:var(--green);margin-bottom:20px}
+
+/* Each control sits in a bordered shell with its icon in the left padding. */
+.leadcard__f{position:relative;display:block}
+.leadcard__f > i{
+  position:absolute;left:16px;top:50%;transform:translateY(-50%);
+  font-size:14px;color:var(--green);pointer-events:none;z-index:1;
+}
+.leadcard__f input,.leadcard__f select{padding-left:44px!important}
+.leadcard__form input,.leadcard__form select{
+  background:#fff;border:1px solid #E6EBF2;border-radius:12px;min-height:50px;
+  font-size:14.5px;color:var(--navy);
+}
+.leadcard__form input::placeholder{color:#9AA6B8}
+.leadcard__form input:focus,.leadcard__form select:focus{border-color:var(--green);outline:2px solid color-mix(in srgb,var(--green) 28%,transparent);outline-offset:0}
+
+.leadcard__btn{
+  background:var(--green);color:#fff;border:0;border-radius:12px;min-height:54px;
+  font-family:var(--font-h);font-weight:600;font-size:16px;letter-spacing:.2px;
+  transition:background .3s var(--ease),transform .3s var(--ease);
+}
+.leadcard__btn:hover:not(:disabled){background:var(--green-2);transform:translateY(-2px)}
+
+/* The three reassurances under the button. */
+.leadcard__trust{
+  list-style:none;margin:18px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;text-align:center;
+}
+.leadcard__trust li{
+  display:flex;flex-direction:column;align-items:center;gap:7px;
+  font-family:var(--font-h);font-weight:600;font-size:11px;line-height:1.3;color:var(--navy);
+}
+.leadcard__trust i{font-size:17px;color:var(--navy)}
+@media (max-width:420px){ .leadcard__trust{grid-template-columns:1fr;text-align:left} .leadcard__trust li{flex-direction:row;gap:10px;font-size:12.5px} }
+/* The card itself was navy with a white uppercase title — that was the previous treatment. The
+   client's design is a white card with a navy sentence-case heading and a green rule. */
+.hero__form .leadcard{background:#fff}
+.hero__form .leadcard__title{
+  color:var(--navy);font-weight:700;letter-spacing:-.3px;text-transform:none;
+  padding-bottom:0;margin-bottom:10px;
+}
+.hero__form .leadcard__title::after{display:none}
+.hero__form .leadcard__ok{color:var(--navy)}
+/* The pale blue disc behind the student needs the photo frame to stop clipping it. */
+.hero-visual__frame{overflow:visible}
+/* The shells are block-level so each control still fills the form's column. */
+.leadcard__f input,.leadcard__f select{width:100%}
+
+/* ---- hero: the sky disc, the landmarks and the flight path ---- */
+/* The disc is drawn now, so the CSS pseudo-element version steps aside. */
+.hero-visual__img--cutout::after{display:none}
+.hero__sky{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:124%;height:124%;z-index:-1;pointer-events:none;
+}
+.hero-visual__img--cutout img{position:relative;z-index:1}
+
+.hero__path{
+  position:absolute;right:clamp(2%,6vw,12%);top:clamp(96px,12vh,150px);
+  width:clamp(180px,22vw,320px);height:auto;pointer-events:none;z-index:0;
+  opacity:0;animation:ghostIn .9s .7s var(--ease) forwards;
+}
+@media (max-width:1100px){ .hero__path{display:none} }
+
+/* ---- honeycomb: the client's spacing and icon size ---- */
+.hive{--gap:11px}
+.hive__ico{font-size:19px;opacity:1;margin-bottom:5px}
+.hive__item__face{background:linear-gradient(160deg,var(--navy-2) 0%,var(--navy-3) 100%)}
+.hive__item--1 .hive__item__face,.hive__item--3 .hive__item__face{background:linear-gradient(160deg,var(--navy-2) 0%,var(--navy-3) 100%)}
+.hive__item strong{font-size:clamp(17px,1.4vw + 10px,21px)}
+.hive__item span{font-size:clamp(9px,.45vw + 7px,10.5px)}

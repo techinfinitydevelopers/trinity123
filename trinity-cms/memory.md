@@ -1443,3 +1443,29 @@ and in both databases. **If it comes back a third time, that session is doing it
 **Still open, not mine to touch:** the chat widget's expanded pill sits on the hero form's submit
 button at every desktop size (46-61% of it), and on a phone the two floating buttons cover the
 "1200+ Universities" honeycomb cell. `chat.css` is being actively edited by another session.
+
+## 2026-10-19 — The home hero rebuilt to the client's design
+
+They sent a mock-up and three close-ups. What the design changes, and where it lives:
+
+- **Green replaces gold.** `--green:#2E9E63` (token, so the Theme editor still owns it) on the
+  accent words, the form's rule, and the "Apply Now" button. The accent words had a gold and a
+  gradient treatment; both are overridden inside `.hero` only.
+- **The enquiry card is white**, not navy, with a navy sentence-case heading and a green rule.
+  The old `.leadcard{background:var(--navy)}` and its uppercase white title are overridden under
+  `.hero__form` so the card keeps its previous look anywhere else it is used.
+- **Every field has its icon** in the left padding, inside a `.leadcard__f` shell; the icon is
+  decorative and the control keeps its own label and focus ring.
+- **Three reassurances under the button** — `form.trust` on the hero block, editable.
+- **The honeycomb has an icon over each figure** — `hive[].icon`, Font Awesome **5.15** names.
+- **The student sits on a drawn sky**: an inline SVG ellipse with Big Ben, the Eiffel Tower and
+  a low skyline in pale blue, rather than a bitmap — crisp at any size and weighs nothing.
+- **A dashed flight path** arcs out of the headline towards the card, hidden below 1100px.
+- **No button row under the honeycomb** — the design has none, and the form's button is the
+  hero's call to action. Only the labels are cleared, so typing one back in the dashboard brings
+  the row straight back.
+
+`scripts/apply-hero-design-2026-10-19.ts` carries the content half.
+
+**The countries figure came back as 39 a third time** and was reset again. Something outside
+this session keeps writing it.

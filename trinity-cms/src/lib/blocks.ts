@@ -12,11 +12,16 @@ export type HeroBlock = {
   /* The enquiry form sits in the hero's second row. It used to be its own `leadForm` section
      lower down the page; the client asked for it above the fold. Optional, so a hero without
      one (every inner page) renders exactly as before. */
-  form?: { title: string; submitLabel: string; okMsg: string; cities: string[]; destinations: string[] };
+  form?: {
+    title: string; submitLabel: string; okMsg: string; cities: string[]; destinations: string[];
+    /* The three reassurances under the button in the client's design. */
+    trust?: { icon: string; text: string }[];
+  };
   primary: Btn; ghost: Btn;
   stats: { value: string; label: string }[];
   photo: string; chipCText: string;
-  hive: { value: string; label: string; img?: string }[];
+  /* `icon` is the Font Awesome class above the figure in each cell. */
+  hive: { value: string; label: string; img?: string; icon?: string }[];
 };
 
 export type PageHeroBlock = {

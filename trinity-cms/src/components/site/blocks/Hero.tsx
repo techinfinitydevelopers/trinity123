@@ -19,6 +19,12 @@ export async function Hero({ b, contact }: { b: HeroBlock; contact: ContactSetti
         {/* The headline spans the container rather than sitting in the left column: the client
             wants the tagline on one line, and half the grid cannot hold it at hero size. */}
         <h1 className="h1 hero__title"><Words words={b.words} start={0.25} /></h1>
+        {/* The dashed flight path from the client's design, arcing out of the headline towards
+            the enquiry card. Decorative, and it draws itself once on load. */}
+        <svg className="hero__path" viewBox="0 0 340 120" aria-hidden="true" focusable="false">
+          <path d="M4 112C70 112 128 92 176 56 206 33 236 16 272 10" fill="none" stroke="var(--green)" strokeWidth="2" strokeLinecap="round" strokeDasharray="7 9" opacity=".55" />
+          <path d="M300 4l-26 11 11 4 2 11 13-26z" fill="var(--navy)" />
+        </svg>
         <div className="hero__cols">
         <div className="hero__copy">
           <p className="hero__text w__in" style={{ animationDelay: ".85s" }}>{b.text}</p>
@@ -31,7 +37,29 @@ export async function Hero({ b, contact }: { b: HeroBlock; contact: ContactSetti
               them as a flex sibling, and the chip has to stay pinned to the photo's corner
               rather than to the whole row's right edge. */}
           <div className="hero-visual__frame">
-            {b.photo ? <div className="hero-visual__img hero-visual__img--cutout"><img src={b.photo} alt={L.heroPhotoAlt} /></div> : null}
+            {b.photo ? (
+              <div className="hero-visual__img hero-visual__img--cutout">
+                {/* The sky behind her, with the landmarks drawn into it — the same idea as the
+                    client's artwork, as vectors so it stays crisp and weighs nothing. */}
+                <svg className="hero__sky" viewBox="0 0 400 400" aria-hidden="true" focusable="false">
+                  <defs>
+                    <radialGradient id="skyFill" cx="50%" cy="54%" r="54%">
+                      <stop offset="0%" stopColor="#F2FAFE" /><stop offset="62%" stopColor="#D7ECF8" /><stop offset="100%" stopColor="#D7ECF8" stopOpacity="0" />
+                    </radialGradient>
+                  </defs>
+                  <ellipse cx="200" cy="208" rx="196" ry="186" fill="url(#skyFill)" />
+                  <g fill="#9CC9E6" opacity=".55">
+                    {/* Big Ben */}
+                    <path d="M52 330V214h20v116zM54 214l8-22 8 22zM56 224h12v16H56z" />
+                    {/* Eiffel Tower */}
+                    <path d="M330 330l16-96 16 96h-7l-9-54-9 54zM336 282h20v5h-20zM340 258h12v5h-12zM344 236h4v12h-4z" />
+                    {/* a low skyline */}
+                    <path d="M92 330v-34h14v34zM112 330v-46h12v46zM296 330v-40h13v40zM276 330v-28h14v28z" />
+                  </g>
+                </svg>
+                <img src={b.photo} alt={L.heroPhotoAlt} />
+              </div>
+            ) : null}
             <div className="chip chip--glass chip--hv-b">
               <span className="avatars"><img src={L.avatarImage1} alt="" /><img src={L.avatarImage2} alt="" /></span>
               <span><Stars label={L.ratingLabel} /><small>{b.chipCText}</small></span>
@@ -44,6 +72,7 @@ export async function Hero({ b, contact }: { b: HeroBlock; contact: ContactSetti
                   className={h.img ? "hive__item__face has-photo" : "hive__item__face"}
                   style={h.img ? ({ ["--photo" as string]: `url(${h.img})` }) : undefined}
                 >
+                  {h.icon ? <i className={`${h.icon} hive__ico`} aria-hidden="true" /> : null}
                   <strong>{h.value}</strong><span>{h.label}</span>
                 </div>
               </div>
@@ -51,11 +80,15 @@ export async function Hero({ b, contact }: { b: HeroBlock; contact: ContactSetti
           </div>
         </div>
         ) : null}
-          {/* Below the photo, not above it: the client wants the honeycomb read first. */}
-          <div className="btn-row w__in" style={{ animationDelay: "1s" }}>
-            <A href={b.primary.href} contact={contact} className="btn btn--primary">{b.primary.label} <i className="fas fa-arrow-right" /></A>
-            <A href={b.ghost.href} contact={contact} className="btn btn--ghost"><i className="fab fa-whatsapp gold" /> {b.ghost.label}</A>
-          </div>
+          {/* The client's design has no button row under the honeycomb — the form's own "Apply
+              Now" is the hero's call to action. `primary` and `ghost` stay on the block, so
+              filling either one in the editor brings the row back. */}
+          {b.primary?.label || b.ghost?.label ? (
+            <div className="btn-row w__in" style={{ animationDelay: "1s" }}>
+              {b.primary?.label ? <A href={b.primary.href} contact={contact} className="btn btn--primary">{b.primary.label} <i className="fas fa-arrow-right" /></A> : null}
+              {b.ghost?.label ? <A href={b.ghost.href} contact={contact} className="btn btn--ghost"><i className="fab fa-whatsapp gold" /> {b.ghost.label}</A> : null}
+            </div>
+          ) : null}
         </div>
         {b.form ? (
           <div className="hero__form w__in" style={{ animationDelay: "1.15s" }}>
@@ -65,6 +98,7 @@ export async function Hero({ b, contact }: { b: HeroBlock; contact: ContactSetti
               destinations={b.form.destinations}
               okMsg={b.form.okMsg}
               submitLabel={b.form.submitLabel}
+              trust={b.form.trust ?? []}
               labels={all.forms}
             />
           </div>
