@@ -1605,3 +1605,28 @@ comb stack, as they do on a phone. The `.98` matters: at an exact 1199 the viewp
 between the two bands and neither applied, leaving the comb on its old absolute position.
 
 Swept 320 → 1920 (seventeen widths): nothing covers her face, no horizontal overflow anywhere.
+
+## 21/10 — the comb was never beside the photo; it was anchored to it
+
+The 981–1199 band above was a real fix but it was treating a symptom. The actual fault was
+older and present at **every width from 1200 up**, which is where the client was looking.
+
+`.hive__item` is `position:absolute`. Four separate rules took `.hive` out of its absolute
+placement with `position:static` — the phone stack, the ≥1200 flex row, and two later bands.
+`static` does not create a containing block, so the cells stopped resolving against the hive
+and resolved against `.hero-visual__frame` instead, the nearest positioned ancestor. The hive's
+own box sat exactly where it was meant to — measured at 1536: `x:465 w:426`, a 14px tuck past
+the photo's right edge — and rendered **empty**, while all five cells drew back at `x:100`,
+across the student's head. Every geometric measurement I took against `.hive` said the layout
+was correct, because it was; only a screenshot showed the cells.
+
+Lesson: when a box measures right and looks wrong, measure the **children**, not the box.
+A `getBoundingClientRect()` on a static parent tells you nothing about absolute descendants.
+
+All four changed to `position:relative`. At 1536×760 the cells now run 471→885 — 7px behind the
+photo, 139px clear of the enquiry card. On a 390px phone they sit 24px below the photo, centred.
+Verified by screenshot at 1536, 1100 and 390, not by numbers alone.
+
+Also worth recording: the client's screenshots are of **localhost**, not production — the small
+dark "N" at the bottom-left is the Next.js dev indicator. Two rounds were spent proving
+production was fine while the fault was live on both.
