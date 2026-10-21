@@ -1595,3 +1595,13 @@ it is was wrong and has been corrected); `b.stats` and `b.sideText` are editable
 nothing; the hive is hard-positioned for exactly five cells; the plane is still fetched on phones
 where it is `display:none`. And the page below the hero has **two greens** — the hero's #2E9E63
 against `--teal-ink` #277565 on every tick and kicker — which wants one token, not two.
+
+**The comb was sitting on the student from 981px to 1199px.** The side-by-side row only starts
+at `min-width:1200px`; below that `.hive` kept `position:absolute;left:0`, which is where the
+*old* design tucked it under the photograph — fine when its cells were flat navy under a heavy
+scrim, and not at all now that their fronts are photographs. Measured at 1100: **426px of comb
+across a 420px-wide student, straight over her face.** In 861–1199.98px the photograph and the
+comb stack, as they do on a phone. The `.98` matters: at an exact 1199 the viewport width fell
+between the two bands and neither applied, leaving the comb on its old absolute position.
+
+Swept 320 → 1920 (seventeen widths): nothing covers her face, no horizontal overflow anywhere.

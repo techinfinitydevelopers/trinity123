@@ -1979,3 +1979,18 @@ main:has(> .cta-block:last-child) + .footer{margin-top:0}
 @media (min-width:1101px) and (max-width:1400px){
   .tc-fab{bottom:150px}
 }
+
+/* ---- 861–1199px: the comb was sitting on the student ----
+   The side-by-side row only starts at 1200px. Below that `.hive` stayed `position:absolute;
+   left:0`, which is where the old design tucked it under the photograph — acceptable when its
+   cells were flat navy under a heavy scrim, and not at all now that their fronts are
+   photographs. Measured at 1100: 426px of comb across a 420px-wide student, straight over her
+   face. In this band the photograph and the comb stack, exactly as they do on a phone. */
+/* `.98` so a fractional viewport width cannot fall between this band and the 1200px row and
+   leave the comb on its old absolute position. */
+@media (min-width:861px) and (max-width:1199.98px){
+  .hero-visual{display:flex;flex-direction:column;align-items:center;gap:20px;max-width:none}
+  .hero-visual__frame{width:min(380px,46vw);max-width:none;margin:0}
+  .hive{position:static;margin:0;transform:none;width:calc(var(--w) * 3)}
+  .hive__item{position:absolute}
+}
