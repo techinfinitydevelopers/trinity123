@@ -1028,6 +1028,9 @@ html.no-js [data-reveal]{opacity:1;transform:none}
   .hero-visual__frame{flex:1 1 auto;max-width:520px;min-width:0}
   /* Negative margin: the comb tucks over the card's edge so the two interlock rather than sit
      either side of a gutter. `z-index` keeps it above the card's shadow. */
+  /* The cells are position:absolute, so the hive must stay a containing block wherever it is
+     taken out of its absolute placement. With `static` here they anchored to
+     .hero-visual__frame instead and the whole comb landed back on the students face. */
   .hive{position:relative;flex:0 0 auto;margin:0 0 0 clamp(-40px,-2.4vw,-22px);z-index:2}
 }
 @media (min-width:981px) and (max-width:1199px){
