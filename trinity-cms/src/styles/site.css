@@ -693,7 +693,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
      used to do it on its own and the photo was being clipped by `.hero{overflow:hidden}`. */
   .hero-visual{margin-bottom:0}
   /* Same comb, smaller lattice, and it sits under the photo instead of overlapping it. */
-  .hive{--w:88px;--h:101.6px;--row:76.2px;--gap:4px;position:static;margin:-20px auto 0;left:auto;bottom:auto}
+  .hive{--w:88px;--h:101.6px;--row:76.2px;--gap:4px;position:relative;margin:-20px auto 0;left:auto;bottom:auto}
 }
 @media (max-width:640px){
   .statchips{grid-template-columns:1fr}
@@ -1028,7 +1028,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
   .hero-visual__frame{flex:1 1 auto;max-width:520px;min-width:0}
   /* Negative margin: the comb tucks over the card's edge so the two interlock rather than sit
      either side of a gutter. `z-index` keeps it above the card's shadow. */
-  .hive{position:static;flex:0 0 auto;margin:0 0 0 clamp(-40px,-2.4vw,-22px);z-index:2}
+  .hive{position:relative;flex:0 0 auto;margin:0 0 0 clamp(-40px,-2.4vw,-22px);z-index:2}
 }
 @media (min-width:981px) and (max-width:1199px){
   .hero-visual{max-width:none}
@@ -1873,7 +1873,7 @@ main:has(> .cta-block:last-child) + .footer{margin-top:0}
   }
 
   /* The comb sits under the photograph, centred, clear of it. */
-  .hive{position:static;margin:0 auto;width:calc(var(--w) * 3);transform:none}
+  .hive{position:relative;margin:0 auto;width:calc(var(--w) * 3);transform:none}
   .hive__item{position:absolute}
 }
 
@@ -1991,6 +1991,6 @@ main:has(> .cta-block:last-child) + .footer{margin-top:0}
 @media (min-width:861px) and (max-width:1199.98px){
   .hero-visual{display:flex;flex-direction:column;align-items:center;gap:20px;max-width:none}
   .hero-visual__frame{width:min(380px,46vw);max-width:none;margin:0}
-  .hive{position:static;margin:0;transform:none;width:calc(var(--w) * 3)}
+  .hive{position:relative;margin:0;transform:none;width:calc(var(--w) * 3)}
   .hive__item{position:absolute}
 }
