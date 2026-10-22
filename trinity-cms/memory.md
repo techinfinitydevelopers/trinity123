@@ -1646,3 +1646,9 @@ lands at the wrong offset unless you set the position twice; and the page never 
 Their hero open finishes in **310px** of scroll, which is the useful number — the effect is cheap
 to sit through. Their stats do **not** count up. Nothing in their hero is a form, which is where
 Trinity is already ahead.
+
+**Mobile pass (22/10):** Chrome extension cannot emulate a phone viewport (window resizes but
+`innerWidth` stays 1536) — use the built-in browser pane for that. Mobile is a genuinely different
+build, not a reflow: no `--hero-fit-p`, only 1 `pin-spacer` instead of 2, a mobile-only splash
+screen, and the 4,128px pinned card-stack collapses to 1,611px of ordinary scrolling. Mobile also
+shows WEEK 1-8 labels on the process chevrons that desktop hides. Footer is 29% of the page.

@@ -29,3 +29,18 @@ frame-by-frame breakdown of both pinned sequences, the reusable button-reveal ti
 what-to-take / what-to-avoid list for Trinity.
 
 **Not done:** mobile viewport, and the nav dropdowns were not opened.
+
+## 2026-10-22 — leapscholar.com mobile recording
+
+**Task:** record the mobile view as well, hero frame by frame.
+
+**Method:** built-in browser pane at 375x812 with Android UA (Chrome extension cannot emulate a
+phone viewport). Hero stepped at 100px; rest of the page at 700-1600px.
+
+**Appended to** `research/leapscholar-homepage-teardown.md`: mobile section map against desktop,
+hero frame table, and the desktop/mobile differences.
+
+**Checked and rejected:** apparent right-edge clipping in the screenshots is a capture artifact —
+measured, scrollWidth == clientWidth == 375, zero horizontal scroll.
+
+**Not done:** nav dropdowns, tablet widths.

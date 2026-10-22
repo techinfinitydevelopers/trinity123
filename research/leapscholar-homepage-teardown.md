@@ -1,6 +1,6 @@
 # leapscholar.com — homepage teardown
 
-Recorded 22/10/2026 in Chrome at **1536 × 639** (desktop). Page height **14,438px** ≈ 22.6 viewports.
+Recorded 22/10/2026. Desktop pass in Chrome at **1536 × 639**; mobile pass at **375 × 812**. Page height **14,438px** ≈ 22.6 viewports.
 
 > Reference notes for the Trinity build. Structure, motion and interaction are described;
 > their marketing copy is summarised rather than transcribed, and their artwork is not reproduced.
@@ -350,3 +350,196 @@ It sits over the hero and **scrolls away with it; it is not sticky.**
 - GSAP is bundled, so `window.gsap` is `false`. Detect it by `.pin-spacer` in the DOM and by the
   `translate: none; rotate: none; scale: none;` prefix GSAP's CSSPlugin writes on every target.
 - `IntersectionObserver` is **never constructed** on this page — every reveal is ScrollTrigger.
+
+---
+
+# Mobile — 375 × 812 (Pixel 8 UA)
+
+Recorded 22/10/2026. Page height **14,617px** ≈ 18 viewports.
+
+> Chrome's extension could not emulate a phone viewport (the window resized but `innerWidth`
+> stayed 1536), so this pass was taken in the built-in browser pane, which does emulate both the
+> viewport and the Android user agent.
+
+**The headline number: only 1 `pin-spacer` on mobile, versus 2 on desktop.** They drop a pinned
+sequence entirely.
+
+---
+
+## Mobile section map, against desktop
+
+| Section | Mobile | Desktop | Change |
+|---|---|---|---|
+| Hero | 1,513 | 1,373 | +10% |
+| Numbers | 536 | 476 | +13% |
+| **Why Choose Leap** | **1,611** | **4,128** | **−61%** |
+| How We Help You | 1,187 | 647 | +83% |
+| All the Right Support | 1,593 | 1,620 | — |
+| Testimonials | 941 | 865 | +9% |
+| 256+ Experts | 802 | 920 | −13% |
+| Chevron marquee | 240 | 436 | −45% |
+| Offline centres | 847 | 942 | −10% |
+| CTA | 1,111 | 762 | +46% |
+| **Footer** | **4,236** | **2,269** | **+87%** |
+| **Total** | **14,617** | **14,438** | +1% |
+
+The totals are within 1% of each other, but the money is spent completely differently: the
+showpiece shrinks by nearly two thirds while the footer almost doubles.
+
+---
+
+## A splash screen, mobile only
+
+Before anything renders, mobile gets a **full-screen branded splash** — the same lavender→white
+vertical gradient as the hero, with the logo centred. It holds for several seconds.
+**Desktop has no splash at all.**
+
+---
+
+## 1. Mobile hero, frame by frame (0 → ~1,513)
+
+**`--hero-fit-p` does not exist on mobile.** The custom property that drives the entire desktop
+hero is absent, so this is a separately authored sequence, not the desktop one reflowed.
+
+### y = 0 — rest
+- Headline **centred**, three lines, near-black `rgb(53,12,14)`, set much larger relative to the
+  viewport than on desktop.
+- Student in the same **vertical pill mask**, but now nearly full-width.
+- The university badge sits **on** the photo, and carries two extra lines of caption that desktop
+  does not show at this size.
+- Only **two** of the five curve labels are on screen (top-left and bottom-left); the rest sit off
+  the right edge. The soft peach curve is still behind her.
+- Header is a **white pill with the logo only** — no nav links, no Sign Up button visible.
+
+### y = 100 → 200
+The dark CTA pill rises into view at the bottom. The headline scrolls up normally; the labels
+begin to fade. Nothing is pinned yet.
+
+### y = 300 — the handover
+The **headline fades out to near-transparent** and, behind the student, a campus illustration
+fades up — **in cool blue-lavender**, not the warm ochre desktop uses at the same moment.
+
+### y = 400 — the mask opens
+The tall pill **widens into a rounded rectangle**, corner radius dropping as it goes. The campus
+resolves further. The headline is gone from the page flow.
+
+### y = 500 — the card forms
+The illustration **warms from blue to ochre**, matching desktop's palette at last. The headline
+**reappears inside the card**, top-left, small and **white** — the opposite of desktop, where it
+stays outside the frame and turns orange. The badge moves inside the card with it.
+
+### y = 600 — second line
+`It's a plan.` begins wiping in beneath the first line, white and bold. The graduation cap starts
+dropping from above.
+
+### y = 750 — the cap lands
+**The cap lands on her head.** On desktop it floats above and to the left of her, never touching.
+This is the clearest evidence the two heroes are authored separately rather than shared.
+
+### y = 900 — settled
+Cap seated, both headline lines white inside the card, badge below them, campus full ochre.
+
+---
+
+## 2. Numbers (1,513 → 2,049)
+
+Becomes a **2 × 2 grid** of the same pale grey cards, heading above with the hand-drawn scribble
+underline. The indigo accent on one figure survives. Still **no count-up** — static numbers.
+
+---
+
+## 3. Why Choose Leap — the pin is gone (2,049 → 3,660)
+
+The 4,128px desktop card-stack collapses to **1,611px of ordinary scrolling**, and loses almost
+everything that made it:
+
+| desktop | mobile |
+|---|---|
+| pinned viewport, 4,128px | not pinned, 1,611px |
+| three tilted cards, ~±2°, layered | one flat card at a time, no tilt, no stack |
+| cards fly in as pure colour before content | content present immediately |
+| ticker scrolls one item per 300px of scroll | list is static, all six visible at once |
+| panels slide over one another | panels are just stacked sections |
+
+The display heading keeps its floating pennant chips, and they still overlap the letterforms —
+at 375px that is noticeably harder to read than on desktop.
+
+The globe panel survives intact, with the place-name marquee still running over it.
+The university-pill rows also survive and still drift horizontally.
+
+---
+
+## 4. How We Help You — grows, and reveals something (3,660 → 4,848)
+
+The horizontal chevron pipeline **rotates to vertical**: eight full-width chevrons stacked down
+the page, each pointing right, joined by a thin vertical rail on the left.
+
+**And mobile adds labels desktop never shows: `WEEK 1` … `WEEK 8` inside each chevron.**
+The step name sits outside, below each one. So the mobile layout exposes a *timeline* — an
+eight-week programme — that the desktop version hides entirely behind its decorative band.
+
+That is the single most interesting difference on the page, and the reason this section grows 83%.
+
+---
+
+## 5–9. The middle sections
+
+- **All the Right Support** — the bento becomes one card per row, full width. Each card keeps its
+  own pastel and illustration. The Test Prep card's outlined exam pills still run off both edges
+  by design.
+- **Testimonials** — the two tilted cards stack: the quote card above, the student card below,
+  tilt preserved. The scalloped verified rosette now overlaps the quote card's bottom-right corner
+  and is noticeably larger relative to the card.
+- **256+ Experts** — heading, inline amber chip and paragraph stack normally. The event rows
+  become full-width cards.
+- **Chevron marquee** — survives, both rows, still opposing directions, at 240px tall.
+- **Offline centres** — the hatched India map takes the full width with the "Search for a Center"
+  pill over its lower edge and the black CTA below. The stat card and branch photograph move
+  beneath it.
+
+---
+
+## 10. CTA (9,270 → 10,381) — grows 46%
+
+The two cards stack. The **boarding pass survives**, perforated orange stub and all — it is the
+one piece of the design that reads *better* narrow, because a boarding pass is a portrait object.
+
+---
+
+## 11. Footer (10,381 → 14,617) — 4,236px, nearly double
+
+**29% of the entire mobile page is footer.** The link columns become a long single-column stack and
+the ~20 branch addresses, which sit in a four-column grid on desktop, run one after another down
+the page. The jet illustration and the giant wordmark both survive.
+
+---
+
+## Measured, not assumed
+
+Several screenshots in this pass *appeared* to clip content at the right edge — the stat cards, the
+"We got you covered from Day one" heading. **That is an artifact of the capture**, not a defect:
+measured directly, `document.documentElement.scrollWidth === clientWidth === 375` and there is
+**zero horizontal page scroll**. The 96 elements that extend past 375px are all marquee content
+inside `overflow:hidden` containers, which is intentional.
+
+---
+
+## What this means for Trinity
+
+1. **They did not make one responsive hero — they authored two.** Different driver (no
+   `--hero-fit-p`), different headline placement (outside/orange vs inside/white), different
+   endpoint for the cap (floating vs landed). If Trinity's hero needs to behave differently on a
+   phone, building a second composition is a legitimate choice, not a failure.
+
+2. **The expensive pinned sequence is simply switched off below the breakpoint.** 4,128px of
+   ScrollTrigger becomes 1,611px of normal scrolling. Worth copying: ship the showpiece on desktop,
+   ship the content on mobile, and do not try to make one serve both.
+
+3. **Mobile exposed information desktop hides.** The WEEK 1–8 timeline is real content that the
+   desktop decoration buries. Check Trinity's process band for the same problem — if a step has a
+   duration, say so at both sizes.
+
+4. **A 4,236px footer is 29% of the page.** Trinity should not follow this.
+
+5. **The splash screen is worth questioning, not copying.** It delays first paint on the slowest
+   connections, which is exactly where an India-facing study-abroad site earns its leads.
