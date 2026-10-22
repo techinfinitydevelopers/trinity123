@@ -1652,3 +1652,33 @@ Trinity is already ahead.
 build, not a reflow: no `--hero-fit-p`, only 1 `pin-spacer` instead of 2, a mobile-only splash
 screen, and the 4,128px pinned card-stack collapses to 1,611px of ordinary scrolling. Mobile also
 shows WEEK 1-8 labels on the process chevrons that desktop hides. Footer is 29% of the page.
+
+## 22/10 — Home V2, three builds
+
+The client asked for a leapscholar-style scrolling home page and, asked to choose between a
+CSS-only, a sticky and a full GSAP build, said **all three**. They exist at `/home-v2/css`,
+`/home-v2/sticky` and `/home-v2/full`, with a chooser at `/home-v2`. Not linked, `noindex`.
+
+They read the **same home blocks from the database** as the live home page, so there is one copy
+of the content and the dashboard still owns it. `V2Home` picks blocks out by type and feeds the
+V2 sections instead of BlockRenderer; a block the owner deletes just drops its section.
+
+The whole design rests on two custom properties, `--hero-p` and `--stack-p`, each 0 to 1. The
+markup and the stylesheet only ever read them; which engine writes them is the only difference
+between the three builds. That is what makes three variants one codebase rather than three.
+
+**The enquiry card stays in the hero.** Leap has no form above the fold, only a button. Trading
+the card for an animation would cost leads, so the hero animates around it. The card carries
+`hero__form` as well as its V2 class so every rule the client already signed off applies to it
+verbatim — the field icons, the dialling-code flag, the green button.
+
+**Two things worth remembering from the build:**
+1. In the browser pane a programmatic `scrollTo` fires **no scroll event** even though `scrollY`
+   changes, so a scroll-listener driver tests green but reads stale. The sticky build uses a
+   rAF loop gated by an IntersectionObserver instead — which is also the correct choice for a
+   smooth-scrolling page, since a listener misses the frames between events.
+2. Lenis swallows `window.scrollTo` outright. The instance is published as `window.v2lenis` so
+   anchors, a back-to-top and any test harness have something to drive.
+
+GSAP pins are gated behind `gsap.matchMedia("(min-width: 861px)")` — nothing pins on a phone,
+which is what Leap does too.

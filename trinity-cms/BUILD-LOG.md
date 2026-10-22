@@ -44,3 +44,33 @@ hero frame table, and the desktop/mobile differences.
 measured, scrollWidth == clientWidth == 375, zero horizontal scroll.
 
 **Not done:** nav dropdowns, tablet widths.
+
+## 2026-10-22 — Home V2 (three motion builds)
+
+**Task:** "muje sab chaiye" — all three animation levels, Framer allowed.
+
+**Added:** `gsap@3.13`, `lenis@1.3.11`, `motion@12.23.12`.
+
+**New files:**
+- `src/app/(site)/home-v2/page.tsx` — chooser
+- `src/app/(site)/home-v2/[variant]/page.tsx` — the three builds
+- `src/components/site/v2/V2Home.tsx` — picks blocks by type
+- `src/components/site/v2/sections.tsx` — 10 sections
+- `src/components/site/v2/motion.tsx` — the three drivers
+- `src/styles/v2.css`
+
+**Sections:** pinned hero, numbers, 3-panel pinned stack (ticker / university pills / globe),
+chevron pipeline with stage numbers, bento, voices, events, chevron marquee, centres,
+boarding-pass CTA.
+
+**Verified at 1440x900 and 375x812:**
+- css: 8,951px, 10 sections, 0 horizontal scroll
+- sticky: --hero-p 0 to 1 over 900px; --stack-p 0 to 1; panel opacity crosses 1/0.3/0
+- full: 2 pin-spacers on desktop, 0 on mobile; Lenis active; same progress curve
+- phone: panels stacked relative, 0 horizontal scroll, dialling-code flag 22x15
+- tsc clean, production build passes
+
+**Fixed during the build:** nested h2 in the boarding CTA (hydration failure); the hero card lost
+all its styling because site.css scopes it under `.hero__form`; GSAP pinned on mobile.
+
+**Not done:** V2 sections are not CMS-editable as V2 (they re-use home blocks); no tablet pass.
