@@ -1630,3 +1630,19 @@ Verified by screenshot at 1536, 1100 and 390, not by numbers alone.
 Also worth recording: the client's screenshots are of **localhost**, not production — the small
 dark "N" at the bottom-left is the Next.js dev indicator. Two rounds were spent proving
 production was fine while the fault was live on both.
+
+## 22/10 — leapscholar.com teardown
+
+Client asked for a scroll-by-scroll recording of leapscholar.com's home page. Full notes in
+`research/leapscholar-homepage-teardown.md`. Headlines: Next.js + MUI/Emotion + Tailwind,
+GSAP ScrollTrigger (bundled, not on `window` — detect via `.pin-spacer` and the
+`translate:none;rotate:none;scale:none` CSSPlugin prefix) and Lenis smooth scroll.
+14,438px tall, 11 sections, two pinned sequences.
+
+Two gotchas worth keeping: **Lenis intercepts `window.scrollTo`**, so programmatic frame-stepping
+lands at the wrong offset unless you set the position twice; and the page never constructs an
+`IntersectionObserver` at all — every reveal is ScrollTrigger.
+
+Their hero open finishes in **310px** of scroll, which is the useful number — the effect is cheap
+to sit through. Their stats do **not** count up. Nothing in their hero is a form, which is where
+Trinity is already ahead.

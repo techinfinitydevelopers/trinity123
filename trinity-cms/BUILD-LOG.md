@@ -15,3 +15,17 @@ the ≥1200 flex rule explaining why it can never go back to `static`.
 - 390: cells 24px below the photo, centred 60→330
 
 **Commits:** `c176b13`, `1cd4eb7` — pushed to `origin/main`.
+
+## 2026-10-22 — leapscholar.com homepage recording
+
+**Task:** record the home page scroll by scroll — every animation, every section.
+
+**Method:** Chrome, 1536x639. MutationObserver on class/style + animationstart/transitionstart
+listeners, then stepped the scroll position (100px frames through the hero, 150px through the
+pinned card-stack, 300-500px elsewhere) capturing a screenshot and the mutation log at each stop.
+
+**Output:** `research/leapscholar-homepage-teardown.md` — stack, 11-section map with pixel ranges,
+frame-by-frame breakdown of both pinned sequences, the reusable button-reveal timing table, and a
+what-to-take / what-to-avoid list for Trinity.
+
+**Not done:** mobile viewport, and the nav dropdowns were not opened.
