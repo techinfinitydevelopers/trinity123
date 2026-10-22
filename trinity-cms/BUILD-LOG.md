@@ -74,3 +74,11 @@ boarding-pass CTA.
 all its styling because site.css scopes it under `.hero__form`; GSAP pinned on mobile.
 
 **Not done:** V2 sections are not CMS-editable as V2 (they re-use home blocks); no tablet pass.
+
+## 2026-10-22 — Home V2 UI pass
+
+**Fixed:** chooser full-bleed (.shell scoped under .v2 only); bento art 470px tall;
+offer icons rendered as Font Awesome classes when they are SVG paths; inconsistent icon
+colours; third bento card orphaned in a 2-of-6 slot.
+
+**Screenshots:** `research/home-v2-ui/` — ten, 1536px, desktop.

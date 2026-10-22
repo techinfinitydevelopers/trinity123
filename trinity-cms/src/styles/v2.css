@@ -24,7 +24,9 @@
 }
 .v2--sticky,.v2--full{--hero-p:0;--stack-p:0}
 
-.v2 .shell{max-width:var(--container,1320px);margin:0 auto;padding:0 24px}
+/* The chooser is not wrapped in `.v2` — it is the page that offers the three — so the
+   container has to be reachable from both. */
+.v2 .shell,.v2idx .shell{max-width:var(--container,1320px);margin:0 auto;padding:0 24px}
 .v2 section{position:relative}
 
 /* The reveal the whole site already uses; V2 only needs the blur on top. */
@@ -212,6 +214,8 @@
 .v2tick__row{display:flex;align-items:center;justify-content:flex-end;gap:14px}
 .v2tick__lbl{font-family:var(--font-h);font-weight:600;font-size:clamp(14px,1.3vw,19px);color:rgba(255,255,255,.9);text-align:right}
 .v2tick__ico{width:clamp(30px,2.6vw,38px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;flex:0 0 auto;font-size:13px;color:#fff}
+/* The icons are SVG files in the brand navy; on a saturated chip they have to go white. */
+.v2tick__ico img{width:56%;height:auto;filter:brightness(0) invert(1)}
 .v2tick__row:nth-child(1) .v2tick__ico{background:var(--v2-cool)}
 .v2tick__row:nth-child(2) .v2tick__ico{background:#4E5BD4}
 .v2tick__row:nth-child(3) .v2tick__ico{background:var(--v2-warm)}
@@ -324,13 +328,21 @@
 .v2cell--4{background:#FBDDE4}
 .v2cell--5{background:#E5E0F6}
 .v2cell--6{background:#3B1218}
-.v2cell__art{position:relative;aspect-ratio:16/9;overflow:hidden}
+/* A 4-column card is ~840px wide here, so a 16/9 picture came out 470px tall and the grid
+   read as a column of billboards. The art gets a fixed band instead and the card keeps its
+   proportions whether it spans two columns or four. */
+.v2cell__art{position:relative;height:clamp(160px,17vw,230px);overflow:hidden}
 .v2cell__art img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
 .v2cell:hover .v2cell__art img{transform:scale(1.05)}
 .v2cell__metric{position:absolute;left:14px;top:14px;display:inline-flex;align-items:baseline;gap:6px;background:rgba(20,15,46,.86);color:#fff;border-radius:var(--r-pill);padding:6px 14px;font-size:11px}
 .v2cell__metric strong{font-family:var(--font-h);font-size:14px}
 .v2cell__body{padding:clamp(16px,1.8vw,24px);display:flex;flex-direction:column;gap:8px;flex:1}
-.v2cell__ico{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:rgba(255,255,255,.7);color:var(--v2-ink);font-size:14px}
+/* The supplied icon SVGs are not one set: some are white, some are brand navy. On a pale chip
+   the white ones vanished. A dark chip with every icon forced white makes the row consistent
+   whatever the client sends next. */
+.v2cell__ico{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:var(--v2-deep);font-size:14px;flex:0 0 auto}
+.v2cell__ico img{width:21px;height:21px;filter:brightness(0) invert(1)}
+.v2cell--6 .v2cell__ico{background:rgba(255,255,255,.16)}
 .v2cell__body h3{font-size:1.12rem;font-weight:700;color:var(--v2-ink)}
 .v2cell__body p{font-size:13.5px;line-height:1.55;color:var(--muted-ink)}
 .v2cell--6 .v2cell__body h3{color:#fff}
@@ -547,7 +559,7 @@
 }
 
 @media (max-width:420px){
-  .v2 .shell{padding:0 18px}
+  .v2 .shell,.v2idx .shell{padding:0 18px}
   .v2num__cards{grid-template-columns:minmax(0,1fr)}
   .v2hero__nodes{grid-template-columns:minmax(0,1fr)}
   .v2ev__row{grid-template-columns:minmax(0,1fr)}
@@ -570,3 +582,9 @@
 /* site.css gives the card a 40px top margin below 980px, for a layout V2 does not use: its
    own grid gap already separates the card from the copy. */
 @media (max-width:980px){ .v2 .v2hero__form{margin-top:0} }
+
+/* The bento is irregular by design, but with exactly three cards the third was left alone in
+   a 2-of-6 slot on its own row. When it is the last one it takes the row instead. */
+.v2bento__grid > .v2cell:nth-child(3):last-child{grid-column:span 6}
+@media (max-width:1180px){ .v2bento__grid > .v2cell:nth-child(3):last-child{grid-column:span 4} }
+@media (max-width:860px){ .v2bento__grid > .v2cell:nth-child(3):last-child{grid-column:span 1} }

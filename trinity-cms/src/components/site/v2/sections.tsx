@@ -156,7 +156,9 @@ export function V2Stack({ offer, unis, countries, contact }: {
               {services.map((c, n) => (
                 <li className="v2tick__row" key={c.title} style={i(n)}>
                   <span className="v2tick__lbl">{c.title}</span>
-                  <span className="v2tick__ico"><i className={c.icon} aria-hidden="true" /></span>
+                  {/* `offer.cards[].icon` is a path to an SVG, not a Font Awesome class —
+                      rendering it as one gives an empty square with a file path for a class. */}
+                  <span className="v2tick__ico"><Image src={c.icon} alt="" width={22} height={22} /></span>
                 </li>
               ))}
             </ul>
@@ -258,7 +260,7 @@ export function V2Bento({ b, contact }: { b: OfferBlock; contact: ContactSetting
                 <span className="v2cell__metric"><strong>{c.metric}</strong>{c.metricLabel}</span>
               </div>
               <div className="v2cell__body">
-                <span className="v2cell__ico"><i className={c.icon} aria-hidden="true" /></span>
+                <span className="v2cell__ico"><Image src={c.icon} alt="" width={24} height={24} /></span>
                 <h3>{c.title}</h3>
                 <p>{c.text}</p>
                 <A href={c.href} contact={contact} className="v2cell__link">Explore now <i className="fas fa-chevron-right" /></A>

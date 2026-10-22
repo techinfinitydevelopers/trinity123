@@ -1682,3 +1682,9 @@ verbatim — the field icons, the dialling-code flag, the green button.
 
 GSAP pins are gated behind `gsap.matchMedia("(min-width: 861px)")` — nothing pins on a phone,
 which is what Leap does too.
+
+**UI pass (22/10):** four things only a screenshot caught — the chooser page sat full-bleed
+because its `.shell` rule was scoped under `.v2` and the chooser is not inside it; the bento
+art was 16/9 on an 840px card, so 470px tall; `offer.cards[].icon` is **an SVG path, not a
+Font Awesome class**, so rendering it as `<i>` gave an empty square; and the supplied icon
+SVGs are not one set (some white, some navy), so they now sit on a dark chip forced white.
