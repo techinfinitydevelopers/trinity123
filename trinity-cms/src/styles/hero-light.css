@@ -1,0 +1,160 @@
+/* Hero — light, with a scroll sequence (see HeroStage.tsx).
+
+   HeroStage writes six numbers and nothing else:
+
+     --copy   1 → 0   the headline's presence
+     --open   0 → 1   the photograph opening from card to full bleed
+     --ridge  0 → 1   the dune band rising into frame
+     --dim    0 → 1   the photograph settling back behind the cards
+     --hint   1 → 0   the scroll cue
+     --y      px      raw travel, for the ridge's continuing drift
+     --s      0 → 1   per card, on the card itself
+
+   Everything below is composed from those. Nothing in the sequence touches a property that
+   costs layout — transforms, opacity, clip-path and filter only — so a frame is paint and
+   composite, never reflow.                                                                  */
+
+.hlx{background:#f4f5fa;-webkit-font-smoothing:antialiased;color:var(--navy)}
+.hlx__after{height:70vh;background:#f4f5fa}
+
+/* Defaults are the finished composition, so the page is right before the script runs, with
+   reduced motion, and on a phone — where it never arms at all. */
+.hs{
+  --copy:0;--open:1;--ridge:1;--dim:1;--hint:0;--y:0px;
+  position:relative;
+  background:radial-gradient(900px 520px at 50% -6%,rgba(91,132,196,.2),transparent 70%),linear-gradient(#fff 0%,#f7f8fc 70%,#f4f5fa 100%);
+}
+/* Un-armed the hero is an ordinary section: copy, picture, a row of cards. */
+.hs:not(.is-armed){--copy:1;--open:0;--ridge:1;--dim:0}
+.hs.is-armed{height:340vh}
+.hs__stage{position:relative;display:flex;flex-direction:column;align-items:center;gap:24px;padding:130px 18px 40px;min-height:100vh}
+.hs.is-armed .hs__stage{position:sticky;top:0;height:100vh;min-height:0;overflow:clip;padding-bottom:0}
+
+/* ---- the copy -------------------------------------------------------------------------
+   Each line carries `--l`, its place in the stack, and leaves a beat after the one above —
+   a headline that lifts off rather than a block that fades. */
+.hs__copy{position:relative;z-index:3;width:100%;max-width:1000px;display:flex;flex-direction:column;align-items:center;gap:14px;padding:10px 0 20px}
+.hs__copy > *{
+  --lp:clamp(0,calc((var(--copy) - var(--l,0) * .11) / .56),1);
+  opacity:var(--lp);
+  transform:translate3d(0,calc((1 - var(--lp)) * -46px),0);
+  will-change:transform,opacity;
+}
+.hs__over{font-size:10px;line-height:15px;letter-spacing:1.5px;text-align:center;color:var(--primary);text-transform:uppercase;font-weight:500}
+.hs h1{font-weight:400;font-size:64px;line-height:67.2px;letter-spacing:-4px;text-align:center;max-width:760px;color:var(--navy)}
+.hs__sub{font-size:16px;line-height:25.6px;text-align:center;color:var(--muted)}
+
+/* The reference's button: a fill that rises and a label that swaps with it. */
+.hs__btn{position:relative;display:flex;align-items:center;justify-content:center;padding:18px 28px;height:55.5px;border-radius:100px;background:var(--navy);overflow:hidden;text-decoration:none;font-size:14px;line-height:20px;color:#fff;isolation:isolate;box-shadow:0 14px 30px rgba(35,47,112,.25);transition:box-shadow .45s}
+.hs__fill{position:absolute;left:0;top:0;width:100%;height:100%;background:#fff;transform:translateY(101%);transition:transform .45s cubic-bezier(.22,1,.36,1);z-index:-1}
+.hs__lbl{position:relative;display:block;height:20px;overflow:hidden}
+.hs__lbl .l1,.hs__lbl .l2{display:block;transition:transform .45s cubic-bezier(.22,1,.36,1)}
+.hs__lbl .l2{position:absolute;left:0;top:0;color:var(--navy);transform:translateY(23px)}
+.hs__btn:hover{box-shadow:inset 0 0 0 1.5px var(--navy),0 14px 30px rgba(35,47,112,.18)}
+.hs__btn:hover .hs__fill{transform:translateY(0)}
+.hs__btn:hover .l1{transform:translateY(-23px)}
+.hs__btn:hover .l2{transform:translateY(0)}
+/* Once the copy has left it must stop catching clicks, or it sits invisibly over the cards. */
+.hs.is-armed .hs__copy{pointer-events:none}
+
+/* ---- the photograph --------------------------------------------------------------------
+   Full bleed from the first frame; `clip-path` cuts the card out of it and then opens.
+   The inset is in percentages of the stage, so it needs no measuring and no resize handler. */
+.hs__photo{
+  position:relative;z-index:1;width:min(760px,100%);aspect-ratio:1100/700;flex:none;
+  border-radius:28px;overflow:hidden;
+  box-shadow:0 40px 80px rgba(35,47,112,.2),0 0 0 1px rgba(35,47,112,.06);
+  filter:brightness(calc(1 - var(--dim) * .18)) saturate(calc(1 - var(--dim) * .22));
+  will-change:transform,filter;
+}
+.hs.is-armed .hs__photo{
+  position:absolute;inset:0;width:auto;height:auto;aspect-ratio:auto;
+  border-radius:0;box-shadow:none;
+  /* card → full bleed. At rest the top inset clears the copy, so the card sits under the
+     headline exactly where the un-armed layout puts it; the sides keep it landscape. */
+  clip-path:inset(
+    calc((1 - var(--open)) * 45%) calc((1 - var(--open)) * 25.5%)
+    calc(4% + var(--open) * 20%) calc((1 - var(--open)) * 25.5%)
+    round calc((1 - var(--open)) * 28px)
+  );
+}
+/* The picture drifts a little slower than its frame, which is what reads as depth rather
+   than as a box being stretched. */
+.hs__photo img{
+  width:100%;height:100%;display:block;object-fit:cover;
+  transform:scale(calc(1.12 - var(--open) * .12)) translate3d(0,calc(var(--dim) * -26px),0);
+  will-change:transform;
+}
+
+/* ---- the dune ridge ---------------------------------------------------------------------
+   From the reference. It rises into frame on its own beat and then keeps drifting at a fifth
+   of the scroll, which is the parallax the reference is built around. */
+.hs__ridge{
+  position:absolute;left:-6%;right:-6%;bottom:-2%;z-index:2;height:38%;
+  /* The PNG masks a brand gradient, so the dunes come out navy rather than the reference's
+     black — the only way to recolour a flat silhouette exactly. */
+  background:linear-gradient(170deg,var(--navy) 0%,var(--primary-2) 100%);
+  -webkit-mask:url(/assets/img/hero-light/dunes.png) center 24%/cover no-repeat;
+  mask:url(/assets/img/hero-light/dunes.png) center 24%/cover no-repeat;
+  opacity:calc(var(--ridge) * .92);
+  /* Rises into frame on its beat, then keeps creeping up at a fraction of the scroll. The
+     reference drifts its mountain downward because its hero scrolls away; this stage is
+     pinned, so the same sign would simply push the ridge out of the bottom of the frame. */
+  transform:translate3d(0,calc((1 - var(--ridge)) * 70% - var(--y) * .18),0);
+  pointer-events:none;will-change:transform,opacity;
+}
+.hs:not(.is-armed) .hs__ridge{display:none}
+
+/* ---- the cards --------------------------------------------------------------------------
+   Un-armed they are a plain scrolling row under the picture. Armed they rise over it. */
+.hs__cards{position:relative;z-index:4;width:100%;margin-top:-90px}
+.hs.is-armed .hs__cards{position:absolute;left:0;right:0;bottom:46px;margin-top:0}
+.hs__track{display:flex;gap:22px;justify-content:safe center;padding:30px max(18px,calc((100vw - 1240px)/2));overflow-x:auto;overflow-y:visible;scrollbar-width:none}
+.hs__track::-webkit-scrollbar{display:none}
+.hs.is-armed .hs__track{overflow:visible;justify-content:center}
+
+.hs__u{
+  position:relative;flex:0 0 232px;height:318px;border-radius:22px;overflow:hidden;
+  background:#fff;color:var(--navy);text-decoration:none;
+  border:1px solid rgba(35,47,112,.08);box-shadow:0 18px 40px rgba(35,47,112,.2);
+  transition:box-shadow .4s var(--ease);transform-origin:50% 120%;
+}
+.hs.is-armed .hs__u{
+  --s:0;
+  opacity:var(--s);
+  transform:perspective(1100px)
+    translate3d(0,calc((1 - var(--s)) * 170px),0)
+    rotateX(calc((1 - var(--s)) * 18deg))
+    scale(calc(.92 + var(--s) * .08));
+  will-change:transform,opacity;
+}
+.hs__u:hover{box-shadow:0 26px 54px rgba(35,47,112,.32)}
+.hs__u-img{position:absolute;left:0;top:0;width:100%;height:56%;object-fit:cover;transition:transform .8s var(--ease)}
+.hs__u:hover .hs__u-img{transform:scale(1.07)}
+.hs__u-city{position:absolute;left:10px;top:10px;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);padding:5px 10px 5px 6px;border-radius:999px;font-family:var(--font-h);font-weight:600;font-size:11.5px}
+.hs__u-city img{width:16px;height:16px;border-radius:50%;object-fit:cover}
+.hs__u-body{position:absolute;left:0;right:0;bottom:0;height:44%;padding:12px 15px;display:flex;flex-direction:column;justify-content:center;gap:3px;background:#fff}
+.hs__u-body small{font-size:11.5px;color:#c98a00;font-weight:600}
+.hs__u-body strong{font-family:var(--font-h);font-weight:600;font-size:14px;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.hs__u-go{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-h);font-weight:600;font-size:11.5px;color:var(--primary)}
+.hs__u-go i{font-size:10px;transition:transform .3s var(--ease)}
+.hs__u:hover .hs__u-go i{transform:translateX(3px)}
+
+/* ---- the cue ---------------------------------------------------------------------------- */
+.hs__hint{display:none;position:absolute;z-index:5;left:50%;bottom:14px;transform:translateX(-50%);align-items:center;gap:10px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);opacity:var(--hint);pointer-events:none}
+.hs.is-armed .hs__hint{display:flex}
+.hs__hint span{width:1px;height:26px;background:linear-gradient(var(--primary),transparent);animation:hsHint 1.6s ease-in-out infinite}
+@keyframes hsHint{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+@media (max-width:809px){
+  .hs__stage{padding-top:110px}
+  .hs h1{font-size:44px;line-height:46px;letter-spacing:-2.5px}
+  .hs__u{flex-basis:200px;height:290px}
+  .hs__track{justify-content:flex-start}
+}
+
+/* Someone who has asked for less motion gets the finished composition and none of the
+   travel — the script does not arm, so every default above already applies. */
+@media (prefers-reduced-motion:reduce){
+  .hs__u,.hs__u-img,.hs__fill,.hs__lbl .l1,.hs__lbl .l2,.hs__hint span{transition:none;animation:none}
+}

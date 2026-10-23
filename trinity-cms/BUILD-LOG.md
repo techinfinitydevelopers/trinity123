@@ -82,3 +82,37 @@ offer icons rendered as Font Awesome classes when they are SVG paths; inconsiste
 colours; third bento card orphaned in a 2-of-6 slot.
 
 **Screenshots:** `research/home-v2-ui/` — ten, 1536px, desktop.
+
+## 2026-10-23 — /hero-light scroll sequence rebuilt
+
+**Task:** better scroll animation for the hero-light section. Client supplied the original
+reference (Downloads/hero/hero — a dark "Orynthiq" hero: Lenis, a dune ridge parallaxing at
+0.2x, and the fill-up button).
+
+**Three things the first pass got wrong, all performance:**
+1. The photograph grew by writing `width`/`height` every frame — a layout on every frame.
+   Now it opens with `clip-path`, which is paint-only; the picture is always full bleed and
+   the card is cut out of it.
+2. It read `offsetTop` straight after writing styles — a synchronous reflow on top. Gone.
+3. It listened for `scroll`, which misses the frames a smooth-scrolling page produces between
+   events and never fires for a programmatic jump. Now a rAF loop gated by an
+   IntersectionObserver, running only while the hero is on screen.
+
+**Structure:** JS writes six custom properties and nothing else (`--copy --open --ridge --dim
+--hint --y`, plus `--s` per card); the composition lives in the stylesheet.
+
+**Sequence:** copy leaves line by line -> photo opens card to full bleed -> dune ridge rises and
+keeps creeping up -> cards rise outward from the centre, tilting flat -> photo dims back.
+
+**The ridge:** the reference's black silhouette over flat dark ground did not read over a
+photograph. The PNG is now a *mask* on a navy gradient, standing in the 24% band the photo
+leaves at the bottom, so the cards have a horizon to stand on. Its drift had to be inverted —
+the reference pushes its mountain down because its hero scrolls away, but this stage is pinned,
+so the same sign pushed it straight out of frame.
+
+**Fixed while testing:** at rest the clipped card sat over the headline (inset was centred, not
+below the copy); and on a phone the script wrote the end of the sequence, which hid the
+headline — it now leaves the element alone entirely below 810px.
+
+**Verified:** 1440x900 progress curve measured across six positions; 375x812 un-armed, no pin,
+no inline style, zero horizontal scroll; tsc clean; production build green.
