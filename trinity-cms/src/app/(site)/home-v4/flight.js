@@ -1,20 +1,20 @@
 const ORIGIN={name:'Mumbai',lat:19.076,lon:72.878};
 const FIELDS='Business · Data & AI · Engineering · Health';
 const COUNTRIES=[
-{k:'uk',n:'United Kingdom',s:'UK',lat:51.5,lon:-0.12,city:'London',url:'https://trinity123-production.up.railway.app/destinations/uk',test:'IELTS · UKVI',u:['University of Oxford','University of Cambridge','University College London','Imperial College London','University of Manchester','University of Edinburgh','King\'s College London']},
-{k:'ireland',n:'Ireland',s:'Ireland',lat:53.35,lon:-6.26,city:'Dublin',url:'https://trinity123-production.up.railway.app/destinations/ireland',test:'IELTS · PTE',u:['Trinity College Dublin','University College Dublin','University of Galway','University College Cork','Dublin City University','University of Limerick']},
-{k:'france',n:'France',s:'France',lat:48.86,lon:2.35,city:'Paris',url:'https://trinity123-production.up.railway.app/destinations/france',test:'IELTS · TCF / DELF',u:['Sorbonne Université','Université PSL','Institut Polytechnique de Paris','Sciences Po','HEC Paris','Université Paris-Saclay']},
-{k:'germany',n:'Germany',s:'Germany',lat:52.52,lon:13.4,city:'Berlin',url:'https://trinity123-production.up.railway.app/destinations/germany',test:'IELTS · TestDaF',u:['Technical University of Munich','LMU Munich','Heidelberg University','TU Berlin','RWTH Aachen','Humboldt University of Berlin']},
+{k:'uk',n:'United Kingdom',s:'UK',lat:51.5,lon:-0.12,city:'London',url:'/destinations/uk',test:'IELTS · UKVI',u:['University of Oxford','University of Cambridge','University College London','Imperial College London','University of Manchester','University of Edinburgh','King\'s College London']},
+{k:'ireland',n:'Ireland',s:'Ireland',lat:53.35,lon:-6.26,city:'Dublin',url:'/destinations/ireland',test:'IELTS · PTE',u:['Trinity College Dublin','University College Dublin','University of Galway','University College Cork','Dublin City University','University of Limerick']},
+{k:'france',n:'France',s:'France',lat:48.86,lon:2.35,city:'Paris',url:'/destinations/france',test:'IELTS · TCF / DELF',u:['Sorbonne Université','Université PSL','Institut Polytechnique de Paris','Sciences Po','HEC Paris','Université Paris-Saclay']},
+{k:'germany',n:'Germany',s:'Germany',lat:52.52,lon:13.4,city:'Berlin',url:'/destinations/germany',test:'IELTS · TestDaF',u:['Technical University of Munich','LMU Munich','Heidelberg University','TU Berlin','RWTH Aachen','Humboldt University of Berlin']},
 {k:'europe',n:'Other Europe',s:'Europe',lat:50.08,lon:14.43,city:'Prague',url:'',test:'IELTS · Local language',u:['University of Amsterdam','TU Delft','KU Leuven','ETH Zurich','Politecnico di Milano','Lund University']},
-{k:'usa',n:'USA',s:'USA',lat:40.71,lon:-74.0,city:'New York',url:'https://trinity123-production.up.railway.app/destinations/usa',test:'TOEFL · IELTS · GRE / SAT',u:['Massachusetts Institute of Technology','Stanford University','Harvard University','Columbia University','UC Berkeley','New York University','Carnegie Mellon University']},
-{k:'canada',n:'Canada',s:'Canada',lat:43.65,lon:-79.38,city:'Toronto',url:'https://trinity123-production.up.railway.app/destinations/canada',test:'IELTS Academic',u:['University of Toronto','University of British Columbia','McGill University','University of Waterloo','University of Alberta','McMaster University']},
-{k:'uae',n:'UAE',s:'UAE',lat:25.2,lon:55.27,city:'Dubai',url:'',test:'IELTS · EmSAT',u:['Khalifa University','NYU Abu Dhabi','American University of Sharjah','Heriot-Watt University Dubai','Middlesex University Dubai','BITS Pilani Dubai']},
+{k:'usa',n:'USA',s:'USA',lat:40.71,lon:-74.0,city:'New York',url:'/destinations/usa',test:'TOEFL · IELTS · GRE / SAT',u:['Massachusetts Institute of Technology','Stanford University','Harvard University','Columbia University','UC Berkeley','New York University','Carnegie Mellon University']},
+{k:'canada',n:'Canada',s:'Canada',lat:43.65,lon:-79.38,city:'Toronto',url:'/destinations/canada',test:'IELTS Academic',u:['University of Toronto','University of British Columbia','McGill University','University of Waterloo','University of Alberta','McMaster University']},
+{k:'uae',n:'UAE',s:'UAE',lat:25.2,lon:55.27,city:'Dubai',url:'/destinations/dubai',test:'IELTS · EmSAT',u:['Khalifa University','NYU Abu Dhabi','American University of Sharjah','Heriot-Watt University Dubai','Middlesex University Dubai','BITS Pilani Dubai']},
 {k:'korea',n:'South Korea',s:'Korea',lat:37.57,lon:126.98,city:'Seoul',url:'',test:'TOPIK · IELTS',u:['Seoul National University','KAIST','Yonsei University','Korea University','POSTECH','Sungkyunkwan University']},
 {k:'japan',n:'Japan',s:'Japan',lat:35.68,lon:139.69,city:'Tokyo',url:'',test:'JLPT · EJU · IELTS',u:['University of Tokyo','Kyoto University','Osaka University','Waseda University','Keio University','Tohoku University']},
-{k:'singapore',n:'Singapore',s:'Singapore',lat:1.29,lon:103.85,city:'Singapore',url:'',test:'IELTS · TOEFL',u:['National University of Singapore','Nanyang Technological University','Singapore Management University','SUTD','Singapore Institute of Technology']},
+{k:'singapore',n:'Singapore',s:'Singapore',lat:1.29,lon:103.85,city:'Singapore',url:'/destinations/singapore',test:'IELTS · TOEFL',u:['National University of Singapore','Nanyang Technological University','Singapore Management University','SUTD','Singapore Institute of Technology']},
 {k:'malaysia',n:'Malaysia',s:'Malaysia',lat:3.14,lon:101.69,city:'Kuala Lumpur',url:'',test:'IELTS · MUET',u:['Universiti Malaya','Universiti Teknologi Malaysia','Universiti Kebangsaan Malaysia','Monash University Malaysia','Taylor\'s University','Sunway University']},
-{k:'australia',n:'Australia',s:'Australia',lat:-33.87,lon:151.21,city:'Sydney',url:'https://trinity123-production.up.railway.app/destinations/australia',test:'IELTS · PTE',u:['University of Melbourne','University of Sydney','Australian National University','UNSW Sydney','Monash University','University of Queensland']},
-{k:'nz',n:'New Zealand',s:'New Zealand',lat:-36.85,lon:174.76,city:'Auckland',url:'https://trinity123-production.up.railway.app/destinations/new-zealand',test:'IELTS Academic',u:['University of Auckland','University of Otago','Victoria University of Wellington','University of Canterbury','Massey University','University of Waikato']}
+{k:'australia',n:'Australia',s:'Australia',lat:-33.87,lon:151.21,city:'Sydney',url:'/destinations/australia',test:'IELTS · PTE',u:['University of Melbourne','University of Sydney','Australian National University','UNSW Sydney','Monash University','University of Queensland']},
+{k:'nz',n:'New Zealand',s:'New Zealand',lat:-36.85,lon:174.76,city:'Auckland',url:'/destinations/new-zealand',test:'IELTS Academic',u:['University of Auckland','University of Otago','Victoria University of Wellington','University of Canterbury','Massey University','University of Waikato']}
 ];
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -31,14 +31,16 @@ const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
    cosmetic class toggles below land on a detached node rather than being deleted — the
    timeline stays identical to the original. */
 const NAV=document.getElementById('nav')||document.createElement('div');
+let rafId=0;
+const done=()=>$('#loading')?.classList.add('done');
 const IMG={"uk":"/assets/img/home-v4/uk.jpg","ireland":"/assets/img/home-v4/ireland.jpg","france":"/assets/img/home-v4/france.jpg","germany":"/assets/img/home-v4/germany.jpg","europe":"/assets/img/home-v4/europe.jpg","usa":"/assets/img/home-v4/usa.jpg","canada":"/assets/img/home-v4/canada.jpg","uae":"/assets/img/home-v4/uae.jpg","korea":"/assets/img/home-v4/korea.jpg","japan":"/assets/img/home-v4/japan.jpg","singapore":"/assets/img/home-v4/singapore.jpg","malaysia":"/assets/img/home-v4/malaysia.jpg","australia":"/assets/img/home-v4/australia.jpg","nz":"/assets/img/home-v4/nz.jpg"};
 
 /* ---------- smooth scroll (locked until a country is chosen) ---------- */
 const lenis=new Lenis({lerp:.075,wheelMultiplier:.9,touchMultiplier:1.4,smoothWheel:true});
 window.lenis=lenis;lenis.on('scroll',ScrollTrigger.update);
-gsap.ticker.add(t=>lenis.raf(t*1000));gsap.ticker.lagSmoothing(0);
+const tick=t=>lenis.raf(t*1000);gsap.ticker.add(tick);gsap.ticker.lagSmoothing(0);
 lenis.stop();
-$$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t&&t.id){e.preventDefault();if(!state.k){shake();return}lenis.scrollTo(t,{duration:2.4,easing:x=>1-Math.pow(1-x,4)})}}));
+$$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const h=a.getAttribute('href');if(!h||h.charAt(0)!=='#'||h.length<2)return;const t=document.getElementById(h.slice(1));if(t&&t.id){e.preventDefault();if(!state.k){shake();return}lenis.scrollTo(t,{duration:2.4,easing:x=>1-Math.pow(1-x,4)})}}));
 const logoImg=$('#logoimg');
 if(logoImg){
 logoImg.addEventListener('load',()=>{logoImg.style.display='block';$('.logo .mark').style.display='none'});
@@ -60,9 +62,16 @@ renderer.outputColorSpace=THREE.SRGBColorSpace;
 renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
 const scene=new THREE.Scene();
 const camera=new THREE.PerspectiveCamera(36,1,.002,1200);
-const asp=()=>innerWidth/innerHeight;const mobile=()=>innerWidth<760||asp()<1.25;
-function resize(){renderer.setSize(innerWidth,innerHeight,false);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix()}
-addEventListener('resize',resize);resize();
+/* The drawing box is the canvas, not the window: the site header takes the top of the
+   screen, so window height would stretch the globe and misplace every pin. */
+const VW=()=>canvas.clientWidth||innerWidth,VH=()=>canvas.clientHeight||innerHeight;
+const asp=()=>VW()/VH();const mobile=()=>innerWidth<760||asp()<1.25;
+function resize(){renderer.setSize(VW(),VH(),false);camera.aspect=VW()/VH();camera.updateProjectionMatrix()}
+addEventListener('resize',resize);
+/* The canvas can change height without the window doing so — the header is shorter on a
+   phone, and its height is published as --v4-top after mount. */
+new ResizeObserver(resize).observe(canvas);
+resize();
 scene.environment=new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(),.03).texture;
 scene.environmentIntensity=.8;
 const sun=new THREE.DirectionalLight(0xfff6e6,2.6);sun.position.set(25,25,70);scene.add(sun);
@@ -114,8 +123,10 @@ new GLTFLoader().load('/assets/models/a350.glb',g=>{
   g.scene.traverse(o=>{if(o.isMesh){try{o.geometry=toCreasedNormals(o.geometry,Math.PI/3.2)}catch(e){}o.material.envMapIntensity=1;if(o.material.map){o.material.map.anisotropy=maxA;o.material.map.needsUpdate=true}o.material.roughness=Math.min(o.material.roughness??.5,.5);o.material.metalness=Math.max(o.material.metalness??0,.15)}});
   planeG.add(g.scene);
   try{crispWindows(g.scene)}catch(err){console.error('windows',err)}
-  $('#loading').classList.add('done');ScrollTrigger.refresh();
-},undefined,e=>console.error(e));
+  done();ScrollTrigger.refresh();
+},undefined,e=>{console.error('[home-v4] aircraft model failed',e);done()});
+/* Whatever happens to the model, the page must become usable. */
+setTimeout(done,8000);
 
 
 /* crisp vector windows + cockpit: replace the low-res decal textures so close-ups stay sharp */
@@ -224,12 +235,12 @@ function pinProject(){
     o.mesh.getWorldPosition(W1);const facing=W1.clone().normalize().dot(cdir)>.22;
     W1.project(camera);
     o.b.style.display=facing?'block':'none';
-    o.b.style.transform=`translate(${(W1.x*.5+.5)*innerWidth}px,${(-W1.y*.5+.5)*innerHeight}px)`;
+    o.b.style.transform=`translate(${(W1.x*.5+.5)*VW()}px,${(-W1.y*.5+.5)*VH()}px)`;
     o.b.classList.toggle('on',o.c.k===state.k);
   });
 }
 function frame(){
-  requestAnimationFrame(frame);
+  rafId=requestAnimationFrame(frame);
   if(!st.show)return;
   const dt=Math.min(clock.getDelta(),.05);
   st.cur+=(st.t-st.cur)*Math.min(1,dt*7);
@@ -293,7 +304,7 @@ function render(c){
   $('.arrive .tag').textContent='Welcome to '+c.n;
   $('.arrive h2').innerHTML='Study in <em>'+c.n+'.</em><br>We\'ll fly with you.';
   $('.arrive p').textContent=c.u.slice(0,3).join(', ')+' — your university in '+c.city+' is waiting.';
-  const ex=$('#explore');ex.textContent='Explore '+c.n;ex.href=c.url||'#unis';ex.target=c.url?'_blank':'';ex.rel='noopener';
+  const ex=$('#explore');ex.textContent='Explore '+c.n;ex.href=c.url||'#unis';ex.removeAttribute('target');ex.removeAttribute('rel');
   $('#uni-eyebrow').textContent='Destination '+c.s;
   $('#uni-lead').textContent=c.u.length+' universities in '+c.n+' we place students in. Keep scrolling →';
   const track=$('#track');track.querySelectorAll('.ucard:not(.intro)').forEach(n=>n.remove());
@@ -434,6 +445,22 @@ curtain('#cta');
 gsap.fromTo('.cbox',{y:120,opacity:0,scale:.94},{y:0,opacity:1,scale:1,ease:'none',scrollTrigger:{trigger:'.cbox',start:'top 98%',end:'top 55%',scrub:.7}});
 addEventListener('load',()=>ScrollTrigger.refresh());
 
+
+/* Added by the port. The source page never navigated away from itself; this one can, and
+   everything below keeps running against a detached DOM if it is not stopped. Lenis matters
+   most: created stopped, it swallows every wheel and touch event site-wide. */
+window.__v4teardown = () => {
+  try { ScrollTrigger.getAll().forEach(t => t.kill()); } catch {}
+  try { mm.revert(); } catch {}
+  try { gsap.ticker.remove(tick); } catch {}
+  try { lenis.destroy(); } catch {}
+  try { removeEventListener('resize', resize); } catch {}
+  try { renderer.dispose(); renderer.forceContextLoss(); } catch {}
+  try { cancelAnimationFrame(rafId); } catch {}
+  document.documentElement.classList.remove('picked');
+  delete window.lenis; delete window.gsap; delete window.ScrollTrigger; delete window.__v4ready;
+  delete window.__v4teardown;
+};
 
 /* Added by the port: a module that half-runs is otherwise indistinguishable from one
    that ran and did nothing. */

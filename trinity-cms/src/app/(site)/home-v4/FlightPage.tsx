@@ -144,6 +144,34 @@ export default function FlightPage() {
        cleanup hides every failure, because React runs effects twice in development and the
        first pass is always torn down. */
     import("./flight.js").catch((e) => console.error("[home-v4] flight.js failed", e));
+    /* The module publishes a teardown. Without it Lenis survives the route change — and it
+       is created *stopped*, so it goes on calling preventDefault() on every wheel and touch
+       event, leaving the rest of the site unscrollable until a full reload. */
+    return () => {
+      const w = window as unknown as { __v4teardown?: () => void };
+      try { w.__v4teardown?.(); } catch (e) { console.error("[home-v4] teardown", e); }
+      started.current = false;
+    };
+  }, []);
+
+  /* The site header is fixed and sits over the top of the screen. The source page had the
+     viewport to itself, so everything full-screen — the sky, the WebGL canvas, the pinned
+     stage — started at 0 and the header cut the globe in half. Its real height is published
+     as --v4-top and kept current, because the header is shorter on a phone and taller once
+     it goes solid. The stylesheet carries 133px as the pre-hydration fallback. */
+  useEffect(() => {
+    const header = document.querySelector<HTMLElement>("header, .cv-nav, .nav");
+    const el = host.current;
+    if (!header || !el) return;
+    const publish = () => {
+      const h = Math.round(header.getBoundingClientRect().height);
+      if (h > 0) el.style.setProperty("--v4-top", `${h}px`);
+    };
+    publish();
+    const ro = new ResizeObserver(publish);
+    ro.observe(header);
+    addEventListener("resize", publish);
+    return () => { ro.disconnect(); removeEventListener("resize", publish); };
   }, []);
 
   /* The source page's form only rewrote its own button text on submit. Left as it was it

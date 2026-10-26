@@ -10,9 +10,20 @@
    footer wrap the page), and the form's inline onsubmit is replaced with a hook the component
    owns, because an inline handler cannot run from innerHTML anyway. */
 const fs = require("fs");
-const SP = __dirname;
 
-let m = fs.readFileSync(SP + "/v4-markup.html", "utf8");
+/* Derived from the one source file, like the other two generators, so a new drop can be
+   re-ported by re-running them. Pass a path as argv[2] if it lives somewhere else. */
+const SRC = process.argv[2] || "C:/Users/prasa/Downloads/globebound-world-flight_1.html";
+if (!fs.existsSync(SRC)) throw new Error("source not found: " + SRC + "\nPass the path as the first argument.");
+const lines = fs.readFileSync(SRC, "utf8").split(/\r?\n/);
+
+/* Lines 219..341: `<div id="loading">` down to the end of the `#cta` section. Lines 220..224
+   are the source page's own <nav>, which the site header replaces; its <footer> (342..344)
+   is dropped the same way. */
+if (!/<div id="loading">/.test(lines[218])) throw new Error("line 219 is not the loading overlay");
+if (!/^<nav id="nav">/.test(lines[219])) throw new Error("line 220 is not the source <nav>");
+if (!/^<\/nav>/.test(lines[223])) throw new Error("line 224 is not </nav>");
+let m = lines.slice(218, 341).filter((_, i) => i < 1 || i > 5).join("\n");
 
 const onsubmit = / onsubmit="[^"]*"/;
 if (!onsubmit.test(m)) throw new Error("onsubmit anchor missing");
@@ -65,6 +76,34 @@ export default function FlightPage() {
        cleanup hides every failure, because React runs effects twice in development and the
        first pass is always torn down. */
     import("./flight.js").catch((e) => console.error("[home-v4] flight.js failed", e));
+    /* The module publishes a teardown. Without it Lenis survives the route change — and it
+       is created *stopped*, so it goes on calling preventDefault() on every wheel and touch
+       event, leaving the rest of the site unscrollable until a full reload. */
+    return () => {
+      const w = window as unknown as { __v4teardown?: () => void };
+      try { w.__v4teardown?.(); } catch (e) { console.error("[home-v4] teardown", e); }
+      started.current = false;
+    };
+  }, []);
+
+  /* The site header is fixed and sits over the top of the screen. The source page had the
+     viewport to itself, so everything full-screen — the sky, the WebGL canvas, the pinned
+     stage — started at 0 and the header cut the globe in half. Its real height is published
+     as --v4-top and kept current, because the header is shorter on a phone and taller once
+     it goes solid. The stylesheet carries 133px as the pre-hydration fallback. */
+  useEffect(() => {
+    const header = document.querySelector<HTMLElement>("header, .cv-nav, .nav");
+    const el = host.current;
+    if (!header || !el) return;
+    const publish = () => {
+      const h = Math.round(header.getBoundingClientRect().height);
+      if (h > 0) el.style.setProperty("--v4-top", \`\${h}px\`);
+    };
+    publish();
+    const ro = new ResizeObserver(publish);
+    ro.observe(header);
+    addEventListener("resize", publish);
+    return () => { ro.disconnect(); removeEventListener("resize", publish); };
   }, []);
 
   /* The source page's form only rewrote its own button text on submit. Left as it was it

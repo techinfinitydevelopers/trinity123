@@ -164,3 +164,73 @@ fades in, university cards follow. tsc clean, production build green.
 
 **Not done:** the CTA form is the source's own and is not wired to `/api/leads` — it now says
 so rather than claiming it will call. No mobile pass yet.
+
+## 2026-10-26 — Home V4 fixed after a ten-agent audit
+
+Ten parallel audits (CSS scoping, accessibility, mobile, performance, site integration, port
+fidelity, country data, images, content, security/links). What they found and what was fixed.
+
+**Root cause of "colours all over the place", and it was mine.** `scripts/scope-v4-css.js`
+sliced the stylesheet from line 6, which is the literal `<style>` tag. The walker swept it
+into the prelude of the first rule, so the source's token block shipped as
+`.v4 <style> :root{...}` — a selector that can never match. All eight colour tokens were
+undefined: `--navy`, `--gold` and `--sky` silently fell through to the site's own (different)
+values, and `--blue`, `--ink`, `--mute`, `--bg`, `--card` resolved to nothing. Every section
+below the hero lost its background, so the fixed near-black `#sky` showed through behind
+charcoal text; the IELTS band, the white cards, the timeline line and the stat gradients all
+went with it. The generator now asserts that line 6 is `<style>` and line 216 is `</style>`
+before slicing.
+
+**Second cause of the overlap, not mine.** `site.css` gives `.chip` `position:absolute` plus a
+float animation for the home hero's decorative pills. `flight.js` builds the fourteen country
+buttons with the same class name inside a flex row, so all fourteen resolved to one position —
+a single stack with only the top one clickable, `#chips` collapsed to zero height, and the
+picked-country block riding up over the search field. The port prefixes V4's selectors so V4
+cannot reach the site; nothing stopped the site reaching V4. Added explicit overrides for
+`.chip`, `.band`, `.btn` and `.ucard`.
+
+**Also fixed**
+- The globe was cut by the 133px fixed header. `--v4-top` is measured from the header and kept
+  current with a ResizeObserver; the sky, canvas and stage start below it, and the scene now
+  sizes from the canvas rather than the window so the aspect and the pin projection agree.
+- Sora was never loaded, so every heading fell back to Inter wearing Sora's tracking and the
+  "Boarding…" overlay — whose only family is Sora with no fallback — landed on serif.
+- `#loading` sat at z-index 100, above the site header, and was dismissed only from the
+  model's *success* callback: a failed GLB left an opaque navy screen over the whole site with
+  no way out. Now z-40, cleared on error and on an 8s watchdog.
+- Lenis was never destroyed and is created *stopped* — a stopped instance calls
+  preventDefault() on every wheel and touch event, so leaving this page without picking a
+  country left the rest of the site unscrollable until a full reload. `window.__v4teardown`
+  now kills the ScrollTriggers, the matchMedia, the ticker callback, Lenis, the resize
+  listener, the renderer and the rAF loop, and the component calls it on unmount.
+- Eight destination links hard-coded the Railway production host and opened in a new tab; now
+  relative and same-tab. Dubai and Singapore were empty in the source but have had pages for
+  weeks — linked.
+- The anchor interceptor ran `querySelector` on whatever `#explore`'s href had become, which
+  throws once it is a path. It now only handles real in-page ids.
+- `html.lenis-stopped{overflow:hidden}` had been scoped to `html.lenis-stopped .v4`, moving a
+  document scroll lock onto an auto-height div where it clips nothing.
+- `body{overflow-x:hidden}` scoped onto a div makes it a *scroll container* (hidden forces
+  overflow-y up to auto), and `position:sticky` then sticks to it instead of the viewport.
+  `overflow-x:clip` leaves overflow-y visible.
+- The three generators were not re-runnable — they read intermediates from a scratchpad that
+  is not in the repo. All three now derive everything from the one source HTML.
+
+**Verified at 1440x900:** tokens resolve to the source values (`--navy:#07142e`,
+`--bg:#f6f8fc`, `--card:#fff`), 14 chips across 4 rows, stage top = header height = 133px,
+`#loading` z-40, Sora loaded, teardown published, IELTS/process/stats backgrounds restored.
+tsc clean, production build green.
+
+**Known and NOT fixed — needs a decision**
+- Nine imagery slots hotlink `images.unsplash.com` (six of them the university cards) and four
+  globe textures hotlink a third-party GitHub repo pinned to a mutable `@master`. This is the
+  "images break" report. Localising them means downloading 13 remote files.
+- USA, Canada, Australia and New Zealand sit on the far side of the globe at the default
+  rotation and there is no drag handler, so those four pins are unreachable — the four biggest
+  destinations for an Indian audience. The chips still work.
+- Fabricated testimonials attributed to named students, invented statistics including a "96%
+  visa success rate", and "sample figures"/"samples" labels left visible. Must not ship.
+- The CC BY / CC BY-SA attribution for all fourteen city photographs and the A350 model went
+  with the source's footer. The assets are still served.
+- No `prefers-reduced-motion` branch anywhere on the page.
+- `.stage` is a ~6,000px sticky pin at every width, including phones.
