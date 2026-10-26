@@ -116,3 +116,51 @@ headline — it now leaves the element alone entirely below 810px.
 
 **Verified:** 1440x900 progress curve measured across six positions; 375x812 un-armed, no pin,
 no inline style, zero horizontal scroll; tsc clean; production build green.
+
+## 2026-10-26 — Home V4 (world flight) ported
+
+**Task:** turn the supplied `globebound-world-flight_1.html` into a page on the site, keeping
+the site's own header and footer and keeping the supplied code as it is.
+
+**Source:** 4.1MB single file. Three.js + GSAP/ScrollTrigger + Lenis; a 3D globe you pick a
+country on, then a scrubbed flight from Mumbai with a cabin window, an arrival, and sections
+for universities, IELTS, process, stats, voices and a CTA.
+
+**Assets lifted out of the HTML** (they were base64, which inflated them ~4x):
+- `window.__GLB__` -> `public/assets/models/a350.glb` (4.0MB base64 -> 0.21MB file)
+- `window.__IMG__` -> 14 city photographs in `public/assets/img/home-v4/`
+
+**Ported mechanically, by three scripts kept in `scripts/`** so the port can be re-run against
+a new drop of the source rather than hand-maintained:
+- `port-v4.js` — the module. Nine anchored edits, each of which throws if its anchor moved.
+- `scope-v4-css.js` — prefixes all 238 selectors with `.v4`. The source styles `body`, `nav`,
+  `h1,h2,h3`, `section.page`, `input,select`, `form` and `footer.f` bare; dropped in as-is it
+  would have restyled every page on the site.
+- `build-v4-component.js` — the markup, kept byte-for-byte and injected once.
+
+**Why dangerouslySetInnerHTML and not JSX:** flight.js owns this DOM. It writes innerHTML into
+the university track, toggles classes and lets GSAP write transforms across nearly every node.
+React re-rendering any of it would fight the script.
+
+**Four defects found and fixed while testing:**
+1. The CSS slice included the closing `</style>`, so PostCSS refused the file and the route 500'd.
+2. CSS comments above a rule were being swallowed into the selector, which broke every rule
+   that had one — `nav{position:fixed}` escaped scoping and would have moved the site header.
+3. The site CSP has `connect-src 'self'`; GLTFLoader turns a model's embedded textures into
+   blob URLs and fetches them, so the aircraft loaded untextured. `blob:` added.
+4. `#change` and `#logoimg` lived in the page's own `<nav>`, which this port drops. The script
+   binds to `#change` unguarded, so the module threw on evaluation and never reached its
+   ScrollTriggers — the page rendered and did nothing. `#logoimg` is guarded; `#change` was
+   moved into the hero panel instead of guarded, because the hero locks scrolling until a
+   country is picked and that button is the only way back.
+
+**Also:** my own `.catch` on the dynamic import was gated on a "cancelled" flag set by the
+effect cleanup, which hid the error above completely — React runs effects twice in development
+and the first pass is always torn down. Now logged unconditionally.
+
+**Verified at 1440x900:** module runs to completion (`window.__v4ready`), 39 ScrollTriggers,
+1 pin-spacer, pick -> MUMBAI → LONDON, altitude reaches 36,000 at the cabin beat, arrival
+fades in, university cards follow. tsc clean, production build green.
+
+**Not done:** the CTA form is the source's own and is not wired to `/api/leads` — it now says
+so rather than claiming it will call. No mobile pass yet.

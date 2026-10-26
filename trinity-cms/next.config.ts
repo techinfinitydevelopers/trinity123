@@ -9,7 +9,9 @@ const csp = [
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com",
   "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:",
   "img-src 'self' data: blob: https:",
-  "connect-src 'self'",
+  /* `blob:` is for three.js: GLTFLoader turns a model's embedded textures into blob URLs and
+     fetches them back, so without it the aircraft on /home-v4 loads untextured. */
+  "connect-src 'self' blob:",
   /* `'self'` is what lets the dashboard frame the live preview of a page. Without it the
      preview pane just renders blank — `frame-ancestors` allows the framing, but `frame-src`
      governs what the admin page itself may load in a frame. */
