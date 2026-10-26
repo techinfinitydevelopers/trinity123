@@ -288,3 +288,30 @@ patch and is idempotent.
 **Verified at 1440x900:** stats read 42+/39+/1,200+/100,000+, the rail shows Rohan Nair and
 Sharanya Santosh only, credits render, universities rail and IELTS panel both clear the
 header. Build green.
+
+## 2026-10-26 (later still) — globe reachable, arrival holds
+
+**Testing note worth keeping.** The browser pane this session uses runs **no animation frames**
+— a probe measured 0 rAF callbacks in 1.5s while `document.visibilityState` said "visible".
+Anything idle-animated is invisible to it, and an earlier "the auto-spin does not work" was
+that, not a bug. Chrome in the foreground gives ~22fps and is the place to verify motion.
+
+**The globe.** Centred on Mumbai with no way to turn it: USA, Canada, Australia and New
+Zealand were on the far side, and the only rotation input was scroll velocity, which is zero
+while scroll is locked. It now drifts at 0.075 rad/s (~84s a revolution) until a country is
+picked, and can be dragged with a pointer; dragging pauses the drift for 4s.
+Measured in Chrome: **14 of 14 pins** come into view over one revolution, previously 10.
+
+The drift needed a separate accumulator. `spinX` is multiplied by `pow(.94, dt*60)` every
+frame — the spring-back that gives scrolling its nudge-and-settle feel — so adding to it
+reached an equilibrium around 0.02 rad and never moved. `autoRot` accumulates and is added on
+top; the original scroll behaviour is untouched.
+
+**The arrival.** Fully visible for about 44vh: it finished arriving at timeline 14.1 of 15 and
+started leaving as soon as `#unis` touched the viewport bottom. Moved to 12.2/12.7 and the
+exit now starts at `top 30%`. Measured: **900px / 1.41 screens** fully opaque.
+
+That retiming needed `immediateRender:false` on the exit tween. A scrubbed `.to()` captures
+its start value at creation — page load, when the arrival's opacity is still 0 — so the exit
+animated 0→0 and held it there, and the arrival stopped appearing at all. The file's own
+`enterExit()` helper already does this for the same reason.

@@ -239,6 +239,51 @@ function pinProject(){
     o.b.classList.toggle('on',o.c.k===state.k);
   });
 }
+/* ---------- reaching the whole globe ----------
+   At the default framing the globe is centred on Mumbai, and four of the fourteen pins —
+   USA, Canada, Australia and New Zealand, the four biggest destinations for this audience —
+   sit on the far side. The only thing that turned the globe was scroll velocity, and scroll
+   is locked until a country is picked, so those four were unreachable by any interaction.
+
+   Two ways in now: it turns slowly by itself until a country is chosen, and it can be
+   dragged. Dragging pauses the drift for a few seconds so the globe does not fight the hand
+   holding it.
+
+   `spinX` cannot carry either of them: it is multiplied by pow(.94, dt*60) every frame, a
+   spring back to zero that gives scrolling its nudge-and-settle feel. Anything added to it
+   is damped away within a second — an earlier attempt to drift the globe that way reached an
+   equilibrium of about 0.02 rad and never moved. `autoRot` accumulates instead and is added
+   on top, so the original scroll behaviour is untouched. */
+const AUTOSPIN=0.075;                 // rad/s — a little over a minute per revolution
+let autoRot=0,dragging=false,dragX=0,dragStep=0,lastDrag=-1e9;
+canvas.style.pointerEvents='auto';
+canvas.style.touchAction='pan-y';     // keep the page's own vertical scroll on touch
+canvas.style.cursor='grab';
+const dragDown=e=>{
+  if(state.k)return;                  // after the pick the scroll timeline owns the camera
+  dragging=true;dragX=e.clientX;dragStep=0;lastDrag=clock.elapsedTime;
+  canvas.style.cursor='grabbing';
+  try{canvas.setPointerCapture(e.pointerId)}catch{}
+};
+const dragMove=e=>{
+  if(!dragging)return;
+  dragStep=(e.clientX-dragX)/innerWidth*3.4;
+  dragX=e.clientX;lastDrag=clock.elapsedTime;
+  autoRot+=dragStep;
+};
+const dragUp=e=>{
+  if(!dragging)return;
+  dragging=false;lastDrag=clock.elapsedTime;
+  autoRot+=dragStep*6;                // let go with a little momentum
+  canvas.style.cursor='grab';
+  try{canvas.releasePointerCapture(e.pointerId)}catch{}
+};
+canvas.addEventListener('pointerdown',dragDown);
+canvas.addEventListener('pointermove',dragMove);
+canvas.addEventListener('pointerup',dragUp);
+canvas.addEventListener('pointercancel',dragUp);
+canvas.addEventListener('pointerleave',dragUp);
+
 function frame(){
   rafId=requestAnimationFrame(frame);
   if(!st.show)return;
@@ -248,7 +293,9 @@ function frame(){
   cloudM.rotation.y+=dt*.004;
   spinV+=((lenis.velocity||0)*.00035-spinV)*Math.min(1,dt*6);
   spinX=(spinX+spinV)*Math.pow(.94,dt*60);
-  spin.rotation.y=spinX;
+  /* The slow drift, while the visitor is still choosing and is not holding the globe. */
+  if(!state.k&&!dragging&&clock.elapsedTime-lastDrag>4)autoRot+=dt*AUTOSPIN;
+  spin.rotation.y=spinX+autoRot;
   const amp=1-sm(0,.15,st.cur),tt=clock.elapsedTime;
   globe.rotation.x=BASE.x+Math.sin(tt*.35)*.035*amp;
   globe.rotation.y=BASE.y+Math.sin(tt*.27)*.06*amp;
@@ -370,13 +417,17 @@ fl.to(st,{t:1,duration:7,ease:'none'},0)
   .to('#c4',{opacity:0,y:-40,duration:.5},11.8)
   .to('#winwrap',{scale:10,duration:1.5,ease:'power2.in'},12)
   .to('.cabin .seat',{y:'30vh',opacity:0,duration:1},12)
-  .fromTo('#arrive',{opacity:0,scale:1.15},{opacity:1,scale:1,duration:1,ease:'power2.out'},12.9)
+  .fromTo('#arrive',{opacity:0,scale:1.15},{opacity:1,scale:1,duration:1,ease:'power2.out'},12.2)
   .to('.meter',{opacity:0,duration:.5},12.7)
-  .fromTo('.arrive .bg',{scale:1.2},{scale:1,duration:1.4},12.9)
-  .fromTo('.arrive .inner',{y:60,opacity:0},{y:0,opacity:1,duration:.8},13.3)
+  .fromTo('.arrive .bg',{scale:1.2},{scale:1,duration:1.4},12.2)
+  .fromTo('.arrive .inner',{y:60,opacity:0},{y:0,opacity:1,duration:.8},12.7)
   .to('#cabin',{opacity:0,duration:.01},13.8)
   .to({},{duration:.7},14.3);
-gsap.to('.arrive .inner',{y:-140,opacity:0,ease:'none',scrollTrigger:{trigger:'#unis',start:'top bottom',end:'top 35%',scrub:.8}});
+/* The arrival is the payoff of a 740vh flight and it was on screen for about 44vh: it
+   finished arriving at timeline 14.1 of 15, then began leaving the moment #unis touched the
+   bottom of the viewport. It now lands at 13.5 and holds until #unis is a third of the way
+   up the screen. */
+gsap.to('.arrive .inner',{y:-140,opacity:0,ease:'none',immediateRender:false,scrollTrigger:{trigger:'#unis',start:'top 30%',end:'top -15%',scrub:.8}});
 gsap.to('.arrive .bg',{yPercent:12,scale:1.08,ease:'none',scrollTrigger:{trigger:'#unis',start:'top bottom',end:'top top',scrub:.8}});
 ScrollTrigger.create({trigger:'#flight',start:'top top-=60',onToggle:s=>NAV.classList.toggle('solid',false)});
 ScrollTrigger.create({trigger:'#unis',start:'top 80%',onEnter:()=>NAV.classList.add('solid'),onLeaveBack:()=>NAV.classList.remove('solid')});
