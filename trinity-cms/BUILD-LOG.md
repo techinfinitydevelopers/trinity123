@@ -345,3 +345,16 @@ makes the existing motion mean something, and it uses the space the long cards w
 
 Verified: 1536 wide — cards at x=200 and x=808, 512px each, rail at 757, 5 icons present.
 375 wide — all five at x=64, 291px, rail at 38, no horizontal scroll. Build green.
+
+## 2026-10-26 — V4 credits band styled
+
+The attribution block was added and left unstyled. Measured: `padding: 0` top and bottom, so
+it was crammed against the CTA box above and sat on the join with the site footer; the two
+paragraphs started at different x (148 and 270) because one filled `.wrap` while the other
+centred itself in a 900px cap; and both used `opacity` (.7 and .55) for tone, which on a light
+ground left the longer one barely legible.
+
+That last one matters beyond looks: the licences require the credit to be *given*, so it has
+to be readable. Colour (`--mute`, 5.07:1 on `--bg`) instead of opacity, one alignment, a
+hairline rule to separate it from the CTA, and 44/52px of padding. Both paragraphs now start
+at x=278, opacity 1, band height 214px.

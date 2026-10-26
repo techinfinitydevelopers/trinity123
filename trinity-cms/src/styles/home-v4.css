@@ -152,3 +152,31 @@ html:has(.v4){scroll-behavior:auto}
   .v4 .st .st-ic{grid-row:1/span 2}
   .v4 .st b{grid-row:1/span 2}
 }
+
+/* ---- the credits band --------------------------------------------------------------------
+   Added with the attribution and left unstyled, which showed: no padding at all, so the text
+   was crammed against the CTA box above it and sat right on the join with the site footer;
+   the two paragraphs started at different x (148 and 270) because one filled `.wrap` while
+   the other centred itself inside a 900px cap; and both leaned on `opacity` (.7 and .55) for
+   their tone, which on a light ground left the longer one barely legible.
+
+   The licences require the credit to be *given*, so it has to be readable. Colour instead of
+   opacity, one alignment, and room to breathe. */
+.v4 #v4credits{
+  background:var(--bg);
+  padding:44px 0 52px;
+  border-top:1px solid color-mix(in srgb,var(--blue) 12%,transparent);
+}
+.v4 #v4credits .wrap{display:grid;gap:12px;max-width:980px}
+.v4 #v4credits .credit,
+.v4 #v4credits .credits{
+  max-width:none;margin:0;opacity:1;color:var(--mute);     /* 5.07:1 on --bg */
+  font-size:.8rem;line-height:1.65;text-align:left;
+}
+.v4 #v4credits .credit{color:var(--ink);font-weight:500}
+.v4 #v4credits .credit a{color:var(--blue);text-decoration:underline;text-underline-offset:2px}
+.v4 #v4credits .credit a:hover{color:var(--ink)}
+@media (max-width:760px){
+  .v4 #v4credits{padding:32px 0 38px}
+  .v4 #v4credits .credit,.v4 #v4credits .credits{font-size:.75rem}
+}
