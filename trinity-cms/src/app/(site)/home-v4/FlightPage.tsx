@@ -89,11 +89,11 @@ const MARKUP = `<div id="loading">Boarding…</div>
     <h2 class="h2">From first call to<br>boarding pass.</h2>
     <div class="tl" id="tl">
       <svg viewBox="0 0 6 100" preserveAspectRatio="none"><path class="bgp" d="M3 0V100"/><path id="line" d="M3 0V100"/></svg>
-      <div class="st"><b>01</b><h3>Free profile evaluation</h3><p>We map your marks, test scores, budget and goals to the right courses in <span class="cdest">your destination</span>.</p></div>
-      <div class="st"><b>02</b><h3>Test prep + shortlist</h3><p>Coaching runs in parallel with a shortlist of 6–8 universities across safe, match and reach.</p></div>
-      <div class="st"><b>03</b><h3>Applications & SOP</h3><p>Applications, statement of purpose and references — reviewed until they're ready.</p></div>
-      <div class="st"><b>04</b><h3>Offer & visa</h3><p>Acceptance, financial documents, interview prep and the student visa file.</p></div>
-      <div class="st"><b>05</b><h3>Pre-departure</h3><p>Accommodation, forex, flights and a send-off briefing. Then you board.</p></div>
+      <div class="st"><span class="st-ic" aria-hidden="true"><i class="fas fa-clipboard-check"></i></span><b>01</b><h3>Free profile evaluation</h3><p>We map your marks, test scores, budget and goals to the right courses in <span class="cdest">your destination</span>.</p></div>
+      <div class="st"><span class="st-ic" aria-hidden="true"><i class="fas fa-tasks"></i></span><b>02</b><h3>Test prep + shortlist</h3><p>Coaching runs in parallel with a shortlist of 6–8 universities across safe, match and reach.</p></div>
+      <div class="st"><span class="st-ic" aria-hidden="true"><i class="fas fa-file-signature"></i></span><b>03</b><h3>Applications & SOP</h3><p>Applications, statement of purpose and references — reviewed until they're ready.</p></div>
+      <div class="st"><span class="st-ic" aria-hidden="true"><i class="fas fa-passport"></i></span><b>04</b><h3>Offer & visa</h3><p>Acceptance, financial documents, interview prep and the student visa file.</p></div>
+      <div class="st"><span class="st-ic" aria-hidden="true"><i class="fas fa-plane-departure"></i></span><b>05</b><h3>Pre-departure</h3><p>Accommodation, forex, flights and a send-off briefing. Then you board.</p></div>
     </div>
   </div>
 </section>

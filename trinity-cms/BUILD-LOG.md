@@ -315,3 +315,33 @@ That retiming needed `immediateRender:false` on the exit tween. A scrubbed `.to(
 its start value at creation — page load, when the arrival's opacity is still 0 — so the exit
 animated 0→0 and held it there, and the arrival stopped appearing at all. The file's own
 `enterExit()` helper already does this for the same reason.
+
+## 2026-10-26 — V4 process timeline reworked
+
+As ported it was five identical full-width white slabs down a 1,120px column, each holding one
+short line, with a thin rail pinned to the far left. Two thirds of every card was empty and
+the five read as a list, not a journey — the one thing the section is for on a page whose
+whole metaphor is a flight.
+
+The useful detail: `flight.js` already alternates each card's entry direction
+(`x: i%2 ? -90 : 90`), but with every card in a single column that alternation had nothing to
+land against. Moving the rail to the centre and putting the cards either side of it is what
+makes the existing motion mean something, and it uses the space the long cards were wasting.
+
+- Rail centred above 900px; cards alternate left/right, one per row. The rows are explicit:
+  with auto-placement the browser packs two cards onto each row instead of stepping down.
+- The dot sits on the rail — half the 96px gutter from whichever card edge faces it, less half
+  its own 18px.
+- Left-hand cards mirror so both columns read toward the rail. Their children are placed
+  explicitly because the source order is number, heading, paragraph.
+- Card width drops from ~1,120px to 512px.
+- Each step gained a Font Awesome 5 icon (clipboard-check, tasks, file-signature, passport,
+  plane-departure) so the five are scannable without reading.
+- The number was a small gold digit competing with the title; it is now a quiet stage marker
+  beside the icon. The last step — the one the page has been flying towards — takes a gold
+  border and a gold icon chip.
+- Below 900px nothing changes: rail on the left, cards stacked. There is no room for anything
+  either side of it.
+
+Verified: 1536 wide — cards at x=200 and x=808, 512px each, rail at 757, 5 icons present.
+375 wide — all five at x=64, 291px, rail at 38, no horizontal scroll. Build green.

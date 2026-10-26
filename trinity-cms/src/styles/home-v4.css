@@ -72,3 +72,83 @@ html:has(.v4){scroll-behavior:auto}
 /* Anchor jumps (#unis, #ielts, #cta) would otherwise land with the heading behind the
    header. */
 .v4 section.page{scroll-margin-top:var(--v4-top)}
+
+/* ---- the process timeline, reworked ------------------------------------------------------
+   As ported it was five identical full-width white slabs stacked down a 1,400px column, each
+   holding one short line, with a thin rail pinned to the far left. Two thirds of every card
+   was empty and the five read as a list rather than a journey — which is the one thing this
+   section is for, on a page whose whole metaphor is a flight.
+
+   The script already alternates each card's entry direction (`x: i%2 ? -90 : 90` in
+   flight.js), but with every card in a single column that alternation had nothing to land
+   against. Putting the cards either side of a centred rail is what makes that existing
+   motion mean something, and it uses the space the long cards were wasting. */
+
+.v4 .tl{max-width:1120px;margin-inline:auto}
+.v4 .tl path{stroke-width:4}
+.v4 .tl .bgp{stroke:#e3ebf8}
+
+/* The step's icon — a quick visual key, so the five are scannable without reading. */
+.v4 .st-ic{
+  display:grid;place-items:center;width:40px;height:40px;border-radius:12px;flex:0 0 auto;
+  background:color-mix(in srgb,var(--blue) 10%,#fff);color:var(--blue);font-size:16px;
+}
+.v4 .st:last-of-type .st-ic{background:color-mix(in srgb,var(--gold) 26%,#fff);color:#8a6000}
+
+.v4 .st{
+  gap:4px 20px;align-items:start;
+  border:1px solid color-mix(in srgb,var(--blue) 8%,transparent);
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease);
+}
+.v4 .st:hover{transform:translateY(-3px);box-shadow:0 22px 54px rgba(11,61,145,.14)}
+/* The number was a small gold digit competing with the title. It reads better as a quiet
+   stage marker set beside the icon. */
+.v4 .st b{
+  font-size:1.5rem;line-height:1;align-self:center;
+  color:color-mix(in srgb,var(--gold) 70%,var(--ink));letter-spacing:-.02em;
+}
+/* The last step is the one the page has been flying towards. */
+.v4 .st:last-of-type{border-color:color-mix(in srgb,var(--gold) 45%,transparent)}
+
+@media (min-width:900px){
+  /* Rail down the middle, cards either side of it. */
+  .v4 .tl{padding-left:0;grid-template-columns:1fr 1fr;column-gap:96px}
+  .v4 .tl svg{left:50%;margin-left:-3px}
+
+  /* One card per row, alternating. Explicit rows: with auto-placement the browser would
+     pack two cards onto each row instead of stepping down. */
+  .v4 .st{grid-column:1}
+  .v4 .st:nth-of-type(even){grid-column:2}
+  .v4 .st:nth-of-type(1){grid-row:1}
+  .v4 .st:nth-of-type(2){grid-row:2}
+  .v4 .st:nth-of-type(3){grid-row:3}
+  .v4 .st:nth-of-type(4){grid-row:4}
+  .v4 .st:nth-of-type(5){grid-row:5}
+
+  /* The dot sits on the rail: half the 96px gutter away from whichever edge faces it,
+     less half the dot's own 18px. */
+  .v4 .st:before{left:auto;right:-57px}
+  .v4 .st:nth-of-type(even):before{left:-57px;right:auto}
+
+  /* Left-hand cards mirror, so both columns read toward the rail. The children are placed
+     explicitly because the source order is number, heading, paragraph. */
+  .v4 .st:nth-of-type(odd){grid-template-columns:1fr auto auto;text-align:right}
+  .v4 .st:nth-of-type(odd) .st-ic{grid-column:3;grid-row:1/span 2}
+  .v4 .st:nth-of-type(odd) b{grid-column:2;grid-row:1/span 2}
+  .v4 .st:nth-of-type(odd) h3{grid-column:1;grid-row:1}
+  .v4 .st:nth-of-type(odd) p{grid-column:1;grid-row:2}
+
+  .v4 .st:nth-of-type(even){grid-template-columns:auto auto 1fr}
+  .v4 .st:nth-of-type(even) .st-ic{grid-column:1;grid-row:1/span 2}
+  .v4 .st:nth-of-type(even) b{grid-column:2;grid-row:1/span 2}
+  .v4 .st:nth-of-type(even) h3{grid-column:3;grid-row:1}
+  .v4 .st:nth-of-type(even) p{grid-column:3;grid-row:2}
+}
+
+/* Below 900 the rail stays on the left and the cards stack, as before — there is no room to
+   put anything either side of it. */
+@media (max-width:899px){
+  .v4 .st{grid-template-columns:auto auto 1fr}
+  .v4 .st .st-ic{grid-row:1/span 2}
+  .v4 .st b{grid-row:1/span 2}
+}
