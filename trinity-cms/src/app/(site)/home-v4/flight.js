@@ -395,7 +395,13 @@ const mm=gsap.matchMedia();
 mm.add('(min-width:761px)',()=>{
   const track=$('#track');
   const dist=()=>track.scrollWidth-innerWidth;
-  const hz=gsap.to(track,{x:()=>-dist(),ease:'none',scrollTrigger:{trigger:'#hs',start:'top top',end:()=>'+='+dist(),pin:true,scrub:.9,invalidateOnRefresh:true,anticipatePin:1,
+  /* `top top` pinned the rail flush with the viewport, i.e. under the site's fixed header,
+     and held it there for the whole track — so the first card's heading was never visible.
+     It pins below the header instead. --v4-top is published by FlightPage from the header's
+     measured height, and `.v4 .hs` is sized from the same variable, so the two agree.
+     Read through a function because invalidateOnRefresh re-evaluates it on resize. */
+  const topGap=()=>getComputedStyle(document.querySelector('.v4')).getPropertyValue('--v4-top').trim()||'0px';
+  const hz=gsap.to(track,{x:()=>-dist(),ease:'none',scrollTrigger:{trigger:'#hs',start:()=>'top '+topGap(),end:()=>'+='+dist(),pin:true,scrub:.9,invalidateOnRefresh:true,anticipatePin:1,
     onUpdate:s=>gsap.set('#uprog',{scaleX:s.progress})}});
   const wire=()=>{};
   gsap.utils.toArray('.ucard:not(.intro)').forEach(c=>{

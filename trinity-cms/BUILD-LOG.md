@@ -234,3 +234,57 @@ tsc clean, production build green.
   with the source's footer. The assets are still served.
 - No `prefers-reduced-motion` branch anywhere on the page.
 - `.stage` is a ~6,000px sticky pin at every width, including phones.
+
+## 2026-10-26 (later) — V4: header clearance everywhere, and the demo content removed
+
+**Header clearance.** The earlier fix only cleared the hero. Walking the page and measuring
+every held panel against the 133px header found three more being cut:
+
+| scroll | held under the header |
+|---|---|
+| 7,000 | `#unis` / `.hs` — the GSAP-pinned universities rail, 133px |
+| 8,200–10,200 | `#ielts` / `.ie` / `.mods` — the sticky IELTS panel, 133px |
+| 11,500 | `#process` / `.tl` — 133px |
+
+The distinction that matters: a section that merely *scrolls past* the header is fine — that
+is how a fixed header behaves on every page of this site, and those were left alone. The two
+fixed were the ones that **stop** under it and never come out:
+- `.ie` is `position:sticky` at `top:0` for 360vh. Offset to `var(--v4-top)` above 861px only
+  — below that the generated sheet already forces it to `position:relative; height:auto`.
+- `.hs` is pinned by GSAP with `start:'top top'`, which fixes it flush with the viewport. The
+  pin start now reads `--v4-top`, through a function so `invalidateOnRefresh` re-evaluates it
+  on resize, and `.v4 .hs` is sized from the same variable so the two agree.
+- `section.page` gained `scroll-margin-top` so anchor jumps do not land behind the header.
+
+Re-measured after: no held panel sits under the header at any of the five stops.
+
+**Demo content removed.** The source was a sample page for a fictional brand and the port
+carried its content over wholesale:
+- Four invented statistics, two of which contradicted the rest of the site by 30x ("40
+  University partners" against "1200+ Universities" everywhere else), and one — "96% visa
+  success rate" — a quantified outcome claim with nothing behind it. Replaced with the
+  `stats` block from `seed-content.ts`: 42+ years, 39+ countries, 1200+ universities,
+  100,000+ courses.
+- Five invented students with invented quotes, each shown twice. `flight.js` rewrites every
+  `.cdest` to whichever country the visitor just clicked, so the same fictional person was
+  relabelled as having studied in Japan or the UAE on demand. Replaced with the only two
+  genuine quotes the client has supplied, repeated to fill the marquee rather than padded out
+  with new inventions; the `.cdest` spans went with them.
+- "(sample figures)" and "(samples)" — the page was telling visitors its own content was fake.
+- The CC BY / CC BY-SA attribution for the fourteen city photographs and the CC BY 4.0 credit
+  for the A350 went out with the source's `<footer>` while the assets stayed. Restored as a
+  credits section. Dubai and Seoul are listed as outstanding: the source gave neither a named
+  author nor a licence version for those two, so their requirement cannot be met from what is
+  in hand and they need re-sourcing or replacing.
+
+**The generators can no longer be run.** `globebound-world-flight_1.html` is gone from
+Downloads. Two newer files are there — `globebound-world-flight.html` (730 lines) and
+`_2.html` (732) — but they are a different revision, not the same page: the original was 778
+lines and the line structure does not match any of the scripts' anchors. The three scripts in
+`scripts/` therefore fail at their source check, and the generated files are now the source of
+truth; today's edits were made to them directly. `scripts/fix-v4-content.js` holds the content
+patch and is idempotent.
+
+**Verified at 1440x900:** stats read 42+/39+/1,200+/100,000+, the rail shows Rohan Nair and
+Sharanya Santosh only, credits render, universities rail and IELTS panel both clear the
+header. Build green.

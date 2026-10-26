@@ -100,23 +100,22 @@ const MARKUP = `<div id="loading">Boarding…</div>
 
 <section id="stats" class="page">
   <div class="wrap">
-    <div class="eyebrow" style="color:var(--gold)">Track record (sample figures)</div>
+    <div class="eyebrow" style="color:var(--gold)">Track record</div>
     <h2 class="h2">Numbers that landed.</h2>
     <div class="sg">
-      <div><b data-n="3200" data-s="+">0</b><span>Students placed abroad</span></div>
-      <div><b data-n="40" data-s="+">0</b><span>University partners</span></div>
-      <div><b data-n="96" data-s="%">0</b><span>Visa success rate</span></div>
-      <div><b data-n="7" data-s=".5">0</b><span>Average IELTS band</span></div>
+      <div><b data-n="42" data-s="+">0</b><span>Years of experience</span></div>
+      <div><b data-n="39" data-s="+">0</b><span>Countries</span></div>
+      <div><b data-n="1200" data-s="+">0</b><span>Universities</span></div>
+      <div><b data-n="100000" data-s="+">0</b><span>Courses</span></div>
     </div>
   </div>
 </section>
 
 <section id="voices" class="page">
-  <div class="wrap"><div class="eyebrow">Student stories (samples)</div><h2 class="h2">They flew. You're next.</h2></div>
-  <div class="mq" id="mq">
-<div class="tc"><p>"My test score jumped in ten weeks. The speaking mocks made all the difference."</p><footer><i>A</i><div>Aarav S.<small>Student · <span class="cdest">abroad</span></small></div></footer></div><div class="tc"><p>"They handled my SOP, offer and visa. I only had to pack."</p><footer><i>P</i><div>Priya M.<small>Student · <span class="cdest">abroad</span></small></div></footer></div><div class="tc"><p>"Got offers from three universities and a partial scholarship."</p><footer><i>R</i><div>Rohan K.<small>Student · <span class="cdest">abroad</span></small></div></footer></div><div class="tc"><p>"Clear timelines, no hidden charges, and always reachable on WhatsApp."</p><footer><i>S</i><div>Sneha T.<small>Student · <span class="cdest">abroad</span></small></div></footer></div><div class="tc"><p>"From shortlisting to accommodation — one team, zero stress."</p><footer><i>K</i><div>Karan D.<small>Student · <span class="cdest">abroad</span></small></div></footer></div><div class="tc"><p>"My test score jumped in ten weeks. The speaking mocks made all the difference."</p><footer><i>A</i><div>Aarav S.<small>Student · <span class="cdest">abroad</span></small></div></footer></div><div class="tc"><p>"They handled my SOP, offer and visa. I only had to pack."</p><footer><i>P</i><div>Priya M.<small>Student · <span class="cdest">abroad</span></small></div></footer></div><div class="tc"><p>"Got offers from three universities and a partial scholarship."</p><footer><i>R</i><div>Rohan K.<small>Student · <span class="cdest">abroad</span></small></div></footer></div>
+  <div class="wrap"><div class="eyebrow">Student stories</div><h2 class="h2">They flew. You're next.</h2></div>
+  <div class="mq" id="mq"><div class="tc"><p>&ldquo;They were instrumental in helping me decide on the right university, taking into consideration the curriculum that best suited my academic and career goals.&rdquo;</p><footer><i>R</i><div>Rohan Nair<small>Master&rsquo;s in IT &middot; Arizona State University</small></div></footer></div><div class="tc"><p>&ldquo;Trinity assisted me in choosing the best college for the subject of my choice. They guided me with the application process, the documentation required and coached and prepped me for the visa interview.&rdquo;</p><footer><i>S</i><div>Sharanya Santosh<small>Master&rsquo;s &middot; Maynooth University, Ireland</small></div></footer></div><div class="tc"><p>&ldquo;They were instrumental in helping me decide on the right university, taking into consideration the curriculum that best suited my academic and career goals.&rdquo;</p><footer><i>R</i><div>Rohan Nair<small>Master&rsquo;s in IT &middot; Arizona State University</small></div></footer></div><div class="tc"><p>&ldquo;Trinity assisted me in choosing the best college for the subject of my choice. They guided me with the application process, the documentation required and coached and prepped me for the visa interview.&rdquo;</p><footer><i>S</i><div>Sharanya Santosh<small>Master&rsquo;s &middot; Maynooth University, Ireland</small></div></footer></div><div class="tc"><p>&ldquo;They were instrumental in helping me decide on the right university, taking into consideration the curriculum that best suited my academic and career goals.&rdquo;</p><footer><i>R</i><div>Rohan Nair<small>Master&rsquo;s in IT &middot; Arizona State University</small></div></footer></div><div class="tc"><p>&ldquo;Trinity assisted me in choosing the best college for the subject of my choice. They guided me with the application process, the documentation required and coached and prepped me for the visa interview.&rdquo;</p><footer><i>S</i><div>Sharanya Santosh<small>Master&rsquo;s &middot; Maynooth University, Ireland</small></div></footer></div><div class="tc"><p>&ldquo;They were instrumental in helping me decide on the right university, taking into consideration the curriculum that best suited my academic and career goals.&rdquo;</p><footer><i>R</i><div>Rohan Nair<small>Master&rsquo;s in IT &middot; Arizona State University</small></div></footer></div><div class="tc"><p>&ldquo;Trinity assisted me in choosing the best college for the subject of my choice. They guided me with the application process, the documentation required and coached and prepped me for the visa interview.&rdquo;</p><footer><i>S</i><div>Sharanya Santosh<small>Master&rsquo;s &middot; Maynooth University, Ireland</small></div></footer></div>
   </div>
-</section>
+  </section>
 
 <section id="cta" class="page">
   <div class="wrap">
@@ -129,7 +128,11 @@ const MARKUP = `<div id="loading">Boarding…</div>
       </form>
     </div>
   </div>
-</section>`;
+</section>
+<section class="page" id="v4credits"><div class="wrap">
+  <p class="credit">Aircraft: &ldquo;A350&rdquo; by amvlab/aircraft-models, <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>. Earth textures: three.js examples (MIT).</p>
+  <p class="credits">City photographs via Wikimedia Commons &mdash; London, Ilya Grigorik (CC BY-SA 3.0) &middot; Dublin, &#30143;&#20029;&#27743;&#30340;&#27827;&#27700; (CC BY-SA 4.0) &middot; Paris, Yann Caradec (CC BY-SA 2.0) &middot; Berlin, Museumsinsel Berlin Juli 2021 (CC BY-SA 4.0) &middot; Prague, Moyan Brenn (CC BY 2.0) &middot; New York City, Dllu (CC BY-SA 4.0) &middot; Toronto, Dillan Payne (CC BY-SA 4.0) &middot; Tokyo, Morio (CC BY-SA 3.0) &middot; Marina Bay Sands, Supanut Ar (CC BY 4.0) &middot; Kuala Lumpur, Renek78 (CC0) &middot; Sydney, Benh LIEU SONG (CC BY-SA 4.0) &middot; Auckland, elpinto007 (CC BY-SA 2.0). Dubai and Seoul: source and licence still to be confirmed.</p>
+</div></section>`;
 
 export default function FlightPage() {
   const host = useRef<HTMLDivElement>(null);

@@ -49,6 +49,26 @@ html:has(.v4){scroll-behavior:auto}
    below the header, and the script clears it on failure and on a watchdog as well. */
 .v4 #loading{z-index:40}
 .v4 #loading.done{pointer-events:none}
-/* Deliberately NOT touched here: .hs is pinned by GSAP, which measures its height to work
-   out the pin distance, and .ie is sticky at 100vh. Changing either from this side would
-   move the scroll maths without the script knowing. Fix those where the pin is created. */
+/* ---- header clearance for the other two held panels -------------------------------------
+   The hero was not the only thing the 133px fixed header was cutting. Two more panels are
+   *held* under it rather than scrolling past it, so their content never comes out:
+
+     .ie  — the IELTS panel, position:sticky at top:0, for 360vh of scroll
+     .hs  — the universities rail, pinned by GSAP (see flight.js) for the length of the track
+
+   A section that merely scrolls past the header is fine and is left alone — that is how a
+   fixed header behaves everywhere on this site. These two are different: they stop.
+
+   .ie is sticky only above 860px; below that the generated sheet already forces it to
+   position:relative with height:auto, so the offset must not apply there or it would push a
+   normal-flow block down for no reason. */
+@media (min-width:861px){
+  .v4 .ie{top:var(--v4-top);height:calc(100dvh - var(--v4-top))}
+}
+/* .hs is pinned by GSAP, which reads this height to work out the pin distance — the matching
+   `start` offset is set where the pin is created in flight.js, and the two have to agree. */
+.v4 .hs{height:calc(100dvh - var(--v4-top))}
+
+/* Anchor jumps (#unis, #ielts, #cta) would otherwise land with the heading behind the
+   header. */
+.v4 section.page{scroll-margin-top:var(--v4-top)}
