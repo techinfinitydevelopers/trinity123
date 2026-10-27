@@ -65,3 +65,19 @@
 .tw #sky,.tw #c{top:var(--tw-top,133px);bottom:auto;height:calc(100dvh - var(--tw-top,133px))}
 .tw .stage{top:var(--tw-top,133px);height:calc(100dvh - var(--tw-top,133px))}
 .tw section{scroll-margin-top:var(--tw-top,133px)}
+
+/* ---- the altitude meter vs this site's floating buttons -------------------------------------
+   The drop-in parks its route/altitude readout at `right:clamp(20px,4vw,56px); bottom:7vh`,
+   which is empty space on a page that owns the viewport. Here the WhatsApp, back-to-top and
+   chat buttons live in exactly that column (`right:22px`, up to 58px wide, bottom 22–150px)
+   and sit at z-index 60 against the meter's 9 — so the chat avatar covered "MUMBAI → LONDON"
+   and the WhatsApp button covered the altitude figure. Measured at 1536: the meter spans
+   1332–1465 and the chat button 1415–1499, a 50px overlap.
+   The meter moves inboard of that column rather than the buttons moving, because the buttons
+   are in the same place on every other page of the site. */
+.tw .meter{right:108px}
+@media (max-width:760px){
+  /* tw.css sets this one with !important, so this has to as well. The buttons are smaller
+     here — right:16px, 44px wide — so less clearance is needed. */
+  .tw .meter{right:76px!important}
+}

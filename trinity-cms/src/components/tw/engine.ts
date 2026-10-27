@@ -186,7 +186,10 @@ new GLTFLoader().load(AB+'/a350.glb',g=>{
   planeG.add(g.scene);
   try{crispWindows(g.scene)}catch(err){console.error('windows',err)}
   $('#loading').classList.add('done');ScrollTrigger.refresh();
-},e=>console.error(e));
+/* GLTFLoader.load is (url,onLoad,onProgress,onError) — this handler was in the onProgress
+   slot, so every progress tick of a 4 MB model was logged as an error. The model itself
+   always loaded; only the console said otherwise. */
+},undefined,e=>console.error('a350.glb',e));
 
 
 /* crisp vector windows + cockpit: replace the low-res decal textures so close-ups stay sharp */

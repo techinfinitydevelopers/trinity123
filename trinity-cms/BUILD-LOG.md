@@ -445,6 +445,38 @@ was refused as a shared-resource change, and `getSetting` is wrapped in `unstabl
 only the save action's `revalidateTag` makes a change visible. Flip it in Settings → Home page
 and it takes effect immediately.
 
+---
+
+## Trinity World — local visual pass (27/10)
+
+Walked `/trinity-world` end to end in foreground Chrome (not the browser pane, which runs no
+animation frames). Globe, country pick, flight, arrival, universities rail, IELTS, the three
+journey sections, stats, stories and the lead form all render; `--tw-top` resolves to 133px,
+`#sky` sits at 133px, 14 chips. At a 639px-tall window the last chip row ends 2px below the
+fold — the shortest realistic desktop, so left alone.
+
+**Two defects found and fixed.**
+
+1. *The altitude meter sat under the site's floating buttons.* My first reading — that the
+   viewport was clipping it — was wrong; measuring showed 71px of margin on the right. The
+   real cause is this site's WhatsApp/back-to-top/chat column at `right:22px`, z-index 60,
+   against the meter's 9. Measured at 1536: meter 1332–1465, chat 1415–1499, a 50px overlap.
+   The meter moves inboard (`right:108px`, 76px under 760px) rather than the buttons moving,
+   because the buttons are in the same place on every other page. Re-measured after: meter
+   1280–1413 against chat 1415, **overlap 0**.
+
+2. *Every GLTF progress tick was logged as an error.* `GLTFLoader.load` is
+   `(url,onLoad,onProgress,onError)` and the drop-in's handler sat in the onProgress slot, so
+   a 4 MB model produced a stream of `[object ProgressEvent]` errors and a standing "1 Issue"
+   badge on the dev overlay. The model always loaded; only the console said otherwise. Moved
+   to the fourth argument — the one edit made to `engine.ts`, and a plain positional bug
+   rather than a change to how the drop-in behaves. Console is clean after a reload.
+
+The 44 other console errors in the log were stale: mid-edit states of `tw-site.css` from
+12:02–12:08, not the file on disk.
+
+---
+
 ## 28/10/2026 — Client content pass: About, Services, admin editor, chat, header
 - **About:** intro heading + two paragraphs replaced with the client's text (`seed-content.ts`). Mission/vision/segments were already in.
 - **Services:** 8 old cards replaced with the client's 13 services in order, each with an image from `public/assets/img`. Cards get `id` anchors; text splits on blank lines into paragraphs. Nav "Services" is now a dropdown (`settings.ts`) linking to `/our-service#<id>`; menu is two columns, no scroll, and closes after a click (`Header.tsx`, `canvas.css`).
