@@ -1,0 +1,67 @@
+/* Trinity World × this site — collision guards.
+
+   The drop-in scopes all of its own rules under `.tw`, so it cannot reach the site. Nothing
+   stopped the site reaching *it*: `site.css` styles six of the same class names at (0,1,0),
+   and every property the drop-in does not itself declare leaks straight through.
+
+   The drop-in wins on everything it declares, because its selectors are `.tw X` at (0,2,0).
+   So only the gaps are listed here, each one checked against both stylesheets. Nothing in
+   `src/components/tw/` is edited — it is a vendored drop-in and should stay replaceable.   */
+
+/* ---- .live — the fatal one -------------------------------------------------------------
+   `engine.ts` adds `live` to the root element alongside `tw`. On this site `.live` is the
+   little pulsing green dot in the "how it works" cards:
+
+     .live{width:8px;height:8px;border-radius:50%;background:var(--wa);
+           display:inline-block;animation:pulse 2s infinite}
+
+   Applied to the root that wraps the entire experience, it collapsed the whole thing to an
+   8px inline-block circle — the page rendered blank with 22,976px of document behind it.
+   The drop-in has no `.live` rule of its own, so every one of those six declarations landed. */
+.tw.live{
+  width:auto;height:auto;border-radius:0;background:none;display:block;animation:none;
+}
+
+/* ---- .chip — the same bug this project already hit on /home-v4 --------------------------
+   `site.css .chip` is a floating decorative pill: `position:absolute` plus a `floaty`
+   animation. The drop-in's country buttons share the name and sit in a flex row, so all
+   fourteen resolved to one position — a single stack with only the top one clickable.
+   The drop-in sets padding, radius, border, background, colour, font, cursor and
+   transition; these are the rest. */
+.tw .chip{
+  position:static;display:inline-block;box-shadow:none;animation:none;
+  line-height:normal;gap:0;align-items:normal;
+}
+
+/* ---- .band — the IELTS score, not a full-width slab ------------------------------------
+   `site.css .band` is the marquee strip: position, a navy background, full width and a
+   clip. The drop-in sets only font, colour and letter-spacing. */
+.tw .band{
+  position:static;background:none;width:auto;overflow:visible;z-index:auto;
+}
+
+/* ---- the quieter three ------------------------------------------------------------------
+   `.pin` is safe: the drop-in declares position, width, height and background itself, so
+   `site.css .pin{height:190vh}` never lands. These three leak one or two properties each. */
+.tw .btn{font-family:Inter,system-ui,sans-serif}   /* site.css forces the heading face */
+.tw .lead{line-height:1.6;text-wrap:auto}          /* site.css sets 1.8 and text-wrap:pretty */
+.tw .h2{letter-spacing:-.02em;text-wrap:auto}      /* site.css sets -1px and text-wrap:balance */
+
+/* ---- headings -----------------------------------------------------------------------------
+   `site.css` has `h1,h2,h3,h4{color:var(--navy)}` at (0,0,1). The drop-in never sets a colour
+   on its headings — they inherit white from the dark sections — and an inherited value loses
+   to any matching declaration, so every heading came out Trinity navy. On the near-black globe
+   backdrop that is navy on navy. */
+.tw h1,.tw h2,.tw h3,.tw h4{color:inherit}
+
+/* ---- header clearance ----------------------------------------------------------------------
+   The drop-in was built to own the viewport; here the site's fixed header sits over the top of
+   it and cuts the globe and the hero panel. --tw-top is the header's measured height, published
+   by TrinityWorldHost after mount. Everything that fills the screen starts under it.
+
+   The fallback lives in each `var()` rather than in a `.tw{--tw-top:…}` line, because such a
+   line would sit *closer* to these elements than the document element the host writes to and
+   would shadow the measured value permanently. */
+.tw #sky,.tw #c{top:var(--tw-top,133px);bottom:auto;height:calc(100dvh - var(--tw-top,133px))}
+.tw .stage{top:var(--tw-top,133px);height:calc(100dvh - var(--tw-top,133px))}
+.tw section{scroll-margin-top:var(--tw-top,133px)}

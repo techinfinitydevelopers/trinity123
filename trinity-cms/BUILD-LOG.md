@@ -358,3 +358,56 @@ That last one matters beyond looks: the licences require the credit to be *given
 to be readable. Colour (`--mute`, 5.07:1 on `--bg`) instead of opacity, one alignment, a
 hairline rule to separate it from the CTA, and 44/52px of padding. Both paragraphs now start
 at x=278, opacity 1, band height 214px.
+
+## 2026-10-27 — Trinity World drop-in brought in (stage 1 of 2)
+
+Client supplied `trinity-world-nextjs` — a proper drop-in, and better built than my own
+hand-port at /home-v4: scoped under `.tw`, every asset self-hosted (so none of the hotlinked
+Unsplash/jsDelivr problem), full teardown on unmount, and real props (`destHref`, `onLead`,
+`onDark`, `initialCountry`, `lenis`, `assetBase`). Its README even anticipates the CMS block.
+
+**Copied in:** `public/tw/` (37 MB — 110 university photos, 14 city photos, 4 Earth textures,
+the A350) and `src/components/tw/` (engine 650 lines, tw.css 276, data/uni/markup).
+`three`, `gsap` and `lenis` were already dependencies.
+
+**Added:** `/trinity-world` preview route (unlinked, noindex) and `TrinityWorldHost` — a
+client wrapper, because a server component cannot pass `destHref`/`onLead` functions. It is
+the one place the drop-in's vocabulary is mapped onto this site's: country keys to our
+destination slugs (`nz`→`new-zealand`, `uae`→`dubai`, four with no page go to `/contact-us`)
+and its lead payload to the shape `/api/leads` accepts.
+
+**The site reaching into the drop-in — the same class of bug as /home-v4's `.chip`.** The
+drop-in scopes everything under `.tw` so it cannot touch the site; nothing stopped the
+traffic the other way. `site.css` styles six of the same class names at (0,1,0) and every
+property the drop-in does not itself declare leaked through:
+
+- **`.live` — fatal.** `engine.ts` adds `live` to the root element. On this site `.live` is
+  the pulsing green dot in the "how it works" cards: `width:8px;height:8px;border-radius:50%;
+  display:inline-block;animation:pulse`. Applied to the root wrapping the whole experience it
+  collapsed it to an 8px circle — **the page rendered blank** with 22,976px of document behind
+  it. The drop-in has no `.live` rule, so all six declarations landed.
+- **`.chip`** — `position:absolute` + a `floaty` animation, so all fourteen country buttons
+  stacked on one spot. Exactly the /home-v4 bug, on a different page.
+- **`.band`** — position, navy background, full width and a clip, onto the IELTS score.
+- **`.btn`/`.lead`/`.h2`** — one or two properties each (heading face, line-height, tracking).
+- `h1..h4{color:var(--navy)}` — the drop-in's headings inherit white from their dark sections,
+  and an inherited value loses to any matching declaration, so they came out navy on navy.
+- `.pin` is **safe**: the drop-in declares position/width/height/background itself, so
+  `site.css .pin{height:190vh}` never lands on the fourteen globe pins.
+
+All of it is neutralised in `src/styles/tw-site.css`, which lists only the gaps — nothing in
+`src/components/tw/` is edited, so the drop-in stays replaceable.
+
+**Header clearance:** same treatment as V4. `--tw-top` is the header's measured height,
+published on the document element by the host and kept current with a ResizeObserver. The
+fallback lives in each `var(--tw-top,133px)` rather than a `.tw{--tw-top:…}` line, because
+that line would sit closer than the document element and shadow the measured value.
+
+**Verified at 1536:** stage top = header height = 133px, h1 white, 14 chips, `.tw` 20,950px,
+build green.
+
+**Still to do (stage 2):** the `worldFlight` CMS block, the dashboard toggle that puts this on
+the home page, and lifting the content out of `data.ts`/`markup.ts` so it is editable.
+
+**Flag:** 37 MB of assets is a large repo addition. ~35 MB of it is 110 university photographs
+at 300–630 KB each; they could be halved without visible loss.
