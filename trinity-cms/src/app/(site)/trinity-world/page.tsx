@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getAllSettings } from "@/lib/settings-server";
 import TrinityWorldHost from "@/components/tw/TrinityWorldHost";
 import "@/styles/tw-site.css";
 
@@ -9,7 +10,9 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function TrinityWorldPreview() {
+/* Reads the same settings the toggle ships, so this previews exactly what "/" would show. */
+export default async function TrinityWorldPreview() {
+  const s = await getAllSettings();
   return (
     <>
       {/* The drop-in's CSS names Sora; the site's heading face is Poppins, so it has to be
@@ -18,7 +21,7 @@ export default function TrinityWorldPreview() {
         href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap"
         rel="stylesheet"
       />
-      <TrinityWorldHost />
+      <TrinityWorldHost world={s.world} />
     </>
   );
 }

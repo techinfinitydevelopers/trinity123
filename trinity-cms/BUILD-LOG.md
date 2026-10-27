@@ -411,3 +411,36 @@ the home page, and lifting the content out of `data.ts`/`markup.ts` so it is edi
 
 **Flag:** 37 MB of assets is a large repo addition. ~35 MB of it is 110 university photographs
 at 300–630 KB each; they could be halved without visible loss.
+
+## 2026-10-27 — Trinity World: dashboard toggle + editable content (stage 2)
+
+**Toggle.** New `world` settings key. `enabled` on → `/` renders Trinity World instead of the
+home page's blocks; the header and footer stay, because they come from the (site) layout above
+it. Off → nothing about it is loaded and the blocks come back untouched. Settings → **Home
+page** carries the toggle, a Preview button, the wording and the countries.
+
+**Editable, and deliberately not editable.** The settings key holds each country's name, short
+name, city, tests and university list — but *not* its lat/lon. Those are geometry: they place
+the pin on the globe and define the flight arc. They stay in the drop-in's `data.ts` and are
+merged under whatever the dashboard supplies, so an editor can rewrite every word on the page
+without being able to move a pin or break the flight. Verified in the browser: the injected
+payload has 14 keys and `'lat' in uk === false`.
+
+**How the content gets in, without forking the drop-in.**
+- *Countries*: `data.ts` gained one block that merges `globalThis.__TW_CONTENT__` over the
+  base list by key. The host writes that global **during render**, not in an effect, because
+  the engine is imported by the child's effect and importing it is what evaluates `data.ts` —
+  parent render always precedes child effect.
+- *Copy*: applied to the DOM after the engine injects its markup, via a selector table in the
+  host and a MutationObserver that fires once and disconnects. `markup.ts` is a generated blob
+  the drop-in owns; templating it would have to be redone on every drop-in update. All fifteen
+  selectors were checked against the live DOM before being written down.
+
+**Verified:** the three journey headings render the settings values ("12 months to study
+abroad.") rather than the markup's ("12 months to study *in* abroad.") — which also quietly
+fixes the drop-in's English. 14 chips, `--tw-top` 133px, tsc clean, build green.
+
+**Not verified:** flipping the toggle end to end. Writing the setting straight to the database
+was refused as a shared-resource change, and `getSetting` is wrapped in `unstable_cache`, so
+only the save action's `revalidateTag` makes a change visible. Flip it in Settings → Home page
+and it takes effect immediately.

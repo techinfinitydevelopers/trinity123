@@ -1,7 +1,7 @@
 // @ts-nocheck
 export const ORIGIN={name:'Mumbai',lat:19.076,lon:72.878};
 export const FIELDS='Business · Data & AI · Engineering · Health';
-export const COUNTRIES=[
+const BASE=[
 {k:'uk',n:'United Kingdom',s:'UK',lat:51.5,lon:-0.12,city:'London',test:'IELTS · UKVI',u:['University of Oxford','University of Cambridge','University College London','Imperial College London','University of Manchester','University of Edinburgh','King\'s College London']},
 {k:'ireland',n:'Ireland',s:'Ireland',lat:53.35,lon:-6.26,city:'Dublin',test:'IELTS · PTE',u:['Trinity College Dublin','University College Dublin','University of Galway','University College Cork','Dublin City University','University of Limerick']},
 {k:'france',n:'France',s:'France',lat:48.86,lon:2.35,city:'Paris',test:'IELTS · TCF / DELF',u:['Sorbonne Université','Université PSL','Institut Polytechnique de Paris','Sciences Po','HEC Paris','Université Paris-Saclay']},
@@ -17,3 +17,16 @@ export const COUNTRIES=[
 {k:'australia',n:'Australia',s:'Australia',lat:-33.87,lon:151.21,city:'Sydney',test:'IELTS · PTE',u:['University of Melbourne','University of Sydney','Australian National University','UNSW Sydney','Monash University','University of Queensland']},
 {k:'nz',n:'New Zealand',s:'New Zealand',lat:-36.85,lon:174.76,city:'Auckland',url:'https://trinity123-production.up.railway.app/destinations/new-zealand',test:'IELTS Academic',u:['University of Auckland','University of Otago','Victoria University of Wellington','University of Canterbury','Massey University','University of Waikato']}
 ];
+
+/* ---- added by this site, not part of the drop-in -------------------------------------------
+   The dashboard owns the *content* of each country — its name, short name, city, test list
+   and universities. It does not own lat/lon: those place the pin on the globe and define the
+   flight arc, so they stay here and are merged under whatever the dashboard supplies. An
+   editor can rewrite every word on the page without being able to break the geometry.
+
+   TrinityWorldHost writes this global while it renders, which is before the child effect that
+   imports the engine — and importing the engine is what evaluates this module. */
+export const COUNTRIES = BASE.map((c) => {
+  const o = (globalThis as any).__TW_CONTENT__?.[c.k];
+  return o ? { ...c, ...o, k: c.k, lat: c.lat, lon: c.lon } : c;
+});

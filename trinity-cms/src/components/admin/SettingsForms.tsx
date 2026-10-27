@@ -6,7 +6,23 @@ import ImagePicker from "./ImagePicker";
 import { Field, Toggle, toast } from "./ui";
 import { ObjectFields } from "./FieldEditor";
 
-type Tab = "site" | "contact" | "nav" | "footer" | "labels" | "security";
+type Tab = "site" | "contact" | "nav" | "world" | "footer" | "labels" | "security";
+
+/* The fifteen editable strings on the Trinity World page, with the wording the dashboard
+   shows for each. The keys match WorldSettings["text"]; the selectors they map to live in
+   TrinityWorldHost. */
+type WorldTextKey = keyof SettingsMap["world"]["text"];
+const WORLD_TEXT: [WorldTextKey, string][] = [
+  ["heroTag", "Hero — small label"], ["heroTitle", "Hero — headline"], ["heroSub", "Hero — line under it"],
+  ["unisTitle", "Universities — heading"], ["unisOutro", "Universities — closing card"],
+  ["ieltsTitle", "IELTS — heading"], ["ieltsLead", "IELTS — paragraph"],
+  ["processTitle", "How it works — heading"],
+  ["pathTitle", "Your year — heading"], ["lifeTitle", "Student life — heading"], ["kitTitle", "Your file — heading"],
+  ["statsTitle", "Numbers — heading"], ["voicesTitle", "Stories — heading"],
+  ["ctaTitle", "Enquiry — heading"], ["ctaLead", "Enquiry — paragraph"],
+];
+/* The ones that need a full-width textarea rather than a single line. */
+const LONG = new Set<WorldTextKey>(["heroSub", "ieltsLead", "ctaLead"]);
 
 export default function SettingsForms({ initial }: { initial: SettingsMap }) {
   const [tab, setTab] = useState<Tab>("site");
@@ -14,7 +30,7 @@ export default function SettingsForms({ initial }: { initial: SettingsMap }) {
   const [saving, setSaving] = useState(false);
   const save = async <K extends keyof SettingsMap>(k: K) => { setSaving(true); const r = await saveSettingsAction(k, s[k]); setSaving(false); r.ok ? toast("Saved · live") : toast(r.error, "err"); };
 
-  const tabs: [Tab, string][] = [["site", "General"], ["contact", "Contact & social"], ["nav", "Navigation"], ["footer", "Footer"], ["labels", "Text & labels"], ["security", "Security"]];
+  const tabs: [Tab, string][] = [["site", "General"], ["contact", "Contact & social"], ["nav", "Navigation"], ["world", "Home page"], ["footer", "Footer"], ["labels", "Text & labels"], ["security", "Security"]];
 
   return (
     <div className="grid gap-6 lg:grid-cols-[220px_1fr]">
@@ -182,6 +198,76 @@ export default function SettingsForms({ initial }: { initial: SettingsMap }) {
             </p>
             <ObjectFields value={s.labels as unknown as Record<string, unknown>} onChange={(v) => setS({ ...s, labels: v as unknown as SettingsMap["labels"] })} />
             <button className="btn-primary" onClick={() => save("labels")} disabled={saving}>Save</button>
+          </div>
+        ) : null}
+
+        {tab === "world" ? (
+          <div className="space-y-5">
+            <div className="card space-y-4 p-5">
+              <h3 className="text-[15px] font-bold text-navy">Home page</h3>
+              <p className="text-[13px] text-ink-2">
+                Trinity World is the globe-and-flight home page: the visitor picks a country, flies there, and
+                lands on its universities, IELTS, visa and student-life sections. Turning it on replaces the
+                home page&rsquo;s normal sections — they are not deleted, and come back the moment you turn it off.
+              </p>
+              <Toggle
+                checked={s.world.enabled}
+                onChange={(v) => setS({ ...s, world: { ...s.world, enabled: v } })}
+                label="Use Trinity World as the home page"
+              />
+              <div className="flex items-center gap-3">
+                <button className="btn-primary" onClick={() => save("world")} disabled={saving}>Save</button>
+                <a className="btn-ghost" href="/trinity-world" target="_blank" rel="noopener">Preview&nbsp;&rarr;</a>
+              </div>
+            </div>
+
+            <div className="card space-y-4 p-5">
+              <h3 className="text-[15px] font-bold text-navy">Wording</h3>
+              <p className="text-[13px] text-ink-2">
+                The headings and copy on that page. <code>&lt;br&gt;</code> forces a line break where the design
+                expects one. Anything you leave empty keeps the built-in wording.
+              </p>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {WORLD_TEXT.map(([k, label]) => (
+                  <Field key={k} label={label} className={LONG.has(k) ? "sm:col-span-2" : undefined}>
+                    {LONG.has(k)
+                      ? <textarea className="inp min-h-[72px]" value={s.world.text[k]} onChange={(e) => setS({ ...s, world: { ...s.world, text: { ...s.world.text, [k]: e.target.value } } })} />
+                      : <input className="inp" value={s.world.text[k]} onChange={(e) => setS({ ...s, world: { ...s.world, text: { ...s.world.text, [k]: e.target.value } } })} />}
+                  </Field>
+                ))}
+              </div>
+              <button className="btn-primary" onClick={() => save("world")} disabled={saving}>Save</button>
+            </div>
+
+            <div className="card space-y-4 p-5">
+              <h3 className="text-[15px] font-bold text-navy">Countries</h3>
+              <p className="text-[13px] text-ink-2">
+                Shown as the chips on the globe and used for the flight. Each country&rsquo;s position on the globe
+                is fixed in the design and is not editable here, so nothing you type can move a pin or break
+                the flight path.
+              </p>
+              <div className="space-y-3">
+                {s.world.countries.map((c, i) => {
+                  const setAt = (patch: Partial<typeof c>) =>
+                    setS({ ...s, world: { ...s.world, countries: s.world.countries.map((x, j) => (j === i ? { ...x, ...patch } : x)) } });
+                  return (
+                    <details key={c.k} className="rounded-xl border border-line">
+                      <summary className="cursor-pointer px-3 py-2.5 text-[14px] font-medium text-navy">{c.n || c.k}</summary>
+                      <div className="grid gap-3 p-3 pt-0 sm:grid-cols-2">
+                        <Field label="Name"><input className="inp inp-sm" value={c.n} onChange={(e) => setAt({ n: e.target.value })} /></Field>
+                        <Field label="Short name" hint="Used on the globe pin"><input className="inp inp-sm" value={c.s} onChange={(e) => setAt({ s: e.target.value })} /></Field>
+                        <Field label="City"><input className="inp inp-sm" value={c.city} onChange={(e) => setAt({ city: e.target.value })} /></Field>
+                        <Field label="Tests"><input className="inp inp-sm" value={c.test} onChange={(e) => setAt({ test: e.target.value })} /></Field>
+                        <Field label="Universities" hint="One per line" className="sm:col-span-2">
+                          <textarea className="inp min-h-[120px]" value={c.u.join("\n")} onChange={(e) => setAt({ u: e.target.value.split("\n").map((x) => x.trim()).filter(Boolean) })} />
+                        </Field>
+                      </div>
+                    </details>
+                  );
+                })}
+              </div>
+              <button className="btn-primary" onClick={() => save("world")} disabled={saving}>Save</button>
+            </div>
           </div>
         ) : null}
 

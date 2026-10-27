@@ -1,3 +1,4 @@
+import { COUNTRIES as TW_COUNTRIES } from "@/components/tw/data";
 
 /* ---------- Typed settings ---------- */
 
@@ -108,6 +109,28 @@ export type LabelSettings = {
     faqNote: string; faqButton: string;
     otherKicker: string; otherTitle: string;
     ctaBadge: string; ctaTitle: string; ctaText: string; ctaPrimary: string; ctaSecondary: string;
+  };
+};
+
+/* The Trinity World home page — the globe-and-flight experience in src/components/tw.
+
+   `enabled` is the dashboard toggle: on, "/" renders that instead of the home page's blocks.
+   Everything else is its content. Note what is NOT here: each country's lat/lon. Those are
+   geometry, not copy — they place the pin on the globe and define the flight arc — so they
+   stay in the component's own data.ts and are merged in at runtime by key. An editor can
+   rewrite every word without being able to break the maths. */
+export type WorldCountry = { k: string; n: string; s: string; city: string; test: string; u: string[] };
+export type WorldSettings = {
+  enabled: boolean;
+  countries: WorldCountry[];
+  /* Keys map to a fixed selector table in TrinityWorldHost. Only headings the engine never
+     rewrites itself are listed — the per-country ones are filled from `countries` above. */
+  text: {
+    heroTag: string; heroTitle: string; heroSub: string;
+    unisTitle: string; unisOutro: string;
+    ieltsTitle: string; ieltsLead: string;
+    processTitle: string; pathTitle: string; lifeTitle: string; kitTitle: string;
+    statsTitle: string; voicesTitle: string; ctaTitle: string; ctaLead: string;
   };
 };
 
@@ -261,6 +284,28 @@ export const DEFAULTS: SettingsMap = {
       ctaPrimary: "Book free consultation", ctaSecondary: "Chat on WhatsApp",
     },
   } satisfies LabelSettings,
+  world: {
+    enabled: false,
+    /* Content lifted from the drop-in's data.ts, which stays the source for geometry. */
+    countries: TW_COUNTRIES.map(({ k, n, s: sh, city, test, u }) => ({ k, n, s: sh, city, test, u })),
+    text: {
+      heroTag: "Study abroad · IELTS · Visa",
+      heroTitle: "Where will you<br>study next?",
+      heroSub: "Type or pick a country. We'll fly you there.",
+      unisTitle: "Pick your campus.",
+      unisOutro: "Not on the list?",
+      ieltsTitle: "Watch your band climb.",
+      ieltsLead: "Mock tests every week, examiner-style feedback, and a study plan that adapts to your weakest module.",
+      processTitle: "From first call to<br>boarding pass.",
+      pathTitle: "12 months to<br>study abroad.",
+      lifeTitle: "What life actually<br>looks like.",
+      kitTitle: "Pack your file.",
+      statsTitle: "Numbers that landed.",
+      voicesTitle: "They flew. You're next.",
+      ctaTitle: "Book your free counselling session.",
+      ctaLead: "30 minutes. Profile review, university shortlist and a clear plan for the next intake.",
+    },
+  } satisfies WorldSettings,
   footer: {
     ctaKicker: "Dream Big · Make It Happen",
     ctaTitle: "Ready to start your study abroad journey?",
@@ -276,5 +321,5 @@ export const DEFAULTS: SettingsMap = {
   } satisfies FooterSettings,
 };
 
-export type SettingsMap = { theme: ThemeSettings; contact: ContactSettings; nav: NavSettings; chatbot: ChatbotSettings; site: SiteSettings; footer: FooterSettings; labels: LabelSettings };
+export type SettingsMap = { theme: ThemeSettings; contact: ContactSettings; nav: NavSettings; chatbot: ChatbotSettings; site: SiteSettings; footer: FooterSettings; labels: LabelSettings; world: WorldSettings };
 export type SettingsKey = keyof SettingsMap;

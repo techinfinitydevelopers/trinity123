@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { getPage } from "@/lib/content";
 import { getAllSettings } from "@/lib/settings-server";
 import { BlockRenderer } from "@/components/site/blocks";
+import TrinityWorldHost from "@/components/tw/TrinityWorldHost";
+import "@/styles/tw-site.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const [p, s] = await Promise.all([getPage("home"), getAllSettings()]);
@@ -19,6 +21,20 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function HomePage() {
   const [page, settings] = await Promise.all([getPage("home"), getAllSettings()]);
+  /* Settings → Home page → "Use the Trinity World home page". On, the globe-and-flight
+     experience replaces the blocks entirely; the site header and footer stay, because they
+     come from the (site) layout above this. Off, none of it is loaded. */
+  if (settings.world.enabled) {
+    return (
+      <>
+        {/* The drop-in's CSS names Sora; the site's heading face is Poppins, so without this
+            every heading in it falls back. */}
+        <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet" />
+        <TrinityWorldHost world={settings.world} />
+      </>
+    );
+  }
+
   if (!page) return <section className="section"><div className="container"><p className="lead">Home page not configured. Run the seed.</p></div></section>;
   return <BlockRenderer blocks={page.blocks} ctx={{ settings }} />;
 }
