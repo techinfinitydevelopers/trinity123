@@ -444,3 +444,14 @@ fixes the drop-in's English. 14 chips, `--tw-top` 133px, tsc clean, build green.
 was refused as a shared-resource change, and `getSetting` is wrapped in `unstable_cache`, so
 only the save action's `revalidateTag` makes a change visible. Flip it in Settings → Home page
 and it takes effect immediately.
+
+## 28/10/2026 — Client content pass: About, Services, admin editor, chat, header
+- **About:** intro heading + two paragraphs replaced with the client's text (`seed-content.ts`). Mission/vision/segments were already in.
+- **Services:** 8 old cards replaced with the client's 13 services in order, each with an image from `public/assets/img`. Cards get `id` anchors; text splits on blank lines into paragraphs. Nav "Services" is now a dropdown (`settings.ts`) linking to `/our-service#<id>`; menu is two columns, no scroll, and closes after a click (`Header.tsx`, `canvas.css`).
+- **Admin editor:** fields respond to the editor's own width (container queries), title/text first and id/link/icon last, bigger text boxes, image picker stacks when narrow, list items collapsed by default.
+- **Chat:** launcher 84→68px clear of the WhatsApp button; hover label and header read "TISA" (default name in `settings.ts`).
+- **Footer:** on pages that close with their own CTA the footer banner is hidden, but the cream band still started 80px down and cut through the logo; it now starts at the top.
+- **Header (scrolled):** pill max-width 1200→1320 and a compact row at 1121–1320px, so "Free Counselling" no longer spills past the pill/scrollbar.
+
+**Production needs:** the page content, nav and chatbot name live in the database. Push deploys code only; paste the About/Services content in /admin, set Settings → nav Services children, and set Chatbot name to "TISA" (or run a targeted sync script).
+**Verified:** `tsc` clean; layouts measured on localhost. **Not verified:** real scroll of the header (preview pane cannot scroll), mobile menu Services list.

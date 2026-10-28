@@ -159,7 +159,7 @@ export default function BlockEditor({ initial }: { initial: PageData }) {
                 <button className="btn-ghost btn-sm" onClick={() => setAdding(true)}>+</button>
               </div>
               {cur ? (
-                <div className="card mx-auto max-w-3xl p-5">
+                <div className="card @container mx-auto max-w-3xl p-5">
                   <div className="mb-4 flex flex-wrap items-center gap-2 border-b border-line pb-4">
                     <div className="mr-auto"><h2 className="text-[17px] font-bold text-navy">{BLOCK_META[cur.type]?.label}</h2><p className="text-[12px] text-ink-3">{BLOCK_META[cur.type]?.desc}</p></div>
                     <button className="btn-ghost btn-xs" onClick={() => move(sel, -1)} disabled={sel === 0}>↑ Up</button>

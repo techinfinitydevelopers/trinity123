@@ -64,11 +64,11 @@ export default function ImagePicker({ value, onChange, label }: { value: string;
   return (
     <div>
       {label ? <label className="lbl">{label}</label> : null}
-      <div className="flex items-start gap-3">
+      <div className="flex flex-col items-start gap-3 @sm:flex-row">
         <div className="grid h-16 w-24 shrink-0 place-items-center overflow-hidden rounded-xl border border-line bg-canvas">
           {value ? <img src={value} alt="" className="h-full w-full object-cover" /> : <span className="text-[11px] text-ink-3">No image</span>}
         </div>
-        <div className="flex min-w-0 flex-1 flex-col gap-2">
+        <div className="flex w-full min-w-0 flex-1 flex-col gap-2">
           <input className="inp inp-sm" value={value} onChange={(e) => onChange(e.target.value)} placeholder="/assets/img/… or https://…" />
           <div className="flex gap-2">
             <button type="button" className="btn-ghost btn-xs" onClick={() => setOpen(true)}>Choose / upload</button>

@@ -102,13 +102,13 @@ export function Services({ b, contact }: { b: ServicesBlock; contact: ContactSet
         <SectionHead kicker={b.kicker} title={b.title} lead={b.lead} center />
         <div className="grid grid--3 sgrid">
           {b.items.map((s, i) => (
-            <article key={i} className={`${s.wide ? "scard scard--wide" : "scard"}${s.img ? " scard--shot" : ""}`} data-reveal style={d(i % 4)}>
+            <article key={i} id={s.id} className={`${s.wide ? "scard scard--wide" : "scard"}${s.img ? " scard--shot" : ""}`} data-reveal style={d(i % 4)}>
               <span className="scard__fill" /><span className="scard__num">{String(i + 1).padStart(2, "0")}</span>
               {/* The picture sits above the card's own content, with the icon riding its lower
                   edge. A service without one keeps the plain icon it always had. */}
               {s.img ? <span className="scard__shot"><img src={s.img} alt={s.imgAlt ?? ""} loading="lazy" /></span> : null}
               <span className="scard__ico"><i className={s.icon} /></span>
-              <h3>{s.title}</h3><p>{s.text}</p>
+              <h3>{s.title}</h3>{s.text.split("\n\n").map((t, k) => <p key={k}>{t}</p>)}
               {s.checks.length ? <ul className="checks checks--dark">{s.checks.map((c) => <li key={c}><i className="fas fa-check-circle" />{c}</li>)}</ul> : null}
               <A href={s.href} contact={contact} className="scard__link">{s.linkLabel} <i className="fas fa-arrow-right" /></A>
             </article>

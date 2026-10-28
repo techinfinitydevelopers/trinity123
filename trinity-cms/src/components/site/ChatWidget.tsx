@@ -193,7 +193,7 @@ export default function ChatWidget({ cfg, contact }: { cfg: ChatbotSettings; con
         {open ? <i className="fas fa-times" /> : (
           <>
             <span className="tc-fab__face"><AgentAvatar /><i className="tc-fab__live" /></span>
-            <span className="tc-fab__txt"><strong>Chat with us</strong><small>Online · replies instantly</small></span>
+            <span className="tc-fab__txt"><strong>Chat with {cfg.name}</strong><small>Online · replies instantly</small></span>
           </>
         )}
       </button>

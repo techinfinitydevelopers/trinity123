@@ -57,3 +57,5 @@
   .cv-section{padding-left:18px!important;padding-right:18px!important}
   .cv-hero{padding-top:130px!important;padding-bottom:64px!important;min-height:auto!important}
 }
+/* a link inside the menu was just clicked: stay closed until the pointer leaves */
+.nav__links .cv-ddwrap.is-closed .cv-ddmenu{opacity:0!important;visibility:hidden!important;transform:translate(-50%,10px)!important;pointer-events:none}

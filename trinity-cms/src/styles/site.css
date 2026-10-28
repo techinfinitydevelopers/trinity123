@@ -114,13 +114,27 @@ button{font:inherit;cursor:pointer}
 .mobile-menu a.is-active{color:var(--primary)}
 .mobile-menu .btn{margin-top:12px;justify-content:center;border-bottom:0}
 .site-header.is-scrolled .navwrap{padding:12px 16px 0}
-/* The pill caps at 1200px while the links and the CTA both refuse to shrink (nowrap),
+/* The pill caps at 1320px (it was 1200 before the menu grew) while the links and the CTA both refuse to shrink (nowrap),
    so the row is tightened here — otherwise the CTA spills past the rounded edge. */
-.site-header.is-scrolled .nav{max-width:1200px;background:rgba(255,255,255,.92);border-radius:60px;border-color:rgba(35,47,112,.12);box-shadow:0 20px 50px rgba(26,36,86,.16);padding:8px 10px 8px 22px;gap:14px}
+.site-header.is-scrolled .nav{max-width:1320px;background:rgba(255,255,255,.92);border-radius:60px;border-color:rgba(35,47,112,.12);box-shadow:0 20px 50px rgba(26,36,86,.16);padding:8px 10px 8px 22px;gap:14px}
 .site-header.is-scrolled .nav__links a,.site-header.is-scrolled .nav__links .cv-ddbtn{padding:10px 14px}
 .nav__actions{flex-shrink:0}
 .site-header.is-scrolled .nav__logo img{height:36px}
 .site-header.is-scrolled .nav__logo-name{font-size:9.5px}
+/* The scrolled pill is only as wide as the viewport minus its side gutters, while the links and the
+   CTA refuse to shrink (nowrap). With the longer menu (Services, Resources, Success Stories) the row
+   no longer fits between ~1120 and ~1320px, and the CTA hung out past the pill and the page edge.
+   Tighten the row in steps instead of letting it spill. */
+@media (min-width:1121px) and (max-width:1320px){
+  .site-header.is-scrolled .nav{gap:8px;padding:8px 8px 8px 16px}
+  .site-header.is-scrolled .nav__links{gap:2px;padding:4px;font-size:13.5px}
+  .site-header.is-scrolled .nav__links a,.site-header.is-scrolled .nav__links .cv-ddbtn{padding:9px 9px;gap:5px}
+  .site-header.is-scrolled .nav__actions{gap:6px}
+  .site-header.is-scrolled .nav__logo img{height:32px}
+}
+@media (min-width:1121px) and (max-width:1240px){
+  .site-header.is-scrolled .nav__call{display:none}
+}
 
 /* ---------- Sections ---------- */
 .section{padding:110px 24px 100px;position:relative}
@@ -1549,6 +1563,10 @@ a.seg__logo:hover .seg__logo-go i{transform:translate(2px,-2px)}
    60px of margin that was holding the footer's columns clear. They ended up 20px below the
    page's last card. The pull-up only makes sense when the banner is there to fill it. */
 main:has(> .cta-block:last-child) + .footer{margin-top:0}
+/* ...and the footer's cream band starts 80px down to sit under that banner. With the banner gone
+   it cut straight through the logo, so on these pages the band starts at the top. */
+main:has(> .cta-block:last-child) + .footer{background:var(--cream);padding-top:56px}
+main:has(> .cta-block:last-child) + .footer::before{inset:0}
 
 /* WEBINARS — the posters are portrait (410x512) and the gallery forced them into a 16:9 box,
    which threw away 55% of every one of them: the middle poster lost its "Thank You" line off the
@@ -1980,7 +1998,7 @@ main:has(> .cta-block:last-child) + .footer{margin-top:0}
 /* The chat button sits at z-60 over the card's bottom-right corner between about 1200 and 1366,
    so a thumb aimed at the end of "Apply Now" opened the chat instead of sending the enquiry. */
 @media (min-width:1101px) and (max-width:1400px){
-  .tc-fab{bottom:150px}
+  .tc-fab:not(.is-open){bottom:164px}
 }
 
 /* ---- 861–1199px: the comb was sitting on the student ----

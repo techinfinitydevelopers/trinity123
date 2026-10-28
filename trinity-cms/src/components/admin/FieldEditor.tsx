@@ -71,6 +71,7 @@ export default function FieldEditor({ value, onChange, name, depth = 0 }: { valu
   if (typeof value === "number") return <Row label={label}><input type="number" className="inp inp-sm" value={value} onChange={(e) => onChange(Number(e.target.value))} /></Row>;
 
   if (typeof value === "string") {
+    if (name === "id") return <Row label="Menu anchor (don't change)" hint="Used by the Services menu links. Leave as is unless you also change the menu."><input className="inp inp-sm" value={value} onChange={(e) => onChange(e.target.value)} /></Row>;
     if (name === "html") return <Row label="Content"><RichEditor value={value} onChange={onChange} compact /></Row>;
     if (name === "s") return (
       <Row label="Style"><select className="inp inp-sm" value={value} onChange={(e) => onChange(e.target.value || undefined)}><option value="">Normal</option><option value="gold">Gold</option><option value="grad">Gradient</option></select></Row>
@@ -100,7 +101,7 @@ export default function FieldEditor({ value, onChange, name, depth = 0 }: { valu
     );
     if (name === "href") return <Row label="Link" hint='Use "whatsapp", "phone" or "email" to link to contact settings'><input className="inp inp-sm" value={value} onChange={(e) => onChange(e.target.value)} /></Row>;
     if (name === "title" && /[\[{]/.test(value) || /^(title)$/.test(name) && depth === 0) return <Row label={label} hint="Wrap words in [brackets] for purple accent or {braces} for gold"><input className="inp" value={value} onChange={(e) => onChange(e.target.value)} /></Row>;
-    if (LONG_KEY.test(name) || atMount.length > 90) return <Row label={label}><textarea className="inp" rows={Math.min(8, Math.max(2, Math.ceil((value.length || 60) / 70)))} value={value} onChange={(e) => onChange(e.target.value)} /></Row>;
+    if (LONG_KEY.test(name) || atMount.length > 90) return <Row label={label}><textarea className="inp" rows={Math.min(14, Math.max(3, Math.ceil((value.length || 60) / 60) + (value.split("\n").length - 1)))} value={value} onChange={(e) => onChange(e.target.value)} /></Row>;
     return <Row label={label}><input className="inp inp-sm" value={value} onChange={(e) => onChange(e.target.value)} /></Row>;
   }
 
@@ -171,18 +172,22 @@ export default function FieldEditor({ value, onChange, name, depth = 0 }: { valu
 }
 
 export function ObjectFields({ value, onChange, depth = 0, skip = [], collapsible, index }: { value: Obj; onChange: (v: Obj) => void; depth?: number; skip?: string[]; collapsible?: boolean; index?: number }) {
-  const [open, setOpen] = useState(!collapsible || depth < 2);
+  const [open, setOpen] = useState(!collapsible);
+  /* Content first, plumbing last: title and text lead, ids/links/icons sink to the bottom. */
+  const FIRST = ["title", "name", "label", "q", "question", "t", "strong"], SECOND = ["text", "a", "answer", "lead", "sub", "html"], LAST = ["id", "href", "linkLabel", "wide", "icon"];
+  const rank = (k: string): number => FIRST.includes(k) ? 0 : SECOND.includes(k) ? 1 : LAST.includes(k) ? 9 : 5;
   const keys = Object.keys(value).filter((k) => k !== "type" && !skip.includes(k));
+  keys.sort((a, b) => rank(a) - rank(b));
   const summary = String(value.title ?? value.name ?? value.label ?? value.q ?? value.question ?? value.strong ?? value.text ?? value.t ?? `Item ${(index ?? 0) + 1}`).slice(0, 60);
   if (collapsible && !open) return <button type="button" className="flex w-full items-center justify-between rounded-lg px-2 py-1 text-left text-[13px] font-medium text-ink hover:bg-canvas" onClick={() => setOpen(true)}><span className="truncate">{summary}</span><span className="text-ink-3">Edit ›</span></button>;
   return (
     <div className="space-y-3">
       {collapsible ? <button type="button" className="text-[12px] font-semibold text-brand" onClick={() => setOpen(false)}>‹ Collapse</button> : null}
-      <div className={depth > 0 ? "grid gap-3 sm:grid-cols-2" : "space-y-3"}>
+      <div className={depth > 0 ? "grid gap-3 @lg:grid-cols-2" : "space-y-3"}>
         {keys.map((k) => {
           const v = value[k];
           const wide = Array.isArray(v) || (v && typeof v === "object") || k === "html" || (typeof v === "string" && (LONG_KEY.test(k) || v.length > 90));
-          return <div key={k} className={wide ? "sm:col-span-2" : ""}><FieldEditor name={k} value={v} depth={depth} onChange={(nv) => onChange({ ...value, [k]: nv })} /></div>;
+          return <div key={k} className={wide ? "@lg:col-span-2" : ""}><FieldEditor name={k} value={v} depth={depth} onChange={(nv) => onChange({ ...value, [k]: nv })} /></div>;
         })}
       </div>
     </div>

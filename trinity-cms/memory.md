@@ -1688,3 +1688,10 @@ because its `.shell` rule was scoped under `.v2` and the chooser is not inside i
 art was 16/9 on an 840px card, so 470px tall; `offer.cards[].icon` is **an SVG path, not a
 Font Awesome class**, so rendering it as `<i>` gave an empty square; and the supplied icon
 SVGs are not one set (some white, some navy), so they now sit on a dark chip forced white.
+
+## Client content pass (28/10/2026)
+- Source: `Trinity_Study_Abroad_Website_Content_Organized.docx` (nav, palette, home sections, About, Services, 11 destination pages). Done so far: About intro, Services (13), nav Services dropdown, TISA chat name. Not done: palette/logo/top bar, home merge, destination pages.
+- Home page lives in `techinfinitydevelopers/trnityfinal1`; only the home page is to be merged into this repo (when the user says so).
+- Content is DB-backed: seed edits do not reach production; use /admin or a targeted script. `npx tsx prisma/seed.ts --force` resets ALL local pages/settings (npm run db:reset does not pass --force). After seeding, restart dev server with `.next` removed or the cache shows stale content.
+- Local admin: admin@trinitystudyabroad.com / Trinity@2026 (dev default). Production is on Railway.
+- If localhost shows "Jest worker … exceeded retry limit", the embedded Postgres (:5433) died; stop leftover postgres.exe from this project's path and rerun `npm run db:dev`.

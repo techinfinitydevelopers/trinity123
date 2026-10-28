@@ -181,7 +181,7 @@ export type ServicesBlock = {
   type: "services"; kicker: string; title: string; lead: string;
   /* `img` is optional in practice: a service without a picture renders as it always did, with
      just its icon, rather than reserving an empty band. */
-  items: { icon: string; title: string; text: string; checks: string[]; wide: boolean; href: string; linkLabel: string; img?: string; imgAlt?: string }[];
+  items: { id?: string; icon: string; title: string; text: string; checks: string[]; wide: boolean; href: string; linkLabel: string; img?: string; imgAlt?: string }[];
 };
 
 export type ContactBlock = {

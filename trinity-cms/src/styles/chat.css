@@ -4,7 +4,7 @@
 .tc-fab:hover{transform:translateY(-3px) scale(1.04)}
 /* Launcher: a round avatar that stays out of the way of the page (a wide pill covered the hero form).
    Hover or keyboard focus slides a label out to its left. */
-.tc-fab:not(.is-open){width:84px;height:84px;padding:0;border-radius:50%;background:transparent;border:0;overflow:visible;box-shadow:0 14px 30px rgba(35,47,112,.32);animation:tcFloat 4s ease-in-out infinite}
+.tc-fab:not(.is-open){right:17px;bottom:104px;width:68px;height:68px;padding:0;border-radius:50%;background:transparent;border:0;overflow:visible;box-shadow:0 14px 30px rgba(35,47,112,.32);animation:tcFloat 4s ease-in-out infinite}
 .tc-fab:not(.is-open):hover{animation-play-state:paused}
 .tc-fab__face{position:relative;display:block;width:100%;height:100%;border-radius:50%;padding:4px;background:conic-gradient(from 200deg,var(--gold),var(--primary-2),var(--primary),var(--gold))}
 .tc-fab__face .tc-av{border:3px solid #fff}
@@ -117,7 +117,7 @@
   .tc-panel{right:8px;left:8px;bottom:84px;width:auto;height:min(calc(100vh - 120px),540px)}
   .tc-nudge{right:88px;left:12px;max-width:none}
   .tc-fab{right:16px;bottom:86px;width:52px;height:52px;font-size:21px}
-  .tc-fab:not(.is-open){width:70px;height:70px}
+  .tc-fab:not(.is-open){right:11px;bottom:84px;width:60px;height:60px}
   .tc-fab__txt{display:none}
 }
 @media (prefers-reduced-motion:reduce){
