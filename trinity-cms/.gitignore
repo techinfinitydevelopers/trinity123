@@ -49,3 +49,6 @@ next-env.d.ts
 
 # Credentials handed to the owner — never commit
 ADMIN-LOGIN.local.txt
+
+# production sync backups
+/scripts/backups/
