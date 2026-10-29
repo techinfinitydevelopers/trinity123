@@ -13,7 +13,7 @@
    revalidate the way the save action does — restart `npm run dev` for the change to show. */
 /* The generator writes to src/generated/prisma, not node_modules — importing
    "@prisma/client" gets an uninitialised stub. Same import the other scripts use. */
-import { PrismaClient } from "../src/generated/prisma";
+import { PrismaClient, Prisma } from "../src/generated/prisma";
 
 const prisma = new PrismaClient();
 
@@ -35,7 +35,7 @@ async function main() {
   }
 
   const enabled = arg === "on";
-  const value = { ...current, enabled };
+  const value = { ...current, enabled } as Prisma.InputJsonObject;
   await prisma.setting.upsert({
     where: { key: "world" },
     create: { key: "world", value },
