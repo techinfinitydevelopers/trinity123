@@ -35,6 +35,8 @@ async function main() {
   }
 
   const enabled = arg === "on";
+  /* Prisma's Json input type rejects a plain `unknown[]`, and the countries array is only
+     ever passed through untouched, so it is carried as Prisma's own JSON shape. */
   const value = { ...current, enabled } as Prisma.InputJsonObject;
   await prisma.setting.upsert({
     where: { key: "world" },

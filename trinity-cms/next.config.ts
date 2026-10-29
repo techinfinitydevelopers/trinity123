@@ -36,6 +36,15 @@ const nextConfig: NextConfig = {
           { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
         ],
       },
+      /* The Trinity World assets are a fixed drop-in: the globe textures, the aircraft and
+         the campus photos never change under the same file name. Next serves everything in
+         public/ with `max-age=0`, so on the home page every repeat visit re-validated close
+         to half a megabyte before the globe could draw. A month is long enough to matter and
+         short enough that swapping a campus photo still reaches people without a rename. */
+      {
+        source: "/tw/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=2592000, stale-while-revalidate=86400" }],
+      },
       // The dashboard must never be framed, and must never be cached by a shared proxy.
       {
         source: "/admin/:path*",

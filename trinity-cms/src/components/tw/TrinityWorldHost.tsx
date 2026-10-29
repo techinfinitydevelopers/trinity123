@@ -95,6 +95,21 @@ export default function TrinityWorldHost({ initialCountry, world }: { initialCou
 
   return (
     <div ref={box} style={{ display: "contents" }}>
+      {/* The four globe textures and the aircraft are what the first screen is made of, and
+          nothing asks for them until the engine chunk has downloaded, parsed and run — three
+          serialised steps before the first byte of a 450 KB payload is requested. React hoists
+          these into <head> during the server render, so the browser starts fetching them while
+          it is still downloading the chunk. Same URLs the engine composes from assetBase; the
+          preload is a hint, so if a URL ever drifts the only cost is a wasted fetch.
+          Every one carries crossOrigin: three's ImageLoader sets `crossOrigin = "anonymous"`
+          on the Image it creates, and a preload in a different CORS mode is a different cache
+          entry — without it each texture was fetched twice, once by the hint and once for real.
+          The GLB is as:fetch rather than as:image, to match how GLTFLoader requests it. */}
+      <link rel="preload" as="image" href="/tw/earth/2_no_clouds_4k.jpg" crossOrigin="anonymous" fetchPriority="high" />
+      <link rel="preload" as="image" href="/tw/earth/elev_bump_4k.jpg" crossOrigin="anonymous" />
+      <link rel="preload" as="image" href="/tw/earth/water_4k.png" crossOrigin="anonymous" />
+      <link rel="preload" as="image" href="/tw/earth/earth_clouds_1024.png" crossOrigin="anonymous" />
+      <link rel="preload" as="fetch" href="/tw/a350.glb" crossOrigin="anonymous" />
     <TrinityWorld
       initialCountry={initialCountry}
       destHref={(c) => (NO_PAGE.has(c.k) ? "/contact-us" : `/destinations/${SLUG[c.k] ?? c.k}`)}

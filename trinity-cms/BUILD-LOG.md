@@ -506,3 +506,50 @@ Re-checked the drop-in against Sanjeev's 28/10 header and chat changes, in foreg
   Counselling". It now sits at `calc(var(--tw-top) + 16px)`: measured top 153, 16px clear,
   and `elementFromPoint` on its centre returns the button itself, so it is clickable again.
   Hidden under 760px by `tw.css`, so no mobile rule is needed.
+
+---
+
+## Trinity World — load weight (29/10)
+
+The home page was already merged: it renders inside the `(site)` layout, so the header, the
+footer and the floating buttons are the site's own, the Settings toggle decides whether it
+replaces the blocks, and its form posts to `/api/leads` like every other enquiry card. What
+made it feel bolted on was the weight — `public/tw` was 37 MB, and the first screen alone
+pulled 3.28 MB of globe textures.
+
+**Assets re-encoded in place** — `scripts/optimise-tw-assets.mjs`, re-runnable after any drop-in
+update. Same paths and same file names throughout, because `engine.ts` and `uni.ts` compose
+their own URLs and `src/components/tw/` has to stay replaceable.
+
+| | before | after |
+|---|---|---|
+| `earth/` (first screen) | 3,200 KB | 466 KB |
+| `uni/` (78 campus photos) | 28 MB | 9.3 MB |
+| `city/`, `stu/` | 5.4 MB | 2.1 MB |
+| **`public/tw` total** | **37 MB** | **15 MB** |
+
+The 4K maps went to 2048 (the globe is never wider than ~900 CSS px), the water mask to 1024
+— it is a "is this pixel sea" mask, and at 4096 as a lossless PNG it was the single largest
+file on the site. The campus photos went to 1100 wide; a `.ucard` tops out at 430×590 and
+scales to 1.08 on hover. The cloud layer keeps its alpha channel: `AdditiveBlending`
+multiplies colour by alpha, so dropping it would wash the globe in flat white.
+
+**Preload hints** — `TrinityWorldHost` now emits `<link rel="preload">` for the four textures
+and the aircraft. Nothing asked for them until the engine chunk had downloaded, parsed and
+run; the hint starts those fetches during the chunk download instead. Measured locally: the
+earth set finished at 165 ms instead of ~800 ms, and the engine no longer waits on it at all.
+
+Each link carries `crossOrigin="anonymous"`. Three's `ImageLoader` sets that on the `Image` it
+creates, and a preload in a different CORS mode is a *different cache entry* — the first
+attempt without it fetched every texture twice, which was worse than not preloading. Verified
+after: five `/tw/` requests, no duplicates, 625 KB.
+
+**Cache headers** — `/tw/:path*` now returns `max-age=2592000, stale-while-revalidate=86400`.
+Next serves `public/` with `max-age=0`, so every repeat visit was re-validating the lot. A
+month is short enough that swapping a campus photo still reaches people without a rename.
+
+Also fixed a type error in `scripts/toggle-world-home.ts` that `next build` did not catch but
+`tsc --noEmit` did — the countries array needed Prisma's own JSON input type.
+
+Verified in the browser at 1536 px: globe, clouds and specular highlight unchanged, intro
+completes, UK pick loads seven campus cards at 1100 px and ~115 KB each (was ~350 KB).
