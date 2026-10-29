@@ -11,7 +11,9 @@
    It writes to whatever DATABASE_URL points at, so check that first if you are not on the
    local dev database. `getSetting` is wrapped in `unstable_cache`, which this script cannot
    revalidate the way the save action does — restart `npm run dev` for the change to show. */
-import { PrismaClient } from "@prisma/client";
+/* The generator writes to src/generated/prisma, not node_modules — importing
+   "@prisma/client" gets an uninitialised stub. Same import the other scripts use. */
+import { PrismaClient } from "../src/generated/prisma";
 
 const prisma = new PrismaClient();
 
