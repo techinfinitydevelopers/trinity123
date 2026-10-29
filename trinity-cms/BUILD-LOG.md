@@ -575,3 +575,22 @@ Still open, a design call rather than a bug fix: the site's three floating butto
 back-to-top, chat) sit at z-index 60 over the hero panel, and five chips — France, Germany,
 USA, Canada — are partially under them, so part of each is unclickable. Fixing it means
 either shrinking the chip area, moving the panel, or moving the buttons on this page only.
+
+### Chips clear of the floating buttons (29/10)
+
+`#chips` is inset 64px on the right under 760px, so the fourteen country chips stop short of
+the column where the WhatsApp button and the chat avatar sit. Measured at 375x812 before:
+France and USA were partly printed under them at z-index 60 against the panel's 6, so part of
+each could not be tapped. After: no chip intersects either button.
+
+Two things measured along the way turned out differently from the first estimate:
+
+- The chips were never three rows — they are **five** with no inset, and seven with it. Only
+  about three are in view either way; `#panel` scrolls its own overflow, so the difference is
+  in how much is hidden, not in what is reachable.
+- The back-to-top button appeared to cover two more chips, but it is `opacity:0` and
+  `pointer-events:none` until you scroll. It was never covering anything. No fix needed.
+
+Shrinking the chips would win one row back but they are already 36px tall, under a comfortable
+tap target, so they were left alone. Desktop is untouched — `padding-right` computes to 0px
+above 760px, chips stay at four rows.

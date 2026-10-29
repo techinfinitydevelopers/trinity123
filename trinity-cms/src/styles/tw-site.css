@@ -111,3 +111,27 @@
 @media (max-width:760px){
   .tw:not(.picked) .hint{display:none}
 }
+
+/* ---- the country chips vs this site's floating buttons, on a phone ---------------------------
+   Same collision the altitude meter had, one screen earlier. `#panel` goes full width on a
+   phone and its chips run the whole way to the panel's right edge, while the WhatsApp button
+   and the chat avatar sit in a fixed column at z-index 60 against the panel's 6. Measured at
+   375x812: the chat avatar spans x 304-364 and WhatsApp 295-353, against a panel that ends at
+   357 — so part of France, USA and Canada was printed under them and could not be tapped.
+
+   The chips give up the width rather than the buttons moving, because the buttons are in the
+   same place on every other page of the site. 64px is the smallest inset that clears them —
+   the chips end at 356 and the nearer button starts at 295 — and it costs two rows: the
+   fourteen chips wrap into seven instead of five. Only about three rows are ever in view
+   either way, and `#panel` already scrolls its own overflow (`overflow-y:auto`, from tw.css),
+   so the rest stays reachable. Not taken any further: shrinking the chips would win one row
+   back, but they are already 36px tall, which is under a comfortable tap target as it is.
+
+   Only `#chips` is inset, not the panel: the heading and the search field keep the panel's own
+   left and right edges, which is what the layout lines everything up against.
+
+   The back-to-top button looks like it collides too, but it sits at `opacity:0` and
+   `pointer-events:none` until you scroll, so it never covers a chip anyone can see or tap. */
+@media (max-width:760px){
+  .tw #chips{padding-right:64px}
+}
