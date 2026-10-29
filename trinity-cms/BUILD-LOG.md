@@ -487,3 +487,22 @@ The 44 other console errors in the log were stale: mid-edit states of `tw-site.c
 
 **Production needs:** the page content, nav and chatbot name live in the database. Push deploys code only; paste the About/Services content in /admin, set Settings → nav Services children, and set Chatbot name to "TISA" (or run a targeted sync script).
 **Verified:** `tsc` clean; layouts measured on localhost. **Not verified:** real scroll of the header (preview pane cannot scroll), mobile menu Services list.
+
+---
+
+## Trinity World — after the client content pass (29/10)
+
+Re-checked the drop-in against Sanjeev's 28/10 header and chat changes, in foreground Chrome.
+
+- **The meter fix holds.** The chat launcher moved to 68px wide starting at 1436 (it was 1415),
+  so clearance grew rather than shrank. Measured at 1536, at rest and at scroll 1700: meter
+  1280–1413 against WhatsApp 1441–1499 and chat 1436–1504 — **no overlap with either**.
+- **The header is now 137px, not 133.** The pill's max-width went 1200→1320, so the
+  pre-hydration fallbacks in `tw-site.css` were four pixels short; they now read 137px. The
+  measured value `TrinityWorldHost` publishes was always right — only the first frame was off.
+- **"Change country" was hidden behind the header** — a regression the wider pill exposed, not
+  one Sanjeev introduced. `tw.css` parks it at `top:84px, z-index:45`, which is inside the
+  header's band (0–137) and under its z-50, so only the last letters showed past "Free
+  Counselling". It now sits at `calc(var(--tw-top) + 16px)`: measured top 153, 16px clear,
+  and `elementFromPoint` on its centre returns the button itself, so it is clickable again.
+  Hidden under 760px by `tw.css`, so no mobile rule is needed.

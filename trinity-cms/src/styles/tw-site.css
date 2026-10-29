@@ -62,9 +62,16 @@
    The fallback lives in each `var()` rather than in a `.tw{--tw-top:…}` line, because such a
    line would sit *closer* to these elements than the document element the host writes to and
    would shadow the measured value permanently. */
-.tw #sky,.tw #c{top:var(--tw-top,133px);bottom:auto;height:calc(100dvh - var(--tw-top,133px))}
-.tw .stage{top:var(--tw-top,133px);height:calc(100dvh - var(--tw-top,133px))}
-.tw section{scroll-margin-top:var(--tw-top,133px)}
+.tw #sky,.tw #c{top:var(--tw-top,137px);bottom:auto;height:calc(100dvh - var(--tw-top,137px))}
+.tw .stage{top:var(--tw-top,137px);height:calc(100dvh - var(--tw-top,137px))}
+.tw section{scroll-margin-top:var(--tw-top,137px)}
+
+/* "Change country" is parked at `top:84px`, which clears a page that owns the viewport but
+   lands inside this header's band (measured 0-137) and behind it, z-index 45 against the
+   header's 50 — only the last few letters showed past the "Free Counselling" pill. It moves
+   below the header for the same reason the stage does. Hidden under 760px by tw.css, so the
+   desktop rule is the only one needed. */
+.tw #change{top:calc(var(--tw-top,137px) + 16px)}
 
 /* ---- the altitude meter vs this site's floating buttons -------------------------------------
    The drop-in parks its route/altitude readout at `right:clamp(20px,4vw,56px); bottom:7vh`,
