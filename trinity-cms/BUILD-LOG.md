@@ -553,3 +553,25 @@ Also fixed a type error in `scripts/toggle-world-home.ts` that `next build` did 
 
 Verified in the browser at 1536 px: globe, clouds and specular highlight unchanged, intro
 completes, UK pick loads seven campus cards at 1100 px and ~115 KB each (was ~350 KB).
+
+### Mobile pass, same day
+
+At 375x812 the hint "Pick a country to take off" was printed straight across the country
+chips — a 188x90 overlap over the first two rows. The cause is a selector in `tw.css`:
+
+    .tw html:not(.picked) .hint{display:none}
+
+which asks for an `html` element inside `.tw`. The engine puts `picked` on its own root div,
+so the rule has never matched and the hint has always been on screen. On a wide screen the
+hint is centred and `#panel` is parked on the left, so the two never meet; on a phone the
+panel goes full width and they collide. Guarded in `tw-site.css` at `max-width:760px` only,
+with `:not(.picked)` so "Scroll to take off" still appears after a pick. Desktop unchanged.
+
+Otherwise mobile measured clean: `--tw-top` 116px against a header bottom of 116, `#change`
+correctly `display:none`, no horizontal overflow (scrollWidth 375 = clientWidth), 14 chips,
+globe and textures as on desktop.
+
+Still open, a design call rather than a bug fix: the site's three floating buttons (WhatsApp,
+back-to-top, chat) sit at z-index 60 over the hero panel, and five chips — France, Germany,
+USA, Canada — are partially under them, so part of each is unclickable. Fixing it means
+either shrinking the chip area, moving the panel, or moving the buttons on this page only.

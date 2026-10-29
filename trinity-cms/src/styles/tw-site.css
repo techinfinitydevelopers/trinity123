@@ -88,3 +88,26 @@
      here — right:16px, 44px wide — so less clearance is needed. */
   .tw .meter{right:76px!important}
 }
+
+/* ---- "Pick a country to take off" vs the chips, on a phone ------------------------------------
+   `tw.css` means to keep this hint out of the way until a country is chosen:
+
+     .tw html:not(.picked) .hint{display:none}
+
+   but that selector asks for an `html` element inside `.tw`, which cannot exist — the engine
+   puts `picked` on its own root div, not on the document. So the hint has always been on
+   screen from the first frame. On a wide screen nobody noticed: the hint is centred and
+   `#panel` is parked on the left, so they never meet.
+
+   On a phone `#panel` goes full width (left:14px, right:14px) and the centred hint lands
+   directly on the country chips — measured at 375x812, a 188x90 overlap straight across the
+   first two rows, with "PICK A COUNTRY TO TAKE OFF" printed over the buttons.
+
+   Restoring the rule the stylesheet intended would also take the hint off the desktop, where
+   it reads correctly today, so this is scoped to the width where the collision happens. After
+   a pick `choose()` adds both `compact` and `picked`: the panel's chips are hidden and the
+   hint becomes "Scroll to take off", which is worth keeping — hence `:not(.picked)` rather
+   than hiding it outright. */
+@media (max-width:760px){
+  .tw:not(.picked) .hint{display:none}
+}
