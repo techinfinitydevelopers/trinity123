@@ -1488,6 +1488,22 @@ a.seg__logo:hover .seg__logo-go i{transform:translate(2px,-2px)}
   bottom:62px;
 }
 
+/* A long country name is wide enough to reach back across the hero and sit under the copy.
+   The shared rule budgets 94vw for the word, which is right when it is the only thing on the
+   row; here the heading, the intro and the buttons own the left of the hero. Measured at 1440
+   on /destinations/new-zealand: eleven characters came out 925px wide, running from x 440 to
+   1365 against a text column that ends at 740.
+
+   43vw is the width left of the watermark once that column is accounted for, so the word is
+   sized to whichever is smaller — the cap or the space it actually has. Short names are
+   untouched: USA asks for 327px and is still capped at 8.5rem.
+
+   Desktop only. Below 641px the phone rule owns the size and the hero is a single column,
+   where the word sits under the copy rather than beside it. */
+@media (min-width:641px){
+  .cv-ghost{font-size:min(8.5rem, calc(43vw / (var(--ghost-len,10) * 0.63)))}
+}
+
 /* ---------- Narrow screens: grids that could not shrink ---------- */
 /* Every `repeat(auto-fit, minmax(300px, 1fr))` on the site had a hard floor, so on a 320px
    phone the track stayed 300px wide inside a 269px container and the whole page overflowed —
