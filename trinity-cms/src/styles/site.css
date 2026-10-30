@@ -47,7 +47,7 @@ button{font:inherit;cursor:pointer}
 .section-head--center{text-align:center;margin:0 auto 60px}
 .section-head--center .kicker{justify-content:center}
 .section-head + p{margin-top:-30px;line-height:1.8;text-wrap:pretty}
-.section-head + p + p{margin-top:14px}
+.section-head + p + p{margin-top:14px;line-height:1.8;text-wrap:pretty}
 .badge{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:var(--gold);font-family:var(--font-h);font-weight:600;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;padding:9px 18px;border-radius:var(--r-pill);margin-bottom:24px;backdrop-filter:blur(8px)}
 .badge--gold{background:rgba(247,221,125,.12);border-color:rgba(247,221,125,.35);font-size:12px}
 

@@ -697,3 +697,9 @@ visitor would catch a frame of it. Three guards: a CSS keyframe fades it regardl
 a failed chunk cannot leave the site covered; `aria-hidden` so a screen reader reads past it; and
 `prefers-reduced-motion` stops the animation without removing the safety net. It hands off to the
 globe's own particle intro rather than replacing it.
+
+## Mobile + cost-card polish (30/10/2026)
+- Floating buttons on phones (`chat.css`, ≤640px): WhatsApp 46px, chat avatar 50px, stacked tighter so less content is covered.
+- About section: second paragraph now shares the first's line-height and `text-wrap` (`site.css`).
+- Destination cost cards: "Total year one" no longer navy; all cards white (`CountryPage.tsx`, `total` hard-wired false).
+- `<body suppressHydrationWarning>` in `layout.tsx` for extension-injected attributes.

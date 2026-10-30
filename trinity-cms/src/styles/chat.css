@@ -116,8 +116,9 @@
 @media (max-width:640px){
   .tc-panel{right:8px;left:8px;bottom:84px;width:auto;height:min(calc(100vh - 120px),540px)}
   .tc-nudge{right:88px;left:12px;max-width:none}
-  .tc-fab{right:16px;bottom:86px;width:52px;height:52px;font-size:21px}
-  .tc-fab:not(.is-open){right:11px;bottom:84px;width:60px;height:60px}
+  .fab-wa{right:10px;bottom:max(14px,env(safe-area-inset-bottom));width:46px;height:46px;font-size:24px}
+  .tc-fab{right:16px;bottom:72px;width:52px;height:52px;font-size:21px}
+  .tc-fab:not(.is-open){right:10px;bottom:68px;width:50px;height:50px}
   .tc-fab__txt{display:none}
 }
 @media (prefers-reduced-motion:reduce){

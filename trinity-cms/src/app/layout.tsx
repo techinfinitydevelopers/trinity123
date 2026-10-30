@@ -4,7 +4,9 @@ import Script from "next/script";
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning className="no-js">
-      <body>
+      {/* Browser extensions (Grammarly, translators, password managers) add attributes to <body>
+          before React hydrates, which dev mode reports as a mismatch. Nothing here depends on them. */}
+      <body suppressHydrationWarning>
         {/* Flips `no-js` to `js` so the reveal animations can start hidden without stranding
             anyone whose JavaScript never runs (see `html.no-js [data-reveal]` in site.css).
             It has to run before paint, hence `beforeInteractive` — a bare <script> element here

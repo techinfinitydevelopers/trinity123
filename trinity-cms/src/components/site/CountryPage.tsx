@@ -47,7 +47,6 @@ export default async function CountryPage({ c, others, contact }: { c: Country; 
   if (workPoints.length || c.work) shown.add("c-work");
   if (faq.length) shown.add("c-faq");
   /* The navy card is the row that calls itself the total, not simply the last one. */
-  const totalAt = cost.findIndex((r) => /\btotals?\b/i.test(r.label));
   const wa = `https://wa.me/${contact.whatsapp}`;
   const flag = FLAG(c.code);
 
@@ -149,7 +148,7 @@ export default async function CountryPage({ c, others, contact }: { c: Country; 
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 16 }}>
             {cost.map((x, i) => {
-              const total = i === totalAt;
+              const total = false;
               return (
                 <div key={i} className="cv-jcard" data-reveal style={{ position: "relative", background: total ? "var(--navy)" : "#fff", color: total ? "#fff" : "var(--navy)", border: `1px solid ${total ? "transparent" : "var(--line)"}`, borderRadius: 22, padding: 26, transition: "all .45s cubic-bezier(.4,0,.2,1)", transitionDelay: d(i), display: "flex", flexDirection: "column", gap: 10, overflow: "hidden" }}>
                   <span style={{ position: "absolute", left: 0, top: 26, bottom: 26, width: 3, borderRadius: "0 3px 3px 0", background: "var(--gold)" }} />

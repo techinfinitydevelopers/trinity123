@@ -1695,3 +1695,7 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 - Content is DB-backed: seed edits do not reach production; use /admin or a targeted script. `npx tsx prisma/seed.ts --force` resets ALL local pages/settings (npm run db:reset does not pass --force). After seeding, restart dev server with `.next` removed or the cache shows stale content.
 - Local admin: admin@trinitystudyabroad.com / Trinity@2026 (dev default). Production is on Railway.
 - If localhost shows "Jest worker … exceeded retry limit", the embedded Postgres (:5433) died; stop leftover postgres.exe from this project's path and rerun `npm run db:dev`.
+
+## Run locally (30/10/2026)
+- `npm run db:dev` (keep running) then `npm run dev` → http://localhost:3000, admin /admin. DB already initialised; no push/seed needed.
+- `npm install` fails at `prisma generate` (EPERM on query_engine dll) while dev server runs; stop the server first if the schema changes.
