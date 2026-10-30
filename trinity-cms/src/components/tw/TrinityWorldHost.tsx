@@ -7,7 +7,6 @@
    destination slugs, and its lead payload onto the shape /api/leads actually accepts. */
 import { useEffect, useRef } from "react";
 import type { WorldSettings } from "@/lib/settings";
-import type { ChromeData } from "./chrome";
 import TrinityWorld from "./TrinityWorld";
 
 /* The drop-in's default is `/destinations/<key>`, which is right for ten of the fourteen.
@@ -30,17 +29,7 @@ const TEXT_AT: Record<keyof WorldSettings["text"], string> = {
   statsTitle: "#stats .h2", voicesTitle: "#voices .h2", ctaTitle: "#cta .h2", ctaLead: "#cta .lead",
 };
 
-export default function TrinityWorldHost({
-  initialCountry,
-  world,
-  chrome,
-}: {
-  initialCountry?: string;
-  world?: WorldSettings;
-  /* Present on the home page, where the drop-in renders its own nav and footer and the
-     site's are hidden. Absent on the /trinity-world preview, which keeps the site chrome. */
-  chrome?: ChromeData;
-}) {
+export default function TrinityWorldHost({ initialCountry, world }: { initialCountry?: string; world?: WorldSettings }) {
   /* Written during render, not in an effect: the engine is imported by the child's effect,
      and importing it is what evaluates data.ts, which reads this. Parent render always
      precedes child effect, so the content is in place in time. */
@@ -85,12 +74,8 @@ export default function TrinityWorldHost({
      It goes on the document element rather than on a wrapper because `tw.css` would shadow
      any value set on an ancestor: the stylesheet reads `var(--tw-top, 133px)` and the
      fallback covers the moment before this effect runs.
-
-     With the drop-in's own nav there is no site header above it — the page owns the viewport
-     again, exactly as the design was drawn — so the whole measurement is skipped and the
-     clearance rules stand down on `.tw-chrome`. */
+ */
   useEffect(() => {
-    if (chrome) return;
     const header = document.querySelector<HTMLElement>("header, .cv-nav, .nav");
     if (!header) return;
     const root = document.documentElement;
@@ -107,7 +92,7 @@ export default function TrinityWorldHost({
       removeEventListener("resize", publish);
       root.style.removeProperty("--tw-top");
     };
-  }, [chrome]);
+  }, []);
 
   return (
     <div ref={box} style={{ display: "contents" }}>
@@ -128,7 +113,6 @@ export default function TrinityWorldHost({
       <link rel="preload" as="fetch" href="/tw/a350.glb" crossOrigin="anonymous" />
     <TrinityWorld
       initialCountry={initialCountry}
-      chrome={chrome}
       destHref={(c) => (NO_PAGE.has(c.k) ? "/contact-us" : `/destinations/${SLUG[c.k] ?? c.k}`)}
       /* /api/leads takes {name,email,phone,subject,message,website,source}. The drop-in
          offers {name,phone,email,intake,country} — country becomes the subject so it lands

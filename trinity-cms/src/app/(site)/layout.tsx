@@ -1,6 +1,9 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import "@/styles/site.css";
+/* After site.css, deliberately: this is the Trinity World chrome re-skin and it wins on
+   everything it declares by source order rather than by piling on !important. */
+import "@/styles/tw-chrome.css";
 import "@/styles/canvas.css";
 import "@/styles/chat.css";
 import { getAllSettings } from "@/lib/settings-server";
