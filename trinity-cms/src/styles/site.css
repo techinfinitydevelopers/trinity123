@@ -1504,6 +1504,25 @@ a.seg__logo:hover .seg__logo-go i{transform:translate(2px,-2px)}
   .cv-ghost{font-size:min(8.5rem, calc(43vw / (var(--ghost-len,10) * 0.63)))}
 }
 
+/* The watermark only renders where the hero has room for it, which is 1024px and up.
+
+   The two hero buttons are a fixed width and always end at x 500; the watermark is right-
+   aligned, so its left edge walks rightwards as the viewport grows. Measured on
+   /destinations/canada: at 768 it starts at 378 and covers 122px of the WhatsApp button, at
+   900 it starts at 446 and covers 54px, and at 1024 it starts at 509 and covers none.
+
+   Below that there is nowhere to put it. On a phone the hero is a single column — heading,
+   copy, buttons — and the stat cards are pulled up right underneath: at 375 the buttons end
+   at y 951 and the cards start at 961. Ten pixels, against a word 109px tall. At the hero
+   bottom it sat across both buttons, and anywhere higher it sits on the copy. That was true
+   before this pass as well.
+
+   So it is decoration that is shown only when it can be decoration. The country name is
+   already the heading, the breadcrumb and the page title, so nothing is lost by it. */
+@media (max-width:1023px){
+  .cv-ghost{display:none}
+}
+
 /* ---------- Narrow screens: grids that could not shrink ---------- */
 /* Every `repeat(auto-fit, minmax(300px, 1fr))` on the site had a hard floor, so on a 320px
    phone the track stayed 300px wide inside a 269px container and the whole page overflowed —

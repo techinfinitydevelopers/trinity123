@@ -87,7 +87,7 @@ $$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=root.queryS
   if(had)go();else{requestAnimationFrame(()=>{ScrollTrigger.refresh();requestAnimationFrame(go)})}}}));
 
 /* ---------- state ---------- */
-const state={k:null,c:null};
+const state:any={k:null,c:null,u:null};
 /* The page used to be locked until a country was picked: `lenis.stop()` here, `lenis.start()`
    inside choose(). That made the picker a gate — nobody could reach the universities, the IELTS
    section or anything below without going through it, and the links to those sections answered
@@ -431,6 +431,21 @@ function render(c){
     const a=document.createElement('article');a.className='ucard';
     const U=(G.__UNI__||{})[u]||{},src=U.url||IMG[c.k];
     a.innerHTML=`<div class="ph"><img loading="lazy" decoding="async" alt="" src="${src}"></div><span class="no">0${i+1}</span><span class="loc"><i></i><b></b></span><div class="in"><h3></h3><small></small><div class="row2"><span class="pill">Shortlist with us</span><span class="go">Apply <em>→</em></span></div></div>`;
+    /* The whole card is the target, not the 55x16 "Apply" span: it is 290px wide and the two
+       labels on it were inert. role/tabindex rather than an <a>, because there is no page to
+       link to — the action is this page's own enquiry form, and an href="#cta" would put a
+       fragment in the address bar on every click. */
+    a.setAttribute('role','link');a.tabIndex=0;a.style.cursor='pointer';
+    a.setAttribute('aria-label','Enquire about '+u);
+    const pick=()=>{
+      state.u=u;
+      /* Written straight onto the form so the visitor can see which one they picked, and so a
+         reload or a mistyped field cannot lose it. */
+      const note=$('#leadUni'); if(note){note.textContent=u;note.parentElement.hidden=false}
+      const cta=$('#cta'); if(cta)lenis.scrollTo(cta,{duration:1.6,easing:x=>1-Math.pow(1-x,4)});
+    };
+    a.addEventListener('click',pick);
+    a.addEventListener('keydown',(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick()}});
     const im=a.querySelector('img');im.alt=u+' campus';im.onerror=()=>{if(im.src!==IMG[c.k]){im.onerror=null;im.src=IMG[c.k]}};
     a.querySelector('h3').textContent=u;a.querySelector('small').textContent=c.n;a.querySelector('.loc b').textContent=c.s;a.dataset.credit=U.artist?('Photo: '+U.artist+(U.license?' ('+U.license+')':'')):'';
     track.insertBefore(a,outro);
@@ -694,7 +709,7 @@ root.classList.add('live');
  lf.addEventListener('submit',async e=>{e.preventDefault();
   const fd=Object.fromEntries(new FormData(lf));const btn=lf.querySelector('button');
   btn.disabled=true;btn.textContent='Sending…';
-  const payload={...fd,country:state.k||'',source:'study-abroad-world'};
+  const payload={...fd,country:state.k||'',university:state.u||'',source:'study-abroad-world'};
   try{
     if(opts.onLead)await opts.onLead(payload);
     else{const r=await fetch(opts.leadEndpoint||'/api/leads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});if(!r.ok)throw new Error('lead '+r.status)}
