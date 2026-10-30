@@ -243,14 +243,28 @@ body:has(.tw) .site-header{background:none}
 .footer__social .soc{border-color:rgba(255,255,255,.18);background:transparent;color:#fff}
 .footer__social .soc:hover{background:var(--twc-gold);border-color:var(--twc-gold);color:var(--twc-gold-ink)}
 
-/* The marquee strip is where the drop-in's oversized wordmark goes — same idea, already in
-   place, so it is restyled rather than replaced. */
-.footer__marquee{border-top:1px solid rgba(255,255,255,.1);margin:0}
-.footer__marquee span{
-  font-weight:800;letter-spacing:-.03em;text-transform:uppercase;
-  background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,0) 85%);
+/* ---- the closing wordmark -------------------------------------------------------------------
+   The drop-in ends its footer on an oversized ghost wordmark. The name is set in two sizes —
+   the first word large, the rest small and letter-spaced beneath it — so the block reads as a
+   mark rather than a line of text. Both are clipped to the same top-down fade, which is what
+   keeps it decoration and stops it competing with the copyright directly under it.
+   `clamp` on the large line rather than a fixed size: at 17vw the name is edge-to-edge on a
+   phone and still only 15rem on a very wide screen, where it would otherwise run off. */
+.footer__word{
+  text-align:center;margin:56px 0 10px;user-select:none;
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+}
+.footer__word strong,.footer__word span{
+  display:block;white-space:nowrap;text-transform:uppercase;
+  background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,0) 88%);
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
+.footer__word strong{font-weight:800;letter-spacing:-.03em;font-size:clamp(3rem,17vw,15rem);line-height:.9}
+.footer__word span{font-weight:600;letter-spacing:.34em;font-size:clamp(.7rem,2.6vw,1.6rem);
+  /* The tracking adds a trailing gap on the right that the centring then counts, so the whole
+     line sits visibly left of the big one. Half the tracking back as padding re-centres it. */
+  padding-left:.34em}
+@media (max-width:520px){.footer__word{margin:40px 0 8px}}
 .footer .footer__bottom{border-top:1px solid rgba(255,255,255,.1);color:var(--twc-foot-text);font-size:.84rem}
 .footer__bottom a{color:var(--twc-foot-text)}
 .footer__bottom a:hover{color:var(--twc-gold)}

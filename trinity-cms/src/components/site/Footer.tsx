@@ -47,9 +47,25 @@ export default function Footer({ nav, contact, site, footer, destinations }: { n
             </address>
           </div>
         </div>
-        <div className="footer__marquee" aria-hidden="true">
-          <div className="marquee__track marquee__track--slow"><span>{site.siteName}</span><span>{footer.marqueeWord}</span><span>{site.siteName}</span><span>{footer.marqueeWord}</span></div>
-        </div>
+        {/* The oversized ghost wordmark the drop-in's footer closes on. It used to be a
+            scrolling marquee of the site name alternating with `footer.marqueeWord`; four
+            copies of a long name sliding past read as noise at this size. One name, set
+            once: the first word large and the rest beneath it, small and spaced out, which
+            is what makes the block read as a mark rather than a sentence.
+
+            Split from `site.siteName` rather than written here, so renaming the company in
+            the dashboard still renames this. `footer.marqueeWord` is no longer painted —
+            the setting is left in place rather than removed, in case it is wanted back.
+            aria-hidden: it repeats the name the footer has already given. */}
+        {(() => {
+          const [first, ...rest] = site.siteName.trim().split(/\s+/);
+          return (
+            <div className="footer__word" aria-hidden="true">
+              <strong>{first}</strong>
+              {rest.length ? <span>{rest.join(" ")}</span> : null}
+            </div>
+          );
+        })()}
         <div className="container footer__bottom">
           <p>{site.copyright}</p>
           {footer.poweredByText ? <p>Powered by <a href={footer.poweredByUrl} target="_blank" rel="noopener">{footer.poweredByText}</a></p> : null}
