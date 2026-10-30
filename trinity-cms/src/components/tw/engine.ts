@@ -77,11 +77,36 @@ const lenisSync=()=>ScrollTrigger.update();lenis.on('scroll',lenisSync);
 const tick=t=>lenis.raf(t*1000);
 if(ownLenis){gsap.ticker.add(tick);gsap.ticker.lagSmoothing(0)}
 cleanups.push(()=>{lenis.off&&lenis.off('scroll',lenisSync);if(ownLenis){gsap.ticker.remove(tick);lenis.destroy()}else lenis.start()});
-lenis.stop();
-$$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=root.querySelector(a.getAttribute('href'));if(t&&t.id){e.preventDefault();if(!state.k){shake();return}lenis.scrollTo(t,{duration:2.4,easing:x=>1-Math.pow(1-x,4)})}}));
+/* Was: `if(!state.k){shake();return}` — a link to a section that answered with a shake. It
+   picks a country and goes there now. The scroll is deferred by a frame so choose() has
+   rendered the target before Lenis measures where it is. */
+$$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=root.querySelector(a.getAttribute('href'));if(t&&t.id){e.preventDefault();const had=!!state.k;ensure();const go=()=>lenis.scrollTo(t,{duration:2.4,easing:x=>1-Math.pow(1-x,4)});/* When the click is what picked the country, choose() has just rendered the sections and every
+     offset below has moved. Scrolling on the next frame lands short — measured 904px short of
+     #ielts — because Lenis reads a position ScrollTrigger has not re-measured yet. Refresh
+     first, then go. */
+  if(had)go();else{requestAnimationFrame(()=>{ScrollTrigger.refresh();requestAnimationFrame(go)})}}}));
 
 /* ---------- state ---------- */
 const state={k:null,c:null};
+/* The page used to be locked until a country was picked: `lenis.stop()` here, `lenis.start()`
+   inside choose(). That made the picker a gate — nobody could reach the universities, the IELTS
+   section or anything below without going through it, and the links to those sections answered
+   a click with a shake.
+
+   It is not locked any more. The catch is that everything below the hero is rendered *by*
+   choose() — scrolling into it with no country selected would mean scrolling into empty
+   sections — so anything that would take a visitor down the page asks `ensure()` first, and it
+   quietly picks the first country if none has been. The picker still works, and still leads;
+   it just no longer stands in the way. */
+function ensure(){
+  if(state.k)return;
+  choose(COUNTRIES[0].k);
+}
+/* A wheel, a touch or a key that means "down" counts as wanting to go down. Capture, so it runs
+   before Lenis has turned the gesture into scroll, and `once` on each — after the first one a
+   country exists and `ensure()` is a no-op anyway. */
+['wheel','touchmove'].forEach(t=>onWin(t,()=>ensure(),{passive:true,capture:true}));
+onWin('keydown',(e)=>{if(['PageDown',' ','ArrowDown','End'].includes(e.key))ensure()});
 const R=10;
 const ll=(lat,lon,r=1)=>{const a=lat*Math.PI/180,b=lon*Math.PI/180;return new THREE.Vector3(r*Math.cos(a)*Math.cos(b),r*Math.sin(a),-r*Math.cos(a)*Math.sin(b))};
 const toLL=v=>{const n=v.clone().normalize();return {lat:Math.asin(n.y)*180/Math.PI,lon:Math.atan2(-n.z,n.x)*180/Math.PI}};
