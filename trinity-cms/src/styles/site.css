@@ -1479,6 +1479,13 @@ a.seg__logo:hover .seg__logo-go i{transform:translate(2px,-2px)}
   color:transparent;-webkit-text-fill-color:transparent;
   -webkit-text-stroke:1.5px rgba(35,47,112,.16);
   line-height:.8;text-transform:uppercase;pointer-events:none;user-select:none;will-change:transform;
+  /* Lifted clear of the stat cards. The destination pages pull that row up into the hero with
+     `margin-top:-54px` at z-index 3, and the watermark sits at the hero bottom — so the cards
+     landed on top of it: measured at 1440 on /destinations/usa, 68px of a 109px word, 63% of
+     it, was behind them. The shared rule leaves `bottom` at -14px, which is the deliberate
+     bleed every other page hero gets; this is the only page with something parked on that
+     bleed. */
+  bottom:62px;
 }
 
 /* ---------- Narrow screens: grids that could not shrink ---------- */
