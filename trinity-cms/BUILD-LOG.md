@@ -626,3 +626,38 @@ collisions; `/trinity-world` is unchanged and keeps the site header.
 
 `scripts/gen-tw-credits.mjs` lifts the CC BY / CC BY-SA attribution out of a drop-in verbatim —
 re-run it when a new one changes the asset set.
+
+## Chrome made common, and a section-by-section responsive audit (30/10)
+
+**One header and one footer, site-wide.** The Trinity World design now dresses the site's own
+`Header.tsx` and `Footer.tsx` via `src/styles/tw-chrome.css` — a re-skin, not a rewrite, so the
+destinations mega-menu, the Services dropdown, the mobile accordion, site search, active-page
+states and Next's client routing all survive. The engine-side chrome written two days earlier
+(`chrome.ts`, `chrome.css`) is gone; `credits.ts` moved into the shared footer, because the CC BY
+attribution has to travel with the work. The footer closes on a two-size wordmark instead of a
+marquee.
+
+**Ten read-only agents audited one section each** against the stylesheets at phone, tablet and
+desktop widths. Every finding was re-measured in the browser before anything was written. 20+
+were real. The pattern worth remembering:
+
+| Class of bug | Instances |
+|---|---|
+| `tw.css` selectors that cannot match (`.tw html:not(.ready) …` — an `html` inside a div) | the hint, the panel + pins through the whole intro |
+| `!important` top *and* bottom with `height:auto` | the altitude readout solved to a 705px invisible hit box over the chip rows |
+| Shared class names between `site.css` and the drop-in | `.ucard` leaking `border` and `transform-origin` onto GSAP's pivot; `.soc`; earlier `.chip`, `.band`, `.live` |
+| The floating-button column | the lead form (38px at 375), the university cards on short viewports, the footer's last rows |
+| `margin:0 auto` on a grid item | the whole IELTS panel rendering 621px wide in a 753px page |
+| Breakpoints that stop at 760px | the arrival screen in landscape, the visa checklist on short wide windows, the hint on a sideways phone |
+
+My own skin contributed four, all in the mobile sheet: a `max-height` from `site.css` that `inset:0`
+does not beat, a hard-coded top padding, floating buttons painting over an open menu, and no scroll
+lock behind it. The burger then turned out to be under the sheet, because `Header.tsx` renders the
+sheet *inside* `.navwrap`.
+
+**Left for the drop-in itself:** `.ucard`'s "Apply" is a 55x16 span with no href and an empty
+`wire()` stub — under a tap target and inert.
+
+**Dashboard image overrides** are plumbed through `WorldSettings.images` → `WorldOpts.images` →
+every asset URL the engine composes, including the preload hints. The admin UI for them is not
+built yet.
