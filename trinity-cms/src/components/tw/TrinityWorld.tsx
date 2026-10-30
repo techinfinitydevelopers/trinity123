@@ -1,6 +1,9 @@
 'use client';
 import {useEffect,useRef} from 'react';
 import './tw.css';
+/* After tw.css, deliberately: chrome.css undoes the fixed-pill `#change` that tw.css sets for
+   the chrome-less embed, and relies on source order to do it. See the note in that file. */
+import './chrome.css';
 import type {WorldOpts} from './engine';
 
 /**
@@ -19,5 +22,9 @@ export default function TrinityWorld(props:WorldOpts){
     });
     return()=>{dead=true;destroy?.()};
   },[]);
-  return <div ref={ref} className="tw" suppressHydrationWarning />;
+  /* `tw-chrome` says the drop-in is rendering its own nav and footer, so the site's header
+     is not above it and the clearance rules in tw-site.css must stand down. It is set here,
+     during render, rather than by the engine, because those rules apply from the server HTML
+     and the engine does not load until after hydration. */
+  return <div ref={ref} className={props.chrome?'tw tw-chrome':'tw'} suppressHydrationWarning />;
 }

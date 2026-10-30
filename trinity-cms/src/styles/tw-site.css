@@ -55,23 +55,65 @@
 .tw h1,.tw h2,.tw h3,.tw h4{color:inherit}
 
 /* ---- header clearance ----------------------------------------------------------------------
-   The drop-in was built to own the viewport; here the site's fixed header sits over the top of
-   it and cuts the globe and the hero panel. --tw-top is the header's measured height, published
-   by TrinityWorldHost after mount. Everything that fills the screen starts under it.
+   Only for the chrome-less embed — the preview at /trinity-world, which still sits under this
+   site's own header. The home page renders the drop-in's own nav instead and carries
+   `tw-chrome`, and there the drop-in owns the viewport exactly as it was drawn to, so none of
+   this applies: the globe starts at 0 and the nav floats over it.
+
+   The drop-in was built to own the viewport; under the site header its sky, canvas and sticky
+   stage all start at 0 and the header cuts the globe in half. --tw-top is the header's measured
+   height, published by TrinityWorldHost after mount. Everything that fills the screen starts
+   under it.
 
    The fallback lives in each `var()` rather than in a `.tw{--tw-top:…}` line, because such a
    line would sit *closer* to these elements than the document element the host writes to and
    would shadow the measured value permanently. */
-.tw #sky,.tw #c{top:var(--tw-top,137px);bottom:auto;height:calc(100dvh - var(--tw-top,137px))}
-.tw .stage{top:var(--tw-top,137px);height:calc(100dvh - var(--tw-top,137px))}
-.tw section{scroll-margin-top:var(--tw-top,137px)}
+.tw:not(.tw-chrome) #sky,.tw:not(.tw-chrome) #c{top:var(--tw-top,137px);bottom:auto;height:calc(100dvh - var(--tw-top,137px))}
+.tw:not(.tw-chrome) .stage{top:var(--tw-top,137px);height:calc(100dvh - var(--tw-top,137px))}
+.tw:not(.tw-chrome) section{scroll-margin-top:var(--tw-top,137px)}
 
 /* "Change country" is parked at `top:84px`, which clears a page that owns the viewport but
    lands inside this header's band (measured 0-137) and behind it, z-index 45 against the
    header's 50 — only the last few letters showed past the "Free Counselling" pill. It moves
    below the header for the same reason the stage does. Hidden under 760px by tw.css, so the
-   desktop rule is the only one needed. */
-.tw #change{top:calc(var(--tw-top,137px) + 16px)}
+   desktop rule is the only one needed. With the drop-in's nav the button lives inside it and
+   is not positioned at all — see chrome.css. */
+.tw:not(.tw-chrome) #change{top:calc(var(--tw-top,137px) + 16px)}
+
+/* ---- the footer's bottom rows vs this site's floating buttons ----------------------------
+   The third time this collision turns up — the altitude meter had it, then the country chips,
+   and now the very bottom of the page. The buttons are fixed to the viewport corners at
+   z-index 60, and the footer's last two rows are the one piece of content that is *at* the
+   bottom of the viewport when the page is scrolled all the way down, so they meet.
+
+   Measured at 1000x750, scrolled to the end: the WhatsApp button spans x 929-987 against a
+   "Powered by Itarsia India Limited" that ends at 968 — 39px of it printed underneath — and
+   the back-to-top, visible by then, spans x 22-66 against an "Image & asset credits" summary
+   starting at 41, hiding the first 25px and the click target with it.
+
+   It takes both axes, because the column is not one button. Measured from the viewport edges
+   at 1024x768: the back-to-top reaches 66px up, WhatsApp 80px, and the chat avatar — the tall
+   one — 172px up and 100px in from the right.
+
+   96px of padding under the last row lifts the credits summary clear of the back-to-top and
+   WhatsApp, which is all either of them needs, and costs nothing but dark space at the very
+   end of a very long page. Clearing the chat avatar the same way would take 190px, so the
+   bottom bar gives up width on the right instead: it ends 56px from the viewport edge, the
+   avatar starts at 100px, and 64px of inset puts 36px between them. Only the right, because
+   the left of that row is the copyright and the only thing near it is the back-to-top, which
+   the vertical padding already handles. */
+.tw .fwrap{padding-bottom:96px}
+.tw .fbot{padding-right:64px}
+
+/* ---- .soc — the footer's social row ------------------------------------------------------
+   Same shape of bug as `.chip`, and the same trap: the two stylesheets hang the name on
+   different elements. In `site.css` a `.soc` *is* one button — 42px square, bordered, pale.
+   In the drop-in `.soc` is the flex row and the buttons are the `a`s inside it. So every one
+   of those declarations lands on the container, which the drop-in only gives `display` and
+   `gap` — the row collapsed to a single 42px pale square with four links crammed in it.
+   The anchors themselves are safe: `site.css` has no `.soc a`. */
+.tw .soc{width:auto;height:auto;border:0;border-radius:0;background:none;font-size:inherit;transition:none}
+.tw .soc:hover{background:none;transform:none}
 
 /* ---- the altitude meter vs this site's floating buttons -------------------------------------
    The drop-in parks its route/altitude readout at `right:clamp(20px,4vw,56px); bottom:7vh`,
