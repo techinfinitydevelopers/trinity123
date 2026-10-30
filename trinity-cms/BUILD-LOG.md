@@ -594,3 +594,35 @@ Two things measured along the way turned out differently from the first estimate
 Shrinking the chips would win one row back but they are already 36px tall, under a comfortable
 tap target, so they were left alone. Desktop is untouched — `padding-right` computes to 0px
 above 760px, chips stay at four rows.
+
+## Trinity World — the drop-in's own nav and footer (30/10)
+
+The supplied page was integrated without its chrome: the generated `markup.ts` runs from
+`#loading` to `#cta`, and the site's own header and footer wrapped it. The design was drawn
+with its own, so both are now the drop-in's and the site's two are hidden on that page.
+
+The chrome is `src/components/tw/chrome.ts` + `chrome.css`, deliberately outside the vendored
+files — `markup.ts` and `tw.css` are generated and the generator strips the chrome out of
+every new drop-in, so anything written into them would not survive an update.
+
+Content comes from the dashboard, not the prototype. The standalone ships `hello@example.com`,
+`+91 00000 00000` and "Your office address, City, India"; the real phone, email, address,
+socials, logo, copyright and build credit are passed in, with the prototype's text only as a
+fallback. The nav lists the same eight pages as the site header; the footer's Explore column
+keeps its on-page anchors.
+
+Measured and fixed along the way:
+
+| Problem | Measurement | Fix |
+|---|---|---|
+| `.soc` collapsed | site.css styles one button, the drop-in the row around them — row became a 42px pale square | reset width/height/border/background on `.tw .soc` |
+| Footer bottom under the floating buttons | WhatsApp covered 39px of "Powered by", back-to-top 25px of the credits summary; chat avatar stands 172px tall | 96px padding under the last row + 64px right inset on `.fbot` |
+| Eight page names in a pill built for five | "Study Destinations" wrapped to two lines, nav 68px → 89px, logo squeezed to 16px | `nowrap`, links tighten at 1360px, burger at 1260px |
+| `#change` in the preview | the nav reset moved /trinity-world's floating button into the top of the page | scoped the reset to `.tw-chrome` |
+
+Verified on both routes at 375, 1024 and 1300: home renders the drop-in's chrome with the
+site's hidden, sky at 0, no header clearance, no horizontal overflow, no footer/button
+collisions; `/trinity-world` is unchanged and keeps the site header.
+
+`scripts/gen-tw-credits.mjs` lifts the CC BY / CC BY-SA attribution out of a drop-in verbatim —
+re-run it when a new one changes the asset set.
