@@ -324,11 +324,11 @@ body:has(.tw){--twc-top:78px}
    about 3.3:1 and the credit lines at 3.0:1, against the 4.5:1 that 12px text needs — and this
    is the licence attribution, which CC BY requires to be legible. Colour instead of opacity,
    and over the 12px floor. */
-.footer .fcred{margin:0 auto;padding-bottom:18px;font-size:.78rem;color:#7d8ead}
-.footer .fcred summary{cursor:pointer;color:#8294b4;width:max-content}
-.footer .fcred summary:hover{color:var(--twc-foot-text)}
-.footer .fcred .credit,.footer .fcred .credits{margin:10px 0 0;line-height:1.55}
-.footer .fcred a{color:var(--twc-foot-text);text-decoration:underline}
+.fcred{max-width:1240px;margin:0 auto;padding:28px clamp(20px,4vw,56px) 40px;font-size:.78rem;color:#7d8ead;background:var(--twc-foot)}
+.fcred summary{cursor:pointer;color:#8294b4;width:max-content}
+.fcred summary:hover{color:var(--twc-foot-text)}
+.fcred .credit,.fcred .credits{margin:10px 0 0;line-height:1.55}
+.fcred a{color:var(--twc-foot-text);text-decoration:underline}
 
 /* ---- the footer's last rows vs the floating buttons ------------------------------------------
    The buttons are fixed to the viewport corners at z-index 60, and the footer's last rows are
@@ -338,15 +338,12 @@ body:has(.tw){--twc-top:78px}
    96px under the last row clears the two low ones; the bottom row gives up 64px on the right
    rather than another 90px of empty height, which is what clearing the avatar vertically would
    have cost. */
-/* `.fcred` is the last element in the footer, not `.footer__bottom` — Footer.tsx renders the
-   credits after the copyright row. site.css:1284 still pads the bottom row by 96px, which is
-   now a dead gap in the middle of the footer, and the 64px inset guarded a row that already
-   sits ~210px above the viewport floor. Both move down one element.
-   104px of right inset clears the chat avatar, which reaches 100px in; 76px is enough below
-   640px, where it is smaller. */
-.footer .footer__bottom{padding-bottom:0;padding-right:0}
-.footer .fcred{padding-bottom:96px;padding-right:104px}
-@media (max-width:640px){.footer .fcred{padding-right:76px}}
+/* The copyright row is the last thing in the footer, so it is the one that meets the buttons.
+   site.css already pads it by 96px, which is the vertical half; the 64px inset is what clears
+   the chat avatar's 100px reach without another 90px of empty height.
+   The credits strip is not in the footer — it sits above it, on the home page, far from the
+   viewport floor — so it needs no clearance of its own. */
+.footer .footer__bottom{padding-right:64px}
 
 /* Footer tap targets. These are the primary links on a phone and site.css sizes them for a
    desktop pointer: the country chips come out ~32px tall and the link column ~23px. */

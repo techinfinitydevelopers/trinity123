@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { ContactSettings, FooterSettings, NavSettings, SiteSettings } from "@/lib/settings";
 import { FLAG, Socials } from "./ui";
-import { CREDIT, CREDITS } from "@/components/tw/credits";
 import type { Destination } from "./Header";
 
 export default function Footer({ nav, contact, site, footer, destinations }: { nav: NavSettings; contact: ContactSettings; site: SiteSettings; footer: FooterSettings; destinations: Destination[] }) {
@@ -70,18 +69,6 @@ export default function Footer({ nav, contact, site, footer, destinations }: { n
           <p>{site.copyright}</p>
           {footer.poweredByText ? <p>Powered by <a href={footer.poweredByUrl} target="_blank" rel="noopener">{footer.poweredByText}</a></p> : null}
         </div>
-        {/* Attribution for the Trinity World assets — the aircraft model, the earth textures
-            and every Wikimedia photograph on the home page. CC BY and CC BY-SA both require the
-            credit to travel with the work, so it ships in the footer rather than a README.
-            Collapsed by default, and site-wide rather than home-only because the footer is
-            shared; a credit shown too often is not a problem, a missing one is a licence
-            breach. The strings are generated from the supplied drop-in by
-            scripts/gen-tw-credits.mjs — regenerate them when the asset set changes. */}
-        <details className="container fcred">
-          <summary>Image &amp; asset credits</summary>
-          <div className="credit" dangerouslySetInnerHTML={{ __html: CREDIT }} />
-          <div className="credits" dangerouslySetInnerHTML={{ __html: CREDITS }} />
-        </details>
       </footer>
       <a className="fab-wa" href={wa} aria-label="Chat on WhatsApp" target="_blank" rel="noopener"><i className="fab fa-whatsapp" /></a>
       <button className="to-top" id="toTop" type="button" aria-label="Back to top"><i className="fas fa-arrow-up" /></button>
