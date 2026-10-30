@@ -428,3 +428,24 @@ body:has(.mobile-menu:not([hidden])){overflow:hidden}
   .tw-pre__mark,.tw-pre__bar i{animation:none}
   .tw-pre__bar i{width:100%}
 }
+
+/* ---- one footer, the same on every page --------------------------------------------------
+   `site.css` carries a page-shape rule left over from the light design:
+
+     main:has(> .cta-block:last-child) + .footer{background:var(--cream);padding-top:56px}
+
+   On any page whose main ends in a CTA block — Services, Success Stories, Blog, Resources —
+   that repainted the footer cream while every colour inside it had already been restyled for
+   near-black. Measured on /our-service: background rgb(255,232,190) under white headings and
+   #9fb0cf links. Unreadable, and a different footer from the one the home page shows.
+
+   The selector is repeated rather than out-specified: it is the same rule, and this file loads
+   last, so an identical selector wins on order. `::before` is the faint grid the light footer
+   drew over its cream slab; that rule re-opens it to `inset:0` on these pages, and it has no
+   business on a dark background either. */
+main:has(> .cta-block:last-child) + .footer{
+  background:radial-gradient(1200px 500px at 80% -10%,rgba(11,61,145,.35),transparent),var(--twc-foot);
+  padding-top:56px;
+}
+main:has(> .cta-block:last-child) + .footer::before,
+main:has(> .cta-block:last-child) + .footer::after{display:none}
