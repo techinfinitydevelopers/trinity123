@@ -661,3 +661,39 @@ sheet *inside* `.navwrap`.
 **Dashboard image overrides** are plumbed through `WorldSettings.images` → `WorldOpts.images` →
 every asset URL the engine composes, including the preload hints. The admin UI for them is not
 built yet.
+
+## Six parallel agents, the nav pill, and a first-visit preloader (30/10)
+
+Six writer agents ran at once with **strictly disjoint file ownership** — the only way more than
+one of them can write to this repo without overwriting each other. What each shipped:
+
+| Owned | Shipped |
+|---|---|
+| `Sidebar.tsx` | grouped into Content / Engagement / Setup, Dashboard on its own |
+| `BlockEditor.tsx` | Tablet (834×1112 at 0.52) added to the preview device switch |
+| `PostForm.tsx` | Content / SEO tabs + a live preview rail with Desktop/Tablet/Mobile |
+| `SettingsForms.tsx` | dashboard pickers for every city and university photo, plus the globe textures and the aircraft behind an advanced card |
+| `scripts/perf-budget.mjs` | six budgets, fails the build when any is exceeded |
+| `scripts/backup-content.ts` | exports Page, Post, Setting, Country, KnowledgeItem to JSON |
+
+Then, from the screenshots:
+
+- **Three nav items were invisible.** `canvas.css` loads after the chrome skin and sets
+  `.nav__links .cv-ddbtn{color:var(--text)}` — the three items that have dropdowns rendered #333
+  on dark glass while every plain link beside them was white. The skin now loads last.
+- **Two nested pills.** The bar and the link row each had one. The bar is a transparent row now;
+  the pill belongs to the links alone, with the logo, call and counselling buttons outside it.
+- **The nav sat on the globe.** The clearance had to go in `tw-site.css`, not `tw-chrome.css`:
+  `tw.css` sets `.tw #c{inset:0}` at equal specificity and loads after the layout stylesheets, so
+  the copy in the skin measured 0px and did nothing. `#sky` still fills from 0 so the band behind
+  the bar stays night-coloured.
+- **"Change country" could not go in the nav row.** Measured at 1400 the row already runs to
+  x 1345; the button needs ~1403px even at tightened spacing, which would mean a hamburger on
+  every 1366 laptop. It joins the header as a second row instead, same glass, right-aligned.
+
+**The preloader** shows once per visitor, site-wide, then never again. The decision is made by a
+blocking inline script before the first paint — a React effect runs too late and a returning
+visitor would catch a frame of it. Three guards: a CSS keyframe fades it regardless of React, so
+a failed chunk cannot leave the site covered; `aria-hidden` so a screen reader reads past it; and
+`prefers-reduced-motion` stops the animation without removing the safety net. It hands off to the
+globe's own particle intro rather than replacing it.

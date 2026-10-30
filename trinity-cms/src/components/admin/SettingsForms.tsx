@@ -1,10 +1,11 @@
 "use client";
 import { useState } from "react";
-import type { SettingsMap } from "@/lib/settings";
+import type { SettingsMap, WorldSettings } from "@/lib/settings";
 import { saveSettingsAction, changePasswordAction } from "@/lib/actions";
 import ImagePicker from "./ImagePicker";
 import { Field, Toggle, toast } from "./ui";
 import { ObjectFields } from "./FieldEditor";
+import { UNI } from "@/components/tw/uni";
 
 type Tab = "site" | "contact" | "nav" | "world" | "footer" | "labels" | "security";
 
@@ -23,6 +24,51 @@ const WORLD_TEXT: [WorldTextKey, string][] = [
 ];
 /* The ones that need a full-width textarea rather than a single line. */
 const LONG = new Set<WorldTextKey>(["heroSub", "ieltsLead", "ctaLead"]);
+
+/* Where the drop-in ships its own assets. The engine builds every url as `/tw/…` and only
+   looks at `world.images` for the ones the owner has actually replaced, so the dashboard
+   shows the shipped path as the hint: the owner can see what they are about to swap out
+   instead of guessing from a blank box. */
+const TW = "/tw";
+
+/* The four globe textures, in the order TrinityWorldHost loads them, with the file each one
+   replaces. Kept here rather than inline so the warning card stays readable. */
+type EarthKey = "map" | "bump" | "spec" | "clouds";
+const EARTH_TEX: [EarthKey, string, string][] = [
+  ["map", "Surface map", `${TW}/earth/2_no_clouds_4k.jpg`],
+  ["bump", "Elevation (bump)", `${TW}/earth/elev_bump_4k.jpg`],
+  ["spec", "Water mask (shine)", `${TW}/earth/water_4k.png`],
+  ["clouds", "Cloud layer", `${TW}/earth/earth_clouds_1024.png`],
+];
+
+/* `world.images` has to stay sparse. The engine falls back to the shipped file for anything
+   it cannot find, so an empty string would technically still work — but a form with ninety
+   pickers that each write "" would turn a two-key settings row into a wall of dead keys, and
+   nobody could then tell at a glance which pictures have really been replaced. So: writing a
+   value sets the key, clearing it DELETES the key, and a group that empties out is dropped
+   entirely. These three helpers are the only place that invariant lives. */
+function setWorldImage(w: WorldSettings, group: "city" | "uni" | "stu", key: string, url: string): WorldSettings {
+  const images = { ...(w.images ?? {}) };
+  const map = { ...(images[group] ?? {}) };
+  const v = url.trim();
+  if (v) map[key] = v; else delete map[key];
+  if (Object.keys(map).length) images[group] = map; else delete images[group];
+  return { ...w, images };
+}
+function setWorldEarth(w: WorldSettings, key: EarthKey, url: string): WorldSettings {
+  const images = { ...(w.images ?? {}) };
+  const earth = { ...(images.earth ?? {}) };
+  const v = url.trim();
+  if (v) earth[key] = v; else delete earth[key];
+  if (Object.keys(earth).length) images.earth = earth; else delete images.earth;
+  return { ...w, images };
+}
+function setWorldPlane(w: WorldSettings, url: string): WorldSettings {
+  const images = { ...(w.images ?? {}) };
+  const v = url.trim();
+  if (v) images.plane = v; else delete images.plane;
+  return { ...w, images };
+}
 
 export default function SettingsForms({ initial }: { initial: SettingsMap }) {
   const [tab, setTab] = useState<Tab>("site");
@@ -258,9 +304,37 @@ export default function SettingsForms({ initial }: { initial: SettingsMap }) {
                         <Field label="Short name" hint="Used on the globe pin"><input className="inp inp-sm" value={c.s} onChange={(e) => setAt({ s: e.target.value })} /></Field>
                         <Field label="City"><input className="inp inp-sm" value={c.city} onChange={(e) => setAt({ city: e.target.value })} /></Field>
                         <Field label="Tests"><input className="inp inp-sm" value={c.test} onChange={(e) => setAt({ test: e.target.value })} /></Field>
+                        <Field label="City photo" hint={`The picture behind this country's section. Leave it empty to keep the shipped photo, ${TW}/city/${c.k}.jpg`} className="@container sm:col-span-2">
+                          <ImagePicker value={s.world.images?.city?.[c.k] ?? ""} onChange={(v) => setS({ ...s, world: setWorldImage(s.world, "city", c.k, v) })} />
+                        </Field>
                         <Field label="Universities" hint="One per line" className="sm:col-span-2">
                           <textarea className="inp min-h-[120px]" value={c.u.join("\n")} onChange={(e) => setAt({ u: e.target.value.split("\n").map((x) => x.trim()).filter(Boolean) })} />
                         </Field>
+                        {/* Collapsed on purpose: across all countries this is up to 78 pickers, and an
+                            owner who opens one country to fix its name should not have to scroll past
+                            a dozen photo rows to reach the next one. */}
+                        <details className="rounded-xl border border-line bg-canvas/60 sm:col-span-2">
+                          <summary className="cursor-pointer px-3 py-2 text-[13px] font-medium text-ink-2">University photos ({c.u.length})</summary>
+                          <div className="space-y-4 p-3 pt-0">
+                            {c.u.length === 0 ? <p className="text-[12px] text-ink-3">Add a university above first.</p> : null}
+                            {c.u.map((u) => {
+                              /* The shipped photo is keyed on the university name exactly as typed above, so
+                                 renaming a university in the textarea detaches it from its photo — say so
+                                 rather than silently showing an empty picker. */
+                              const shipped = UNI[u]?.src;
+                              return (
+                                <Field
+                                  key={u}
+                                  label={u}
+                                  hint={shipped ? `Leave empty to keep ${TW}/${shipped}` : "No photo ships under this exact name — check the spelling, or pick one here."}
+                                  className="@container"
+                                >
+                                  <ImagePicker value={s.world.images?.uni?.[u] ?? ""} onChange={(v) => setS({ ...s, world: setWorldImage(s.world, "uni", u, v) })} />
+                                </Field>
+                              );
+                            })}
+                          </div>
+                        </details>
                       </div>
                     </details>
                   );
@@ -268,6 +342,38 @@ export default function SettingsForms({ initial }: { initial: SettingsMap }) {
               </div>
               <button className="btn-primary" onClick={() => save("world")} disabled={saving}>Save</button>
             </div>
+
+            {/* Collapsed and set apart from the content cards: these five files are the first screen
+                itself, not decoration, and the safe default is for the owner never to open this. */}
+            <details className="card p-5">
+              <summary className="cursor-pointer text-[15px] font-bold text-navy">Globe textures &amp; aircraft <span className="ml-1 text-[12px] font-medium text-ink-3">· advanced</span></summary>
+              <div className="mt-4 space-y-4">
+                <div className="rounded-xl border border-line-2 bg-canvas/70 p-3">
+                  <p className="text-[13px] text-ink-2">
+                    <strong className="text-navy">Read this first.</strong> These four textures and the aeroplane
+                    model are what the first screen is made of — they load before the visitor sees anything, so
+                    they decide how fast the home page feels. The shipped files have already been squeezed for
+                    exactly that reason: the asset set went from 37&nbsp;MB down to 15&nbsp;MB. Dropping a
+                    straight-from-the-camera photo or an unoptimised model in here is the easiest way to make the
+                    home page slow, and nothing on this screen will warn you — it will just load badly for
+                    everyone. Leave them alone unless someone has prepared replacements at the same size.
+                  </p>
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {EARTH_TEX.map(([k, label, shipped]) => (
+                    <Field key={k} label={label} hint={`Leave empty to keep ${shipped}`} className="@container">
+                      <ImagePicker value={s.world.images?.earth?.[k] ?? ""} onChange={(v) => setS({ ...s, world: setWorldEarth(s.world, k, v) })} />
+                    </Field>
+                  ))}
+                  {/* The media library only accepts images, so a .glb has to be typed into the path box.
+                      The picker is still the right control: it shows the current value and clears it. */}
+                  <Field label="Aircraft model" hint={`A .glb file. Paste its path — the media library uploads images only. Leave empty to keep ${TW}/a350.glb`} className="@container">
+                    <ImagePicker value={s.world.images?.plane ?? ""} onChange={(v) => setS({ ...s, world: setWorldPlane(s.world, v) })} />
+                  </Field>
+                </div>
+                <button className="btn-primary" onClick={() => save("world")} disabled={saving}>Save</button>
+              </div>
+            </details>
           </div>
         ) : null}
 

@@ -12,8 +12,11 @@
     "db:seed": "prisma db seed",
     "db:reset": "prisma db seed -- --force",
     "db:studio": "prisma studio",
+    "content:backup": "tsx scripts/backup-content.ts",
+    "content:backup:latest": "tsx scripts/backup-content.ts --latest",
     "postinstall": "prisma generate",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "perf:budget": "node scripts/perf-budget.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.126.0",

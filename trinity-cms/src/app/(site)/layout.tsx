@@ -1,11 +1,15 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import "@/styles/site.css";
-/* After site.css, deliberately: this is the Trinity World chrome re-skin and it wins on
-   everything it declares by source order rather than by piling on !important. */
-import "@/styles/tw-chrome.css";
 import "@/styles/canvas.css";
 import "@/styles/chat.css";
+/* Last, deliberately. This is the Trinity World chrome re-skin, and it is meant to be the final
+   word on the header and the footer — it wins by source order rather than by piling on
+   !important. It sat between site.css and canvas.css at first, and canvas.css then painted
+   `.nav__links .cv-ddbtn{color:var(--text)}` over it: the three nav items that have dropdowns —
+   Study Destinations, Services, Resources — came out #333 on a dark glass pill while every
+   plain link beside them was white. */
+import "@/styles/tw-chrome.css";
 import { getAllSettings } from "@/lib/settings-server";
 import { getCountries } from "@/lib/content";
 import Header from "@/components/site/Header";
@@ -13,6 +17,7 @@ import Footer from "@/components/site/Footer";
 import SiteScripts from "@/components/site/SiteScripts";
 import ThemeStyle, { fontHref } from "@/components/site/ThemeStyle";
 import ChatWidget from "@/components/site/ChatWidget";
+import Preloader from "@/components/site/Preloader";
 import OrgSchema from "@/components/site/OrgSchema";
 
 /* Every page under this layout reads its settings, nav and footer from the database, so there is
@@ -39,6 +44,18 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link href={fontHref(settings.theme)} rel="stylesheet" />
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+      {/* Before the first paint, not after hydration: this marks the document for anyone who has
+          already seen the preloader so the CSS can hide it, and a returning visitor never catches
+          a frame of it. It has to be inline and blocking for that — a React effect runs too late,
+          and the overlay is in the server HTML by necessity (otherwise a first visit would show
+          the page first and the loader second). Wrapped in try/catch because a private window
+          throws on localStorage, and the only cost of that is seeing the loader again. */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `try{if(localStorage.getItem("tw:preloaded"))document.documentElement.setAttribute("data-preloaded","1")}catch(e){}`,
+        }}
+      />
+      <Preloader />
       <ThemeStyle t={settings.theme} />
       <OrgSchema site={settings.site} contact={settings.contact} />
       <Header nav={settings.nav} contact={settings.contact} site={settings.site} labels={settings.labels.header} destinations={destinations} />

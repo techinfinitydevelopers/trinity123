@@ -59,28 +59,21 @@
 .navwrap{padding:14px clamp(12px,3vw,40px) 0;transition:padding .45s cubic-bezier(.4,0,.2,1)}
 .site-header.is-scrolled .navwrap{padding:14px clamp(12px,3vw,40px) 0}
 
+/* The bar itself is nothing — a transparent row. The pill belongs to the row of links alone:
+   the logo, the call button and the counselling button each stand on their own against the
+   page, and only the navigation sits in glass. Giving the whole bar a pill as well put one
+   pill inside another, which is what this looked like. */
 .nav{
   max-width:none;margin:0;
   display:flex;justify-content:space-between;align-items:center;gap:16px;
-  padding:9px 10px 9px 20px;
-  border-radius:99px;
-  background:rgba(10,24,52,.38);
-  backdrop-filter:blur(18px) saturate(1.4);
-  -webkit-backdrop-filter:blur(18px) saturate(1.4);
-  border:1px solid rgba(255,255,255,.16);
-  box-shadow:0 10px 40px rgba(2,8,24,.25);
+  padding:0;border-radius:0;background:none;border:0;box-shadow:none;
+  backdrop-filter:none;-webkit-backdrop-filter:none;
   color:#fff;
-  transition:background .3s,color .3s,border-color .3s,box-shadow .3s;
+  transition:color .3s;
 }
 /* Once the page has scrolled, or whenever the pill is over ordinary light content, it flips to
    white glass with dark ink. `is-scrolled` is set by SiteScripts at 40px. */
-.site-header.is-scrolled .nav{
-  max-width:none;border-radius:99px;
-  background:rgba(255,255,255,.82);
-  border-color:rgba(13,27,52,.08);
-  color:var(--twc-ink);
-  box-shadow:0 10px 40px rgba(13,27,52,.12);
-}
+.site-header.is-scrolled .nav{max-width:none;background:none;border:0;box-shadow:none;color:var(--twc-ink)}
 
 /* ---- logo ---------------------------------------------------------------------------------- */
 .nav__logo{flex-shrink:0;flex-direction:row;gap:10px;align-items:center}
@@ -90,12 +83,26 @@
 .nav__logo-name{display:none}
 
 /* ---- the row of links ----------------------------------------------------------------------- */
+/* No background, no radius, no padding: the bar is already a pill, and giving the link row one
+   of its own put a second pill inside the first. The links sit directly on the bar now; only the
+   current page and the hovered item get a shape of their own. */
+/* This is the pill now. Dark glass over the globe, white glass once the page has scrolled —
+   the same two states the whole bar used to carry, moved onto the one part that wants them. */
 .nav__links{
-  background:rgba(255,255,255,.07);
-  border-radius:99px;padding:4px;gap:2px;
-  font-family:inherit;
+  gap:2px;font-family:inherit;
+  padding:6px 8px;border-radius:99px;
+  background:rgba(10,24,52,.38);
+  backdrop-filter:blur(18px) saturate(1.4);
+  -webkit-backdrop-filter:blur(18px) saturate(1.4);
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 10px 40px rgba(2,8,24,.25);
+  transition:background .3s,border-color .3s,box-shadow .3s;
 }
-.site-header.is-scrolled .nav__links{background:rgba(13,27,52,.05)}
+.site-header.is-scrolled .nav__links{
+  background:rgba(255,255,255,.82);
+  border-color:rgba(13,27,52,.08);
+  box-shadow:0 10px 40px rgba(13,27,52,.12);
+}
 .nav__links a,.nav__links .cv-ddbtn{
   color:inherit;
   padding:8px 12px;border-radius:99px;
@@ -360,3 +367,64 @@ body:has(.tw){--twc-top:78px}
    menu. `:has()` rather than a class, because the sheet's open state is React's `hidden`
    attribute and there is no JS of ours in that path to hang a class on. */
 body:has(.mobile-menu:not([hidden])){overflow:hidden}
+
+/* ---- the first-visit preloader ---------------------------------------------------------------
+   See src/components/site/Preloader.tsx for why it exists and when it shows. The rules here are
+   what make it safe: the overlay is in the server HTML, so everything that decides whether it is
+   seen has to work without JavaScript having run.
+
+   `data-preloaded` is set by a blocking script in the layout, before the first paint, for anyone
+   who has seen it already — that is what stops a returning visitor catching a frame of it.
+   `data-preloading="out"` is React asking for the fade.
+
+   The keyframe is the fail-safe. If the component never mounts — a chunk that fails, a thrown
+   error — nothing would ever set the attribute and the overlay would cover the site for good.
+   So it fades on its own: the animation holds it opaque for 3.5s, then takes it away. React
+   almost always gets there first and the transition wins; the animation is the floor. */
+.tw-pre{
+  position:fixed;inset:0;z-index:200;
+  display:grid;place-items:center;align-content:center;gap:26px;
+  background:radial-gradient(900px 600px at 50% 38%,#0b2452,var(--twc-navy) 70%);
+  animation:tw-pre-failsafe 4.4s linear forwards;
+}
+:root[data-preloaded] .tw-pre{display:none}
+:root[data-preloading="out"] .tw-pre{opacity:0;pointer-events:none;transition:opacity .6s ease}
+
+@keyframes tw-pre-failsafe{
+  0%,79%{opacity:1}
+  100%{opacity:0;visibility:hidden}
+}
+
+/* The mark: the drop-in's own aircraft glyph on the gradient chip the nav logo uses, so the
+   first thing anyone sees is the same shape the site is built from. */
+.tw-pre__mark{
+  width:62px;height:62px;border-radius:18px;
+  background:linear-gradient(135deg,var(--twc-sky),var(--twc-gold));
+  display:grid;place-items:center;
+  box-shadow:0 18px 50px rgba(2,8,24,.45);
+  animation:tw-pre-lift 1.8s ease-in-out infinite;
+}
+.tw-pre__plane{font-size:1.5rem;line-height:1;color:#fff;transform:translateX(1px)}
+
+@keyframes tw-pre-lift{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  50%{transform:translateY(-7px) rotate(-4deg)}
+}
+
+/* An indeterminate sweep rather than a percentage: there is no honest number to show — the page
+   is waiting on whatever the browser has left, and a fake progress bar that jumps to 90% and
+   sticks is worse than no number at all. */
+.tw-pre__bar{width:160px;height:3px;border-radius:99px;background:rgba(255,255,255,.14);overflow:hidden}
+.tw-pre__bar i{display:block;width:40%;height:100%;border-radius:99px;background:var(--twc-gold);animation:tw-pre-sweep 1.15s ease-in-out infinite}
+
+@keyframes tw-pre-sweep{
+  0%{transform:translateX(-110%)}
+  100%{transform:translateX(360%)}
+}
+
+/* Reduced motion: the overlay still covers the gap, it just stops moving. The fail-safe fade is
+   kept — it is a safety net, not decoration. */
+@media (prefers-reduced-motion:reduce){
+  .tw-pre__mark,.tw-pre__bar i{animation:none}
+  .tw-pre__bar i{width:100%}
+}

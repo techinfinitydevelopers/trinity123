@@ -54,20 +54,39 @@
    backdrop that is navy on navy. */
 .tw h1,.tw h2,.tw h3,.tw h4{color:inherit}
 
-/* ---- the floating pill overhead ------------------------------------------------------------
-   The site's header is the Trinity World pill now, on every page: it floats, it is translucent,
-   and it is meant to sit over the top of this. That is how the design was drawn, so the sky,
-   the canvas and the sticky stage all start at 0 again and nothing is pushed down — the
-   measured `--tw-top` clearance this file used to apply is gone with the solid bar it was
-   working around.
+/* ---- "Change country" ---------------------------------------------------------------------
+   It belongs with the header, not floating loose under it, but it cannot go *in* the nav row:
+   measured at 1400, the logo, the eight links, the call button and the counselling button
+   already run to x 1345. Adding a 136px button needs about 1403px even at the tightened link
+   spacing, which would mean pushing the burger breakpoint to 1420 and handing every 1366
+   laptop a hamburger to make room for one button. Not worth it.
 
-   "Change country" is the one thing that still has to dodge it. tw.css parks it at `top:84px`,
-   which lands inside the pill's band and behind it (z-index 45 against the header's 50), so it
-   moves below. --tw-top is the header's measured height, published by TrinityWorldHost; the
-   fallback lives in the `var()` rather than in a `.tw{--tw-top:…}` line, because such a line
-   would sit closer to this element than the document element the host writes to and would
-   shadow the measured value permanently. Hidden under 760px by tw.css, so this is enough. */
-.tw #change{top:calc(var(--tw-top,104px) + 16px)}
+   So it joins the header as a second row instead: the same dark-glass pill as the links, right
+   edge aligned to the counselling button, 12px under the bar. It reads as part of the header
+   cluster rather than a chip dropped on the globe.
+
+   --tw-top is the bar height, published by TrinityWorldHost. tw.css hides this under 760px,
+   so the desktop rule is the only one needed.
+   Note this file loads after tw.css, which is what lets it win without !important. */
+.tw #change{
+  position:fixed;z-index:45;
+  top:calc(var(--tw-top,96px) + 12px);
+  right:clamp(12px,3vw,40px);
+  padding:9px 18px;border-radius:99px;
+  font:600 .82rem Inter;cursor:pointer;color:#fff;
+  background:rgba(10,24,52,.38);
+  backdrop-filter:blur(18px) saturate(1.4);
+  -webkit-backdrop-filter:blur(18px) saturate(1.4);
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 10px 40px rgba(2,8,24,.25);
+  transition:background .3s,border-color .3s,transform .25s;
+}
+.tw #change:hover{background:rgba(10,24,52,.6);transform:translateY(-1px)}
+/* Once the page has scrolled past the globe the backdrop is pale, so it flips with the bar. */
+.site-header.is-scrolled ~ * .tw #change,body:has(.site-header.is-scrolled) .tw #change{
+  background:rgba(255,255,255,.82);color:var(--ink);border-color:rgba(13,27,52,.08);
+  box-shadow:0 10px 40px rgba(13,27,52,.12);
+}
 
 /* The guards that used to sit here — a bottom inset on the drop-in's own footer and a reset
    for its `.soc` row — went when that footer did. The site's footer wears the same design now
@@ -357,3 +376,21 @@
 @media (max-width:480px){
   .tw #ie-also{border-radius:18px;line-height:1.45;font-size:.78rem}
 }
+
+/* ---- the globe starts below the bar ------------------------------------------------------
+   The header floats over the page and the drop-in owns the viewport from 0, so the navigation
+   sat on top of the globe. --tw-top is the header height, measured and published by
+   TrinityWorldHost.
+
+   `#sky` deliberately keeps filling from 0: it is the night gradient, and letting it run behind
+   the bar is what stops a pale strip appearing above the globe. Only the canvas and the sticky
+   stage start underneath it.
+
+   This lives here rather than in tw-chrome.css because `tw.css` sets `.tw #c{inset:0}` at the
+   same specificity and loads after the layout stylesheets — which is why a copy in
+   tw-chrome.css measured 0px and did nothing, and why every other guard in this file works.
+   The 96px fallback is 14px of offset plus a 78px bar, rounded up: what the home page measures
+   before the effect runs. */
+.tw #c{top:var(--tw-top,96px);bottom:auto;height:calc(100dvh - var(--tw-top,96px))}
+.tw .stage{top:var(--tw-top,96px);height:calc(100dvh - var(--tw-top,96px))}
+.tw section{scroll-margin-top:var(--tw-top,96px)}

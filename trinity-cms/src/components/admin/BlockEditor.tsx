@@ -34,7 +34,7 @@ export default function BlockEditor({ initial }: { initial: PageData }) {
   const [dirty, setDirty] = useState(false);
   const [saving, setSaving] = useState(false);
   const [preview, setPreview] = useState(true);
-  const [device, setDevice] = useState<"desktop" | "mobile">("desktop");
+  const [device, setDevice] = useState<"desktop" | "mobile" | "tablet">("desktop");
   const [adding, setAdding] = useState(false);
   /* Drag state for the Sections rail. `over` is the row the pointer is on; the dragged row is
      dropped *before* it, or at the end when `over` is the list length. */
@@ -201,14 +201,29 @@ export default function BlockEditor({ initial }: { initial: PageData }) {
               <span className="text-ink-3">{dirty ? "· save to refresh" : ""}</span>
               <div className="ml-auto flex rounded-lg bg-canvas p-0.5">
                 <button className={`rounded-md px-2 py-1 ${device === "desktop" ? "bg-white shadow-card" : "text-ink-3"}`} onClick={() => setDevice("desktop")}>Desktop</button>
+                <button className={`rounded-md px-2 py-1 ${device === "tablet" ? "bg-white shadow-card" : "text-ink-3"}`} onClick={() => setDevice("tablet")}>Tablet</button>
                 <button className={`rounded-md px-2 py-1 ${device === "mobile" ? "bg-white shadow-card" : "text-ink-3"}`} onClick={() => setDevice("mobile")}>Mobile</button>
               </div>
               <button className="rounded-md px-2 py-1 text-ink-3 hover:text-brand" onClick={() => setStamp(Date.now())} title="Reload">↻</button>
             </div>
             <div className="flex flex-1 items-start justify-center overflow-hidden p-3">
+              {/* Desktop and Tablet render the page at a real device width and shrink it with a
+                  transform, because laying the preview out at 460px would trip the site's own
+                  breakpoints and we'd be previewing the mobile design in a "Desktop" tab. A
+                  transform doesn't shrink the element's layout box, so each scaled branch pulls
+                  the leftover width back with a negative margin — otherwise the 460px column
+                  would try to scroll a 1280px (or 834px) child.
+                  The tablet scale is 0.52: the column is 460px with p-3 either side, so ~436px
+                  of room, and 834 x 0.52 = 434px — the same visual width, and so the same
+                  optical margin, as Desktop's 1280 x 0.34 = 435px. Tablet is a fixed 834x1112
+                  iPad Air portrait frame rather than Desktop's viewport-height box, so it also
+                  needs the vertical half of that correction. Mobile is 390x760 at 1:1 — it
+                  already fits, and scaling it would only make it harder to read. */}
               <iframe ref={frame} key={stamp} title="Preview" src={stamp ? `${path}?_p=${stamp}` : path}
                 className={`rounded-xl border border-line bg-white shadow-card transition-all ${device === "mobile" ? "h-[760px] w-[390px]" : "h-full w-full"}`}
-                style={device === "desktop" ? { width: "1280px", height: "calc((100vh - 90px) / 0.34)", transform: "scale(0.34)", transformOrigin: "top left", marginRight: "calc(-1280px * 0.66)" } : undefined} />
+                style={device === "desktop" ? { width: "1280px", height: "calc((100vh - 90px) / 0.34)", transform: "scale(0.34)", transformOrigin: "top left", marginRight: "calc(-1280px * 0.66)" }
+                  : device === "tablet" ? { width: "834px", height: "1112px", transform: "scale(0.52)", transformOrigin: "top left", marginRight: "calc(-834px * 0.48)", marginBottom: "calc(-1112px * 0.48)" }
+                  : undefined} />
             </div>
           </aside>
         ) : null}

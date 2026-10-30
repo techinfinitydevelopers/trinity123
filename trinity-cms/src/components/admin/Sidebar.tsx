@@ -5,17 +5,42 @@ import { useState } from "react";
 import type { SessionUser } from "@/lib/auth";
 import { logoutAction } from "@/lib/actions";
 
-const NAV = [
-  { href: "/admin", label: "Dashboard", icon: "M4 13h6V4H4v9zm10 7h6v-9h-6v9zM4 20h6v-5H4v5zm10-16v5h6V4h-6z" },
-  { href: "/admin/pages", label: "Pages", icon: "M7 3h7l5 5v13H7V3zm7 1.5V9h4.5" },
-  { href: "/admin/destinations", label: "Destinations", icon: "M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12zm0-9.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" },
-  { href: "/admin/posts", label: "Blog", icon: "M5 4h14v16H5V4zm3 4h8M8 12h8M8 16h5" },
-  { href: "/admin/media", label: "Media", icon: "M4 5h16v14H4V5zm3 10l3-4 3 3 2-2 3 3" },
-  { href: "/admin/leads", label: "Leads", icon: "M4 6h16v12H4V6zm0 1l8 6 8-6", badge: true },
-  { href: "/admin/theme", label: "Theme & UI", icon: "M12 3a9 9 0 100 18c1.2 0 2-.8 2-2 0-.6-.3-1-.6-1.4-.3-.4-.4-.7-.4-1.1 0-.9.8-1.5 1.7-1.5H16a5 5 0 005-5c0-4.4-4-7-9-7z" },
-  { href: "/admin/chatbot", label: "Chatbot", icon: "M4 5h16v11H9l-5 4V5zm4 4h8M8 12h5" },
-  { href: "/admin/chats", label: "Conversations", icon: "M8 10h8M8 14h5M21 12a9 9 0 11-3.5-7.1L21 4v8h-8" },
-  { href: "/admin/settings", label: "Settings", icon: "M12 8a4 4 0 100 8 4 4 0 000-8zm8 4l-2 .6-.5 1.6 1 1.8-1.5 1.5-1.8-1-1.6.5L13 20h-2l-.6-2-1.6-.5-1.8 1-1.5-1.5 1-1.8L6 13.6 4 13v-2l2-.6.5-1.6-1-1.8L7 5.5l1.8 1L10.4 6 11 4h2l.6 2 1.6.5 1.8-1L18.5 7l-1 1.8.5 1.6L20 11v1z" },
+/**
+ * The nav is grouped by what an editor is actually trying to do, not by what the
+ * route happens to be: publishing work, people reaching out, and configuration.
+ * Dashboard sits in a headingless first group because it is the landing route —
+ * labelling a group of one would read as noise rather than structure.
+ */
+const NAV: { heading?: string; items: { href: string; label: string; icon: string; badge?: boolean }[] }[] = [
+  {
+    items: [
+      { href: "/admin", label: "Dashboard", icon: "M4 13h6V4H4v9zm10 7h6v-9h-6v9zM4 20h6v-5H4v5zm10-16v5h6V4h-6z" },
+    ],
+  },
+  {
+    heading: "Content",
+    items: [
+      { href: "/admin/pages", label: "Pages", icon: "M7 3h7l5 5v13H7V3zm7 1.5V9h4.5" },
+      { href: "/admin/posts", label: "Blog", icon: "M5 4h14v16H5V4zm3 4h8M8 12h8M8 16h5" },
+      { href: "/admin/destinations", label: "Destinations", icon: "M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12zm0-9.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" },
+      { href: "/admin/media", label: "Media", icon: "M4 5h16v14H4V5zm3 10l3-4 3 3 2-2 3 3" },
+    ],
+  },
+  {
+    heading: "Engagement",
+    items: [
+      { href: "/admin/leads", label: "Leads", icon: "M4 6h16v12H4V6zm0 1l8 6 8-6", badge: true },
+      { href: "/admin/chatbot", label: "Chatbot", icon: "M4 5h16v11H9l-5 4V5zm4 4h8M8 12h5" },
+      { href: "/admin/chats", label: "Conversations", icon: "M8 10h8M8 14h5M21 12a9 9 0 11-3.5-7.1L21 4v8h-8" },
+    ],
+  },
+  {
+    heading: "Setup",
+    items: [
+      { href: "/admin/theme", label: "Theme & UI", icon: "M12 3a9 9 0 100 18c1.2 0 2-.8 2-2 0-.6-.3-1-.6-1.4-.3-.4-.4-.7-.4-1.1 0-.9.8-1.5 1.7-1.5H16a5 5 0 005-5c0-4.4-4-7-9-7z" },
+      { href: "/admin/settings", label: "Settings", icon: "M12 8a4 4 0 100 8 4 4 0 000-8zm8 4l-2 .6-.5 1.6 1 1.8-1.5 1.5-1.8-1-1.6.5L13 20h-2l-.6-2-1.6-.5-1.8 1-1.5-1.5 1-1.8L6 13.6 4 13v-2l2-.6.5-1.6-1-1.8L7 5.5l1.8 1L10.4 6 11 4h2l.6 2 1.6.5 1.8-1L18.5 7l-1 1.8.5 1.6L20 11v1z" },
+    ],
+  },
 ];
 
 export default function Sidebar({ user, logo, unread }: { user: SessionUser; logo: string; unread: number }) {
@@ -25,18 +50,30 @@ export default function Sidebar({ user, logo, unread }: { user: SessionUser; log
 
   const nav = (
     <nav className="nice-scroll flex flex-1 flex-col gap-0.5 overflow-y-auto px-3 py-1">
-      {NAV.map((n) => {
-        const on = active(n.href);
-        return (
-          <Link key={n.href} href={n.href} onClick={() => setOpen(false)}
-            className={`group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-[14px] font-medium transition duration-200 ${on ? "bg-white/[0.12] text-white" : "text-white/55 hover:bg-white/[0.06] hover:text-white"}`}>
-            <span className={`absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full bg-gold transition-opacity ${on ? "opacity-100" : "opacity-0"}`} />
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={`transition ${on ? "text-gold" : "text-white/45 group-hover:text-white/80"}`}><path d={n.icon} /></svg>
-            <span className="flex-1">{n.label}</span>
-            {n.badge && unread > 0 ? <span className="rounded-full bg-gold px-2 py-0.5 text-[11px] font-bold text-navy shadow-[0_2px_8px_rgba(255,194,36,.45)]">{unread}</span> : null}
-          </Link>
-        );
-      })}
+      {NAV.map((group) => (
+        /* Each group is its own flex column so the tight 0.5 rhythm stays between
+           links, while the heading's own top padding does the separating. */
+        <div key={group.heading ?? "root"} className="flex shrink-0 flex-col gap-0.5">
+          {group.heading ? (
+            /* Mirrors the .lbl primitive (uppercase, 12px, semibold, tracked) but
+               takes its muted tone from white, since .lbl's text-ink-3 is tuned for
+               the light surfaces and would be unreadable on the navy rail. */
+            <p className="px-3 pb-1 pt-4 text-[12px] font-semibold uppercase tracking-wide text-white/35">{group.heading}</p>
+          ) : null}
+          {group.items.map((n) => {
+            const on = active(n.href);
+            return (
+              <Link key={n.href} href={n.href} onClick={() => setOpen(false)}
+                className={`group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-[14px] font-medium transition duration-200 ${on ? "bg-white/[0.12] text-white" : "text-white/55 hover:bg-white/[0.06] hover:text-white"}`}>
+                <span className={`absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r-full bg-gold transition-opacity ${on ? "opacity-100" : "opacity-0"}`} />
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={`transition ${on ? "text-gold" : "text-white/45 group-hover:text-white/80"}`}><path d={n.icon} /></svg>
+                <span className="flex-1">{n.label}</span>
+                {n.badge && unread > 0 ? <span className="rounded-full bg-gold px-2 py-0.5 text-[11px] font-bold text-navy shadow-[0_2px_8px_rgba(255,194,36,.45)]">{unread}</span> : null}
+              </Link>
+            );
+          })}
+        </div>
+      ))}
     </nav>
   );
 
