@@ -132,6 +132,26 @@ export type WorldSettings = {
     processTitle: string; pathTitle: string; lifeTitle: string; kitTitle: string;
     statsTitle: string; voicesTitle: string; ctaTitle: string; ctaLead: string;
   };
+  /* Dashboard replacements for the pictures. Sparse on purpose: a key is only written when
+     the owner has actually swapped that one, and everything absent keeps the file shipped in
+     public/tw. That is what lets one campus photo be replaced without supplying the other
+     seventy-seven, and it keeps the settings row small.
+
+     `earth` and `plane` are the globe textures and the aircraft. They are on the critical
+     path for the first screen and the shipped ones are already size-tuned (37 MB of assets
+     down to 15 MB), so a casual replacement here is the easiest way to make the home page
+     slow — the dashboard says as much next to the field. */
+  images?: {
+    /** country key -> city photo url */
+    city?: Record<string, string>;
+    /** university name, exactly as written in the countries list -> photo url */
+    uni?: Record<string, string>;
+    /** student-journey photo id -> url */
+    stu?: Record<string, string>;
+    earth?: { map?: string; bump?: string; spec?: string; clouds?: string };
+    /** the aircraft model, a .glb */
+    plane?: string;
+  };
 };
 
 export type SiteSettings = {
@@ -294,6 +314,8 @@ export const DEFAULTS: SettingsMap = {
   } satisfies LabelSettings,
   world: {
     enabled: false,
+    /* Empty, not absent: every picture starts as the file shipped in public/tw. */
+    images: {},
     /* Content lifted from the drop-in's data.ts, which stays the source for geometry. */
     countries: TW_COUNTRIES.map(({ k, n, s: sh, city, test, u }) => ({ k, n, s: sh, city, test, u })),
     text: {

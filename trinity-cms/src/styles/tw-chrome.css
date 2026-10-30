@@ -33,14 +33,29 @@
   --twc-ink:#0d1b34;
   --twc-foot:#040c1d;
   --twc-foot-text:#9fb0cf;
-  /* The pill's own height plus its 14px top offset, for pages that have to start below it. */
-  --twc-top:96px;
+  /* The header's real height, for anything that has to start below it. Two values because the
+     home page drops the top bar: measured from this file's own numbers, the pill is 14px of
+     offset plus 9+9 padding, a 44px control and 2px of border = 78px, and the top bar adds
+     7+7 padding and a ~30px row on every other page. It was a single dead 96px before, which
+     matched neither. */
+  --twc-top:122px;
 }
 
 /* ---- the bar ------------------------------------------------------------------------------
    `.site-header` stays the fixed full-width band; `.nav` inside it becomes the pill. Keeping
    the two separate is what lets the topbar sit above the pill on content pages. */
-.site-header{position:fixed;top:0;left:0;right:0;z-index:50;background:none;box-shadow:none}
+/* 70, not the site's 50: the mobile sheet lives inside this element, and the WhatsApp button,
+   the back-to-top and the chat avatar sit at 60 and 61. At 50 they painted straight over an
+   open full-screen menu, and on a phone the sheet's own counselling button sat under the
+   WhatsApp circle, which won the tap. */
+.site-header{position:fixed;top:0;left:0;right:0;z-index:70;background:none;box-shadow:none}
+/* Above the sheet, so the burger that opened it can close it again. It has to be `.nav` and
+   not `.navwrap`: Header.tsx renders the sheet *inside* the wrap, so a z-index on the wrap
+   lifts both of them together and the sheet — positioned, z-index 48 — still paints over a
+   static pill. Measured: with the wrap raised, elementFromPoint at the burger's centre
+   returned the sheet. */
+.navwrap{position:relative;z-index:49}
+.nav{position:relative;z-index:49}
 .navwrap{padding:14px clamp(12px,3vw,40px) 0;transition:padding .45s cubic-bezier(.4,0,.2,1)}
 .site-header.is-scrolled .navwrap{padding:14px clamp(12px,3vw,40px) 0}
 
@@ -108,7 +123,7 @@
 /* ---- the actions on the right ---------------------------------------------------------------- */
 .nav__actions{gap:10px;flex-shrink:0}
 .nav__call{
-  width:42px;height:42px;border-radius:50%;
+  width:44px;height:44px;border-radius:50%;
   border:1px solid rgba(255,255,255,.22);color:inherit;background:rgba(255,255,255,.08);
   transition:background .3s,color .3s,border-color .3s;
 }
@@ -129,7 +144,7 @@
 
 .nav__toggle{
   background:rgba(255,255,255,.14);color:inherit;border:0;
-  width:42px;height:42px;border-radius:50%;
+  width:44px;height:44px;border-radius:50%;
   transition:background .3s,color .3s;
 }
 .site-header.is-scrolled .nav__toggle{background:rgba(13,27,52,.08)}
@@ -157,13 +172,19 @@
 /* ---- the mobile sheet ------------------------------------------------------------------------
    The site's panel is a white card under the bar. The drop-in's covers the screen, which is
    what a nav with eight sections and thirteen services needs on a phone. */
+/* `inset:0` alone does not win: site.css:1278 still caps this at `calc(100dvh - 150px)`, and
+   with top and bottom both set the box is over-constrained, so the cap is what applies and the
+   sheet stopped 150px above the bottom of the screen — the live page showed through the gap and
+   stayed clickable through it. The cap has to be lifted explicitly.
+   z-index 48 is the drop-in's, against a nav at 50; here both are inside `.site-header`, so the
+   pill is given 49 below and the whole header is raised over the floating buttons. */
 .mobile-menu{
-  position:fixed;inset:0;z-index:48;
+  position:fixed;inset:0;z-index:48;max-height:none;height:100dvh;
   margin:0;border-radius:0;
   background:rgba(5,13,32,.96);
   backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
   box-shadow:none;
-  padding:104px 28px 40px;
+  padding:calc(var(--twc-top) + 16px) 28px 40px;
   overflow-y:auto;
   display:flex;flex-direction:column;gap:2px;
 }
@@ -200,10 +221,8 @@
    it is over the globe. It is in the server HTML, so there is no frame where the header is
    painted the wrong way round. */
 body:has(.tw) .topbar{display:none}
-/* Over the globe the pill stays dark glass even past the scroll threshold, because the first
-   two screens are night sky. Below them the page turns pale and `is-scrolled` takes over as
-   usual — this only holds for the opening stretch. */
-body:has(.tw) .site-header{background:none}
+/* The home page drops the top bar, so the sheet starts higher there. */
+body:has(.tw){--twc-top:78px}
 
 /* ---- footer ---------------------------------------------------------------------------------- */
 .footer{
@@ -293,17 +312,22 @@ body:has(.tw) .site-header{background:none}
   .nav__cta,.nav .btn.btn--dark{padding:9px 14px;font-size:.78rem}
   .nav__cta .btn__circle{display:none}
   .nav__call{display:none}
-  .mobile-menu{padding-top:92px}
+  .mobile-menu{padding-top:calc(var(--twc-top) + 12px)}
   .mobile-menu .mm-countries{grid-template-columns:1fr}
 }
 
 /* ---- asset credits ------------------------------------------------------------------------
    The licence block at the very bottom of the footer. Quiet by default: it is a legal notice,
    not something to read. */
-.footer .fcred{margin:0 auto;padding-bottom:18px;font-size:.74rem;color:var(--twc-foot-text)}
-.footer .fcred summary{cursor:pointer;opacity:.55;width:max-content}
-.footer .fcred summary:hover{opacity:.85}
-.footer .fcred .credit,.footer .fcred .credits{opacity:.5;margin:10px 0 0;line-height:1.55}
+/* The light footer could carry opacity:.5 on this because the ink was dark on cream. On
+   near-black the same opacity drags the text toward the background: the summary came out at
+   about 3.3:1 and the credit lines at 3.0:1, against the 4.5:1 that 12px text needs — and this
+   is the licence attribution, which CC BY requires to be legible. Colour instead of opacity,
+   and over the 12px floor. */
+.footer .fcred{margin:0 auto;padding-bottom:18px;font-size:.78rem;color:#7d8ead}
+.footer .fcred summary{cursor:pointer;color:#8294b4;width:max-content}
+.footer .fcred summary:hover{color:var(--twc-foot-text)}
+.footer .fcred .credit,.footer .fcred .credits{margin:10px 0 0;line-height:1.55}
 .footer .fcred a{color:var(--twc-foot-text);text-decoration:underline}
 
 /* ---- the footer's last rows vs the floating buttons ------------------------------------------
@@ -314,5 +338,28 @@ body:has(.tw) .site-header{background:none}
    96px under the last row clears the two low ones; the bottom row gives up 64px on the right
    rather than another 90px of empty height, which is what clearing the avatar vertically would
    have cost. */
-.footer .fcred{padding-bottom:96px}
-.footer .footer__bottom{padding-right:64px}
+/* `.fcred` is the last element in the footer, not `.footer__bottom` — Footer.tsx renders the
+   credits after the copyright row. site.css:1284 still pads the bottom row by 96px, which is
+   now a dead gap in the middle of the footer, and the 64px inset guarded a row that already
+   sits ~210px above the viewport floor. Both move down one element.
+   104px of right inset clears the chat avatar, which reaches 100px in; 76px is enough below
+   640px, where it is smaller. */
+.footer .footer__bottom{padding-bottom:0;padding-right:0}
+.footer .fcred{padding-bottom:96px;padding-right:104px}
+@media (max-width:640px){.footer .fcred{padding-right:76px}}
+
+/* Footer tap targets. These are the primary links on a phone and site.css sizes them for a
+   desktop pointer: the country chips come out ~32px tall and the link column ~23px. */
+@media (max-width:640px){
+  .footer .footer__tags a{padding:11px 14px 11px 9px;font-size:13.5px}
+  .footer .footer__links{gap:4px}
+  .footer .footer__links a{padding:10px 0}
+  .footer .footer__social .soc{width:44px;height:44px}
+}
+
+/* ---- scroll lock behind the open sheet ------------------------------------------------------
+   Nothing locked the page: a wheel or touch that started outside the sheet scrolled the document
+   underneath it, which also re-triggered `is-scrolled` and re-skinned the pill under an open
+   menu. `:has()` rather than a class, because the sheet's open state is React's `hidden`
+   attribute and there is no JS of ours in that path to hang a class on. */
+body:has(.mobile-menu:not([hidden])){overflow:hidden}

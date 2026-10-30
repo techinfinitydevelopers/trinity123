@@ -27,17 +27,46 @@ export type WorldOpts={
   initialCountry?:string;
   /** allow #c=<key> deep-link. default true */
   hashPick?:boolean;
+  /** Dashboard overrides for any image the page paints. Every one is optional and falls back
+      to the file shipped in `assetBase`, so an empty object changes nothing — which is what
+      lets the owner replace one campus photo without having to supply the other seventy-seven. */
+  images?:{
+    /** country key -> city photo url */
+    city?:Record<string,string>;
+    /** university name (exactly as in data.ts) -> photo url */
+    uni?:Record<string,string>;
+    /** student-journey photo id -> url */
+    stu?:Record<string,string>;
+    /** the four globe textures; these are performance-critical, see the note in the engine */
+    earth?:{map?:string;bump?:string;spec?:string;clouds?:string};
+    /** the aircraft model (.glb) */
+    plane?:string;
+  };
 };
 
 export function mountWorld(root:HTMLElement,opts:WorldOpts={}){
 const AB=(opts.assetBase??'/tw').replace(/\/$/,'');
+/* Every asset url the page builds goes through here. `IMG_OVERRIDE` is whatever the dashboard
+   has set; anything it does not name keeps the shipped file. Kept as one helper rather than a
+   dozen `??` expressions so there is a single place to look when a picture is wrong. */
+const IMG_OVERRIDE:any=opts.images??{};
+const pick=(group:string,key:string,fallback:string)=>{
+  const g=IMG_OVERRIDE[group];const v=g&&g[key];
+  return typeof v==='string'&&v.trim()?v.trim():fallback;
+};
+/* `plane` is a single url rather than a group, so it does not go through `pick` — that takes
+   a map and would be looking for images.plane.plane. */
+const one=(key:string,fallback:string)=>{
+  const v=IMG_OVERRIDE[key];
+  return typeof v==='string'&&v.trim()?v.trim():fallback;
+};
 const cleanups:Array<()=>void>=[];let raf=0;
 const onWin=(t:string,f:any,o?:any)=>{window.addEventListener(t,f,o);cleanups.push(()=>window.removeEventListener(t,f,o))};
 root.classList.add('tw');root.innerHTML=MARKUP;
 const $=(s:string)=>root.querySelector(s) as any,$$=(s:string)=>[...root.querySelectorAll(s)] as any[];
 const G:any={};
-G.__UNI__=Object.fromEntries(Object.entries(UNI).map(([k,v])=>[k,{url:AB+'/'+v.src,artist:v.artist,license:v.license}]));
-const IMG:any=Object.fromEntries(COUNTRIES.map((c:any)=>[c.k,AB+'/city/'+c.k+'.jpg']));
+G.__UNI__=Object.fromEntries(Object.entries(UNI).map(([k,v])=>[k,{url:pick('uni',k,AB+'/'+v.src),artist:v.artist,license:v.license}]));
+const IMG:any=Object.fromEntries(COUNTRIES.map((c:any)=>[c.k,pick('city',c.k,AB+'/city/'+c.k+'.jpg')]));
 gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.config({ignoreMobileResize:true});
 
@@ -86,12 +115,12 @@ const TL=new THREE.TextureLoader();
 const B=AB+'/earth/';
 const W=AB+'/earth/';
 const maxA=renderer.capabilities.getMaxAnisotropy();
-const eTex=TL.load(W+'2_no_clouds_4k.jpg');eTex.colorSpace=THREE.SRGBColorSpace;eTex.anisotropy=maxA;
-const bumpT=TL.load(W+'elev_bump_4k.jpg'),specT=TL.load(W+'water_4k.png');bumpT.anisotropy=specT.anisotropy=maxA;
+const eTex=TL.load(pick('earth','map',W+'2_no_clouds_4k.jpg'));eTex.colorSpace=THREE.SRGBColorSpace;eTex.anisotropy=maxA;
+const bumpT=TL.load(pick('earth','bump',W+'elev_bump_4k.jpg')),specT=TL.load(pick('earth','spec',W+'water_4k.png'));bumpT.anisotropy=specT.anisotropy=maxA;
 const earth=new THREE.Mesh(new THREE.SphereGeometry(R,128,128),new THREE.MeshPhongMaterial({map:eTex,bumpMap:bumpT,bumpScale:.12,specularMap:specT,shininess:22,specular:new THREE.Color(0x3a5a88),emissive:new THREE.Color(0x1a2a44),emissiveMap:eTex,emissiveIntensity:.55}));
 globe.add(earth);
 const BASE={x:22*Math.PI/180,y:-Math.PI/2-78*Math.PI/180};globe.rotation.set(BASE.x,BASE.y,0);
-const cTex=TL.load(B+'earth_clouds_1024.png');cTex.colorSpace=THREE.SRGBColorSpace;
+const cTex=TL.load(pick('earth','clouds',B+'earth_clouds_1024.png'));cTex.colorSpace=THREE.SRGBColorSpace;
 const cloudM=new THREE.Mesh(new THREE.SphereGeometry(R*1.01,96,96),new THREE.MeshPhongMaterial({map:cTex,transparent:true,opacity:.38,depthWrite:false,blending:THREE.AdditiveBlending}));
 globe.add(cloudM);
 const atmo=new THREE.Mesh(new THREE.SphereGeometry(R*1.075,64,64),new THREE.ShaderMaterial({transparent:true,side:THREE.BackSide,depthWrite:false,blending:THREE.AdditiveBlending,
@@ -181,7 +210,7 @@ ring.visible=false;globe.add(ring);
 /* aircraft (A350 GLB, CC BY 4.0) */
 const planeG=new THREE.Group();globe.add(planeG);planeG.visible=false;
 const PS=.013;planeG.scale.setScalar(PS);
-new GLTFLoader().load(AB+'/a350.glb',g=>{
+new GLTFLoader().load(one('plane',AB+'/a350.glb'),g=>{
   g.scene.traverse(o=>{if(o.isMesh){try{o.geometry=toCreasedNormals(o.geometry,Math.PI/3.2)}catch(e){}o.material.envMapIntensity=1;if(o.material.map){o.material.map.anisotropy=maxA;o.material.map.needsUpdate=true}o.material.roughness=Math.min(o.material.roughness??.5,.5);o.material.metalness=Math.max(o.material.metalness??0,.15)}});
   planeG.add(g.scene);
   try{crispWindows(g.scene)}catch(err){console.error('windows',err)}
@@ -509,7 +538,7 @@ gsap.utils.toArray('.st').forEach((s,i)=>{
   gsap.to(s,{x:i%2?60:-60,opacity:0,ease:'none',immediateRender:false,scrollTrigger:{trigger:s,start:'bottom 30%',end:'bottom 2%',scrub:.6}});
 });
 /* ---------------- STUDENT SECTIONS ---------------- */
-const UQ=(id,w=1100)=>`${AB}/stu/${id}.jpg`;
+const UQ=(id:string,_w=1100)=>pick('stu',id,`${AB}/stu/${id}.jpg`);
 const SIMG={grp:'1522202176988-66273c2fd55f',lib:'1523240795612-9a054b0db644',fr:'1529156069898-49953e39b3ac',hall:'1519452635265-7b1fbfd1e4e0',map:'1488646953014-85cb44e25828',air:'1569154941061-e231b4725ef1',wing:'1436491865332-7a61a109cc05',caps:'1590012314607-cda9d9b699ae',café:'1543269865-cbf427effbad'};
 const STU={
 uk:{visa:'UK Student visa',offer:'CAS from your university',funds:'Maintenance funds in your bank statements',work:'Up to 20 hrs/week in term time (degree level)',post:'Graduate Route — typically 2 years to work after your degree'},

@@ -135,3 +135,181 @@
 @media (max-width:760px){
   .tw #chips{padding-right:64px}
 }
+
+/* ======== found by a section-by-section audit, 30/10 ========================================
+   Each one below was traced to the rule that causes it and then measured in the browser before
+   being written. They are all guards on the vendored drop-in, which is why they live here. */
+
+/* ---- the altitude readout is a 705px invisible hit box on a phone --------------------------
+   tw.css sets `top:74px!important` for the meter under 760px and then, four lines later in the
+   same block, `bottom:4vh!important`. Neither cancels the other, so with `height:auto` the box
+   is solved against the full stage: 812 - 74 - 32 = 705px tall. Two things follow. The readout
+   renders at the top rather than the bottom the author intended, and — because tw.css exempts
+   `.flash`, `.cabin` and `.arrive` from hit-testing but not this — a transparent 705px box at
+   z-index 9 sits over `#panel` at 6. Measured at 375x812: it spans x 184-299 straight down the
+   middle of the chip rows, so France, USA and Canada could not be tapped. `opacity:0` does not
+   stop hit-testing, so this was true before a country was even picked.
+   Releasing `top` lets `bottom` do its job; `pointer-events` is the fix for the rest. */
+.tw .meter{pointer-events:none}
+@media (max-width:760px){
+  .tw .meter{top:auto!important}
+}
+
+/* ---- the timeline rail does not run through its own dots ----------------------------------
+   `.tl svg` is pinned at `left:18px` and paints a 3px stroke at x 19.5-22.5, centre 21. The dot
+   centre is `padding-left + before.left + 9` — 64-54+9 = 19 on desktop, and 44-38+9 = 15 under
+   760px, because the mobile block moves the padding by 20 but the dot by only 16. Measured at
+   1400: dot centre 140 against a rail at 142. On a phone the 6px gap puts the rail on the dot's
+   right-hand ring rather than through its middle.
+   The rail moves, not the dots: their offsets are what the card gutter is drawn against. */
+.tw .tl svg{left:16px}
+@media (max-width:760px){
+  .tw .tl svg{left:12px}
+}
+
+/* ---- the testimonial row starts at the screen edge ------------------------------------------
+   `#mq` is a sibling of `.wrap`, not a child, so it inherits none of the wrap's gutter. Measured
+   at 1400: the heading starts at 97 and the first card at 0 — flush to the viewport edge, with
+   its shadow clipped by `#voices{overflow:hidden}`. This is the resting state, not the marquee's
+   own travel. Padding rather than a transform or a margin, because engine.ts animates `x` from 0
+   and derives the end from `mq.scrollWidth`, which counts padding in — so the last card still
+   finishes where it did. The first term re-centres against the same 1240px wrap the heading uses. */
+.tw #mq{padding-left:calc(max(0px,(100% - 1240px) / 2) + clamp(20px,4vw,48px))}
+
+/* ---- the lead form runs under the floating buttons -------------------------------------------
+   The fourth time this column has bitten. `.cbox` drops its horizontal padding from
+   `clamp(30px,6vw,80px)` to a flat 22px at 760px, so the fields gain width exactly where the
+   button column is widest in relative terms. Measured: at 375 the form spans 42-333 against a
+   WhatsApp button starting at 295 — 38px of every field, and of the submit button, underneath
+   it. Taps there hit the button, not the form. 44px is the smallest inset that clears it at
+   every width up to 760; above that only the chat avatar bites, and by 2-8px. */
+@media (max-width:760px){
+  .tw #leadForm{padding-right:44px}
+}
+@media (min-width:761px) and (max-width:860px){
+  .tw #leadForm{padding-right:16px}
+}
+
+/* ---- the intake select looks like a text field ------------------------------------------------
+   tw.css gives `input` and `select` the same box and sets `background` as a shorthand, which
+   wipes the UA's own dropdown arrow. site.css's arrow treatment is scoped to `.leadcard`, so it
+   never reaches here. On iOS the closed select then renders flat with no caret and is
+   indistinguishable from the Email field above it. */
+.tw #leadForm select{
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath fill='%23a9b8d4' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 16px center;background-size:11px;
+  padding-right:38px;
+}
+
+/* ---- the student-life beats overflow their box on a small phone ------------------------------
+   `.lbeats` is a fixed-height box holding four absolutely-stacked `.beat` panels, so it cannot
+   grow with its content. At 375 the column is 335px: the headings wrap to two lines and the copy
+   to three, which comes to ~214px inside tw.css's 190px — the gold fact pill prints over the
+   note underneath. The beats have to stay absolute, that is how the scrub crossfades them, so
+   the box grows instead. */
+@media (max-width:440px){
+  .tw .lbeats{height:250px}
+}
+
+/* ---- the dial outgrows its own column on a wide screen ----------------------------------------
+   `width:min(40vw,520px,62vh)` was written against a column that keeps growing. Past the wrap's
+   1240px cap it does not: the column shrinks from 512px to 498px as the viewport widens, while
+   the 520px term holds. The dial then overhangs by up to 22px and closes the gap the layout is
+   drawn around. `100%` is the column, so it is always the true ceiling. */
+.tw .dial{width:min(40vw,520px,62vh,100%)}
+
+/* ---- the visa checklist is clipped on a short, wide window -------------------------------------
+   `#kit`'s eight rows sit in a `height:100vh` stage that clips, and tw.css only compacts them
+   under 860px wide — so a short *wide* window never gets that treatment. With the sub-labels
+   wrapping, the list wants about 800px of height; a 1024x768 iPad in landscape, or a laptop
+   window on a 1280x800 screen, has about 700. The excess is cut off the top and the bottom with
+   no way to scroll it back. */
+@media (min-width:861px) and (max-height:820px){
+  .tw #kit .kwrap{padding-top:46px}
+  .tw #kit .klist{gap:6px}
+  .tw #kit .klist li{padding:10px 16px}
+  .tw #kit .klist small{display:none}
+  .tw #kit .kcount b{font-size:clamp(3rem,7vh,7rem)}
+}
+
+/* ---- the arrival screen is clipped on a landscape phone ------------------------------------------
+   tw.css shrinks this only under 760px wide, so an 812x375 landscape phone gets the desktop 8vw
+   headline — and engine.ts puts a hard `<br>` in it, so it is always two lines. Two lines of 65px
+   plus a three-line paragraph and the button row is ~367px inside a 375px stage. The block is a
+   centred grid item in an `overflow:hidden` stage, so it clips at *both* ends: the "Welcome to"
+   tag off the top and the Explore button off the bottom, with `pointer-events:none` on the layer
+   so nothing can be scrolled back. */
+@media (max-height:620px){
+  .tw .arrive h2{font-size:clamp(1.8rem,4.6vh,2.8rem)}
+  .tw .arrive p{margin:10px auto 14px;font-size:.95rem}
+  .tw .arrive .btn{padding:9px 16px;font-size:.85rem}
+}
+
+/* ---- the panel headings render in the site's face ------------------------------------------------
+   `.h2` is the one heading class in the drop-in that never declares `font-family`, so
+   `site.css h1,h2,h3,h4{font-family:var(--font-h)}` wins and three panel headings come out in
+   Poppins while every heading around them is Sora. Same reason `letter-spacing:-.5px` lands on
+   the `.ptxt` and `.beat` headings. */
+.tw .h2{font-family:Sora,Inter,sans-serif}
+.tw .ptxt h3,.tw .beat h3{letter-spacing:-.02em}
+
+/* ---- the take-off hint, again — this time driven by height ----------------------------------
+   The guard further up is `@media (max-width:760px)`, but the collision is not about width.
+   Above 760px the panel is vertically centred (`top:calc(50% + 28px)!important`), so on a short
+   viewport its bottom reaches past the hint's top. Measured at 844x390, which is an iPhone 14
+   Pro held sideways: a 190x46 overlap with "PICK A COUNTRY TO TAKE OFF" and its gradient bar
+   printed across the last two chip rows. Clear again by about 514px tall; 560px leaves margin
+   and still sits under the 620px block that already shrinks the panel on short screens. */
+@media (max-height:560px){
+  .tw:not(.picked) .hint{display:none}
+}
+
+/* ---- the panel and the pins show through the intro ---------------------------------------------
+   The third dead selector of the same shape. tw.css means to hide these until the globe has
+   assembled:
+
+     .tw html:not(.ready) #panel,.tw html:not(.ready) #pins{visibility:hidden}
+
+   and again it asks for an `html` element inside `.tw`, which cannot exist — the engine puts
+   `ready` on its own root div. So the hero panel and the country pins are on screen through the
+   whole particle intro, and then visibly jump when the engine replays their gsap entrance on the
+   line after it sets the class.
+   `ready` comes from the intro's own scroll progress, not from the aircraft model finishing its
+   download, so restoring this does not gate the hero on a 220 KB fetch. */
+.tw:not(.ready) #panel,.tw:not(.ready) #pins{visibility:hidden}
+
+/* ---- .ucard — the same name as this site's own destination cards ------------------------------
+   The fourth shared class name, and the most damaging one so far because half of it is invisible.
+   `site.css .ucard` is this site's own card. The drop-in wins on flex, height, radius, overflow,
+   position, background and shadow; it never declares `border` or `transform-origin`, so both
+   land — a second white hairline over the drop-in's own 1px ring, and, worse, a `center bottom`
+   pivot underneath GSAP's rotate-in and scale-out, which were authored against `center center`.
+   The cards were swinging from their base instead of their middle.
+   `width:min(340px,78vw)` leaks too but is inert: flex-basis governs above 760px and the engine
+   writes an inline `width:100%` below it. The media query is the fallback for the frame before
+   that inline style exists. */
+.tw .ucard{border:0;transform-origin:center center}
+@media (max-width:760px){
+  .tw .ucard{width:100%}
+}
+
+/* ---- the deck's footnote has no side gutter ----------------------------------------------------
+   markup.ts gives this paragraph an inline style carrying only `padding-bottom`, and tw.css has
+   no rule for it, so nothing supplies a side gutter. Everything else in the section keeps the
+   clamp(20px,6vw,90px) one. Measured at 375: the box runs 0 to 375, three lines of 12px type
+   hard against both edges. Longhands, because the inline shorthand is only `padding-bottom`. */
+.tw #unis > p{padding-left:clamp(20px,6vw,90px);padding-right:clamp(20px,6vw,90px)}
+
+/* ---- the university cards vs the floating buttons, on a short viewport -------------------------
+   The deck is centred inside a 100vh pin, so a card's bottom sits at (100vh + H)/2 and its
+   "Shortlist with us / Apply" row 34px above that. The chat avatar reaches 172px up and 100px in
+   from the right at z-index 60 against the card's 0, so the two meet whenever H + 276 > 100vh —
+   with H = min(70vh,590px) that is every viewport under about 866px tall. Measured at 1024x768:
+   the avatar spans y 596-656 over a row at 591-619.
+   The height is capped rather than the track moved: the track carries GSAP's x transform, and a
+   bottom inset would push the card's top under the floating header instead. `!important` because
+   tw.css sets this height with one. */
+@media (min-width:761px){
+  .tw .ucard:not(.intro){height:min(70vh,590px,calc(100vh - 276px))!important}
+}
