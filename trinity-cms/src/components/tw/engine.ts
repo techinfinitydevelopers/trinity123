@@ -444,7 +444,12 @@ const fl=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{trigger:'#flight',
     /* Over the bright half of the flight the backdrop goes pale, so anything floating over it
        has to flip to dark ink. The page has no nav of its own — the site's header is above it
        — so this is reported and the host recolours that. */
-    const dk=u>4.3&&u<12.9;opts.onDark&&opts.onDark(dk);$('.meter').classList.toggle('dk',dk);const ui=u<.9;$('#panel').style.pointerEvents=ui?'auto':'none';$('#pins').style.pointerEvents=ui?'auto':'none';
+    const dk=u>4.3&&u<12.9;$('.meter').classList.toggle('dk',dk);
+    /* The meter only needs the bright stretch of the flight, but anything floating over the page
+       needs to know once and stay knowing: past 4.3 the backdrop never goes back to night, and
+       the sections after the flight are lighter still. Reporting the window would send the host
+       dark again at 12.9, over a page that is pale. */
+    opts.onDark&&opts.onDark(u>4.3);const ui=u<.9;$('#panel').style.pointerEvents=ui?'auto':'none';$('#pins').style.pointerEvents=ui?'auto':'none';
     let a=u<6.4?36000*sm(.2,3.2,u):(u<10?36000:36000-sm(9.9,12.6,u)*35200);
     altEl.textContent=(Math.round(a/10)*10).toLocaleString('en-US');
   }}});

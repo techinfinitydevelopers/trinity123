@@ -449,3 +449,29 @@ main:has(> .cta-block:last-child) + .footer{
 }
 main:has(> .cta-block:last-child) + .footer::before,
 main:has(> .cta-block:last-child) + .footer::after{display:none}
+
+/* ---- the pill over the globe ----------------------------------------------------------------
+   SiteScripts adds `is-scrolled` at 40px and the skin uses it to turn the pill to white glass
+   with dark ink. That is right on every page with a light hero, and wrong on the home page: the
+   first screens are night sky and a scroll of 41px is still over a black globe, so the pill went
+   white and the navigation vanished into it. Measured mid-flight: links at rgb(94,103,120) on a
+   near-black backdrop.
+
+   `is-pale` is set by the engine through `onDark` — it knows when the backdrop actually turns,
+   which is most of the way through the flight, not at 40px. So on the home page the pill stays
+   dark glass until the page really is pale, and from there `is-pale` carries it the rest of the
+   way. Everywhere else `is-scrolled` behaves exactly as before. */
+body:has(.tw) .site-header.is-scrolled:not(.is-pale) .nav{color:#fff}
+body:has(.tw) .site-header.is-scrolled:not(.is-pale) .nav__links{
+  background:rgba(10,24,52,.38);
+  border-color:rgba(255,255,255,.16);
+  box-shadow:0 10px 40px rgba(2,8,24,.25);
+}
+body:has(.tw) .site-header.is-scrolled:not(.is-pale) .nav__links a.is-active,
+body:has(.tw) .site-header.is-scrolled:not(.is-pale) .nav__links .cv-ddbtn.is-active{
+  background:rgba(255,255,255,.18);color:#fff;
+}
+body:has(.tw) .site-header.is-scrolled:not(.is-pale) .nav__call{
+  border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.08);
+}
+body:has(.tw) .site-header.is-scrolled:not(.is-pale) .nav__toggle{background:rgba(255,255,255,.14)}

@@ -131,6 +131,13 @@ export default function TrinityWorldHost({ initialCountry, world }: { initialCou
     <TrinityWorld
       initialCountry={initialCountry}
       images={world?.images}
+      /* The site header floats over this page. It flips itself to white glass after 40px of
+         scroll, which is right everywhere else and wrong here: the first screens are night sky,
+         so a white pill with dark ink lands on a black globe and the navigation disappears into
+         it. The engine knows when the backdrop actually turns pale — most of the way through the
+         flight, not at 40px — so it marks the header and tw-chrome.css holds the dark pill until
+         then. */
+      onDark={(pale) => document.querySelector(".site-header")?.classList.toggle("is-pale", pale)}
       destHref={(c) => (NO_PAGE.has(c.k) ? "/contact-us" : `/destinations/${SLUG[c.k] ?? c.k}`)}
       /* /api/leads takes {name,email,phone,subject,message,website,source}. The drop-in
          offers {name,phone,email,intake,country} — country becomes the subject so it lands
