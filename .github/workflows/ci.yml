@@ -1,0 +1,64 @@
+# Types, build, and the performance budget — on every push and every pull request.
+#
+# The budget is the reason this file exists. `scripts/perf-budget.mjs` has been sitting in the
+# repo as something a person has to remember to run, which means it guards nothing: the way a
+# page gets slow is one oversized image at a time, each of them obviously fine on its own. Here
+# it runs whether or not anyone remembers, and a push that pushes the site over its budget goes
+# red instead of going unnoticed.
+#
+# Deliberately not here: tests (there are none yet), linting (next build already fails on type
+# errors, and `next lint` on this codebase is noisy enough to train people to ignore red), and
+# deployment (Railway deploys from main on its own; duplicating that here would race it).
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# A second push to the same branch makes the first one irrelevant, so stop it rather than paying
+# for both and waiting twice.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: trinity-cms
+
+    # The build imports Prisma's generated client, which `postinstall` writes. It never opens a
+    # connection — every query sits behind `unstable_cache` and the pages are force-dynamic — but
+    # `PrismaClient` still wants the variable present at construction, so this is a syntactically
+    # valid URL that points nowhere on purpose. If a build ever starts failing here for want of a
+    # real database, that is a genuine finding: something has moved into the build step that
+    # should be happening per request.
+    env:
+      DATABASE_URL: postgresql://ci:ci@127.0.0.1:5432/ci
+      NEXT_TELEMETRY_DISABLED: "1"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: trinity-cms/package-lock.json
+
+      # `npm ci` over `npm install`: it installs the lockfile exactly, so CI cannot quietly pass
+      # against a different dependency tree than the one that ships.
+      - run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
+
+      # Last, because it measures `.next` — it has nothing to read until the build has run.
+      - name: Performance budget
+        run: npm run perf:budget
