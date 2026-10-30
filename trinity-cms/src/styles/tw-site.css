@@ -313,3 +313,47 @@
 @media (min-width:761px){
   .tw .ucard:not(.intro){height:min(70vh,590px,calc(100vh - 276px))!important}
 }
+
+/* ---- the IELTS panel shrink-wraps itself --------------------------------------------------
+   `tw.css` makes `.ie` a grid so the sticky stage can centre its one child vertically. That
+   turns `.wrap` into a grid item, and `.tw .wrap{margin:0 auto}` — harmless everywhere else,
+   where `.wrap` is a plain block — suppresses the item's default `justify-self:stretch` and
+   leaves it fit-content. Under 860px the grid is a single column, so its max-content collapses
+   to the widest child, which is `.lead{max-width:560px}`.
+   Measured at 768: `.ie` is 753px wide but its grid computes to 621px starting 81px in, while
+   `#process .wrap` on the same page is the full 753 at x 0 — the section visibly steps inward
+   from the ones above and below it.
+   Both rules are needed: the first alone leaves the item fit-content, the second alone leaves
+   the track itself max-content-sized. */
+.tw .ie{grid-template-columns:minmax(0,1fr)}
+.tw .ie > .grid{width:100%}
+
+/* ---- the band's min-content overrides the column ratio --------------------------------------
+   tw.css asks for `1.05fr 1fr`, but the engine writes `8.0<sup>band</sup>` with no space in it,
+   so the numeral has no wrap opportunity and its min-content floors the left track. The tracks
+   resolve 541.7/515.9 before the engine first writes the band and 556.9/500.8 after — the four
+   score cards shrink by 15px the moment the section activates, and the designed ratio is never
+   what ships. `minmax(0,…)` drops the floor. */
+.tw .ie .grid{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr)}
+
+/* ---- the IELTS stack vs a short desktop window -----------------------------------------------
+   `.ie` is a 100vh sticky stage and at 1240px or wider the left column measures 624px, so on a
+   shorter viewport the stack overflows. Chrome clamps an overflowing centred grid item to start,
+   so all of it lands at the bottom, where `.tw`'s clip cuts it — and because the stage is sticky,
+   scrolling never brings it back. Measured at 1280x600 the "Tests for …" pill is cut 24px short.
+   The numeral is tied to viewport height rather than the stage widened, so the stage stays
+   exactly 100vh. */
+@media (min-width:861px) and (max-height:700px){
+  .tw .band{font-size:min(19vw,15rem,32vh)}
+  .tw .steps4{margin-top:16px}
+  .tw #ie-also{margin-top:12px}
+}
+
+/* ---- the "tests for" pill wraps on a small phone ----------------------------------------------
+   The engine writes "Tests for <country>: <tests>"; the longest is USA's
+   "TOEFL · IELTS · GRE / SAT", which is 341px of text in a 335px column. At a 99px radius a
+   two-line pill stops reading as a pill and becomes a rounded block, so the radius comes down
+   to the shape two lines actually are. */
+@media (max-width:480px){
+  .tw #ie-also{border-radius:18px;line-height:1.45;font-size:.78rem}
+}
