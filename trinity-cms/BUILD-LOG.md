@@ -703,3 +703,11 @@ globe's own particle intro rather than replacing it.
 - About section: second paragraph now shares the first's line-height and `text-wrap` (`site.css`).
 - Destination cost cards: "Total year one" no longer navy; all cards white (`CountryPage.tsx`, `total` hard-wired false).
 - `<body suppressHydrationWarning>` in `layout.tsx` for extension-injected attributes.
+
+## 02/11/2026 — Client edits on the Trinity World home page and nav
+- **Flight:** removed the "Window seat" caption (`#c2`: markup + its three engine lines); the cabin caption now reads "Lift your window shade." / "Your study abroad destination awaits you."; removed the university names under "Landing in <city>." (`#c4 p`); arrival headline now ends "Let Trinity Study Abroad assist you."
+- **Hero:** removed the "Study abroad · IELTS · Visa" tag; line under the headline is now "Type or pick a country." (the "Settings → Home page" field for the tag is gone).
+- **Nav:** the Resources dropdown has no "Resources" heading row (desktop + mobile); Services keeps its row.
+- **Sync script** (`scripts/sync-client-content-2026-10-28.ts`) also rewrites `world.text.heroSub` on a database that still holds the old default.
+**Not verified:** the flight animation by scrolling (preview pane cannot scroll). The first ~3.5 units of the flight timeline are now caption-free where the window seat used to be; timings were left alone on purpose.
+**Production:** the code changes deploy with the push; the hero line also needs the sync script (or Settings → Home page).

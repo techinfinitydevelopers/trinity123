@@ -14,7 +14,7 @@ type Tab = "site" | "contact" | "nav" | "world" | "footer" | "labels" | "securit
    TrinityWorldHost. */
 type WorldTextKey = keyof SettingsMap["world"]["text"];
 const WORLD_TEXT: [WorldTextKey, string][] = [
-  ["heroTag", "Hero — small label"], ["heroTitle", "Hero — headline"], ["heroSub", "Hero — line under it"],
+  ["heroTitle", "Hero — headline"], ["heroSub", "Hero — line under it"],
   ["unisTitle", "Universities — heading"], ["unisOutro", "Universities — closing card"],
   ["ieltsTitle", "IELTS — heading"], ["ieltsLead", "IELTS — paragraph"],
   ["processTitle", "How it works — heading"],

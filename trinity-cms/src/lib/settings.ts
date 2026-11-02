@@ -321,7 +321,7 @@ export const DEFAULTS: SettingsMap = {
     text: {
       heroTag: "Study abroad · IELTS · Visa",
       heroTitle: "Where will you<br>study next?",
-      heroSub: "Type or pick a country. We'll fly you there.",
+      heroSub: "Type or pick a country.",
       unisTitle: "Pick your campus.",
       unisOutro: "Not on the list?",
       ieltsTitle: "Watch your band climb.",

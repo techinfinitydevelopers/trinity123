@@ -8,6 +8,7 @@
      - our-service: the page hero's sub + service chips, and the "services" block (all 13 cards)
      - setting nav: the "Services" item's dropdown children
      - setting chatbot: name -> "TISA", only while it is still the old "Trinity Assistant"
+     - setting world: hero line "...We'll fly you there." -> "Type or pick a country." (only if still the old default)
    The source of truth is src/lib/seed-content.ts and src/lib/settings.ts, so the live site gets
    exactly what localhost shows. Every other page, block, post and setting is left alone.
 
@@ -109,6 +110,21 @@ async function main() {
         plan.push('chatbot: name "Trinity Assistant" -> "TISA"');
         writes.push(() => db.setting.update({ where: { key: "chatbot" }, data: { value: next as unknown as object } }));
       } else plan.push(`chatbot: name is "${String(bot.name)}" — left alone`);
+    }
+  }
+
+  /* ---- Trinity World hero line: drop "We'll fly you there." (client), keep the rest ---- */
+  {
+    const OLD = "Type or pick a country. We'll fly you there.";
+    const row = await db.setting.findUnique({ where: { key: "world" } });
+    const world = row?.value as { text?: Record<string, unknown> } | undefined;
+    if (!row || !world?.text) plan.push("world: no saved Trinity World text — skipped");
+    else if (world.text.heroSub !== OLD) plan.push(`world: heroSub is ${JSON.stringify(world.text.heroSub)} — left alone`);
+    else {
+      backup.world = structuredClone(row.value);
+      const next = { ...world, text: { ...world.text, heroSub: "Type or pick a country." } };
+      plan.push('world: hero line -> "Type or pick a country."');
+      writes.push(() => db.setting.update({ where: { key: "world" }, data: { value: next as unknown as object } }));
     }
   }
 

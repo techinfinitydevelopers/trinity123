@@ -1699,3 +1699,4 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 ## Run locally (30/10/2026)
 - `npm run db:dev` (keep running) then `npm run dev` → http://localhost:3000, admin /admin. DB already initialised; no push/seed needed.
 - `npm install` fails at `prisma generate` (EPERM on query_engine dll) while dev server runs; stop the server first if the schema changes.
+- Home page (confirmed by user, 30/10/2026): the TL adds/updates the home page in this repo (Trinity World drop-in in `src/components/tw/`, switched on/off by `scripts/toggle-world-home.ts` / the Home page setting). `trnityfinal1` holds the standalone HTML source. Do not merge it unless the TL/user says so.

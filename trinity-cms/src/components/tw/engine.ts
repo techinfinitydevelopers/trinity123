@@ -428,15 +428,13 @@ function render(c){
   $('#go').innerHTML='Scroll to fly to <b>'+c.city+'</b> ↓';
   $('#c1 h1').innerHTML='Next stop:<br>'+c.n;
   $('#c1 p').textContent=ORIGIN.name+' → '+c.city+'. One consultancy, door to door — from test prep to your offer letter.';
-  $('#c2 h2').innerHTML='Your window<br>to '+(c.s==='USA'||c.s==='UAE'?'the '+c.s:c.n)+'.';
   $('#c4 h2').innerHTML='Landing in<br>'+c.city+'.';
-  $('#c4 p').textContent=c.u.slice(0,4).join(' · ');
   $('#route').textContent=ORIGIN.name.toUpperCase()+' → '+c.city.toUpperCase();
   const url=IMG[c.k];
   $('.v2').style.backgroundImage=`url(${url})`;
   $('.arrive .bg').style.backgroundImage=`url(${url})`;
   $('.arrive .tag').textContent='Welcome to '+c.n;
-  $('.arrive h2').innerHTML='Study in <em>'+c.n+'.</em><br>We\'ll fly with you.';
+  $('.arrive h2').innerHTML='Study in <em>'+c.n+'.</em><br>Let Trinity Study Abroad assist you.';
   $('.arrive p').textContent=c.u.slice(0,3).join(', ')+' — your university in '+c.city+' is waiting.';
   const ex=$('#explore');ex.textContent='Explore '+c.n;{const h=opts.destHref?opts.destHref(c):'/destinations/'+c.k;ex.href=h||'#unis';ex.target='';ex.rel='noopener'}
   $('#uni-eyebrow').textContent='Destination '+c.s;
@@ -516,8 +514,6 @@ fl.to(st,{t:1,duration:7,ease:'none'},0)
   .to('#hint',{opacity:0,duration:.3},.2)
   .fromTo('#c1',{opacity:0,y:60},{opacity:1,y:0,duration:.5},.9)
   .to('#c1',{opacity:0,y:-60,duration:.5},2.5)
-  .fromTo('#c2',{opacity:0,x:80},{opacity:1,x:0,duration:.5},3.2)
-  .to('#c2',{opacity:0,x:80,duration:.5},4.7)
   .to('#flash',{opacity:.95,duration:.45,ease:'power2.in'},6.15)
   .set('#cabin',{opacity:1},6.55)
   .fromTo('#winwrap',{scale:.3,y:'8vh'},{scale:1,y:0,duration:1.5,ease:'power3.out'},6.55)
