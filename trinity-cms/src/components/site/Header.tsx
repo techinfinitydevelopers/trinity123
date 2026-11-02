@@ -151,10 +151,10 @@ export default function Header({ nav, contact, site, labels, destinations }: { n
             <span className="nav__logo-name">{site.siteName}</span>
           </Link>
           <ul className="nav__links" id="navLinks" ref={navRef}>
-            {nav.items.map(renderItem)}
+            {nav.items.filter((i) => i.href !== "/contact-us").map(renderItem)}
           </ul>
           <div className="nav__actions">
-            <a className="nav__call" href={tel} aria-label={labels.callLabel}><i className="fas fa-phone-alt" /></a>
+            <Link className="nav__call" href="/contact-us" aria-label={labels.callLabel}><i className="fas fa-phone-alt" /></Link>
             <Link className="btn btn--dark nav__cta" href={nav.ctaHref}>{nav.ctaLabel} <span className="btn__circle"><i className="fas fa-arrow-right" /></span></Link>
             <button className="nav__toggle" id="navToggle" type="button" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} aria-controls="mobileMenu" onClick={() => setOpen((o) => !o)}>
               <i className={open ? "fas fa-times" : "fas fa-bars"} />
