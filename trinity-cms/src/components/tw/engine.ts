@@ -428,7 +428,7 @@ function render(c){
   $('#go').innerHTML='Scroll to fly to <b>'+c.city+'</b> ↓';
   $('#c1 h1').innerHTML='Next stop:<br>'+c.n;
   $('#c1 p').textContent=ORIGIN.name+' → '+c.city+'. One consultancy, door to door — from test prep to your offer letter.';
-  $('#c4 h2').innerHTML='Landing in<br>'+c.city+'.';
+  $('#c4 h2').innerHTML='Landing in<br>'+c.n+'.';
   $('#route').textContent=ORIGIN.name.toUpperCase()+' → '+c.city.toUpperCase();
   const url=IMG[c.k];
   $('.v2').style.backgroundImage=`url(${url})`;
@@ -599,7 +599,7 @@ gsap.utils.toArray('.st').forEach((s,i)=>{
 const UQ=(id:string,_w=1100)=>pick('stu',id,`${AB}/stu/${id}.jpg`);
 const SIMG={grp:'1522202176988-66273c2fd55f',lib:'1523240795612-9a054b0db644',fr:'1529156069898-49953e39b3ac',hall:'1519452635265-7b1fbfd1e4e0',map:'1488646953014-85cb44e25828',air:'1569154941061-e231b4725ef1',wing:'1436491865332-7a61a109cc05',caps:'1590012314607-cda9d9b699ae',café:'1543269865-cbf427effbad'};
 const STU={
-uk:{visa:'UK Student visa',offer:'CAS from your university',funds:'Maintenance funds in your bank statements',work:'Up to 20 hrs/week in term time (degree level)',post:'Graduate Route — typically 2 years to work after your degree'},
+uk:{visa:'UK Student visa',offer:'CAS from your university',funds:'Maintenance funds in your bank statements',work:'Part time job up to 20 hrs/week in term time',post:'Graduate Route — typically 2 years to work after your degree'},
 ireland:{visa:'Irish study visa + Stamp 2 permission',offer:'Offer letter + fee payment receipt',funds:'Proof of funds for living costs',work:'Up to 20 hrs/week in term, full-time in holidays',post:'Stay Back — typically 12–24 months depending on your level'},
 france:{visa:'Long-stay student visa (VLS-TS) via Campus France',offer:'Campus France pre-enrolment + admission letter',funds:'Proof of monthly resources',work:'Up to about 964 hours a year alongside study',post:'Around 12 months to look for work after a Master’s'},
 germany:{visa:'National (D) student visa',offer:'Admission letter (+ APS certificate for Indian students)',funds:'Blocked account (Sperrkonto) for living costs',work:'140 full days or 280 half days a year',post:'18 months to find a job after graduation'},
@@ -636,8 +636,8 @@ function renderStudent(c){
    ['7','','Stay supported','Guidance after you arrive','Practical post-arrival guidance after you reach your destination.']];
   BEATS=[
    ['Week 1','Land & settle in '+c.city,'Orientation, bank account, SIM and getting your room sorted — we brief you before you fly.','Welcome week · new friends'],
-   ['Month 1','Classes, campus & community','Meet your cohort, join clubs and find your study rhythm at '+(u0||'your university')+'.','Study groups · clubs'],
-   ['Month 3','Part-time work & real life',S.work+'.','Earn while you learn'],
+   ['Month 1','Classes, campus & community','Meet your cohort, join clubs and find your study rhythm at your university.','Study groups · clubs'],
+   ['Month 3','Work and Studies',S.work+'.','Earn while you learn'],
    ['After graduation','Your next step',S.post+'.','Stay & work after study']];
   KIT=[
    ['Valid passport','At least 6 months validity, with blank pages'],
