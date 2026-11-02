@@ -42,6 +42,11 @@ const cacheKey=(p:WorldOpts)=>{
   return JSON.stringify({a:p.assetBase??'/tw',i:p.images??null,c:content.length+':'+content.slice(0,200)});
 };
 
+/* Start fetching the engine (three, gsap, the scene) the moment this module is evaluated in the
+   browser, not when the effect runs after hydration. The effect's own import() then reuses the
+   same request, so the download overlaps hydration instead of following it. */
+if(typeof window!=='undefined')void import('./engine').catch(()=>{});
+
 export default function TrinityWorld(props:WorldOpts){
   const host=useRef<HTMLDivElement>(null);
   const p=useRef(props);p.current=props;

@@ -98,6 +98,32 @@ export default function TrinityWorldHost({ initialCountry, world }: { initialCou
     return () => mo.disconnect();
   }, [world]);
 
+  /* "Change country" sits at the end of the header's link pill rather than floating under the
+     bar. The engine builds the button inside the drop-in and has already bound its click handler
+     by the time this runs, so the node is simply re-parented into a list item; the item goes
+     away on unmount so no other page inherits it. */
+  useEffect(() => {
+    const el = box.current;
+    if (!el) return;
+    let item: HTMLLIElement | null = null;
+    const place = () => {
+      const b = el.querySelector<HTMLElement>("#change");
+      const slot = document.querySelector(".nav__links");
+      if (!b || !slot) return false;
+      item = document.createElement("li");
+      item.className = "nav__change";
+      item.appendChild(b);
+      slot.appendChild(item);
+      return true;
+    };
+    let mo: MutationObserver | undefined;
+    if (!place()) {
+      mo = new MutationObserver(() => { if (place()) mo?.disconnect(); });
+      mo.observe(el, { childList: true, subtree: true });
+    }
+    return () => { mo?.disconnect(); item?.remove(); };
+  }, []);
+
   /* The site header is fixed and sits over the top of the screen. The drop-in was built to
      own the viewport, so its sky, canvas and sticky stage all start at 0 and the header cuts
      the globe in half. Its measured height is published as --tw-top and kept current — the

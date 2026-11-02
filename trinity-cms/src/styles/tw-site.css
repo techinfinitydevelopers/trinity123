@@ -405,3 +405,27 @@
 @media (max-width:760px){
   .tw .arrive .inner h2{font-size:clamp(1.8rem,8.4vw,2.8rem)}
 }
+
+/* "Change country" at the end of the header's link pill (moved there by TrinityWorldHost), styled
+   as a sibling of the links; shown only once a country has been picked. */
+.nav__change{display:none;list-style:none;margin-left:4px}
+body:has(.tw.picked) .nav__change{display:flex}
+.nav__change #change{
+  display:inline-flex;align-items:center;height:34px;padding:0 16px;border-radius:99px;cursor:pointer;
+  font:600 .8rem Inter,system-ui,sans-serif;white-space:nowrap;color:#fff;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);
+  transition:background .3s,border-color .3s,color .3s;
+}
+.nav__change #change:hover{background:rgba(255,255,255,.24);border-color:#fff}
+.site-header.is-pale .nav__change #change{color:var(--twc-navy);background:rgba(7,20,46,.05);border-color:rgba(7,20,46,.22)}
+
+/* Until the engine has built the page the server HTML is just the header and the footer, so on a
+   reload the footer was the first thing to appear and the rest popped in above it. Hold the space
+   with a full-screen night-sky panel and keep the footer out of sight until the engine has mounted
+   (`.tw` exists), so the page arrives top-down. `display:contents` hosts still generate ::before. */
+.tw-host:not(:has(.tw))::before{
+  content:"Boarding\2026";display:grid;place-items:center;min-height:100vh;
+  background:#030814;color:rgba(255,255,255,.75);font:600 .8rem Inter,system-ui,sans-serif;
+  letter-spacing:.2em;text-transform:uppercase;
+}
+body:has(.tw-host:not(:has(.tw))) .footer,body:has(.tw-host:not(:has(.tw))) .fcred{display:none}

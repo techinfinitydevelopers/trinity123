@@ -741,7 +741,7 @@ const destroy=function(){
   try{renderer.dispose();renderer.forceContextLoss()}catch(e){}
   root.innerHTML='';root.classList.remove('tw','live','picked','compact','ready','menu');
 };
-destroy.changeCountry=()=>$('#change')&&$('#change').click();
+destroy.changeCountry=()=>{const b=document.querySelector('#change');b&&b.click()};
 
 /* ---------- suspend / resume ----------
    The page is a client route, so leaving it unmounted this and coming back built a whole new
