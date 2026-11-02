@@ -394,3 +394,14 @@
 .tw #c{top:var(--tw-top,96px);bottom:auto;height:calc(100dvh - var(--tw-top,96px))}
 .tw .stage{top:var(--tw-top,96px);height:calc(100dvh - var(--tw-top,96px))}
 .tw section{scroll-margin-top:var(--tw-top,96px)}
+
+/* ---------- Arrival headline: longer copy, so size it by width AND height ----------
+   "Study in <country>. Let Trinity Study Abroad assist you." runs to four or five lines at the
+   drop-in's 6.5rem, which pushed the paragraph and buttons off the screen. The size now follows
+   whichever of the viewport's width or height is tighter, and the column is allowed to be wider. */
+.tw .arrive .inner{max-width:min(1100px,100%)}
+.tw .arrive .inner h2{font-size:clamp(1.9rem,min(5.4vw,8.5vh),4.6rem);line-height:1.08;text-wrap:balance}
+.tw .arrive .inner p{font-size:clamp(.95rem,2.2vh,1.1rem)}
+@media (max-width:760px){
+  .tw .arrive .inner h2{font-size:clamp(1.8rem,8.4vw,2.8rem)}
+}

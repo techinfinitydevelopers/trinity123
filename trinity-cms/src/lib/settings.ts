@@ -327,7 +327,7 @@ export const DEFAULTS: SettingsMap = {
       ieltsTitle: "Watch your band climb.",
       ieltsLead: "Mock tests every week, examiner-style feedback, and a study plan that adapts to your weakest module.",
       processTitle: "From first call to<br>boarding pass.",
-      pathTitle: "12 months to<br>study abroad.",
+      pathTitle: "How Your<br>Journey Works",
       lifeTitle: "What life actually<br>looks like.",
       kitTitle: "Pack your file.",
       statsTitle: "Numbers that landed.",

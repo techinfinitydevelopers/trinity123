@@ -119,11 +119,14 @@ async function main() {
     const row = await db.setting.findUnique({ where: { key: "world" } });
     const world = row?.value as { text?: Record<string, unknown> } | undefined;
     if (!row || !world?.text) plan.push("world: no saved Trinity World text — skipped");
-    else if (world.text.heroSub !== OLD) plan.push(`world: heroSub is ${JSON.stringify(world.text.heroSub)} — left alone`);
+    else if (world.text.heroSub !== OLD && world.text.pathTitle !== "12 months to<br>study abroad.") plan.push("world: hero line and journey heading already changed — left alone");
     else {
       backup.world = structuredClone(row.value);
-      const next = { ...world, text: { ...world.text, heroSub: "Type or pick a country." } };
-      plan.push('world: hero line -> "Type or pick a country."');
+      const text = { ...world.text };
+      if (text.heroSub === OLD) text.heroSub = "Type or pick a country.";
+      if (text.pathTitle === "12 months to<br>study abroad.") text.pathTitle = "How Your<br>Journey Works";
+      const next = { ...world, text };
+      plan.push('world: hero line -> "Type or pick a country."; journey heading -> "How Your Journey Works"');
       writes.push(() => db.setting.update({ where: { key: "world" }, data: { value: next as unknown as object } }));
     }
   }

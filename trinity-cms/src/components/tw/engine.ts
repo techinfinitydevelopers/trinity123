@@ -438,13 +438,13 @@ function render(c){
   $('.arrive p').textContent=c.u.slice(0,3).join(', ')+' — your university in '+c.city+' is waiting.';
   const ex=$('#explore');ex.textContent='Explore '+c.n;{const h=opts.destHref?opts.destHref(c):'/destinations/'+c.k;ex.href=h||'#unis';ex.target='';ex.rel='noopener'}
   $('#uni-eyebrow').textContent='Destination '+c.s;
-  $('#uni-lead').textContent=c.u.length+' universities in '+c.n+' we place students in. Keep scrolling →';
+  $('#uni-lead').textContent='Top Universities in '+c.s+'. Keep scrolling →';
   const track=$('#track');track.querySelectorAll('.ucard:not(.intro)').forEach(n=>n.remove());
   const outro=track.querySelector('.outro');
   c.u.forEach((u,i)=>{
     const a=document.createElement('article');a.className='ucard';
     const U=(G.__UNI__||{})[u]||{},src=U.url||IMG[c.k];
-    a.innerHTML=`<div class="ph"><img loading="lazy" decoding="async" alt="" src="${src}"></div><span class="no">0${i+1}</span><span class="loc"><i></i><b></b></span><div class="in"><h3></h3><small></small><div class="row2"><span class="pill">Shortlist with us</span><span class="go">Apply <em>→</em></span></div></div>`;
+    a.innerHTML=`<div class="ph"><img loading="lazy" decoding="async" alt="" src="${src}"></div><span class="no">0${i+1}</span><span class="loc"><i></i><b></b></span><div class="in"><h3></h3><small></small></div>`;
     /* The whole card is the target, not the 55x16 "Apply" span: it is 290px wide and the two
        labels on it were inert. role/tabindex rather than an <a>, because there is no page to
        link to — the action is this page's own enquiry form, and an href="#cta" would put a
@@ -627,13 +627,13 @@ function renderStudent(c){
   const S=STU[c.k]||STU.uk,u0=(c.u||[])[0],uImg=((G.__UNI__||{})[u0]||{}).url||IMG[c.k];
   const test=c.test||'English test';
   STG=[
-   ['12','months','Profile & goals','Map your marks, budget and dream course','A counsellor reviews your academics and goals, then shortlists the right courses in '+c.n+'.'],
-   ['10','months','Test prep',test,'Coaching and mocks for '+test+' — run alongside your shortlist so nothing waits.'],
-   ['8','months','Shortlist & apply','Universities in '+c.n,'Safe, match and reach options — applications, SOP and references prepared together.'],
-   ['6','months','Offers arrive',S.offer,'Compare offers, scholarships and fees. You accept: '+S.offer+'.'],
-   ['4','months','Funds & visa',S.visa,'Financial proof ('+S.funds.toLowerCase()+'), forms and interview prep for your '+S.visa+'.'],
-   ['2','months','Pre-departure','Flights, stay and forex','Accommodation in '+c.city+', forex, insurance and a send-off briefing for you and your family.'],
-   ['0','day one','Wheels down in '+c.city,'Welcome to '+c.n,'Airport pickup guidance, orientation week and your first day on campus. You made it.']];
+   ['1','','Tell us your goals','Course, career, budget and destinations','Share your course, career plans, budget and preferred destinations, including '+c.n+'.'],
+   ['2','','Evaluate your profile','Academics, experience, tests and eligibility','We assess your academics, work experience, test scores and eligibility.'],
+   ['3','','Build your shortlist','Countries, courses and universities that fit','A shortlist of countries, courses and universities that fit your profile and goals.'],
+   ['4','','Prepare and apply','Documents, SOP/LOR and applications','Documents, SOP and LOR prepared, then university applications submitted.'],
+   ['5','','Plan your finances and visa','Scholarships, loans, funds and visa','Scholarships, loans, proof of funds and visa preparation, step by step.'],
+   ['6','','Get departure ready','Accommodation, insurance, forex and flights','Accommodation in '+c.city+', insurance, forex, flights and pre-departure guidance.'],
+   ['7','','Stay supported','Guidance after you arrive','Practical post-arrival guidance after you reach your destination.']];
   BEATS=[
    ['Week 1','Land & settle in '+c.city,'Orientation, bank account, SIM and getting your room sorted — we brief you before you fly.','Welcome week · new friends'],
    ['Month 1','Classes, campus & community','Meet your cohort, join clubs and find your study rhythm at '+(u0||'your university')+'.','Study groups · clubs'],
@@ -661,7 +661,7 @@ let curStg=-1;
 function setStage(i,force){
   if(!STG.length)return;i=Math.max(0,Math.min(6,i));if(i===curStg&&!force)return;curStg=i;G.__stg=i;
   const s=STG[i];
-  const fill=()=>{$('#pmo').textContent=s[0];$('#pmu').textContent=s[1];$('#ptag').textContent=s[2];$('#pt').textContent=s[3];$('#pp').textContent=s[4]};
+  const fill=()=>{$('#pmo').textContent=s[0];$('#ptag').textContent=s[2];$('#pt').textContent=s[3];$('#pp').textContent=s[4]};
   if(force){fill()}else{gsap.to('.ptxt,.mo b',{opacity:0,y:-10,duration:.16,onComplete:()=>{fill();gsap.fromTo('.ptxt,.mo b',{opacity:0,y:12},{opacity:1,y:0,duration:.35,ease:'power2.out'})}})}
   const a=$('#pimg'),b=$('#pimg2');const front=a.dataset.f==='1'?b:a,back=front===a?b:a;
   front.src=(G.__pimgs||[])[i]||'';front.style.opacity=1;back.style.opacity=0;front.dataset.f='1';back.dataset.f='0';
