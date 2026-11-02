@@ -227,9 +227,9 @@
    `.tw` is the drop-in's root and only the home page renders it, so this is how the chrome knows
    it is over the globe. It is in the server HTML, so there is no frame where the header is
    painted the wrong way round. */
-body:has(.tw) .topbar{display:none}
+body:has(.tw-host) .topbar{display:none}
 /* The home page drops the top bar, so the sheet starts higher there. */
-body:has(.tw){--twc-top:78px}
+body:has(.tw-host){--twc-top:78px}
 
 /* ---- footer ---------------------------------------------------------------------------------- */
 .footer{
@@ -461,17 +461,17 @@ main:has(> .cta-block:last-child) + .footer::after{display:none}
    which is most of the way through the flight, not at 40px. So on the home page the pill stays
    dark glass until the page really is pale, and from there `is-pale` carries it the rest of the
    way. Everywhere else `is-scrolled` behaves exactly as before. */
-body:has(.tw) .site-header.is-scrolled:not(.is-pale) .nav{color:#fff}
-body:has(.tw) .site-header.is-scrolled:not(.is-pale) .nav__links{
+body:has(.tw-host) .site-header.is-scrolled:not(.is-pale) .nav{color:#fff}
+body:has(.tw-host) .site-header.is-scrolled:not(.is-pale) .nav__links{
   background:rgba(10,24,52,.38);
   border-color:rgba(255,255,255,.16);
   box-shadow:0 10px 40px rgba(2,8,24,.25);
 }
-body:has(.tw) .site-header.is-scrolled:not(.is-pale) .nav__links a.is-active,
-body:has(.tw) .site-header.is-scrolled:not(.is-pale) .nav__links .cv-ddbtn.is-active{
+body:has(.tw-host) .site-header.is-scrolled:not(.is-pale) .nav__links a.is-active,
+body:has(.tw-host) .site-header.is-scrolled:not(.is-pale) .nav__links .cv-ddbtn.is-active{
   background:rgba(255,255,255,.18);color:#fff;
 }
-body:has(.tw) .site-header.is-scrolled:not(.is-pale) .nav__call{
+body:has(.tw-host) .site-header.is-scrolled:not(.is-pale) .nav__call{
   border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.08);
 }
-body:has(.tw) .site-header.is-scrolled:not(.is-pale) .nav__toggle{background:rgba(255,255,255,.14)}
+body:has(.tw-host) .site-header.is-scrolled:not(.is-pale) .nav__toggle{background:rgba(255,255,255,.14)}

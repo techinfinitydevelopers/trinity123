@@ -213,7 +213,7 @@ const il=document.createElement('div');il.id='introUI';il.innerHTML='<div class=
    later, as the fast path below does, left the loader on screen for the ~400ms between the
    canvas appearing and the engine reporting ready — a flash of "Assembling the world" on a
    page that was not assembling anything. */
-if(fastStart())il.style.display=none;
+if(fastStart())il.style.display='none';
 root.appendChild(il);
 const sw=document.createElement('div');sw.id='shock';root.appendChild(sw);let shocked=false;
 function applyIntro(){
@@ -746,5 +746,41 @@ const destroy=function(){
   root.innerHTML='';root.classList.remove('tw','live','picked','compact','ready','menu');
 };
 destroy.changeCountry=()=>$('#change')&&$('#change').click();
+
+/* ---------- suspend / resume ----------
+   The page is a client route, so leaving it unmounted this and coming back built a whole new
+   engine: a new WebGL context, the four globe textures and the aircraft decoded again, the
+   entrance replayed. Keeping the instance alive costs one retained context and makes the
+   return instant.
+
+   What stops, in the order that matters: the render loop first, so nothing draws to a canvas
+   about to leave the document; then the gsap ticker that drives Lenis; then our own
+   ScrollTriggers — disabled, not killed. `disable(false)` keeps them and their element
+   references, which is the whole point: the same elements come back unchanged.
+
+   Nothing else is torn down. The window listeners in `cleanups` stay, because the DOM they
+   refer to is still here, only detached. `mm` stays too — its breakpoints are about the
+   viewport, not about whether we are on screen. */
+let suspended=false;
+destroy.suspend=function(){
+  if(suspended)return;suspended=true;
+  cancelAnimationFrame(raf);raf=0;
+  if(ownLenis)gsap.ticker.remove(tick);
+  ScrollTrigger.getAll().forEach(t=>{const e=t.trigger;if(e&&root.contains(e))t.disable(false)});
+};
+/* Call only once the element is back in the document. Earlier than that, ScrollTrigger measures
+   a detached subtree and every start and end lands at zero. */
+destroy.resume=function(){
+  if(!suspended)return;suspended=false;
+  ScrollTrigger.getAll().forEach(t=>{const e=t.trigger;if(e&&root.contains(e))t.enable(false)});
+  if(ownLenis)gsap.ticker.add(tick);
+  /* The viewport may have changed while we were away — a rotate, a resized window — and the
+     renderer still holds the old size. Re-measure before the first frame, then let
+     ScrollTrigger re-read every start and end against the new layout. */
+  try{resize()}catch(e){}
+  ScrollTrigger.refresh();
+  raf=requestAnimationFrame(frame);
+};
+destroy.isSuspended=()=>suspended;
 return destroy;
 }
