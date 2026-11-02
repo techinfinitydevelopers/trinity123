@@ -135,7 +135,6 @@
   transition:background .3s,color .3s,border-color .3s;
 }
 .nav__call:hover{background:var(--twc-gold);color:var(--twc-gold-ink);border-color:var(--twc-gold)}
-.site-header.is-scrolled .nav__call{border-color:rgba(13,27,52,.12);background:rgba(13,27,52,.05)}
 
 .nav__cta,.nav .btn.btn--dark{
   background:var(--twc-gold);color:var(--twc-gold-ink);
@@ -471,7 +470,9 @@ body:has(.tw-host) .site-header.is-scrolled:not(.is-pale) .nav__links a.is-activ
 body:has(.tw-host) .site-header.is-scrolled:not(.is-pale) .nav__links .cv-ddbtn.is-active{
   background:rgba(255,255,255,.18);color:#fff;
 }
-body:has(.tw-host) .site-header.is-scrolled:not(.is-pale) .nav__call{
-  border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.08);
-}
 body:has(.tw-host) .site-header.is-scrolled:not(.is-pale) .nav__toggle{background:rgba(255,255,255,.14)}
+
+/* The call button is the same on every page and in every header state: a solid navy circle with a
+   white icon, so it never fades into the header when the page scrolls. */
+.site-header .nav__call,.site-header.is-scrolled .nav__call{background:var(--twc-navy);color:#fff;border-color:rgba(255,255,255,.22)}
+.site-header .nav__call:hover{background:var(--twc-gold);color:var(--twc-gold-ink);border-color:var(--twc-gold)}
