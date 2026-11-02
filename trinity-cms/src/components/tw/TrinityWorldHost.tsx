@@ -50,6 +50,28 @@ export default function TrinityWorldHost({ initialCountry, world }: { initialCou
 
   const box = useRef<HTMLDivElement>(null);
 
+  /* Where the visitor had got to, remembered for the length of the tab.
+
+     The home page is a client route like any other: clicking About unmounts the engine, and
+     clicking Home builds a new one. Measured on a return trip, the document never reloads —
+     but the canvas is gone and rebuilt, and the particle intro plays again from zero: 3.5s
+     before the canvas even reappears and still assembling at 6s. That is what "the home page
+     reloads every time" is.
+
+     sessionStorage, not localStorage: the entrance is worth seeing once per visit, not once
+     per lifetime. A new tab or a new day gets it again. Read with refs rather than state so
+     the first render already has them — the engine mounts from the child's effect, and a
+     state update would arrive after it had started without them. */
+  const resume = useRef<{ seen: boolean; country: string } | null>(null);
+  if (resume.current === null) {
+    let seen = false, country = "";
+    try {
+      seen = sessionStorage.getItem("tw:seen") === "1";
+      country = sessionStorage.getItem("tw:country") || "";
+    } catch { /* private mode — the intro simply plays again */ }
+    resume.current = { seen, country };
+  }
+
   /* The copy is applied to the DOM after the engine has injected its markup, rather than by
      templating that markup: markup.ts is a generated blob the drop-in owns, and rewriting it
      would have to be redone every time the drop-in is updated. The engine sets innerHTML in
@@ -129,7 +151,13 @@ export default function TrinityWorldHost({ initialCountry, world }: { initialCou
       ))}
       <link rel="preload" as="fetch" href={world?.images?.plane || "/tw/a350.glb"} crossOrigin="anonymous" />
     <TrinityWorld
-      initialCountry={initialCountry}
+      /* An explicit country from the route wins; otherwise pick up whichever one the visitor
+         had chosen before they wandered off. */
+      initialCountry={initialCountry || resume.current.country || undefined}
+      /* Only on a return. The first visit in a tab still gets the full entrance. */
+      skipIntro={resume.current.seen}
+      onReady={() => { try { sessionStorage.setItem("tw:seen", "1"); } catch {} }}
+      onPick={(k) => { try { sessionStorage.setItem("tw:country", k); } catch {} }}
       images={world?.images}
       /* The site header floats over this page. It flips itself to white glass after 40px of
          scroll, which is right everywhere else and wrong here: the first screens are night sky,

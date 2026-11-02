@@ -27,6 +27,14 @@ export type WorldOpts={
   initialCountry?:string;
   /** allow #c=<key> deep-link. default true */
   hashPick?:boolean;
+  /** Skip the particle intro and present the globe already assembled. The page is a client
+      route: leaving it unmounts the engine and coming back builds a new one, so without this
+      the whole entrance replays on every return. */
+  skipIntro?:boolean;
+  /** Fires with the country key whenever one is chosen, so a host can remember it. */
+  onPick?:(k:string)=>void;
+  /** Fires once the intro has finished — or immediately, when it was skipped. */
+  onReady?:()=>void;
   /** Dashboard overrides for any image the page paints. Every one is optional and falls back
       to the file shipped in `assetBase`, so an empty object changes nothing — which is what
       lets the owner replace one campus photo without having to supply the other seventy-seven. */
@@ -195,10 +203,18 @@ const pMat=new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:
 const pts=new THREE.Points(pGeo,pMat);pts.frustumCulled=false;globe.add(pts);
 if(eTex.image&&eTex.image.width)fillTargets(eTex.image),pTgtAttr.needsUpdate=true;
 else eTex.addEventListener&&0;
-let introGo=false;function startIntro(){if(introGo||(opts.hashPick!==false&&location.hash.startsWith('#c=')))return;introGo=true;$('#loading').classList.add('done');gsap.to(intro,{p:1,duration:5.2,delay:.9,ease:'power2.inOut',onComplete:introDone})}
+/* Two ways to arrive with the globe already built: a #c= deep link, which the drop-in has
+   always honoured, and the host saying so — which it does on every visit after the first. */
+const fastStart=()=>!!opts.skipIntro||(opts.hashPick!==false&&location.hash.startsWith('#c='));
+let introGo=false;function startIntro(){if(introGo||fastStart())return;introGo=true;$('#loading').classList.add('done');gsap.to(intro,{p:1,duration:5.2,delay:.9,ease:'power2.inOut',onComplete:introDone})}
 function waitTex(n=0){if(eTex.image&&eTex.image.width){fillTargets(eTex.image);pTgtAttr.needsUpdate=true;startIntro()}else if(n<120)setTimeout(()=>waitTex(n+1),100);else startIntro()}waitTex();
 const earthM=earth.material;
-const il=document.createElement('div');il.id='introUI';il.innerHTML='<div class="il-t">Assembling the world</div><div class="il-b"><i></i></div><div class="il-n">0%</div>';root.appendChild(il);
+const il=document.createElement('div');il.id='introUI';il.innerHTML='<div class="il-t">Assembling the world</div><div class="il-b"><i></i></div><div class="il-n">0%</div>';/* Hidden from the moment it exists when the globe is arriving assembled. Setting it a tick
+   later, as the fast path below does, left the loader on screen for the ~400ms between the
+   canvas appearing and the engine reporting ready — a flash of "Assembling the world" on a
+   page that was not assembling anything. */
+if(fastStart())il.style.display=none;
+root.appendChild(il);
 const sw=document.createElement('div');sw.id='shock';root.appendChild(sw);let shocked=false;
 function applyIntro(){
   il.querySelector('i').style.transform='scaleX('+intro.p+')';il.querySelector('.il-n').textContent=Math.round(intro.p*100)+'%';
@@ -208,9 +224,9 @@ function applyIntro(){
   if(!intro.done){pinObjs.forEach(o=>o.mesh.visible=false);originMesh.visible=false;earthM.transparent=true;earthM.opacity=f;earth.visible=f>0;cloudM.material.opacity=.38*f;cloudM.visible=f>0;atmo.visible=p>.9;pts.visible=true}
 }
 function introDone(){intro.done=true;gsap.to(il,{opacity:0,y:20,duration:.6,onComplete:()=>il.remove()});pinObjs.forEach(o=>o.mesh.visible=true);originMesh.visible=true;earthM.transparent=false;earthM.opacity=1;earth.visible=true;cloudM.visible=true;cloudM.material.opacity=.38;pts.visible=false;
-  root.classList.add('ready');
+  root.classList.add('ready');opts.onReady&&opts.onReady();
   gsap.from('#panel > *',{y:26,opacity:0,duration:.8,stagger:.09,ease:'power3.out'});gsap.from('#pins',{opacity:0,duration:1})}
-if((opts.hashPick!==false&&location.hash.startsWith('#c='))){intro.p=1;il.style.display='none';setTimeout(introDone,0)}
+if(fastStart()){intro.p=1;il.style.display='none';setTimeout(introDone,0)}
 else{earth.visible=false;cloudM.visible=false;atmo.visible=false;
   }
 /* scroll progress bar */
@@ -468,6 +484,7 @@ function choose(k){
   ring.visible=true;ring.position.copy(ll(c.lat,c.lon,R*1.006));ring.lookAt(ring.position.clone().multiplyScalar(2));
   gsap.fromTo('#pickedBox',{opacity:0,y:20},{opacity:1,y:0,duration:.8,delay:.5});
   gsap.fromTo('#cname',{opacity:0,y:40,letterSpacing:'.5em'},{opacity:1,y:0,letterSpacing:'.12em',duration:1.4,ease:'power3.out',delay:.3});
+  opts.onPick&&opts.onPick(k);
   root.classList.add('picked');$('#hint').firstChild.textContent='Scroll to take off';
   lenis.start();
 }
