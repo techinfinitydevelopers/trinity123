@@ -16,7 +16,10 @@
     "content:backup:latest": "tsx scripts/backup-content.ts --latest",
     "postinstall": "prisma generate",
     "typecheck": "tsc --noEmit",
-    "perf:budget": "node scripts/perf-budget.mjs"
+    "perf:budget": "node scripts/perf-budget.mjs",
+    "chatbot:gen": "node scripts/gen-chatbot-kb.mjs",
+    "chatbot:import": "tsx scripts/import-chatbot-kb.ts",
+    "chatbot:check": "tsx scripts/check-chatbot-match.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.126.0",

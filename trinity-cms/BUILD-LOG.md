@@ -711,3 +711,54 @@ globe's own particle intro rather than replacing it.
 - **Sync script** (`scripts/sync-client-content-2026-10-28.ts`) also rewrites `world.text.heroSub` on a database that still holds the old default.
 **Not verified:** the flight animation by scrolling (preview pane cannot scroll). The first ~3.5 units of the flight timeline are now caption-free where the window seat used to be; timings were left alone on purpose.
 **Production:** the code changes deploy with the push; the hero line also needs the sync script (or Settings → Home page).
+
+## 2026-11-02 — Chatbot answers from the client's workbook
+
+**Task:** "yeh chat bot ke question hay jo ki agar koe student puch atoh yeh sab question and ans
+rahega ya related question pucha toh question veerify karo or ans do" — load the client's
+question/answer sheet into the assistant, and when a student asks a related question rather than
+the exact one, verify which question it is before answering.
+
+**Source:** `ChatBot questions for website.xlsx` — 209 counselling rows (Shreeja's sheet), 93
+marketing rows, and a 12-row destination stats table. 30 questions appear on both sheets.
+
+**Change:**
+- `scripts/gen-chatbot-kb.mjs` → `src/lib/chatbot-kb.ts` (283 entries). Merges the duplicates
+  (longer answer wins, the other phrasing is kept as a related question), derives a category from
+  the question, adds synonym keywords, and turns the stats table into one entry per country.
+- `KnowledgeItem.followUp` (new column). The sheet pairs 131 answers with a qualifying question —
+  "What is your approximate budget?" — which the route appends, but only if it has not already
+  been asked in that conversation.
+- `scripts/import-chatbot-kb.ts` upserts by normalised question; without `--overwrite` it never
+  touches an entry already in the database, so a counsellor's edit in the admin outlives a
+  re-import. `prisma/seed.ts` seeds from the workbook too, with the handful of Trinity facts it
+  does not cover (address, founder, phone) added after it.
+- `src/lib/chat-match.ts` re-scored for a ~300-entry corpus: the candidate's own question and
+  keywords carry 0.75 of the score and its answer 0.25 (equal weighting let any long answer
+  collect stray hits on "work", "course", "budget"); `need/want/get/know` joined the stop list;
+  ties break on the entry's own wording, then on how little it asks about that the student never
+  said. A match is only served when the runner-up is ≥0.08 behind — otherwise it goes to Claude.
+  The semantic pass now gets an 80-entry shortlist instead of all 283 (~5k tokens a message).
+- Verification the student can see: the widget prints "Answering: <question>" above the reply
+  when the match was not word for word (`tc-answering` in `chat.css`).
+- Admin: Follow-up field in the knowledge editor, list capped at 50 with "Show more", and the
+  bulk uploader now reads every sheet in a workbook and works the columns out from the data —
+  the client's own file has a blank header over the question column, which the old reader needed.
+- `scripts/check-chatbot-match.ts` (`npm run chatbot:check`) — offline matcher check, no DB, no
+  API key.
+
+**Verified:** `chatbot:check` 9/12 answered by the fast pass, 0 wrong, 3 deferred to the semantic
+pass, no off-topic question matched. End to end against `/api/chat` on the dev server: exact
+match, related match, destination stats, and the unmatched flow for a question nobody wrote an
+answer to. Follow-up asked on the first ask and not on the second. In the browser: "how much
+money do i need to study abroad" showed "Answering: How much does it cost to study abroad?",
+"Do I need IELTS?" showed no caption. Build, tsc and perf budget clean.
+
+**Not verified:** the admin screens — logging in needs a password, which I do not enter. Open
+`/admin/chatbot` and check the Follow-up field and the "Show more" paging.
+
+**Needs the owner:** `ANTHROPIC_API_KEY` is present but **empty** in `.env`, so the semantic pass
+never runs locally — `chat-match.ts` bails on the empty value before the SDK could fall back to
+the machine profile. Close calls ("my percentage is low can i still go") therefore reach the
+student as "I couldn't find a suitable answer" instead of the right entry, which the keyword pass
+had ranked first. Set a real key in the deployed environment or that half of the matcher is dead.

@@ -165,6 +165,8 @@ model KnowledgeItem {
   id               String   @id @default(cuid())
   question         String
   answer           String
+  /** Asked after the answer, to move the chat toward a counselling booking. Blank for most. */
+  followUp         String   @default("")
   tags             String   @default("")
   keywords         String   @default("")
   category         String   @default("General")

@@ -22,7 +22,7 @@ const schema = z.object({
 type Event =
   | { t: "delta"; v: string }
   | { t: "unmatched" }
-  | { t: "matched"; question: string }
+  | { t: "matched"; question: string; exact: boolean }
   | { t: "done" }
   | { t: "error"; v: string };
 
@@ -86,11 +86,22 @@ export async function POST(req: Request) {
         const match = await matchKnowledgeBase(message, history, cfg.matchThreshold);
 
         if (match) {
-          await stream_text(match.answer);
-          send({ t: "matched", question: match.question });
+          /* The client's sheet pairs many answers with a qualifying question — "What is your
+             approximate budget?" — which is how a counsellor keeps the conversation going. It is
+             asked only when the student has not already been asked it in this conversation, so a
+             run of related questions does not repeat "Which intake are you planning for?" three
+             times. */
+          const alreadyAsked = history.some((m) => m.role === "assistant" && match.followUp && m.content.includes(match.followUp));
+          const reply = match.followUp && !alreadyAsked ? `${match.answer}\n\n${match.followUp}` : match.answer;
+          await stream_text(reply);
+          /* `exact` is what lets the widget say which question it answered. The student asked
+             something close but not identical — a related question — so showing the one we
+             actually answered is how they can tell we understood them, and how they know to
+             rephrase if we did not. An exact hit needs no such caption. */
+          send({ t: "matched", question: match.question, exact: match.confidence >= 1 });
           await db.chatMessage.create({
             data: {
-              sessionId, role: "assistant", content: match.answer,
+              sessionId, role: "assistant", content: reply,
               matchedKnowledgeId: match.id, matchedQuestion: match.question,
               confidence: match.confidence, fromKnowledgeBase: true,
             },

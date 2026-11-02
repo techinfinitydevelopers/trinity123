@@ -3,6 +3,7 @@
 import { PrismaClient } from "../src/generated/prisma";
 import bcrypt from "bcryptjs";
 import { seedPages, seedPosts, seedKnowledge } from "../src/lib/seed-content";
+import { chatbotKb } from "../src/lib/chatbot-kb";
 import { seedCountries, postExtras } from "../src/lib/seed-countries";
 import { DEFAULTS } from "../src/lib/settings";
 
@@ -54,7 +55,22 @@ async function main() {
 
   if ((await db.knowledgeItem.count()) === 0 || force) {
     if (force) await db.knowledgeItem.deleteMany();
-    await db.knowledgeItem.createMany({ data: seedKnowledge });
+    /* The client's workbook first, then the handful of Trinity facts it does not cover — the
+       office address, the founder, the phone number. Where both answer the same question the
+       workbook wins, since that is the wording the client approved. */
+    const key = (q: string) => q.toLowerCase().replace(/[^a-z0-9 ]+/g, "").replace(/\s+/g, " ").trim();
+    const fromWorkbook = chatbotKb.map((i) => ({
+      question: i.question,
+      answer: i.answer,
+      followUp: i.followUp ?? "",
+      relatedQuestions: i.relatedQuestions ?? [],
+      category: i.category,
+      keywords: i.keywords,
+    }));
+    const taken = new Set(fromWorkbook.map((i) => key(i.question)));
+    await db.knowledgeItem.createMany({
+      data: [...fromWorkbook, ...seedKnowledge.filter((i) => !taken.has(key(i.question)))],
+    });
   }
 
   console.log(`seeded. admin login → ${email}` + (process.env.ADMIN_PASSWORD ? "" : " / Trinity@2026  (LOCAL DEV DEFAULT — change it in Settings → Security)"));

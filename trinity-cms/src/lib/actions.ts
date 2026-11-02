@@ -186,6 +186,7 @@ const knowledgeSchema = z.object({
   id: z.string().optional(),
   question: z.string().trim().min(1).max(400),
   answer: z.string().trim().min(1).max(4000),
+  followUp: z.string().trim().max(400).default(""),
   keywords: z.string().trim().max(500).default(""),
   category: z.string().trim().max(80).default("General"),
   relatedQuestions: z.array(z.string().trim().max(400)).default([]),
@@ -206,7 +207,7 @@ export async function deleteKnowledgeAction(id: string): Promise<ActionResult> {
   try { await requireSession(); await db.knowledgeItem.delete({ where: { id } }); revalidateTag("knowledge", "max"); revalidatePath("/admin/chatbot"); return { ok: true }; } catch (e) { return fail(e); }
 }
 
-export type BulkRow = { question: string; answer: string; keywords?: string; category?: string };
+export type BulkRow = { question: string; answer: string; followUp?: string; keywords?: string; category?: string };
 export type BulkReport = { imported: number; skipped: number; errors: { row: number; reason: string }[] };
 /** Bulk import from the admin's client-parsed CSV/Excel rows. Validates, de-duplicates against
     existing questions (case-insensitive) and within the batch itself, upserts the rest. */
@@ -219,12 +220,13 @@ export async function bulkImportKnowledgeAction(rows: BulkRow[]): Promise<Action
     const existing = new Set((await db.knowledgeItem.findMany({ select: { question: true } })).map((r) => r.question.trim().toLowerCase()));
     const seenInBatch = new Set<string>();
     const report: BulkReport = { imported: 0, skipped: 0, errors: [] };
-    const toCreate: { question: string; answer: string; keywords: string; category: string }[] = [];
+    const toCreate: { question: string; answer: string; followUp: string; keywords: string; category: string }[] = [];
 
     rows.forEach((raw, i) => {
       const rowNum = i + 2; // header row is line 1 in the source file
       const question = String(raw.question ?? "").trim();
       const answer = String(raw.answer ?? "").trim();
+      const followUp = String(raw.followUp ?? "").trim().slice(0, 400);
       const keywords = String(raw.keywords ?? "").trim();
       const category = String(raw.category ?? "").trim() || "General";
       if (!question || !answer) { report.errors.push({ row: rowNum, reason: "Question and answer are both required." }); return; }
@@ -232,7 +234,7 @@ export async function bulkImportKnowledgeAction(rows: BulkRow[]): Promise<Action
       const key = question.toLowerCase();
       if (existing.has(key) || seenInBatch.has(key)) { report.skipped++; return; }
       seenInBatch.add(key);
-      toCreate.push({ question, answer, keywords, category });
+      toCreate.push({ question, answer, followUp, keywords, category });
     });
 
     if (toCreate.length) await db.knowledgeItem.createMany({ data: toCreate });

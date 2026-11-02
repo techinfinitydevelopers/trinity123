@@ -4,24 +4,31 @@ import { useRouter } from "next/navigation";
 import { saveKnowledgeAction, deleteKnowledgeAction } from "@/lib/actions";
 import { Confirm, Toggle, toast, Field } from "./ui";
 
-export type KItem = { id: string; question: string; answer: string; keywords: string; category: string; relatedQuestions: string[]; isActive: boolean };
-const blank: KItem = { id: "", question: "", answer: "", keywords: "", category: "General", relatedQuestions: [], isActive: true };
+export type KItem = { id: string; question: string; answer: string; followUp: string; keywords: string; category: string; relatedQuestions: string[]; isActive: boolean };
+const blank: KItem = { id: "", question: "", answer: "", followUp: "", keywords: "", category: "General", relatedQuestions: [], isActive: true };
+
+/* The client's workbook brought the knowledge base to ~300 entries, so the list is capped and
+   extended on request rather than rendering every row into the page on each visit. Search and
+   the category filter run over everything — only the rendering is capped. */
+const PAGE = 50;
 
 export default function KnowledgeEditor({ items, prefillQuestion }: { items: KItem[]; prefillQuestion?: string }) {
   const r = useRouter();
   const [edit, setEdit] = useState<KItem | null>(prefillQuestion ? { ...blank, question: prefillQuestion } : null);
   const [q, setQ] = useState("");
   const [category, setCategory] = useState("");
+  const [limit, setLimit] = useState(PAGE);
   const categories = useMemo(() => Array.from(new Set(items.map((i) => i.category).filter(Boolean))).sort(), [items]);
   const rows = items.filter((i) => {
     if (category && i.category !== category) return false;
     if (!q) return true;
-    return `${i.question} ${i.answer} ${i.keywords} ${i.relatedQuestions.join(" ")}`.toLowerCase().includes(q.toLowerCase());
+    return `${i.question} ${i.answer} ${i.followUp} ${i.keywords} ${i.relatedQuestions.join(" ")}`.toLowerCase().includes(q.toLowerCase());
   });
+  const shown = rows.slice(0, limit);
 
   const save = async () => {
     if (!edit) return;
-    const res = await saveKnowledgeAction({ id: edit.id || undefined, question: edit.question, answer: edit.answer, keywords: edit.keywords, category: edit.category, relatedQuestions: edit.relatedQuestions, isActive: edit.isActive });
+    const res = await saveKnowledgeAction({ id: edit.id || undefined, question: edit.question, answer: edit.answer, followUp: edit.followUp, keywords: edit.keywords, category: edit.category, relatedQuestions: edit.relatedQuestions, isActive: edit.isActive });
     if (res.ok) { toast("Saved"); setEdit(null); r.refresh(); } else toast(res.error, "err");
   };
 
@@ -29,23 +36,24 @@ export default function KnowledgeEditor({ items, prefillQuestion }: { items: KIt
     <div className="card overflow-hidden">
       <div className="flex flex-wrap items-center gap-2 border-b border-line p-3">
         <div><h3 className="text-[15px] font-bold text-navy">Knowledge base</h3><p className="text-[12px] text-ink-3">Questions the assistant matches on. Destination FAQs are included automatically.</p></div>
-        <input className="inp inp-sm ml-auto max-w-[160px]" placeholder="Search…" value={q} onChange={(e) => setQ(e.target.value)} />
-        <select className="inp inp-sm max-w-[140px]" value={category} onChange={(e) => setCategory(e.target.value)}>
+        <input className="inp inp-sm ml-auto max-w-[160px]" placeholder="Search…" value={q} onChange={(e) => { setQ(e.target.value); setLimit(PAGE); }} />
+        <select className="inp inp-sm max-w-[140px]" value={category} onChange={(e) => { setCategory(e.target.value); setLimit(PAGE); }}>
           <option value="">All categories</option>
           {categories.map((c) => <option key={c} value={c}>{c}</option>)}
         </select>
         <button className="btn-primary btn-sm" onClick={() => setEdit(blank)}>+ Add question</button>
       </div>
       <ul className="divide-y divide-line">
-        {rows.map((i) => (
+        {shown.map((i) => (
           <li key={i.id} className="flex items-start gap-3 px-4 py-3 hover:bg-canvas/60">
             <span className={`mt-2 h-2 w-2 shrink-0 rounded-full ${i.isActive ? "bg-emerald-500" : "bg-line"}`} />
             <div className="min-w-0 flex-1">
               <p className="text-[14px] font-semibold text-navy">{i.question}</p>
               <p className="line-clamp-2 text-[13px] text-ink-2">{i.answer}</p>
+              {i.followUp ? <p className="mt-0.5 text-[12px] italic text-ink-3">Then asks: {i.followUp}</p> : null}
               <p className="mt-1 flex flex-wrap gap-x-3 text-[11px] text-ink-3">
                 <span className="rounded-full bg-canvas px-2 py-0.5">{i.category}</span>
-                {i.keywords ? <span>{i.keywords}</span> : null}
+                {i.keywords ? <span className="line-clamp-1">{i.keywords}</span> : null}
               </p>
             </div>
             <button className="btn-ghost btn-xs" onClick={() => setEdit(i)}>Edit</button>
@@ -53,6 +61,13 @@ export default function KnowledgeEditor({ items, prefillQuestion }: { items: KIt
           </li>
         ))}
         {!rows.length ? <li className="px-4 py-10 text-center text-[13px] text-ink-3">No questions yet.</li> : null}
+        {rows.length > shown.length ? (
+          <li className="px-4 py-3 text-center">
+            <button className="btn-ghost btn-sm" onClick={() => setLimit((n) => n + PAGE)}>
+              Show {Math.min(PAGE, rows.length - shown.length)} more ({rows.length - shown.length} left)
+            </button>
+          </li>
+        ) : null}
       </ul>
       {edit ? (
         <div className="fixed inset-0 z-[80] grid place-items-center bg-navy/60 p-4 backdrop-blur-sm" onClick={() => setEdit(null)}>
@@ -60,6 +75,9 @@ export default function KnowledgeEditor({ items, prefillQuestion }: { items: KIt
             <h3 className="text-[16px] font-bold text-navy">{edit.id ? "Edit question" : "New question"}</h3>
             <Field label="Question"><input className="inp" value={edit.question} onChange={(e) => setEdit({ ...edit, question: e.target.value })} placeholder="e.g. What is the admission last date?" /></Field>
             <Field label="Answer"><textarea className="inp" rows={5} value={edit.answer} onChange={(e) => setEdit({ ...edit, answer: e.target.value })} /></Field>
+            <Field label="Follow-up question" hint="Optional — asked straight after the answer, to keep the student talking. Skipped if it was already asked earlier in the same chat.">
+              <input className="inp" value={edit.followUp} onChange={(e) => setEdit({ ...edit, followUp: e.target.value })} placeholder="e.g. What is your approximate budget?" />
+            </Field>
             <div className="grid gap-4 sm:grid-cols-2">
               <Field label="Category" hint="Groups questions in the list"><input className="inp inp-sm" list="kb-categories" value={edit.category} onChange={(e) => setEdit({ ...edit, category: e.target.value })} /></Field>
               <Field label="Keywords" hint="Comma separated"><input className="inp inp-sm" value={edit.keywords} onChange={(e) => setEdit({ ...edit, keywords: e.target.value })} placeholder="admission, last date, apply" /></Field>

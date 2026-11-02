@@ -91,6 +91,10 @@
 .tc-gate__go:hover:not(:disabled){background:var(--navy)}
 .tc-gate__go:disabled{opacity:.6;cursor:not-allowed}
 
+/* Shown only when the answer came from a related question rather than the one asked word for
+   word, so the student can see what was understood before reading the answer. */
+.tc-answering{margin:0 0 6px;font-size:11.5px;line-height:1.35;color:var(--muted);font-style:italic}
+
 /* Unmatched-answer action row: Call Support / Send Message / Ask Admin. */
 .tc-unmatched{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}
 .tc-unmatched__btn{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--line);color:var(--navy);font-family:var(--font-h);font-weight:500;font-size:12px;padding:7px 12px;border-radius:var(--r-pill);cursor:pointer;text-decoration:none;transition:all .2s}

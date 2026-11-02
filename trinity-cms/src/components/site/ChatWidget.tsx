@@ -6,7 +6,7 @@ import type { ChatbotSettings, ContactSettings } from "@/lib/settings";
 import { startChatSessionAction, markUrgentAction } from "@/lib/chat-session";
 import AgentAvatar from "./AgentAvatar";
 
-type Msg = { role: "user" | "assistant"; content: string; unmatched?: boolean };
+type Msg = { role: "user" | "assistant"; content: string; unmatched?: boolean; answering?: string };
 type Profile = { name: string; email: string; phone: string };
 
 const STORAGE = { visitor: "trinity_visitor", session: "trinity_chat_session", profile: "trinity_chat_profile", log: "trinity_chat_log", seen: "trinity_chat_seen" };
@@ -142,10 +142,13 @@ export default function ChatWidget({ cfg, contact }: { cfg: ChatbotSettings; con
         buf = lines.pop() ?? "";
         for (const line of lines) {
           if (!line.trim()) continue;
-          let e: { t: string; v?: string };
+          let e: { t: string; v?: string; question?: string; exact?: boolean };
           try { e = JSON.parse(line); } catch { continue; }
           if (e.t === "delta") patchLast((m) => ({ ...m, content: m.content + (e.v ?? "") }));
           else if (e.t === "unmatched") patchLast((m) => ({ ...m, unmatched: true }));
+          /* Answered through a related question rather than the exact one asked — say so, so
+             the student can tell whether we understood them. */
+          else if (e.t === "matched" && !e.exact && e.question) patchLast((m) => ({ ...m, answering: e.question }));
           else if (e.t === "error") patchLast((m) => ({ ...m, content: m.content + (m.content ? "\n\n" : "") + (e.v ?? "Something went wrong.") }));
         }
       }
@@ -226,6 +229,7 @@ export default function ChatWidget({ cfg, contact }: { cfg: ChatbotSettings; con
               <div className="tc-msg tc-msg--in"><div dangerouslySetInnerHTML={{ __html: render(cfg.greeting) }} /></div>
               {msgs.map((m, i) => (
                 <div key={i} className={`tc-msg tc-msg--${m.role === "user" ? "out" : "in"}`}>
+                  {m.answering ? <p className="tc-answering">Answering: {m.answering}</p> : null}
                   {m.content ? <div dangerouslySetInnerHTML={{ __html: render(m.content) }} /> : <span className="tc-typing"><i /><i /><i /></span>}
                   {m.unmatched && i === msgs.length - 1 ? (
                     <div className="tc-unmatched">
