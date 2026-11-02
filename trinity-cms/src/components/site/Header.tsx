@@ -7,6 +7,10 @@ import { Socials, FLAG } from "./ui";
 
 export type Destination = { code: string; slug: string; name: string; tag: string };
 
+/* Dropdowns that list only their children: no "Resources" heading row on top of Webinars, Events
+   and Brochure (client request). Services keeps its row, since that page has an overview. */
+const NO_PARENT_LINK = new Set(["Resources"]);
+
 export default function Header({ nav, contact, site, labels, destinations }: { nav: NavSettings; contact: ContactSettings; site: SiteSettings; labels: LabelSettings["header"]; destinations: Destination[] }) {
   const path = usePathname();
   const [open, setOpen] = useState(false);
@@ -101,7 +105,7 @@ export default function Header({ nav, contact, site, labels, destinations }: { n
           {ddButton(it, i, id)}
           <div className="cv-ddmenu" id={id} onKeyDown={(e) => { if (e.key === "Escape") setOpenMenu(-1); }} style={ddMenu({ width: it.children.length > 5 ? 640 : 240 })}>
             <div style={{ display: "grid", gap: 2, gridTemplateColumns: it.children.length > 5 ? "repeat(2, minmax(0, 1fr))" : undefined }}>
-              {it.href ? (
+              {it.href && !NO_PARENT_LINK.has(it.label) ? (
                 <Link href={it.href} className="cv-ditem" onClick={hide(i)} style={{ gridColumn: "1 / -1", display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", borderRadius: 14, transition: "all .25s", color: "var(--primary)", fontFamily: "var(--font-h)", fontWeight: 600, fontSize: 13.5, background: "var(--grey)", boxShadow: "none", marginBottom: 4 }}>
                   <i className="fas fa-folder-open" style={{ fontSize: 12 }} /> {it.label}
                 </Link>
@@ -179,7 +183,7 @@ export default function Header({ nav, contact, site, labels, destinations }: { n
                 </button>
                 <div className="mm-panel" id={id} hidden={!isOpen}>
                   {/* The parent page itself is reachable, not only its children. */}
-                  {it.href ? (
+                  {it.href && !NO_PARENT_LINK.has(it.label) ? (
                     <Link href={it.href} onClick={() => setOpen(false)} className="mm-all">
                       {labels.destinations && isCountries ? "View all destinations" : `Go to ${it.label}`} <i className="fas fa-arrow-right" aria-hidden="true" />
                     </Link>
