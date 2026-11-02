@@ -138,7 +138,7 @@
 
 .nav__cta,.nav .btn.btn--dark{
   background:var(--twc-gold);color:var(--twc-gold-ink);
-  border:0;border-radius:99px;padding:11px 20px;
+  border:0;border-radius:99px;padding:11px 14px 11px 20px;
   font-weight:600;font-size:.86rem;white-space:nowrap;
   box-shadow:none;
   transition:transform .25s,box-shadow .25s;
@@ -476,3 +476,11 @@ body:has(.tw-host) .site-header.is-scrolled:not(.is-pale) .nav__toggle{backgroun
    white icon, so it never fades into the header when the page scrolls. */
 .site-header .nav__call,.site-header.is-scrolled .nav__call{background:var(--twc-navy);color:#fff;border-color:rgba(255,255,255,.22)}
 .site-header .nav__call:hover{background:var(--twc-gold);color:var(--twc-gold-ink);border-color:var(--twc-gold)}
+
+/* Off the home page the bar sits on a cream page, not the night sky. The home page's see-through
+   navy turns to a washed-out grey there and the white links lose their contrast, so until the page
+   scrolls (when it turns to white glass with dark ink) the pill is a solid deep navy. */
+body:not(:has(.tw-host)) .site-header:not(.is-scrolled) .nav__links{
+  background:rgba(7,20,46,.94);border-color:rgba(255,255,255,.12);
+  box-shadow:0 10px 30px rgba(7,20,46,.22);
+}

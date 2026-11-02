@@ -137,7 +137,6 @@ export default function Header({ nav, contact, site, labels, destinations }: { n
             <input name="q" type="search" placeholder={labels.searchPlaceholder} aria-label={labels.searchPlaceholder} />
           </form>
           <div className="topbar__group">
-            <a className="topbar__ico" href={tel} aria-label={`Call ${contact.phones[0]}`} title={contact.phones[0]}><i className="fas fa-phone-alt" /></a>
             <div className="topbar__social"><Socials contact={contact} cls="" /></div>
           </div>
         </div>
