@@ -8,6 +8,7 @@
 import { useEffect, useRef } from "react";
 import type { WorldSettings } from "@/lib/settings";
 import TrinityWorld from "./TrinityWorld";
+import { mountBoardingPass } from "./boardingPass";
 
 /* The drop-in's default is `/destinations/<key>`, which is right for ten of the fourteen.
    Two of ours are spelled differently and the rest have no page yet. */
@@ -122,6 +123,14 @@ export default function TrinityWorldHost({ initialCountry, world }: { initialCou
       mo.observe(el, { childList: true, subtree: true });
     }
     return () => { mo?.disconnect(); item?.remove(); };
+  }, []);
+
+  /* The closing CTA is rebuilt as a boarding pass that tears open when the lead is accepted.
+     It waits for the engine's markup the same way the copy above does. */
+  useEffect(() => {
+    const el = box.current;
+    if (!el) return;
+    return mountBoardingPass(el);
   }, []);
 
   /* The site header is fixed and sits over the top of the screen. The drop-in was built to

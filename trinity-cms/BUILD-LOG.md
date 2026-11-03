@@ -784,3 +784,41 @@ already in sync with the Prisma schema." `railway.json` parses.
 
 **Note:** this carries the schema, not the content. The 283 answers reach production through
 Admin → Chatbot → Bulk upload with the client's workbook; no database URL needed.
+
+## 2026-11-03 — The counselling CTA is a boarding pass
+
+**Task:** make the home page's closing form look like a boarding pass, and tear it the way a
+real one is torn at the gate when the form is submitted. Then: a different ticket per country.
+
+**Change:** two new files, both outside the vendored drop-in — `src/components/tw/boardingPass.ts`
+and `src/styles/tw-boarding-pass.css`. The pass is assembled from the drop-in's own `#cta`
+nodes at runtime rather than written into `markup.ts`, which the generator overwrites on every
+drop-in update. The engine's `#leadForm` element is moved into the pass, never rebuilt, so the
+submit handler it bound at mount still runs and the lead still reaches `/api/leads`.
+
+The section stays navy and the card becomes paper, which is what makes it read as a ticket.
+The stub carries passenger, flight, intake and gate, and fills in as the visitor types.
+
+Per country: `TICKETS` maps each destination to its real airport code and city plus a fixed
+flight number and gate — UK → LHR / TR 101 / B12, Canada → YYZ / TR 812 / E73. Fixed, not
+random: a ticket that reshuffles on every visit looks like a toy. A country the dashboard adds
+later falls back to the first three letters of its name, so a new row belongs here when one is
+added. The destination is read from the engine's own `#route` meter, the only handle this file
+has on which country is selected.
+
+The tear fires on success only, which the engine reports solely by rewriting its button label —
+so that label is what is watched. A failed send leaves the pass whole, which is honest: nothing
+was torn because nothing was accepted. Nothing is clipped; each half grows a sawtooth strip in
+the section's navy along the seam, then the two part and the stub flies off. On a phone the stub
+sits below, so it tears downward instead.
+
+**Verified** in the browser against the live engine on `/trinity-world`: the pass builds, the
+stub mirrors what is typed, and the ticket changes with the country — Ireland DUB / TR 114 /
+A04, USA JFK / TR 880 / T4-6, Japan HND / TR 442 / C14, Canada YYZ / TR 812 / E73. A real
+submit tore it: stub gone, torn edge shown, BOARDED stamped, form reset, button "Thanks — we'll
+call you!". The test lead was deleted from the dev database afterwards. Mobile at 375px: stub
+stacks under the pass with the perforation and both notches across. `tsc` clean, `npm run build`
+clean, perf budget within limits — CSS is now 297.5 KB of a 320 KB budget, 93%.
+
+**Not verified:** the failure path (a lead POST that fails leaves the pass whole) was reasoned
+from the engine's handler, not forced.

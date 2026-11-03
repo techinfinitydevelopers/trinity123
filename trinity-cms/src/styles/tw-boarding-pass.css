@@ -1,0 +1,193 @@
+/* The home page's closing CTA, dressed as a boarding pass.
+
+   This file and `src/components/tw/boardingPass.ts` are the site's, not the drop-in's: the
+   generator emits `markup.ts` and `tw.css` and would overwrite anything put there, which is
+   the same reason the page chrome lives outside those two files. The pass is assembled from
+   the drop-in's own `#cta` nodes at runtime, so a new drop-in keeps working — it only loses
+   the costume if the CTA's shape changes.
+
+   The section stays navy; the card inside it becomes paper. That inversion is the whole
+   effect — on a dark page a cream rectangle reads as a ticket before a word is read. */
+
+.tw .cbox.is-pass {
+  background: none;
+  padding: 0;
+  display: block;
+  overflow: visible;
+}
+/* The drop-in paints a blue glow inside .cbox. On paper it reads as a stain. */
+.tw .cbox.is-pass:before { display: none; }
+
+.bp {
+  --paper: #fdfaf3;
+  --bp-ink: #07142e;
+  --faint: #6b7a93;
+  --seam: #07142e;          /* matches the section behind, so the teeth look like missing paper */
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, .45);
+  font-family: Inter, system-ui, sans-serif;
+  color: var(--bp-ink);
+}
+
+.bp__main, .bp__stub { background: var(--paper); position: relative; }
+.bp__main { padding: clamp(24px, 3.4vw, 42px); }
+.bp__stub {
+  padding: clamp(22px, 2.6vw, 32px) 24px;
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  background: linear-gradient(180deg, #fdfaf3, #f1ead9);
+}
+
+/* The perforation: a dashed rule down the seam, with a punched notch top and bottom. */
+.bp__stub:before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  border-left: 2px dashed rgba(7, 20, 46, .25);
+}
+.bp__notch {
+  position: absolute;
+  left: -11px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--seam);
+  z-index: 2;
+}
+.bp__notch.t { top: -11px; }
+.bp__notch.b { bottom: -11px; }
+
+.bp__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 2px solid rgba(7, 20, 46, .12);
+  padding-bottom: 14px;
+  margin-bottom: 22px;
+}
+.bp__air { font: 800 .95rem/1 Sora, Inter, sans-serif; letter-spacing: .14em; text-transform: uppercase; }
+.bp__air em { font-style: normal; color: #b8860b; }
+.bp__kind { font: 700 .62rem/1 Inter; letter-spacing: .22em; color: var(--faint); text-transform: uppercase; white-space: nowrap; }
+
+.bp__route { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 14px; margin-bottom: 26px; }
+.bp__place b { display: block; font: 800 clamp(1.6rem, 3vw, 2.3rem)/1 Sora, Inter, sans-serif; letter-spacing: .04em; }
+.bp__place small { display: block; margin-top: 4px; font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--faint); }
+.bp__place.to { text-align: right; }
+.bp__dash { position: relative; height: 2px; background: repeating-linear-gradient(90deg, rgba(7,20,46,.3) 0 6px, transparent 6px 12px); }
+.bp__dash span { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--paper); padding: 0 8px; font-size: 1.05rem; }
+
+/* The drop-in's own heading block, re-coloured for paper. tw.css set it for a navy card, and
+   the lead carries an inline colour, so both need the override. */
+.bp__intro { margin-bottom: 26px; }
+.bp__intro .eyebrow { color: #b8860b; }
+.bp__intro .h2 { color: var(--bp-ink); font-size: clamp(1.7rem, 3.2vw, 2.5rem); }
+.bp__intro .lead { color: var(--faint); font-size: .98rem; }
+
+/* Inputs: tw.css styles them for a dark card, so every property is restated. */
+.bp form { display: grid; gap: 12px; }
+.bp input, .bp select {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(7, 20, 46, .18);
+  background: rgba(7, 20, 46, .035);
+  color: var(--bp-ink);
+  font: 500 .98rem Inter;
+}
+.bp input::placeholder { color: #93a0b5; }
+.bp input:focus, .bp select:focus { outline: 2px solid rgba(184, 134, 11, .5); outline-offset: 1px; }
+.bp .btn { background: var(--bp-ink); color: #fff; padding: 15px; border-radius: 10px; letter-spacing: .02em; }
+.bp .btn:disabled { opacity: .75; cursor: default; }
+
+/* Stub rows mirror what the visitor is typing, so the ticket fills in as they go. */
+.bp__rows { display: grid; gap: 14px; }
+.bp__row span { display: block; font: 700 .58rem/1 Inter; letter-spacing: .2em; text-transform: uppercase; color: var(--faint); margin-bottom: 5px; }
+.bp__row b { font: 700 .95rem/1.25 Inter; word-break: break-word; }
+.bp__bars { display: flex; gap: 2px; align-items: flex-end; height: 56px; margin-top: 4px; }
+.bp__bars i { flex: 1; background: var(--bp-ink); height: 100%; }
+.bp__bars i:nth-child(3n) { opacity: .35; }
+.bp__bars i:nth-child(4n) { height: 80%; }
+.bp__seq { font: 600 .6rem/1 Inter; letter-spacing: .3em; color: var(--faint); text-align: center; }
+
+/* ---- the tear -------------------------------------------------------------------------
+   Nothing is clipped. Each half grows a sawtooth strip along the seam, painted in the
+   section's own navy, so the paper looks bitten away. Then the two halves part. */
+.bp__main:after, .bp__stub:after {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 12px;
+  opacity: 0;
+  transition: opacity .12s;
+  background-image:
+    linear-gradient(45deg, var(--seam) 50%, transparent 50%),
+    linear-gradient(-45deg, var(--seam) 50%, transparent 50%);
+  background-size: 12px 14px;
+  z-index: 3;
+}
+.bp__main:after { right: 0; }
+.bp__stub:after { left: 0; transform: scaleX(-1); }
+
+.bp.is-torn { overflow: visible; }
+.bp.is-torn .bp__main:after, .bp.is-torn .bp__stub:after { opacity: 1; }
+.bp.is-torn .bp__main { animation: bp-left .9s cubic-bezier(.2, .7, .3, 1) forwards; }
+.bp.is-torn .bp__stub { animation: bp-right 1.15s cubic-bezier(.25, .6, .3, 1) forwards; z-index: 4; }
+.bp.is-torn .bp__stub:before { opacity: 0; }
+
+@keyframes bp-left {
+  0%   { transform: none; }
+  18%  { transform: translateX(-6px) rotate(-1.4deg); }
+  100% { transform: translateX(-16px) rotate(-2.2deg); }
+}
+@keyframes bp-right {
+  0%   { transform: none; }
+  14%  { transform: translateX(10px) rotate(2deg); }
+  55%  { transform: translate(60px, 18px) rotate(9deg); }
+  100% { transform: translate(120px, 150px) rotate(22deg); opacity: 0; }
+}
+
+/* The stamp the kept half carries once the stub is gone. */
+.bp__kept {
+  position: absolute;
+  right: clamp(24px, 3.4vw, 42px);
+  bottom: clamp(24px, 3.4vw, 42px);
+  border: 3px solid #1c7c4a;
+  color: #1c7c4a;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font: 800 1rem/1 Sora, Inter, sans-serif;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  transform: rotate(-9deg) scale(1.6);
+  opacity: 0;
+  pointer-events: none;
+}
+.bp.is-torn .bp__kept { animation: bp-stamp .45s .5s cubic-bezier(.2, 1.4, .4, 1) forwards; }
+@keyframes bp-stamp {
+  from { opacity: 0; transform: rotate(-9deg) scale(1.6); }
+  to   { opacity: .9; transform: rotate(-9deg) scale(1); }
+}
+
+/* On a phone the stub sits under the pass, so it tears downward instead of sideways. */
+@media (max-width: 860px) {
+  .bp { grid-template-columns: 1fr; }
+  .bp__stub:before { left: 0; right: 0; top: 0; bottom: auto; border-left: 0; border-top: 2px dashed rgba(7, 20, 46, .25); }
+  .bp__notch { left: auto; top: -11px; bottom: auto; }
+  .bp__notch.t { left: -11px; }
+  .bp__notch.b { right: -11px; }
+  .bp__main:after, .bp__stub:after { top: auto; bottom: 0; left: 0; right: 0; width: auto; height: 12px; background-size: 14px 12px; }
+  .bp__stub:after { top: 0; bottom: auto; transform: scaleY(-1); }
+  .bp.is-torn .bp__stub { animation-name: bp-down; }
+}
+@keyframes bp-down {
+  0%   { transform: none; }
+  100% { transform: translate(30px, 180px) rotate(10deg); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bp.is-torn .bp__main, .bp.is-torn .bp__stub, .bp.is-torn .bp__kept { animation-duration: .01ms; }
+}

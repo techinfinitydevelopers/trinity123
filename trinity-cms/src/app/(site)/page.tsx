@@ -5,6 +5,7 @@ import { BlockRenderer } from "@/components/site/blocks";
 import TrinityWorldHost from "@/components/tw/TrinityWorldHost";
 import { CREDIT, CREDITS } from "@/components/tw/credits";
 import "@/styles/tw-site.css";
+import "@/styles/tw-boarding-pass.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const [p, s] = await Promise.all([getPage("home"), getAllSettings()]);

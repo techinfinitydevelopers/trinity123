@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getAllSettings } from "@/lib/settings-server";
 import TrinityWorldHost from "@/components/tw/TrinityWorldHost";
 import "@/styles/tw-site.css";
+import "@/styles/tw-boarding-pass.css";
 
 /* Preview route for the supplied Trinity World drop-in, so it can be looked at before it is
    wired to the dashboard toggle. Not linked and not indexed. */
