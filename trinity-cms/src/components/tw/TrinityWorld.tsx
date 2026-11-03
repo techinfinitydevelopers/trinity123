@@ -86,6 +86,12 @@ export default function TrinityWorld(props:WorldOpts){
        holding a WebGL context nothing will ever show again. */
     if(live){try{live.api()}catch{} live.el.remove();live=null}
 
+    /* A reload restores the old scroll offset. While the page is still short that offset clamps to
+       the bottom — the footer — and it stays there once the world is built. The world always
+       starts at the top, so take scrolling out of the browser's hands and begin there. */
+    try{history.scrollRestoration='manual'}catch{}
+    window.scrollTo(0,0);
+
     const opts=()=>({...p.current,
       onLead:p.current.onLead&&((x:any)=>p.current.onLead!(x)),
       onDark:p.current.onDark&&((d:boolean)=>p.current.onDark!(d)),
