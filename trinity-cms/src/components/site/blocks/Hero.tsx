@@ -161,7 +161,7 @@ export async function PageHero({ b, contact }: { b: PageHeroBlock; contact: Cont
         <div>
           <nav className="crumbs" aria-label="Breadcrumb"><Link href="/">{L.home}</Link><i className="fas fa-chevron-right" /><span>{b.crumb}</span></nav>
           <h1 className="h1"><Words words={b.words} /></h1>
-          <p className="page-hero__sub">{b.sub}</p>
+          {b.sub ? <p className="page-hero__sub">{b.sub}</p> : null}
         </div>
 
         {a.kind === "statchips" && (

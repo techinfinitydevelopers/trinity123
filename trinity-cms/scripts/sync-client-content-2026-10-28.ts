@@ -47,10 +47,16 @@ async function main() {
     const blocks = page.blocks as unknown as Block[];
     const at = blocks.findIndex((b) => b.type === "about");
     if (at < 0) throw new Error("about-us has no about block");
-    if (same(blocks[at].paragraphs, want.paragraphs) && blocks[at].title === want.title) plan.push("about-us: already up to date");
+    const hero = blocks.findIndex((b) => b.type === "pageHero");
+    const wantHero = seed("about-us").find((b) => b.type === "pageHero");
+    const chipsNow = hero >= 0 ? (blocks[hero].aside as { items?: unknown[] } | undefined)?.items : undefined;
+    const chipsWant = (wantHero?.aside as { items?: unknown[] } | undefined)?.items;
+    const heroOk = hero < 0 || !chipsWant || !chipsNow || same(chipsNow, chipsWant);
+    if (same(blocks[at].paragraphs, want.paragraphs) && blocks[at].title === want.title && !blocks[at].statNum && heroOk) plan.push("about-us: already up to date");
     else {
       backup["about-us"] = structuredClone(page.blocks);
-      blocks[at] = { ...blocks[at], title: want.title, paragraphs: want.paragraphs };
+      blocks[at] = { ...blocks[at], title: want.title, paragraphs: want.paragraphs, statNum: "", statText: "" };
+      if (!heroOk) blocks[hero] = { ...blocks[hero], aside: { ...(blocks[hero].aside as object), items: chipsWant } };
       plan.push(`about-us: update about block (title + ${(want.paragraphs as string[]).length} paragraphs)`);
       writes.push(() => db.page.update({ where: { slug: "about-us" }, data: { blocks: blocks as unknown as object[] } }));
     }
@@ -67,7 +73,7 @@ async function main() {
     const h = blocks.findIndex((b) => b.type === "pageHero");
     const s = blocks.findIndex((b) => b.type === "services");
     if (h < 0 || s < 0) throw new Error("our-service is missing its hero or services block");
-    const next = { hero: { ...blocks[h], sub: wantHero.sub, aside: wantHero.aside }, svc: { ...blocks[s], ...wantSvc } };
+    const next = { hero: { ...blocks[h], words: wantHero.words, sub: wantHero.sub, aside: wantHero.aside }, svc: { ...blocks[s], ...wantSvc } };
     if (same(blocks[h], next.hero) && same(blocks[s], next.svc)) plan.push("our-service: already up to date");
     else {
       backup["our-service"] = structuredClone(page.blocks);
@@ -119,12 +125,13 @@ async function main() {
     const row = await db.setting.findUnique({ where: { key: "world" } });
     const world = row?.value as { text?: Record<string, unknown> } | undefined;
     if (!row || !world?.text) plan.push("world: no saved Trinity World text — skipped");
-    else if (world.text.heroSub !== OLD && world.text.pathTitle !== "12 months to<br>study abroad.") plan.push("world: hero line and journey heading already changed — left alone");
+    else if (world.text.heroSub !== OLD && world.text.pathTitle !== "12 months to<br>study abroad." && world.text.kitTitle !== "Pack your file.") plan.push("world: hero line and journey heading already changed — left alone");
     else {
       backup.world = structuredClone(row.value);
       const text = { ...world.text };
       if (text.heroSub === OLD) text.heroSub = "Type or pick a country.";
       if (text.pathTitle === "12 months to<br>study abroad.") text.pathTitle = "How Your<br>Journey Works";
+      if (text.kitTitle === "Pack your file.") text.kitTitle = "Document<br>Checklist";
       const next = { ...world, text };
       plan.push('world: hero line -> "Type or pick a country."; journey heading -> "How Your Journey Works"');
       writes.push(() => db.setting.update({ where: { key: "world" }, data: { value: next as unknown as object } }));
@@ -135,7 +142,7 @@ async function main() {
           Australia, USA, Canada, Sweden, then the other European countries). Only the `order` of rows
           that already exist is changed; countries not yet added in the dashboard are not created. ---- */
   {
-    const want: Record<string, number> = { uk: 10, ireland: 20, france: 30, germany: 40, "new-zealand": 50, australia: 80, usa: 110, canada: 120, sweden: 140, italy: 160, denmark: 170 };
+    const want: Record<string, number> = { uk: 10, ireland: 20, france: 30, germany: 40, "new-zealand": 50, dubai: 60, singapore: 70, australia: 80, usa: 110, canada: 120, sweden: 140, italy: 160, denmark: 170 };
     const rows = await db.country.findMany({ select: { slug: true, order: true } });
     const todo = rows.filter((r) => want[r.slug] !== undefined && want[r.slug] !== r.order);
     if (!todo.length) plan.push("countries: order already up to date");
@@ -162,6 +169,39 @@ async function main() {
         plan.push(`why-study-abroad: country cards -> ${(want.items as unknown[]).length} in the agreed order`);
         writes.push(() => db.page.update({ where: { slug: "why-study-abroad" }, data: { blocks: blocks as unknown as object[] } }));
       }
+    }
+  }
+
+  /* ---- Success Stories: no sub-headline under the title, and no "Indian" in the page description ---- */
+  {
+    const page = await db.page.findUnique({ where: { slug: "success-stories" } });
+    const want = seedPages.find((x) => x.slug === "success-stories");
+    if (!page || !want) plan.push("success-stories: page or seed missing — skipped");
+    else {
+      const blocks = page.blocks as unknown as Block[];
+      const h = blocks.findIndex((b) => b.type === "pageHero");
+      const subOk = h < 0 || !blocks[h].sub;
+      const descOk = page.seoDesc === want.seoDesc || !/Indian/.test(page.seoDesc ?? "");
+      if (subOk && descOk) plan.push("success-stories: already up to date");
+      else {
+        backup["success-stories"] = { blocks: structuredClone(page.blocks), seoDesc: page.seoDesc };
+        if (!subOk) blocks[h] = { ...blocks[h], sub: "" };
+        plan.push("success-stories: hero sub-headline removed" + (descOk ? "" : ", 'Indian' dropped from the description"));
+        writes.push(() => db.page.update({ where: { slug: "success-stories" }, data: { blocks: blocks as unknown as object[], ...(descOk ? {} : { seoDesc: want.seoDesc }) } }));
+      }
+    }
+  }
+
+  /* ---- Footer blurb: "Indian students" -> "students" (it also appears under the Success Stories page) ---- */
+  {
+    const row = await db.setting.findUnique({ where: { key: "site" } });
+    const site = row?.value as Record<string, unknown> | undefined;
+    if (!row || typeof site?.footerText !== "string" || !/Indian /.test(site.footerText)) plan.push("site: footer text has no 'Indian' — left alone");
+    else {
+      backup.site = structuredClone(row.value);
+      const next = { ...site, footerText: site.footerText.replace(/Indian /g, "") };
+      plan.push("site: footer text — 'Indian' removed");
+      writes.push(() => db.setting.update({ where: { key: "site" }, data: { value: next as unknown as object } }));
     }
   }
 

@@ -425,11 +425,11 @@ function shake(){gsap.fromTo('#panel',{x:-10},{x:0,duration:.6,ease:'elastic.out
 const GEN=['photo-1519452575417-564c1401ecc0','photo-1541339907198-e08756dedf3f','photo-1434030216411-0b793f4b4173','photo-1488190211105-8b0e65b80b4e','photo-1454165804606-c3d57bc86b40','photo-1503676260728-1c00da094a0b'].map(i=>`${AB}/stu/${i.replace('photo-','')}.jpg`);
 function render(c){
   $('#pickedName').textContent=c.n;$('#cname').textContent=c.n;root.classList.add('compact');fitName();
-  $('#go').innerHTML='Scroll to fly to <b>'+c.city+'</b> ↓';
+  $('#go').innerHTML='Scroll to reach your study destination ↓';
   $('#c1 h1').innerHTML='Next stop:<br>'+c.n;
   $('#c1 p').textContent=ORIGIN.name+' → '+c.city+'. One consultancy, door to door — from test prep to your offer letter.';
   $('#c4 h2').innerHTML='Landing in<br>'+c.n+'.';
-  $('#route').textContent=ORIGIN.name.toUpperCase()+' → '+c.city.toUpperCase();
+  $('#route').textContent=ORIGIN.name.toUpperCase()+' → '+c.s.toUpperCase();
   const url=IMG[c.k];
   $('.v2').style.backgroundImage=`url(${url})`;
   $('.arrive .bg').style.backgroundImage=`url(${url})`;
@@ -635,7 +635,7 @@ function renderStudent(c){
    ['6','','Get departure ready','Accommodation, insurance, forex and flights','Accommodation in '+c.city+', insurance, forex, flights and pre-departure guidance.'],
    ['7','','Stay supported','Guidance after you arrive','Practical post-arrival guidance after you reach your destination.']];
   BEATS=[
-   ['Week 1','Land & settle in '+c.city,'Orientation, bank account, SIM and getting your room sorted — we brief you before you fly.','Welcome week · new friends'],
+   ['Week 1','Land & settle in '+c.city,'Accommodation.','Welcome week · new friends'],
    ['Month 1','Classes, campus & community','Meet your cohort, join clubs and find your study rhythm at your university.','Study groups · clubs'],
    ['Month 3','Work and Studies',S.work+'.','Earn while you learn'],
    ['After graduation','Your next step',S.post+'.','Stay & work after study']];
@@ -712,6 +712,12 @@ gsap.fromTo(mq,{x:0},{x:()=>-(mq.scrollWidth-innerWidth+40),ease:'none',scrollTr
 gsap.fromTo(mq,{opacity:0,y:80},{opacity:1,y:0,ease:'none',scrollTrigger:{trigger:'#voices',start:'top 90%',end:'top 50%',scrub:.6}});
 curtain('#cta');
 gsap.fromTo('.cbox',{y:120,opacity:0,scale:.94},{y:0,opacity:1,scale:1,ease:'none',scrollTrigger:{trigger:'.cbox',start:'top 98%',end:'top 55%',scrub:.7}});
+/* Pins add a spacer to the page, and ScrollTrigger measures in creation order — so a trigger made
+   before a pin that now sits above it is measured without that spacer and fires in the wrong place
+   (an invisible IELTS section was exactly this). The sections have been rearranged since the
+   triggers were written, so each one gets a refresh priority by where its section sits in the page:
+   top sections are measured first, and everything below them sees their spacers. */
+(()=>{const secs=Array.from(root.querySelectorAll('section'));ScrollTrigger.getAll().forEach(t=>{const el=t.trigger as any;const sec=el&&el.closest?el.closest('section'):null;const i=sec?secs.indexOf(sec):0;t.vars.refreshPriority=1000-Math.max(0,i)*10});ScrollTrigger.sort()})();
 if(document.readyState==='complete')ScrollTrigger.refresh();else onWin('load',()=>ScrollTrigger.refresh());
 
 

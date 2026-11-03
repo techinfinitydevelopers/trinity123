@@ -76,8 +76,20 @@ export const getAdjacentPosts = unstable_cache(
 );
 
 /* ---------- destinations ---------- */
+/* The client's agreed order for every country list on the site (header menu, footer, search).
+   Applied here rather than left to the `order` column so a live database that still holds the old
+   sequence shows the right one as soon as this is deployed. Anything not named falls after, in
+   its dashboard order — which is also where the other European countries sit. */
+const AGREED_ORDER = [
+  "uk", "ireland", "france", "germany", "new-zealand", "dubai", "singapore", "australia", "japan", "south-korea",
+  "usa", "canada", "netherlands", "sweden", "malaysia", "italy", "denmark",
+];
 export const getCountries = unstable_cache(
-  async () => db.country.findMany({ where: { isActive: true }, orderBy: { order: "asc" }, select: { code: true, slug: true, name: true, tag: true, img: true } }),
+  async () => {
+    const rows = await db.country.findMany({ where: { isActive: true }, orderBy: { order: "asc" }, select: { code: true, slug: true, name: true, tag: true, img: true } });
+    const rank = (slug: string) => { const i = AGREED_ORDER.indexOf(slug); return i < 0 ? AGREED_ORDER.length : i; };
+    return rows.map((r, i) => ({ r, i })).sort((a, b) => rank(a.r.slug) - rank(b.r.slug) || a.i - b.i).map((x) => x.r);
+  },
   ["countries"],
   { tags: ["countries"] },
 );

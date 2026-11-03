@@ -13,7 +13,7 @@ export function About({ b, contact, site }: { b: AboutBlock; contact: ContactSet
             <div className="bento__cap"><small>{b.capSmall}</small><strong>{b.capStrong}</strong>{b.capSpan ? <span>{b.capSpan}</span> : null}</div>
           </div>
           <div className="bento__img" data-plx="0.08"><img src={b.sideImg} alt={b.sideAlt} loading="lazy" /></div>
-          <div className="bento__stat" data-plx="0.14"><span className="ring" /><strong>{b.statNum}<em>+</em></strong><p>{b.statText}</p></div>
+          {b.statNum ? <div className="bento__stat" data-plx="0.14"><span className="ring" /><strong>{b.statNum}<em>+</em></strong><p>{b.statText}</p></div> : null}
           {b.chip ? <div className="chip chip--float"><img src={site.logo} alt="" height={30} /><span><strong>{b.chip.strong}</strong><small>{b.chip.small}</small></span></div> : null}
         </div>
         <div>

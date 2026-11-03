@@ -87,11 +87,11 @@
 .tw .st p{color:var(--mute)}
 
 .tw #stats{background:linear-gradient(135deg,var(--blue),var(--navy));color:#fff;padding:110px 0}
-.tw .sg{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;margin-top:50px}
+.tw .sg{display:grid;grid-template-columns:repeat(5,1fr);gap:30px;margin-top:50px}
 .tw .sg div{border-top:1px solid rgba(255,255,255,.25);padding-top:22px}
-.tw .sg b{display:block;font:800 clamp(2.4rem,5vw,4rem) Sora;color:var(--gold)}
+.tw .sg b{display:block;font:800 clamp(2rem,3.6vw,3.4rem) Sora;color:var(--gold);white-space:nowrap}
 .tw .sg span{color:#bcd0f2}
-@media(max-width:760px){.tw .sg{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){.tw .sg{grid-template-columns:1fr 1fr}.tw .sg div:last-child:nth-child(odd){grid-column:1/-1}}
 
 .tw #voices{padding:120px 0;overflow:hidden}
 .tw .mq{display:flex;gap:22px;margin-top:50px;width:max-content}
@@ -274,3 +274,13 @@
 .tw #change{position:fixed;top:84px;right:clamp(14px,3vw,40px);z-index:45;background:rgba(7,20,46,.55);color:#fff;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1.5px solid rgba(255,255,255,.4);padding:9px 16px;border-radius:99px;font:600 .82rem Inter,system-ui,sans-serif;cursor:pointer;display:none}
 .tw.picked #change{display:inline-block}
 @media(max-width:760px){.tw #change{display:none!important}}
+
+/* Knowledge Hub (webinar) — sits between "What life looks like" and the numbers. */
+.tw #webinar{padding:110px 0;background:linear-gradient(180deg,#e9f1ff,var(--bg))}
+.tw #webinar .wb{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(20px,4vw,48px);margin-top:44px;align-items:stretch}
+.tw #webinar .wb-now,.tw #webinar .wb-past{background:#fff;border:1px solid rgba(11,61,145,.12);border-radius:24px;padding:clamp(22px,3vw,34px);box-shadow:0 18px 50px rgba(7,20,46,.08)}
+.tw #webinar h3{font:700 1.15rem Sora;color:var(--navy);margin-bottom:12px}
+.tw #webinar .wb-now p{color:var(--mute);margin-bottom:22px}
+.tw #webinar .wb-snips{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.tw #webinar .wb-snips img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:14px;display:block}
+@media(max-width:860px){.tw #webinar{padding:80px 0}.tw #webinar .wb{grid-template-columns:1fr}}
