@@ -161,23 +161,23 @@ export const stats: StatsBlock = {
   ],
 };
 
-/* The client's list and their order (brief, section 3). UAE, Singapore and the Netherlands have
-   no destination page of their own yet, so they point at the destinations overview rather than a
-   URL that would 404 — give me the country content and they become proper pages. */
+/* The client's agreed order: UK, Ireland, France, Germany, New Zealand, UAE, Singapore, Australia,
+   Japan, South Korea, USA, Canada, Netherlands, Sweden, Malaysia, other European countries. Japan,
+   South Korea and Malaysia have no destination page yet, so they are left out rather than pointing
+   at a URL that would 404; Netherlands has none either and points at the overview. */
 const countryItems: CountriesBlock["items"] = [
   { flag: "gb", name: "UK", tag: "1-year master’s", href: "/destinations/uk" },
   { flag: "ie", name: "Ireland", tag: "Tech & pharma hub", href: "/destinations/ireland" },
   { flag: "fr", name: "France", tag: "Business & fashion", href: "/destinations/france" },
   { flag: "de", name: "Germany", tag: "Low-tuition engineering", href: "/destinations/germany" },
-  { flag: "us", name: "USA", tag: "Top-ranked universities", href: "/destinations/usa" },
   { flag: "nz", name: "New Zealand", tag: "Safe & scenic study", href: "/destinations/new-zealand" },
-  { flag: "au", name: "Australia", tag: "Post-study work visa", href: "/destinations/australia" },
-  { flag: "ca", name: "Canada", tag: "PR-friendly pathways", href: "/destinations/canada" },
-  /* Dubai and Singapore have their own pages now, so these point at them rather than the
-     overview. The card is named for the page it opens. */
   { flag: "ae", name: "Dubai", tag: "Global campuses, close to home", href: "/destinations/dubai" },
   { flag: "sg", name: "Singapore", tag: "Business & technology hub", href: "/destinations/singapore" },
+  { flag: "au", name: "Australia", tag: "Post-study work visa", href: "/destinations/australia" },
+  { flag: "us", name: "USA", tag: "Top-ranked universities", href: "/destinations/usa" },
+  { flag: "ca", name: "Canada", tag: "PR-friendly pathways", href: "/destinations/canada" },
   { flag: "nl", name: "Netherlands", tag: "English-taught degrees", href: "/why-study-abroad" },
+  { flag: "se", name: "Sweden", tag: "Sustainability leaders", href: "/destinations/sweden" },
 ];
 /* The card's markup already appends the "+", so `num` is the bare figure — putting it here too
    printed "50++". */

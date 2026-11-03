@@ -131,6 +131,40 @@ async function main() {
     }
   }
 
+  /* ---- Study Destinations order: the client's agreed sequence (UK, Ireland, France, Germany, NZ,
+          Australia, USA, Canada, Sweden, then the other European countries). Only the `order` of rows
+          that already exist is changed; countries not yet added in the dashboard are not created. ---- */
+  {
+    const want: Record<string, number> = { uk: 10, ireland: 20, france: 30, germany: 40, "new-zealand": 50, australia: 80, usa: 110, canada: 120, sweden: 140, italy: 160, denmark: 170 };
+    const rows = await db.country.findMany({ select: { slug: true, order: true } });
+    const todo = rows.filter((r) => want[r.slug] !== undefined && want[r.slug] !== r.order);
+    if (!todo.length) plan.push("countries: order already up to date");
+    else {
+      backup.countryOrder = rows;
+      plan.push(`countries: re-order ${todo.length} destination(s)`);
+      for (const r of todo) writes.push(() => db.country.update({ where: { slug: r.slug }, data: { order: want[r.slug] } }));
+    }
+  }
+
+  /* ---- Study Destinations page: the country cards in the agreed order (only the block's items) ---- */
+  {
+    const page = await db.page.findUnique({ where: { slug: "why-study-abroad" } });
+    const want = seed("why-study-abroad").find((b) => b.type === "countries");
+    if (!page || !want) plan.push("why-study-abroad: page or seed countries block missing — skipped");
+    else {
+      const blocks = page.blocks as unknown as Block[];
+      const at = blocks.findIndex((b) => b.type === "countries");
+      if (at < 0) plan.push("why-study-abroad: no countries block — skipped");
+      else if (same(blocks[at].items, want.items)) plan.push("why-study-abroad: country order already up to date");
+      else {
+        backup["why-study-abroad"] = structuredClone(page.blocks);
+        blocks[at] = { ...blocks[at], items: want.items };
+        plan.push(`why-study-abroad: country cards -> ${(want.items as unknown[]).length} in the agreed order`);
+        writes.push(() => db.page.update({ where: { slug: "why-study-abroad" }, data: { blocks: blocks as unknown as object[] } }));
+      }
+    }
+  }
+
   console.log(plan.map((l) => "  " + l).join("\n"));
   if (!apply) { console.log("\nDry run — nothing written. Re-run with --apply."); return; }
   if (!writes.length) { console.log("\nNothing to write."); return; }

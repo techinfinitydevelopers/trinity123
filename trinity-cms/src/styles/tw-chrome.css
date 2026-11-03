@@ -484,3 +484,43 @@ body:not(:has(.tw-host)) .site-header:not(.is-scrolled) .nav__links{
   background:rgba(7,20,46,.94);border-color:rgba(255,255,255,.12);
   box-shadow:0 10px 30px rgba(7,20,46,.22);
 }
+
+/* Social media: one round button beside the counselling button that slides a row of every
+   network open beneath it, on hover or click. The home page hides the topbar that normally
+   carries the icons, so this is where they live there; other pages keep the topbar. */
+.nav__social{display:none}
+body:has(.tw-host) .nav__social{display:block;position:relative}
+body:has(.tw-host) .nav__social-btn{
+  height:44px;padding:0 14px;border-radius:99px;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--twc-navy);color:#fff;border:1px solid rgba(255,255,255,.22);
+  font-size:.9rem;cursor:pointer;transition:background .3s,color .3s,border-color .3s;
+}
+body:has(.tw-host) .nav__social:hover .nav__social-btn,
+body:has(.tw-host) .nav__social.is-open .nav__social-btn{background:var(--twc-gold);color:var(--twc-gold-ink);border-color:var(--twc-gold)}
+body:has(.tw-host) .nav__social-menu{
+  position:absolute;top:100%;left:50%;margin-left:-22px;padding-top:10px;z-index:60;
+  display:flex;flex-direction:column;gap:6px;
+  opacity:0;visibility:hidden;transform:translateY(-8px);
+  transition:opacity .25s,transform .25s,visibility .25s;
+}
+body:has(.tw-host) .nav__social:hover .nav__social-menu,
+body:has(.tw-host) .nav__social.is-open .nav__social-menu,
+body:has(.tw-host) .nav__social:focus-within .nav__social-menu{opacity:1;visibility:visible;transform:none}
+body:has(.tw-host) .nav__social-menu a{
+  width:44px;height:44px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
+  font-size:1rem;color:#fff;background:rgba(7,20,46,.92);border:1px solid rgba(255,255,255,.18);
+  box-shadow:0 8px 22px rgba(2,8,24,.3);transition:background .25s,color .25s,transform .25s;
+}
+body:has(.tw-host) .nav__social-menu a:hover{background:var(--twc-gold);color:var(--twc-gold-ink);transform:scale(1.08)}
+@media (max-width:1260px){body:has(.tw-host) .nav__social{display:none}}
+/* 1261-1399: the pill's links and the "Change country" button drawn a little tighter so the whole
+   row fits beside the logo. Below 1261 the pill folds into the menu anyway. */
+@media (min-width:1261px) and (max-width:1399px){
+  body:has(.tw-host) .nav{gap:10px}
+  body:has(.tw-host) .nav__links{padding:5px 6px}
+  body:has(.tw-host) .nav__links a,body:has(.tw-host) .nav__links .cv-ddbtn{padding:7px 8px;font-size:.78rem}
+  body:has(.tw-host) .nav__actions{gap:6px}
+  body:has(.tw-host) .nav__change #change{padding:0 12px;font-size:.75rem}
+}
+body:has(.tw-host) .nav__social-caret{font-size:.6rem;opacity:.7;transition:transform .25s}
+body:has(.tw-host) .nav__social:hover .nav__social-caret,body:has(.tw-host) .nav__social.is-open .nav__social-caret{transform:rotate(180deg)}

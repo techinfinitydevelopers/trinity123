@@ -14,6 +14,7 @@ const NO_PARENT_LINK = new Set(["Resources"]);
 export default function Header({ nav, contact, site, labels, destinations }: { nav: NavSettings; contact: ContactSettings; site: SiteSettings; labels: LabelSettings["header"]; destinations: Destination[] }) {
   const path = usePathname();
   const [open, setOpen] = useState(false);
+  const [social, setSocial] = useState(false);
   /* Index of the open dropdown, or -1 for none. One piece of state rather than one flag per menu:
      opening a second dropdown has to close the first, and how many there are is now up to the
      owner — any menu item with children becomes one. */
@@ -155,6 +156,10 @@ export default function Header({ nav, contact, site, labels, destinations }: { n
           <div className="nav__actions">
             <Link className="nav__call" href="/contact-us" aria-label={labels.callLabel}><i className="fas fa-phone-alt" /></Link>
             <Link className="btn btn--dark nav__cta" href={nav.ctaHref}>{nav.ctaLabel} <span className="btn__circle"><i className="fas fa-arrow-right" /></span></Link>
+            <div className={`nav__social${social ? " is-open" : ""}`} onMouseLeave={() => setSocial(false)} onKeyDown={(e) => e.key === "Escape" && setSocial(false)}>
+              <button type="button" className="nav__social-btn" aria-label="Social media" aria-expanded={social} onClick={() => setSocial((o) => !o)}>{(contact.socialLinks ?? []).filter((x) => x.href.trim()).slice(0, 3).map((x) => <i key={x.label} className={x.icon} aria-hidden="true" />)}<i className="fas fa-chevron-down nav__social-caret" aria-hidden="true" /></button>
+              <div className="nav__social-menu"><Socials contact={contact} cls="" /></div>
+            </div>
             <button className="nav__toggle" id="navToggle" type="button" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} aria-controls="mobileMenu" onClick={() => setOpen((o) => !o)}>
               <i className={open ? "fas fa-times" : "fas fa-bars"} />
             </button>
