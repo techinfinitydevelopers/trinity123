@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "start:prod": "prisma db push --skip-generate && next start",
     "lint": "eslint",
     "db:dev": "node scripts/dev-db.mjs",
     "db:push": "prisma db push",

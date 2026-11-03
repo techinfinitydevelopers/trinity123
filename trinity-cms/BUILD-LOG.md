@@ -762,3 +762,25 @@ never runs locally — `chat-match.ts` bails on the empty value before the SDK c
 the machine profile. Close calls ("my percentage is low can i still go") therefore reach the
 student as "I couldn't find a suitable answer" instead of the right entry, which the keyword pass
 had ranked first. Set a real key in the deployed environment or that half of the matcher is dead.
+
+## 2026-11-03 — Schema reaches production on its own
+
+**Task:** the `followUp` column added yesterday only existed locally. Railway had no deploy-time
+schema step, so the first deploy would have served a Prisma client selecting a column the
+database did not have — every chat request and the whole `/admin/chatbot` screen would have
+thrown until somebody ran `prisma db push` by hand against production.
+
+**Change:** `railway.json` sets the start command to `npm run start:prod`, and that script is
+`prisma db push --skip-generate && next start`. The push is a no-op when the schema already
+matches, so restarts cost nothing, and `db push` without `--accept-data-loss` refuses a
+destructive change rather than performing one — a column rename stops the deploy instead of
+dropping data. If the push fails the container does not start, which is the right failure: a
+server answering with the wrong schema is worse than one that is down.
+
+**Verified:** `npx prisma db push --skip-generate` against the local database → "The database is
+already in sync with the Prisma schema." `railway.json` parses.
+
+**Not verified:** the deploy itself — I have no Railway access.
+
+**Note:** this carries the schema, not the content. The 283 answers reach production through
+Admin → Chatbot → Bulk upload with the client's workbook; no database URL needed.
