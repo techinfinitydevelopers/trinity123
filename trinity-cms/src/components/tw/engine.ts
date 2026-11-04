@@ -133,8 +133,11 @@ function resize(){renderer.setSize(innerWidth,innerHeight,false);camera.aspect=i
 onWin('resize',resize);resize();
 scene.environment=new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(),.03).texture;
 scene.environmentIntensity=.8;
-const sun=new THREE.DirectionalLight(0xfff6e6,2.6);sun.position.set(25,25,70);scene.add(sun);
-scene.add(new THREE.AmbientLight(0xa9c4f5,1.5));
+/* Key light sits well off the camera axis so the sphere gets a lit side and a soft shadow side —
+   straight-on light plus heavy ambient/emissive read as a flat disc, most visibly on big screens
+   where the globe is drawn large. */
+const sun=new THREE.DirectionalLight(0xfff6e6,3.2);sun.position.set(38,22,56);scene.add(sun);
+scene.add(new THREE.AmbientLight(0xa9c4f5,1.0));
 scene.add(new THREE.HemisphereLight(0xdbe9ff,0x35507a,.8));
 const rimL=new THREE.DirectionalLight(0x6fa8ff,.8);rimL.position.set(-40,10,-30);scene.add(rimL);
 
@@ -150,7 +153,7 @@ const W=AB+'/earth/';
 const maxA=renderer.capabilities.getMaxAnisotropy();
 const eTex=TL.load(pick('earth','map',W+'2_no_clouds_4k.jpg'));eTex.colorSpace=THREE.SRGBColorSpace;eTex.anisotropy=maxA;
 const bumpT=TL.load(pick('earth','bump',W+'elev_bump_4k.jpg')),specT=TL.load(pick('earth','spec',W+'water_4k.png'));bumpT.anisotropy=specT.anisotropy=maxA;
-const earth=new THREE.Mesh(new THREE.SphereGeometry(R,128,128),new THREE.MeshPhongMaterial({map:eTex,bumpMap:bumpT,bumpScale:.12,specularMap:specT,shininess:22,specular:new THREE.Color(0x3a5a88),emissive:new THREE.Color(0x1a2a44),emissiveMap:eTex,emissiveIntensity:.55}));
+const earth=new THREE.Mesh(new THREE.SphereGeometry(R,128,128),new THREE.MeshPhongMaterial({map:eTex,bumpMap:bumpT,bumpScale:.12,specularMap:specT,shininess:22,specular:new THREE.Color(0x3a5a88),emissive:new THREE.Color(0x1a2a44),emissiveMap:eTex,emissiveIntensity:.22}));
 globe.add(earth);
 const BASE={x:22*Math.PI/180,y:-Math.PI/2-78*Math.PI/180};globe.rotation.set(BASE.x,BASE.y,0);
 const cTex=TL.load(pick('earth','clouds',B+'earth_clouds_1024.png'));cTex.colorSpace=THREE.SRGBColorSpace;
@@ -357,7 +360,9 @@ const lookC=new THREE.CatmullRomCurve3([[0,2,0],[8,2,0],[14,2.2,0],[14,2.3,2.4],
 /* ---------- camera rig ---------- */
 const st={t:0,cur:0,speed:0,show:true,arc:0};
 const wideOff=()=>mobile()?new THREE.Vector3(0,-5.5,0):new THREE.Vector3(-Math.min(12,7.2+Math.max(0,1.7-asp())*10),0,0);
-const wideDist=()=>mobile()?58:40+Math.max(0,1.7-asp())*12;
+/* Ultra-wide screens (asp > 1.8) get a closer camera so the globe fills more of the stage
+   instead of floating as a small ball in a lot of empty sky. */
+const wideDist=()=>mobile()?58:40+Math.max(0,1.7-asp())*12-Math.min(6,Math.max(0,asp()-1.8)*9);
 const P=new THREE.Vector3(),L=new THREE.Vector3(),W1=new THREE.Vector3(),W2=new THREE.Vector3();
 const clock=new THREE.Clock();
 function pinProject(){
