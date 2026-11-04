@@ -1700,3 +1700,21 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 - `npm run db:dev` (keep running) then `npm run dev` → http://localhost:3000, admin /admin. DB already initialised; no push/seed needed.
 - `npm install` fails at `prisma generate` (EPERM on query_engine dll) while dev server runs; stop the server first if the schema changes.
 - Home page (confirmed by user, 30/10/2026): the TL adds/updates the home page in this repo (Trinity World drop-in in `src/components/tw/`, switched on/off by `scripts/toggle-world-home.ts` / the Home page setting). `trnityfinal1` holds the standalone HTML source. Do not merge it unless the TL/user says so.
+
+
+## Production runbook and gotchas (04/11/2026)
+- DB-backed content (About, Services, Events, Brochure, Webinars) changes only through scripts or /admin.
+  Run `scripts/<name>.ts` dry first, then `--apply`; each saves a backup in `scripts/backups/`. The production
+  URL comes from `railway variables --service Postgres --kv` (`DATABASE_PUBLIC_URL`); do not print it. Writing
+  to the production DB needs the user's go-ahead in chat, and the auto-mode classifier may still stop it.
+- After a direct DB write the live site keeps the old cached content until a redeploy or an /admin page save.
+  Railway did not auto-deploy pushes earlier; deploy the latest commit from the dashboard or `railway up`
+  from the repo root (`trinity123`, service `trinity123`, rootDirectory `/trinity-cms`).
+- Local dev: if `/page` gives "Jest worker … exceeded retry limit", orphan postgres processes are the cause —
+  kill this project's `postgres.exe` and its node parent, delete `.pgdata/postmaster.pid`, rerun `npm run db:dev`.
+  After a DB change, restart `next dev` with `.next` removed or the cache keeps the old content; the first
+  request after wiping `.next` may 500 once.
+- Client wording: "counsellor" (British), never "advisor"/"expert" on buttons; "UAE" in pickers, "Dubai" for the
+  destination page. Flags shown in circles crop wide flags — the UAE needs `ae-sq.png`.
+- Open: rotate the Railway Postgres password (the internal URL was pasted in chat once); a /credits page for
+  the globe's CC attribution; Japan/South Korea/Malaysia/Other Europe have no destination pages.

@@ -970,3 +970,41 @@ space at the top instead.
 **Verified** at 1280px on /about-us, which ends in testimonials, and on /destinations/uk, which
 ends in its own country CTA: no band, and the footer starts with room above it in both. `tsc`
 clean, `npm run build` clean.
+
+
+## 2026-11-04 — Home, About, Services, Events, Brochure, form and footer pass
+
+**Task:** a run of client changes, done and pushed in `ddf6dc4`, `6dc5f97` and `cb8f07a`.
+
+**Home (Trinity World, `src/components/tw/`):** removed the "How it works" section and the Journey step
+paragraphs; step 7 gets a "Get your profile shortlist" button; "Trinity Study Abroad" yellow in the arrival
+line; the hero and arrival sub-lines removed; UK graduate-route wording; "Land & settle in UK"; IELTS moved to
+just above the footer; the CTA paragraph removed; "See more" under the webinar snippets goes to `/webinars`.
+The credits block was removed from the home page (CC licence attribution — a /credits page is the safe home
+for it, not built yet). The preloader work is the TL's, not here.
+
+**Pages without a hero:** About, Services, Events and Brochure now open on their content. Seed and database
+both changed; the first section clears the fixed header with its own padding (`#about`, `.services-sec`,
+`.featcards-sec`). About has one counsellor image (placeholder `services/guidance.webp`), solid navy/gold
+Mission and Vision cards, "Talk to a trusted counsellor".
+
+**Services cards:** distinct images (three generated graphics, `public/assets/img/services/`), buttons
+"Talk to our Counsellor". Spelling is "counsellor" site-wide.
+
+**Enquiry form (`LeadForm.tsx`):** nearest-city field removed; destination is a flag listbox in the home order
+(UK, Ireland, France, Germany, New Zealand, UAE, Singapore, Australia, Japan, South Korea, USA, Canada,
+Malaysia, Other Europe, then the block's extras), no "Not decided yet". Icon and flag styles now cover the
+standalone card, not just `.hero__form`.
+
+**Flags:** `ae-sq.png` (UAE keeps its red band in round icons) plus `jp`, `kr`, `my`, `eu`, drawn in PIL.
+Footer destinations follow the home order; the four without a page link to `/#c=<key>`.
+
+**Database:** nothing here reaches production by pushing code. Scripts, all dry-run by default with `--apply`
+and a backup in `scripts/backups/`: `remove-about-hero`, `set-about-counsellor-image`, `rename-segments-cta`,
+`remove-services-hero`, `remove-events-hero`, `remove-brochure-hero`, `sync-client-content-2026-10-28`,
+`add-webinars-page-2026-10-19`. Applied to production on 04/11/2026 after the user's go-ahead.
+
+**Verified:** localhost checks in the browser pane (HTML, computed styles, DOM). The pane does not tick
+animations, so loader and scroll motion were not seen. After the production writes, the live site showed the
+new code but old database content until the cache was cleared: a direct write never reaches
+`revalidateSite()`, so a redeploy (or saving a page in /admin) is a required last step.
