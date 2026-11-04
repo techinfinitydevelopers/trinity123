@@ -285,7 +285,7 @@ body:has(.tw-host){--twc-top:78px}
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
 .footer__word strong{font-weight:800;letter-spacing:-.03em;font-size:clamp(3rem,17vw,15rem);line-height:.9}
-.footer__word span{font-weight:600;letter-spacing:.34em;font-size:clamp(.7rem,2.6vw,1.6rem);
+.footer__word span{font-weight:600;letter-spacing:.34em;font-size:clamp(1rem,4vw,2.5rem);
   /* The tracking adds a trailing gap on the right that the centring then counts, so the whole
      line sits visibly left of the big one. Half the tracking back as padding re-centres it. */
   padding-left:.34em}
