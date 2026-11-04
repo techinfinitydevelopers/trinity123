@@ -859,3 +859,31 @@ still fits on one line. `tsc` clean, `npm run build` clean, perf budget within l
 
 **Worth knowing for the next session:** CSS animations do not advance while the Browser pane is
 hidden. Several "the animation is frozen" readings during this work were that, not the code.
+
+## 2026-11-04 — The preloader writes letter by letter
+
+**Task:** the writing had to look like someone actually writing, not like a reveal.
+
+**Change:** the single left-to-right wipe is gone. `Preloader.tsx` now splits the name and
+gives every letter its own moment, computed from the name itself during the render — the
+overlay is in the server HTML and starts animating before anything hydrates, so the timings
+have to be in that HTML. A capital takes 104ms because it is a long stroke with a lift in it,
+an ordinary letter 58ms, and a space 125ms: the pen leaving the paper and coming down again.
+A nine-millisecond jitter keyed off the character code gives three different letter speeds, so
+no two neighbours take exactly as long. That unevenness is the whole difference — a wipe moves
+at a constant speed across a word and nothing a hand does is constant.
+
+Each letter grows from the left with a small settle at the end, because a hand never stops
+dead. The pencil crosses the line on the same clock, stepped rather than glided, and its tilt
+rolls across the word.
+
+**Verified** by pausing the animations at fixed times in the browser: at 380ms "Tr" is on the
+paper with the pencil forming the r; at 820ms "Trinity S" with the S half-drawn and the pencil
+on it; on a normal run all 18 letters land and the underline follows. `tsc` clean, `npm run
+build` clean.
+
+**One to remember:** a `String.indexOf` anchor matched the phone override's `.tw-pre__ink{`
+before the base rule and the patch ate the media query's closing brace. `tsc` does not look at
+CSS and `npm run build` had been run before the edit, so nothing caught it until the dev server
+threw `CssSyntaxError: Unclosed block`. Any script that edits a stylesheet should count braces
+before it writes — the repair script does.
