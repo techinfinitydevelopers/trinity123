@@ -284,3 +284,6 @@
 .tw #webinar .wb-snips{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
 .tw #webinar .wb-snips img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:14px;display:block}
 @media(max-width:860px){.tw #webinar{padding:80px 0}.tw #webinar .wb{grid-template-columns:1fr}}
+.tw .arrive p:empty,.tw #c1 p:empty{display:none}
+/* The line between the heading and the buttons is gone, so the row carries that space itself. */
+.tw .arrive .row{margin-top:clamp(26px,5vh,48px)}

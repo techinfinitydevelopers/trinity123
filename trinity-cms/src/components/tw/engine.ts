@@ -427,7 +427,7 @@ function render(c){
   $('#pickedName').textContent=c.n;$('#cname').textContent=c.n;root.classList.add('compact');fitName();
   $('#go').innerHTML='Scroll to reach your study destination ↓';
   $('#c1 h1').innerHTML='Next stop:<br>'+c.n;
-  $('#c1 p').textContent=ORIGIN.name+' → '+c.city+'. One consultancy, door to door — from test prep to your offer letter.';
+  $('#c1 p').textContent='';
   $('#c4 h2').innerHTML='Landing in<br>'+c.n+'.';
   $('#route').textContent=ORIGIN.name.toUpperCase()+' → '+c.s.toUpperCase();
   const url=IMG[c.k];
@@ -435,7 +435,7 @@ function render(c){
   $('.arrive .bg').style.backgroundImage=`url(${url})`;
   $('.arrive .tag').textContent='Welcome to '+c.n;
   $('.arrive h2').innerHTML='Study in <em>'+c.n+'.</em><br>Let Trinity Study Abroad assist you.';
-  $('.arrive p').textContent=c.u.slice(0,3).join(', ')+' — your university in '+c.city+' is waiting.';
+  $('.arrive p').textContent='';
   const ex=$('#explore');ex.textContent='Explore '+c.n;{const h=opts.destHref?opts.destHref(c):'/destinations/'+c.k;ex.href=h||'#unis';ex.target='';ex.rel='noopener'}
   $('#uni-eyebrow').textContent='Destination '+c.s;
   $('#uni-lead').textContent='Top Universities in '+c.s+'. Keep scrolling →';
