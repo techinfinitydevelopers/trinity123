@@ -822,3 +822,40 @@ clean, perf budget within limits — CSS is now 297.5 KB of a 320 KB budget, 93%
 
 **Not verified:** the failure path (a lead POST that fails leaves the pass whole) was reasoned
 from the engine's handler, not forced.
+
+## 2026-11-04 — The preloader writes the company name
+
+**Task:** show "Trinity Study Abroad" on the preloader, written as if by hand on paper, with
+the logo, and nothing else of the site visible behind it.
+
+**Change:** `src/components/site/Preloader.tsx` and the `.tw-pre` block in `tw-chrome.css`.
+The plane-in-a-chip mark and bare progress bar are replaced by a sheet of cream paper with a
+torn top edge, the owner's logo above, and the site name written across it in graphite by a
+pencil that rides the edge of the writing and lifts off at the end. The bar stays underneath:
+it is the only honest signal that something is still loading. The logo and the name come from
+the dashboard's own settings, passed down from the layout, rather than being written twice.
+
+`MIN_MS` went from 700 to 2300 so the sentence finishes before the overlay leaves — half a
+word on screen would look like a fault. That is the cost of this change: a first visit on a
+fast connection waits about two seconds longer. It is paid once per visitor, never again.
+
+**A false start worth recording:** the writing was first put into the engine's own `#loading`
+overlay. That is the wrong screen — it is inside the drop-in, sits at z-index 100, and the
+site header, chat widget and floating buttons all paint over it. The site's real preloader is
+`.tw-pre` at z-index 200, which already covers everything. The engine's loader was left as it
+was and `src/components/tw/preloader.ts` was deleted.
+
+**A second one:** the writing animation was gated on a class React adds once the handwriting
+face has loaded, to stop a cold load writing in a font that had not arrived. The overlay is in
+the server HTML and starts animating before anything hydrates, so the gate held the words
+clipped — invisible — until hydration caught up. Removed; with `display=swap` the name is
+written in the system cursive if Caveat is late, which is the right failure.
+
+**Verified** in the browser: on a first visit the logo, the written name and the underline all
+appear with no header, footer, chat widget or floating buttons anywhere on screen, and the
+overlay leaves on its own. On the next page `.tw-pre` computes to `display:none` — it does not
+return, which is what was asked. At 375px the sheet is capped to the viewport and the name
+still fits on one line. `tsc` clean, `npm run build` clean, perf budget within limits.
+
+**Worth knowing for the next session:** CSS animations do not advance while the Browser pane is
+hidden. Several "the animation is frozen" readings during this work were that, not the code.

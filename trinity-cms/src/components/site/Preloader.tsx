@@ -31,10 +31,15 @@ import { useEffect } from "react";
    a transition. MAX is the fail-safe: if `load` never fires because one image is wedged, the
    overlay leaves anyway. */
 const KEY = "tw:preloaded";
-const MIN_MS = 700;
+/* MIN was 700ms, which is the floor for a loader to register as a loader at all. It is now
+   long enough for the name to finish being written, because that writing is the loader —
+   leaving half a word on the screen would look like a fault, not a flourish. This is the
+   one cost of the change: a first visit on a fast connection waits about two seconds longer.
+   It is paid once per visitor, never again, which is what makes it affordable. */
+const MIN_MS = 2300;
 const MAX_MS = 3500;
 
-export default function Preloader() {
+export default function Preloader({ logo, name }: { logo: string; name: string }) {
   useEffect(() => {
     const root = document.documentElement;
     /* Already seen: the blocking script in the layout has hidden it, there is nothing to do and
@@ -80,8 +85,22 @@ export default function Preloader() {
      reader should read straight past it rather than announce a loading screen it cannot dismiss. */
   return (
     <div className="tw-pre" aria-hidden="true">
-      <div className="tw-pre__mark">
-        <span className="tw-pre__plane">✈</span>
+      <div className="tw-pre__paper">
+        {/* eslint-disable-next-line @next/next/no-img-element -- the overlay is in the server
+            HTML before anything hydrates, and next/image would resolve its src too late. */}
+        <img className="tw-pre__logo" src={logo} alt="" width={160} height={54} />
+        <span className="tw-pre__line">
+          <span className="tw-pre__ink">{name}</span>
+          {/* A pencil, not a dot or a caret: the point sits on the last letter written and
+              the body trails up to the right, which is what says "pencil" before it moves. */}
+          <svg className="tw-pre__pencil" viewBox="0 0 24 24">
+            <path className="tw-pre__body" d="M7.5 16.5 18.6 5.4a2 2 0 0 1 2.8 0l.2.2a2 2 0 0 1 0 2.8L10.5 19.5z" />
+            <path className="tw-pre__tip" d="M7.5 16.5 10.5 19.5 6 21z" />
+          </svg>
+        </span>
+        <svg className="tw-pre__rule" viewBox="0 0 300 12" preserveAspectRatio="none">
+          <path d="M4 7C60 2 120 10 170 5S260 2 296 6" />
+        </svg>
       </div>
       <div className="tw-pre__bar"><i /></div>
     </div>

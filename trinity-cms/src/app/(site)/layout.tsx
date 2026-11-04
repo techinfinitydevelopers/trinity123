@@ -44,6 +44,10 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link href={fontHref(settings.theme)} rel="stylesheet" />
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+      {/* The hand the preloader writes the company name with. It sits here rather than inside
+          <Preloader>, where React left it in the body instead of hoisting it: the overlay starts
+          animating before anything hydrates, so the face has to be requested with the document. */}
+      <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet" />
       {/* Before the first paint, not after hydration: this marks the document for anyone who has
           already seen the preloader so the CSS can hide it, and a returning visitor never catches
           a frame of it. It has to be inline and blocking for that — a React effect runs too late,
@@ -55,7 +59,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
           __html: `try{if(localStorage.getItem("tw:preloaded"))document.documentElement.setAttribute("data-preloaded","1")}catch(e){}`,
         }}
       />
-      <Preloader />
+      <Preloader logo={settings.site.logo} name={settings.site.siteName} />
       <ThemeStyle t={settings.theme} />
       <OrgSchema site={settings.site} contact={settings.contact} />
       <Header nav={settings.nav} contact={settings.contact} site={settings.site} labels={settings.labels.header} destinations={destinations} />
