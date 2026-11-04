@@ -49,8 +49,12 @@ export type ChatbotSettings = {
 
 /* The footer strings that used to be hard-coded in `Footer.tsx`. The rest of the footer already
    came from `site`, `nav` and `contact`; these are the last pieces, so the owner can reword the
-   whole band without a deploy. */
+   footer without a deploy. */
 export type FooterSettings = {
+  /* The call-to-action band these five described was taken out of the footer on 4 Nov 2026.
+     They are kept because every settings row already stored them and dropping a key a stored
+     row still carries is a parse failure, not a tidy-up. Nothing reads them; the admin no
+     longer offers them. Remove them together with a migration, or not at all. */
   ctaKicker: string; ctaTitle: string;
   ctaPrimaryLabel: string; ctaPrimaryHref: string; ctaSecondaryLabel: string;
   linksTitle: string; destinationsTitle: string; contactTitle: string;

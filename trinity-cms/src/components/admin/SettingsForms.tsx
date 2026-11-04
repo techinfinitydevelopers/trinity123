@@ -206,15 +206,6 @@ export default function SettingsForms({ initial }: { initial: SettingsMap }) {
             <h3 className="text-[15px] font-bold text-navy">Footer</h3>
             <p className="text-[13px] text-ink-2">The logo, description and copyright live under General; the link list under Navigation; the address, phones and social icons under Contact &amp; social.</p>
 
-            <h4 className="pt-1 text-[14px] font-bold text-navy">Call-to-action band</h4>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Small line above"><input className="inp inp-sm" value={s.footer.ctaKicker} onChange={(e) => setS({ ...s, footer: { ...s.footer, ctaKicker: e.target.value } })} /></Field>
-              <Field label="Heading"><input className="inp inp-sm" value={s.footer.ctaTitle} onChange={(e) => setS({ ...s, footer: { ...s.footer, ctaTitle: e.target.value } })} /></Field>
-              <Field label="Button label"><input className="inp inp-sm" value={s.footer.ctaPrimaryLabel} onChange={(e) => setS({ ...s, footer: { ...s.footer, ctaPrimaryLabel: e.target.value } })} /></Field>
-              <Field label="Button link"><input className="inp inp-sm font-mono" value={s.footer.ctaPrimaryHref} onChange={(e) => setS({ ...s, footer: { ...s.footer, ctaPrimaryHref: e.target.value } })} /></Field>
-              <Field label="WhatsApp button label" hint="The number itself is under Contact &amp; social."><input className="inp inp-sm" value={s.footer.ctaSecondaryLabel} onChange={(e) => setS({ ...s, footer: { ...s.footer, ctaSecondaryLabel: e.target.value } })} /></Field>
-            </div>
-
             <h4 className="pt-2 text-[14px] font-bold text-navy">Column headings</h4>
             <div className="grid gap-4 sm:grid-cols-3">
               <Field label="Links column"><input className="inp inp-sm" value={s.footer.linksTitle} onChange={(e) => setS({ ...s, footer: { ...s.footer, linksTitle: e.target.value } })} /></Field>

@@ -946,3 +946,27 @@ drop-in was built around, and it is better watched than described by a percentag
 
 **Verified** locally on a first visit to `/`: the name is written, then the globe, then the
 hero. No "Boarding…" and no second bar at any point. `npm run build` clean.
+
+## 2026-11-04 — The footer's call-to-action band is gone
+
+**Task:** take the "Ready to start your study abroad journey?" band out of the footer, and put
+the footer right afterwards.
+
+**Change:** the band is out of `Footer.tsx`, its rules are out of `site.css`, and the admin's
+"Call-to-action band" fields are gone with it — fields that edit nothing are worse than no
+fields. The five settings keys stay: every stored settings row already carries them, and
+dropping a key a stored row still has is a parse failure, not a tidy-up. They are marked unused
+where they are declared.
+
+Two rules existed only to get out of the band's way on a page that ended with its own call to
+action (`main:has(> .cta-block:last-child) + .footer …`); both went with it.
+
+**The footer itself:** it used to pull 80px up under the page and keep its own first 80px
+transparent, so the band sat half over the section above. With no band those two offsets only
+made the columns start flush against whatever the page ended with — which is what "the footer
+is stuck to the content" was. Both offsets are gone and the column grid carries 72px of its own
+space at the top instead.
+
+**Verified** at 1280px on /about-us, which ends in testimonials, and on /destinations/uk, which
+ends in its own country CTA: no band, and the footer starts with room above it in both. `tsc`
+clean, `npm run build` clean.

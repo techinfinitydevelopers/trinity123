@@ -8,16 +8,6 @@ export default function Footer({ nav, contact, site, footer, destinations }: { n
   return (
     <>
       <footer className="footer">
-        <div className="container footer__cta" data-reveal="scale">
-          <div>
-            <p className="kicker kicker--gold">{footer.ctaKicker}</p>
-            <h2 className="footer__cta-title">{footer.ctaTitle}</h2>
-          </div>
-          <div className="btn-row">
-            <Link className="btn btn--gold" href={footer.ctaPrimaryHref}>{footer.ctaPrimaryLabel} <i className="fas fa-arrow-right" /></Link>
-            <a className="btn btn--ghost" href={wa} target="_blank" rel="noopener"><i className="fab fa-whatsapp" /> {footer.ctaSecondaryLabel}</a>
-          </div>
-        </div>
         <div className="container footer__grid">
           <div className="footer__brand">
             <Link className="footer__logo" href="/"><img src={site.logo} alt={site.siteName} width={150} height={50} /></Link>
