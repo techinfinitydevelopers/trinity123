@@ -36,7 +36,6 @@ export async function Testimonials({ b }: { b: TestimonialsBlock }) {
   const L = (await getLabels()).common;
   return (
     <section className="section testi">
-      <span className="testi__quote" aria-hidden="true">“</span>
       <div className="container">
         <SectionHead kicker={b.kicker} title={b.title} lead={b.lead} center />
         <div className="grid grid--2">
