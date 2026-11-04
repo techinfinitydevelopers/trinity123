@@ -887,3 +887,42 @@ before the base rule and the patch ate the media query's closing brace. `tsc` do
 CSS and `npm run build` had been run before the edit, so nothing caught it until the dev server
 threw `CssSyntaxError: Unclosed block`. Any script that edits a stylesheet should count braces
 before it writes — the repair script does.
+
+## 2026-11-04 — The preloader's name is written, not revealed
+
+**Task:** the writing had to stop looking like a reveal and start looking like a hand.
+
+**Three attempts, and why the first two were never going to work.** A left-to-right wipe: the
+uncovering edge is a straight vertical line at a constant speed. One letter at a time: fixes
+the speed, keeps the edge, so each letter arrives whole and it reads as typing. A thick brush
+dragged along a wave: better front, better motion, and still wrong — a mask only moves forward,
+so the bar on a T arrives with its stem, the dot on an i never gets its own trip, and the pen
+never lifts. Those three things are most of what makes writing look like writing.
+
+**Change:** `src/components/site/handwriting.ts` is a single-stroke hand — a–z and A–Z as the
+route a pen takes, lowercase in as many strokes as the movement really is and capitals drawn
+the way most people draw them, in separate strokes. `Preloader.tsx` lays the name out and gives
+each stroke its moment; the line is drawn by growing it from nothing, so graphite appears at
+the tip and nowhere else. One pencil per stroke, each riding its own stroke with `offset-path`
+and visible only during it — a single pencil cannot lift, because CSS gives an element one
+motion path, and lifting is the point.
+
+Two things that were still mechanical after the strokes were right: every stroke took the same
+time regardless of length, and the whole name was written in two seconds. Stroke time now comes
+from an estimate of how far the pen travels — the path's numbers walked in pairs and summed,
+which overcounts curves by about the same amount every time, and only the ratio matters. The
+pace is about seven letters a second, which puts twenty letters at just under three seconds.
+
+That lengthens the first visit: the loader holds for about 4.6s where it held for 0.7s before
+any of this work started, and that is the real price of it — paid once per visitor and never
+again. `MAX_MS` went to 5800 and the CSS fail-safe fade to 7.2s so neither can fire while the
+name is still being written.
+
+**Verified** in the browser on an ordinary first visit, not a rigged one: at ~2s "Trinity Study"
+is on the paper with the pencil on the y, at ~4s the full name with the underline, and by ~6s
+the loader has gone. 35 strokes for this name. At 375px the sheet still fits.
+`tsc` clean, `npm run build` clean.
+
+**Not covered:** digits and punctuation have no strokes — they advance the pen and are not
+drawn. The name this was built for has none, and dropping a character beats drawing the wrong
+shape, but a site name with a "&" or a year in it would lose it.

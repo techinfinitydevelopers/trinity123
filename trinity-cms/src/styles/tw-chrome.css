@@ -384,13 +384,13 @@ body:has(.mobile-menu:not([hidden])){overflow:hidden}
   position:fixed;inset:0;z-index:200;
   display:grid;place-items:center;align-content:center;gap:26px;
   background:radial-gradient(900px 600px at 50% 38%,#0b2452,var(--twc-navy) 70%);
-  animation:tw-pre-failsafe 4.4s linear forwards;
+  animation:tw-pre-failsafe 7.2s linear forwards;
 }
 :root[data-preloaded] .tw-pre{display:none}
 :root[data-preloading="out"] .tw-pre{opacity:0;pointer-events:none;transition:opacity .6s ease}
 
 @keyframes tw-pre-failsafe{
-  0%,79%{opacity:1}
+  0%,86%{opacity:1}
   100%{opacity:0;visibility:hidden}
 }
 
@@ -423,63 +423,53 @@ body:has(.mobile-menu:not([hidden])){overflow:hidden}
 
 .tw-pre__logo{height:clamp(30px,4.4vw,42px);width:auto;opacity:.92}
 
-.tw-pre__ink{
+/* The name is written, not revealed.
+
+   Every stroke is one movement of a pen, drawn by growing the line from nothing, so the
+   graphite appears at the tip and nowhere else. Preloader.tsx lays the strokes out and gives
+   each one its moment; handwriting.ts holds the routes. Three cheaper versions of this are
+   described at the top of that file, with why each gave itself away. */
+.tw-pre__sign{
   display:block;
-  font:700 clamp(1.9rem,6.4vw,3.8rem)/1.1 Caveat,"Segoe Script",cursive;
-  letter-spacing:.01em;white-space:nowrap;
-  /* Graphite, not ink. The half-pixel lighter shadow is the smear a soft lead leaves. */
-  color:#40434c;
-  text-shadow:.5px .5px 0 rgba(90,94,105,.45);
+  width:min(74vw,600px);
+  height:auto;
+  overflow:visible;
 }
 
-/* Each letter is drawn on its own, at the moment Preloader.tsx gives it. The stroke grows
-   from the baseline up and from the left, which is roughly how a pen lays a letter down, and
-   the letter settles the last fraction of a degree after it lands — a hand never stops dead.
-   A space is a .tw-pre__gap and is simply there; its pause is already in the next letter's
-   delay, which is where a real hand's pause lives too. */
-.tw-pre__ch{
-  display:inline-block;
-  clip-path:inset(-35% 100% -35% 0);
-  animation:tw-pre-letter .13s linear both;
+.tw-pre__stroke{
+  fill:none;
+  stroke:#40434c;              /* graphite, not ink */
+  stroke-width:5.5;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-dasharray:1;
+  stroke-dashoffset:1;
+  animation-name:tw-pre-ink;
+  animation-timing-function:linear;
+  animation-fill-mode:forwards;
 }
-.tw-pre__gap{display:inline-block}
-@keyframes tw-pre-letter{
-  from{clip-path:inset(-35% 100% -35% 0);transform:translateY(1.5px) rotate(1.2deg)}
-  70%{transform:translateY(.4px) rotate(.3deg)}
-  to{clip-path:inset(-35% -14% -35% 0);transform:none}
-}
+@keyframes tw-pre-ink{to{stroke-dashoffset:0}}
 
-/* The pencil rides along the line as the letters land. Its point is at the bottom-left of its
-   box, so the box is nudged to put that point on the letter being written. The tilt changes
-   as it goes, because a hand rolls the pencil slightly across a word, and the point presses
-   down and lifts between strokes. The duration and the stepping come from the component, so
-   the pencil and the letters share one clock. */
+/* Each pencil shows only while its own stroke is being drawn: no fill mode, so outside its
+   window the rule below is what applies and it is not on the paper at all. */
 .tw-pre__pencil{
-  position:absolute;top:56%;left:0;
-  width:clamp(24px,3.2vw,34px);height:clamp(24px,3.2vw,34px);
-  margin:-2px 0 0 -5px;
-  transform-origin:14% 86%;
-  animation-name:tw-pre-draw;
-  animation-fill-mode:both;
+  opacity:0;
+  offset-rotate:0deg;          /* a hand carries a pencil at one angle; it does not spin it */
+  animation-name:tw-pre-carry;
+  animation-timing-function:linear;
 }
-.tw-pre__body{fill:#e8b34a;stroke:#9a7320;stroke-width:.7}
+.tw-pre__body{fill:#e8b34a;stroke:#9a7320;stroke-width:2}
 .tw-pre__tip{fill:#40434c}
-@keyframes tw-pre-draw{
-  0%{left:0;opacity:1;transform:rotate(-2deg) translateY(0)}
-  12%{transform:rotate(1deg) translateY(1px)}
-  31%{transform:rotate(-3deg) translateY(-1px)}
-  48%{transform:rotate(2deg) translateY(1.5px)}
-  66%{transform:rotate(-1deg) translateY(-.5px)}
-  84%{transform:rotate(3deg) translateY(1px)}
-  93%{opacity:1}
-  100%{left:100%;opacity:0;transform:rotate(-12deg) translateY(-10px)}
+@keyframes tw-pre-carry{
+  from{offset-distance:0%;opacity:1}
+  to{offset-distance:100%;opacity:1}
 }
 
 /* The sheet must not run off a phone: the name is one unbroken line, so the paper is capped
    to the viewport and the padding comes in with it. */
 @media(max-width:520px){
   .tw-pre__paper{max-width:92vw;padding:22px 18px 24px}
-  .tw-pre__ink{font-size:clamp(1.5rem,7.4vw,2.2rem)}
+  .tw-pre__sign{width:86vw}
 }
 
 /* The underline, drawn once the words are down. */
@@ -512,8 +502,8 @@ body:has(.mobile-menu:not([hidden])){overflow:hidden}
 /* Reduced motion: the overlay still covers the gap, it just stops moving. The fail-safe fade is
    kept — it is a safety net, not decoration. */
 @media (prefers-reduced-motion:reduce){
-  .tw-pre__paper,.tw-pre__ch,.tw-pre__pencil,.tw-pre__rule path,.tw-pre__bar i{animation:none}
-  .tw-pre__ch{clip-path:none}
+  .tw-pre__paper,.tw-pre__stroke,.tw-pre__pencil,.tw-pre__rule path,.tw-pre__bar i{animation:none}
+  .tw-pre__stroke{stroke-dashoffset:0}
   .tw-pre__pencil{opacity:0}
   .tw-pre__rule path{stroke-dashoffset:0}
   .tw-pre__bar i{width:100%}

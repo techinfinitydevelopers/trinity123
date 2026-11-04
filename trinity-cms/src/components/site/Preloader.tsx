@@ -25,55 +25,38 @@
       out of the way. */
 
 import { useEffect } from "react";
+import { layout, ASCENDER, DESCENDER } from "./handwriting";
 
 /* The flag, and the two timings. MIN exists because a loader that appears for 120ms reads as a
    glitch rather than a loader — below about a third of a second the eye registers a flicker, not
    a transition. MAX is the fail-safe: if `load` never fires because one image is wedged, the
    overlay leaves anyway. */
 const KEY = "tw:preloaded";
-const MAX_MS = 3500;
-
-/* ---- the hand ------------------------------------------------------------------------------
-   The name used to be uncovered by one left-to-right wipe. A wipe moves at a constant speed
-   across a whole word, and nothing a hand does is constant — which is why it read as a reveal
-   rather than as writing.
-
-   So each letter is drawn on its own, at its own moment, and the pen takes a different amount
-   of time over each. A capital is a long stroke with a lift in it. A space is the pen leaving
-   the paper and coming down again, which is the longest pause of all — it is also the pause
-   that makes the whole thing look human, because that is where a real hand actually stops.
-   The last-digit jitter is deliberate unevenness: three different letter speeds rather than
-   one, so no two neighbours take exactly as long.
-
-   Computed from the name rather than written down, so it stays right when the dashboard
-   changes the words, and computed during the render rather than in an effect: the overlay is
-   in the server HTML and starts animating before anything hydrates, so the timings have to be
-   in that HTML too. */
-const LETTER_MS = 58;
-const CAPITAL_MS = 104;
-const SPACE_MS = 125;
-const START_MS = 140;
-
-function hand(name: string) {
-  const marks: Array<{ ch: string; at: number }> = [];
-  let t = START_MS;
-  for (const ch of name) {
-    marks.push({ ch, at: t });
-    if (ch === " ") t += SPACE_MS;
-    else t += (ch === ch.toUpperCase() ? CAPITAL_MS : LETTER_MS) + (ch.charCodeAt(0) % 3) * 9;
-  }
-  return { marks, total: t };
-}
+/* Raised with the writing: the hand takes about four seconds over twenty letters, and a
+   fail-safe that fires before the name is finished is not a safety net, it is a glitch. */
+const MAX_MS = 5800;
 
 export default function Preloader({ logo, name }: { logo: string; name: string }) {
-  const { marks, total } = hand(name);
+  /* The name is not set in a typeface here. `handwriting.ts` holds the route a pen takes
+     through every letter, and each of those strokes is drawn by growing the line from nothing,
+     so the graphite appears at the tip and nowhere else. Three cheaper versions of this are
+     described at the top of that file, along with why each one gave itself away.
+
+     Laid out during the render rather than in an effect: the overlay is in the server HTML and
+     starts animating before anything hydrates, so the timings have to be in that HTML too. */
+  /* About five letters a second — an unhurried hand, not a signature being dashed off. Faster
+   than this and it stops reading as writing however right the strokes are, which is what the
+   first version of this got wrong even after the strokes themselves were real. */
+  const writeMs = Math.min(4200, Math.max(2000, name.length * 200));
+  const { marks, width, total } = layout(name, writeMs);
+  const PAD = 18;
   /* The underline is the flourish at the end of a signature, so it waits for the last letter.
      MIN then waits for the underline: the loader leaves when the writing is finished, because
      half a written word on screen looks like a fault rather than a flourish. This is the one
      cost — a first visit on a fast connection waits about two seconds longer, once per
      visitor and never again. */
-  const ruleAt = total + 90;
-  const MIN_MS = Math.min(ruleAt + 620, 2800);
+  const ruleAt = total + 80;
+  const MIN_MS = Math.min(ruleAt + 520, 5200);
   useEffect(() => {
     const root = document.documentElement;
     /* Already seen: the blocking script in the layout has hidden it, there is nothing to do and
@@ -123,33 +106,42 @@ export default function Preloader({ logo, name }: { logo: string; name: string }
         {/* eslint-disable-next-line @next/next/no-img-element -- the overlay is in the server
             HTML before anything hydrates, and next/image would resolve its src too late. */}
         <img className="tw-pre__logo" src={logo} alt="" width={160} height={54} />
-        <span className="tw-pre__line">
-          <span className="tw-pre__ink">
+        <svg
+          className="tw-pre__sign"
+          viewBox={`${-PAD} ${-ASCENDER - PAD} ${width + PAD * 2} ${ASCENDER + DESCENDER + PAD * 2}`}
+        >
+          {/* A slight slant, because nobody writes dead upright, applied to the whole hand so
+              the pencil leans with it. */}
+          <g transform="skewX(-7)">
             {marks.map((m, i) => (
-              /* A space has nothing to draw, so it is marked and left alone — the pause it
-                 buys is in the next letter's delay, not in an animation of its own. */
-              <span
-                key={i}
-                className={m.ch === " " ? "tw-pre__gap" : "tw-pre__ch"}
-                style={m.ch === " " ? undefined : { animationDelay: `${m.at}ms` }}
-              >
-                {m.ch === " " ? " " : m.ch}
-              </span>
+              <g key={i} transform={`translate(${m.x} 0)`}>
+                {/* `pathLength` is 1 so the dash that draws the stroke is a fraction rather
+                    than a measurement — nothing here has to know how long the curve is. */}
+                <path
+                  className="tw-pre__stroke"
+                  d={m.d}
+                  pathLength={1}
+                  style={{ animationDelay: `${Math.round(m.at)}ms`, animationDuration: `${Math.round(m.dur)}ms` }}
+                />
+                {/* One pencil per stroke, each riding its own stroke and visible only while
+                    that stroke is being drawn. A single pencil cannot do this: CSS gives an
+                    element one motion path, and the whole point is that the pen lifts and
+                    starts somewhere else — which is what a mask could never show. */}
+                <g
+                  className="tw-pre__pencil"
+                  style={{
+                    offsetPath: `path("${m.d}")`,
+                    animationDelay: `${Math.round(m.at)}ms`,
+                    animationDuration: `${Math.round(m.dur)}ms`,
+                  }}
+                >
+                  <path className="tw-pre__body" d="M11 -8 44 -41a5.5 5.5 0 0 1 7.8 0l.6.6a5.5 5.5 0 0 1 0 7.8L19.4 0z" />
+                  <path className="tw-pre__tip" d="M11 -8 19.4 0 4 4z" />
+                </g>
+              </g>
             ))}
-          </span>
-          {/* A pencil, not a dot or a caret: the point sits on the last letter written and
-              the body trails up to the right, which is what says "pencil" before it moves.
-              It crosses the line in the same time the hand takes, and `steps` is deliberate:
-              a pen does not glide, it arrives at the next letter and stops there. */}
-          <svg
-            className="tw-pre__pencil"
-            viewBox="0 0 24 24"
-            style={{ animationDuration: `${total}ms`, animationTimingFunction: `steps(${marks.length}, end)` }}
-          >
-            <path className="tw-pre__body" d="M7.5 16.5 18.6 5.4a2 2 0 0 1 2.8 0l.2.2a2 2 0 0 1 0 2.8L10.5 19.5z" />
-            <path className="tw-pre__tip" d="M7.5 16.5 10.5 19.5 6 21z" />
-          </svg>
-        </span>
+          </g>
+        </svg>
         <svg className="tw-pre__rule" viewBox="0 0 300 12" preserveAspectRatio="none">
           <path d="M4 7C60 2 120 10 170 5S260 2 296 6" style={{ animationDelay: `${ruleAt}ms` }} />
         </svg>
