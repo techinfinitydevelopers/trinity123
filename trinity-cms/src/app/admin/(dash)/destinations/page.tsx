@@ -16,7 +16,7 @@ export default async function DestinationsPage() {
         <ul className="divide-y divide-line">
           {rows.map((c) => (
             <li key={c.id} className="flex items-center gap-4 px-4 py-3 hover:bg-canvas/60">
-              <img src={`/assets/img/flags/${c.code}.png`} alt="" className="h-8 w-8 rounded-full object-cover shadow" onError={undefined} />
+              <img src={`/assets/img/flags/${c.code === "ae" ? "ae-sq" : c.code}.png`} alt="" className="h-8 w-8 rounded-full object-cover shadow" onError={undefined} />
               <div className="min-w-0 flex-1">
                 <Link href={`/admin/destinations/${c.id}`} className="block truncate text-[15px] font-semibold text-navy hover:text-brand">{c.name} <span className="font-normal text-ink-3">· {c.tag}</span></Link>
                 <p className="truncate text-[12px] text-ink-3">/destinations/{c.slug} · updated {fmt(c.updatedAt)}</p>

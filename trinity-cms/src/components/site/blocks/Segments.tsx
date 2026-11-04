@@ -18,6 +18,7 @@ export function Segments({ b }: { b: SegmentsBlock }) {
           <div className="seg__pillars">
             {b.pillars.map((p, i) => (
               <article key={i} className="seg__pillar" data-reveal style={{ ["--d" as string]: `${i * 0.1}s` }}>
+                {p.icon ? <i className={`${p.icon} seg__wm`} aria-hidden="true" /> : null}
                 {p.icon ? <span className="seg__ico"><i className={p.icon} aria-hidden="true" /></span> : null}
                 <h3>{p.title}</h3>
                 <p>{p.text}</p>

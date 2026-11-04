@@ -7,12 +7,13 @@ export function About({ b, contact, site }: { b: AboutBlock; contact: ContactSet
   return (
     <section className="section" id="about">
       <div className="container split">
-        <div className="bento" data-reveal="left">
+        {/* No side image means a single portrait (the counsellor); the caption only shows when it has text. */}
+        <div className={b.sideImg ? "bento" : "bento bento--single"} data-reveal="left">
           <div className="bento__main" data-plx="-0.06">
             <img src={b.mainImg} alt={b.mainAlt} loading="lazy" />
-            <div className="bento__cap"><small>{b.capSmall}</small><strong>{b.capStrong}</strong>{b.capSpan ? <span>{b.capSpan}</span> : null}</div>
+            {b.capStrong ? <div className="bento__cap"><small>{b.capSmall}</small><strong>{b.capStrong}</strong>{b.capSpan ? <span>{b.capSpan}</span> : null}</div> : null}
           </div>
-          <div className="bento__img" data-plx="0.08"><img src={b.sideImg} alt={b.sideAlt} loading="lazy" /></div>
+          {b.sideImg ? <div className="bento__img" data-plx="0.08"><img src={b.sideImg} alt={b.sideAlt} loading="lazy" /></div> : null}
           {b.statNum ? <div className="bento__stat" data-plx="0.14"><span className="ring" /><strong>{b.statNum}<em>+</em></strong><p>{b.statText}</p></div> : null}
           {b.chip ? <div className="chip chip--float"><img src={site.logo} alt="" height={30} /><span><strong>{b.chip.strong}</strong><small>{b.chip.small}</small></span></div> : null}
         </div>

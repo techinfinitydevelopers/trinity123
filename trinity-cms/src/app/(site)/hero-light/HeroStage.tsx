@@ -143,7 +143,7 @@ export default function HeroStage({ items }: { items: Uni[] }) {
               <Link key={i} href={u.href || "/contact-us"} className="hs__u" style={{ ["--i" as string]: i }}>
                 {/* eslint-disable-next-line @next/next/no-img-element -- card art, sizes vary */}
                 <img className="hs__u-img" src={u.img} alt={u.name} loading="lazy" />
-                <span className="hs__u-city"><img src={`/assets/img/flags/${u.flag}.png`} alt="" />{u.city}</span>
+                <span className="hs__u-city"><img src={`/assets/img/flags/${u.flag === "ae" ? "ae-sq" : u.flag}.png`} alt="" />{u.city}</span>
                 <span className="hs__u-body">
                   <small>★ {u.rating}</small>
                   <strong>{u.name}</strong>

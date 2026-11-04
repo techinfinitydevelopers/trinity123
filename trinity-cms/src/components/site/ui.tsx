@@ -3,7 +3,9 @@ import type { CSSProperties, ReactNode } from "react";
 import { splitTitle, type Word, type Btn } from "@/lib/blocks";
 import type { ContactSettings } from "@/lib/settings";
 
-export const FLAG = (code: string) => `/assets/img/flags/${code}.png`;
+/* Flags are shown in circles, which crop a wide flag to its middle. The UAE's red band sits at the left
+   edge and was cut off entirely, so it has a square version with the band kept. */
+export const FLAG = (code: string) => `/assets/img/flags/${code === "ae" ? "ae-sq" : code}.png`;
 
 /** Resolve sentinel hrefs ("whatsapp" | "phone") against contact settings. */
 export function resolveHref(href: string, contact: ContactSettings) {

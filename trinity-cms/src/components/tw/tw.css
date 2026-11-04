@@ -287,3 +287,10 @@
 .tw .arrive p:empty,.tw #c1 p:empty{display:none}
 /* The line between the heading and the buttons is gone, so the row carries that space itself. */
 .tw .arrive .row{margin-top:clamp(26px,5vh,48px)}
+.tw #pp:empty{display:none}
+/* Appears when the journey reaches its last step. */
+.tw #pcta{margin-top:40px;opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity .45s,transform .45s,box-shadow .25s}.tw #pcta.on{opacity:1;transform:none;pointer-events:auto}
+/* The step's paragraph is gone, so the block no longer reserves room for it. */
+.tw .stg{min-height:0}
+/* "See more" under the webinar snippets: a solid navy button (readable on the white card), distinct from the gold Register one. */
+.tw #webinar .wb-past{display:flex;flex-direction:column}.tw #webinar .wb-more{align-self:flex-start;margin-top:22px;padding:13px 26px;background:#0b2a6b;color:#fff;font-weight:700;box-shadow:0 10px 24px rgba(11,42,107,.3)}.tw #webinar .wb-more:hover{background:var(--gold);color:#241a00;transform:translateY(-2px)}

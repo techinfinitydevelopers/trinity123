@@ -434,7 +434,7 @@ function render(c){
   $('.v2').style.backgroundImage=`url(${url})`;
   $('.arrive .bg').style.backgroundImage=`url(${url})`;
   $('.arrive .tag').textContent='Welcome to '+c.n;
-  $('.arrive h2').innerHTML='Study in <em>'+c.n+'.</em><br>Let Trinity Study Abroad assist you.';
+  $('.arrive h2').innerHTML='Study in <em>'+c.n+'.</em><br>Let <em>Trinity Study Abroad</em> assist you.';
   $('.arrive p').textContent='';
   const ex=$('#explore');ex.textContent='Explore '+c.n;{const h=opts.destHref?opts.destHref(c):'/destinations/'+c.k;ex.href=h||'#unis';ex.target='';ex.rel='noopener'}
   $('#uni-eyebrow').textContent='Destination '+c.s;
@@ -587,19 +587,11 @@ gsap.fromTo('.ie .wrap',{opacity:0,y:120,scale:.95},{opacity:1,y:0,scale:1,ease:
 gsap.to('.ie .wrap',{opacity:0,y:-110,scale:.96,ease:'none',immediateRender:false,scrollTrigger:{trigger:'#ielts',start:'bottom 78%',end:'bottom 22%',scrub:.7}});
 gsap.from('#mods .mod',{x:90,opacity:0,stagger:.12,ease:'power3.out',scrollTrigger:{trigger:'#ielts',start:'top 60%'}});
 
-/* ---------------- PROCESS / STATS / VOICES / CTA ---------------- */
-enterExit('#process .wrap > .eyebrow',{y:40});enterExit('#process .h2',{y:70});
-const line=$('#line');line.setAttribute('pathLength',100);$('.bgp').setAttribute('pathLength',100);
-gsap.fromTo(line,{strokeDasharray:100,strokeDashoffset:100},{strokeDashoffset:0,ease:'none',scrollTrigger:{trigger:'#tl',start:'top 70%',end:'bottom 70%',scrub:true}});
-gsap.utils.toArray('.st').forEach((s,i)=>{
-  gsap.fromTo(s,{x:i%2?-90:90,opacity:0,rotateX:12},{x:0,opacity:1,rotateX:0,ease:'none',scrollTrigger:{trigger:s,start:'top 96%',end:'top 66%',scrub:.6}});
-  gsap.to(s,{x:i%2?60:-60,opacity:0,ease:'none',immediateRender:false,scrollTrigger:{trigger:s,start:'bottom 30%',end:'bottom 2%',scrub:.6}});
-});
 /* ---------------- STUDENT SECTIONS ---------------- */
 const UQ=(id:string,_w=1100)=>pick('stu',id,`${AB}/stu/${id}.jpg`);
 const SIMG={grp:'1522202176988-66273c2fd55f',lib:'1523240795612-9a054b0db644',fr:'1529156069898-49953e39b3ac',hall:'1519452635265-7b1fbfd1e4e0',map:'1488646953014-85cb44e25828',air:'1569154941061-e231b4725ef1',wing:'1436491865332-7a61a109cc05',caps:'1590012314607-cda9d9b699ae',café:'1543269865-cbf427effbad'};
 const STU={
-uk:{visa:'UK Student visa',offer:'CAS from your university',funds:'Maintenance funds in your bank statements',work:'Part time job up to 20 hrs/week in term time',post:'Graduate Route — typically 2 years to work after your degree'},
+uk:{visa:'UK Student visa',offer:'CAS from your university',funds:'Maintenance funds in your bank statements',work:'Part time job up to 20 hrs/week in term time',post:'Graduate Route typically 18 months to work after your degree'},
 ireland:{visa:'Irish study visa + Stamp 2 permission',offer:'Offer letter + fee payment receipt',funds:'Proof of funds for living costs',work:'Up to 20 hrs/week in term, full-time in holidays',post:'Stay Back — typically 12–24 months depending on your level'},
 france:{visa:'Long-stay student visa (VLS-TS) via Campus France',offer:'Campus France pre-enrolment + admission letter',funds:'Proof of monthly resources',work:'Up to about 964 hours a year alongside study',post:'Around 12 months to look for work after a Master’s'},
 germany:{visa:'National (D) student visa',offer:'Admission letter (+ APS certificate for Indian students)',funds:'Blocked account (Sperrkonto) for living costs',work:'140 full days or 280 half days a year',post:'18 months to find a job after graduation'},
@@ -635,7 +627,7 @@ function renderStudent(c){
    ['6','','Get departure ready','Accommodation, insurance, forex and flights','Accommodation in '+c.city+', insurance, forex, flights and pre-departure guidance.'],
    ['7','','Stay supported','Guidance after you arrive','Practical post-arrival guidance after you reach your destination.']];
   BEATS=[
-   ['Week 1','Land & settle in '+c.city,'Accommodation.','Welcome week · new friends'],
+   ['Week 1','Land & settle in '+c.s,'Accommodation.','Welcome week · new friends'],
    ['Month 1','Classes, campus & community','Meet your cohort, join clubs and find your study rhythm at your university.','Study groups · clubs'],
    ['Month 3','Work and Studies',S.work+'.','Earn while you learn'],
    ['After graduation','Your next step',S.post+'.','Stay & work after study']];
@@ -661,7 +653,8 @@ let curStg=-1;
 function setStage(i,force){
   if(!STG.length)return;i=Math.max(0,Math.min(6,i));if(i===curStg&&!force)return;curStg=i;G.__stg=i;
   const s=STG[i];
-  const fill=()=>{$('#pmo').textContent=s[0];$('#ptag').textContent=s[2];$('#pt').textContent=s[3];$('#pp').textContent=s[4]};
+  $('#pcta').classList.toggle('on',i===STG.length-1);
+  const fill=()=>{$('#pmo').textContent=s[0];$('#ptag').textContent=s[2];$('#pt').textContent=s[3];$('#pp').textContent=''};
   if(force){fill()}else{gsap.to('.ptxt,.mo b',{opacity:0,y:-10,duration:.16,onComplete:()=>{fill();gsap.fromTo('.ptxt,.mo b',{opacity:0,y:12},{opacity:1,y:0,duration:.35,ease:'power2.out'})}})}
   const a=$('#pimg'),b=$('#pimg2');const front=a.dataset.f==='1'?b:a,back=front===a?b:a;
   front.src=(G.__pimgs||[])[i]||'';front.style.opacity=1;back.style.opacity=0;front.dataset.f='1';back.dataset.f='0';

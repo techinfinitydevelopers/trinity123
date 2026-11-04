@@ -321,18 +321,9 @@ const homeBlocks: Block[] = [
 
 const aboutBlocks: Block[] = [
   {
-    type: "pageHero", ghost: "ABOUT US", crumb: "About Us",
-    words: [{ t: "Empowering" }, { t: "Global", br: true }, { t: "Education", s: "gold" }, { t: "Since" }, { t: "1982" }],
-    sub: "A unit of Trinity Air Travel & Tours Pvt. Ltd. — a well-established 42-year-old company in travel & tourism, now guiding students to universities worldwide.",
-    aside: { kind: "statchips", items: [
-      { strong: "39", suffix: "+", small: "Countries", style: "gold" },
-      { strong: "1200", small: "Partner universities", style: "purple", icon: "fas fa-university" },
-    ] },
-  },
-  {
     type: "about",
-    mainImg: `${IMG}/home/inner_about_img-1.jpg`, mainAlt: "Trinity Study Abroad", capSmall: "Our Founder", capStrong: "Mr Baby John", capSpan: "Industry veteran & visionary",
-    sideImg: `${IMG}/unversity/z3.jpg`, sideAlt: "University of Edinburgh", statNum: "", statText: "", chip: null,
+    mainImg: "/assets/img/services/guidance.webp", mainAlt: "Trinity Study Abroad counsellor with a student", capSmall: "", capStrong: "", capSpan: "",
+    sideImg: "", sideAlt: "", statNum: "", statText: "", chip: null,
     kicker: "Our Story", title: "About [Trinity Study Abroad]",
     paragraphs: [
       "Trinity Study Abroad is the overseas education division of Trinity Air Travel & Tours Pvt. Ltd., a travel group established in 1982. We help students and families make informed international education decisions with clear guidance at every stage.",
