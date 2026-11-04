@@ -26,7 +26,7 @@ const pageHero = {
   aside: {
     kind: "visual",
     /* Not one of the posters: all six are printed further down the same page. */
-    img: "/assets/img/home/inner_about_img-1.jpg",
+    img: "/assets/img/hero-light/desk.jpg",
     chipA: { big: "Free", small: "No charge to attend" },
     chipB: { icon: "fas fa-video", strong: "Online", small: "Join from anywhere" },
   },

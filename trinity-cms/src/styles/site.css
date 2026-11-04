@@ -48,6 +48,8 @@ button{font:inherit;cursor:pointer}
 .section-head--center .kicker{justify-content:center}
 .section-head + p{margin-top:-30px;line-height:1.8;text-wrap:pretty}
 .section-head + p + p{margin-top:14px;line-height:1.8;text-wrap:pretty}
+/* About Us: every paragraph after the first sits one modest gap (16px) below the one above, in the same type. */
+#about .section-head + p + p,#about .section-head + p + p + p{margin-top:16px;line-height:1.8;text-wrap:pretty}
 .badge{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:var(--gold);font-family:var(--font-h);font-weight:600;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;padding:9px 18px;border-radius:var(--r-pill);margin-bottom:24px;backdrop-filter:blur(8px)}
 .badge--gold{background:rgba(247,221,125,.12);border-color:rgba(247,221,125,.35);font-size:12px}
 
@@ -944,6 +946,36 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .leadcard select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath fill='%236B7280' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;background-size:11px;padding-right:38px}
 .leadcard input::placeholder{color:var(--muted)}
 .leadcard select:invalid{color:var(--muted)}
+/* Destination picker in the enquiry card: a listbox with a flag beside every country (see LeadForm.tsx). */
+.dsel{position:relative}
+.dsel__btn{display:flex;align-items:center;gap:12px;width:100%;min-height:50px;padding:0 16px;background:#fff;border:1px solid transparent;border-radius:10px;font-family:var(--font-b);font-size:15px;color:var(--text);text-align:left;cursor:pointer;transition:box-shadow .25s,border-color .25s}
+.dsel__btn:focus-visible,.dsel__btn[aria-expanded="true"]{outline:3px solid var(--gold);outline-offset:2px}
+.dsel__globe{width:22px;text-align:center;font-size:14px;color:var(--muted)}
+.dsel__ph{flex:1;color:var(--muted)}
+.dsel__val{flex:1;color:var(--navy);font-weight:600}
+.dsel__chev{font-size:11px;color:var(--muted);transition:transform .25s var(--ease)}
+.dsel__btn[aria-expanded="true"] .dsel__chev{transform:rotate(180deg)}
+.dsel__flag{width:22px;height:22px;flex:none;border-radius:50%;object-fit:cover;box-shadow:0 0 0 1px rgba(26,36,86,.18)}
+.dsel__flag--globe{display:grid;place-items:center;background:var(--grey);color:var(--primary);font-size:11px}
+.dsel__panel{position:absolute;z-index:40;left:0;right:0;top:calc(100% + 8px);display:grid;grid-template-columns:minmax(0,1fr);gap:2px;max-height:min(340px,60vh);overflow:auto;padding:8px;background:#fff;border-radius:16px;box-shadow:0 26px 60px rgba(7,20,46,.4)}
+.dsel__opt{display:flex;align-items:center;gap:10px;min-width:0;padding:9px 10px;border:0;border-radius:10px;background:transparent;font-family:var(--font-b);font-size:14px;color:var(--navy);text-align:left;cursor:pointer;transition:background .2s}
+.dsel__opt span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dsel__opt:hover,.dsel__opt:focus-visible{background:var(--grey);outline:none}
+.dsel__opt[aria-selected="true"]{background:var(--gold);font-weight:600}
+.dsel__tick{font-size:11px;color:var(--navy)}
+.dsel__req{position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none;padding:0;border:0}
+.hero__form .dsel__btn{border-color:#C3CBD8;border-radius:12px}
+/* One column at every width. */
+/* The standalone enquiry card (Events, Webinars…) had no rules for its icons or the dialling-code flag — only the
+   home hero form did — so the flag showed at its natural size and the icons floated above the fields. Same
+   treatment here: icon inside the field, a small flag inside the code box. The hero form's own rules, later in
+   this file, still win there. */
+.leadcard .leadcard__f{position:relative;display:block}
+.leadcard .leadcard__f > i{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--muted);pointer-events:none;z-index:1}
+.leadcard .leadcard__f input,.leadcard .leadcard__f select{padding-left:44px}
+.leadcard .leadcard__f--code{display:flex;align-items:center}
+.leadcard .leadcard__f--code img{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:22px;height:15px;object-fit:cover;border-radius:3px;z-index:1;box-shadow:0 0 0 1px rgba(26,36,86,.12)}
+.leadcard .leadcard__f--code select{padding-left:42px}
 .leadcard input:focus,.leadcard select:focus{outline:3px solid var(--gold);outline-offset:2px;border-color:var(--teal);box-shadow:0 0 0 3px rgba(26,188,156,.3)}
 .leadcard__btn{margin-top:8px;width:100%;background:#fff;color:var(--navy);border:0;border-radius:10px;padding:16px;font-family:var(--font-h);font-weight:700;font-size:14px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background .3s,color .3s}
 .leadcard__btn:hover{background:var(--teal);color:var(--navy-3)}
@@ -2072,3 +2104,9 @@ main:has(> .cta-block:last-child) + .footer{background:var(--cream);padding-top:
 .bento--single .bento__main{grid-row:auto;min-height:0;aspect-ratio:5/6}
 .bento--single .bento__main::after{display:none}
 .bento--single .bento__main:has(.bento__cap)::after{display:block}
+/* Our Services now opens on its list with no hero above it, so it clears the fixed header itself. */
+#main>section.services-sec:first-child{padding-top:150px}
+@media (max-width:768px){#main>section.services-sec:first-child{padding-top:110px}}
+/* Events opens on its list with no hero above it, so it clears the fixed header itself. */
+#main>section.featcards-sec:first-child{padding-top:150px}
+@media (max-width:768px){#main>section.featcards-sec:first-child{padding-top:110px}}

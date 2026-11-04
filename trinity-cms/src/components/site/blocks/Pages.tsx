@@ -78,7 +78,7 @@ export function Intro({ b }: { b: IntroBlock }) {
 
 export function FeatureCards({ b }: { b: FeatureCardsBlock }) {
   return (
-    <section className="section section--grey">
+    <section className="section section--grey featcards-sec">
       <div className="container">
         <SectionHead kicker={b.kicker} title={b.title} lead={b.lead} />
         <div className="grid grid--4">
@@ -97,7 +97,7 @@ export function FeatureCards({ b }: { b: FeatureCardsBlock }) {
 
 export function Services({ b, contact }: { b: ServicesBlock; contact: ContactSettings }) {
   return (
-    <section className="section section--grey">
+    <section className="section section--grey services-sec">
       <div className="container">
         <SectionHead kicker={b.kicker} title={b.title} lead={b.lead} center />
         <div className="grid grid--3 sgrid">

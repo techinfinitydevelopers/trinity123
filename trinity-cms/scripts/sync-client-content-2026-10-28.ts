@@ -68,17 +68,19 @@ async function main() {
     const wantBlocks = seed("our-service");
     const wantHero = wantBlocks.find((b) => b.type === "pageHero");
     const wantSvc = wantBlocks.find((b) => b.type === "services");
-    if (!page || !wantHero || !wantSvc) throw new Error("our-service page or seed blocks missing");
+    if (!page || !wantSvc) throw new Error("our-service page or seed blocks missing");
     const blocks = page.blocks as unknown as Block[];
     const h = blocks.findIndex((b) => b.type === "pageHero");
     const s = blocks.findIndex((b) => b.type === "services");
-    if (h < 0 || s < 0) throw new Error("our-service is missing its hero or services block");
-    const next = { hero: { ...blocks[h], words: wantHero.words, sub: wantHero.sub, aside: wantHero.aside }, svc: { ...blocks[s], ...wantSvc } };
-    if (same(blocks[h], next.hero) && same(blocks[s], next.svc)) plan.push("our-service: already up to date");
+    if (s < 0) throw new Error("our-service is missing its services block");
+    /* The hero was removed from the page (seed and database); only refresh it where both still have one. */
+    const next = { hero: wantHero && h >= 0 ? { ...blocks[h], words: wantHero.words, sub: wantHero.sub, aside: wantHero.aside } : null, svc: { ...blocks[s], ...wantSvc } };
+    if ((!next.hero || same(blocks[h], next.hero)) && same(blocks[s], next.svc)) plan.push("our-service: already up to date");
     else {
       backup["our-service"] = structuredClone(page.blocks);
       const was = blocksOld(page.blocks, s).length;
-      blocks[h] = next.hero; blocks[s] = next.svc;
+      if (next.hero) blocks[h] = next.hero;
+      blocks[s] = next.svc;
       plan.push(`our-service: hero + services block -> ${(wantSvc.items as unknown[]).length} cards (was ${was})`);
       writes.push(() => db.page.update({ where: { slug: "our-service" }, data: { blocks: blocks as unknown as object[] } }));
     }

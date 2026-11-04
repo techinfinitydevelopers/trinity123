@@ -90,9 +90,6 @@ export default function Header({ nav, contact, site, labels, destinations }: { n
                 </Link>
               ))}
             </div>
-            <Link href={it.href} onClick={hide(i)} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 8, padding: "12px 14px", borderRadius: 16, background: "var(--grey)", fontFamily: "var(--font-h)", fontWeight: 600, fontSize: 13, color: "var(--primary)", boxShadow: "none" }}>
-              View all destinations <i className="fas fa-arrow-right" style={{ fontSize: 11 }} />
-            </Link>
           </div>
         </li>
       );
@@ -187,9 +184,9 @@ export default function Header({ nav, contact, site, labels, destinations }: { n
                 </button>
                 <div className="mm-panel" id={id} hidden={!isOpen}>
                   {/* The parent page itself is reachable, not only its children. */}
-                  {it.href && !NO_PARENT_LINK.has(it.label) ? (
+                  {it.href && !NO_PARENT_LINK.has(it.label) && !isCountries ? (
                     <Link href={it.href} onClick={() => setOpen(false)} className="mm-all">
-                      {labels.destinations && isCountries ? "View all destinations" : `Go to ${it.label}`} <i className="fas fa-arrow-right" aria-hidden="true" />
+                      {`Go to ${it.label}`} <i className="fas fa-arrow-right" aria-hidden="true" />
                     </Link>
                   ) : null}
                   {isCountries ? (

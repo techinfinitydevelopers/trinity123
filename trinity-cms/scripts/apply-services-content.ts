@@ -47,7 +47,7 @@ async function main() {
       checks: i.checks ?? [],
       wide: Boolean(i.checks?.length),
       href: "/contact-us",
-      linkLabel: "Talk to our Expert",
+      linkLabel: "Talk to our Counsellor",
     })),
   };
 

@@ -337,7 +337,7 @@ export const DEFAULTS: SettingsMap = {
       statsTitle: "Numbers that landed.",
       voicesTitle: "They flew. You're next.",
       ctaTitle: "Book your free counselling session.",
-      ctaLead: "30 minutes. Profile review, university shortlist and a clear plan for the next intake.",
+      ctaLead: "",
     },
   } satisfies WorldSettings,
   footer: {
