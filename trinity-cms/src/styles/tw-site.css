@@ -429,3 +429,19 @@ body:has(.tw.picked) .nav__change{display:flex}
   letter-spacing:.2em;text-transform:uppercase;
 }
 body:has(.tw-host:not(:has(.tw))) .footer,body:has(.tw-host:not(:has(.tw))) .fcred{display:none}
+
+/* ---- one loader, not two -------------------------------------------------------------------
+   The drop-in brings two of its own: a navy overlay reading "Boarding…", and then "Assembling
+   the world" over a second progress bar while the globe builds itself out of particles. The
+   site has its own preloader now, the one that writes the company name, so those were the
+   second and third loader in a row — paper, navy, bar, page. Three loaders read as a stall,
+   not as care, and the one that says what the site is called is the one worth keeping.
+
+   Hidden here rather than removed from `markup.ts`, which the generator rewrites on every
+   drop-in update. The engine still creates both and still drives them on its own schedule;
+   nothing about their timing is touched, they simply never show. What fills the gap is the sky
+   and canvas underneath, which are the same navy — and the globe pulling itself together out of
+   particles is the entrance the drop-in was built around. It is better watched than described
+   by a percentage. */
+.tw #loading,
+.tw #introUI { display: none; }

@@ -926,3 +926,23 @@ the loader has gone. 35 strokes for this name. At 375px the sheet still fits.
 **Not covered:** digits and punctuation have no strokes — they advance the pen and are not
 drawn. The name this was built for has none, and dropping a character beats drawing the wrong
 shape, but a site name with a "&" or a year in it would lose it.
+
+## 2026-11-04 — One loader, not three
+
+**Task:** only the new preloader should show. "Boarding…" and the second bar had to go.
+
+**Found:** the home page ran three loading screens back to back. The site preloader that writes
+the company name; then the drop-in's own navy "Boarding…" overlay; then "Assembling the world"
+over a second progress bar while the globe builds itself out of particles. There was a fourth
+word too — the `.tw-host::before` panel that holds the page's height before the engine mounts
+also read "Boarding…". Three loaders in a row read as a stall, not as care.
+
+**Change:** `tw-site.css` hides `#loading` and `#introUI`, and the holding panel's `content` is
+now empty. Hidden rather than cut out of `markup.ts`, which the generator rewrites on every
+drop-in update; the engine still creates both and still drives them on its own schedule, so no
+timing is touched — they simply never show. What fills the gap is the sky and canvas underneath,
+the same navy, with the globe pulling itself together out of particles. That is the entrance the
+drop-in was built around, and it is better watched than described by a percentage.
+
+**Verified** locally on a first visit to `/`: the name is written, then the globe, then the
+hero. No "Boarding…" and no second bar at any point. `npm run build` clean.
