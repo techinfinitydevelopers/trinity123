@@ -294,3 +294,44 @@
 .tw .stg{min-height:0}
 /* "See more" under the webinar snippets: a solid navy button (readable on the white card), distinct from the gold Register one. */
 .tw #webinar .wb-past{display:flex;flex-direction:column}.tw #webinar .wb-more{align-self:flex-start;margin-top:22px;padding:13px 26px;background:#0b2a6b;color:#fff;font-weight:700;box-shadow:0 10px 24px rgba(11,42,107,.3)}.tw #webinar .wb-more:hover{background:var(--gold);color:#241a00;transform:translateY(-2px)}
+
+/* Colour rhythm from "Pick your campus" down, blue then white then blue…: unis blue, path WHITE, kit blue, life white,
+   webinar BLUE, stats WHITE, voices BLUE, cta white, ielts BLUE. The sections moved when the client reordered them,
+   which left four blues in a row and three whites at the end; these rules put the alternation back without touching
+   the order. Section colour is inherited by the headings, so only the pieces with their own colour need a rule. */
+/* path: white (it was the dark pinned step dial) */
+.tw section#path.dk{background:linear-gradient(180deg,#f6f8fc,#e9f1ff);color:var(--ink)}
+.tw #path.dk .eyebrow{color:var(--blue)}
+.tw #path.dk .lead{color:var(--mute)}
+.tw #path .h2{color:var(--navy)}
+.tw #path .mo{border-color:rgba(11,61,145,.18);background:rgba(11,61,145,.06)}
+.tw #path .mo b{color:#b97a00}
+.tw #path .mo small{color:var(--mute)}
+.tw #path .ptag{color:var(--blue)}
+.tw #path .ptxt p{color:var(--mute)}
+.tw #path .pdots i{background:rgba(11,61,145,.18)}
+.tw #path .pdots i.on{background:var(--gold)}
+.tw #path .dial .tr{stroke:rgba(11,61,145,.14)}
+.tw #path #pnodes circle{fill:#fff;stroke:rgba(11,61,145,.35)}
+.tw #path #pnodes circle.on{fill:#f5b82e;stroke:#f5b82e}
+.tw #path .disc{box-shadow:0 30px 70px rgba(11,61,145,.28)}
+/* webinar: blue (white cards stay white) */
+.tw #webinar{background:radial-gradient(900px 600px at 80% 20%,rgba(11,61,145,.45),transparent),#050f26;color:#fff}
+.tw #webinar .eyebrow{color:var(--gold)}
+.tw #webinar .lead{color:#a9b8d4}
+/* stats: white */
+.tw #stats{background:linear-gradient(180deg,#fff,#f6f8fc);color:var(--ink)}
+.tw #stats .eyebrow{color:#b97a00!important}
+.tw .sg div{border-top-color:rgba(11,61,145,.2)}
+.tw .sg b{color:var(--blue)}
+.tw .sg span{color:var(--mute)}
+/* voices: blue (testimonial cards stay white) */
+.tw #voices{background:radial-gradient(900px 600px at 80% 20%,rgba(11,61,145,.45),transparent),#050f26;color:#fff}
+.tw #voices .eyebrow{color:var(--gold)}
+.tw .tc{color:var(--ink)}
+/* ielts: blue (module cards and chips stay white) */
+.tw #ielts{background:radial-gradient(900px 600px at 80% 20%,rgba(11,61,145,.45),transparent),#050f26;color:#fff}
+.tw #ielts .eyebrow{color:var(--gold)}
+.tw #ielts .lead{color:#a9b8d4}
+.tw #ielts .band{color:#fff}
+.tw #ielts .mod,.tw #ielts .steps4 span{color:var(--ink)}

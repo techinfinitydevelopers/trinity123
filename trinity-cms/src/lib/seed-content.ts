@@ -545,7 +545,7 @@ const brochureBlocks: Block[] = [
       { icon: "fas fa-coins", title: "Scholarships & loans", text: "The funding routes that actually apply to Indian students, and what each one needs from you." },
     ],
   },
-  { ...leadForm, kicker: "Free Download", tagline: "Get the brochure in your [inbox]", text: "Tell us where to send it and which destination you are weighing up, and we will email the brochure along with the figures for that country.", formTitle: "Send me the brochure", submitLabel: "Email it to me", okMsg: "On its way. Check your inbox \u2014 and your spam folder, just in case." },
+  { ...leadForm, image: `${IMG}/home/hero-student.webp`, imageAlt: "Student ready to study abroad", kicker: "Free Download", tagline: "Get the brochure in your [inbox]", text: "Tell us where to send it and which destination you are weighing up, and we will email the brochure along with the figures for that country.", formTitle: "Send me the brochure", submitLabel: "Email it to me", okMsg: "On its way. Check your inbox \u2014 and your spam folder, just in case." },
   {
     type: "cta", layout: "center", badgeIcon: "fas fa-comments", badge: "Read it already?", title: "Now get it mapped to {your profile}",
     text: "A brochure describes the options. A counselling session tells you which of them you will actually get into.",
