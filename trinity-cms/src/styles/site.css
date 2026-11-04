@@ -2110,7 +2110,3 @@ main:has(> .cta-block:last-child) + .footer{background:var(--cream);padding-top:
 /* Events opens on its list with no hero above it, so it clears the fixed header itself. */
 #main>section.featcards-sec:first-child{padding-top:150px}
 @media (max-width:768px){#main>section.featcards-sec:first-child{padding-top:110px}}
-
-
-/* A page that opens on a plain section (no hero) must clear the fixed floating nav. */
-#main > .section:first-child{padding-top:clamp(150px,16vw,190px)}

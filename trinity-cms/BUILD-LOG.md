@@ -1008,16 +1008,3 @@ and a backup in `scripts/backups/`: `remove-about-hero`, `set-about-counsellor-i
 animations, so loader and scroll motion were not seen. After the production writes, the live site showed the
 new code but old database content until the cache was cleared: a direct write never reaches
 `revalidateSite()`, so a redeploy (or saving a page in /admin) is a required last step.
-
-
-## 2026-11-04 — Local run on a fresh clone
-- Cloned, installed, seeded local DB, ran dev server. Home showed the old block hero because `world.enabled` is false after a fresh seed; ran `scripts/toggle-world-home.ts on` and restarted dev. Globe home verified at http://localhost:3000.
-
-## 2026-11-04 — Local DB brought level with production
-- Fresh seed lacked content that production got from one-off scripts. Ran against local DB: `db:reset`, `toggle-world-home on`, `apply-country-content content/client-brief` (adds Dubai/Singapore), `fix-country-content`, `sync-form-destinations`, `add-webinars-page` (/webinars + menu), `apply-about-content`, `apply-about-segments`, `apply-services-content`, `apply-service-images`, `fix-stats-suffix`, `sync-client-content`.
-- Verified: nav/links match trinity123-production.up.railway.app; all main routes 200.
-- Gotcha: `unstable_cache` lives in `.next`; after DB script writes, kill the dev server by PID on :3000 and `rm -rf .next` before restart. A leftover server makes new `npm run dev` exit with "already running".
-
-## 2026-11-04 — Globe depth on wide screens
-- `src/components/tw/engine.ts`: key light moved off-axis (38,22,56) and raised to 3.2, ambient 1.5→1.0, earth emissive .55→.22 → lit side + soft shadow side instead of a flat disc. `wideDist` now pulls the camera in up to 6 units when aspect > 1.8 so the globe fills ultra-wide screens.
-- Checked at 2560×1080, 1920×1080, 1366×768, 375×812.

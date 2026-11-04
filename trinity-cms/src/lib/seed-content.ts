@@ -465,6 +465,17 @@ const blogBlocks: Block[] = [
 ];
 
 const successBlocks: Block[] = [
+  {
+    type: "pageHero", ghost: "SUCCESS STORIES", crumb: "Success Stories",
+    words: [{ t: "Students" }, { t: "Who", br: true }, { t: "Made", s: "gold" }, { t: "It" }],
+    sub: "",
+    aside: { kind: "statchips", items: [
+      { strong: "42", suffix: "+", small: "Years placing students", style: "glass" },
+      { strong: "1200", suffix: "", small: "Partner universities", style: "gold" },
+      { strong: "39", suffix: "+", small: "Countries", style: "purple" },
+    ] },
+  },
+  stats,
   { ...testimonials, kicker: "In Their Words", title: "Stories of [Success]", lead: "Every one of these started with a free counselling session. Yours can too." },
   {
     type: "journey", kicker: "How It Goes", title: "What a Trinity [Journey Looks Like]",
