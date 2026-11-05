@@ -208,7 +208,13 @@ export async function semanticMatch(
   try {
     const client = new Anthropic();
     const msg = await client.messages.create({
-      model: "claude-haiku-4-5",
+      model: "claude-haiku-5-5",
+      /* Thinking is on by default on this model, and that would quietly break the call rather
+         than slow it down: the reasoning tokens come out of `max_tokens`, so a 60-token budget
+         is spent before the JSON is written, the parse below fails, and the catch returns null —
+         a semantic pass that never matches anything and never logs a reason. Disabled is
+         accepted at effort `high` or below, which is this model's default. */
+      thinking: { type: "disabled" },
       max_tokens: 60,
       system:
         'Match a student\'s question to the single best FAQ from a numbered list, using meaning and the conversation context, not just shared words. Reply with ONLY compact JSON: {"index": <number or -1>, "confidence": <0 to 1>}. Use -1 if nothing in the list is genuinely relevant — never force a match.',
