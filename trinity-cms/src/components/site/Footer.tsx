@@ -2,28 +2,7 @@ import Link from "next/link";
 import type { ContactSettings, FooterSettings, NavSettings, SiteSettings } from "@/lib/settings";
 import { FLAG, Socials } from "./ui";
 import type { Destination } from "./Header";
-
-/* The footer lists countries in the same order as the home page's "Where will you study next?" picker.
-   Japan, South Korea, Malaysia and Other Europe have no destination page of their own, so they open the
-   home globe on that country; destinations that are not in the picker (Sweden, Italy, Denmark) follow. */
-type FootDest = { key: string; name: string; code: string; href: string };
-const GLOBE_ONLY: Record<string, { name: string; code: string; href: string }> = {
-  japan: { name: "Japan", code: "jp", href: "/#c=japan" },
-  korea: { name: "South Korea", code: "kr", href: "/#c=korea" },
-  malaysia: { name: "Malaysia", code: "my", href: "/#c=malaysia" },
-  europe: { name: "Other Europe", code: "eu", href: "/#c=europe" },
-};
-const FOOT_ORDER = ["uk", "ireland", "france", "germany", "new-zealand", "dubai", "singapore", "australia", "japan", "korea", "usa", "canada", "malaysia", "europe"];
-const footDestinations = (destinations: Destination[]): FootDest[] => {
-  const out: FootDest[] = [];
-  for (const k of FOOT_ORDER) {
-    const d = destinations.find((x) => x.slug === k);
-    if (d) out.push({ key: d.slug, name: d.name, code: d.code, href: `/destinations/${d.slug}` });
-    else if (GLOBE_ONLY[k]) out.push({ key: k, ...GLOBE_ONLY[k] });
-  }
-  for (const d of destinations) if (!FOOT_ORDER.includes(d.slug)) out.push({ key: d.slug, name: d.name, code: d.code, href: `/destinations/${d.slug}` });
-  return out;
-};
+import { navDestinations } from "@/lib/destination-order";
 
 export default function Footer({ nav, contact, site, footer, destinations }: { nav: NavSettings; contact: ContactSettings; site: SiteSettings; footer: FooterSettings; destinations: Destination[] }) {
   const wa = `https://wa.me/${contact.whatsapp}`;
@@ -45,7 +24,7 @@ export default function Footer({ nav, contact, site, footer, destinations }: { n
           <div>
             <h3 className="footer__title">{footer.destinationsTitle}</h3>
             <div className="footer__tags">
-              {footDestinations(destinations).map((c) => <Link key={c.key} href={c.href}><img src={FLAG(c.code)} alt="" width={18} height={18} />{c.name}</Link>)}
+              {navDestinations(destinations).map((c) => <Link key={c.key} href={c.href}><img src={FLAG(c.code)} alt="" width={18} height={18} />{c.name}</Link>)}
             </div>
           </div>
           <div>

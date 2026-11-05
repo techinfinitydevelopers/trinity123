@@ -17,7 +17,7 @@ const SLUG: Record<string, string> = {
   uae: "dubai",        // the page is named after the city, deliberately
 };
 /* No destination page on this site — the link goes to the enquiry form instead of 404ing. */
-const NO_PAGE = new Set(["europe", "korea", "japan", "malaysia"]);
+const NO_PAGE = new Set(["europe", "korea", "japan", "malaysia", "netherlands"]);
 
 /* Which element each editable string belongs to. Only headings and copy the engine never
    rewrites itself are listed — the per-country ones are filled from `countries`. Every one of

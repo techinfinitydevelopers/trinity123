@@ -17,7 +17,7 @@ export type CountrySeed = {
 
 export const seedCountries: CountrySeed[] = [
   {
-    code: "us", slug: "usa", name: "USA", tag: "Top-ranked universities", img: `${IMG}/countries/usa.png`, hero: "Study in the United States", order: 110,
+    code: "us", slug: "usa", name: "USA", tag: "Top-ranked universities", img: `${IMG}/countries/usa.png`, hero: "Study in the United States", order: 40,
     intro: "The USA hosts more top-200 universities than any other country, with unmatched research funding, flexible curricula and the option to switch majors. For Indian students it remains the first choice for STEM, business and research-heavy master’s programmes.",
     stats: stat([["4,000+", "Universities"], ["3 yrs", "STEM OPT"], ["Fall / Spring", "Intakes"], ["$25k–55k", "Tuition / year"]]),
     why: ["Largest choice of universities and specialisations", "Assistantships, fellowships and merit scholarships", "STEM graduates get up to 3 years of OPT work authorisation", "Strong campus research and industry linkage"],
@@ -51,7 +51,7 @@ export const seedCountries: CountrySeed[] = [
     faq: qa([["Is a one-year master’s valid in India?", "Yes — UK master’s degrees are widely recognised by employers and for further study."], ["Do I need IELTS for the UK?", "Most universities require IELTS UKVI, though some accept MOI letters for Indian students."], ["How much does the Graduate Route cost?", "There is an application fee plus IHS; it is applied for from within the UK after graduation."], ["Are January intakes worth it?", "Yes — January offers less competition and a wider scholarship window at many universities."]]),
   },
   {
-    code: "ca", slug: "canada", name: "Canada", tag: "PR-friendly pathways", img: `${IMG}/countries/canada.png`, hero: "Study in Canada", order: 120,
+    code: "ca", slug: "canada", name: "Canada", tag: "PR-friendly pathways", img: `${IMG}/countries/canada.png`, hero: "Study in Canada", order: 60,
     intro: "Canada combines affordable, high-quality education with generous post-graduation work permits and a well-defined permanent residency pathway — the reason it is the most PR-friendly destination for Indian students.",
     stats: stat([["100+", "Universities"], ["3 yrs", "PGWP"], ["Sep / Jan / May", "Intakes"], ["CAD 18k–35k", "Tuition / year"]]),
     why: ["Post-Graduation Work Permit up to 3 years", "Express Entry and PNP pathways to permanent residency", "Lower tuition than the USA, UK and Australia", "Safe, multicultural cities with large Indian communities"],
@@ -85,7 +85,7 @@ export const seedCountries: CountrySeed[] = [
     faq: qa([["Why is Ireland popular for tech?", "Google, Meta, Microsoft, Apple, Pfizer and many others run European operations from Ireland, creating graduate demand."], ["Is IELTS mandatory?", "Most universities require it, though some accept English-medium instruction letters."], ["How long does the visa take?", "Typically 4–8 weeks, so apply as soon as you have paid the deposit."], ["Can I bring dependants?", "Spouses may accompany you but usually cannot work on a student dependant stamp."]]),
   },
   {
-    code: "de", slug: "germany", name: "Germany", tag: "Low-tuition engineering", img: `${IMG}/countries/germany.png`, hero: "Study in Germany", order: 40,
+    code: "de", slug: "germany", name: "Germany", tag: "Low-tuition engineering", img: `${IMG}/countries/germany.png`, hero: "Study in Germany", order: 90,
     intro: "Most public universities in Germany charge no tuition fee — you fund living costs through a blocked account. For engineering and applied sciences it is the best value destination in Europe.",
     stats: stat([["400+", "Institutions"], ["18 mo", "Job-seeker visa"], ["Winter / Summer", "Intakes"], ["€0–1.5k", "Tuition / semester"]]),
     why: ["No or very low tuition at public universities", "18-month post-study job-seeking permit", "Europe’s largest engineering job market", "English-taught master’s programmes widely available"],
@@ -102,7 +102,7 @@ export const seedCountries: CountrySeed[] = [
     faq: qa([["Is German necessary?", "Not for English-taught master’s, but B1 German significantly improves part-time work and hiring prospects."], ["What is APS?", "A mandatory academic evaluation certificate for Indian students applying to German universities."], ["Are public universities really free?", "Yes — most charge no tuition, only a semester contribution of €150–€350."], ["How early should I start?", "10–12 months ahead: APS and blocked account add significant lead time."]]),
   },
   {
-    code: "au", slug: "australia", name: "Australia", tag: "Post-study work visa", img: `${IMG}/countries/australia.png`, hero: "Study in Australia", order: 80,
+    code: "au", slug: "australia", name: "Australia", tag: "Post-study work visa", img: `${IMG}/countries/australia.png`, hero: "Study in Australia", order: 50,
     intro: "Australia pairs globally ranked universities with generous post-study work rights and strong part-time work allowances — a practical, well-supported destination for Indian students.",
     stats: stat([["40+", "Universities"], ["2–4 yrs", "Post-study work"], ["Feb / July", "Intakes"], ["AUD 25k–45k", "Tuition / year"]]),
     why: ["Temporary Graduate visa of 2–4 years", "High part-time earning potential during study", "8 universities in the global top 150", "Regional study bonuses add extra stay-back time"],
@@ -119,7 +119,7 @@ export const seedCountries: CountrySeed[] = [
     faq: qa([["What replaced the GTE requirement?", "The Genuine Student (GS) requirement — a structured set of questions about your course and plans."], ["Is regional study better?", "It can be: lower living costs, extra post-study work time and additional PR points."], ["Can I work full time after the course ends?", "Yes, once your course is complete and until your student visa expires."], ["How much funds must I show?", "Tuition plus AUD 29,710 living costs, as required for subclass 500."]]),
   },
   {
-    code: "nz", slug: "new-zealand", name: "New Zealand", tag: "Safe & scenic study", img: `${IMG}/countries/new-zealand.png`, hero: "Study in New Zealand", order: 50,
+    code: "nz", slug: "new-zealand", name: "New Zealand", tag: "Safe & scenic study", img: `${IMG}/countries/new-zealand.png`, hero: "Study in New Zealand", order: 100,
     intro: "All eight New Zealand universities rank in the global top 3%, with small class sizes, strong pastoral care and a three-year post-study work visa for degree graduates.",
     stats: stat([["8", "Universities"], ["3 yrs", "Post-study work"], ["Feb / July", "Intakes"], ["NZD 22k–38k", "Tuition / year"]]),
     why: ["Every university globally ranked", "Up to 3 years post-study work for degree holders", "Safe, English-speaking, outdoor lifestyle", "Lower cost of living than Australia"],
@@ -170,7 +170,7 @@ export const seedCountries: CountrySeed[] = [
     faq: qa([["Is Italy cheap for Indian students?", "Yes — public tuition is income-linked and among the lowest in Western Europe."], ["Do I need Italian?", "English-taught master’s are common, but Italian helps with part-time work and internships."], ["Which fields is Italy known for?", "Design, architecture, fashion, automotive engineering and food technology."], ["What is a Declaration of Value?", "A consulate-issued statement confirming your Indian degree’s equivalence in Italy."]]),
   },
   {
-    code: "se", slug: "sweden", name: "Sweden", tag: "Sustainability leaders", img: `${IMG}/unversity/z5.jpg`, hero: "Study in Sweden", order: 140,
+    code: "se", slug: "sweden", name: "Sweden", tag: "Sustainability leaders", img: `${IMG}/unversity/z5.jpg`, hero: "Study in Sweden", order: 70,
     intro: "Sweden is built around innovation, sustainability and flat, discussion-led teaching — ideal if you want research-grade master’s programmes in engineering, design or environmental science.",
     stats: stat([["40+", "Universities"], ["12 mo", "Job-search permit"], ["Aug / Jan", "Intakes"], ["SEK 80k–150k", "Tuition / year"]]),
     why: ["Global leader in sustainability and clean tech", "Independent, project-based learning style", "Scholarships from the Swedish Institute and universities", "English-taught master’s across most disciplines"],

@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import type { ContactSettings, LabelSettings, NavItem, NavSettings, SiteSettings } from "@/lib/settings";
 import { Socials, FLAG } from "./ui";
+import { navDestinations } from "@/lib/destination-order";
 
 export type Destination = { code: string; slug: string; name: string; tag: string };
 
@@ -76,12 +77,13 @@ export default function Header({ nav, contact, site, labels, destinations }: { n
     if (it.kind === "destinations") {
       if (!destinations.length) return null;
       return (
-        <li key={`${it.href}-${i}`} className={`cv-ddwrap${openMenu === i ? " is-open" : ""}${shut === i ? " is-closed" : ""}`} onMouseLeave={() => setShut(-1)} style={{ position: "relative" }}>
+        <li key={`${it.href}-${i}`} className={`cv-ddwrap${openMenu === i ? " is-open" : ""}${shut === i ? " is-closed" : ""}`} onMouseLeave={() => setShut(-1)} style={{ position: "static" }}>
+          {/* Static, not relative: the panel is centred under the whole bar, not under this one button, so it can never run off the left edge of the screen. It is wide because the list is long (18 countries). */}
           {ddButton(it, i, "destinations-menu")}
-          <div className="cv-ddmenu" id="destinations-menu" onKeyDown={(e) => { if (e.key === "Escape") setOpenMenu(-1); }} style={ddMenu({ width: 440 })}>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4 }}>
-              {destinations.map((c) => (
-                <Link key={c.code} href={`/destinations/${c.slug}`} className="cv-ditem" onClick={hide(i)} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 14, transition: "all .25s", color: "var(--navy)", background: "transparent", boxShadow: "none" }}>
+          <div className="cv-ddmenu cv-ddmenu--dest" id="destinations-menu" onKeyDown={(e) => { if (e.key === "Escape") setOpenMenu(-1); }} style={ddMenu({ width: "min(740px, calc(100vw - 32px))" })}>
+            <div className="cv-ddgrid" style={{ display: "grid", gridTemplateColumns: "repeat(3,minmax(0,1fr))", gap: 4 }}>
+              {navDestinations(destinations).map((c) => (
+                <Link key={c.key} href={c.href} className="cv-ditem" onClick={hide(i)} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 14, transition: "all .25s", color: "var(--navy)", background: "transparent", boxShadow: "none" }}>
                   <img src={FLAG(c.code)} alt="" loading="lazy" style={{ width: 26, height: 26, borderRadius: "50%", objectFit: "cover", boxShadow: "0 3px 8px rgba(26,36,86,.18)", flexShrink: 0 }} />
                   <span style={{ display: "flex", flexDirection: "column", gap: 1, minWidth: 0 }}>
                     <span style={{ fontFamily: "var(--font-h)", fontWeight: 600, fontSize: 14, lineHeight: 1.2 }}>{c.name}</span>
@@ -191,8 +193,8 @@ export default function Header({ nav, contact, site, labels, destinations }: { n
                   ) : null}
                   {isCountries ? (
                     <div className="mm-countries">
-                      {destinations.map((c) => (
-                        <Link key={c.code} href={`/destinations/${c.slug}`} onClick={() => setOpen(false)}>
+                      {navDestinations(destinations).map((c) => (
+                        <Link key={c.key} href={c.href} onClick={() => setOpen(false)}>
                           <img src={FLAG(c.code)} alt="" loading="lazy" />{c.name}
                         </Link>
                       ))}
