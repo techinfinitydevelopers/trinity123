@@ -1046,3 +1046,10 @@ Done. The assistant now has 293 entries.
 
 ## 2026-11-05 — An admin can delete a conversation
 There was no way to remove one: status could be changed and notes added, but a test run or a spam chat stayed in the list for good — which is how the knowledge-base test above became a permanent eleventh conversation. `deleteChatSessionAction` is admin-role only, the same bar as deleting a lead; the transcript and notes cascade with it, which the schema already arranged. Used it to remove the test conversation; the list is back to 9.
+
+## 2026-11-05 — Chat matcher moved to Haiku 5.5
+`claude-haiku-4-5` still serves, but it is the previous generation: 200K context at $1/$5 per MTok against `claude-haiku-5-5`'s 1M at $0.10/$0.50 — ten times the bill for a one-shot classification, for no gain.
+
+The part that mattered more: **thinking is on by default on 5.5**, and leaving it alone would have broken the call rather than slowed it. Reasoning tokens come out of `max_tokens`, so the 60-token budget would be spent before the JSON was written, `JSON.parse` would fail, and the `catch` would return `null` — a semantic pass that matches nothing and logs nothing. It would only have surfaced once `ANTHROPIC_API_KEY` was finally set, which is the worst moment to find it. `thinking: { type: "disabled" }` is accepted at effort `high` or below, and `medium` is this model's default.
+
+Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, so the semantic pass does not run at all yet.
