@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { updateChatStatusAction, addChatNoteAction } from "@/lib/actions";
+import { updateChatStatusAction, addChatNoteAction, deleteChatSessionAction } from "@/lib/actions";
 import { toast } from "./ui";
 import { fmt } from "@/lib/format";
 
@@ -25,6 +25,16 @@ export default function ChatDetail({ session }: { session: ActiveSession }) {
   const setStatus = async (status: Status) => {
     const res = await updateChatStatusAction(session.id, status);
     if (res.ok) { toast(`Marked ${STATUS_LABEL[status]}`); r.refresh(); } else toast(res.error, "err");
+  };
+
+  /* The transcript and its notes go with it — a test run or a spam conversation should leave
+     nothing behind. Confirmed first, because there is no undo. */
+  const remove = async () => {
+    if (!confirm("Delete this conversation and its whole transcript? This cannot be undone.")) return;
+    setBusy(true);
+    const res = await deleteChatSessionAction(session.id);
+    setBusy(false);
+    if (res.ok) { toast("Conversation deleted"); r.push("/admin/chats"); r.refresh(); } else toast(res.error, "err");
   };
 
   const addNote = async () => {
@@ -51,6 +61,7 @@ export default function ChatDetail({ session }: { session: ActiveSession }) {
           {(["OPEN", "IN_PROGRESS", "RESOLVED"] as Status[]).map((s) => (
             <button key={s} disabled={s === session.status} className="btn-ghost btn-xs disabled:opacity-40" onClick={() => setStatus(s)}>{STATUS_LABEL[s]}</button>
           ))}
+          <button className="btn-ghost btn-xs text-red-600 disabled:opacity-40" disabled={busy} onClick={remove}>Delete</button>
         </div>
       </div>
 

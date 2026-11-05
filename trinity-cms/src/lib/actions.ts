@@ -251,6 +251,13 @@ export async function updateChatStatusAction(id: string, status: "OPEN" | "IN_PR
   try { await requireSession(); await db.chatSession.update({ where: { id }, data: { status } }); revalidatePath("/admin/chats"); return { ok: true }; } catch (e) { return fail(e); }
 }
 
+/* Cascades to the transcript and the notes (see the relations in schema.prisma), which is the
+   point: a test run or a spam conversation should leave nothing behind. Admin-role only, same as
+   deleting a lead — a counsellor can close a conversation, not erase one. */
+export async function deleteChatSessionAction(id: string): Promise<ActionResult> {
+  try { await requireAdminRole(); await db.chatSession.delete({ where: { id } }); revalidatePath("/admin/chats"); revalidatePath("/admin/chatbot"); return { ok: true }; } catch (e) { return fail(e); }
+}
+
 export async function addChatNoteAction(sessionId: string, body: string): Promise<ActionResult> {
   try {
     const me = await requireSession();
