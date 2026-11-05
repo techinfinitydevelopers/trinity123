@@ -1021,3 +1021,28 @@ new code but old database content until the cache was cleared: a direct write ne
 ## 2026-11-04 — Globe depth on wide screens
 - `src/components/tw/engine.ts`: key light moved off-axis (38,22,56) and raised to 3.2, ambient 1.5→1.0, earth emissive .55→.22 → lit side + soft shadow side instead of a flat disc. `wideDist` now pulls the camera in up to 6 units when aspect > 1.8 so the globe fills ultra-wide screens.
 - Checked at 2560×1080, 1920×1080, 1366×768, 375×812.
+
+## 2026-11-05 — The chatbot was answering from a half-loaded knowledge base
+Reported: a question taken straight from the client's workbook did not come back with the workbook's answer.
+
+**What was wrong.** Production held 212 knowledge items against `src/lib/chatbot-kb.ts`'s 283, and 206 of the 212 were filed under "General". They had been loaded through the admin's Bulk Upload, which cannot carry a whole entry: `BulkRow` has no `relatedQuestions` field at all, and the client's workbook has no usable headers, so `BulkUploadKnowledge.tsx` falls back to sniffing columns and sets `keywords: -1, category: -1`. The 81 entries the generator builds from site content — the scholarship block, the Trinity-services FAQ, the eleven "key study details for <country>" rows — are not in the workbook, so that path could never have created them.
+
+Measured by replaying the real matcher over the generated KB: an exact question resolves 283/283 either way, but alternate phrasings fall from **44/44 to 9/44** once keywords and phrasings are stripped. Of the 81 absent questions, 63 returned the unmatched message and 18 returned a different entry's answer ("Is studying abroad worth it?" → *worth the cost*; "What is the tuition fee in UK?" → *tuition fees vs living expenses*). `ANTHROPIC_API_KEY` is still unset, so no semantic pass recovers any of it.
+
+**Why the earlier fix had never run.** `railway.json` set `startCommand: npm run start:prod`, but the service had a dashboard **Custom Start Command** — `npx prisma db push && npm start` — and that overrides the file. The schema push worked only because the dashboard line did it. Changed to `npm run start:prod`, so the repo governs the deploy again.
+
+**The fix.** `scripts/kb-import-on-boot.mjs` (new) runs `scripts/import-chatbot-kb.ts` during a deploy when `KB_IMPORT` is `add` or `overwrite`, and does nothing otherwise — guarded because `--overwrite` on every restart would erase counsellors' admin edits. It always exits 0: a knowledge base that failed to import is a chatbot with yesterday's answers, a start command that exits non-zero is a website that is down. Wired into `start:prod`.
+
+Ran once with `KB_IMPORT=overwrite`, then removed the variable:
+```
+283 in the workbook, 212 already in the database → create 81, update 200, leave 2
+Done. The assistant now has 293 entries.
+```
+293 = 283 + ten entries that predate the workbook. Before overwriting, 200 of the 202 matched answers were already byte-identical to the workbook; the two that differed were older wording ("programs", "There isn't one best country") and now carry the workbook's.
+
+**Verified on the live widget**, not just in the admin: *"What are the key study details for UK?"* (absent before) and *"Am I eligible for a scholarship…"* (absent before) both return their exact answer and follow-up; *"What is the tuition fee in UK?"* now reaches the UK entry instead of the tuition-vs-living one; *"Can I study in Germany after 12th?"* unchanged. Admin shows 293 and all fourteen workbook categories.
+
+**Next time:** load the knowledge base with `KB_IMPORT`, never by re-uploading the workbook in the admin — Bulk Upload is for a counsellor adding a handful of rows, and it will silently drop keywords, categories and phrasings.
+
+## 2026-11-05 — An admin can delete a conversation
+There was no way to remove one: status could be changed and notes added, but a test run or a spam chat stayed in the list for good — which is how the knowledge-base test above became a permanent eleventh conversation. `deleteChatSessionAction` is admin-role only, the same bar as deleting a lead; the transcript and notes cascade with it, which the schema already arranged. Used it to remove the test conversation; the list is back to 9.
