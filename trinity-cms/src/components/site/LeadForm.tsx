@@ -13,15 +13,15 @@ const CODE_FLAG: Record<string, string> = {
 
 /* The destination list, in the same order as the home page's "Where will you study next?" picker, each with
    its flag. The list the block carries (editable in /admin) still counts: anything it has beyond these —
-   Italy, Denmark — follows, in its own order. "Not decided yet" is dropped at the client's request. */
+   anything else — follows, in its own order. "Not decided yet" is dropped at the client's request. */
 type Dest = { name: string; flag?: string };
 const HOME_DESTS: (Dest & { alias?: string[] })[] = [
   { name: "UK", flag: "gb", alias: ["united kingdom"] }, { name: "Ireland", flag: "ie" }, { name: "France", flag: "fr" },
-  { name: "USA", flag: "us", alias: ["united states", "us"] }, { name: "Australia", flag: "au" }, { name: "Canada", flag: "ca" },
-  { name: "Sweden", flag: "se" }, { name: "UAE", flag: "ae-sq", alias: ["dubai", "united arab emirates"] },
-  { name: "Germany", flag: "de" }, { name: "New Zealand", flag: "nz" }, { name: "Singapore", flag: "sg" }, { name: "Japan", flag: "jp" },
-  { name: "South Korea", flag: "kr", alias: ["korea"] }, { name: "Netherlands", flag: "nl" }, { name: "Malaysia", flag: "my" },
-  { name: "Other Europe", flag: "eu", alias: ["europe"] },
+  { name: "Germany", flag: "de" }, { name: "New Zealand", flag: "nz" }, { name: "UAE", flag: "ae-sq", alias: ["dubai", "united arab emirates"] },
+  { name: "Singapore", flag: "sg" }, { name: "Australia", flag: "au" }, { name: "Japan", flag: "jp" },
+  { name: "South Korea", flag: "kr", alias: ["korea"] }, { name: "USA", flag: "us", alias: ["united states", "us"] }, { name: "Canada", flag: "ca" },
+  { name: "Netherlands", flag: "nl" }, { name: "Italy", flag: "it" }, { name: "Malaysia", flag: "my" },
+  { name: "Other Europe", flag: "eu", alias: ["europe"] }, { name: "Denmark", flag: "dk" },
 ];
 const EXTRA_FLAG: Record<string, string> = { italy: "it", denmark: "dk" };
 function orderDestinations(incoming: string[]): Dest[] {
@@ -30,7 +30,7 @@ function orderDestinations(incoming: string[]): Dest[] {
   const extras: Dest[] = [];
   for (const n of incoming) {
     const k = norm(n);
-    if (!k || home.has(k)) continue;
+    if (!k || home.has(k) || k === "sweden") continue;
     if (/not decided|undecided|^other$/.test(k)) continue;
     extras.push({ name: n, flag: EXTRA_FLAG[k] });
   }

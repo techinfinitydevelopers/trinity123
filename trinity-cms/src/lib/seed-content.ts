@@ -169,19 +169,20 @@ const countryItems: CountriesBlock["items"] = [
   { flag: "gb", name: "UK", tag: "1-year master’s", href: "/destinations/uk" },
   { flag: "ie", name: "Ireland", tag: "Tech & pharma hub", href: "/destinations/ireland" },
   { flag: "fr", name: "France", tag: "Business & fashion", href: "/destinations/france" },
-  { flag: "us", name: "USA", tag: "Top-ranked universities", href: "/destinations/usa" },
-  { flag: "au", name: "Australia", tag: "Post-study work visa", href: "/destinations/australia" },
-  { flag: "ca", name: "Canada", tag: "PR-friendly pathways", href: "/destinations/canada" },
-  { flag: "se", name: "Sweden", tag: "Sustainability leaders", href: "/destinations/sweden" },
-  { flag: "ae", name: "Dubai", tag: "Global campuses, close to home", href: "/destinations/dubai" },
   { flag: "de", name: "Germany", tag: "Low-tuition engineering", href: "/destinations/germany" },
   { flag: "nz", name: "New Zealand", tag: "Safe & scenic study", href: "/destinations/new-zealand" },
+  { flag: "ae", name: "UAE", tag: "Global campuses, close to home", href: "/destinations/dubai" },
   { flag: "sg", name: "Singapore", tag: "Business & technology hub", href: "/destinations/singapore" },
+  { flag: "au", name: "Australia", tag: "Post-study work visa", href: "/destinations/australia" },
   { flag: "jp", name: "Japan", tag: "Research & technology leaders", href: "/#c=japan" },
   { flag: "kr", name: "South Korea", tag: "Innovation & tech campuses", href: "/#c=korea" },
+  { flag: "us", name: "USA", tag: "Top-ranked universities", href: "/destinations/usa" },
+  { flag: "ca", name: "Canada", tag: "PR-friendly pathways", href: "/destinations/canada" },
   { flag: "nl", name: "Netherlands", tag: "English-taught degrees", href: "/#c=netherlands" },
+  { flag: "it", name: "Italy", tag: "Arts, design & architecture", href: "/destinations/italy" },
   { flag: "my", name: "Malaysia", tag: "Affordable international campuses", href: "/#c=malaysia" },
-  { flag: "eu", name: "Other European countries", tag: "Italy, Denmark & more", href: "/#c=europe" },
+  { flag: "eu", name: "Other European countries", tag: "More options across Europe", href: "/#c=europe" },
+  { flag: "dk", name: "Denmark", tag: "Innovation & design", href: "/destinations/denmark" },
 ];
 /* The card's markup already appends the "+", so `num` is the bare figure — putting it here too
    printed "50++". */
@@ -340,6 +341,15 @@ const aboutBlocks: Block[] = [
       { icon: "fas fa-heart", text: "Your Future, Our Priority." },
     ],
     primary: { label: "Learn More", href: C }, showPhone: false,
+  },
+  {
+    type: "roadmap", kicker: "How we help", title: "Personalized [Guidance]",
+    lead: "One team beside you from the first profile evaluation to the day you fly.",
+    steps: [
+      { title: "Profile Evaluation" }, { title: "Test Preps" }, { title: "University Shortlisting" }, { title: "SOP & LOR Assistance" },
+      { title: "University Application Support" }, { title: "Scholarship Assistance" }, { title: "Education Loan Guidance" },
+      { title: "Student Visa Assistance" }, { title: "Accommodation Assistance" }, { title: "Pre-Departure Support" },
+    ],
   },
   /* Mission, vision and the sister companies (client brief, "OUR Business Segments"). It has to
      live here rather than only in the database: the "Add a section" menu clones the first

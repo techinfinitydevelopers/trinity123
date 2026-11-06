@@ -9,7 +9,7 @@ import { BlogList } from "./BlogList";
 import Campus from "./Campus";
 import { Webinar } from "./Webinar";
 import Vision from "./Vision";
-import { Segments } from "./Segments";
+import { Segments, Roadmap } from "./Segments";
 
 export type RenderCtx = { settings: SettingsMap; searchParams?: Record<string, string | undefined> };
 
@@ -36,6 +36,7 @@ function renderBlock(b: Block, ctx: RenderCtx) {
     case "cta": return <Cta b={b} contact={contact} />;
     case "faq": return <Faq b={b} contact={contact} avatar={ctx.settings.labels.common.avatarImage1} />;
     case "journey": return <Journey b={b} />;
+    case "roadmap": return <Roadmap b={b} />;
     case "testimonials": return <Testimonials b={b} />;
     case "intro": return <Intro b={b} />;
     case "featureCards": return <FeatureCards b={b} />;

@@ -403,7 +403,8 @@
 .tw .arrive .inner h2{font-size:clamp(1.9rem,min(5.4vw,8.5vh),4.6rem);line-height:1.08;text-wrap:balance}
 .tw .arrive .inner p{font-size:clamp(.95rem,2.2vh,1.1rem)}
 @media (max-width:760px){
-  .tw .arrive .inner h2{font-size:clamp(1.8rem,8.4vw,2.8rem)}
+  .tw .arrive .inner h2{font-size:clamp(1.55rem,7.2vw,2.6rem)}
+  .tw .arrive .inner{width:100%;max-width:100%}
 }
 
 /* "Change country" at the end of the header's link pill (moved there by TrinityWorldHost), styled

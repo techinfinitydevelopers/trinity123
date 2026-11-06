@@ -3,12 +3,13 @@ import Link from "next/link";
 import { db } from "@/lib/db";
 import { PageHeader } from "@/components/admin/ui";
 import { fmt } from "@/lib/format";
+import { inAgreedOrder } from "@/lib/content";
 
 export const metadata = { title: "Destinations" };
 
 export default async function DestinationsPage() {
   await requireAdminPage();
-  const rows = await db.country.findMany({ orderBy: { order: "asc" } });
+  const rows = inAgreedOrder(await db.country.findMany({ orderBy: { order: "asc" } }));
   return (
     <>
       <PageHeader title="Study destinations" sub="Each destination has its own page with costs, requirements, scholarships, visa steps and FAQs. They also power the Study Destinations menu."><Link href="/admin/destinations/new" className="btn-primary btn-sm">+ Add destination</Link></PageHeader>

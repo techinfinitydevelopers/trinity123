@@ -81,9 +81,14 @@ export const getAdjacentPosts = unstable_cache(
    sequence shows the right one as soon as this is deployed. Anything not named falls after, in
    its dashboard order — which is also where the other European countries sit. */
 const AGREED_ORDER = [
-  "uk", "ireland", "france", "usa", "australia", "canada", "sweden", "dubai", "germany", "new-zealand",
-  "singapore", "japan", "south-korea", "netherlands", "malaysia", "italy", "denmark",
+  "uk", "ireland", "france", "germany", "new-zealand", "dubai", "singapore", "australia", "japan", "south-korea", "usa",
+  "canada", "netherlands", "italy", "malaysia", "denmark",
 ];
+/** Sort any list of countries (rows with a `slug`) into the agreed order; ties keep their incoming order. */
+export function inAgreedOrder<T extends { slug: string }>(rows: T[]): T[] {
+  const rank = (slug: string) => { const i = AGREED_ORDER.indexOf(slug); return i < 0 ? AGREED_ORDER.length : i; };
+  return rows.map((r, i) => ({ r, i })).sort((a, b) => rank(a.r.slug) - rank(b.r.slug) || a.i - b.i).map((x) => x.r);
+}
 export const getCountries = unstable_cache(
   async () => {
     const rows = await db.country.findMany({ where: { isActive: true }, orderBy: { order: "asc" }, select: { code: true, slug: true, name: true, tag: true, img: true } });

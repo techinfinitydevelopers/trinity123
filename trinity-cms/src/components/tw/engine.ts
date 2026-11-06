@@ -439,7 +439,7 @@ function render(c){
   $('.v2').style.backgroundImage=`url(${url})`;
   $('.arrive .bg').style.backgroundImage=`url(${url})`;
   $('.arrive .tag').textContent='Welcome to '+c.n;
-  $('.arrive h2').innerHTML='Study in <em>'+c.n+'.</em><br>Let <em>Trinity Study Abroad</em> assist you.';
+  $('.arrive h2').innerHTML='<span class="ln">Study in <em>'+c.n+'.</em></span><span class="ln">Let <em>Trinity Study Abroad</em> assist you.</span>';
   $('.arrive p').textContent='';
   const ex=$('#explore');ex.textContent='Explore '+c.n;{const h=opts.destHref?opts.destHref(c):'/destinations/'+c.k;ex.href=h||'#unis';ex.target='';ex.rel='noopener'}
   $('#uni-eyebrow').textContent='Destination '+c.s;
@@ -600,7 +600,8 @@ uk:{visa:'UK Student visa',offer:'CAS from your university',funds:'Maintenance f
 ireland:{visa:'Irish study visa + Stamp 2 permission',offer:'Offer letter + fee payment receipt',funds:'Proof of funds for living costs',work:'Up to 20 hrs/week in term, full-time in holidays',post:'Stay Back — typically 12–24 months depending on your level'},
 france:{visa:'Long-stay student visa (VLS-TS) via Campus France',offer:'Campus France pre-enrolment + admission letter',funds:'Proof of monthly resources',work:'Up to about 964 hours a year alongside study',post:'Around 12 months to look for work after a Master’s'},
 germany:{visa:'National (D) student visa',offer:'Admission letter (+ APS certificate for Indian students)',funds:'Blocked account (Sperrkonto) for living costs',work:'140 full days or 280 half days a year',post:'18 months to find a job after graduation'},
-sweden:{visa:'Residence permit for studies (Swedish Migration Agency)',offer:'Admission letter from your university',funds:'Proof of funds for living costs',work:'No fixed weekly limit — work alongside your studies',post:'A permit of up to 12 months to look for work or start a business'},
+italy:{visa:'Italian study visa (Type D) — pre-enrolment on Universitaly',offer:'Admission letter from your university',funds:'Proof of funds for living costs',work:'Up to 20 hrs/week alongside your studies',post:'A permit of up to 12 months to look for work after your degree'},
+denmark:{visa:'Residence permit for studies (Danish Agency for International Recruitment)',offer:'Admission letter from your university',funds:'Proof of funds for living costs',work:'Up to 20 hrs/week in term, full-time June–August',post:'A job-seeking permit after your degree'},
 netherlands:{visa:'Student residence permit (applied for by your university)',offer:'Admission letter from your university',funds:'Proof of funds for living costs',work:'Up to 16 hrs/week in term time, or full-time in June–August',post:'Orientation year: 12 months to find work after your degree'},
 europe:{visa:'Student residence permit (rules vary by country)',offer:'University admission letter',funds:'Proof of funds per country rules',work:'Part-time rules vary by country',post:'Job-seeker permits exist in most — e.g. the Netherlands’ orientation year'},
 usa:{visa:'F-1 visa (I-20, SEVIS fee, DS-160)',offer:'I-20 from your university',funds:'Financial documents covering year-one costs',work:'On-campus jobs up to 20 hrs/week in term',post:'OPT — 12 months, with a STEM extension available'},
@@ -647,7 +648,7 @@ function renderStudent(c){
    ['Proof of funds',S.funds],
    [S.visa,'Application, biometrics and interview prep'],
    ['Insurance & travel','Health cover, tickets and accommodation proof']];
-  $('#kvisa').textContent='For '+c.n+' you will need: '+S.visa+'. We prepare every document with you.';
+  $('#kvisa').textContent='For '+c.n+' you will need: '+S.visa+'.';
   $('#kt').textContent=KIT.length;
   $$('#klist li').forEach((li,i)=>{li.querySelector('b').textContent=KIT[i][0];li.querySelector('small').textContent=KIT[i][1]});
   $$('.beat').forEach((b,i)=>{const x=BEATS[i];b.querySelector('small').textContent=x[0];b.querySelector('h3').textContent=x[1];b.querySelector('p').textContent=x[2];b.querySelector('.fact').textContent=x[3]});
@@ -701,11 +702,6 @@ function setStage(i,force){
 })();
 
 
-curtain('#stats');enterExit('#stats .wrap',{y:80});
-$$('[data-n]').forEach(el=>{
-  const n=+el.dataset.n,suf=el.dataset.s,o={v:0};
-  ScrollTrigger.create({trigger:el,start:'top 85%',once:true,onEnter:()=>gsap.to(o,{v:n,duration:1.8,ease:'power2.out',onUpdate:()=>{el.textContent=suf==='.5'?Math.round(o.v)+'.5':Math.round(o.v).toLocaleString()+suf}})});
-});
 enterExit('#voices .wrap',{y:70});
 const mq=$('#mq');
 gsap.fromTo(mq,{x:0},{x:()=>-(mq.scrollWidth-innerWidth+40),ease:'none',scrollTrigger:{trigger:'#voices',start:'top bottom',end:'bottom top',scrub:.8,invalidateOnRefresh:true}});

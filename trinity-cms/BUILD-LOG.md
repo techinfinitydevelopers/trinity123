@@ -1062,3 +1062,36 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Photo credits (CC BY / BY-SA need attribution; no credits page exists yet):
   uk Benh LIEU SONG (BY-SA 4.0); ireland Robert Linsdell (BY 2.0); france Pierre Blaché (CC0); usa Superbass (BY-SA 4.0); australia DXR (BY-SA 4.0); canada Maksim Sokolov (BY-SA 4.0); sweden ArildV (BY-SA 4.0); uae Robert Bock (CC0); germany Nordenfan (BY-SA 4.0); nz lumoplank (CC0); singapore Marcin Konsek (BY-SA 4.0); japan David Kernan (BY 4.0); korea USAGI_POST (CC0); netherlands Basile Morin (BY-SA 4.0); malaysia James Kerwin (BY 2.0); europe (Prague) Mgimelfarb (BY-SA 4.0).
 - Not committed or pushed yet.
+
+
+## 2026-11-06 — Client round: Italy for Sweden, Denmark added, Dubai → UAE
+- Home picker (`tw/data.ts`): Sweden replaced by Italy (same slot, after Canada); Denmark added after Other Europe. `engine.ts` STU: italy/denmark visa lines added (written from general knowledge — client to confirm), sweden removed. New photos `public/tw/city/{italy,denmark}.jpg` (2560 px; Italy Colosseum CC0, Denmark Nyhavn by-sa 4.0).
+- Header Study Destinations, footer, lead form: same order (`destination-order.ts` NAV_ORDER, `LeadForm.tsx` HOME_DESTS). Sweden is hidden from those lists (its page still exists). `LABEL` shows Dubai as "UAE" in the menu/footer; the page itself is still titled Dubai.
+- `seed-content.ts` country cards and `sync-client-content-2026-10-28.ts` updated the same way (Italy card, UAE name, Denmark last). The Study Destinations cards are DB content: they change on production only after the sync script is applied.
+- Verified on localhost: chips, header, footer order; Denmark selection sets the new photo.
+
+## 2026-11-06 — Client's final destination order, applied everywhere
+- Order: UK, Ireland, France, Germany, New Zealand, UAE, Singapore, Australia, Japan, South Korea, USA, Canada, Netherlands, Italy, Malaysia, Other Europe, Denmark.
+- Applied to: home picker (`tw/data.ts`), header + footer (`destination-order.ts`), lead form (`LeadForm.tsx`), `AGREED_ORDER` + new `inAgreedOrder()` in `content.ts` (also used by the admin Destinations list), seed cards/orders, and the `sync-client-content-2026-10-28.ts` order map + cards. Sweden is no longer in any list.
+- Verified on localhost: picker chips, header menu and footer all match. Production: the Study Destinations cards and DB `order` column change only when the sync script is applied; code-driven lists change on deploy.
+
+## 2026-11-06 — Arrival screen spacing and mobile headline
+- Client: gap between "Welcome to <country>" and the headline (desktop + mobile), and ragged headline on mobile.
+- `tw.css`: `.arrive .tag` margin-bottom `clamp(22px,4vh,40px)` (26px on mobile). `engine.ts`: the headline's hard `<br>` replaced by two `span.ln` blocks with `text-wrap:balance`, so each sentence wraps on its own. `tw-site.css` (this file overrides tw.css for the arrival headline): mobile size `clamp(1.55rem,7.2vw,2.6rem)`, `.inner` full width.
+- Verified at 375×812 by forcing the arrival layer visible (GSAP does not run in the pane): tag-to-headline gap ~30px, text centred within the margins. Desktop gap not screenshotted.
+
+## 2026-11-06 — 7-step path: font sizes swapped
+- `tw.css` (end): `.ptxt .ptag` (e.g. "TELL US YOUR GOALS") now `800 clamp(1.3rem,2.3vw,1.9rem) Sora`; `.ptxt h3` (e.g. "Course, career, budget and destinations") now `600 clamp(1.05rem,1.45vw,1.25rem) Inter`. Applies to all 7 steps.
+- Verified on localhost: 23.5px label, 16.8px detail line at the pane's width. Mobile not checked.
+
+## 2026-11-06 — 7-step CTA wording
+- `markup.ts`: `#pcta` text "Get your profile shortlist" → "Get your profile assessed". Other "shortlist" wording (step 3, outcome line) left as is.
+
+## 2026-11-06 — Document checklist line
+- `engine.ts` #kvisa: removed ". We prepare every document with you." Now "For <country> you will need: <visa>."
+
+## 2026-11-06 — "Numbers that landed" removed from home; roadmap added to About Us
+- Home: `#stats` section removed from `markup.ts`; its count-up code removed from `engine.ts`. This also removes the mobile "separate page" numbers the client flagged. Colour rhythm is now webinar BLUE, voices BLUE (two blues in a row — left as is; flip `#voices` in `tw.css` if the TL wants it alternating). The admin "Numbers — heading" setting is now dead.
+- About Us: new `roadmap` block (`blocks.ts`, `Roadmap` in `blocks/Segments.tsx`, styles at the end of `site.css`), placed before the Mission / Business Segments block. Title "Personalized Guidance", 10 steps: Profile Evaluation → Test Preps → University Shortlisting → SOP & LOR Assistance → University Application Support → Scholarship Assistance → Education Loan Guidance → Student Visa Assistance → Accommodation Assistance → Pre-Departure Support. Desktop: two rows of five joined by a line; ≤1000px: one vertical rail.
+- Production: `scripts/add-about-roadmap.ts` (dry run by default, `--apply`, backup to `scripts/backups/`) inserts the block into the About page DB blocks; it needs the user's go-ahead, then a redeploy.
+- Verified: home DOM has no `#stats`, no console errors. Roadmap checked on a temporary static page (since removed) at 1280px and 375px. The real About page was NOT viewed: local Postgres had an orphan process and killing it was refused by the auto-mode classifier, so the local DB script was not run.

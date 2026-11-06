@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { SegmentsBlock } from "@/lib/blocks";
+import type { SegmentsBlock, RoadmapBlock } from "@/lib/blocks";
 import { Title } from "../ui";
 
 /* About Us, from the client's brief: what Trinity is for (mission, vision) and the rest of the
@@ -56,6 +56,32 @@ export function Segments({ b }: { b: SegmentsBlock }) {
             <Link className="btn btn--primary" href={b.ctaHref}>{b.ctaLabel} <span className="btn__circle"><i className="fas fa-arrow-right" /></span></Link>
           </div>
         ) : null}
+      </div>
+    </section>
+  );
+}
+
+/* About Us: every service from first evaluation to pre-departure, as one numbered path. Desktop runs it as
+   a connected row-wrapped timeline; on a phone it becomes a single vertical rail. */
+export function Roadmap({ b }: { b: RoadmapBlock }) {
+  const steps = Array.isArray(b.steps) ? b.steps : [];
+  if (!steps.length) return null;
+  return (
+    <section className="section roadsec" id="roadmap">
+      <div className="container">
+        <div className="section-head section-head--center" data-reveal>
+          {b.kicker ? <p className="kicker">{b.kicker}</p> : null}
+          <Title text={b.title} className="h2" />
+          {b.lead ? <p className="lead">{b.lead}</p> : null}
+        </div>
+        <ol className="road">
+          {steps.map((s, i) => (
+            <li key={i} className="road__step" data-reveal style={{ ["--d" as string]: `${(i % 5) * 0.08}s` }}>
+              <span className="road__num">{i + 1}</span>
+              <span className="road__label">{s.title}</span>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );
