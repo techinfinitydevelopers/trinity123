@@ -1718,3 +1718,4 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   destination page. Flags shown in circles crop wide flags — the UAE needs `ae-sq.png`.
 - Open: rotate the Railway Postgres password (the internal URL was pasted in chat once); a /credits page for
   the globe's CC attribution; Japan/South Korea/Malaysia/Other Europe have no destination pages.
+- Home landing photos: `public/tw/city/<key>.jpg`, 2560 px wide, from Wikimedia Commons (credits in BUILD-LOG 2026-11-06). `/tw/*` is cached 30 days, so changing a photo needs the `?v=` bump in `engine.ts` (line ~77). Sweden/Netherlands now have real photos.

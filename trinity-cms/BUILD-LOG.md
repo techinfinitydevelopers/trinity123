@@ -1053,3 +1053,12 @@ There was no way to remove one: status could be changed and notes added, but a t
 The part that mattered more: **thinking is on by default on 5.5**, and leaving it alone would have broken the call rather than slowed it. Reasoning tokens come out of `max_tokens`, so the 60-token budget would be spent before the JSON was written, `JSON.parse` would fail, and the `catch` would return `null` — a semantic pass that matches nothing and logs nothing. It would only have surfaced once `ANTHROPIC_API_KEY` was finally set, which is the worst moment to find it. `thinking: { type: "disabled" }` is accepted at effort `high` or below, and `medium` is this model's default.
 
 Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, so the semantic pass does not run at all yet.
+
+
+## 2026-11-06 — High-resolution country photos on the home landing
+- Replaced all 16 `public/tw/city/*.jpg` (were 1100–1200 px wide, ~100–200 KB) with 2560 px progressive JPEGs (370–840 KB), sourced from Wikimedia Commons originals of 4000–8000 px. One scenic skyline/landmark each, picked from contact sheets.
+- `engine.ts`: city URL now `.jpg?v=2` because `/tw/*` is cached 30 days under the same filename; bump `v` when swapping a photo again.
+- Verified on localhost: files serve at 2560 wide. Landing animation not viewed (pane does not tick GSAP).
+- Photo credits (CC BY / BY-SA need attribution; no credits page exists yet):
+  uk Benh LIEU SONG (BY-SA 4.0); ireland Robert Linsdell (BY 2.0); france Pierre Blaché (CC0); usa Superbass (BY-SA 4.0); australia DXR (BY-SA 4.0); canada Maksim Sokolov (BY-SA 4.0); sweden ArildV (BY-SA 4.0); uae Robert Bock (CC0); germany Nordenfan (BY-SA 4.0); nz lumoplank (CC0); singapore Marcin Konsek (BY-SA 4.0); japan David Kernan (BY 4.0); korea USAGI_POST (CC0); netherlands Basile Morin (BY-SA 4.0); malaysia James Kerwin (BY 2.0); europe (Prague) Mgimelfarb (BY-SA 4.0).
+- Not committed or pushed yet.
