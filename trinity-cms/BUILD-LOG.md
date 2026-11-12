@@ -1097,5 +1097,5 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Verified: home DOM has no `#stats`, no console errors. Roadmap checked on a temporary static page (since removed) at 1280px and 375px. The real About page was NOT viewed: local Postgres had an orphan process and killing it was refused by the auto-mode classifier, so the local DB script was not run.
 
 ## 2026-11-12 — Full production data backup
-- Added `scripts/dump-db.ts` (read-only; every table to one JSON file). Ran it on production: 11 tables, 301 KB, saved to `C:\Users\hp\Desktop	rinity-db-backups	rinity-production-2026-11-12_1120.json` (outside the repo — it holds leads and the admin user). Restore = read the JSON and write rows back; schema is `prisma/schema.prisma`.
+- Added `scripts/dump-db.ts` (read-only; every table to one JSON file). Ran it on production: 11 tables, 301 KB, saved to `C:\Users\hp\Desktop\trinity-db-backups\trinity-production-2026-11-12_1120.json` (outside the repo — it holds leads and the admin user). Restore = read the JSON and write rows back; schema is `prisma/schema.prisma`.
 - No `pg_dump` on this machine, hence the JSON dump. Railway-side Postgres backups not checked.
