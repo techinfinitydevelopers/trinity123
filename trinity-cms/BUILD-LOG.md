@@ -1178,3 +1178,7 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 
 ## 2026-11-12 — Plane colour per country
 - Cause: fixed sun + plane flying a different heading per country, so for some (Singapore) the cabin side was in shade and rendered blue/dim. Fix in `tw/engine.ts` frame(): once the camera is close (sm(.3,.55,t)), the sun is blended to a camera-relative position (upper-left, behind camera), so the plane is lit the same for every country. Checked Singapore (white now), UK/Japan/USA/Australia run without error, Australia close-up white/grey. Not committed.
+
+## 2026-11-12 — Heriot-Watt Dubai card photo
+- Used the user-supplied campus photo (new Dubai campus building) — the same shot at 1960px from hw.ac.uk, upscaled to 2560 + mild sharpen. `public/tw/uni/heriot-watt-university-dubai.jpg` + entry in `tw/uni.ts`. Middlesex Dubai still on the city fallback (awaiting image). Not committed.
+- Renamed to `heriot-watt-dubai-campus.jpg` to bust browser cache (an earlier test photo had been served at the old filename).

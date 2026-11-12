@@ -1,4 +1,9 @@
 export const UNI: Record<string,{src:string;artist?:string|null;license?:string|null}> = {
+ "Heriot-Watt University Dubai": {
+  "src": "uni/heriot-watt-dubai-campus.jpg",
+  "artist": "Heriot-Watt University Dubai",
+  "license": "official campus photo"
+ },
  "University of Oxford": {
   "src": "uni/university-of-oxford.jpg",
   "artist": "Julian Herzog",
