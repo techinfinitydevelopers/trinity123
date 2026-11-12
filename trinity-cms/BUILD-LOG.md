@@ -1118,3 +1118,18 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Route: `/destinations/dubai` -> `/destinations/uae`. Code: slug `uae` in `content.ts` AGREED_ORDER, `destination-order.ts`, seed card href, sync-script order map, `country-dubai.json`; `TrinityWorldHost` SLUG override removed; `next.config.ts` 308-redirects the old URL. `scripts/rename-dubai-slug-to-uae.ts` (dry run by default, `--apply`, backup) renames the Country slug and rewrites "/destinations/dubai" links inside page blocks/settings; applied to the LOCAL db only (home + why-study-abroad links, site setting).
 - Footer text: dash removed ("... countries counselling, admissions, visas and beyond."), in `settings.ts` default and by the same script for the saved `site` setting. Literal reading of the client request; an alternative is "countries. Counselling, ...".
 - Checked on localhost: /destinations/uae 200, /destinations/dubai 308 -> uae, 4 links to /destinations/uae. PRODUCTION NOT UPDATED YET. Order: push code (deploy) -> run rename-dubai-to-uae (done) -> run rename-dubai-slug-to-uae --apply -> redeploy to clear the cache.
+
+## 2026-11-12 - Footer e-mail back to full size
+- My earlier fix shrank the e-mail to 12px; client wants it the same size as the other contact lines. `tw-chrome.css`: the mailto link keeps `nowrap` at the inherited 14.5px, and from 1000px up the footer grid is `1.15fr .85fr .85fr 1.5fr` so the contact column is wide enough (359px at 1280). 1000-1199px: e-mail 13.5px (column is 270px there). Under 1000px the columns are already wide enough.
+- Measured: 1280 (14.5px), 1000 (13.5px), 768 and 375 (14.5px): one line, no overflow, no other footer link overflowing. Not yet pushed.
+
+## 2026-11-12 - Destination cost cards: same three rows on every card
+- `CountryPage.tsx`: `splitCost()` turns "£12,006 / year (UKVI minimum)" into the amount on one line and "per year · UKVI minimum" under it; the note line is always reserved. Works for every country (text-only, no DB change). Measured on /destinations/uk: label, amount and note sit at the same offsets (27 / 56 / 90 px) on all 5 cards, card height 135px.
+- Not yet pushed.
+
+- REVERTED the same day at the client request: `CountryPage.tsx` is back to the original cost card layout (value on one line, may wrap). The splitCost() idea is dropped.
+
+## 2026-11-12 - Cost cards: bracketed note on its own line
+- `CountryPage.tsx`: a trailing "(...)" in a cost value, e.g. "(UKVI minimum)", is rendered on a new line below the amount; everything else (fonts, card, layout) unchanged. Checked in the DOM on /destinations/uk: cards 2 and 3 read "£9,207 / year | (UKVI minimum)". Not yet pushed.
+
+- Wording: "(UKVI minimum)" -> "(as per UKVI)" on the UK cost cards (`seed-countries.ts`; `scripts/uk-cost-note-as-per-ukvi.ts` for the database, applied locally only; production needs it plus a redeploy).

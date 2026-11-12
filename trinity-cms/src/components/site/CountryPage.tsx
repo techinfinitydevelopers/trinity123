@@ -153,7 +153,7 @@ export default async function CountryPage({ c, others, contact }: { c: Country; 
                 <div key={i} className="cv-jcard" data-reveal style={{ position: "relative", background: total ? "var(--navy)" : "#fff", color: total ? "#fff" : "var(--navy)", border: `1px solid ${total ? "transparent" : "var(--line)"}`, borderRadius: 22, padding: 26, transition: "all .45s cubic-bezier(.4,0,.2,1)", transitionDelay: d(i), display: "flex", flexDirection: "column", gap: 10, overflow: "hidden" }}>
                   <span style={{ position: "absolute", left: 0, top: 26, bottom: 26, width: 3, borderRadius: "0 3px 3px 0", background: "var(--gold)" }} />
                   <span style={{ fontSize: 13, color: total ? "rgba(255,255,255,.65)" : "var(--muted)", fontWeight: 500, letterSpacing: 0.3 }}>{x.label}</span>
-                  <span style={{ fontFamily: P, fontWeight: 700, fontSize: 19, lineHeight: 1.3, letterSpacing: -0.5 }}>{x.value}</span>
+                  <span style={{ fontFamily: P, fontWeight: 700, fontSize: 19, lineHeight: 1.3, letterSpacing: -0.5 }}>{(() => { const m = String(x.value).match(/^(.*?)\s*(\(.*\))\s*$/); return m ? <>{m[1]}<br />{m[2]}</> : x.value; })()}</span>
                 </div>
               );
             })}
