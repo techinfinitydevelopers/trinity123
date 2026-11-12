@@ -150,10 +150,10 @@ export default async function CountryPage({ c, others, contact }: { c: Country; 
             {cost.map((x, i) => {
               const total = false;
               return (
-                <div key={i} className="cv-jcard" data-reveal style={{ position: "relative", background: total ? "var(--navy)" : "#fff", color: total ? "#fff" : "var(--navy)", border: `1px solid ${total ? "transparent" : "var(--line)"}`, borderRadius: 22, padding: 26, transition: "all .45s cubic-bezier(.4,0,.2,1)", transitionDelay: d(i), display: "flex", flexDirection: "column", gap: 10, overflow: "hidden" }}>
+                <div key={i} className="cv-jcard" data-reveal style={{ position: "relative", background: total ? "var(--navy)" : "#fff", color: total ? "#fff" : "var(--navy)", border: `1px solid ${total ? "transparent" : "var(--line)"}`, borderRadius: 22, padding: 26, transition: "all .45s cubic-bezier(.4,0,.2,1)", transitionDelay: d(i), display: "flex", flexDirection: "column", gap: 10, overflow: "hidden", ...(c.slug === "canada" ? { containerType: "inline-size" } : {}) }}>
                   <span style={{ position: "absolute", left: 0, top: 26, bottom: 26, width: 3, borderRadius: "0 3px 3px 0", background: "var(--gold)" }} />
                   <span style={{ fontSize: 13, color: total ? "rgba(255,255,255,.65)" : "var(--muted)", fontWeight: 500, letterSpacing: 0.3 }}>{x.label}</span>
-                  <span style={{ fontFamily: P, fontWeight: 700, fontSize: 19, lineHeight: 1.3, letterSpacing: -0.5 }}>{(() => { const m = String(x.value).match(/^(.*?)\s*(\(.*\))\s*$/); return m ? <>{m[1]}<br />{m[2]}</> : x.value; })()}</span>
+                  <span style={{ fontFamily: P, fontWeight: 700, fontSize: c.slug === "canada" ? "min(17px, calc((100cqw - 6px) / 12.9))" : 19, lineHeight: 1.3, letterSpacing: -0.5, ...(c.slug === "canada" ? { whiteSpace: "nowrap" } : {}) }}>{(() => { const m = String(x.value).match(/^(.*?)\s*(\(.*\))\s*$/); return m ? <>{m[1]}<br />{m[2]}</> : x.value; })()}</span>
                 </div>
               );
             })}

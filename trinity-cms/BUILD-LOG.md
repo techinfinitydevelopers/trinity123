@@ -1148,3 +1148,7 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 ## 2026-11-12 - WhatsApp icon removed from the social rows
 - `ui.tsx`: `visibleSocials()` / `isWhatsApp()` drop any WhatsApp entry from the social icons in the top bar, the header social menu and the footer (the floating WhatsApp button `.fab-wa` is on every page). Header trigger uses the same filter. No DB change: the entry stays in the dashboard list (Settings > Contact), it is just not shown here.
 - Checked on localhost /about-us: top bar, header menu and footer each list Facebook, X, Instagram, LinkedIn, YouTube; `.fab-wa` still present. Contact page WhatsApp buttons are separate and unchanged. Not yet pushed.
+
+## 2026-11-12 - Canada cost cards: smaller text, one line
+- `CountryPage.tsx`, Canada only (`c.slug === "canada"`): the cost card is a size container and the value font is `min(17px, (100cqw - 6px) / 12.9)`, so it shrinks with the card and never wraps (other countries keep 19px). Measured on /destinations/canada at 1280, 1000 and 375 px: all five values on one line, no overflow (17px there; in a narrower 5-column card it scales down, about 13px at 226px).
+- Code-only, no DB change. Not yet pushed.
