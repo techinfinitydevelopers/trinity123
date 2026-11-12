@@ -1,4 +1,15 @@
-export const UNI: Record<string,{src:string;artist?:string|null;license?:string|null}> = {
+export const UNI: Record<string,{src:string;artist?:string|null;license?:string|null;pos?:string}> = {
+ "Khalifa University": {
+  "src": "uni/khalifa-university-campus.jpg",
+  "pos": "6% 40%",
+  "artist": "Khalifa University",
+  "license": "official campus photo"
+ },
+ "Middlesex University Dubai": {
+  "src": "uni/middlesex-dubai-campus.jpg",
+  "artist": "Middlesex University Dubai",
+  "license": "official campus photo"
+ },
  "Heriot-Watt University Dubai": {
   "src": "uni/heriot-watt-dubai-campus.jpg",
   "artist": "Heriot-Watt University Dubai",

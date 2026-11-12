@@ -73,7 +73,7 @@ const onWin=(t:string,f:any,o?:any)=>{window.addEventListener(t,f,o);cleanups.pu
 root.classList.add('tw');root.innerHTML=MARKUP;
 const $=(s:string)=>root.querySelector(s) as any,$$=(s:string)=>[...root.querySelectorAll(s)] as any[];
 const G:any={};
-G.__UNI__=Object.fromEntries(Object.entries(UNI).map(([k,v])=>[k,{url:pick('uni',k,AB+'/'+v.src),artist:v.artist,license:v.license}]));
+G.__UNI__=Object.fromEntries(Object.entries(UNI).map(([k,v])=>[k,{url:pick('uni',k,AB+'/'+v.src),artist:v.artist,license:v.license,pos:(v as any).pos}]));
 const IMG:any=Object.fromEntries(COUNTRIES.map((c:any)=>[c.k,pick('city',c.k,AB+'/city/'+c.k+'.jpg?v=2')]));
 gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.config({ignoreMobileResize:true});
@@ -477,7 +477,7 @@ function render(c){
     };
     a.addEventListener('click',pick);
     a.addEventListener('keydown',(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick()}});
-    const im=a.querySelector('img');im.alt=u+' campus';im.onerror=()=>{if(im.src!==IMG[c.k]){im.onerror=null;im.src=IMG[c.k]}};
+    const im=a.querySelector('img');im.alt=u+' campus';if(U.pos)im.style.objectPosition=U.pos;im.onerror=()=>{if(im.src!==IMG[c.k]){im.onerror=null;im.src=IMG[c.k]}};
     a.querySelector('h3').textContent=u;a.querySelector('small').textContent=c.n;a.querySelector('.loc b').textContent=c.s;a.dataset.credit=U.artist?('Photo: '+U.artist+(U.license?' ('+U.license+')':'')):'';
     track.insertBefore(a,outro);
   });

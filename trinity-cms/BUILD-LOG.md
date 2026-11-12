@@ -1182,3 +1182,10 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 ## 2026-11-12 — Heriot-Watt Dubai card photo
 - Used the user-supplied campus photo (new Dubai campus building) — the same shot at 1960px from hw.ac.uk, upscaled to 2560 + mild sharpen. `public/tw/uni/heriot-watt-university-dubai.jpg` + entry in `tw/uni.ts`. Middlesex Dubai still on the city fallback (awaiting image). Not committed.
 - Renamed to `heriot-watt-dubai-campus.jpg` to bust browser cache (an earlier test photo had been served at the old filename).
+
+## 2026-11-12 — Middlesex Dubai card photo
+- User-supplied campus photo (447px source, upscaled to 1600 + mild sharpen — it will look soft on large cards; a bigger original would be better). `public/tw/uni/middlesex-dubai-campus.jpg` + entry in `tw/uni.ts`. Not committed.
+
+## 2026-11-12 — Khalifa University card photo
+- User-supplied campus photo (678px source, upscaled to 1920 + mild sharpen). `public/tw/uni/khalifa-university-campus.jpg` + entry in `tw/uni.ts`. Not committed.
+- Khalifa card crop cut the logo: added optional `pos` (CSS object-position) per university in `tw/uni.ts`, applied in `engine.ts`; Khalifa = '6% 40%'. Verified: logo fully visible on the card. Not committed.
