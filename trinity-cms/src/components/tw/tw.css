@@ -340,8 +340,6 @@
 .tw #vids .vplay:hover i,.tw #vids .vplay:focus-visible i{transform:scale(1.1)}
 .tw #vids .vplay:focus-visible{outline:2px solid #fff;outline-offset:-4px}
 .tw #vids .vcard.on .vplay{opacity:0;pointer-events:none}
-.tw #vids .vdur{position:absolute;left:12px;top:12px;padding:4px 10px;border-radius:99px;background:rgba(5,15,38,.7);backdrop-filter:blur(6px);font:600 .74rem Inter,system-ui,sans-serif;letter-spacing:.04em;pointer-events:none}
-.tw #vids .vcard.on .vdur{opacity:0}
 @media(max-width:1000px){
   .tw #vids .vlayout{grid-template-columns:1fr;gap:28px}
   .tw #vids .vgrid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:min(62vw,250px);overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;padding:6px 20px 14px;margin-inline:-20px;-webkit-overflow-scrolling:touch;scrollbar-width:none}

@@ -1204,3 +1204,4 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Step 7 ('Stay supported') showed the first university's campus photo (Khalifa for UAE, logo cut). Now a friendly-advisor portrait (Unsplash 1573497019940-1c28c88b4f3e, `SIMG.sup`) for every country.
 - Life section first card ('Your campus · X') keeps the university photo but now applies that university's crop (`pos`), so the Khalifa logo is no longer cut. Not committed.
 - Life section first card: replaced the university campus photo with a student-life photo (Unsplash 1531545514256-b1400bc00f31, `SIMG.cam`) for every country and renamed the label 'Your campus · X' -> 'Campus life · X'. Removed the crop hack added earlier for it. Verified on localhost (UAE). Not committed.
+- Removed the duration chip (1:27 / 0:39 / 0:49) from the video cards (markup + CSS). Not committed.
