@@ -483,7 +483,6 @@ function render(c){
   });
   $('#out-t').textContent='Not on the list?';
   $('#out-p').textContent='We shortlist universities in '+c.n+' by your profile, budget and goals.';
-  $('#ie-also').textContent='Tests for '+c.n+': '+c.test;
   $$('.chip').forEach(ch=>ch.classList.toggle('on',ch.dataset.k===c.k));
   $$('.cdest').forEach(e=>e.textContent=c.n);
   renderStudent(c);
@@ -592,17 +591,20 @@ mm.add('(max-width:760px)',()=>{
 });
 
 
-/* ---------------- IELTS ---------------- */
-const bandEl=$('#band');const targets=[8.5,8.0,7.5,8.0];const mods=$$('#mods .mod');
-const small=innerWidth<=860;
-ScrollTrigger.create({trigger:'#ielts',start:small?'top 65%':'top top',end:small?'bottom 70%':'bottom bottom',scrub:true,onUpdate:s=>{
-  const p=gsap.utils.clamp(0,1,(s.progress-.08)/.74);
-  bandEl.innerHTML=(5+3*p).toFixed(1)+'<sup>band</sup>';
-  mods.forEach((m,i)=>{const v=4+(targets[i]-4)*p;m.querySelector('.v').textContent=v.toFixed(1);m.querySelector('i').style.transform='scaleX('+(v/9)+')'});
-}});
-gsap.fromTo('.ie .wrap',{opacity:0,y:120,scale:.95},{opacity:1,y:0,scale:1,ease:'none',scrollTrigger:{trigger:'#ielts',start:'top 92%',end:'top 25%',scrub:.7}});
-gsap.to('.ie .wrap',{opacity:0,y:-110,scale:.96,ease:'none',immediateRender:false,scrollTrigger:{trigger:'#ielts',start:'bottom 78%',end:'bottom 22%',scrub:.7}});
-gsap.from('#mods .mod',{x:90,opacity:0,stagger:.12,ease:'power3.out',scrollTrigger:{trigger:'#ielts',start:'top 60%'}});
+/* ---------------- VIDEOS ---------------- */
+/* Tap the play button to start (with sound). Only one plays at a time; native controls appear
+   after the first play, and a finished clip goes back to its poster. */
+{
+  const cards=$$('#vgrid .vcard');
+  const vs=cards.map(c=>c.querySelector('video'));
+  cards.forEach((c,i)=>{
+    const v=vs[i];
+    c.querySelector('.vplay').addEventListener('click',()=>{v.controls=true;v.play().catch(()=>{})});
+    v.addEventListener('play',()=>{c.classList.add('on');vs.forEach((o,j)=>{if(j!==i)o.pause()})});
+    v.addEventListener('pause',()=>c.classList.remove('on'));
+    v.addEventListener('ended',()=>{v.controls=false;v.currentTime=0;v.load();c.classList.remove('on')});
+  });
+}
 
 /* ---------------- STUDENT SECTIONS ---------------- */
 const UQ=(id:string,_w=1100)=>pick('stu',id,`${AB}/stu/${id}.jpg`);

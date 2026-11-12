@@ -1192,3 +1192,10 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 
 ## 2026-11-12 — TISA avatar = supplied character image
 - `public/tw/tisa.webp` (640px, head+shoulders crop of the supplied transparent PNG/WebP on a soft blue backdrop). `AgentAvatar.tsx` now renders it as an <img> (launcher + chat header); removed the vector avatar and the gold book badge (+ CSS). Verified on localhost launcher (large + 54px). Not committed.
+
+## 2026-11-12 — IELTS section replaced by client videos
+- Removed the home "Test prep · IELTS" band section (markup, engine scroll code, `#ie-also` line, tw.css rules). Added `#vids` ("Hear it straight from our team.") with 3 vertical videos (client files lv_0_*.mp4, 4K 60fps up to 845 MB) compressed to 720p30 H.264 (`public/tw/voices/voice-{1,2,3}.mp4` + poster jpgs, ~12 MB total). `preload="none"`, one plays at a time; mobile = scroll-snap row. Heading text is my guess — confirm with the client. Verified on localhost: 3 cards render, all play. Not committed.
+- Settings keys `ieltsTitle/ieltsLead` and `tw-site.css` `.ie` rules are now dead.
+- Video cards made smaller: max 250px wide each on desktop (was full column width), 54vw/220px on mobile scroll row. Not committed.
+- Videos section redesigned (UI/UX): text column (eyebrow, heading, lead, 'Get free counselling' button) + 3 tap-to-play cards with a custom gold play button, duration chip, hover lift, centre card raised; controls only appear after first play; one plays at a time; finished clip returns to poster. <1000px: stacked, cards in a scroll-snap row. Checked at 1024 and 375 wide; play/pause logic tested. Not committed.
+- Video cards shortened: aspect 9/16 -> 4/5 (240x300 on desktop, was 240x427), object-position 50% 78% so faces/sign stay in frame. Not committed.
