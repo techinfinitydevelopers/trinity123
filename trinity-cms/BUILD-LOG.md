@@ -1173,3 +1173,5 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 
 ## 2026-11-12 — Journey step 2 image
 - 'Evaluate your profile' used an empty lecture hall. Now a CV clipboard + laptop photo (Unsplash 1586281380349-632531db7ed4, `public/tw/stu/`), via `SIMG.eval` in `tw/engine.ts`. Not committed.
+
+- Journey step 5 ('Plan your finances and visa') had an airplane image; now documents + calculator (Unsplash 1554224155-6726b3ff858f) via `SIMG.fin`. Not committed.
