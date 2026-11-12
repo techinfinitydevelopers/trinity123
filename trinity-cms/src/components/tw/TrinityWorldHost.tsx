@@ -14,7 +14,6 @@ import { mountBoardingPass } from "./boardingPass";
    Two of ours are spelled differently and the rest have no page yet. */
 const SLUG: Record<string, string> = {
   nz: "new-zealand",   // ours is the full word
-  uae: "dubai",        // the page is named after the city, deliberately
 };
 /* No destination page on this site — the link goes to the enquiry form instead of 404ing. */
 const NO_PAGE = new Set(["europe", "korea", "japan", "malaysia", "netherlands"]);

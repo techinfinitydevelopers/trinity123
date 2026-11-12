@@ -143,7 +143,7 @@ async function main() {
   /* ---- Study Destinations order: the client's agreed sequence (UK, Ireland, France, Germany, NZ, UAE, Singapore, Australia, Japan, South Korea, USA, Canada, Netherlands, Italy, Malaysia, other Europe, Denmark). Only the `order` of rows
           that already exist is changed; countries not yet added in the dashboard are not created. ---- */
   {
-    const want: Record<string, number> = { uk: 10, ireland: 20, france: 30, germany: 40, "new-zealand": 50, dubai: 60, singapore: 70, australia: 80, japan: 90, "south-korea": 100, usa: 110, canada: 120, netherlands: 130, italy: 140, malaysia: 150, denmark: 170, sweden: 175 };
+    const want: Record<string, number> = { uk: 10, ireland: 20, france: 30, germany: 40, "new-zealand": 50, uae: 60, singapore: 70, australia: 80, japan: 90, "south-korea": 100, usa: 110, canada: 120, netherlands: 130, italy: 140, malaysia: 150, denmark: 170, sweden: 175 };
     const rows = await db.country.findMany({ select: { slug: true, order: true } });
     const todo = rows.filter((r) => want[r.slug] !== undefined && want[r.slug] !== r.order);
     if (!todo.length) plan.push("countries: order already up to date");

@@ -81,7 +81,7 @@ export const getAdjacentPosts = unstable_cache(
    sequence shows the right one as soon as this is deployed. Anything not named falls after, in
    its dashboard order — which is also where the other European countries sit. */
 const AGREED_ORDER = [
-  "uk", "ireland", "france", "germany", "new-zealand", "dubai", "singapore", "australia", "japan", "south-korea", "usa",
+  "uk", "ireland", "france", "germany", "new-zealand", "uae", "singapore", "australia", "japan", "south-korea", "usa",
   "canada", "netherlands", "italy", "malaysia", "denmark",
 ];
 /** Sort any list of countries (rows with a `slug`) into the agreed order; ties keep their incoming order. */

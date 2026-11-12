@@ -171,7 +171,7 @@ const countryItems: CountriesBlock["items"] = [
   { flag: "fr", name: "France", tag: "Business & fashion", href: "/destinations/france" },
   { flag: "de", name: "Germany", tag: "Low-tuition engineering", href: "/destinations/germany" },
   { flag: "nz", name: "New Zealand", tag: "Safe & scenic study", href: "/destinations/new-zealand" },
-  { flag: "ae", name: "UAE", tag: "Global campuses, close to home", href: "/destinations/dubai" },
+  { flag: "ae", name: "UAE", tag: "Global campuses, close to home", href: "/destinations/uae" },
   { flag: "sg", name: "Singapore", tag: "Business & technology hub", href: "/destinations/singapore" },
   { flag: "au", name: "Australia", tag: "Post-study work visa", href: "/destinations/australia" },
   { flag: "jp", name: "Japan", tag: "Research & technology leaders", href: "/#c=japan" },

@@ -1,5 +1,5 @@
 /* The client's country order for every list on the site that is not the home globe's own picker (header menu,
-   footer, and anything else that wants it): UK, Ireland, France, Germany, New Zealand, UAE (Dubai), Singapore, Australia, Japan,
+   footer, and anything else that wants it): UK, Ireland, France, Germany, New Zealand, UAE, Singapore, Australia, Japan,
    South Korea, USA, Canada, Netherlands, Italy, Malaysia, other European countries, Denmark.
    Countries with a page come from the destinations table; the ones without a page of their own (Japan, South
    Korea, Netherlands, Malaysia, Other Europe) open the home globe on that country instead (`/#c=<key>`).
@@ -7,9 +7,9 @@
 export type NavDestination = { key: string; name: string; code: string; href: string; tag: string };
 type Row = { slug: string; code: string; name: string; tag: string };
 
-const NAV_ORDER = ["uk", "ireland", "france", "germany", "new-zealand", "dubai", "singapore", "australia", "japan", "korea", "usa", "canada", "netherlands", "italy", "malaysia", "europe", "denmark"];
+const NAV_ORDER = ["uk", "ireland", "france", "germany", "new-zealand", "uae", "singapore", "australia", "japan", "korea", "usa", "canada", "netherlands", "italy", "malaysia", "europe", "denmark"];
 const HIDDEN = new Set(["sweden"]);
-const LABEL: Record<string, string> = { dubai: "UAE" };
+const LABEL: Record<string, string> = { dubai: "UAE" }; // only for a database that still has the old slug
 const GLOBE_ONLY: Record<string, { name: string; code: string; tag: string }> = {
   japan: { name: "Japan", code: "jp", tag: "Research & tech leaders" },
   korea: { name: "South Korea", code: "kr", tag: "Innovation & tech hubs" },

@@ -477,7 +477,7 @@ function render(c){
   renderStudent(c);
   ScrollTrigger.refresh();
 }
-function fitName(){const n=$('#cname');n.style.fontSize='';n.style.whiteSpace='nowrap';n.style.overflow='visible';const fs=parseFloat(getComputedStyle(n).fontSize),w=n.scrollWidth,max=innerWidth*.8;if(w>max)n.style.fontSize=(fs*max/w)+'px';n.style.overflow='hidden'}
+function fitName(){const n=$('#cname');n.style.removeProperty('font-size');n.style.whiteSpace='nowrap';n.style.overflow='visible';const fs=parseFloat(getComputedStyle(n).fontSize),r=document.createRange();r.selectNodeContents(n);const w=r.getBoundingClientRect().width,max=innerWidth*.88;if(w>max)n.style.setProperty('font-size',(fs*max/w)+'px','important')}
 onWin('resize',()=>{if($('#cname').textContent)fitName()});
 function choose(k){
   const c=COUNTRIES.find(x=>x.k===k);if(!c)return;

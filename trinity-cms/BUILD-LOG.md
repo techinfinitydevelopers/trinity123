@@ -1099,3 +1099,22 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 ## 2026-11-12 — Full production data backup
 - Added `scripts/dump-db.ts` (read-only; every table to one JSON file). Ran it on production: 11 tables, 301 KB, saved to `C:\Users\hp\Desktop\trinity-db-backups\trinity-production-2026-11-12_1120.json` (outside the repo — it holds leads and the admin user). Restore = read the JSON and write rows back; schema is `prisma/schema.prisma`.
 - No `pg_dump` on this machine, hence the JSON dump. Railway-side Postgres backups not checked.
+
+## 2026-11-12 - Footer e-mail on one line
+- `tw-chrome.css`: the mailto link in `.footer__contact` is nowrap with `clamp(12px,.9vw,14.5px)` (14px under 700px). site.css lets contact lines break anywhere, which left ".com" alone. Measured 1280, 1024, 375: one line, no overflow.
+
+## 2026-11-12 - Country name clipped on mobile (globe screen)
+- Cause: `fitName()` in `engine.ts` set an inline font-size, but `tw.css` sets `#cname{font-size:...!important}`, so the shrink never applied, and it measured scrollWidth of a full-width box. Now it measures the text with a Range and sets the size with `important`. UNITED KINGDOM at 375px: 22..353 px (was 15..391).
+- Checked UK only after the fix; other long names (New Zealand, Netherlands) use the same code path.
+
+## 2026-11-12 - Dubai page renamed to UAE
+- `/destinations/dubai` (URL unchanged): country name, "Study in UAE" hero, intro, visa, intakes, step title and FAQs now say UAE; real names ("Dubai airport", "Regent College Dubai") kept. Source `content/client-brief/country-dubai.json` edited the same way.
+- `scripts/rename-dubai-to-uae.ts` (dry run by default, `--apply`, backup in scripts/backups/) does it on the database; applied to the LOCAL db only. Production still needs it, then a redeploy. Page title on localhost: "Study in UAE".
+- The Study Destinations card still says Dubai on production until `sync-client-content-2026-10-28` is applied (seed already says UAE).
+
+- Applied on PRODUCTION 2026-11-12 (user approved): `rename-dubai-to-uae` and `sync-client-content-2026-10-28` (9 countries re-ordered, 17 cards in the agreed order, Dubai card -> UAE). Re-runs report "already up to date". Backups: scripts/backups/dubai-to-uae-2026-11-12T06-37-41-065Z.json and before-client-content-2026-11-12T06-38-03-825Z.json (gitignored, this laptop only). A redeploy is still needed to clear the cache. `add-about-roadmap` has NOT been run on production yet.
+
+## 2026-11-12 - UAE route and footer text
+- Route: `/destinations/dubai` -> `/destinations/uae`. Code: slug `uae` in `content.ts` AGREED_ORDER, `destination-order.ts`, seed card href, sync-script order map, `country-dubai.json`; `TrinityWorldHost` SLUG override removed; `next.config.ts` 308-redirects the old URL. `scripts/rename-dubai-slug-to-uae.ts` (dry run by default, `--apply`, backup) renames the Country slug and rewrites "/destinations/dubai" links inside page blocks/settings; applied to the LOCAL db only (home + why-study-abroad links, site setting).
+- Footer text: dash removed ("... countries counselling, admissions, visas and beyond."), in `settings.ts` default and by the same script for the saved `site` setting. Literal reading of the client request; an alternative is "countries. Counselling, ...".
+- Checked on localhost: /destinations/uae 200, /destinations/dubai 308 -> uae, 4 links to /destinations/uae. PRODUCTION NOT UPDATED YET. Order: push code (deploy) -> run rename-dubai-to-uae (done) -> run rename-dubai-slug-to-uae --apply -> redeploy to clear the cache.

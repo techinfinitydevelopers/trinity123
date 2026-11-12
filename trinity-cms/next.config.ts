@@ -23,6 +23,10 @@ const csp = [
 ].join("; ");
 
 const nextConfig: NextConfig = {
+  /* The UAE page used to live at /destinations/dubai; old links and search results keep working. */
+  async redirects() {
+    return [{ source: "/destinations/dubai", destination: "/destinations/uae", permanent: true }];
+  },
   async headers() {
     return [
       {
