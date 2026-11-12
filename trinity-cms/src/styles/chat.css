@@ -33,9 +33,13 @@
 .tc-av__nose{fill:none;stroke:#C98F68;stroke-width:.9;stroke-linecap:round}
 .tc-av__cheek{fill:#F29BA0;opacity:.45}
 .tc-av__smile{fill:none;stroke:#C0504D;stroke-width:1.5;stroke-linecap:round}
-.tc-av__band{fill:none;stroke:var(--gold);stroke-width:2;stroke-linecap:round}
-.tc-av__cup{fill:var(--gold)}
-.tc-av__mic{fill:none;stroke:var(--gold);stroke-width:1.3;stroke-linecap:round}
+.tc-av__cap{fill:#0f1a47}
+.tc-av__capband{fill:#1d2a63}
+.tc-av__capedge{fill:none;stroke:var(--gold);stroke-width:.9;stroke-linecap:round}
+.tc-av__cord{fill:none;stroke:var(--gold);stroke-width:1;stroke-linecap:round;stroke-linejoin:round}
+.tc-av__tassel{fill:var(--gold)}
+.tc-fab__badge{position:absolute;left:-4px;bottom:2px;width:22px;height:22px;border-radius:50%;background:var(--gold);color:var(--navy);border:2px solid #fff;display:grid;place-items:center;box-shadow:0 3px 8px rgba(35,47,112,.3)}
+.tc-fab__badge svg{width:12px;height:12px;display:block}
 .tc-av__head{animation:tcBob 3.2s ease-in-out infinite}
 @keyframes tcBlink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
 @keyframes tcBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-1px)}}
@@ -50,10 +54,10 @@
 .tc-nudge__x{position:absolute;top:4px;right:6px;width:24px;height:24px;background:none;border:0;cursor:pointer;font-size:17px;line-height:1;color:var(--muted)}
 .tc-nudge__x:hover{color:var(--navy)}
 
-.tc-panel{position:fixed;right:22px;bottom:24px;z-index:62;width:min(calc(100vw - 32px),390px);height:min(calc(100vh - 72px),580px);background:#fff;border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow-lg);display:flex;flex-direction:column;overflow:hidden;opacity:0;visibility:hidden;transform:translateY(16px) scale(.97);transform-origin:bottom right;transition:all .32s var(--ease);font-family:var(--font-b)}
+.tc-panel{position:fixed;right:22px;bottom:24px;z-index:62;width:min(calc(100vw - 32px),390px);height:min(calc(100vh - 148px),580px);height:min(calc(100dvh - 148px),580px);background:#fff;border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow-lg);display:flex;flex-direction:column;overflow:hidden;opacity:0;visibility:hidden;transform:translateY(16px) scale(.97);transform-origin:bottom right;transition:all .32s var(--ease);font-family:var(--font-b)}
 .tc-panel.is-open{opacity:1;visibility:visible;transform:none}
 /* The details form is short; give it its own height instead of the chat's fixed one. */
-.tc-panel:has(.tc-gate){height:auto;max-height:min(calc(100vh - 72px),580px)}
+.tc-panel:has(.tc-gate){height:auto;max-height:min(calc(100vh - 148px),580px);max-height:min(calc(100dvh - 148px),580px)}
 .tc-panel .tc-gate{flex:none}
 
 .tc-head{display:flex;align-items:center;gap:12px;padding:16px 14px 16px 18px;background:var(--navy);color:#fff;position:relative;flex-shrink:0}
@@ -121,12 +125,14 @@
 @keyframes fadeUpChat{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 
 @media (max-width:640px){
-  .tc-panel{right:8px;left:8px;bottom:16px;width:auto;height:min(calc(100vh - 56px),540px)}
+  .tc-panel{right:8px;left:8px;bottom:16px;width:auto;height:min(calc(100vh - 140px),540px);height:min(calc(100dvh - 140px),540px)}
   .tc-nudge{right:88px;left:12px;max-width:none}
   .fab-wa{right:10px;bottom:max(14px,env(safe-area-inset-bottom));width:46px;height:46px;font-size:24px}
   .tc-fab{right:16px;bottom:72px;width:52px;height:52px;font-size:21px}
   .tc-fab:not(.is-open){right:12px;bottom:66px;width:44px;height:44px}
   .tc-fab__txt{display:none}
+  .tc-fab__badge{width:18px;height:18px;left:-3px}
+  .tc-fab__badge svg{width:10px;height:10px}
 }
 @media (prefers-reduced-motion:reduce){
   .tc-panel,.tc-fab,.tc-nudge{transition:none;animation:none}
@@ -137,3 +143,6 @@
    four fixed elements together cover roughly the bottom quarter of the screen, so it is hidden
    there — the chat button beside it is still one tap away. */
 @media (max-width:640px){ .tc-nudge{display:none} }
+/* the site header is fixed (about 112-115px tall, z-index 70), so the chat window keeps its top edge below it: bottom offset + header clearance are taken off the height (148px desktop, 140px phone) */
+/* a short window (landscape phone, small laptop with toolbars): there is no room for the header AND a usable chat, so the chat takes the full height and sits over the header instead of being cut off at the top */
+@media (max-height:520px){.tc-panel,.tc-panel:has(.tc-gate){z-index:80;top:8px;bottom:8px;height:auto;min-height:0;max-height:none}}

@@ -1152,3 +1152,14 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 ## 2026-11-12 - Canada cost cards: smaller text, one line
 - `CountryPage.tsx`, Canada only (`c.slug === "canada"`): the cost card is a size container and the value font is `min(17px, (100cqw - 6px) / 12.9)`, so it shrinks with the card and never wraps (other countries keep 19px). Measured on /destinations/canada at 1280, 1000 and 375 px: all five values on one line, no overflow (17px there; in a narrower 5-column card it scales down, about 13px at 226px).
 - Code-only, no DB change. Not yet pushed.
+
+## 2026-11-12 - Chat window (TISA) no longer slides under the header
+- Cause: the panel was `100vh - 72px` tall with a 24px bottom offset, so its top edge was always 48px from the viewport top on short windows, under the fixed header (about 112-115px tall, z-index 70).
+- `chat.css`: height is now `min(100dvh - 148px, 580px)` (phone: `100dvh - 140px`, 540px max) with a `vh` fallback, so the top edge stays below the header; same for the pre-chat gate card. Under 520px of window height (landscape phone) the chat takes the full height (top/bottom 8px, z-index 80) and overlays the header instead of being cut off.
+- Verified with the `vh` form of the rule (the pane resolves `dvh` against its real window, not the emulated size): 1280x560 top 160 vs header bottom 110; 375x560 top 160 vs 115. Landscape 812x375 checked mid-animation only. Not yet pushed.
+
+## 2026-11-12 — TISA launcher icon (study theme)
+- Reference: Desktop/icon-AI-Assistant.svg (circular avatar, white ring, guide figure). Ours: same circular + white-ring format, study-themed.
+- `AgentAvatar.tsx`: headset replaced by a graduation cap + gold tassel (viewBox 8 0 48 48 so the cap fits). `chat.css`: cap/tassel classes, removed unused headset rules.
+- `ChatWidget.tsx`: gold open-book badge on the launcher (bottom-left); smaller on mobile.
+- Verified on localhost (large + 54px preview). Not committed.

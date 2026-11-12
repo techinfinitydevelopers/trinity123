@@ -1,10 +1,10 @@
 /* Support-assistant avatar used as the chat launcher and the chat header avatar. A vector
-   illustration (gradient backdrop, shaded skin, side-swept hair, headset) — crisp at any size and
+   illustration (gradient backdrop, shaded skin, side-swept hair, graduation cap) — crisp at any size and
    it follows the Theme editor's colours. Blink and head bob live in chat.css `.tc-av*`. */
 export default function AgentAvatar() {
   return (
     <span className="tc-av" aria-hidden="true">
-      <svg viewBox="10 6 44 44" xmlns="http://www.w3.org/2000/svg" focusable="false">
+      <svg viewBox="8 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
         <defs>
           <linearGradient id="tcAvBg" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0" className="tc-av__s1" />
@@ -45,12 +45,13 @@ export default function AgentAvatar() {
             <ellipse cx="25.300" cy="35" rx="2.400" ry="1.500" className="tc-av__cheek" />
             <ellipse cx="38.700" cy="35" rx="2.400" ry="1.500" className="tc-av__cheek" />
             <path d="M28.300 37.500q3.700 3.500 7.400 0" className="tc-av__smile" />
-            {/* headset */}
-            <path d="M20.700 29C20.200 14.500 26.500 9 32 9s11.800 5.500 11.300 20" className="tc-av__band" />
-            <rect x="18.400" y="27" width="4.200" height="8.600" rx="2.100" className="tc-av__cup" />
-            <rect x="41.400" y="27" width="4.200" height="8.600" rx="2.100" className="tc-av__cup" />
-            <path d="M20.500 34.500c-.2 6.500 5 8 9.200 6.200" className="tc-av__mic" />
-            <circle cx="30.200" cy="40.800" r="1.700" className="tc-av__cup" />
+            {/* graduation cap + tassel */}
+            <path d="M23.500 11.500v4.200c0 2.600 4.200 4 8.500 4s8.500-1.400 8.500-4v-4.200z" className="tc-av__capband" />
+            <path d="M32 3.200 48 8.800 32 14.400 16 8.800z" className="tc-av__cap" />
+            <path d="M32 14.400 48 8.800" className="tc-av__capedge" />
+            <circle cx="32" cy="8.800" r="1.300" className="tc-av__tassel" />
+            <path d="M32 8.800 44.500 11.900v7.300" className="tc-av__cord" />
+            <path d="M43.100 19 44.500 19l1.400 0 .6 4.600h-4.200z" className="tc-av__tassel" />
           </g>
         </g>
       </svg>
