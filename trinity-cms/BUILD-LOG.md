@@ -1135,3 +1135,6 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Wording: "(UKVI minimum)" -> "(as per UKVI)" on the UK cost cards (`seed-countries.ts`; `scripts/uk-cost-note-as-per-ukvi.ts` for the database, applied locally only; production needs it plus a redeploy).
 
 - Production check 2026-11-12: the live UK cost rows already read "(as per UKVI)" (with different figures than the local seed: £14,436 / £18,840), so `uk-cost-note-as-per-ukvi` had nothing to change there. Code deployed (e73fad6) plus a redeploy; live page shows "(as per UKVI)" on its own line.
+
+## 2026-11-12 - Germany "Intakes & timeline" line break
+- "Start 10-12 months ahead - APS and blocked account add lead time." now starts on its own line. `CountryPage.tsx`: intakes paragraph has `white-space: pre-line`; `seed-countries.ts` and `country-germany.json` hold a newline; `scripts/germany-intakes-line-break.ts` (dry run by default, `--apply`, backup) does the database. Applied locally and checked on /destinations/germany. Production: not yet.

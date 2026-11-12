@@ -92,7 +92,7 @@ export const seedCountries: CountrySeed[] = [
     courses: ["Mechanical & Automotive Engineering", "Electrical & Embedded Systems", "Computer Science", "Renewable Energy", "Data Engineering"],
     unis: uni([["Berlin School of Business and Innovation", "z10"]]),
     visa: "German National Student Visa — admission letter, blocked account of roughly €11,900, health insurance and APS certificate for Indian students.",
-    intakes: "Winter (October) is the major intake, Summer (April) is smaller. Start 10–12 months ahead — APS and blocked account add lead time.",
+    intakes: "Winter (October) is the major intake, Summer (April) is smaller.\nStart 10–12 months ahead — APS and blocked account add lead time.",
     cost: pair([["Tuition (public universities)", "€0 – €500 / semester"], ["Semester contribution", "€150 – €350 / semester"], ["Blocked account", "€11,904 one-time"], ["Health insurance", "€120 / month"], ["Total year one", "€13,000 – €16,000"]]),
     req: pair([["Academics", "70%+ in bachelor’s; APS certificate mandatory for Indian students"], ["English test", "IELTS 6.5 for English-taught programmes"], ["German", "A1–B1 for some courses; B2/C1 for German-taught degrees"], ["Documents", "APS, SOP, LORs, CV, transcripts, blocked account proof"]]),
     sch: named([["DAAD Scholarships", "Monthly stipend plus travel and insurance for master’s students"], ["Deutschlandstipendium", "€300/month merit scholarship at participating universities"], ["Erasmus+ funding", "Mobility grants for eligible European study periods"]]),

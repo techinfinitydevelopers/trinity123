@@ -132,7 +132,7 @@ export default async function CountryPage({ c, others, contact }: { c: Country; 
             </div>
             <div data-reveal style={{ background: "#fff", border: "1px solid var(--line)", borderRadius: 26, padding: 30 }}>
               <div style={{ fontFamily: P, fontWeight: 600, fontSize: 13, letterSpacing: 2, textTransform: "uppercase", color: "var(--primary)", marginBottom: 14 }}>{L.intakes}</div>
-              <p style={{ fontSize: 15.5, lineHeight: 1.8, color: "var(--text)" }}>{c.intakes}</p>
+              <p style={{ fontSize: 15.5, lineHeight: 1.8, color: "var(--text)", whiteSpace: "pre-line" }}>{c.intakes}</p>
             </div>
           </div>
         </div>
