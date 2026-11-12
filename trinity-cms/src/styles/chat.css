@@ -19,7 +19,7 @@
 
 /* Support-assistant avatar (AgentAvatar.tsx): gradient backdrop, shaded vector face, blink + bob. */
 .tc-av{display:block;width:100%;height:100%;border-radius:50%;overflow:hidden;line-height:0;background:var(--primary)}
-.tc-av svg{width:100%;height:100%;display:block}
+.tc-av img{width:100%;height:100%;display:block;object-fit:cover;object-position:50% 20%}
 .tc-av__s1{stop-color:var(--primary-2)}
 .tc-av__s2{stop-color:var(--navy)}
 .tc-av__glow{fill:#fff;opacity:.16}
@@ -38,8 +38,6 @@
 .tc-av__capedge{fill:none;stroke:var(--gold);stroke-width:.9;stroke-linecap:round}
 .tc-av__cord{fill:none;stroke:var(--gold);stroke-width:1;stroke-linecap:round;stroke-linejoin:round}
 .tc-av__tassel{fill:var(--gold)}
-.tc-fab__badge{position:absolute;left:-4px;bottom:2px;width:22px;height:22px;border-radius:50%;background:var(--gold);color:var(--navy);border:2px solid #fff;display:grid;place-items:center;box-shadow:0 3px 8px rgba(35,47,112,.3)}
-.tc-fab__badge svg{width:12px;height:12px;display:block}
 .tc-av__head{animation:tcBob 3.2s ease-in-out infinite}
 @keyframes tcBlink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
 @keyframes tcBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-1px)}}
@@ -131,9 +129,7 @@
   .tc-fab{right:16px;bottom:72px;width:52px;height:52px;font-size:21px}
   .tc-fab:not(.is-open){right:12px;bottom:66px;width:44px;height:44px}
   .tc-fab__txt{display:none}
-  .tc-fab__badge{width:18px;height:18px;left:-3px}
-  .tc-fab__badge svg{width:10px;height:10px}
-}
+    }
 @media (prefers-reduced-motion:reduce){
   .tc-panel,.tc-fab,.tc-nudge{transition:none;animation:none}
   .tc-fab:not(.is-open),.tc-fab__live,.tc-av__eye,.tc-av__head{animation:none}

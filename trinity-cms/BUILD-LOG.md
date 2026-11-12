@@ -1189,3 +1189,6 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 ## 2026-11-12 — Khalifa University card photo
 - User-supplied campus photo (678px source, upscaled to 1920 + mild sharpen). `public/tw/uni/khalifa-university-campus.jpg` + entry in `tw/uni.ts`. Not committed.
 - Khalifa card crop cut the logo: added optional `pos` (CSS object-position) per university in `tw/uni.ts`, applied in `engine.ts`; Khalifa = '6% 40%'. Verified: logo fully visible on the card. Not committed.
+
+## 2026-11-12 — TISA avatar = supplied character image
+- `public/tw/tisa.webp` (640px, head+shoulders crop of the supplied transparent PNG/WebP on a soft blue backdrop). `AgentAvatar.tsx` now renders it as an <img> (launcher + chat header); removed the vector avatar and the gold book badge (+ CSS). Verified on localhost launcher (large + 54px). Not committed.
