@@ -1144,3 +1144,7 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Adjusted at the client request: the break now sits right before "18-month" ("... a year. After graduating you get an" / "18-month job-seeker residence permit, ..."). Script, seed and JSON updated; local db applied and checked. Production: not yet.
 
 - Production 2026-11-12: code e411e41/8d08d21 deployed, `germany-intakes-line-break` and `germany-work-line-break` applied (re-runs: nothing to change), redeployed to clear the cache. Live /destinations/germany shows both line breaks.
+
+## 2026-11-12 - WhatsApp icon removed from the social rows
+- `ui.tsx`: `visibleSocials()` / `isWhatsApp()` drop any WhatsApp entry from the social icons in the top bar, the header social menu and the footer (the floating WhatsApp button `.fab-wa` is on every page). Header trigger uses the same filter. No DB change: the entry stays in the dashboard list (Settings > Contact), it is just not shown here.
+- Checked on localhost /about-us: top bar, header menu and footer each list Facebook, X, Instagram, LinkedIn, YouTube; `.fab-wa` still present. Contact page WhatsApp buttons are separate and unchanged. Not yet pushed.

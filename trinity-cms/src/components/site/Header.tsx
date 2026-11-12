@@ -3,7 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import type { ContactSettings, LabelSettings, NavItem, NavSettings, SiteSettings } from "@/lib/settings";
-import { Socials, FLAG } from "./ui";
+import { Socials, FLAG, visibleSocials } from "./ui";
 import { navDestinations } from "@/lib/destination-order";
 
 export type Destination = { code: string; slug: string; name: string; tag: string };
@@ -156,7 +156,7 @@ export default function Header({ nav, contact, site, labels, destinations }: { n
             <Link className="nav__call" href="/contact-us" aria-label={labels.callLabel}><i className="fas fa-phone-alt" /></Link>
             <Link className="btn btn--dark nav__cta" href={nav.ctaHref}>{nav.ctaLabel} <span className="btn__circle"><i className="fas fa-arrow-right" /></span></Link>
             <div className={`nav__social${social ? " is-open" : ""}`} onMouseLeave={() => setSocial(false)} onKeyDown={(e) => e.key === "Escape" && setSocial(false)}>
-              <button type="button" className="nav__social-btn" aria-label="Social media" aria-expanded={social} onClick={() => setSocial((o) => !o)}>{(contact.socialLinks ?? []).filter((x) => x.href.trim()).slice(0, 3).map((x) => <i key={x.label} className={x.icon} aria-hidden="true" />)}<i className="fas fa-chevron-down nav__social-caret" aria-hidden="true" /></button>
+              <button type="button" className="nav__social-btn" aria-label="Social media" aria-expanded={social} onClick={() => setSocial((o) => !o)}>{visibleSocials(contact).slice(0, 3).map((x) => <i key={x.label} className={x.icon} aria-hidden="true" />)}<i className="fas fa-chevron-down nav__social-caret" aria-hidden="true" /></button>
               <div className="nav__social-menu"><Socials contact={contact} cls="" /></div>
             </div>
             <button className="nav__toggle" id="navToggle" type="button" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} aria-controls="mobileMenu" onClick={() => setOpen((o) => !o)}>
