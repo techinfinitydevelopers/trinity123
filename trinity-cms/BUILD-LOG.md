@@ -1167,3 +1167,9 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 ## 2026-11-12 — Search redirects to country page
 - `search/page.tsx`: a query matching a destination (name, slug or alias like "united kingdom", "dubai", "america") redirects to its page (`/destinations/uk`; globe-only countries → `/#c=<key>`). Covers header and /search forms. Other queries show results as before.
 - Verified locally: uk, United Kingdom, dubai, japan, germany redirect; "xyz" stays 200.
+
+## 2026-11-12 — Dubai university card photos (reverted)
+- Tried official/generic photos for Heriot-Watt Dubai and Middlesex Dubai; reverted at the user's request. They stay on the city fallback until the user supplies images (drop into `public/tw/uni/` + entries in `tw/uni.ts`).
+
+## 2026-11-12 — Journey step 2 image
+- 'Evaluate your profile' used an empty lecture hall. Now a CV clipboard + laptop photo (Unsplash 1586281380349-632531db7ed4, `public/tw/stu/`), via `SIMG.eval` in `tw/engine.ts`. Not committed.
