@@ -1175,3 +1175,6 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - 'Evaluate your profile' used an empty lecture hall. Now a CV clipboard + laptop photo (Unsplash 1586281380349-632531db7ed4, `public/tw/stu/`), via `SIMG.eval` in `tw/engine.ts`. Not committed.
 
 - Journey step 5 ('Plan your finances and visa') had an airplane image; now documents + calculator (Unsplash 1554224155-6726b3ff858f) via `SIMG.fin`. Not committed.
+
+## 2026-11-12 — Plane colour per country
+- Cause: fixed sun + plane flying a different heading per country, so for some (Singapore) the cabin side was in shade and rendered blue/dim. Fix in `tw/engine.ts` frame(): once the camera is close (sm(.3,.55,t)), the sun is blended to a camera-relative position (upper-left, behind camera), so the plane is lit the same for every country. Checked Singapore (white now), UK/Japan/USA/Australia run without error, Australia close-up white/grey. Not committed.

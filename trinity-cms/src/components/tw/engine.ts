@@ -137,6 +137,7 @@ scene.environmentIntensity=.8;
    straight-on light plus heavy ambient/emissive read as a flat disc, most visibly on big screens
    where the globe is drawn large. */
 const sun=new THREE.DirectionalLight(0xfff6e6,3.2);sun.position.set(38,22,56);scene.add(sun);
+const SUN0=sun.position.clone(),SUN_D=SUN0.length(),_lr=new THREE.Vector3();
 scene.add(new THREE.AmbientLight(0xa9c4f5,1.0));
 scene.add(new THREE.HemisphereLight(0xdbe9ff,0x35507a,.8));
 const rimL=new THREE.DirectionalLight(0x6fa8ff,.8);rimL.position.set(-40,10,-30);scene.add(rimL);
@@ -411,6 +412,17 @@ function frame(){
   // keep "up" aligned with local up once close, so the plane stays level
   if(planeOn){const k=sm(.3,.55,t);if(k>0){const u=new THREE.Vector3(0,1,0).lerp(new THREE.Vector3(0,1,0).applyQuaternion(planeG.getWorldQuaternion(new THREE.Quaternion())),k);camera.up.copy(u.normalize())}}
   camera.lookAt(look);
+  /* The globe is lit by a fixed sun, but the plane flies a different heading to every country — so
+     for some (Singapore, Japan…) its cabin side faced away from the sun and rendered dim and blue.
+     Once the camera is close, swing the sun round to sit upper-left behind the camera so every
+     flight shows the plane in the same light. */
+  {
+    const k=planeOn?sm(.3,.55,t):0;
+    camera.updateMatrixWorld();
+    const q=camera.quaternion;
+    _lr.set(-.45,.6,.9).applyQuaternion(q).normalize().multiplyScalar(SUN_D);
+    sun.position.copy(SUN0).lerp(_lr,k);
+  }
   const a=asp(),fs=a<1?Math.min(1.9,Math.pow(1/a,.7)):1,F=Math.min(78,fov*fs);
   if(Math.abs(camera.fov-F)>.01){camera.fov=F;camera.updateProjectionMatrix()}
   atmo.visible=intro.done?t<.5:(intro.p>.9);
