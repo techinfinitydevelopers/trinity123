@@ -1133,3 +1133,5 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - `CountryPage.tsx`: a trailing "(...)" in a cost value, e.g. "(UKVI minimum)", is rendered on a new line below the amount; everything else (fonts, card, layout) unchanged. Checked in the DOM on /destinations/uk: cards 2 and 3 read "£9,207 / year | (UKVI minimum)". Not yet pushed.
 
 - Wording: "(UKVI minimum)" -> "(as per UKVI)" on the UK cost cards (`seed-countries.ts`; `scripts/uk-cost-note-as-per-ukvi.ts` for the database, applied locally only; production needs it plus a redeploy).
+
+- Production check 2026-11-12: the live UK cost rows already read "(as per UKVI)" (with different figures than the local seed: £14,436 / £18,840), so `uk-cost-note-as-per-ukvi` had nothing to change there. Code deployed (e73fad6) plus a redeploy; live page shows "(as per UKVI)" on its own line.
