@@ -230,7 +230,7 @@ export default async function CountryPage({ c, others, contact }: { c: Country; 
             <div>
               <Kicker text="After graduation" />
               <h2 data-reveal style={h2}>{L.workTitle}</h2>
-              <p data-reveal style={{ marginTop: 20, fontSize: 16.5, lineHeight: 1.85, color: "var(--text)" }}>{c.work}</p>
+              <p data-reveal style={{ marginTop: 20, fontSize: 16.5, lineHeight: 1.85, color: "var(--text)", whiteSpace: "pre-line" }}>{c.work}</p>
               <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 28 }}>
                 {workPoints.map((w, i) => <div key={i} data-reveal style={{ display: "flex", gap: 14, alignItems: "center", background: "var(--grey)", borderRadius: 16, padding: "16px 20px", transitionDelay: d(i) }}><i className="fas fa-check-circle" style={{ color: "var(--primary)", fontSize: 16 }} /><span style={{ fontFamily: P, fontWeight: 500, fontSize: 15.5, color: "var(--navy)" }}>{w}</span></div>)}
               </div>

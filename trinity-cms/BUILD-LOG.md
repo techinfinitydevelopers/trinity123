@@ -1138,3 +1138,7 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 
 ## 2026-11-12 - Germany "Intakes & timeline" line break
 - "Start 10-12 months ahead - APS and blocked account add lead time." now starts on its own line. `CountryPage.tsx`: intakes paragraph has `white-space: pre-line`; `seed-countries.ts` and `country-germany.json` hold a newline; `scripts/germany-intakes-line-break.ts` (dry run by default, `--apply`, backup) does the database. Applied locally and checked on /destinations/germany. Production: not yet.
+
+- Same for "Work & settlement options": "After graduating you get an 18-month job-seeker residence permit, ..." starts on its own line. `CountryPage.tsx` work paragraph has `white-space: pre-line`; seed + client-brief JSON hold the newline; `scripts/germany-work-line-break.ts` for the database (applied locally and checked). Production: not yet.
+
+- Adjusted at the client request: the break now sits right before "18-month" ("... a year. After graduating you get an" / "18-month job-seeker residence permit, ..."). Script, seed and JSON updated; local db applied and checked. Production: not yet.
