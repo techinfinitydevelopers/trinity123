@@ -1163,3 +1163,7 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - `AgentAvatar.tsx`: headset replaced by a graduation cap + gold tassel (viewBox 8 0 48 48 so the cap fits). `chat.css`: cap/tassel classes, removed unused headset rules.
 - `ChatWidget.tsx`: gold open-book badge on the launcher (bottom-left); smaller on mobile.
 - Verified on localhost (large + 54px preview). Not committed.
+
+## 2026-11-12 — Search redirects to country page
+- `search/page.tsx`: a query matching a destination (name, slug or alias like "united kingdom", "dubai", "america") redirects to its page (`/destinations/uk`; globe-only countries → `/#c=<key>`). Covers header and /search forms. Other queries show results as before.
+- Verified locally: uk, United Kingdom, dubai, japan, germany redirect; "xyz" stays 200.

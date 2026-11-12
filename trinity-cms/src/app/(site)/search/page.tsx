@@ -1,9 +1,19 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { getCountries } from "@/lib/content";
 import { FLAG } from "@/components/site/ui";
 import { getLabels } from "@/lib/labels";
+import { navDestinations } from "@/lib/destination-order";
+
+/* Extra spellings that should still land on a country page. */
+const ALIAS: Record<string, string> = {
+  "united kingdom": "uk", england: "uk", britain: "uk", "great britain": "uk", london: "uk",
+  "united states": "usa", us: "usa", america: "usa", "united states of america": "usa",
+  dubai: "uae", "united arab emirates": "uae", nz: "new-zealand", "new zealand": "new-zealand",
+  "south korea": "korea", "other europe": "europe",
+};
 
 export const metadata: Metadata = { title: "Search", robots: { index: false, follow: true } };
 
@@ -11,6 +21,13 @@ type Props = { searchParams: Promise<{ q?: string }> };
 
 export default async function SearchPage({ searchParams }: Props) {
   const q = (await searchParams).q?.trim() ?? "";
+  if (q) {
+    /* A search for a destination goes straight to that country's page, not a results list. */
+    const key = q.toLowerCase().replace(/\s+/g, " ");
+    const slug = ALIAS[key] ?? key.replace(/ /g, "-");
+    const hit = navDestinations(await getCountries()).find((d) => d.key === slug || d.name.toLowerCase() === key);
+    if (hit) redirect(hit.href);
+  }
   const all = await getLabels();
   const L = { ...all.search, readArticle: all.common.readArticle };
 
