@@ -1142,3 +1142,5 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Same for "Work & settlement options": "After graduating you get an 18-month job-seeker residence permit, ..." starts on its own line. `CountryPage.tsx` work paragraph has `white-space: pre-line`; seed + client-brief JSON hold the newline; `scripts/germany-work-line-break.ts` for the database (applied locally and checked). Production: not yet.
 
 - Adjusted at the client request: the break now sits right before "18-month" ("... a year. After graduating you get an" / "18-month job-seeker residence permit, ..."). Script, seed and JSON updated; local db applied and checked. Production: not yet.
+
+- Production 2026-11-12: code e411e41/8d08d21 deployed, `germany-intakes-line-break` and `germany-work-line-break` applied (re-runs: nothing to change), redeployed to clear the cache. Live /destinations/germany shows both line breaks.
