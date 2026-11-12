@@ -608,7 +608,7 @@ mm.add('(max-width:760px)',()=>{
 
 /* ---------------- STUDENT SECTIONS ---------------- */
 const UQ=(id:string,_w=1100)=>pick('stu',id,`${AB}/stu/${id}.jpg`);
-const SIMG={fin:'1554224155-6726b3ff858f',eval:'1586281380349-632531db7ed4',grp:'1522202176988-66273c2fd55f',lib:'1523240795612-9a054b0db644',fr:'1529156069898-49953e39b3ac',hall:'1519452635265-7b1fbfd1e4e0',map:'1488646953014-85cb44e25828',air:'1569154941061-e231b4725ef1',wing:'1436491865332-7a61a109cc05',caps:'1590012314607-cda9d9b699ae',café:'1543269865-cbf427effbad'};
+const SIMG={cam:'1531545514256-b1400bc00f31',sup:'1573497019940-1c28c88b4f3e',fin:'1554224155-6726b3ff858f',eval:'1586281380349-632531db7ed4',grp:'1522202176988-66273c2fd55f',lib:'1523240795612-9a054b0db644',fr:'1529156069898-49953e39b3ac',hall:'1519452635265-7b1fbfd1e4e0',map:'1488646953014-85cb44e25828',air:'1569154941061-e231b4725ef1',wing:'1436491865332-7a61a109cc05',caps:'1590012314607-cda9d9b699ae',café:'1543269865-cbf427effbad'};
 const STU={
 uk:{visa:'UK Student visa',offer:'CAS from your university',funds:'Maintenance funds in your bank statements',work:'Part time job up to 20 hrs/week in term time',post:'Graduate Route typically 18 months to work after your degree'},
 ireland:{visa:'Irish study visa + Stamp 2 permission',offer:'Offer letter + fee payment receipt',funds:'Proof of funds for living costs',work:'Up to 20 hrs/week in term, full-time in holidays',post:'Stay Back — typically 12–24 months depending on your level'},
@@ -627,7 +627,7 @@ singapore:{visa:'Student’s Pass (ICA, via SOLAR)',offer:'In-Principle Approval
 malaysia:{visa:'Student Pass (via EMGS)',offer:'Offer letter + Visa Approval Letter',funds:'Proof of funds',work:'Limited part-time with permission',post:'Post-study options are limited — we guide you on current rules'},
 australia:{visa:'Student visa (subclass 500)',offer:'Confirmation of Enrolment (CoE)',funds:'Proof of funds + genuine student statement',work:'Up to 48 hrs per fortnight in term',post:'Temporary Graduate visa (485) — typically 2–4 years'},
 nz:{visa:'New Zealand student visa',offer:'Offer of Place + tuition payment',funds:'Proof of funds for living costs',work:'Up to 20 hrs/week in term (eligible courses)',post:'Post-study work visa — up to 3 years depending on level'}};
-const pImgs=[SIMG.grp,SIMG.eval,SIMG.map,SIMG.lib,SIMG.fin,SIMG.wing,null];
+const pImgs=[SIMG.grp,SIMG.eval,SIMG.map,SIMG.lib,SIMG.fin,SIMG.wing,SIMG.sup];
 let STG=[],BEATS=[],KIT=[];
 /* build static DOM once */
 (function(){
@@ -666,7 +666,7 @@ function renderStudent(c){
   $('#kt').textContent=KIT.length;
   $$('#klist li').forEach((li,i)=>{li.querySelector('b').textContent=KIT[i][0];li.querySelector('small').textContent=KIT[i][1]});
   $$('.beat').forEach((b,i)=>{const x=BEATS[i];b.querySelector('small').textContent=x[0];b.querySelector('h3').textContent=x[1];b.querySelector('p').textContent=x[2];b.querySelector('.fact').textContent=x[3]});
-  const dimg=[uImg,UQ(SIMG.lib),UQ(SIMG.fr),UQ(SIMG.caps)],dl=['Your campus · '+c.n,'Study groups','Friends for life','Graduation day'];
+  const dimg=[UQ(SIMG.cam),UQ(SIMG.lib),UQ(SIMG.fr),UQ(SIMG.caps)],dl=['Campus life · '+c.n,'Study groups','Friends for life','Graduation day'];
   $$('.dcard').forEach((d,i)=>{const im=d.querySelector('img');im.src=dimg[i];im.onerror=()=>{im.onerror=null;im.src=IMG[c.k]};d.querySelector('span').textContent=dl[i]});
   G.__pimgs=pImgs.map((x,i)=>x?UQ(x,900):uImg);
   setStage(G.__stg||0,true);

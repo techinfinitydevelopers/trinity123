@@ -1199,3 +1199,8 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Video cards made smaller: max 250px wide each on desktop (was full column width), 54vw/220px on mobile scroll row. Not committed.
 - Videos section redesigned (UI/UX): text column (eyebrow, heading, lead, 'Get free counselling' button) + 3 tap-to-play cards with a custom gold play button, duration chip, hover lift, centre card raised; controls only appear after first play; one plays at a time; finished clip returns to poster. <1000px: stacked, cards in a scroll-snap row. Checked at 1024 and 375 wide; play/pause logic tested. Not committed.
 - Video cards shortened: aspect 9/16 -> 4/5 (240x300 on desktop, was 240x427), object-position 50% 78% so faces/sign stay in frame. Not committed.
+
+## 2026-11-12 — Journey step 7 + life card images
+- Step 7 ('Stay supported') showed the first university's campus photo (Khalifa for UAE, logo cut). Now a friendly-advisor portrait (Unsplash 1573497019940-1c28c88b4f3e, `SIMG.sup`) for every country.
+- Life section first card ('Your campus · X') keeps the university photo but now applies that university's crop (`pos`), so the Khalifa logo is no longer cut. Not committed.
+- Life section first card: replaced the university campus photo with a student-life photo (Unsplash 1531545514256-b1400bc00f31, `SIMG.cam`) for every country and renamed the label 'Your campus · X' -> 'Campus life · X'. Removed the crop hack added earlier for it. Verified on localhost (UAE). Not committed.
