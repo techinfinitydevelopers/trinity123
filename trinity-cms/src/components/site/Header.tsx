@@ -103,7 +103,7 @@ export default function Header({ nav, contact, site, labels, destinations }: { n
       return (
         <li key={`${it.href}-${i}`} className={`cv-ddwrap${openMenu === i ? " is-open" : ""}${shut === i ? " is-closed" : ""}`} onMouseLeave={() => setShut(-1)} style={{ position: "relative" }}>
           {ddButton(it, i, id)}
-          <div className="cv-ddmenu" id={id} onKeyDown={(e) => { if (e.key === "Escape") setOpenMenu(-1); }} style={ddMenu({ width: it.children.length > 5 ? 640 : 240 })}>
+          <div className="cv-ddmenu" id={id} onKeyDown={(e) => { if (e.key === "Escape") setOpenMenu(-1); }} style={ddMenu(it.children.length === 1 ? { width: "max-content", minWidth: 0, padding: 6, borderRadius: 16 } : { width: it.children.length > 5 ? 640 : 240 })}>
             <div style={{ display: "grid", gap: 2, gridTemplateColumns: it.children.length > 5 ? "repeat(2, minmax(0, 1fr))" : undefined }}>
               {it.href && !NO_PARENT_LINK.has(it.label) ? (
                 <Link href={it.href} className="cv-ditem" onClick={hide(i)} style={{ gridColumn: "1 / -1", display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", borderRadius: 14, transition: "all .25s", color: "var(--primary)", fontFamily: "var(--font-h)", fontWeight: 600, fontSize: 13.5, background: "var(--grey)", boxShadow: "none", marginBottom: 4 }}>
@@ -111,7 +111,7 @@ export default function Header({ nav, contact, site, labels, destinations }: { n
                 </Link>
               ) : null}
               {it.children.map((c) => (
-                <Link key={c.href} href={c.href} className="cv-ditem" onClick={hide(i)} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", borderRadius: 14, transition: "all .25s", color: "var(--navy)", fontFamily: "var(--font-h)", fontWeight: 500, fontSize: 14, background: "transparent", boxShadow: "none" }}>
+                <Link key={c.href} href={c.href} className="cv-ditem" onClick={hide(i)} style={{ display: "flex", alignItems: "center", gap: 10, padding: it.children!.length === 1 ? "7px 14px" : "10px 12px", whiteSpace: it.children!.length === 1 ? "nowrap" : undefined, borderRadius: it.children!.length === 1 ? 11 : 14, transition: "all .25s", color: "var(--navy)", fontFamily: "var(--font-h)", fontWeight: 500, fontSize: 14, background: "transparent", boxShadow: "none" }}>
                   <i className="fas fa-chevron-right" style={{ fontSize: 9, color: "var(--teal)" }} /> {c.label}
                 </Link>
               ))}

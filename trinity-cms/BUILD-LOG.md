@@ -1266,3 +1266,4 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - DB: `scripts/merge-webinars-events.ts` (dry run default, `--apply`, backup; key-order-safe idempotent check). APPLIED to the LOCAL db; production still has the old pages/nav until it is run there (then redeploy).
 - Checked on localhost: /webinars-events 200 with hero, Knowledge Hub, events, form and CTA sections; the 4 old URLs answer 308; the menu shows only "Webinars & Events". Not committed.
 - Applied on PRODUCTION 2026-11-13 (merge-webinars-events.ts); deployed by the push of the same day.
+- Resources dropdown with a single child ('Webinars & Events') was a big 240px panel; now it shrinks to its content (menu 189x50 instead of ~268x70: width max-content, panel padding 6px, item padding 7px 14px, radius 11, no wrap). Menus with several children are unchanged. `Header.tsx` only. Checked at 1280. Not committed.
