@@ -613,7 +613,8 @@ singapore:{visa:'Student’s Pass (ICA, via SOLAR)',offer:'In-Principle Approval
 malaysia:{visa:'Student Pass (via EMGS)',offer:'Offer letter + Visa Approval Letter',funds:'Proof of funds',work:'Limited part-time with permission',post:'Post-study options are limited — we guide you on current rules'},
 australia:{visa:'Student visa (subclass 500)',offer:'Confirmation of Enrolment (CoE)',funds:'Proof of funds + genuine student statement',work:'Up to 48 hrs per fortnight in term',post:'Temporary Graduate visa (485) — typically 2–4 years'},
 nz:{visa:'New Zealand student visa',offer:'Offer of Place + tuition payment',funds:'Proof of funds for living costs',work:'Up to 20 hrs/week in term (eligible courses)',post:'Post-study work visa — up to 3 years depending on level'}};
-const pImgs=[SIMG.grp,SIMG.eval,SIMG.map,SIMG.lib,SIMG.fin,SIMG.wing,SIMG.sup];
+/* 'How your journey works': one circle illustration per step (public/tw/stu/journey-N-circ.jpg, cropped from the client's circular artwork to just inside its gold ring), the same for every country. */
+const pImgs=['journey-1-circ','journey-2-circ','journey-3-circ','journey-4-circ','journey-5-circ','journey-6-circ','journey-7-circ'];
 let STG=[],BEATS=[],KIT=[];
 /* build static DOM once */
 (function(){

@@ -321,3 +321,6 @@
 /* 7-step path: the step name is now the headline and the detail line the supporting text (client asked for the sizes swapped) */
 .tw .ptxt .ptag{font:800 clamp(1.3rem,2.3vw,1.9rem) Sora;letter-spacing:.06em;margin-bottom:10px;line-height:1.15}
 .tw .ptxt h3{font:600 clamp(1.05rem,1.45vw,1.25rem) Inter;line-height:1.45;letter-spacing:0;max-width:460px;margin-bottom:0}
+
+/* How your journey works: the artwork is already circular and has its own light shading, so the disc's dark inner shade is dropped here. */
+.tw #path .disc::after{box-shadow:inset 0 0 0 1px rgba(255,255,255,.4)}
