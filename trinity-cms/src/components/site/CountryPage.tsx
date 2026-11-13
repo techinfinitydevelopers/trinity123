@@ -149,11 +149,28 @@ export default async function CountryPage({ c, others, contact }: { c: Country; 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 16 }}>
             {cost.map((x, i) => {
               const total = false;
+              /* The period ("/ year", "/ month", "/ semester", "one-time") moves up beside the label ("Tuition (master's) / year")
+                 so the amount keeps the full font size on one line; a trailing note such as "(as per UKVI)" goes on its own line. */
+              const sm = String(x.value).match(/^(.*?)\s*((?:\/|per)\s*(?:year|month|semester)|one-time)\s*(\(.*\))?\s*$/i);
+              const amount = sm ? sm[1] : String(x.value);
+              const note = sm ? sm[3] : undefined;
+              const period = sm ? sm[2].replace(/\s+/g, " ").replace(/^per\s*/i, "/ ").replace(/^\/\s*/, "/ ").toLowerCase() : "";
+              /* Full 19px unless the amount would not fit the card on one line; then it shrinks just enough. */
+              const fit = `min(19px, calc((100cqw - 6px) / ${(Math.max(amount.length, 8) * 0.5).toFixed(1)}))`;
               return (
-                <div key={i} className="cv-jcard" data-reveal style={{ position: "relative", background: total ? "var(--navy)" : "#fff", color: total ? "#fff" : "var(--navy)", border: `1px solid ${total ? "transparent" : "var(--line)"}`, borderRadius: 22, padding: 26, transition: "all .45s cubic-bezier(.4,0,.2,1)", transitionDelay: d(i), display: "flex", flexDirection: "column", gap: 10, overflow: "hidden", ...(c.slug === "canada" ? { containerType: "inline-size" } : {}) }}>
+                <div key={i} className="cv-jcard" data-reveal style={{ position: "relative", background: total ? "var(--navy)" : "#fff", color: total ? "#fff" : "var(--navy)", border: `1px solid ${total ? "transparent" : "var(--line)"}`, borderRadius: 22, padding: "26px 22px 26px 26px", transition: "all .45s cubic-bezier(.4,0,.2,1)", transitionDelay: d(i), display: "flex", flexDirection: "column", gap: 10, overflow: "hidden", containerType: "inline-size" }}>
                   <span style={{ position: "absolute", left: 0, top: 26, bottom: 26, width: 3, borderRadius: "0 3px 3px 0", background: "var(--gold)" }} />
-                  <span style={{ fontSize: 13, color: total ? "rgba(255,255,255,.65)" : "var(--muted)", fontWeight: 500, letterSpacing: 0.3 }}>{x.label}</span>
-                  <span style={{ fontFamily: P, fontWeight: 700, fontSize: c.slug === "canada" ? "min(17px, calc((100cqw - 6px) / 12.9))" : 19, lineHeight: 1.3, letterSpacing: -0.5, ...(c.slug === "canada" ? { whiteSpace: "nowrap" } : {}) }}>{(() => { const m = String(x.value).match(/^(.*?)\s*(\(.*\))\s*$/); return m ? <>{m[1]}<br />{m[2]}</> : x.value; })()}</span>
+                  <span style={{ fontSize: 13, color: total ? "rgba(255,255,255,.65)" : "var(--muted)", fontWeight: 500, letterSpacing: 0.3 }}>{x.label}{period ? <> {period}</> : null}</span>
+                  <span style={{ fontFamily: P, fontWeight: 700, fontSize: fit, lineHeight: 1.3, letterSpacing: -0.5 }}>{(() => {
+                    /* A note such as "(as per UKVI)" sits to the right of the amount, smaller; it drops to its own line only when the card is too narrow. */
+                    const m: [string, string?] = note ? [amount, note] : ((mm) => (mm ? [mm[1], mm[2]] as [string, string] : [amount] as [string]))(amount.match(/^(.*?)\s*(\(.*\))\s*$/));
+                    return (
+                      <>
+                        <span style={{ whiteSpace: "nowrap" }}>{m[0]}</span>
+                        {m[1] ? <span style={{ display: "inline-block", marginLeft: 6, whiteSpace: "nowrap" }}>{m[1]}</span> : null}
+                      </>
+                    );
+                  })()}</span>
                 </div>
               );
             })}
