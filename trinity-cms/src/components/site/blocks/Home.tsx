@@ -3,6 +3,12 @@ import type { ContactSettings, SiteSettings } from "@/lib/settings";
 import { getLabels } from "@/lib/labels";
 import { A, FLAG, SectionHead, Stars, PhonePill, Title, d } from "../ui";
 
+/* In an About paragraph, text in [square brackets] is highlighted (the owner can mark a phrase in the editor, same convention as
+   the section titles). */
+function marked(text: string) {
+  return text.split(/(\[[^\]]+\])/).map((t, i) => (t.startsWith("[") && t.endsWith("]") ? <mark key={i} className="hl">{t.slice(1, -1)}</mark> : <span key={i}>{t}</span>));
+}
+
 export function About({ b, contact, site }: { b: AboutBlock; contact: ContactSettings; site: SiteSettings }) {
   return (
     <section className="section" id="about">
@@ -19,7 +25,7 @@ export function About({ b, contact, site }: { b: AboutBlock; contact: ContactSet
         </div>
         <div>
           <SectionHead kicker={b.kicker} title={b.title} />
-          {b.paragraphs.map((p, i) => <p key={i} data-reveal>{p}</p>)}
+          {b.paragraphs.map((p, i) => <p key={i} data-reveal>{marked(p)}</p>)}
           <div className="tagcards">
             {b.tags.map((t, i) => <div key={i} className="tagcard" data-reveal style={d(i)}><span className="tagcard__ico"><i className={t.icon} /></span><strong>{t.text}</strong></div>)}
           </div>

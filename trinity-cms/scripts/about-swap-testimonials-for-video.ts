@@ -21,15 +21,24 @@ async function main() {
   const blocks = page.blocks as unknown as Block[];
   const testi = blocks.filter((b) => b.type === "testimonials").length;
   const want = aboutVideos as unknown as Block;
-  /* Drop the testimonials and any older videos block, then put the founder video right after the intro
-     ("about" block, position 2) — the best place for a founder's message. */
-  const rest = blocks.filter((b) => b.type !== "testimonials" && b.type !== "videos");
-  const at = Math.max(0, rest.findIndex((b) => b.type === "about")) + 1;
+  /* Drop the testimonials and any older videos block. If Mission & Vision and the Business Segments are still one `segments`
+     block, split it in two (heading + pillars / logos + button) so the Founder's video can sit between them. */
+  let rest = blocks.filter((b) => b.type !== "testimonials" && b.type !== "videos");
+  const both = rest.findIndex((b) => b.type === "segments" && Array.isArray(b.pillars) && b.pillars.length && Array.isArray(b.logos) && b.logos.length);
+  if (both >= 0) {
+    const s = rest[both];
+    const mv = { ...s, logosTitle: "", logos: [], ctaLabel: "", ctaHref: "" };
+    const bs = { ...s, kicker: "", title: "", lead: "", pillars: [] };
+    rest = [...rest.slice(0, both), mv, bs, ...rest.slice(both + 1)];
+  }
+  /* The video goes right after the block that holds the Mission & Vision pillars; if there is none, after the intro ("about"). */
+  const mvAt = rest.findIndex((b) => b.type === "segments" && Array.isArray(b.pillars) && b.pillars.length);
+  const at = (mvAt >= 0 ? mvAt : Math.max(0, rest.findIndex((b) => b.type === "about"))) + 1;
   const next = [...rest.slice(0, at), want, ...rest.slice(at)];
   /* Postgres JSONB does not keep key order, so compare with keys sorted. */
   const stable = (v: unknown): string => JSON.stringify(v, (_k, x) => (x && typeof x === "object" && !Array.isArray(x) ? Object.fromEntries(Object.entries(x).sort(([a], [b]) => a.localeCompare(b))) : x));
   if (stable(next) === stable(blocks)) { console.log("about-us: already up to date — nothing to do"); return; }
-  console.log(`about-us: removing ${testi} testimonials block(s); founder video block goes to position ${at + 1} (${blocks.length} -> ${next.length} blocks)`);
+  console.log(`about-us: removing ${testi} testimonials block(s); Founder video block goes to position ${at + 1} (${blocks.length} -> ${next.length} blocks)`);
   if (!apply) { console.log("dry run — pass --apply to write"); return; }
   mkdirSync("scripts/backups", { recursive: true });
   const file = `scripts/backups/about-swap-testimonials-${new Date().toISOString().replace(/[:.]/g, "-")}.json`;

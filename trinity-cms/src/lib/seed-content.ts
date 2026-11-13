@@ -9,8 +9,8 @@ const C = "/contact-us";
    students (home page). */
 const VOICE = (n: number) => ({ src: `/tw/voices/voice-${n}.mp4`, poster: `/tw/voices/thumb-${n}.jpg` });
 export const aboutVideos: VideosBlock = {
-  type: "videos", kicker: "From our founder", title: "A word from our founder.",
-  lead: "Hear how Trinity Study Abroad guides every student, in the founder's own words.",
+  type: "videos", kicker: "From our Founder", title: "A word from our Founder.",
+  lead: "Hear how Trinity Study Abroad guides every student, in the Founder's own words.",
   ctaLabel: "Get free counselling", ctaHref: C, items: [VOICE(2)],
 };
 export const homeVideos: VideosBlock = {
@@ -349,7 +349,7 @@ const aboutBlocks: Block[] = [
     paragraphs: [
       "Trinity Study Abroad is the overseas education division of Trinity Air Travel & Tours Pvt. Ltd., a travel group established in 1982. We help students and families make informed international education decisions with clear guidance at every stage.",
       "We believe there is no single “best” country, university or course for every student. We look beyond rankings and popular destinations to help students identify options that balance quality.",
-      "The right direction depends on academic background, interests, financial comfort, career goals, and long-term plans. Our role is to understand the student first and then build a pathway around that individual profile.",
+      "The [right direction] depends on academic background, interests, financial comfort, career goals, and long-term plans. Our role is to understand the student first and then build a pathway around that individual profile.",
     ],
     tags: [
       { icon: "fas fa-globe-europe", text: "Your Global Education, Our Expertise." },
@@ -358,7 +358,6 @@ const aboutBlocks: Block[] = [
     ],
     primary: { label: "Learn More", href: C }, showPhone: false,
   },
-  aboutVideos,
   {
     type: "roadmap", kicker: "How we help", title: "Personalized [Guidance]",
     lead: "One team beside you from the first profile evaluation to the day you fly.",
@@ -382,6 +381,16 @@ const aboutBlocks: Block[] = [
       { icon: "fas fa-compass", title: "Our Mission", text: "To make international education simpler, more informed, and more accessible through personalized guidance." },
       { icon: "fas fa-eye", title: "Our Vision", text: "To be a trusted global education partner for students and families." },
     ],
+    logosTitle: "", logos: [],
+    ctaLabel: "", ctaHref: "",
+  },
+  /* The Founder's video sits right under Mission & Vision and above the Business Segments. */
+  aboutVideos,
+  /* The sister companies (client brief, "OUR Business Segments"): the same block type as Mission & Vision, with no heading of its own. */
+  {
+    type: "segments",
+    kicker: "", title: "", lead: "",
+    pillars: [],
     logosTitle: "Our Business Segments",
     /* Trinity Car Rental has no website in the brief, so its card is shown without a link. */
     logos: [

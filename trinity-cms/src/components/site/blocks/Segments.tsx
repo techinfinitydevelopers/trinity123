@@ -8,11 +8,13 @@ export function Segments({ b }: { b: SegmentsBlock }) {
   return (
     <section className="section segsec" id="segments">
       <div className="container">
-        <div className="section-head section-head--center" data-reveal>
-          <p className="kicker">{b.kicker}</p>
-          <Title text={b.title} className="h2" />
-          {b.lead ? <p className="lead">{b.lead}</p> : null}
-        </div>
+        {b.kicker || b.title || b.lead ? (
+          <div className="section-head section-head--center" data-reveal>
+            {b.kicker ? <p className="kicker">{b.kicker}</p> : null}
+            {b.title ? <Title text={b.title} className="h2" /> : null}
+            {b.lead ? <p className="lead">{b.lead}</p> : null}
+          </div>
+        ) : null}
 
         {b.pillars.length ? (
           <div className="seg__pillars">

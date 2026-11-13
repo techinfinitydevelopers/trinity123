@@ -2241,3 +2241,6 @@ main:has(> .cta-block:last-child) + .footer{background:var(--cream);padding-top:
 @media(max-width:1000px){
   .vbk--single .vbk__grid--1{grid-template-columns:minmax(0,1fr)!important;justify-content:stretch;width:min(76%,260px)}
 }
+
+/* Highlighted phrase inside body copy (About: "right direction"): bold navy, no background. */
+mark.hl{background:none;color:var(--navy);font-weight:700}
