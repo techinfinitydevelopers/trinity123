@@ -591,21 +591,6 @@ mm.add('(max-width:760px)',()=>{
 });
 
 
-/* ---------------- VIDEOS ---------------- */
-/* Tap the play button to start (with sound). Only one plays at a time; native controls appear
-   after the first play, and a finished clip goes back to its poster. */
-{
-  const cards=$$('#vgrid .vcard');
-  const vs=cards.map(c=>c.querySelector('video'));
-  cards.forEach((c,i)=>{
-    const v=vs[i];
-    c.querySelector('.vplay').addEventListener('click',()=>{v.controls=true;v.play().catch(()=>{})});
-    v.addEventListener('play',()=>{c.classList.add('on');vs.forEach((o,j)=>{if(j!==i)o.pause()})});
-    v.addEventListener('pause',()=>c.classList.remove('on'));
-    v.addEventListener('ended',()=>{v.controls=false;v.currentTime=0;v.load();c.classList.remove('on')});
-  });
-}
-
 /* ---------------- STUDENT SECTIONS ---------------- */
 const UQ=(id:string,_w=1100)=>pick('stu',id,`${AB}/stu/${id}.jpg`);
 const SIMG={cam:'1531545514256-b1400bc00f31',sup:'1573497019940-1c28c88b4f3e',fin:'1554224155-6726b3ff858f',eval:'1586281380349-632531db7ed4',grp:'1522202176988-66273c2fd55f',lib:'1523240795612-9a054b0db644',fr:'1529156069898-49953e39b3ac',hall:'1519452635265-7b1fbfd1e4e0',map:'1488646953014-85cb44e25828',air:'1569154941061-e231b4725ef1',wing:'1436491865332-7a61a109cc05',caps:'1590012314607-cda9d9b699ae',café:'1543269865-cbf427effbad'};

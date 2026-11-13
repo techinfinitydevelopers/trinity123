@@ -1205,3 +1205,20 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Life section first card ('Your campus · X') keeps the university photo but now applies that university's crop (`pos`), so the Khalifa logo is no longer cut. Not committed.
 - Life section first card: replaced the university campus photo with a student-life photo (Unsplash 1531545514256-b1400bc00f31, `SIMG.cam`) for every country and renamed the label 'Your campus · X' -> 'Campus life · X'. Removed the crop hack added earlier for it. Verified on localhost (UAE). Not committed.
 - Removed the duration chip (1:27 / 0:39 / 0:49) from the video cards (markup + CSS). Not committed.
+
+## 2026-11-13 — Testimonials <-> videos swap (home / About)
+- Home: removed the TW videos section (markup, engine, tw.css). \`page.tsx\` now renders, after the world, the home page's testimonials block ("Stories of Success", from the editor, seed as fallback) + a new \`videos\` block with the FIRST and LAST client video.
+- About Us: testimonials block removed, \`videos\` block added with only the MIDDLE video.
+- New block type \`videos\` (\`blocks.ts\`, \`blocks/Videos.tsx\`, \`index.tsx\`, \`.vbk*\` CSS in \`site.css\`); seed: \`aboutVideos\`/\`homeVideos\` in \`seed-content.ts\`.
+- DB: \`scripts/about-swap-testimonials-for-video.ts\` (dry run default, \`--apply\`, backup). APPLIED to the LOCAL db only; production About page still has the testimonials until it is run there (then redeploy/save to clear the cache).
+- Checked on localhost: home = testimonials + 2 videos, no old TW video section; About = 1 video card, no testimonials. Not committed.
+- Follow-up (same day): the home page no longer shows the text testimonials (Rohan / Sharanya) — only the two STUDENT videos (first + last), headed "Hear it from our students." (kicker "Student stories"). The middle video is the FOUNDER: About page block now reads "A word from our founder." (kicker "From our founder"). Text in `seed-content.ts` (`homeVideos`, `aboutVideos`); the DB script refreshes an existing About videos block in place. Local DB re-applied; production not yet. Verified via the rendered HTML on localhost (home: 2 cards, no testimonials; About: 1 card). Not committed.
+- Videos block restyled to match the site theme: it was inheriting a cream/peach look with a washed-out button. Now own classes (.vbk__*): navy gradient section like the other dark sections, white Poppins heading, gold kicker and solid gold pill button with arrow, gold-ring play button, gold border on hover, 300x375 cards (2 up) / 248px on phones. Home checked by screenshot (1x desktop), About/mobile by metrics only (no horizontal overflow, 1 card). Not committed.
+- About (single founder video) layout improved: larger 380px card with a gold offset frame + glow, 'Founder's message' caption chip (hides while playing; optional `caption` per video item), bigger heading, gold rule beside the text, text/card balanced 1.05/.95; on phones the single card stacks centred (no side scroll). Local About block refreshed via the script (caption added). Checked at 1440 wide by screenshot. Not committed; production About DB not updated yet.
+- About: the founder video block moved to position 2 (right after the 'About Trinity Study Abroad' intro, before the roadmap) in the seed; script `about-swap-testimonials-for-video.ts` now places it there (drops testimonials + older videos block, key-order-safe idempotent check). Local DB applied; rendered order verified (Our Story, founder, Personalized Guidance, Mission). Production not yet. Not committed.
+
+## 2026-11-13 — Footer destinations tidy (reverted)
+- Tried an even two-column pill grid and rebalanced footer columns; reverted at the user's request (`tw-chrome.css` back to the committed version). Footer destinations are as before.
+- About founder block: removed the 'Tap the video to watch.' line from the lead (seed + local DB). Not committed.
+
+- Production: `about-swap-testimonials-for-video.ts --apply` run on the production DB 2026-11-13 (testimonials removed from about-us, founder video block at position 2; backup in scripts/backups/). Deployed by the push of the same day.

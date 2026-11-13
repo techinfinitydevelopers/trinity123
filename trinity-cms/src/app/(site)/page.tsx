@@ -3,6 +3,7 @@ import { getPage } from "@/lib/content";
 import { getAllSettings } from "@/lib/settings-server";
 import { BlockRenderer } from "@/components/site/blocks";
 import TrinityWorldHost from "@/components/tw/TrinityWorldHost";
+import { homeVideos } from "@/lib/seed-content";
 import "@/styles/tw-site.css";
 import "@/styles/tw-boarding-pass.css";
 
@@ -33,6 +34,8 @@ export default async function HomePage() {
             every heading in it falls back. */}
         <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet" />
         <TrinityWorldHost world={settings.world} />
+        {/* Below the world: the two student videos (the founder's video is on the About page). */}
+        <BlockRenderer blocks={[homeVideos]} ctx={{ settings }} />
       </>
     );
   }

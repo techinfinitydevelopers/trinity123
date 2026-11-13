@@ -160,6 +160,12 @@ export type FaqBlock = {
 /* About Us: the services Trinity covers, laid out as a numbered roadmap (a vertical rail on phones). */
 export type RoadmapBlock = { type: "roadmap"; kicker: string; title: string; lead: string; steps: { title: string }[] };
 
+/* Tap-to-play vertical video clips beside a short text column (About page, home page). */
+export type VideosBlock = {
+  type: "videos"; kicker: string; title: string; lead: string; ctaLabel?: string; ctaHref?: string;
+  items: { src: string; poster?: string; caption?: string }[];
+};
+
 export type JourneyBlock = {
   type: "journey"; kicker: string; title: string; lead: string;
   cards: { icon: string; title: string; text: string }[];
@@ -197,7 +203,7 @@ export type RichTextBlock = { type: "richText"; html: string; grey: boolean };
 
 export type Block =
   | HeroBlock | PageHeroBlock | BandBlock | UspBlock | LeadFormBlock | WorldMapBlock | CoursesBlock | AboutBlock | OfferBlock | StepsBlock | CountriesBlock
-  | CampusBlock | WebinarBlock | VisionBlock | SegmentsBlock | UniversitiesBlock | StatsBlock | CtaBlock | FaqBlock | JourneyBlock | RoadmapBlock | TestimonialsBlock
+  | CampusBlock | WebinarBlock | VisionBlock | SegmentsBlock | UniversitiesBlock | StatsBlock | CtaBlock | FaqBlock | JourneyBlock | RoadmapBlock | VideosBlock | TestimonialsBlock
   | IntroBlock | FeatureCardsBlock | ServicesBlock | ContactBlock | BlogListBlock | RichTextBlock;
 
 export type BlockType = Block["type"];
@@ -224,6 +230,7 @@ export const BLOCK_META: Record<BlockType, { label: string; desc: string }> = {
   faq: { label: "FAQ", desc: "Accordion + chat preview" },
   journey: { label: "Dark Feature Grid", desc: "4 numbered cards on dark" },
   roadmap: { label: "Roadmap", desc: "Numbered steps on a connected path" },
+  videos: { label: "Videos", desc: "Tap-to-play vertical clips" },
   testimonials: { label: "Testimonials", desc: "Student stories" },
   intro: { label: "Intro Split", desc: "Text + note + bento images" },
   featureCards: { label: "Feature Cards", desc: "4 icon cards on grey" },

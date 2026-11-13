@@ -321,30 +321,3 @@
 /* 7-step path: the step name is now the headline and the detail line the supporting text (client asked for the sizes swapped) */
 .tw .ptxt .ptag{font:800 clamp(1.3rem,2.3vw,1.9rem) Sora;letter-spacing:.06em;margin-bottom:10px;line-height:1.15}
 .tw .ptxt h3{font:600 clamp(1.05rem,1.45vw,1.25rem) Inter;line-height:1.45;letter-spacing:0;max-width:460px;margin-bottom:0}
-
-
-/* Videos (replaces the IELTS band section): text column + three tap-to-play vertical clips. */
-.tw #vids{padding:clamp(80px,10vw,130px) 0;background:radial-gradient(900px 600px at 80% 20%,rgba(11,61,145,.45),transparent),#050f26;color:#fff}
-.tw #vids .eyebrow{color:var(--gold)}
-.tw #vids .lead{color:#a9b8d4;margin:16px 0 28px;max-width:420px}
-.tw #vids .vlayout{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,2.15fr);gap:clamp(32px,5vw,72px);align-items:center}
-.tw #vids .vgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,2vw,24px)}
-.tw #vids .vcard{position:relative;margin:0;aspect-ratio:4/5;border-radius:20px;overflow:hidden;background:#0a1a3f;border:1px solid rgba(255,255,255,.14);box-shadow:0 20px 50px rgba(0,0,0,.45);transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
-.tw #vids .vcard:nth-child(2){transform:translateY(-22px)}
-.tw #vids .vcard:hover{transform:translateY(-6px);box-shadow:0 28px 60px rgba(0,0,0,.55)}
-.tw #vids .vcard:nth-child(2):hover{transform:translateY(-28px)}
-.tw #vids .vcard video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 78%;display:block}
-.tw #vids .vplay{position:absolute;inset:0;border:0;padding:0;cursor:pointer;display:grid;place-items:center;background:linear-gradient(180deg,rgba(5,15,38,0) 40%,rgba(5,15,38,.72));transition:opacity .25s}
-.tw #vids .vplay i{width:clamp(52px,5vw,68px);aspect-ratio:1;border-radius:50%;background:var(--gold);box-shadow:0 10px 30px rgba(245,184,46,.45);position:relative;transition:transform .25s}
-.tw #vids .vplay i::after{content:"";position:absolute;left:54%;top:50%;transform:translate(-50%,-50%);border-style:solid;border-width:9px 0 9px 15px;border-color:transparent transparent transparent #07142e}
-.tw #vids .vplay:hover i,.tw #vids .vplay:focus-visible i{transform:scale(1.1)}
-.tw #vids .vplay:focus-visible{outline:2px solid #fff;outline-offset:-4px}
-.tw #vids .vcard.on .vplay{opacity:0;pointer-events:none}
-@media(max-width:1000px){
-  .tw #vids .vlayout{grid-template-columns:1fr;gap:28px}
-  .tw #vids .vgrid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:min(62vw,250px);overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;padding:6px 20px 14px;margin-inline:-20px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-  .tw #vids .vgrid::-webkit-scrollbar{display:none}
-  .tw #vids .vcard,.tw #vids .vcard:nth-child(2){transform:none;scroll-snap-align:center}
-  .tw #vids .vcard:hover,.tw #vids .vcard:nth-child(2):hover{transform:none}
-}
-@media(prefers-reduced-motion:reduce){.tw #vids .vcard,.tw #vids .vplay i{transition:none}}

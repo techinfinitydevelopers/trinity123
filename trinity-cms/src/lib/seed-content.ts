@@ -1,9 +1,23 @@
 /* Default site content — mirrors the original static export exactly.
    Used by `prisma db seed` and by the admin "Reset to default" action. */
-import type { Block, BandBlock, UspBlock, LeadFormBlock, WorldMapBlock, CoursesBlock, TestimonialsBlock, StatsBlock, CountriesBlock, OfferBlock, CampusBlock, WebinarBlock, VisionBlock} from "./blocks";
+import type { Block, BandBlock, UspBlock, LeadFormBlock, WorldMapBlock, CoursesBlock, TestimonialsBlock, StatsBlock, CountriesBlock, OfferBlock, CampusBlock, WebinarBlock, VisionBlock, VideosBlock} from "./blocks";
 
 const IMG = "/assets/img";
 const C = "/contact-us";
+
+/* The three client clips (public/tw/voices). The middle one is the founder (About page); the first and last are
+   students (home page). */
+const VOICE = (n: number) => ({ src: `/tw/voices/voice-${n}.mp4`, poster: `/tw/voices/voice-${n}.jpg` });
+export const aboutVideos: VideosBlock = {
+  type: "videos", kicker: "From our founder", title: "A word from our founder.",
+  lead: "Hear how Trinity Study Abroad guides every student, in the founder's own words.",
+  ctaLabel: "Get free counselling", ctaHref: C, items: [{ ...VOICE(2), caption: "Founder's message" }],
+};
+export const homeVideos: VideosBlock = {
+  type: "videos", kicker: "Student stories", title: "Hear it from our students.",
+  lead: "Two students share their journey with Trinity Study Abroad. Tap a video to watch.",
+  ctaLabel: "Get free counselling", ctaHref: C, items: [VOICE(1), VOICE(3)],
+};
 
 export const band: BandBlock = {
   type: "band",
@@ -342,6 +356,7 @@ const aboutBlocks: Block[] = [
     ],
     primary: { label: "Learn More", href: C }, showPhone: false,
   },
+  aboutVideos,
   {
     type: "roadmap", kicker: "How we help", title: "Personalized [Guidance]",
     lead: "One team beside you from the first profile evaluation to the day you fly.",
@@ -385,7 +400,6 @@ const aboutBlocks: Block[] = [
       { icon: `${IMG}/icons/features_icon04.svg`, title: "Stay Informed", text: "Get expert advice on visas, applications, and studying abroad with ease." },
     ],
   },
-  testimonials,
 ];
 
 const whyBlocks: Block[] = [
