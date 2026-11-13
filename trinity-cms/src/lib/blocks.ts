@@ -163,7 +163,7 @@ export type RoadmapBlock = { type: "roadmap"; kicker: string; title: string; lea
 /* Tap-to-play vertical video clips beside a short text column (About page, home page). */
 export type VideosBlock = {
   type: "videos"; kicker: string; title: string; lead: string; ctaLabel?: string; ctaHref?: string;
-  items: { src: string; poster?: string; caption?: string }[];
+  items: { src?: string; poster?: string; caption?: string }[];
 };
 
 export type JourneyBlock = {

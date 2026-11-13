@@ -7,16 +7,18 @@ const C = "/contact-us";
 
 /* The three client clips (public/tw/voices). The middle one is the founder (About page); the first and last are
    students (home page). */
-const VOICE = (n: number) => ({ src: `/tw/voices/voice-${n}.mp4`, poster: `/tw/voices/voice-${n}.jpg` });
+const VOICE = (n: number) => ({ src: `/tw/voices/voice-${n}.mp4`, poster: `/tw/voices/thumb-${n}.jpg` });
 export const aboutVideos: VideosBlock = {
   type: "videos", kicker: "From our founder", title: "A word from our founder.",
   lead: "Hear how Trinity Study Abroad guides every student, in the founder's own words.",
-  ctaLabel: "Get free counselling", ctaHref: C, items: [{ ...VOICE(2), caption: "Founder's message" }],
+  ctaLabel: "Get free counselling", ctaHref: C, items: [VOICE(2)],
 };
 export const homeVideos: VideosBlock = {
   type: "videos", kicker: "Student stories", title: "Hear it from our students.",
-  lead: "Two students share their journey with Trinity Study Abroad. Tap a video to watch.",
-  ctaLabel: "Get free counselling", ctaHref: C, items: [VOICE(1), VOICE(3)],
+  lead: "Students share their journey with Trinity Study Abroad. Tap a video to watch.",
+  ctaLabel: "Get free counselling", ctaHref: C,
+  /* Third card: the thumbnail only, its video is still to come (add `src: "/tw/voices/voice-4.mp4"` and drop the caption). */
+  items: [VOICE(1), VOICE(3), { poster: "/tw/voices/thumb-4.jpg", caption: "Video coming soon" }],
 };
 
 export const band: BandBlock = {
