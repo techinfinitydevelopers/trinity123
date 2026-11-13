@@ -80,7 +80,8 @@ ScrollTrigger.config({ignoreMobileResize:true});
 
 /* ---------- smooth scroll (locked until a country is chosen) ---------- */
 const ownLenis=!opts.lenis;
-const lenis=opts.lenis||new Lenis({lerp:.075,wheelMultiplier:.9,touchMultiplier:1.4,smoothWheel:true});
+const LENIS_OPTS={lerp:.075,wheelMultiplier:.9,touchMultiplier:1.4,smoothWheel:true};
+let lenis=opts.lenis||new Lenis(LENIS_OPTS);
 const lenisSync=()=>ScrollTrigger.update();lenis.on('scroll',lenisSync);
 const tick=t=>lenis.raf(t*1000);
 if(ownLenis){gsap.ticker.add(tick);gsap.ticker.lagSmoothing(0)}
@@ -762,7 +763,13 @@ let suspended=false;
 destroy.suspend=function(){
   if(suspended)return;suspended=true;
   cancelAnimationFrame(raf);raf=0;
-  if(ownLenis)gsap.ticker.remove(tick);
+  if(ownLenis){
+    gsap.ticker.remove(tick);
+    /* Lenis keeps its wheel/touch listeners and calls preventDefault on every wheel event; with the ticker
+       gone nothing ever moves the page, so every other page (About, Blog…) had a dead scroll until a hard
+       refresh. Destroy it while we are away (this restores native scrolling); resume() builds a new one. */
+    try{lenis.off('scroll',lenisSync);lenis.destroy()}catch(e){}
+  }
   ScrollTrigger.getAll().forEach(t=>{const e=t.trigger;if(e&&root.contains(e))t.disable(false)});
 };
 /* Call only once the element is back in the document. Earlier than that, ScrollTrigger measures
@@ -770,7 +777,10 @@ destroy.suspend=function(){
 destroy.resume=function(){
   if(!suspended)return;suspended=false;
   ScrollTrigger.getAll().forEach(t=>{const e=t.trigger;if(e&&root.contains(e))t.enable(false)});
-  if(ownLenis)gsap.ticker.add(tick);
+  if(ownLenis){
+    lenis=new Lenis(LENIS_OPTS);lenis.on('scroll',lenisSync);
+    gsap.ticker.add(tick);
+  }
   /* The viewport may have changed while we were away — a rotate, a resized window — and the
      renderer still holds the old size. Re-measure before the first frame, then let
      ScrollTrigger re-read every start and end against the new layout. */
