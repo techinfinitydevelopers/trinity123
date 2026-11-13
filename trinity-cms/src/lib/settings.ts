@@ -210,7 +210,7 @@ export const DEFAULTS: SettingsMap = {
         ["student-visa-assistance", "Student Visa Assistance"], ["accommodation-assistance", "Accommodation Assistance"],
         ["pre-departure-guidance", "Pre-Departure Guidance"],
       ].map(([id, label]) => ({ label, href: `/our-service#${id}` })) },
-      { label: "Resources", href: "/resources", children: [{ label: "Events", href: "/events" }, { label: "Brochure", href: "/brochure" }] },
+      { label: "Resources", href: "/webinars-events", children: [{ label: "Webinars & Events", href: "/webinars-events" }] },
       { label: "Success Stories", href: "/success-stories" },
       { label: "Blog", href: "/blog" },
       { label: "Contact", href: "/contact-us" },

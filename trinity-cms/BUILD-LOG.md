@@ -1258,3 +1258,11 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 ## 2026-11-13 — About founder video invisible on phones
 - Cause: on <=1000px the video grid has `grid-template-columns:none!important` + `justify-content:start` (made for the scrolling multi-card row). For the single About card the column was auto-sized from the card's content (an aspect-ratio box whose children are absolutely placed), so the card collapsed to 2px wide x 4px tall — nothing visible. (Measured on a 375px viewport: card 2x4.) It came in with the push of the single-video layout; the earlier phone fix had been reverted together with the 'upgrade' undo.
 - Fix (CSS only, `site.css`): on <=1000px `.vbk--single .vbk__grid--1{grid-template-columns:minmax(0,1fr)!important;justify-content:stretch;width:min(76%,260px)}`. Now 249x442 on a 375px phone, no horizontal overflow. No DB change. Not committed.
+
+## 2026-11-13 — Resources: Webinars + Events merged, Brochure removed
+- New page `/webinars-events` ("Webinars & Events"): hero (crumb/ghost/sub reworded), the webinar gallery (the real past sessions kept), what the events are, the register-interest form and the call to action. Resources menu now has one item, "Webinars & Events" (Resources itself links to it); no Brochure.
+- Removed pages: `webinars`, `events`, `resources`, `brochure`. `next.config.ts` 308-redirects /webinars, /events, /resources and /brochure to /webinars-events so old links keep working. The home webinar section's "See more" link points to the new page.
+- Code: `seed-content.ts` (resources/brochure blocks removed, events blocks + hero + webinar gallery = `webinarsEventsBlocks`, seed page list), `settings.ts` default nav, `Header.tsx` comment, `tw/markup.ts` link, `next.config.ts`.
+- DB: `scripts/merge-webinars-events.ts` (dry run default, `--apply`, backup; key-order-safe idempotent check). APPLIED to the LOCAL db; production still has the old pages/nav until it is run there (then redeploy).
+- Checked on localhost: /webinars-events 200 with hero, Knowledge Hub, events, form and CTA sections; the 4 old URLs answer 308; the menu shows only "Webinars & Events". Not committed.
+- Applied on PRODUCTION 2026-11-13 (merge-webinars-events.ts); deployed by the push of the same day.

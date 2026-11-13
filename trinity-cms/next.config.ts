@@ -25,7 +25,11 @@ const csp = [
 const nextConfig: NextConfig = {
   /* The UAE page used to live at /destinations/dubai; old links and search results keep working. */
   async redirects() {
-    return [{ source: "/destinations/dubai", destination: "/destinations/uae", permanent: true }];
+    return [
+      { source: "/destinations/dubai", destination: "/destinations/uae", permanent: true },
+      /* Webinars and Events are one page now; Resources and Brochure no longer exist. */
+      ...["/webinars", "/events", "/resources", "/brochure"].map((source) => ({ source, destination: "/webinars-events", permanent: true })),
+    ];
   },
   async headers() {
     return [

@@ -515,32 +515,16 @@ const successBlocks: Block[] = [
   },
 ];
 
-const resourcesBlocks: Block[] = [
+/* Webinars and events share one page (Resources > Webinars & Events): the hero, the webinar gallery, then what the events are, the
+   register-interest form and the closing call to action. (The standalone Resources, Events, Webinars and Brochure pages are gone.) */
+const webinarsEventsBlocks: Block[] = [
   {
-    type: "pageHero", ghost: "RESOURCES", crumb: "Resources",
-    words: [{ t: "Everything" }, { t: "You", br: true }, { t: "Need", s: "gold" }, { t: "to Decide" }],
-    sub: "Come and meet us at an event, or take the brochure home and read it with your family first.",
-    aside: { kind: "svcchips", items: [
-      { icon: "fas fa-calendar-alt", label: "Events & fairs" }, { icon: "fas fa-book-open", label: "Course brochure" },
-      { icon: "fas fa-chalkboard-teacher", label: "Visa workshops" }, { icon: "fas fa-users", label: "Parent sessions" },
-    ] },
+    type: "pageHero", ghost: "WEBINARS & EVENTS", crumb: "Webinars & Events",
+    words: [{ t: "Learn" }, { t: "Before", br: true }, { t: "You Go", s: "gold" }],
+    sub: "Free live webinars and events on countries, courses, tests, visas and funding \u2014 run by the counsellors who handle the applications. Parents are welcome, and every session ends with questions.",
+    aside: { kind: "visual", img: "/assets/img/hero-light/desk.jpg", chipA: { big: "Free", small: "No charge to attend" }, chipB: { icon: "fas fa-video", strong: "Online & in person", small: "Join from anywhere" } },
   },
-  {
-    type: "services", kicker: "Resources", title: "Two Ways to [Start Reading]", lead: "Both are free, and neither commits you to anything.",
-    items: [
-      { icon: "fas fa-calendar-alt", title: "Events", text: "University fairs, spot-admission days, visa and documentation workshops, test-prep sessions and pre-departure briefings \u2014 held at our Mumbai office and online. Register your interest and we will tell you when the next one relevant to your country is scheduled.", checks: [], wide: false, href: "/events", linkLabel: "See what we run" },
-      { icon: "fas fa-book-open", title: "Brochure", text: "Our study abroad brochure: the countries we place students in, what each one costs for a year, entry requirements, intake calendars and stay-back rules \u2014 in one document you can read with your family. Ask for it and we will email it to you.", checks: [], wide: false, href: "/brochure", linkLabel: "Request the brochure" },
-    ],
-  },
-  {
-    type: "cta", layout: "center", badgeIcon: "fas fa-question-circle", badge: "Prefer to just ask?", title: "Skip the reading and {talk to a counsellor}",
-    text: "One free session answers more than a brochure can \u2014 because the answers are about your profile.",
-    checks: [], primary: { label: "Book Free Consultation", href: C }, secondary: { label: "WhatsApp", href: "whatsapp" }, secondaryKind: "whatsapp",
-    img: "", chipA: { strong: "", small: "" }, chipB: { strong: "", small: "" },
-  },
-];
-
-const eventsBlocks: Block[] = [
+  { ...webinar, layout: "gallery" },
   {
     type: "featureCards", kicker: "What We Run", title: "The Events We [Hold]",
     lead: "Dates change with the intake calendar, so register your interest and we will write to you when one is confirmed.",
@@ -562,28 +546,6 @@ const eventsBlocks: Block[] = [
   },
 ];
 
-const brochureBlocks: Block[] = [
-  {
-    type: "featureCards", kicker: "Inside", title: "What the [Brochure Covers]",
-    lead: "The questions we are asked in almost every first counselling session, answered in writing.",
-    cards: [
-      { icon: "fas fa-globe-americas", title: "Country by country", text: "Every destination we place students in, with what it is strongest at academically and who it suits." },
-      { icon: "fas fa-rupee-sign", title: "What a year costs", text: "Indicative tuition and living figures for a one-year budget, so the conversation at home starts from real numbers." },
-      { icon: "fas fa-clipboard-check", title: "Entry requirements", text: "Academic scores, English tests and documents each country expects \u2014 and the gaps that get applications rejected." },
-      { icon: "fas fa-calendar-alt", title: "Intake calendars", text: "When each country's intakes open and close, and how far ahead you need to start to make them." },
-      { icon: "fas fa-briefcase", title: "Work & stay-back rules", text: "Part-time work limits while studying, and how long you may stay to work after you graduate." },
-      { icon: "fas fa-coins", title: "Scholarships & loans", text: "The funding routes that actually apply to Indian students, and what each one needs from you." },
-    ],
-  },
-  { ...leadForm, image: `${IMG}/home/hero-student.webp`, imageAlt: "Student ready to study abroad", kicker: "Free Download", tagline: "Get the brochure in your [inbox]", text: "Tell us where to send it and which destination you are weighing up, and we will email the brochure along with the figures for that country.", formTitle: "Send me the brochure", submitLabel: "Email it to me", okMsg: "On its way. Check your inbox \u2014 and your spam folder, just in case." },
-  {
-    type: "cta", layout: "center", badgeIcon: "fas fa-comments", badge: "Read it already?", title: "Now get it mapped to {your profile}",
-    text: "A brochure describes the options. A counselling session tells you which of them you will actually get into.",
-    checks: [], primary: { label: "Book Free Consultation", href: C }, secondary: { label: "WhatsApp", href: "whatsapp" }, secondaryKind: "whatsapp",
-    img: "", chipA: { strong: "", small: "" }, chipB: { strong: "", small: "" },
-  },
-];
-
 export const seedPages = [
   { slug: "home", title: "Trinity Study Abroad — Every Dream Needs a Direction", navLabel: "Home", seoDesc: "Welcome to Trinity Study Abroad, your trusted partner in unlocking global opportunities for higher education. Tailored guidance and complete support for students aiming to study in 39+ countries, including the USA, UK, Canada, and Australia.", blocks: homeBlocks, isSystem: true },
   { slug: "about-us", title: "About Us - Trinity Study Abroad", navLabel: "About Us", seoDesc: "Trinity Study Abroad is a unit of Trinity Air Travel & Tours Pvt. Ltd., a 42-year-old Mumbai company guiding students to 1200+ universities in 39+ countries.", blocks: aboutBlocks, isSystem: true },
@@ -591,9 +553,7 @@ export const seedPages = [
   { slug: "our-service", title: "Our Services - Trinity Study Abroad", navLabel: "Our Services", seoDesc: "Eight comprehensive services covering everything from career counselling to post-study work visas — all under one roof.", blocks: serviceBlocks, isSystem: true },
   { slug: "contact-us", title: "Contact Us - Trinity Study Abroad", navLabel: "Contact Us", seoDesc: "Get in touch with Trinity Study Abroad in Mumbai for free study abroad counselling. Call +91-8453045304 or email helpdesk@trinitystudyabroad.com.", blocks: contactBlocks, isSystem: true },
   { slug: "success-stories", title: "Success Stories - Trinity Study Abroad", navLabel: "Success Stories", seoDesc: "Students placed by Trinity Study Abroad \u2014 their admits, their universities and the journey in their own words.", blocks: successBlocks, isSystem: true },
-  { slug: "resources", title: "Resources - Trinity Study Abroad", navLabel: "Resources", seoDesc: "Events, fairs, workshops and our study abroad brochure \u2014 free resources for students and parents weighing up an overseas education.", blocks: resourcesBlocks, isSystem: true },
-  { slug: "events", title: "Events & University Fairs - Trinity Study Abroad", navLabel: "Events", seoDesc: "University fairs, spot-admission days, visa workshops and pre-departure briefings held in Mumbai and online by Trinity Study Abroad.", blocks: eventsBlocks, isSystem: true },
-  { slug: "brochure", title: "Study Abroad Brochure - Trinity Study Abroad", navLabel: "Brochure", seoDesc: "Request the Trinity Study Abroad brochure: countries, one-year costs, entry requirements, intake calendars, stay-back rules and funding routes.", blocks: brochureBlocks, isSystem: true },
+  { slug: "webinars-events", title: "Webinars & Events - Trinity Study Abroad", navLabel: "Webinars & Events", seoDesc: "Free live webinars, university fairs, spot-admission days, visa workshops and pre-departure briefings from Trinity Study Abroad \u2014 open to students and parents.", blocks: webinarsEventsBlocks, isSystem: true },
   { slug: "blog", title: "Study Abroad Blog - Guides, Visa Tips & University Advice | Trinity Study Abroad", navLabel: "Blog", seoDesc: "Practical advice from our counsellors on countries, visas, applications and life abroad — written for Indian students and parents.", blocks: blogBlocks, isSystem: true },
 ];
 
