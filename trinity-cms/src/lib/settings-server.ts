@@ -9,7 +9,9 @@ export const getSetting = unstable_cache(
     const row = await db.setting.findUnique({ where: { key } });
     return { ...DEFAULTS[key], ...((row?.value as object) ?? {}) } as SettingsMap[K];
   },
-  ["setting"],
+  /* "v2": a database write made outside the admin (a script) never calls revalidateTag, and Railway keeps
+     `.next/cache` between builds, so the old entries survived a redeploy. Bump this to force a fresh read. */
+  ["setting", "v2"],
   { tags: ["settings"] },
 );
 
