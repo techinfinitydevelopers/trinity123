@@ -1253,3 +1253,4 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 
 ## 2026-11-13 — About founder video section: UI/UX upgrade (reverted)
 - Tried a gold heading word, a 'Watch the message' button and a facts row (1982 / 39+ / 1200+); reverted at the user's request (block fields, component, seed and CSS back to the previous state; local About data refreshed). The About founder section and the home student section are as before.
+- Applied on PRODUCTION 2026-11-13 (about-us founder video block refreshed: poster thumb-2.jpg). Redeployed by the push of the same day (page data is cached).
