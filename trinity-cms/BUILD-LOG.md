@@ -1235,3 +1235,7 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Cause: `tw/engine.ts` `suspend()` removed the gsap ticker that drives Lenis but left Lenis alive; Lenis still listens to wheel/touch and calls preventDefault on every wheel event, with nothing moving the page.
 - Fix: `suspend()` now unhooks and `destroy()`s the Lenis it owns (native scrolling returns); `resume()` creates a new one (`let lenis`, shared `LENIS_OPTS`), re-attaches the ScrollTrigger sync and the ticker.
 - Verified in the pane: Home -> About Us via the header link (client nav) -> wheel scrolled 0 -> 1000; browser Back to Home -> Lenis back (`lenis` class on html) -> wheel scrolled 1000 -> 1900. Not committed.
+
+## 2026-11-13 — 'Chat with Hi, I am Tisa' on the chat launcher
+- The label is 'Chat with {chatbot.name}'. Code default is 'TISA' and the LOCAL db has 'TISA', so the text 'Hi, I am Tisa' is saved in the PRODUCTION setting (chatbot.name). Added `scripts/fix-chatbot-name.ts` (dry run default, `--apply`, backup) which sets it to 'Tisa'. NOT run on production yet (needs the user's go-ahead; a production read was blocked by the safety check). Same fix is possible by hand in Admin > Settings > Chatbot > name.
+- Applied on PRODUCTION 2026-11-13: chatbot.name 'Hi,  I am Tisa' -> 'Tisa' (backup in scripts/backups/). Redeploy via push of the same day so the cached setting refreshes.
