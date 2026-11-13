@@ -2234,3 +2234,10 @@ main:has(> .cta-block:last-child) + .footer{background:var(--cream);padding-top:
   .vbk:not(.vbk--single) .vbk__item::before{transform:translate(10px,10px)}
   .vbk:not(.vbk--single) .vbk__item:hover::before{transform:translate(10px,10px)}
 }
+
+/* Phone, single video (About): the one card must fill its centred grid. With `grid-template-columns:none` the track was
+   auto-sized from the card's content (an aspect-ratio box with only absolutely placed children), so the card collapsed to
+   2px and the video was invisible. */
+@media(max-width:1000px){
+  .vbk--single .vbk__grid--1{grid-template-columns:minmax(0,1fr)!important;justify-content:stretch;width:min(76%,260px)}
+}

@@ -1254,3 +1254,7 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 ## 2026-11-13 — About founder video section: UI/UX upgrade (reverted)
 - Tried a gold heading word, a 'Watch the message' button and a facts row (1982 / 39+ / 1200+); reverted at the user's request (block fields, component, seed and CSS back to the previous state; local About data refreshed). The About founder section and the home student section are as before.
 - Applied on PRODUCTION 2026-11-13 (about-us founder video block refreshed: poster thumb-2.jpg). Redeployed by the push of the same day (page data is cached).
+
+## 2026-11-13 — About founder video invisible on phones
+- Cause: on <=1000px the video grid has `grid-template-columns:none!important` + `justify-content:start` (made for the scrolling multi-card row). For the single About card the column was auto-sized from the card's content (an aspect-ratio box whose children are absolutely placed), so the card collapsed to 2px wide x 4px tall — nothing visible. (Measured on a 375px viewport: card 2x4.) It came in with the push of the single-video layout; the earlier phone fix had been reverted together with the 'upgrade' undo.
+- Fix (CSS only, `site.css`): on <=1000px `.vbk--single .vbk__grid--1{grid-template-columns:minmax(0,1fr)!important;justify-content:stretch;width:min(76%,260px)}`. Now 249x442 on a 375px phone, no horizontal overflow. No DB change. Not committed.
