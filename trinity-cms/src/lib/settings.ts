@@ -10,8 +10,12 @@ export type ThemeSettings = {
 };
 
 /** One icon in the header, footer and contact rail. `href` may be the sentinel "whatsapp",
-    which resolves against the WhatsApp number below. */
-export type SocialLink = { label: string; icon: string; href: string };
+    which resolves against the WhatsApp number below.
+
+    `hidden` takes the icon off the site but keeps the row and its link, for an account that is
+    paused rather than gone. Clearing `href` hides it too, but then the address has to be found
+    and retyped to bring it back — which is the whole reason this flag exists. */
+export type SocialLink = { label: string; icon: string; href: string; hidden?: boolean };
 
 export type ContactSettings = {
   phones: string[]; landline: string; email: string; whatsapp: string;
@@ -182,7 +186,9 @@ export const DEFAULTS: SettingsMap = {
     hours: "Mon – Sat · 10:00 AM – 7:00 PM",
     socialLinks: [
       { label: "Facebook", icon: "fab fa-facebook-f", href: "https://www.facebook.com/profile.php?id=61565625483023" },
-      { label: "X (Twitter)", icon: "fab fa-twitter", href: "https://x.com/study96945" },
+      /* Hidden at the client's request on 13 Nov 2026 — the account is paused, not closed, so
+         the link stays and only the flag has to flip to bring the icon back. */
+      { label: "X (Twitter)", icon: "fab fa-twitter", href: "https://x.com/study96945", hidden: true },
       { label: "Instagram", icon: "fab fa-instagram", href: "https://www.instagram.com/trinity.study.abroad" },
       { label: "WhatsApp", icon: "fab fa-whatsapp", href: "whatsapp" },
       { label: "LinkedIn", icon: "fab fa-linkedin-in", href: "https://www.linkedin.com/company/105107420/" },

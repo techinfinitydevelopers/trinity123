@@ -116,13 +116,13 @@ export default function SettingsForms({ initial }: { initial: SettingsMap }) {
             <Field label="Address"><textarea className="inp" rows={2} value={s.contact.address} onChange={(e) => setS({ ...s, contact: { ...s.contact, address: e.target.value } })} /></Field>
             <Field label="Google Maps embed URL" hint="Optional. Leave empty to auto-generate from the address."><input className="inp inp-sm" value={s.contact.mapEmbed} onChange={(e) => setS({ ...s, contact: { ...s.contact, mapEmbed: e.target.value } })} /></Field>
             <h3 className="pt-2 text-[15px] font-bold text-navy">Social links</h3>
-            <p className="text-[13px] text-ink-2">Shown in the header, the footer and the contact rail, in this order. The icon is a Font Awesome 5 class &mdash; <code>fab fa-facebook-f</code>, <code>fab fa-telegram</code>, <code>fab fa-pinterest</code> and so on. Use <code>whatsapp</code> as the link to reuse the WhatsApp number above; leave a link empty to hide that icon without losing the row.</p>
+            <p className="text-[13px] text-ink-2">Shown in the header, the footer and the contact rail, in this order. The icon is a Font Awesome 5 class &mdash; <code>fab fa-facebook-f</code>, <code>fab fa-telegram</code>, <code>fab fa-pinterest</code> and so on. Use <code>whatsapp</code> as the link to reuse the WhatsApp number above. <b>Hide</b> takes an icon off the site but keeps its link, for an account you mean to bring back; leave a link empty to hide it without a link at all.</p>
             <div className="space-y-2">
               {s.contact.socialLinks.map((it, i) => {
                 const setAt = (v: Partial<typeof it>) => setS({ ...s, contact: { ...s.contact, socialLinks: s.contact.socialLinks.map((x, k) => (k === i ? { ...x, ...v } : x)) } });
                 const swap = (j: number) => { if (j < 0 || j >= s.contact.socialLinks.length) return; const n = [...s.contact.socialLinks]; [n[i], n[j]] = [n[j], n[i]]; setS({ ...s, contact: { ...s.contact, socialLinks: n } }); };
                 return (
-                  <div key={i} className="flex flex-wrap items-center gap-2 rounded-xl border border-line bg-canvas/60 p-2">
+                  <div key={i} className={`flex flex-wrap items-center gap-2 rounded-xl border border-line bg-canvas/60 p-2 ${it.hidden ? "opacity-60" : ""}`}>
                     <div className="flex shrink-0 flex-col gap-0.5">
                       <button className="rounded px-1 text-[10px] text-ink-3 hover:bg-white disabled:opacity-30" onClick={() => swap(i - 1)} disabled={i === 0} aria-label="Move up">&#9650;</button>
                       <button className="rounded px-1 text-[10px] text-ink-3 hover:bg-white disabled:opacity-30" onClick={() => swap(i + 1)} disabled={i === s.contact.socialLinks.length - 1} aria-label="Move down">&#9660;</button>
@@ -131,6 +131,7 @@ export default function SettingsForms({ initial }: { initial: SettingsMap }) {
                     <input className="inp inp-sm w-28 shrink-0" placeholder="Name" value={it.label} onChange={(e) => setAt({ label: e.target.value })} />
                     <input className="inp inp-sm w-44 shrink-0 font-mono" placeholder="fab fa-facebook-f" value={it.icon} onChange={(e) => setAt({ icon: e.target.value })} />
                     <input className="inp inp-sm min-w-[180px] flex-1" placeholder="https://…" value={it.href} onChange={(e) => setAt({ href: e.target.value })} />
+                    <button className="btn-ghost btn-xs shrink-0" onClick={() => setAt({ hidden: !it.hidden })} aria-pressed={!!it.hidden}>{it.hidden ? "Show" : "Hide"}</button>
                     <button className="btn-ghost btn-xs shrink-0" onClick={() => setS({ ...s, contact: { ...s.contact, socialLinks: s.contact.socialLinks.filter((_, k) => k !== i) } })} aria-label="Remove">&#10005;</button>
                   </div>
                 );

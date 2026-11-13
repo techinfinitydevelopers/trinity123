@@ -104,11 +104,12 @@ export const d = (i: number, step = 0.08): CSSProperties => ({ ["--d" as string]
 /* The social icons shown in the top bar, the header menu and the footer. WhatsApp is left out on purpose: the
    floating WhatsApp button is on every page, so a second one in these rows only repeats it (client request). */
 export const isWhatsApp = (s: { label: string; icon: string; href: string }) => /whatsapp/i.test(`${s.label} ${s.icon}`) || s.href === "whatsapp" || /(^|\/\/)(wa\.me|api\.whatsapp\.com)/i.test(s.href);
-export const visibleSocials = (contact: ContactSettings) => (contact.socialLinks ?? []).filter((s) => s.href.trim() && !isWhatsApp(s));
+export const visibleSocials = (contact: ContactSettings) => (contact.socialLinks ?? []).filter((s) => s.href.trim() && !s.hidden && !isWhatsApp(s));
 
 export function Socials({ contact, cls }: { contact: ContactSettings; cls: string }) {
-  /* An entry with an empty link is the owner hiding that icon from the dashboard without
-     losing the row, so it is skipped rather than rendered as a dead anchor. */
+  /* An entry with an empty link, or one marked hidden, is the owner taking that icon off the
+     site from the dashboard without losing the row, so it is skipped rather than rendered as a
+     dead anchor. */
   const items = visibleSocials(contact);
   return (
     <>
