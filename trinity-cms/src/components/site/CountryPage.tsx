@@ -161,13 +161,14 @@ export default async function CountryPage({ c, others, contact }: { c: Country; 
                 <div key={i} className="cv-jcard" data-reveal style={{ position: "relative", background: total ? "var(--navy)" : "#fff", color: total ? "#fff" : "var(--navy)", border: `1px solid ${total ? "transparent" : "var(--line)"}`, borderRadius: 22, padding: "26px 22px 26px 26px", transition: "all .45s cubic-bezier(.4,0,.2,1)", transitionDelay: d(i), display: "flex", flexDirection: "column", gap: 10, overflow: "hidden", containerType: "inline-size" }}>
                   <span style={{ position: "absolute", left: 0, top: 26, bottom: 26, width: 3, borderRadius: "0 3px 3px 0", background: "var(--gold)" }} />
                   <span style={{ fontSize: 13, color: total ? "rgba(255,255,255,.65)" : "var(--muted)", fontWeight: 500, letterSpacing: 0.3 }}>{x.label}{period ? <> {period}</> : null}</span>
-                  <span style={{ fontFamily: P, fontWeight: 700, fontSize: fit, lineHeight: 1.3, letterSpacing: -0.5 }}>{(() => {
-                    /* A note such as "(as per UKVI)" sits to the right of the amount, smaller; it drops to its own line only when the card is too narrow. */
+                  <span style={{ fontFamily: P, fontWeight: 700, fontSize: fit, lineHeight: 1.3, letterSpacing: -0.5, display: "flex", flexWrap: "wrap", columnGap: 6, alignItems: "baseline" }}>{(() => {
+                    /* A note such as "(as per UKVI)" sits to the right of the amount in the same style; when the card is too narrow it drops to its own
+                       line, flush left with the amount (flex column-gap, so a wrapped note has no left indent). */
                     const m: [string, string?] = note ? [amount, note] : ((mm) => (mm ? [mm[1], mm[2]] as [string, string] : [amount] as [string]))(amount.match(/^(.*?)\s*(\(.*\))\s*$/));
                     return (
                       <>
                         <span style={{ whiteSpace: "nowrap" }}>{m[0]}</span>
-                        {m[1] ? <span style={{ display: "inline-block", marginLeft: 6, whiteSpace: "nowrap" }}>{m[1]}</span> : null}
+                        {m[1] ? <span style={{ whiteSpace: "nowrap" }}>{m[1]}</span> : null}
                       </>
                     );
                   })()}</span>
