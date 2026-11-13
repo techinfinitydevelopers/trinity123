@@ -4,7 +4,12 @@
    Countries with a page come from the destinations table; the ones without a page of their own (Japan, South
    Korea, Netherlands, Malaysia, Other Europe) open the home globe on that country instead (`/#c=<key>`).
    Anything in the table that is not named here follows, in its own order. */
-export type NavDestination = { key: string; name: string; code: string; href: string; tag: string };
+export type NavDestination = { key: string; name: string; code: string; href: string; tag: string; sub?: { label: string; href: string; tag?: string }[] };
+
+/* Sub-tabs shown when a destination is hovered in the header menu (and listed under it in the phone menu). */
+const SUB: Record<string, { label: string; href: string; tag?: string }[]> = {
+  europe: [{ label: "MBBS", href: "/mbbs", tag: "Study medicine abroad" }],
+};
 type Row = { slug: string; code: string; name: string; tag: string };
 
 const NAV_ORDER = ["uk", "ireland", "france", "germany", "new-zealand", "uae", "singapore", "australia", "japan", "korea", "usa", "canada", "netherlands", "italy", "malaysia", "europe", "denmark"];
@@ -19,6 +24,11 @@ const GLOBE_ONLY: Record<string, { name: string; code: string; tag: string }> = 
 };
 
 export function navDestinations(rows: Row[]): NavDestination[] {
+  const out = navDestinationsBase(rows);
+  return out.map((d) => (SUB[d.key] ? { ...d, sub: SUB[d.key] } : d));
+}
+
+function navDestinationsBase(rows: Row[]): NavDestination[] {
   const out: NavDestination[] = [];
   for (const k of NAV_ORDER) {
     const d = rows.find((x) => x.slug === k);

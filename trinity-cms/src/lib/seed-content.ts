@@ -546,6 +546,35 @@ const webinarsEventsBlocks: Block[] = [
   },
 ];
 
+/* MBBS: a counselling-led page. It states no fees, rules or recognition claims (those differ by country and university and change),
+   only how the Trinity team helps; the register-interest form and the counsellor call do the rest. Edit freely in /admin. */
+export const mbbsBlocks: Block[] = [
+  {
+    type: "pageHero", ghost: "MBBS", crumb: "MBBS",
+    words: [{ t: "Study" }, { t: "MBBS", s: "gold", br: true }, { t: "Abroad" }],
+    sub: "Thinking about a medical degree in Europe or beyond? Get an honest, profile-based reading of the options before you commit to a country, a university or a deposit.",
+    aside: { kind: "visual", img: "/assets/img/hero-light/desk.jpg", chipA: { big: "Free", small: "First counselling session" }, chipB: { icon: "fas fa-user-md", strong: "MBBS", small: "Guided end to end" } },
+  },
+  {
+    type: "featureCards", kicker: "How We Help", title: "MBBS Abroad, [Step by Step]",
+    lead: "Eligibility, fees, language of instruction and recognition rules differ by country and university, so we check each one against your profile before you apply.",
+    cards: [
+      { icon: "fas fa-clipboard-check", title: "Profile & eligibility check", text: "Your marks, subjects and exam status read against what each destination and university asks for." },
+      { icon: "fas fa-university", title: "Country & university shortlist", text: "A shortlist you can compare on cost, language of instruction, location and what the degree lets you do afterwards." },
+      { icon: "fas fa-file-signature", title: "Application & documents", text: "Forms, certificates and statements prepared and submitted by the team that files them every week." },
+      { icon: "fas fa-passport", title: "Visa & funding", text: "Financial documents, the visa file and interview preparation, step by step." },
+      { icon: "fas fa-plane-departure", title: "Pre-departure & settling in", text: "Accommodation, insurance, forex and a briefing before you fly, so the first week is not spent guessing." },
+    ],
+  },
+  { ...leadForm, kicker: "Talk to us", tagline: "Tell us about your [MBBS plans]", text: "Share where you are in the process and we will call you back with options matched to your profile. No charge and no obligation.", formTitle: "Ask about MBBS", submitLabel: "Request a call back", okMsg: "Thank you. A counsellor will contact you about MBBS options shortly." },
+  {
+    type: "cta", layout: "center", badgeIcon: "fas fa-user-md", badge: "Not sure where to start?", title: "Book a free {MBBS counselling} session",
+    text: "One conversation to see which options fit your profile, before you spend anything.",
+    checks: [], primary: { label: "Book Free Consultation", href: C }, secondary: { label: "WhatsApp", href: "whatsapp" }, secondaryKind: "whatsapp",
+    img: "", chipA: { strong: "", small: "" }, chipB: { strong: "", small: "" },
+  },
+];
+
 export const seedPages = [
   { slug: "home", title: "Trinity Study Abroad — Every Dream Needs a Direction", navLabel: "Home", seoDesc: "Welcome to Trinity Study Abroad, your trusted partner in unlocking global opportunities for higher education. Tailored guidance and complete support for students aiming to study in 39+ countries, including the USA, UK, Canada, and Australia.", blocks: homeBlocks, isSystem: true },
   { slug: "about-us", title: "About Us - Trinity Study Abroad", navLabel: "About Us", seoDesc: "Trinity Study Abroad is a unit of Trinity Air Travel & Tours Pvt. Ltd., a 42-year-old Mumbai company guiding students to 1200+ universities in 39+ countries.", blocks: aboutBlocks, isSystem: true },
@@ -554,6 +583,7 @@ export const seedPages = [
   { slug: "contact-us", title: "Contact Us - Trinity Study Abroad", navLabel: "Contact Us", seoDesc: "Get in touch with Trinity Study Abroad in Mumbai for free study abroad counselling. Call +91-8453045304 or email helpdesk@trinitystudyabroad.com.", blocks: contactBlocks, isSystem: true },
   { slug: "success-stories", title: "Success Stories - Trinity Study Abroad", navLabel: "Success Stories", seoDesc: "Students placed by Trinity Study Abroad \u2014 their admits, their universities and the journey in their own words.", blocks: successBlocks, isSystem: true },
   { slug: "webinars-events", title: "Webinars & Events - Trinity Study Abroad", navLabel: "Webinars & Events", seoDesc: "Free live webinars, university fairs, spot-admission days, visa workshops and pre-departure briefings from Trinity Study Abroad \u2014 open to students and parents.", blocks: webinarsEventsBlocks, isSystem: true },
+  { slug: "mbbs", title: "MBBS Abroad - Trinity Study Abroad", navLabel: "MBBS", seoDesc: "Guidance for studying MBBS abroad: eligibility check, university shortlist, application, visa and pre-departure support from Trinity Study Abroad.", blocks: mbbsBlocks, isSystem: false },
   { slug: "blog", title: "Study Abroad Blog - Guides, Visa Tips & University Advice | Trinity Study Abroad", navLabel: "Blog", seoDesc: "Practical advice from our counsellors on countries, visas, applications and life abroad — written for Indian students and parents.", blocks: blogBlocks, isSystem: true },
 ];
 

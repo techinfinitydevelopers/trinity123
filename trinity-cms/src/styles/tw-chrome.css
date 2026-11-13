@@ -622,3 +622,26 @@ body:has(.tw-host) .nav__social:hover .nav__social-caret,body:has(.tw-host) .nav
 .footer__contact a[href^="mailto:"]{white-space:nowrap;overflow-wrap:normal}
 @media (min-width:1000px){.footer .footer__grid{grid-template-columns:1.15fr .85fr .85fr 1.5fr}}
 @media (min-width:1000px) and (max-width:1199px){.footer__contact a[href^="mailto:"]{font-size:13.5px}}
+
+/* Destination sub-tabs: hovering (or focusing) "Other Europe" slides a sub-row down underneath it. The sub-row is built like a country row
+   (round badge, name, one-line tag) and hangs off the parent with a small gold elbow, so it reads as "inside Other Europe". It belongs to the
+   row's own cell (collapsed to nothing until asked for), so it never covers another country. Cells align to the top so a taller cell does not
+   stretch its neighbour. */
+.cv-ddgrid{align-items:start}
+.cv-dsubwrap{position:relative}
+.cv-dsubarrow{margin-left:auto;font-size:10px;opacity:.55;transition:transform .25s,opacity .25s}
+.cv-dsubwrap:hover .cv-dsubarrow,.cv-dsubwrap:focus-within .cv-dsubarrow{opacity:1;transform:rotate(90deg);color:var(--twc-gold)}
+.cv-dsubmenu{position:relative;max-height:0;overflow:hidden;box-sizing:border-box;opacity:0;visibility:hidden;transition:max-height .3s cubic-bezier(.4,0,.2,1),opacity .22s,visibility .3s}
+.cv-dsubwrap:hover .cv-dsubmenu,.cv-dsubwrap:focus-within .cv-dsubmenu{max-height:64px;opacity:1;visibility:visible}
+.cv-dsubmenu::before{content:"";position:absolute;left:24px;top:0;width:14px;height:26px;border-left:2px solid rgba(245,184,46,.6);border-bottom:2px solid rgba(245,184,46,.6);border-bottom-left-radius:8px}
+.cv-dsubitem{display:flex;align-items:center;gap:8px;min-width:0;margin:2px 6px 4px 40px;padding:8px 10px 8px 8px;border-radius:14px;color:#fff;background:rgba(245,184,46,.10);border:1px solid rgba(245,184,46,.28);transition:background .2s,border-color .2s,transform .2s}
+.cv-dsubitem:hover,.cv-dsubitem:focus-visible{background:rgba(245,184,46,.2);border-color:rgba(245,184,46,.6)}
+.cv-dsubico{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--twc-gold);color:#0a1834;font-size:12px}
+.cv-dsubtxt{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1}
+.cv-dsubname{font:600 14px/1.2 var(--font-h)}
+.cv-dsubtag{font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cv-dsubgo{flex:none;margin-left:auto;font-size:11px;color:var(--twc-gold);opacity:.8;transition:transform .2s}
+.cv-dsubitem:hover .cv-dsubgo{transform:translateX(3px);opacity:1}
+@media (prefers-reduced-motion:reduce){.cv-dsubmenu,.cv-dsubarrow,.cv-dsubitem,.cv-dsubgo{transition:none}}
+.mm-countries .mm-sub{padding-left:34px;font-size:.95em;opacity:.92}
+.mm-countries .mm-sub i{margin-right:8px;color:var(--twc-gold);font-size:.8em}
