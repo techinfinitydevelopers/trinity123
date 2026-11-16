@@ -356,8 +356,8 @@ export const DEFAULTS: SettingsMap = {
     destinationsTitle: "Destinations",
     contactTitle: "Get in Touch",
     marqueeWord: "Think Global",
-    poweredByText: "Itarsia India Limited",
-    poweredByUrl: "https://www.itarsia.com/",
+    poweredByText: "Techinfinity",
+    poweredByUrl: "https://www.techinfinity.io/",
   } satisfies FooterSettings,
 };
 
