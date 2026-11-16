@@ -1320,3 +1320,14 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Not a bug in the code: the credit is a stored setting. Production had been changed (through /admin) to "Techinfinity" -> https://www.techinfinity.io/, while the local database still held the October value "Itarsia India Limited" -> https://www.itarsia.com/, so localhost rendered the old name.
 - `scripts/set-powered-by.ts` (dry run default, `--apply`, backup, idempotent) sets `footer.poweredByText/Url`; applied to the LOCAL database. The code default in `settings.ts` was updated to match, so a fresh seed no longer reintroduces the old credit. Production already correct — nothing to run there.
 - Verified after a dev restart: localhost and production both render `Powered by <a href="https://www.techinfinity.io/">Techinfinity</a>`. Not committed.
+
+## 2026-11-16 — Footer "Powered by" credit removed (client request)
+
+- `src/lib/settings.ts`: `footer.poweredByText` / `poweredByUrl` defaults are now empty strings. `Footer.tsx`
+  already renders the credit only when the text is set, so an empty value removes the line — no markup change.
+- `scripts/set-powered-by.ts`: now syncs a database's stored `footer` credit to the code default instead of a
+  hardcoded name, so running it with the empty default clears the saved value (put a name back in `settings.ts`
+  and re-run to restore one). Dry run by default, `--apply` to write, old value backed up to `scripts/backups/`.
+- Applied to the local database and verified: the footer bottom bar now shows the copyright line only.
+- Production still has "Techinfinity" saved in its `footer` setting; the stored value wins over the code default,
+  so production needs `scripts/set-powered-by.ts --apply` against its database plus a redeploy.

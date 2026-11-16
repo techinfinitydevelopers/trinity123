@@ -356,8 +356,8 @@ export const DEFAULTS: SettingsMap = {
     destinationsTitle: "Destinations",
     contactTitle: "Get in Touch",
     marqueeWord: "Think Global",
-    poweredByText: "Techinfinity",
-    poweredByUrl: "https://www.techinfinity.io/",
+    poweredByText: "",
+    poweredByUrl: "",
   } satisfies FooterSettings,
 };
 
