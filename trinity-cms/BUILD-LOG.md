@@ -1338,3 +1338,15 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
   `LHR` as Lahore — Lahore's code is `LHE`, one letter away — so London now uses the airport whose code nothing
   else looks like. City, flight number and gate are unchanged; no other destination touched.
 - Verified on localhost: with the route set to "MUMBAI → UK" the pass reads `LGW` / "London, UK".
+
+## 2026-11-16 — Cost cards: "(visa minimum)" shortened to "(visa min)" (client request)
+
+- `src/lib/seed-countries.ts`: Australia's and New Zealand's living-expenses rows now read "(visa min)".
+  The full phrase wrapped onto a second line in the cost card ("AUD 29,710" / "(visa minimum)"); the card's
+  value is a flex row of nowrap chunks, so the shorter word fits beside the figure.
+- `scripts/shorten-visa-minimum.ts` (new): makes the same replacement in the `Country.cost` rows of a
+  database, for every country that has the phrase. Dry run by default, `--apply` to write, old rows backed
+  up to `scripts/backups/`, idempotent.
+- Applied to the local database and verified on /destinations/australia: one line (25px, 1.00 lines) at
+  desktop and at 375px.
+- Production needs the same script plus a redeploy — the figures live in its database, not in the code.
