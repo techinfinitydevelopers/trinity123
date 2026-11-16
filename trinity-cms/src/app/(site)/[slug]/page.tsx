@@ -3,6 +3,9 @@ import { notFound } from "next/navigation";
 import { getPage, getPageSlugs } from "@/lib/content";
 import { getAllSettings } from "@/lib/settings-server";
 import { BlockRenderer } from "@/components/site/blocks";
+import CounsellingPopup from "@/components/site/CounsellingPopup";
+import { getLabels } from "@/lib/labels";
+import { leadForm } from "@/lib/seed-content";
 
 type Props = { params: Promise<{ slug: string }>; searchParams: Promise<Record<string, string | undefined>> };
 
@@ -33,5 +36,21 @@ export default async function Page({ params, searchParams }: Props) {
   if (slug === "home") notFound();
   const [page, settings] = await Promise.all([getPage(slug), getAllSettings()]);
   if (!page) notFound();
-  return <BlockRenderer blocks={page.blocks} ctx={{ settings, searchParams: sp }} />;
+  return (
+    <>
+      <BlockRenderer blocks={page.blocks} ctx={{ settings, searchParams: sp }} />
+      {/* About Us: "Get free counselling" and the other CTAs open a form here instead of going to the
+          contact page (client request). Only this page, and only its own content. */}
+      {slug === "about-us" ? (
+        <CounsellingPopup
+          title="Get free counselling"
+          lead="Tell us where you want to study and a Trinity counsellor will call you back — no cost, no obligation."
+          destinations={leadForm.destinations}
+          okMsg={leadForm.okMsg}
+          submitLabel="Request a call back"
+          labels={(await getLabels()).forms}
+        />
+      ) : null}
+    </>
+  );
 }

@@ -382,115 +382,63 @@ body:has(.mobile-menu:not([hidden])){overflow:hidden}
 
    The keyframe is the fail-safe. If the component never mounts — a chunk that fails, a thrown
    error — nothing would ever set the attribute and the overlay would cover the site for good.
-   So it fades on its own: the animation holds it opaque for 3.5s, then takes it away. React
+   So it fades on its own: the animation holds it opaque for 2.7s, then takes it away. React
    almost always gets there first and the transition wins; the animation is the floor. */
 .tw-pre{
   position:fixed;inset:0;z-index:200;
-  display:grid;place-items:center;align-content:center;gap:26px;
+  display:grid;place-items:center;align-content:center;gap:18px;
   background:radial-gradient(900px 600px at 50% 38%,#0b2452,var(--twc-navy) 70%);
-  animation:tw-pre-failsafe 7.2s linear forwards;
+  animation:tw-pre-failsafe 3.4s linear forwards;
 }
 :root[data-preloaded] .tw-pre{display:none}
-:root[data-preloading="out"] .tw-pre{opacity:0;pointer-events:none;transition:opacity .6s ease}
+:root[data-preloading="out"] .tw-pre{opacity:0;pointer-events:none;transition:opacity .45s ease}
 
 @keyframes tw-pre-failsafe{
-  0%,86%{opacity:1}
+  0%,80%{opacity:1}
   100%{opacity:0;visibility:hidden}
 }
 
-/* The paper the name is written on. The loader's one job is to introduce the company, so it
-   does it the way a person would: the mark, then the name written out by hand. The sheet is
-   cream against the navy, the same inversion the boarding pass at the foot of the home page
-   uses — a pale rectangle on a dark screen reads as paper before a word of it is read. */
-.tw-pre__paper{
-  position:relative;
-  display:grid;justify-items:center;gap:16px;
-  background:#fdfaf3;color:#2f3137;
-  padding:clamp(24px,5vw,40px) clamp(28px,6vw,60px) clamp(26px,5vw,42px);
-  border-radius:6px;
-  transform:rotate(-1.4deg);
-  box-shadow:0 26px 60px rgba(2,8,24,.5),0 1px 0 rgba(255,255,255,.6) inset;
-  animation:tw-pre-lift .7s cubic-bezier(.2,.8,.3,1) both;
+/* The mark, on the white tile it wears everywhere else on the site, so the brand arrives as itself
+   rather than as an illustration of itself. */
+.tw-pre__mark{
+  display:grid;place-items:center;
+  padding:18px 26px;border-radius:18px;background:#fff;
+  box-shadow:0 22px 50px rgba(2,8,24,.45);
+  animation:tw-pre-lift .6s cubic-bezier(.2,.8,.3,1) both;
 }
-/* A torn top edge, cut in the overlay's own navy so the paper looks pulled from a pad. */
-.tw-pre__paper:before{
-  content:"";position:absolute;left:0;right:0;top:0;height:7px;
-  background-image:
-    linear-gradient(45deg,var(--twc-navy) 50%,transparent 50%),
-    linear-gradient(-45deg,var(--twc-navy) 50%,transparent 50%);
-  background-size:9px 8px;
-}
+.tw-pre__logo{height:clamp(46px,6vw,64px);width:auto;display:block}
 @keyframes tw-pre-lift{
-  from{opacity:0;transform:rotate(-1.4deg) translateY(14px) scale(.97)}
-  to{opacity:1;transform:rotate(-1.4deg) translateY(0) scale(1)}
+  from{opacity:0;transform:translateY(12px) scale(.97)}
+  to{opacity:1;transform:none}
 }
 
-.tw-pre__logo{height:clamp(30px,4.4vw,42px);width:auto;opacity:.92}
-
-/* The name is written, not revealed.
-
-   Every stroke is one movement of a pen, drawn by growing the line from nothing, so the
-   graphite appears at the tip and nowhere else. Preloader.tsx lays the strokes out and gives
-   each one its moment; handwriting.ts holds the routes. Three cheaper versions of this are
-   described at the top of that file, with why each gave itself away. */
-.tw-pre__sign{
-  display:block;
-  width:min(74vw,600px);
-  height:auto;
-  overflow:visible;
+/* The name in the site's own heading face, letter-spaced the way the section kickers are. */
+.tw-pre__name{
+  margin:0;font-family:var(--font-h,Poppins,sans-serif);font-weight:600;
+  font-size:clamp(1rem,2.2vw,1.45rem);letter-spacing:.3em;text-transform:uppercase;
+  color:#fff;text-indent:.3em;                 /* the last letter's tracking, given back */
+  animation:tw-pre-rise .6s .12s cubic-bezier(.2,.8,.3,1) both;
 }
-
-.tw-pre__stroke{
-  fill:none;
-  stroke:#40434c;              /* graphite, not ink */
-  stroke-width:5.5;
-  stroke-linecap:round;
-  stroke-linejoin:round;
-  stroke-dasharray:1;
-  stroke-dashoffset:1;
-  animation-name:tw-pre-ink;
-  animation-timing-function:linear;
-  animation-fill-mode:forwards;
+.tw-pre__rule{
+  display:block;width:72px;height:2px;border-radius:2px;background:var(--twc-gold);
+  transform-origin:center;animation:tw-pre-draw .5s .3s cubic-bezier(.2,.8,.3,1) both;
 }
-@keyframes tw-pre-ink{to{stroke-dashoffset:0}}
-
-/* Each pencil shows only while its own stroke is being drawn: no fill mode, so outside its
-   window the rule below is what applies and it is not on the paper at all. */
-.tw-pre__pencil{
-  opacity:0;
-  offset-rotate:0deg;          /* a hand carries a pencil at one angle; it does not spin it */
-  animation-name:tw-pre-carry;
-  animation-timing-function:linear;
+.tw-pre__tag{
+  margin:0;font-family:var(--font-b,Inter,sans-serif);font-size:clamp(.72rem,1.5vw,.84rem);
+  letter-spacing:.16em;text-transform:uppercase;color:#9fb0cf;
+  animation:tw-pre-rise .6s .2s cubic-bezier(.2,.8,.3,1) both;
 }
-.tw-pre__body{fill:#e8b34a;stroke:#9a7320;stroke-width:2}
-.tw-pre__tip{fill:#40434c}
-@keyframes tw-pre-carry{
-  from{offset-distance:0%;opacity:1}
-  to{offset-distance:100%;opacity:1}
-}
+@keyframes tw-pre-rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes tw-pre-draw{from{opacity:0;transform:scaleX(0)}to{opacity:1;transform:none}}
 
-/* The sheet must not run off a phone: the name is one unbroken line, so the paper is capped
-   to the viewport and the padding comes in with it. */
 @media(max-width:520px){
-  .tw-pre__paper{max-width:92vw;padding:22px 18px 24px}
-  .tw-pre__sign{width:86vw}
+  .tw-pre__mark{padding:14px 20px;border-radius:14px}
+  .tw-pre__name{letter-spacing:.22em;text-indent:.22em}
+  .tw-pre__tag{letter-spacing:.12em}
 }
-
-/* The underline, drawn once the words are down. */
-.tw-pre__rule{display:block;width:100%;height:12px;margin-top:-6px;overflow:visible}
-.tw-pre__rule path{
-  fill:none;stroke:#6c7079;stroke-width:2.2;stroke-linecap:round;
-  stroke-dasharray:320;stroke-dashoffset:320;
-  animation:tw-pre-under .45s cubic-bezier(.4,0,.2,1) forwards;
+@media(prefers-reduced-motion:reduce){
+  .tw-pre__mark,.tw-pre__name,.tw-pre__rule,.tw-pre__tag{animation:none}
 }
-@keyframes tw-pre-under{to{stroke-dashoffset:0}}
-
-/* The writing runs from CSS alone, not from a class React adds once the handwriting face has
-   loaded. That gate was tried and removed: the overlay is in the server HTML and starts
-   animating before anything hydrates, so on a cold load the words stayed clipped — invisible
-   — until hydration caught up, which on a heavy page is most of the loader. With `swap` on
-   the font the name is written in the system's cursive if Caveat is late, which is the right
-   failure: the wrong hand beats no hand at all. */
 
 /* An indeterminate sweep rather than a percentage: there is no honest number to show — the page
    is waiting on whatever the browser has left, and a fake progress bar that jumps to 90% and
@@ -506,11 +454,7 @@ body:has(.mobile-menu:not([hidden])){overflow:hidden}
 /* Reduced motion: the overlay still covers the gap, it just stops moving. The fail-safe fade is
    kept — it is a safety net, not decoration. */
 @media (prefers-reduced-motion:reduce){
-  .tw-pre__paper,.tw-pre__stroke,.tw-pre__pencil,.tw-pre__rule path,.tw-pre__bar i{animation:none}
-  .tw-pre__stroke{stroke-dashoffset:0}
-  .tw-pre__pencil{opacity:0}
-  .tw-pre__rule path{stroke-dashoffset:0}
-  .tw-pre__bar i{width:100%}
+  .tw-pre__bar i{width:100%;animation:none}
 }
 
 /* ---- one footer, the same on every page --------------------------------------------------

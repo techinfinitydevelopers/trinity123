@@ -2244,3 +2244,17 @@ main:has(> .cta-block:last-child) + .footer{background:var(--cream);padding-top:
 
 /* Highlighted phrase inside body copy (About: "right direction"): bold navy, no background. */
 mark.hl{background:none;color:var(--navy);font-weight:700}
+
+/* "Get free counselling" popup (About Us): the site's own lead form (`.leadcard`, navy) in a dialog over the
+   page, so the CTA does not send the visitor to the contact page. */
+.cpop{position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:20px;background:rgba(6,18,43,.66);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);animation:cpopIn .2s ease-out}
+.cpop__card{position:relative;width:min(100%,440px);max-height:calc(100vh - 40px);max-height:calc(100dvh - 40px);overflow-y:auto;overscroll-behavior:contain;border-radius:26px;background:var(--navy);box-shadow:0 40px 90px rgba(6,18,43,.5);animation:cpopUp .28s cubic-bezier(.2,.7,.2,1)}
+.cpop__card:focus{outline:none}
+.cpop__card .leadcard{background:none;box-shadow:none;border-radius:26px;padding:clamp(22px,3vw,30px)}
+.cpop__lead{margin:0;padding:26px 56px 0 clamp(22px,3vw,30px);font-size:.9rem;line-height:1.6;color:#b4c2dc}
+.cpop__lead + .leadcard{padding-top:18px}
+.cpop__close{position:absolute;right:12px;top:12px;z-index:2;width:34px;height:34px;border:0;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:14px;cursor:pointer;display:grid;place-items:center;transition:background .2s,color .2s}
+.cpop__close:hover,.cpop__close:focus-visible{background:var(--gold);color:var(--navy)}
+@keyframes cpopIn{from{opacity:0}to{opacity:1}}
+@keyframes cpopUp{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.cpop,.cpop__card{animation:none}}

@@ -100,8 +100,8 @@ function DestinationSelect({ options, label, placeholder }: { options: Dest[]; l
    are. The nearest-city field was removed at the client's request; `cities` stays an accepted (ignored)
    prop so the blocks that still carry the list keep compiling. */
 export default function LeadForm({
-  title, destinations, okMsg, submitLabel, trust = [], labels: L,
-}: { title: string; cities?: string[]; destinations: string[]; okMsg: string; submitLabel: string; trust?: { icon: string; text: string }[]; labels: LabelSettings["forms"] }) {
+  title, destinations, okMsg, submitLabel, trust = [], labels: L, source = "home-enquiry",
+}: { title: string; cities?: string[]; destinations: string[]; okMsg: string; submitLabel: string; trust?: { icon: string; text: string }[]; labels: LabelSettings["forms"]; /** Which form the lead came from, shown in the dashboard. */ source?: string }) {
   const [state, setState] = useState<"idle" | "busy" | "ok" | "err">("idle");
   /* The design shows a flag beside the dialling code. A <select> cannot hold an image, so the
      flag sits in the field's padding and follows whatever the visitor picks. */
@@ -126,7 +126,7 @@ export default function LeadForm({
           phone: `${f.get("code") ?? ""} ${f.get("phone") ?? ""}`.trim(),
           subject: String(f.get("destination") ?? ""),
           website: String(f.get("hp_url") ?? ""),
-          source: "home-enquiry",
+          source,
         }),
       });
       if (res.ok) return setState("ok");

@@ -59,7 +59,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
           __html: `try{if(localStorage.getItem("tw:preloaded"))document.documentElement.setAttribute("data-preloaded","1")}catch(e){}`,
         }}
       />
-      <Preloader logo={settings.site.logo} name={settings.site.siteName} />
+      <Preloader logo={settings.site.logo} name={settings.site.siteName} tagline={settings.site.tagline} />
       <ThemeStyle t={settings.theme} />
       <OrgSchema site={settings.site} contact={settings.contact} />
       <Header nav={settings.nav} contact={settings.contact} site={settings.site} labels={settings.labels.header} destinations={destinations} />

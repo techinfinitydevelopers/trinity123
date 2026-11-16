@@ -9,7 +9,12 @@
    which is the right trade: there is no way to know a returning visitor without storing
    something, and this is not worth a cookie banner.
 
-   Three things it must never do, in order of how badly they would hurt:
+   What it shows: the mark, the name set in the site's own heading face, the tagline and a thin
+   gold rule — the brand as it appears everywhere else on the site. It replaced a sheet of paper
+   with the name written across it by a pencil: handsome, but it read as craft rather than as a
+   consultancy, and it held the first screen for five seconds to do it (client request).
+
+   Two things it must never do:
 
    1. Flash for a returning visitor. The overlay is in the server HTML — it has to be, or a first
       visit would show the page first and the loader second — so the decision has to be made
@@ -19,51 +24,29 @@
    2. Trap anyone. If this component never mounts — a JS error, a chunk that fails to load — the
       overlay would cover the site forever. So the fade is driven by a CSS animation that runs
       regardless of React, and the markup is inert: no focus trap, no scroll lock that outlives
-      it. The class this adds only ever makes it leave sooner.
-   3. Hold back the home page's own intro. The globe assembles itself from particles and that is
-      the real entrance; this just covers the gap before the engine chunk is running, then gets
-      out of the way. */
+      it. The class this adds only ever makes it leave sooner. */
 
 import { useEffect } from "react";
-import { layout, ASCENDER, DESCENDER } from "./handwriting";
 
 /* The flag, and the two timings. MIN exists because a loader that appears for 120ms reads as a
    glitch rather than a loader — below about a third of a second the eye registers a flicker, not
    a transition. MAX is the fail-safe: if `load` never fires because one image is wedged, the
    overlay leaves anyway. */
 const KEY = "tw:preloaded";
-/* Raised with the writing: the hand takes about four seconds over twenty letters, and a
-   fail-safe that fires before the name is finished is not a safety net, it is a glitch. */
-const MAX_MS = 5800;
+/* Both are counted from the moment the browser started on the page, not from the moment React got
+   here: the overlay is in the server HTML, so it has been on screen since the first paint. Counting
+   from hydration made a slow page hold it for as long as hydration took and then start the 1.5s —
+   fifteen seconds on a cold dev load. `performance.now()` is already time since navigation. */
+const MIN_MS = 1200;
+const MAX_MS = 2600;
 
-export default function Preloader({ logo, name }: { logo: string; name: string }) {
-  /* The name is not set in a typeface here. `handwriting.ts` holds the route a pen takes
-     through every letter, and each of those strokes is drawn by growing the line from nothing,
-     so the graphite appears at the tip and nowhere else. Three cheaper versions of this are
-     described at the top of that file, along with why each one gave itself away.
-
-     Laid out during the render rather than in an effect: the overlay is in the server HTML and
-     starts animating before anything hydrates, so the timings have to be in that HTML too. */
-  /* About five letters a second — an unhurried hand, not a signature being dashed off. Faster
-   than this and it stops reading as writing however right the strokes are, which is what the
-   first version of this got wrong even after the strokes themselves were real. */
-  const writeMs = Math.min(4200, Math.max(2000, name.length * 200));
-  const { marks, width, total } = layout(name, writeMs);
-  const PAD = 18;
-  /* The underline is the flourish at the end of a signature, so it waits for the last letter.
-     MIN then waits for the underline: the loader leaves when the writing is finished, because
-     half a written word on screen looks like a fault rather than a flourish. This is the one
-     cost — a first visit on a fast connection waits about two seconds longer, once per
-     visitor and never again. */
-  const ruleAt = total + 80;
-  const MIN_MS = Math.min(ruleAt + 520, 5200);
+export default function Preloader({ logo, name, tagline }: { logo: string; name: string; tagline?: string }) {
   useEffect(() => {
     const root = document.documentElement;
     /* Already seen: the blocking script in the layout has hidden it, there is nothing to do and
        nothing to animate. */
     if (root.hasAttribute("data-preloaded")) return;
 
-    const started = performance.now();
     let done = false;
 
     const finish = () => {
@@ -78,20 +61,17 @@ export default function Preloader({ logo, name }: { logo: string; name: string }
       window.setTimeout(() => {
         root.removeAttribute("data-preloading");
         root.setAttribute("data-preloaded", "1");
-      }, 600);
+      }, 450);
     };
 
     /* Wait for the window `load` event — every stylesheet, font and above-the-fold image — but
        never for less than MIN or more than MAX. */
-    const onReady = () => {
-      const waited = performance.now() - started;
-      window.setTimeout(finish, Math.max(0, MIN_MS - waited));
-    };
+    const onReady = () => window.setTimeout(finish, Math.max(0, MIN_MS - performance.now()));
 
     if (document.readyState === "complete") onReady();
     else window.addEventListener("load", onReady, { once: true });
 
-    const cap = window.setTimeout(finish, MAX_MS);
+    const cap = window.setTimeout(finish, Math.max(0, MAX_MS - performance.now()));
     return () => {
       window.removeEventListener("load", onReady);
       window.clearTimeout(cap);
@@ -102,50 +82,14 @@ export default function Preloader({ logo, name }: { logo: string; name: string }
      reader should read straight past it rather than announce a loading screen it cannot dismiss. */
   return (
     <div className="tw-pre" aria-hidden="true">
-      <div className="tw-pre__paper">
+      <div className="tw-pre__mark">
         {/* eslint-disable-next-line @next/next/no-img-element -- the overlay is in the server
             HTML before anything hydrates, and next/image would resolve its src too late. */}
         <img className="tw-pre__logo" src={logo} alt="" width={160} height={54} />
-        <svg
-          className="tw-pre__sign"
-          viewBox={`${-PAD} ${-ASCENDER - PAD} ${width + PAD * 2} ${ASCENDER + DESCENDER + PAD * 2}`}
-        >
-          {/* A slight slant, because nobody writes dead upright, applied to the whole hand so
-              the pencil leans with it. */}
-          <g transform="skewX(-7)">
-            {marks.map((m, i) => (
-              <g key={i} transform={`translate(${m.x} 0)`}>
-                {/* `pathLength` is 1 so the dash that draws the stroke is a fraction rather
-                    than a measurement — nothing here has to know how long the curve is. */}
-                <path
-                  className="tw-pre__stroke"
-                  d={m.d}
-                  pathLength={1}
-                  style={{ animationDelay: `${Math.round(m.at)}ms`, animationDuration: `${Math.round(m.dur)}ms` }}
-                />
-                {/* One pencil per stroke, each riding its own stroke and visible only while
-                    that stroke is being drawn. A single pencil cannot do this: CSS gives an
-                    element one motion path, and the whole point is that the pen lifts and
-                    starts somewhere else — which is what a mask could never show. */}
-                <g
-                  className="tw-pre__pencil"
-                  style={{
-                    offsetPath: `path("${m.d}")`,
-                    animationDelay: `${Math.round(m.at)}ms`,
-                    animationDuration: `${Math.round(m.dur)}ms`,
-                  }}
-                >
-                  <path className="tw-pre__body" d="M11 -8 44 -41a5.5 5.5 0 0 1 7.8 0l.6.6a5.5 5.5 0 0 1 0 7.8L19.4 0z" />
-                  <path className="tw-pre__tip" d="M11 -8 19.4 0 4 4z" />
-                </g>
-              </g>
-            ))}
-          </g>
-        </svg>
-        <svg className="tw-pre__rule" viewBox="0 0 300 12" preserveAspectRatio="none">
-          <path d="M4 7C60 2 120 10 170 5S260 2 296 6" style={{ animationDelay: `${ruleAt}ms` }} />
-        </svg>
       </div>
+      <p className="tw-pre__name">{name}</p>
+      <span className="tw-pre__rule" aria-hidden="true" />
+      {tagline ? <p className="tw-pre__tag">{tagline}</p> : null}
       <div className="tw-pre__bar"><i /></div>
     </div>
   );
