@@ -29,9 +29,12 @@ const el = (tag: string, cls?: string, html?: string) => {
    Keyed on the short name the engine prints into `#route`, uppercased, because that is the
    only handle this file has on the engine's state. A country the dashboard adds later is
    not in here and falls back to the first three letters of its name, which is wrong often
-   enough to be worth adding a row for when it happens. */
+   enough to be worth adding a row for when it happens.
+
+   London is Gatwick, not Heathrow: LHR sits one letter from Lahore's LHE and the client read
+   it that way, so the pass uses the London airport whose code nothing else looks like. */
 const TICKETS: Record<string, { code: string; city: string; flight: string; gate: string }> = {
-  "UK":          { code: "LHR", city: "London",        flight: "TR 101", gate: "B12" },
+  "UK":          { code: "LGW", city: "London",        flight: "TR 101", gate: "B12" },
   "IRELAND":     { code: "DUB", city: "Dublin",        flight: "TR 114", gate: "A04" },
   "FRANCE":      { code: "CDG", city: "Paris",         flight: "TR 127", gate: "2E" },
   "GERMANY":     { code: "BER", city: "Berlin",        flight: "TR 133", gate: "C07" },
@@ -142,7 +145,7 @@ export function mountBoardingPass(root: HTMLElement): () => void {
       const t = ticketFor(to);
       const code = at("code"), city = at("city"), fl = at("flight"), gate = at("gate");
       if (code) code.textContent = t.code;
-      /* Both, because either alone misleads: the code is an airport, so "LHR / United
+      /* Both, because either alone misleads: the code is an airport, so "LGW / United
          Kingdom" reads wrong, and "London" alone loses the country they actually picked. */
       if (city) city.textContent = t.city === to ? to : `${t.city}, ${to}`;
       if (fl) fl.textContent = t.flight;

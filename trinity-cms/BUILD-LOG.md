@@ -1331,3 +1331,10 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Applied to the local database and verified: the footer bottom bar now shows the copyright line only.
 - Production still has "Techinfinity" saved in its `footer` setting; the stored value wins over the code default,
   so production needs `scripts/set-powered-by.ts --apply` against its database plus a redeploy.
+
+## 2026-11-16 — Boarding pass: London shows LGW instead of LHR (client request)
+
+- `src/components/tw/boardingPass.ts`: the UK ticket's airport code is now `LGW` (Gatwick). The client read
+  `LHR` as Lahore — Lahore's code is `LHE`, one letter away — so London now uses the airport whose code nothing
+  else looks like. City, flight number and gate are unchanged; no other destination touched.
+- Verified on localhost: with the route set to "MUMBAI → UK" the pass reads `LGW` / "London, UK".
