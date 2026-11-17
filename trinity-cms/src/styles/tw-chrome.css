@@ -388,16 +388,13 @@ body:has(.mobile-menu:not([hidden])){overflow:hidden}
   position:fixed;inset:0;z-index:200;
   display:grid;place-items:center;align-content:center;gap:18px;
   background:radial-gradient(900px 600px at 50% 38%,#0b2452,var(--twc-navy) 70%);
-  animation:tw-pre-failsafe 12.6s linear forwards;
+  animation:tw-pre-failsafe 3.4s linear forwards;
 }
 :root[data-preloaded] .tw-pre{display:none}
 :root[data-preloading="out"] .tw-pre{opacity:0;pointer-events:none;transition:opacity .45s ease}
 
-/* The way out when React never mounts at all. It has to outlast the component's own fail-safe
-   (12s in Preloader.tsx) so that, whenever React is alive, the overlay leaves by the fade below and
-   not by this. */
 @keyframes tw-pre-failsafe{
-  0%,96%{opacity:1}
+  0%,80%{opacity:1}
   100%{opacity:0;visibility:hidden}
 }
 

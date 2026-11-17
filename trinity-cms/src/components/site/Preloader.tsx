@@ -30,16 +30,15 @@ import { useEffect } from "react";
 
 /* The flag, and the two timings. MIN exists because a loader that appears for 120ms reads as a
    glitch rather than a loader — below about a third of a second the eye registers a flicker, not
-   a transition. FAILSAFE is not a cap on the wait: it is the way out if `load` never fires at all,
-   because one image or script is wedged and the event never arrives. Short of that the loader stays
-   until the page is loaded, which is what it is for (client request). */
+   a transition. MAX is the fail-safe: if `load` never fires because one image is wedged, the
+   overlay leaves anyway. */
 const KEY = "tw:preloaded";
 /* Both are counted from the moment the browser started on the page, not from the moment React got
    here: the overlay is in the server HTML, so it has been on screen since the first paint. Counting
    from hydration made a slow page hold it for as long as hydration took and then start the 1.5s —
    fifteen seconds on a cold dev load. `performance.now()` is already time since navigation. */
 const MIN_MS = 1200;
-const FAILSAFE_MS = 12000;
+const MAX_MS = 2600;
 
 export default function Preloader({ logo, name, tagline }: { logo: string; name: string; tagline?: string }) {
   useEffect(() => {
@@ -65,17 +64,14 @@ export default function Preloader({ logo, name, tagline }: { logo: string; name:
       }, 450);
     };
 
-    /* Wait for the window `load` event — every stylesheet, font, script and image the page asks
-       for — and never for less than MIN. Whatever that costs is what the page costs: the loader is
-       there so nobody watches the site assemble itself. */
+    /* Wait for the window `load` event — every stylesheet, font and above-the-fold image — but
+       never for less than MIN or more than MAX. */
     const onReady = () => window.setTimeout(finish, Math.max(0, MIN_MS - performance.now()));
 
     if (document.readyState === "complete") onReady();
     else window.addEventListener("load", onReady, { once: true });
 
-    /* Only for a `load` that never comes. Keep it in step with the CSS fail-safe in tw-chrome.css,
-       which has to be a little later so React's fade wins whenever React is alive. */
-    const cap = window.setTimeout(finish, Math.max(0, FAILSAFE_MS - performance.now()));
+    const cap = window.setTimeout(finish, Math.max(0, MAX_MS - performance.now()));
     return () => {
       window.removeEventListener("load", onReady);
       window.clearTimeout(cap);
