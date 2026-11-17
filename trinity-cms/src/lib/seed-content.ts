@@ -179,8 +179,9 @@ export const stats: StatsBlock = {
 
 /* The client's agreed order: UK, Ireland, France, Germany, New Zealand, UAE, Singapore, Australia,
    Japan, South Korea, USA, Canada, Netherlands, Sweden, Malaysia, other European countries. Japan,
-   South Korea and Malaysia have no destination page yet, so they are left out rather than pointing
-   at a URL that would 404; Netherlands has none either and points at the overview. */
+   South Korea, the Netherlands and Malaysia now have their own pages (2026-11-17); "other European
+   countries" has none and opens the home globe. A database that still holds the old `/#c=…` links
+   is brought up to date by scripts/link-country-pages.ts. */
 const countryItems: CountriesBlock["items"] = [
   { flag: "gb", name: "UK", tag: "1-year master’s", href: "/destinations/uk" },
   { flag: "ie", name: "Ireland", tag: "Tech & pharma hub", href: "/destinations/ireland" },
@@ -190,13 +191,13 @@ const countryItems: CountriesBlock["items"] = [
   { flag: "ae", name: "UAE", tag: "Global campuses, close to home", href: "/destinations/uae" },
   { flag: "sg", name: "Singapore", tag: "Business & technology hub", href: "/destinations/singapore" },
   { flag: "au", name: "Australia", tag: "Post-study work visa", href: "/destinations/australia" },
-  { flag: "jp", name: "Japan", tag: "Research & technology leaders", href: "/#c=japan" },
-  { flag: "kr", name: "South Korea", tag: "Innovation & tech campuses", href: "/#c=korea" },
+  { flag: "jp", name: "Japan", tag: "Research & technology leaders", href: "/destinations/japan" },
+  { flag: "kr", name: "South Korea", tag: "Innovation & tech campuses", href: "/destinations/south-korea" },
   { flag: "us", name: "USA", tag: "Top-ranked universities", href: "/destinations/usa" },
   { flag: "ca", name: "Canada", tag: "PR-friendly pathways", href: "/destinations/canada" },
-  { flag: "nl", name: "Netherlands", tag: "English-taught degrees", href: "/#c=netherlands" },
+  { flag: "nl", name: "Netherlands", tag: "English-taught degrees", href: "/destinations/netherlands" },
   { flag: "it", name: "Italy", tag: "Arts, design & architecture", href: "/destinations/italy" },
-  { flag: "my", name: "Malaysia", tag: "Affordable international campuses", href: "/#c=malaysia" },
+  { flag: "my", name: "Malaysia", tag: "Affordable international campuses", href: "/destinations/malaysia" },
   { flag: "eu", name: "Other European countries", tag: "More options across Europe", href: "/#c=europe" },
   { flag: "dk", name: "Denmark", tag: "Innovation & design", href: "/destinations/denmark" },
 ];

@@ -1554,3 +1554,17 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 ## 2026-11-17 — Car Rental link, menu: Affordable Europe
 - About Us: Trinity Car Rental card now links (Visit site) to http://www.trinityairtravel.com/services/car-rental/ (`seed-content.ts`). **Production needs the same value in the database** (the About page's Segments block) — a push only changes the seed default.
 - Header destinations menu (`destination-order.ts`): Denmark now before Europe; "Other Europe" renamed "Affordable Europe"; clicking it toggles an MBBS sub-row (no navigation), MBBS goes to /contact-us (`Header.tsx`, `tw-chrome.css`).
+
+## 2026-11-17 — Country cards on /why-study-abroad now open the new pages
+
+- Found after the deploy: the card grid on `/why-study-abroad` (a `countries` block stored in the database) still sent Japan, South
+  Korea, the Netherlands and Malaysia to the home globe (`/#c=…`). The header menu and footer already pointed at the new pages.
+- `src/lib/seed-content.ts`: the four hrefs are now `/destinations/japan`, `/destinations/south-korea`,
+  `/destinations/netherlands`, `/destinations/malaysia` (a freshly seeded database matches). "Other European countries"
+  stays on the globe — it has no page.
+- `scripts/link-country-pages.ts` (new): across every page's `countries` blocks it swaps only the `href` of an item that is
+  still one of the four old globe links; names, tags, order and any /admin edit are untouched. Dry run by default,
+  `--apply` writes, old blocks saved to `scripts/backups/country-links-*.json`, idempotent.
+- Applied to the local database and production (dry run first on both: the same four items, all on `why-study-abroad`).
+  Verified locally: the page has globe links only for `europe`, and each of the four new pages is linked from its card.
+- Production: needs the redeploy that the push triggers to drop the cached page (a direct write never reaches `revalidateSite()`).
