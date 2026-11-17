@@ -1523,6 +1523,19 @@ a.seg__logo:hover .seg__logo-go i{transform:translate(2px,-2px)}
      own overflow. A tighter budget on phones, where there is no room to absorb the error. */
   .page-hero__ghost{font-size:min(calc(90vw / (var(--ghost-len,10) * 0.72)), 8.5rem);right:14px;bottom:8px;letter-spacing:-.03em}
 }
+/* The contact page pulls its cards up over the hero: `.contact__cards{margin-top:-50px}` collapses through the section, which
+   therefore starts 50px above the hero's bottom edge (measured at 1263px: hero ends at 628, the section starts at 578). The
+   watermark was sitting in exactly that strip, so the lower 31% of "CONTACT US" was behind the cards — still cut after it was
+   moved off the hero's clipped edge (client report, second round). Lifted clear of them, as the destination pages' watermark
+   already is (`.cv-ghost`, 62px). Phones (<=640px) have no overlap — `.contact__cards` is pushed down 40px there — so they
+   keep the shared 8px. */
+@media (min-width:641px){
+  .page-hero:has(+ .contact) .page-hero__ghost{bottom:62px}
+  /* Lifting it alone put the top of the word behind the hero's own Email card (the hero's content ends 60px above the
+     strip the cards cover, and the word is up to 136px tall). The hero gets the room instead: 210px under the content =
+     62px clear of the cards + the tallest word (136px) + a 12px gap, so the whole word sits between the two. */
+  .page-hero:has(+ .contact){padding-bottom:210px}
+}
 /* The destination pages carry the same watermark. They are not inside `.page-hero`, so they
    need the fill rule in their own right; the rest they inherit from the class. */
 .cv-ghost{

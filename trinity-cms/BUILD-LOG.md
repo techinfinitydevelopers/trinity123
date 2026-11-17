@@ -1602,3 +1602,18 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Verified locally at 848 / 1263 / 375: the watermark is whole, the envelope shows, the address is one line. One trap while measuring: the
   watermark's entrance animation does not advance while the preview pane is throttled, which reads as 18px hidden (its 26px start
   offset less the 8px); a screenshot first (to force a render) gives the settled 0px.
+
+## 2026-11-17 — /contact-us watermark, second round: still cut by the cards — the overlap I had not measured
+
+- Client: "still a bit cut". The previous fix kept the word inside the hero's clipped edge but not out of the strip the cards cover.
+  `.contact__cards{margin-top:-50px}` collapses through `.contact` (padding-top 0), so the section starts 50px above the hero's
+  bottom edge (measured at 1263px: hero bottom 628, section top 578). The watermark, 8px up from that bottom edge, sat inside the
+  strip — its lower 31% was under the cards. (The destination pages hit the same thing and lift theirs 62px: `.cv-ghost`.)
+- `src/styles/site.css`, from 641px up (phones have no overlap — the cards get a 40px top margin there): the contact hero's watermark
+  `bottom:62px`, and the hero gets `padding-bottom:210px` = 62px clear of the cards + the tallest word (136px) + 12px. Lifting
+  alone put the top of the word behind the hero's own Email card, so the extra room is needed. Selector
+  `.page-hero:has(+ .contact)`, so only the contact page is affected (`:has` is already used elsewhere in this stylesheet).
+- Measured on the settled page at 1440, 1263, 1024, 848, 700 and 375px: the word is 0px behind the hero content, 0px behind
+  the cards, 0px clipped by the hero, 0px past its right edge; the hero is 100px taller on the contact page at desktop widths.
+- Other page heroes keep the previous fix (watermark inside the hero's edge, no parallax). Any other page whose first section is
+  pulled up over its hero would show the same cut; none found besides contact and the destination pages.
