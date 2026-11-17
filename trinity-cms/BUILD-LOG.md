@@ -1431,3 +1431,32 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
   "/ year" in the document, so none was added; (6) no universities and no scholarships were supplied.
 - Production: not applied. Needs `scripts/add-country-pages.ts` against the production database (creates both
   `kr` and `nl`), the commits pushed, and a redeploy.
+
+## 2026-11-17 — Italy page updated from the client document (third tab)
+
+- Source: the same Google Doc, tab "Italy". Unlike South Korea and the Netherlands, Italy already had a page, so this
+  is an update, not an addition.
+- What changed against the stored page (9 fields): hero tagline -> "Arts & architecture; Fashion & Design";
+  stats (first label now spells out the institution types; fourth stat, see below); reason 2 now says "Fashion";
+  new course "Medicine & Health"; cost: public tuition "€900 – €4,000+", private tuition up to "€30,000+" (was €20,000),
+  living expenses "€13,000+ / year" (was €7,000 – €12,000), total "€9,000 – €30,000+"; requirement "Documents" now
+  starts "University pre-enrolment"; new scholarship "MAECI Scholarship (Italian Government Scholarship)"; two FAQ
+  answers reworded (learning Italian; Italy's fields). Intro, intakes, steps, work text and points were already identical.
+- `src/lib/seed-countries.ts`: the `it` entry carries the new wording (a fresh seeded database matches).
+- `scripts/update-italy-page.ts` (new): lists the fields that differ (dry run by default), `--apply` writes them with the
+  old values saved to `scripts/backups/`. It writes content fields only — not image, order, active flag, SEO or
+  universities — and is idempotent. Unlike the add-* scripts it does replace /admin edits to those fields, so it is
+  to be run only to take the document's wording. Applied to the local database.
+- Fitted to the layout rather than copied: the document's fourth stat is two ranges on two lines ("€161 to €4,000 per
+  year / €3,800 to €38,000+ per year", labelled public / private) which overflowed the stat card to four lines and past
+  its edge. It now shows the two ends, "€161 – €38,000+", labelled "Tuition / year, public to private universities";
+  the per-type figures are in the cost cards. The document's note on the visa and permit fees ("approximately €166.46
+  to €176.46, about ₹17,650 to ₹18,700") sits in the visa paragraph, since a cost card has no room for a sentence.
+- Verified on localhost: hero with tagline and four stats inside their cards, new cost figures, MAECI scholarship, the
+  Medicine & Health course, the visa note, no horizontal overflow, fresh tab with no console errors.
+- To confirm with the client: (1) the document's public-tuition stat starts at €161 but its cost card says €900 –
+  €4,000+; (2) "University pre-enrolment" (the old text and the visa steps say Universitaly); (3) the long first stat
+  label is kept as written; (4) the document says "Fashion" in the second reason, capitalised mid-sentence; (5) SEO
+  title and description are the same as the page's defaults, so they were not stored.
+- Production: not applied. Needs `scripts/update-italy-page.ts --apply` against the production database (after a
+  dry run to see what production currently holds), then a redeploy.

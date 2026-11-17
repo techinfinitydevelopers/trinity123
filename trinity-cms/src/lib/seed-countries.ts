@@ -154,21 +154,29 @@ export const seedCountries: CountrySeed[] = [
     faq: qa([["Do I need French?", "Not for English-taught programmes, but basic French helps with part-time work and daily life."], ["Are public universities cheap?", "Yes — public tuition is a few thousand euros a year, far below business-school fees."], ["What is Campus France?", "The mandatory application platform and interview process for students applying from India."], ["Which fields are strongest?", "Management, luxury and fashion, culinary arts, engineering and aerospace."]]),
   },
   {
-    code: "it", slug: "italy", name: "Italy", tag: "Arts & architecture", img: `${IMG}/unversity/z9.jpg`, hero: "Study in Italy", order: 140,
+    /* Italy — updated from the client's "destination page" document, tab "Italy" (2026-11-17). Changes from the
+       earlier copy: hero tagline, the 4th stat (the document gives two ranges, public €161–€4,000 and private
+       €3,800–€38,000+, which overflow the stat card — so it shows the two ends, €161 – €38,000+; the detail is in the
+       cost cards), "Fashion" in the second reason, the
+       Medicine & Health course, private-school tuition up to €30,000+ and living expenses €13,000+, the MAECI
+       scholarship, the total's "+", and reworded answers on learning Italian and on Italy's fields. The note on the
+       visa and permit fees sits in the visa paragraph (the cost cards have no room for a sentence). Run
+       scripts/update-italy-page.ts to bring a database up to this. */
+    code: "it", slug: "italy", name: "Italy", tag: "Arts & architecture; Fashion & Design", img: `${IMG}/unversity/z9.jpg`, hero: "Study in Italy", order: 160,
     intro: "Italy offers historic universities, exceptional design and architecture schools, and some of the lowest tuition in Western Europe — with income-based fee reductions for international students.",
-    stats: stat([["90+", "Universities"], ["1 yr", "Job-search permit"], ["Sept / Feb", "Intakes"], ["€1k–8k", "Tuition / year"]]),
-    why: ["Very low tuition with income-linked fee waivers", "World-leading design, architecture and fine arts schools", "Regional scholarships cover fees plus living costs", "Affordable cost of living in student cities"],
-    courses: ["Architecture & Design", "Fashion & Luxury", "Mechanical & Automotive Engineering", "Art History & Conservation", "Food Technology"],
+    stats: stat([["90+", "Universities, public state-funded institutions, private universities, polytechnics, and specialized postgraduate schools"], ["1 yr", "Job-search permit"], ["Sept / Feb", "Intakes"], ["€161 – €38,000+", "Tuition / year, public to private universities"]]),
+    why: ["Very low tuition with income-linked fee waivers", "World-leading Fashion, design, architecture and fine arts schools", "Regional scholarships cover fees plus living costs", "Affordable cost of living in student cities"],
+    courses: ["Architecture & Design", "Fashion & Luxury", "Mechanical & Automotive Engineering", "Art History & Conservation", "Food Technology", "Medicine & Health"],
     unis: [],
-    visa: "Italian Study Visa (Type D) — pre-enrolment on Universitaly, accommodation proof, funds and health insurance.",
+    visa: "Italian Study Visa (Type D) — pre-enrolment on Universitaly, accommodation proof, funds and health insurance. The total cost for an Italy Type D student visa and the post-arrival residence permit (permesso di soggiorno) is approximately €166.46 to €176.46 (about ₹17,650 to ₹18,700).",
     intakes: "September is the main intake, February is secondary. Pre-enrolment opens early — start 9–11 months ahead.",
-    cost: pair([["Tuition (public university)", "€900 – €4,000 / year"], ["Tuition (private/design school)", "€8,000 – €20,000 / year"], ["Living expenses", "€7,000 – €12,000 / year"], ["Visa + permit fees", "€200 one-time"], ["Total year one", "€9,000 – €30,000"]]),
-    req: pair([["Academics", "55%+ in bachelor’s; portfolio for design and architecture"], ["English test", "IELTS 6.0 – 6.5 for English-taught programmes"], ["Declaration of Value", "DoV or CIMEA statement for your Indian qualification"], ["Documents", "Universitaly pre-enrolment, SOP, LORs, transcripts, portfolio"]]),
-    sch: named([["Invest Your Talent in Italy", "Scholarship plus internship programme for Indian students"], ["Regional scholarships (DSU)", "Fee waiver plus accommodation and meals based on family income"], ["University merit awards", "Tuition reductions for high-scoring international applicants"]]),
+    cost: pair([["Tuition (public university)", "€900 – €4,000+ / year"], ["Tuition (private/design school)", "€8,000 – €30,000+ / year"], ["Living expenses", "€13,000+ / year"], ["Visa + permit fees", "€200 one-time"], ["Total year one", "€9,000 – €30,000+"]]),
+    req: pair([["Academics", "55%+ in bachelor’s; portfolio for design and architecture"], ["English test", "IELTS 6.0 – 6.5 for English-taught programmes"], ["Declaration of Value", "DoV or CIMEA statement for your Indian qualification"], ["Documents", "University pre-enrolment, SOP, LORs, transcripts, portfolio"]]),
+    sch: named([["Invest Your Talent in Italy", "Scholarship plus internship programme for Indian students"], ["Regional scholarships (DSU)", "Fee waiver plus accommodation and meals based on family income"], ["University merit awards", "Tuition reductions for high-scoring international applicants"], ["MAECI Scholarship (Italian Government Scholarship)", "Offered by the Italian Ministry of Foreign Affairs and International Cooperation, this scholarship supports master’s and PhD students. It provides a full tuition fee waiver, health insurance coverage, and a monthly stipend of €900 (for up to 9 months). Applicants must generally be under 28 years old for master’s programs and under 30 for PhD programs."]]),
     steps: stepList([["Pre-enrol on Universitaly", "Register your chosen programme for the academic year"], ["Get DoV / CIMEA", "Have your Indian degree validated for Italian recognition"], ["Book the visa slot", "Appointment with funds, accommodation and insurance proof"], ["Attend appointment", "Submit documents and biometrics at the consulate"], ["Apply for permit", "Apply for the residence permit within 8 days of arrival"]]),
     work: "Students may work up to 20 hours a week (1,040 hours a year). Graduates can convert to a 12-month job-search permit, then to a work permit once employed.",
     workPoints: ["20 hrs/week (1,040 hrs a year)", "12-month job-search permit", "Convert to work permit on hiring"],
-    faq: qa([["Is Italy cheap for Indian students?", "Yes — public tuition is income-linked and among the lowest in Western Europe."], ["Do I need Italian?", "English-taught master’s are common, but Italian helps with part-time work and internships."], ["Which fields is Italy known for?", "Design, architecture, fashion, automotive engineering and food technology."], ["What is a Declaration of Value?", "A consulate-issued statement confirming your Indian degree’s equivalence in Italy."]]),
+    faq: qa([["Is Italy cheap for Indian students?", "Yes — public tuition is income-linked and among the lowest in Western Europe."], ["Do I need Italian?", "English-taught masters are common, but learning Italian language helps with part-time work and internships."], ["Which fields is Italy known for?", "Design, architecture, fashion, automotive engineering, health and food technology."], ["What is a Declaration of Value?", "A consulate-issued statement confirming your Indian degree’s equivalence in Italy."]]),
   },
   {
     code: "se", slug: "sweden", name: "Sweden", tag: "Sustainability leaders", img: `${IMG}/unversity/z5.jpg`, hero: "Study in Sweden", order: 175,
