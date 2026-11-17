@@ -359,15 +359,6 @@ const aboutBlocks: Block[] = [
     ],
     primary: { label: "Learn More", href: C }, showPhone: false,
   },
-  {
-    type: "roadmap", kicker: "How we help", title: "Personalized [Guidance]",
-    lead: "One team beside you from the first profile evaluation to the day you fly.",
-    steps: [
-      { title: "Profile Evaluation" }, { title: "Test Preps" }, { title: "University Shortlisting" }, { title: "SOP & LOR Assistance" },
-      { title: "University Application Support" }, { title: "Scholarship Assistance" }, { title: "Education Loan Guidance" },
-      { title: "Student Visa Assistance" }, { title: "Accommodation Assistance" }, { title: "Pre-Departure Support" },
-    ],
-  },
   /* Mission, vision and the sister companies (client brief, "OUR Business Segments"). It has to
      live here rather than only in the database: the "Add a section" menu clones the first
      occurrence of each type in this file, and About Us is a system page whose Reset restores
@@ -387,6 +378,17 @@ const aboutBlocks: Block[] = [
   },
   /* The Founder's video sits right under Mission & Vision and above the Business Segments. */
   aboutVideos,
+  /* "Personalized Guidance" — the ten-step roadmap — comes right after the Founder's video, above the Business Segments (client request).
+     scripts/add-about-roadmap.ts puts it there in a database, moving it if it is somewhere else. */
+  {
+    type: "roadmap", kicker: "How we help", title: "Personalized [Guidance]",
+    lead: "One team beside you from the first profile evaluation to the day you fly.",
+    steps: [
+      { title: "Profile Evaluation" }, { title: "Test Preps" }, { title: "University Shortlisting" }, { title: "SOP & LOR Assistance" },
+      { title: "University Application Support" }, { title: "Scholarship Assistance" }, { title: "Education Loan Guidance" },
+      { title: "Student Visa Assistance" }, { title: "Accommodation Assistance" }, { title: "Pre-Departure Support" },
+    ],
+  },
   /* The sister companies (client brief, "OUR Business Segments"): the same block type as Mission & Vision, with no heading of its own. */
   {
     type: "segments",

@@ -1670,3 +1670,19 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Now: … testimonials (blue) → videos (white) → boarding pass (blue) → footer (blue), the same shape as before: one white band between blues,
   and the blue boarding pass runs into the blue footer as the blue videos did.
 - Verified on localhost at 1263px (real scroll, screenshots of the testimonials → videos → boarding-pass transitions) and 375px (backgrounds, text colours, dots, no horizontal overflow).
+
+## 2026-11-17 — About Us: "Personalized Guidance" roadmap moved to right below the Founder's video (client request)
+
+- Order before (seed and local): intro → roadmap → Mission & Vision → Founder's video → Business Segments → … ; production had no roadmap at all (the
+  script that adds it had never been run there). Now, in the seed and the local database: intro → Mission & Vision → Founder's video → **roadmap** →
+  Business Segments → Offer → Journey.
+- `src/lib/seed-content.ts`: the roadmap block follows `aboutVideos` in `aboutBlocks`.
+- `scripts/add-about-roadmap.ts`: rewritten to that placement — right after the page's `videos` block. A page with no roadmap gets the seed's block; one
+  that already has a roadmap keeps its own block (any /admin edits) and has it moved; a page already in order is left alone. Dry run prints the
+  before / after order; `--apply` writes with the old blocks backed up to `scripts/backups/about-roadmap-*.json`.
+- Local database: moved (dry run first, then applied; a re-run says nothing to do). The page's DOM order: Mission & Vision (y 992) → Founder's video (1632)
+  → Personalized Guidance (2321) → Business Segments (2998); the dark Founder section runs straight into the white roadmap with no gap, at 1263px and
+  375px (no horizontal overflow).
+- Production: not applied. It needs `add-about-roadmap.ts --apply` against the production database (it will add the block in the right place) and a
+  redeploy, plus these commits pushed (the seed). Production's About page currently ends with: intro → Mission & Vision → Founder's video →
+  Business Segments → Offer → Journey.
