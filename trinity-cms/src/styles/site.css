@@ -395,6 +395,16 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .stat__num em{color:var(--gold);font-style:normal}
 .stat__label{margin-top:12px;font-family:var(--font-h);font-weight:600;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
 .stat--dark .stat__label{color:rgba(255,255,255,.6)}
+/* Track record (About Us): a heading over one row of plain figures, hairline above each, the way the client's reference shows it. */
+.trk{background:var(--grey)}
+.trk__row{display:grid;grid-template-columns:repeat(var(--n,4),minmax(0,1fr));gap:clamp(18px,2.6vw,40px);margin-top:clamp(30px,4vw,52px)}
+.trk__item{border-top:1px solid var(--line);padding-top:22px}
+.trk__num{font-family:var(--font-h);font-weight:800;font-size:clamp(2.1rem,3.6vw,3.2rem);line-height:1;letter-spacing:-1px;color:var(--navy);white-space:nowrap}
+.trk__num span{color:inherit}
+.trk__label{margin-top:12px;font-size:14px;color:var(--muted)}
+@media (max-width:760px){
+  .trk__row{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
 
 /* ---------- CTA band ---------- */
 .cta{background:linear-gradient(120deg,var(--navy) 0%,var(--navy-2) 45%,var(--primary) 100%);border-radius:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));align-items:end;position:relative;overflow:hidden;box-shadow:var(--shadow-lg);color:#fff}

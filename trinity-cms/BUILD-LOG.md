@@ -1753,3 +1753,14 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Verified on localhost: ten cards (8 with initials, 2 with photos) in 5 rows of 2 at 1000px; Jai's three paragraphs render as three and the card beside it matches its height; one
   column at 375px with no clipped text and no horizontal overflow.
 - Production: not applied. Needs the push (renderer + seed) and `add-success-stories.ts --apply` against the production database (dry run first), then a redeploy.
+
+## 2026-11-17 — About Us: "What We Offer" and "Start Today" removed; track-record figures added (client request)
+
+- Removed from the About page: the offer block ("What We Offer") and the journey block ("Start Today"). Both stay in the code for other pages that use them.
+- Added at the end of the About page: a track-record block (`stats` with a `title`), heading "Numbers that landed." with kicker "Track record", and one row of five figures:
+  42+ Years' experience · 50+ Countries · 1200+ Universities · 1 lakh+ Courses · 1 Stop solution (the client's reference image).
+- `src/lib/blocks.ts`: `StatsBlock` gets optional `kicker` and `title`; with a title it renders the track-record layout (`Common.tsx`, `TrackRecord`), without one the four cards as before.
+- `src/styles/site.css`: `.trk*` rules — grey band, hairline above each figure, one row (two per row under 760px).
+- `scripts/update-about-track-record.ts`: removes offer/journey from the About page and appends the track-record block; dry run by default, `--apply` writes with backup, idempotent.
+- Applied to the local database; local page checked at 1263px: five figures in one row, no horizontal overflow.
+- Not yet done: check at 375px; the figures count up from 0 (the existing counter script); production — needs the push and `update-about-track-record.ts --apply`.

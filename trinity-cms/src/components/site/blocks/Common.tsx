@@ -93,7 +93,27 @@ export async function CoursesSection({ b }: { b: CoursesBlock }) {
   );
 }
 
+/* The track-record layout: a heading, then one row of figures, each with a hairline above it. Used when the block has a title. */
+function TrackRecord({ b }: { b: StatsBlock }) {
+  return (
+    <section className="section trk" id="track-record" aria-label="Track record">
+      <div className="container">
+        <SectionHead kicker={b.kicker ?? ""} title={b.title ?? ""} gold />
+        <div className="trk__row" style={{ ["--n" as string]: b.items.length }}>
+          {b.items.map((s, i) => (
+            <div key={i} className="trk__item" data-reveal style={d(i)}>
+              <p className="trk__num"><span className="counter" data-count={s.count}>0</span>{s.suffix ? <span>{s.suffix}</span> : null}</p>
+              <p className="trk__label">{s.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function Stats({ b }: { b: StatsBlock }) {
+  if (b.title) return <TrackRecord b={b} />;
   return (
     <section className="section stats" id="stats" aria-label="Key numbers">
       <div className="container grid grid--4">

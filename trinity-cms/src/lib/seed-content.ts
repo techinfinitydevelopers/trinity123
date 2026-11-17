@@ -411,17 +411,19 @@ const aboutBlocks: Block[] = [
     ],
     ctaLabel: "Talk to a trusted counsellor", ctaHref: C,
   },
-  offer,
+  /* Track record (client request, 2026-11-17): the closing figures of the About page, in the reference layout (a heading over one row of plain figures).
+     Replaces "What We Offer" and "Start Today", which the client asked to remove. */
   {
-    type: "journey", kicker: "Start Today", title: "Start your Learning {Journey Today!}",
-    lead: "Take the first step toward global education with Trinity Study Abroad. We'll guide you through every stage to make your international study dreams come true!",
-    cards: [
-      { icon: `${IMG}/icons/features_icon01.svg`, title: "Learn from Global Experts", text: "Get personalized guidance from international education specialists for your study abroad journey." },
-      { icon: `${IMG}/icons/features_icon02.svg`, title: "Explore Global Programs", text: "Find courses and programs tailored to your career goals at top universities worldwide." },
-      { icon: `${IMG}/icons/features_icon03.svg`, title: "Earn International Certification", text: "Gain recognized qualifications to boost your global career prospects." },
-      { icon: `${IMG}/icons/features_icon04.svg`, title: "Stay Informed", text: "Get expert advice on visas, applications, and studying abroad with ease." },
+    type: "stats", kicker: "Track record", title: "Numbers that landed.",
+    items: [
+      { count: 42, suffix: "+", label: "Years' experience" },
+      { count: 50, suffix: "+", label: "Countries" },
+      { count: 1200, suffix: "+", label: "Universities" },
+      { count: 1, suffix: " lakh+", label: "Courses" },
+      { count: 1, suffix: "", label: "Stop solution" },
     ],
   },
+
 ];
 
 const whyBlocks: Block[] = [
