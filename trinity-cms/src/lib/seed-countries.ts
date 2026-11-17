@@ -13,6 +13,7 @@ export type CountrySeed = {
   visa: string; intakes: string; cost: { label: string; value: string }[]; req: { label: string; value: string }[];
   sch: { name: string; text: string }[]; steps: { title: string; text: string }[]; work: string; workPoints: string[]; faq: { q: string; a: string }[];
   order: number;
+  seoTitle?: string; seoDesc?: string;
 };
 
 export const seedCountries: CountrySeed[] = [
@@ -202,6 +203,31 @@ export const seedCountries: CountrySeed[] = [
     work: "Students can work 20 hours a week during term and full time in June, July and August. After graduating you receive a 3-year establishment card to work or start a business in Denmark.",
     workPoints: ["20 hrs/week; full time in summer", "3-year establishment card", "Positive List and Pay Limit work schemes"],
     faq: qa([["Why study in Denmark?", "Project-based teaching, close industry links and strong design, engineering and life-science faculties."], ["Is Danish required?", "No for English-taught programmes; Danish supports local job hunting."], ["What is the establishment card?", "A 3-year permit allowing graduates to work or start a business in Denmark."], ["Which intakes exist?", "September is the main intake; a limited February intake exists for some programmes."]]),
+  },
+  {
+    /* South Korea — copy supplied by the client in the "destination page" document (2026-11-17). The wording is
+       theirs; only this site's layout conventions were applied so it reads like the other pages: periods written
+       as "/ year" so the cost cards keep their one-line amount, tuition split into its UG and PG rows, and stray
+       trailing punctuation and spaces removed. The hero tagline "Sustainability leaders" is what the document
+       says, but it is also Sweden's tagline — probably carried over by mistake; to be confirmed with the client. */
+    code: "kr", slug: "south-korea", name: "South Korea", tag: "Sustainability leaders", img: `${IMG}/countries/south-korea.png`, hero: "Study in South Korea", order: 120,
+    /* No "| Trinity Study Abroad": the site layout appends it to every title. */
+    seoTitle: "Study in South Korea — Cost, Requirements, Visa & Scholarships",
+    seoDesc: "Study in South Korea from India: tuition and living costs, admission requirements, scholarships, visa process and post-study work options — guided by Trinity Study Abroad.",
+    intro: "South Korea is a country with a rich cultural heritage, technological advancements, culinary delights and stunning natural beauty.\n\nIt is currently the strongest economy in Eastern Asia, internationally recognised for its high academic standards, disciplined learning environment.\n\nIt is famous for K-pop, delicious Korean foods, ancient temples, and dynamic festivals, experience Korean culture, history, and modern lifestyle.",
+    stats: stat([["10 (200+)", "Universities"], ["Upto 3 years", "Job-search permit"], ["Mar / Sep", "Intakes"], ["$ 7500 - $ 25000", "Tuition / year"]]),
+    why: ["Internationally recognised for its high academic standards, disciplined learning environment.", "Korea ranks 8th globally for safety, making it one of the most student-friendly countries in the world.", "Affordable Tuition fees with Scholarships for International Students.", "One of the leaders in technology and innovation", "Job opportunities with global companies"],
+    courses: ["Business Administration & Global Management", "Artificial Intelligence, Data Science & Big Data", "Culinary Arts & Global Hotel Management", "K-Beauty Design & K-Pop Arts Management", "Media and Communication Arts", "Restaurant and Entrepreneurship", "MBA & International Business Management", "Marketing and Technology and Entrepreneurship", "Hospitality management", "PhD in Global Management", "PhD in Hospitality and Tourism Management", "PhD in Design / Management Studies", "PhD in AI"],
+    unis: [],
+    visa: "The length of a student visa in South Korea is aligned with the academic program in which the student is enrolled. Documents required - COA issued by the president/dean of your host South Korean university, Apostille or Embassy Verification, Financial documents like bank statements and ITRs of sponsors, academic documents and covering letters.",
+    intakes: "Jan / Mar / Sep",
+    cost: pair([["Tuition (UG)", "$ 25000 / year"], ["Tuition (PG)", "$ 9500 - $ 27500 / year"], ["Living expenses", "$13000 to 18000 USD per year"], ["Visa processing fee", "$ 60 - 80"], ["Insurance", "$ 67 per month"], ["Total year one (approximately)", "$ 8500 - 50500 / year"]]),
+    req: pair([["Academics", "A bachelor’s degree with 70%+ and above or GPA of 3.0 or higher"], ["English test", "IELTS 5.5 and above"], ["Documents", "SOP, CV, LORs, transcripts, passport, insurance"]]),
+    sch: named([["University scholarships", "Merit based scholarships from 30% to 100%"]]),
+    steps: stepList([["Application & approval", "Universities send Certificate of Admission documents to the student confirming acceptance and after payment of deposit."], ["Funds Prep", "Gets all the academic & financial document apostilled"], ["VISA filing", "Applies to Korean Embassy for D2 student visa with the COA and other documentation."], ["Time", "10 to 15 working days"]]),
+    work: "Post study work visa is for 3 years.\n\nThe D-10 visa allows international students who have completed their studies in South Korea to stay and search for work or start a business.\n\nThis visa provides an opportunity to transition from student status to full-time employment in South Korea.\n\nIf the student secures employment, the student can switch to a long-term work visa(E-5 or other work visas).",
+    workPoints: ["Students must apply for work permission through the Korean Immigration Service or their university’s international office.", "Students can work at stores, cafes, on-campus positions, retail, tutoring, and freelance translation—all typically paying between ₩9,860/hr to ₩40,000/hr.", "Monthly earnings usually range from ₩800K–₩1.2M", "Students are generally allowed to work 20 hours per week during academic term and 40 hours per week during school vacations."],
+    faq: qa([["Can I study in South Korea without knowing Korean?", "Yes. Several universities offer programmes taught in English, particularly at postgraduate level. However, learning Korean can help with everyday communication, internships and employment opportunities. Also some universities teach Korean language as a part of their curriculum."], ["Are there job opportunities in South Korea after graduation?", "Daejeon is known as the Silicon Valley of South Korea and is a Technology and Research Hub. There are good job opportunities available. Also there are global companies like Samsung, Hyundai, LG and others in SK that offer internships, part time and full time jobs."]]),
   },
 ];
 

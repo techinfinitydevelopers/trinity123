@@ -12,7 +12,7 @@ const ALIAS: Record<string, string> = {
   "united kingdom": "uk", england: "uk", britain: "uk", "great britain": "uk", london: "uk",
   "united states": "usa", us: "usa", america: "usa", "united states of america": "usa",
   dubai: "uae", "united arab emirates": "uae", nz: "new-zealand", "new zealand": "new-zealand",
-  "south korea": "korea", "other europe": "europe",
+  "south korea": "south-korea", korea: "south-korea", "other europe": "europe",
 };
 
 export const metadata: Metadata = { title: "Search", robots: { index: false, follow: true } };

@@ -14,9 +14,10 @@ import { mountBoardingPass } from "./boardingPass";
    Two of ours are spelled differently and the rest have no page yet. */
 const SLUG: Record<string, string> = {
   nz: "new-zealand",   // ours is the full word
+  korea: "south-korea", // the globe calls it "korea"; the page is /destinations/south-korea
 };
 /* No destination page on this site — the link goes to the enquiry form instead of 404ing. */
-const NO_PAGE = new Set(["europe", "korea", "japan", "malaysia", "netherlands"]);
+const NO_PAGE = new Set(["europe", "japan", "malaysia", "netherlands"]);
 
 /* Which element each editable string belongs to. Only headings and copy the engine never
    rewrites itself are listed — the per-country ones are filled from `countries`. Every one of

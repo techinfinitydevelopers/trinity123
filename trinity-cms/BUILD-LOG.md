@@ -1359,3 +1359,33 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
   cap, globe intro unchanged, cabin and window CSS as the drop-in ships them.
 - Nothing lost: the dropped commits are on branch `wip/home-page-nov17` (tip `816cdb0`), the earlier globe-intro
   speed-up is on `wip/globe-intro`. Not deployed: the revert commit is local until pushed.
+
+## 2026-11-17 — South Korea destination page added (client document)
+
+- Source: the client's Google Doc, tab "South Korea" (the doc has only this tab's content for the link given).
+  It is one country, `/destinations/south-korea`; there was no South Korea page before — the menu and the home
+  globe sent it to `/#c=korea`.
+- `src/lib/seed-countries.ts`: new `kr` entry (order 120) with the document's text — intro (3 paragraphs), 4 stats,
+  5 reasons, 13 courses, visa, intakes, cost rows, admission requirements, scholarship, 4 visa steps, work text +
+  4 part-time points, 2 FAQs, SEO description. `CountrySeed` gained optional `seoTitle` / `seoDesc`. A freshly
+  seeded database gets the page too.
+- `scripts/add-south-korea-page.ts` (new): creates the country in a given database. Dry run by default, `--apply`
+  writes, idempotent (does nothing if `kr` / `south-korea` exists, so /admin edits are never overwritten).
+  Applied to the local database only.
+- Links that used to treat Korea as globe-only now go to the page: `src/lib/destination-order.ts` matches the
+  agreed-order key `korea` to the `south-korea` row (otherwise Korea would have appeared twice in the menu and
+  footer); `TrinityWorldHost.tsx` maps globe key `korea` to `/destinations/south-korea` and drops it from NO_PAGE;
+  the search aliases `korea` / `south korea` go to the page.
+- Layout conventions applied to the document's wording (content itself unchanged): periods written as `/ year`
+  so the cost cards keep their one-line amount ("annually" would have made the amount shrink); "Tuition" split
+  into Tuition (UG) and Tuition (PG) rows; trailing "/" removed from intakes; visa paragraphs joined with a space
+  (that field renders as one paragraph); page title written without "| Trinity Study Abroad" since the layout
+  appends it.
+- Verified on localhost: page 200 with every section populated; title correct; 6 menu/footer links to the page and
+  none to `/#c=korea`; `/search?q=korea` and `?q=south korea` redirect to it.
+- To confirm with the client: (1) hero tagline "Sustainability leaders" is what the doc says but is also Sweden's;
+  (2) the stat says intakes "Mar / Sep" while the Intakes section says "Jan / Mar / Sep"; (3) the visa section
+  and the intro are kept verbatim, including "Upto" and "Eastern Asia"; (4) no universities were listed, so the
+  university gallery is empty (same as Sweden); (5) the doc may have more tabs — only this one was shared.
+- Production: not applied. Needs the script run against the production database plus a redeploy (and these
+  commits pushed, for the menu / globe / search links).

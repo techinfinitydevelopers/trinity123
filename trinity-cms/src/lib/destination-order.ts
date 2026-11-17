@@ -1,8 +1,8 @@
 /* The client's country order for every list on the site that is not the home globe's own picker (header menu,
    footer, and anything else that wants it): UK, Ireland, France, Germany, New Zealand, UAE, Singapore, Australia, Japan,
    South Korea, USA, Canada, Netherlands, Italy, Malaysia, other European countries, Denmark.
-   Countries with a page come from the destinations table; the ones without a page of their own (Japan, South
-   Korea, Netherlands, Malaysia, Other Europe) open the home globe on that country instead (`/#c=<key>`).
+   Countries with a page come from the destinations table; the ones without a page of their own (Japan,
+   Netherlands, Malaysia, Other Europe — and South Korea until its page is added) open the home globe on that country instead (`/#c=<key>`).
    Anything in the table that is not named here follows, in its own order. */
 export type NavDestination = { key: string; name: string; code: string; href: string; tag: string; sub?: { label: string; href: string; tag?: string }[] };
 
@@ -31,7 +31,8 @@ export function navDestinations(rows: Row[]): NavDestination[] {
 function navDestinationsBase(rows: Row[]): NavDestination[] {
   const out: NavDestination[] = [];
   for (const k of NAV_ORDER) {
-    const d = rows.find((x) => x.slug === k);
+    /* The agreed order says "korea" (the globe's key); the page itself is `south-korea`, so accept either. */
+    const d = rows.find((x) => x.slug === k || (k === "korea" && x.slug === "south-korea"));
     if (d) out.push({ key: d.slug, name: LABEL[d.slug] ?? d.name, code: d.code, href: `/destinations/${d.slug}`, tag: d.tag });
     else if (GLOBE_ONLY[k]) out.push({ key: k, ...GLOBE_ONLY[k], href: `/#c=${k}` });
   }
