@@ -30,12 +30,15 @@ export function navDestinations(rows: Row[]): NavDestination[] {
 
 function navDestinationsBase(rows: Row[]): NavDestination[] {
   const out: NavDestination[] = [];
+  const used = new Set<string>();
   for (const k of NAV_ORDER) {
     /* The agreed order says "korea" (the globe's key); the page itself is `south-korea`, so accept either. */
     const d = rows.find((x) => x.slug === k || (k === "korea" && x.slug === "south-korea"));
-    if (d) out.push({ key: d.slug, name: LABEL[d.slug] ?? d.name, code: d.code, href: `/destinations/${d.slug}`, tag: d.tag });
+    if (d) { used.add(d.slug); out.push({ key: d.slug, name: LABEL[d.slug] ?? d.name, code: d.code, href: `/destinations/${d.slug}`, tag: d.tag }); }
     else if (GLOBE_ONLY[k]) out.push({ key: k, ...GLOBE_ONLY[k], href: `/#c=${k}` });
   }
-  for (const d of rows) if (!NAV_ORDER.includes(d.slug) && !HIDDEN.has(d.slug)) out.push({ key: d.slug, name: d.name, code: d.code, href: `/destinations/${d.slug}`, tag: d.tag });
+  /* `used`, not NAV_ORDER: a row can be placed under a different key than its slug (`south-korea` under `korea`),
+     and checking the slug against the list would add it a second time — two children with one React key. */
+  for (const d of rows) if (!used.has(d.slug) && !NAV_ORDER.includes(d.slug) && !HIDDEN.has(d.slug)) out.push({ key: d.slug, name: d.name, code: d.code, href: `/destinations/${d.slug}`, tag: d.tag });
   return out;
 }

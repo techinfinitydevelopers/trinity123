@@ -1389,3 +1389,16 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
   university gallery is empty (same as Sweden); (5) the doc may have more tabs — only this one was shared.
 - Production: not applied. Needs the script run against the production database plus a redeploy (and these
   commits pushed, for the menu / globe / search links).
+
+## 2026-11-17 — Fix: duplicate React key `south-korea` in the header menu
+
+- Symptom: console error "two children with the same key `south-korea`" at `Header.tsx:87`; South Korea was
+  listed twice (6 links on the home page instead of the usual 3 per country).
+- Cause (mine, from the South Korea page change): `navDestinationsBase` first walks the agreed order, where
+  the key is `korea`, and now matches the `south-korea` row to it. Its second loop adds rows "not in the
+  agreed order" by checking the row's *slug* against that list — `south-korea` is not in it, so the row was
+  added a second time.
+- `src/lib/destination-order.ts`: a `used` set of the slugs already placed; the second loop skips them.
+- Verified: home page has 3 `/destinations/south-korea` links, same as Australia and Singapore; a fresh
+  browser tab loads the page with no console errors. (A long-lived tab keeps showing the old errors in its
+  console history — open a new tab to judge.)
