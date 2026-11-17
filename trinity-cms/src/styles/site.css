@@ -531,13 +531,20 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .quick__item:hover{color:#fff;border-color:rgba(255,255,255,.3)}
 .quick__item small{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.6)}
 .quick__item strong{font-family:var(--font-h);font-weight:700;font-size:18px}
-.quick__item strong.sm{font-size:15px;font-weight:600;word-break:break-all}
+.quick__item > span:not(.quick__ico){min-width:0}
+/* The address in the hero card used `word-break:break-all`, which splits a word wherever the line runs out: at 848px it
+   read "helpdesk@trinitystudyabroad.co" with the "m" alone on the next line (client report). It is sized to the viewport
+   instead, so the whole address fits one line from phones to desktop (31 characters in about 240px at 848px); breaking
+   anywhere stays as the last resort for a longer address, via `overflow-wrap`, not as the first move. */
+.quick__item strong.sm{font-size:clamp(12px,1.55vw,15px);font-weight:600;overflow-wrap:anywhere}
 .quick__item > i{margin-left:auto}
 .quick__item--wa{background:var(--wa);border-color:var(--wa);box-shadow:0 20px 40px rgba(37,211,102,.3)}
 .quick__item--wa small{color:rgba(255,255,255,.85)}
 .quick__ico{width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.2);display:inline-flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
 .quick__ico--gold{background:var(--gold);color:var(--navy);font-size:20px}
-.quick__ico--purple{background:var(--primary);font-size:20px}
+/* `--primary` is the navy the page's text colour also is, and this variant set no colour of its own, so the icon
+   inherited navy onto a navy tile and vanished — the empty square beside "EMAIL" on /contact-us (client report). */
+.quick__ico--purple{background:var(--primary);color:#fff;font-size:20px}
 
 /* ---------- Inner page blocks ---------- */
 .note{margin-top:22px;background:var(--grey);border-radius:24px;padding:24px 26px;display:flex;gap:18px;align-items:flex-start}
@@ -709,7 +716,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 }
 @media (max-width:640px){
   .statchips{grid-template-columns:1fr}
-  .quick__item strong.sm{font-size:14px}
+  .quick__item strong.sm{font-size:clamp(12px,3.2vw,14px)}
   .hero__title{font-size:clamp(2.2rem,9.2vw,3.1rem);white-space:normal}
   .hero__cols{margin-top:26px}
   .hero-visual{margin-top:32px}
@@ -1491,7 +1498,10 @@ a.seg__logo:hover .seg__logo-go i{transform:translate(2px,-2px)}
    width it has — a long word like "SUCCESS STORIES" shrinks to fit instead of being sliced. */
 .page-hero__ghost{
   right:max(16px,calc((100vw - var(--container)) / 2));
-  bottom:-14px;
+  /* Inside the hero, not bleeding off its bottom edge. It used to sit 14px below it (and the parallax pushed it another
+     ~36px down), and the hero clips with overflow:hidden — so 39% of the word, measured at 848px on /contact-us, was cut
+     off by the cards that follow, which read as the cards overlapping it (client report). 8px up keeps the whole word. */
+  bottom:8px;
   max-width:100%;
   /* The word is sized from its own length, so every page gets a watermark of about the same
      width: 94vw of budget, divided by the characters in it. The cap keeps a short word like
@@ -1511,7 +1521,7 @@ a.seg__logo:hover .seg__logo-go i{transform:translate(2px,-2px)}
      budget gets more generous as the word gets shorter — so six and seven-letter names with wide
      letters were the worst case. "SWEDEN" lost its S off the screen edge and its N to the hero's
      own overflow. A tighter budget on phones, where there is no room to absorb the error. */
-  .page-hero__ghost{font-size:min(calc(90vw / (var(--ghost-len,10) * 0.72)), 8.5rem);right:14px;bottom:-8px;letter-spacing:-.03em}
+  .page-hero__ghost{font-size:min(calc(90vw / (var(--ghost-len,10) * 0.72)), 8.5rem);right:14px;bottom:8px;letter-spacing:-.03em}
 }
 /* The destination pages carry the same watermark. They are not inside `.page-hero`, so they
    need the fill rule in their own right; the rest they inherit from the class. */

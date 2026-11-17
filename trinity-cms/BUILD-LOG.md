@@ -1582,3 +1582,23 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
   of the Head Office address until it is closed with its ×. It is the chatbot's own popup, left as is.
 - The blank email icon in the report's hero card is not a missing icon: the glyphs (`fa-phone-alt`, `fa-envelope`) exist and
   Font Awesome is loaded; the screenshot caught the moment before the icon font finished loading.
+
+## 2026-11-17 — /contact-us hero: watermark cut off, empty email icon, email address split ("co" / "m") — the real report
+
+- The back-to-top change above (5931247) was a real overlap but not the one in the client's screenshots, which show the big
+  outlined "CONTACT US" at the bottom of the hero cut off by the cards, and the EMAIL card's icon tile empty. Correction to the
+  note above: the empty icon is a bug, not a font-load moment — it stayed empty after 6s.
+- Watermark: `.page-hero__ghost` sat 14px below the hero's bottom edge and the parallax (`data-plx="0.12"`) pushed it ~36px
+  further down, and the hero clips with `overflow:hidden`; measured at 848px, 39% of the word was cut off at the top of the page.
+  `site.css`: `bottom:8px` (and on phones); `Hero.tsx`: the parallax attribute is gone. Measured after: 0px hidden at 848, 1263 and 375.
+  This applies to every page hero, not only the contact page.
+- Empty icon: `.quick__ico--purple` has a navy background (`--primary`) and set no colour, so the envelope inherited navy from the card
+  and vanished (computed: icon rgb(35,47,112) on tile rgb(35,47,112)). `color:#fff` added.
+- Email address: `strong.sm` used `word-break:break-all`, so at 848px the address wrapped as "…abroad.co" + "m". It is now sized
+  `clamp(12px,1.55vw,15px)` (`clamp(12px,3.2vw,14px)` on phones) with `overflow-wrap:anywhere` as the last resort, and the text
+  span can shrink (`min-width:0`). One line at 848 (13.1px), 1263 (15px) and 375 (12px).
+- Observed, not changed: the chatbot's "Planning to study abroad?" bubble sits over the Call Us number and the Head Office address
+  at some widths until it is closed with its ×.
+- Verified locally at 848 / 1263 / 375: the watermark is whole, the envelope shows, the address is one line. One trap while measuring: the
+  watermark's entrance animation does not advance while the preview pane is throttled, which reads as 18px hidden (its 26px start
+  offset less the 8px); a screenshot first (to force a render) gives the settled 0px.
