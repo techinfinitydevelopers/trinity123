@@ -20,6 +20,7 @@ export default function Header({ nav, contact, site, labels, destinations }: { n
      opening a second dropdown has to close the first, and how many there are is now up to the
      owner — any menu item with children becomes one. */
   const [openMenu, setOpenMenu] = useState(-1);
+  const [subOpen, setSubOpen] = useState("");
   /* After a click inside a dropdown the pointer is still over it, so the CSS :hover rule would keep
      it open. `shut` holds it closed until the pointer leaves that item. */
   const [shut, setShut] = useState(-1);
@@ -84,7 +85,7 @@ export default function Header({ nav, contact, site, labels, destinations }: { n
             <div className="cv-ddgrid" style={{ display: "grid", gridTemplateColumns: "repeat(3,minmax(0,1fr))", gap: 4 }}>
               {navDestinations(destinations).map((c) => {
                 const link = (
-                  <Link key={c.key} href={c.href} className="cv-ditem" onClick={hide(i)} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 14, transition: "all .25s", color: "var(--navy)", background: "transparent", boxShadow: "none" }}>
+                  <Link key={c.key} href={c.href} className="cv-ditem" aria-haspopup={c.sub?.length ? "menu" : undefined} aria-expanded={c.sub?.length ? subOpen === c.key : undefined} onClick={c.sub?.length ? (e) => { e.preventDefault(); setSubOpen((k) => (k === c.key ? "" : c.key)); } : hide(i)} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 14, transition: "all .25s", color: "var(--navy)", background: "transparent", boxShadow: "none" }}>
                     <img src={FLAG(c.code)} alt="" loading="lazy" style={{ width: 26, height: 26, borderRadius: "50%", objectFit: "cover", boxShadow: "0 3px 8px rgba(26,36,86,.18)", flexShrink: 0 }} />
                     <span style={{ display: "flex", flexDirection: "column", gap: 1, minWidth: 0 }}>
                       <span style={{ fontFamily: "var(--font-h)", fontWeight: 600, fontSize: 14, lineHeight: 1.2 }}>{c.name}</span>
@@ -96,11 +97,11 @@ export default function Header({ nav, contact, site, labels, destinations }: { n
                 /* A destination with sub-tabs (Other Europe > MBBS): the row becomes a hover/focus target and the
                    sub-tabs open as a small panel beside it. */
                 return c.sub?.length ? (
-                  <div key={c.key} className="cv-dsubwrap">
+                  <div key={c.key} className={`cv-dsubwrap${subOpen === c.key ? " is-open" : ""}`}>
                     {link}
                     <div className="cv-dsubmenu" role="menu" aria-label={`${c.name} sub-tabs`}>
                       {c.sub.map((s) => (
-                        <Link key={s.href} href={s.href} role="menuitem" className="cv-dsubitem" onClick={hide(i)}>
+                        <Link key={s.href} href={s.href} role="menuitem" className="cv-dsubitem" onClick={() => { setSubOpen(""); hide(i)(); }}>
                           <span className="cv-dsubico" aria-hidden="true"><i className="fas fa-user-md" /></span>
                           <span className="cv-dsubtxt"><span className="cv-dsubname">{s.label}</span>{s.tag ? <span className="cv-dsub cv-dsubtag">{s.tag}</span> : null}</span>
                           <i className="fas fa-arrow-right cv-dsubgo" aria-hidden="true" />

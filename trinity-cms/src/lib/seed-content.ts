@@ -392,11 +392,10 @@ const aboutBlocks: Block[] = [
     kicker: "", title: "", lead: "",
     pillars: [],
     logosTitle: "Our Business Segments",
-    /* Trinity Car Rental has no website in the brief, so its card is shown without a link. */
     logos: [
       { name: "Trinity Air Travel and Tours Pvt. Ltd.", img: `${IMG}/sister/air.webp`, href: "https://www.trinityairtravelandtours.com" },
       { name: "Trinity World Holidays", img: `${IMG}/sister/holidays.webp`, href: "https://www.trinityworldholidays.com" },
-      { name: "Trinity Car Rental", img: `${IMG}/sister/car.webp`, href: "" },
+      { name: "Trinity Car Rental", img: `${IMG}/sister/car.webp`, href: "http://www.trinityairtravel.com/services/car-rental/" },
     ],
     ctaLabel: "Talk to a trusted counsellor", ctaHref: C,
   },
