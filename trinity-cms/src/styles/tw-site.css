@@ -473,3 +473,27 @@ body:has(.tw-host:not(:has(.tw))) .footer,body:has(.tw-host:not(:has(.tw))) .fcr
   .tw #tw-below .vbk__dots{margin-top:6px}
   .tw #tw-below .vbk--single .vbk__grid--1{margin:0 auto}
 }
+
+/* ======== blue / white rhythm of the home page's last sections, kept by position ====================================
+   Before the swap the sequence was: testimonials (blue) → boarding pass (WHITE) → videos (blue) → footer (blue): the one white band sat
+   between two blue ones. Swapping the two sections' content alone would have put the blue videos next to the blue testimonials and
+   a white boarding pass above the footer. The colours stay where they were instead — the section in third place is white, the one in fourth is
+   blue — so the videos take the white treatment and the boarding pass the blue one (client request: "maintain the blue white theme as previous").
+   - Boarding pass on blue: this is what it was drawn for ("the section stays navy; the card inside it becomes paper",
+     tw-boarding-pass.css), and its punched notches use `--seam: #07142e` to match the section behind, so the section is exactly that
+     navy — flat, not the glow the other dark sections have, or the notches would show as discs on the gradient.
+   - Videos on white: only here (`#tw-below`); the same block on /about-us keeps its dark look. The light background is the one the world's
+     own light sections use (`#life`); ink, muted text and the gold come from the world's variables, the gold kicker is darkened to stay
+     readable on white. */
+.tw section#cta{background:#07142e;color:#fff}
+
+.tw #tw-below .vbk{background:linear-gradient(180deg,#eef3fb,#e3ecf9);color:var(--ink)}
+.tw #tw-below .vbk__kicker{color:#9a6f00}
+.tw #tw-below .vbk__kicker::before{background:#9a6f00}
+.tw #tw-below .vbk__title{color:var(--ink)}
+.tw #tw-below .vbk__lead{color:var(--mute)}
+.tw #tw-below .vbk__card{border-color:rgba(13,27,52,.14);box-shadow:0 24px 60px rgba(13,27,52,.28)}
+.tw #tw-below .vbk__card:hover{border-color:rgba(245,184,46,.7);box-shadow:0 30px 70px rgba(13,27,52,.34)}
+.tw #tw-below .vbk__grid--1 .vbk__card{box-shadow:0 30px 80px rgba(13,27,52,.32)}
+.tw #tw-below .vbk__dots i{background:rgba(13,27,52,.22)}
+.tw #tw-below .vbk__dots i.on{background:#f5b82e}

@@ -1656,3 +1656,17 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
   still scrolls; leaving to /about-us and back keeps one slot, one block, one canvas; fresh-tab console clean. The new order is seen after the engine builds
   (client-side), as the globe and the boarding pass are.
 - Reverting: pass the block outside again (`<BlockRenderer …/>` after `<TrinityWorldHost/>`) and drop the `below` prop.
+
+## 2026-11-17 — Home page: keep the blue / white rhythm after the swap (client request: "maintain the order blue white theme as previous")
+
+- Measured before changing anything. Before the swap the closing sections were: testimonials (blue) → boarding pass (WHITE, rgb 246,248,252) → videos
+  (blue) → footer (blue). After swapping the content alone: testimonials (blue) → videos (blue) → boarding pass (white) → footer — three blues in a row and
+  the white band moved. Read as: the colours stay where they were, by position — third place white, fourth place blue.
+- `src/styles/tw-site.css`: the videos section on the home page takes the white treatment (the world's own light-section gradient `#eef3fb → #e3ecf9`, navy
+  ink, muted lead, a darker gold kicker so it reads on white, lighter card shadows, dark dots on phones), and the boarding-pass section (`#cta`) takes the
+  blue one — flat `#07142e`, exactly the `--seam` colour its punched notches use, which is what it was drawn for ("the section stays navy; the card inside it
+  becomes paper", tw-boarding-pass.css). Flat rather than the glow the other dark sections have, or the notches would show as discs on the gradient.
+- The light videos look is scoped to `#tw-below` (the home page's slot): the same block on /about-us stays dark — checked, still navy with a white title.
+- Now: … testimonials (blue) → videos (white) → boarding pass (blue) → footer (blue), the same shape as before: one white band between blues,
+  and the blue boarding pass runs into the blue footer as the blue videos did.
+- Verified on localhost at 1263px (real scroll, screenshots of the testimonials → videos → boarding-pass transitions) and 375px (backgrounds, text colours, dots, no horizontal overflow).
