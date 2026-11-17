@@ -1350,3 +1350,20 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Applied to the local database and verified on /destinations/australia: one line (25px, 1.00 lines) at
   desktop and at 375px.
 - Production needs the same script plus a redeploy — the figures live in its database, not in the code.
+
+## 2026-11-17 — Preloader stays until the page has loaded (client request)
+
+- `src/components/site/Preloader.tsx`: the 2.6s cap is gone. The overlay now leaves when the window
+  `load` event fires — every stylesheet, font, script and image the page asks for — subject only to the
+  1.2s minimum (below that it reads as a flicker, not a loader). `FAILSAFE_MS = 12000` replaces the cap and
+  is only for a `load` that never arrives because something is wedged.
+- `src/styles/tw-chrome.css`: the CSS fail-safe (the way out when React never mounts) runs 12.6s instead of
+  3.4s, fading at 96%, so it stays behind the component's own 12s and React's fade still wins whenever React
+  is alive.
+- Measured: localhost first visit leaves at 3.26s (hydration, not `load`, is what it waits on in dev — the
+  dev bundle mounts at ~3.2s while `load` fires at 0.63s). Production's `load` measured 5.4s warm earlier
+  today and 16.7s on a cold first visit back in October, so expect roughly 5-6s on production and the 12s
+  fail-safe on a cold one.
+- Note for the client: this is the opposite of the 2026-11-?? change that shortened the loader because it
+  "took more time". Waiting for a full load brings that time back; the real fix for the wait is the 4K globe
+  textures and the 4MB GLB that `load` is waiting on.
