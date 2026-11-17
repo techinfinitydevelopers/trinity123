@@ -1,4 +1,4 @@
-/* Adds the destination pages written from the client's document — South Korea (`kr`), the Netherlands (`nl`) and Japan (`jp`).
+/* Adds the destination pages written from the client's document — South Korea (`kr`), the Netherlands (`nl`), Japan (`jp`) and Malaysia (`my`).
 
      DATABASE_URL="<url>" npx tsx scripts/add-country-pages.ts            # dry run
      DATABASE_URL="<url>" npx tsx scripts/add-country-pages.ts --apply    # write
@@ -14,7 +14,7 @@ import { seedCountries } from "../src/lib/seed-countries";
 const args = process.argv.slice(2);
 const apply = args.includes("--apply");
 const codes = args.filter((a) => !a.startsWith("--"));
-const wanted = codes.length ? codes : ["kr", "nl", "jp"];
+const wanted = codes.length ? codes : ["kr", "nl", "jp", "my"];
 const db = new PrismaClient();
 
 async function main() {

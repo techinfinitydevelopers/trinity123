@@ -1483,3 +1483,25 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
   was supplied, so the gallery is empty; (5) "Sep / April" mixes an abbreviated and a full month, as written.
 - Production: not applied. `scripts/add-country-pages.ts` (creates `kr`, `nl`, `jp`) against the production database,
   `scripts/update-italy-page.ts`, the commits pushed, and a redeploy.
+
+## 2026-11-17 — Malaysia destination page added (fifth tab of the client document)
+
+- Source: the same Google Doc, tab "Malaysia". Page: `/destinations/malaysia` (it was globe-only before).
+- `src/lib/seed-countries.ts`: new `my` entry (order 150): intro (3 paragraphs), 4 stats, 6 reasons, 7 courses, visa, intakes,
+  6 cost rows, requirements, 1 scholarship, 5 visa steps, work text (3 paragraphs), SEO description.
+  `scripts/add-country-pages.ts` now defaults to `kr`, `nl`, `jp`, `my`; `TrinityWorldHost.tsx` NO_PAGE is down to `europe`,
+  so the globe links to the page. Menu, footer and search resolve it by slug: 3 menu/footer links like every other country,
+  none left to `/#c=malaysia`, `/search?q=malaysia` redirects to it.
+- The document has an "FAQs" heading with no questions under it, so `faq` is empty and the page omits the section and its
+  jump-nav entry; `workPoints` is empty too (none given), so the work section is the three paragraphs only.
+- Reshaped to fit the cost cards, wording unchanged: the two-line tuition (UG / PG, "Malaysian Ringgit") and two-line visa
+  cost (SEV / eVAL) are one row each, with "Malaysian Ringgit" written "MR" (the document's own abbreviation elsewhere) so
+  the amounts keep their full size; "13,000 – 17,000 / year MR" reads "MR 13,000 – 17,000 / year".
+- Verified on localhost: page 200, title correct, fresh tab with no console errors, no horizontal overflow, no clipped
+  card, cost cards read cleanly (long eVAL label wraps to two lines).
+- For the client to confirm: (1) hero tagline "PR-friendly pathways" is Canada's — it has now come up on the Netherlands and
+  Malaysia tabs; (2) the stat "PGWP / 3 yrs" disagrees with the work section ("1-year Graduate pass"), and PGWP is the
+  Canadian term; (3) "Minimum entry criterias" is the document's spelling, kept; (4) the FAQ section was left empty in the
+  document; (5) no universities were supplied (the stat says 45+), so the gallery is empty.
+- Production: not applied. `scripts/add-country-pages.ts` (creates `kr`, `nl`, `jp`, `my`) and `scripts/update-italy-page.ts`
+  against the production database, the commits pushed, and a redeploy.

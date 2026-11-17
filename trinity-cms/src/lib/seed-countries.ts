@@ -296,6 +296,35 @@ export const seedCountries: CountrySeed[] = [
     workPoints: ["Part-Time Work: Student visa holders can work up to 28 hours/week and up to 40 hours a week over vacations."],
     faq: qa([["Can I study in Japan without knowing Japanese?", "Yes. Several Japanese universities offer programmes taught entirely in English. However, learning basic Japanese is helpful for daily life and employment opportunities."], ["Can international students find job opportunities in Japan after graduation?", "Japan is the world’s 5th largest economy, known for leading companies in business, technology, automotive, and manufacturing. Its ageing and shrinking population is creating new opportunities for international students."]]),
   },
+  {
+    /* Malaysia — copy supplied by the client in the "destination page" document, tab "Malaysia" (2026-11-17); same
+       conventions as the earlier tabs: numbering dropped, periods as "/ year" where a cost card can read them,
+       double spaces collapsed, the work paragraphs separated. Spelling is the document's own ("criterias").
+       Handled, not hidden:
+       - the document has an "FAQs" heading but no questions, so `faq` is empty and the page omits that section;
+       - tuition is two lines (UG / PG, in "Malaysian Ringgit") and the visa cost two lines (SEV, eVAL): each is
+         its own cost row, and "Malaysian Ringgit" is written "MR", the document's own abbreviation everywhere else,
+         so the amounts do not shrink to fit the card;
+       - the stat "PGWP / 3 yrs" disagrees with the work section ("1-year Graduate pass") — kept as written;
+       - the hero tagline "PR-friendly pathways" is Canada's — kept, to be confirmed with the client. */
+    code: "my", slug: "malaysia", name: "Malaysia", tag: "PR-friendly pathways", img: `${IMG}/countries/malaysia.png`, hero: "Study in Malaysia", order: 150,
+    seoTitle: "Study in Malaysia — Cost, Requirements, Visa & Scholarships",
+    seoDesc: "Study in Malaysia from India: tuition and living costs, admission requirements, scholarships, visa process and post-study work options — guided by Trinity Study Abroad.",
+    intro: "Malaysia is a good study abroad destination that offers international education, global exposure and good value for money, especially for students who may find studying in the UK, USA or Australia financially challenging.\n\nMalaysia hosts international branch campuses of universities from the UK and Australia, allowing students to earn degrees from established foreign universities while studying in Malaysia.\n\nMalaysia's biggest advantages are its affordability, multicultural environment, English-medium education, international university campuses and proximity to India.",
+    stats: stat([["45+", "Universities"], ["3 yrs", "PGWP"], ["Sep / Jan / May", "Intakes"], ["MR 13K - 56K", "Tuition / year"]]),
+    why: ["Quality Education at affordable fees & cost of living", "International campuses from UK and Australia", "Medium of instruction accepted by many universities", "Programs taught in English", "Minimum entry criterias", "Simplified visa process, No visa interview, spouse friendly"],
+    courses: ["Hospitality and Tourism / Digital Media / Culinary", "Business and Commerce / Logistics", "Information Technology", "Finance / Psychology", "Computer Science & AI / Data Science", "Biotechnology & Pharmaceutical Science", "Mechanical, Chemical, Electric and Electronic Engineering"],
+    unis: [],
+    visa: "An Indian student applying for a Malaysian Student Pass generally needs both eVAL and SEV before travelling to Malaysia. eVAL (Electronic Visa Approval Letter) - Immigration approval for the student to enter Malaysia for education. SEV (Single Entry Visa) - Pre-arrival visa required for Indian students under the student visa route.",
+    intakes: "Rolling intakes throughout the year.",
+    cost: pair([["Tuition (UG)", "MR 13000 to 34000"], ["Tuition (PG)", "MR 17000 to 52000"], ["Living expenses", "MR 13,000 – 17,000 / year"], ["Visa cost — SEV (Single entry visa)", "MR 130"], ["Visa cost — eVAL (Electronic Visa Approval Letter)", "MR 3445"], ["Total year one", "MR 52,000 – 1,09,165"]]),
+    req: pair([["Academics", "For UG - 60%+ / For PG - 63%+ in bachelor’s; 3-year degrees accepted for many programmes"], ["English test", "IELTS 5.5 and above for UG & IELTS 6.5 and above for PG"], ["Documents", "SOP, LORs, transcripts, passport, Resume, Grading scale, Language proficiency, Marksheets"]]),
+    sch: named([["By the University", "Students are eligible to get merit based only if student has 70% and above CGPA in their last education."]]),
+    steps: stepList([["Get the LOA", "Receive university admission offer."], ["Student application", "University submits student pass application through EMGS"], ["EMGS", "EMGS processes the application and obtains Immigration approval. eVAL is issued."], ["SEV", "Student applies for SEV using the eVAL."], ["Student Pass", "Student travels to Malaysia, completes post-arrival medical screening and student pass endorsement."]]),
+    work: "Part time & Internship: Students can work part time when they have more than 7 days of holidays. Internships are allowed in Malaysia.\n\nDegree seeking students get 1-year Graduate pass after completing their degree.\n\nDependents and Spouse friendly - Dependents can travel once a student has enrolled at the university and gets the Student Pass stamping and can stay on Dependent Pass till the time of study. If dependents get job opportunities their dependent pass can be converted to Employee pass.",
+    workPoints: [],
+    faq: [],
+  },
 ];
 
 /** Extra blog-post fields introduced by the canvas design (key takeaways, sources, tags). Keyed by post slug. */
