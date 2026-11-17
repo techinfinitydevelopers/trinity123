@@ -381,10 +381,10 @@ const aboutBlocks: Block[] = [
   /* "Personalized Guidance" — the ten-step roadmap — comes right after the Founder's video, above the Business Segments (client request).
      scripts/add-about-roadmap.ts puts it there in a database, moving it if it is somewhere else. */
   {
-    type: "roadmap", kicker: "How we help", title: "Personalized [Guidance]",
+    type: "roadmap", kicker: "How we help", title: "Our [Process]",
     lead: "One team beside you from the first profile evaluation to the day you fly.",
-    /* The process as the client gave it (2026-11-17): ten steps from profile evaluation to pre-departure, each with an illustration (public/assets/img/process/);
-       drawn as two rows of five. */
+    /* The client's ten steps (2026-11-17), from profile evaluation to pre-departure, under the heading "Our Process" (the client's wording for the section), each with an
+       illustration (public/assets/img/process/); drawn as two rows of five. */
     steps: [
       { title: "Profile Evaluation", icon: "/assets/img/process/profile-evaluation.svg" },
       { title: "Test Preps", icon: "/assets/img/process/test-preps.svg" },

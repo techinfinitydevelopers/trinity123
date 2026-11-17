@@ -1726,3 +1726,12 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
   no horizontal overflow; at 375px a single column, 60px icons, line pattern `1111111110`.
 - Local environment note: the local Postgres (embedded, port 5433) had stopped answering after the session restart — its listener was held by an orphaned child process (PID 2668) whose parent was
   gone. Killed that child and restarted `npm run db:dev`; `.pgdata` untouched, all 9 pages present.
+
+## 2026-11-17 — About Us process: the heading is "Our Process" (correction of how the client's content was read)
+
+- The previous round read "use this content for our process" as a request for the heading "Personalized Guidance". The client meant the opposite for the heading: the section's
+  title is "Our Process" (their screenshot of the "Personalized Guidance" heading, "on this we have to use Our process"), and the ten steps are the content under it.
+- `src/lib/seed-content.ts`: roadmap title "Personalized [Guidance]" → "Our [Process]". Kicker "How we help", the lead sentence, the ten steps and their icons are unchanged.
+  `scripts/add-about-roadmap.ts --replace --apply` applied locally (dry run: `"Personalized [Guidance]", 10 steps -> "Our [Process]", 10 steps`; re-run is a no-op).
+- Verified on localhost: the section reads "How we help / Our Process / One team beside you…", "Personalized" no longer appears on the page, the icon rows are as before.
+- Production: not applied (still the original numbered ten under "Personalized Guidance"). Needs the push and `add-about-roadmap.ts --replace --apply`.
