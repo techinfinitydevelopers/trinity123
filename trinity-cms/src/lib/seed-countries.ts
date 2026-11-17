@@ -229,6 +229,35 @@ export const seedCountries: CountrySeed[] = [
     workPoints: ["Students must apply for work permission through the Korean Immigration Service or their university’s international office.", "Students can work at stores, cafes, on-campus positions, retail, tutoring, and freelance translation—all typically paying between ₩9,860/hr to ₩40,000/hr.", "Monthly earnings usually range from ₩800K–₩1.2M", "Students are generally allowed to work 20 hours per week during academic term and 40 hours per week during school vacations."],
     faq: qa([["Can I study in South Korea without knowing Korean?", "Yes. Several universities offer programmes taught in English, particularly at postgraduate level. However, learning Korean can help with everyday communication, internships and employment opportunities. Also some universities teach Korean language as a part of their curriculum."], ["Are there job opportunities in South Korea after graduation?", "Daejeon is known as the Silicon Valley of South Korea and is a Technology and Research Hub. There are good job opportunities available. Also there are global companies like Samsung, Hyundai, LG and others in SK that offer internships, part time and full time jobs."]]),
   },
+  {
+    /* Netherlands — copy supplied by the client in the "destination page" document (2026-11-17), same conventions
+       as South Korea: periods as "/ year" where the cost card can read them, list numbering and bullets from the
+       document dropped, stray trailing punctuation removed.
+       Two things in the document are probably mistakes and were handled, not hidden:
+       - the first intro sentence is spliced with the third paragraph ("…the highest English Educational
+         opportunities of the highest standards and a multicultural population. speaking population in Europe…");
+         it is restored to the evident sentence, "…one of the highest English speaking population in Europe (above 90%)";
+       - the hero tagline "PR-friendly pathways" is Canada's tagline, as "Sustainability leaders" was Sweden's on the
+         South Korea tab — kept as written, to be confirmed with the client.
+       The scholarship table is empty in the document, so the funding section is simply not shown. */
+    code: "nl", slug: "netherlands", name: "Netherlands", tag: "PR-friendly pathways", img: `${IMG}/countries/netherlands.png`, hero: "Study in Netherlands", order: 130,
+    seoTitle: "Study in Netherlands — Cost, Requirements, Visa & Scholarships",
+    seoDesc: "Study in Netherlands from India: tuition and living costs, admission requirements, scholarships, visa process and post-study work options — guided by Trinity Study Abroad.",
+    intro: "Country with one of the highest English speaking population in Europe (above 90%).\n\nCountry has a long history of international trade having forged links with countries around the world, bringing together knowledge, skills, business and ideas.\n\nNetherlands offers educational opportunities of the highest standards and a multicultural population.",
+    stats: stat([["10+", "Universities"], ["1 year", "PGWP"], ["Sep / Oct / Feb", "Intakes"], ["Euro 20k–25k", "Tuition / year"]]),
+    why: ["One of the most industrialised countries of the world", "Low tuition fees and programs taught in English", "Upto 16 hours of part time work opportunities available", "Post-Graduation Work Permit for 1 year"],
+    courses: ["Electrical & Electronic Engineering", "MBA and Business Management", "Finance & Accounting", "Hospitality & Tourism Management", "Mechanical, Civil and Chemical Engineering", "Law and Psychology"],
+    unis: [],
+    visa: "The study programme has to be recognised by the Accreditation Organisation of the Netherlands and Flanders or NVAO (in the Netherlands) or the European Quality Assurance Register for Higher Education or EQAR (Europe). The university or the education institution has to be a recognised sponsor with the IND. Universities apply for temporary stay visa (MVV) on behalf of the students. On arriving in the Netherlands, the University will apply for a residence permit on behalf of the student. Visa fee and resident permit fees included in the tuition fees package.",
+    intakes: "Three intakes — September, October and Feb. Apply 6–9 months ahead.",
+    cost: pair([["Tuition (master’s)", "Euro 20000 to 25000"], ["Living expenses", "Euro 15,000 / year (updated: €17,000 / year)"], ["Visa fee & Resident permit", "Approximately Euro 254"], ["Total year one", "Euro 35,000 – 42000 (€36000 - €43000)"]]),
+    req: pair([["Academics", "60%+ in bachelor’s; 15 years of education accepted for MS"], ["English test", "IELTS 6.5 with no band below 6.0"], ["Documents", "SOP, LORs, transcripts, passport"]]),
+    sch: [],
+    steps: stepList([["Application", "Educational institution collects all documents needed for visa including income requirements."], ["MVV", "The university submits the application and applies for your MVV and student residence permit at the same time."], ["Turn around time", "Visa shall be received in around 4-8 weeks. Student needs to go for Biometrics at the local Embassy/Consulate. MVV valid 90 days."], ["Resident permit", "On arriving in the Netherlands, the University will apply for a residence permit on behalf of the student."]]),
+    work: "Part time Jobs- Students can work up to 16 hours/week. Typical part time earning are €10 to €15 per hour.\n\nPost study work Visa of 1 year is offered to the students to take up a job and gain international exposure after completion of their studies.",
+    workPoints: [],
+    faq: qa([["Do Institutions accept a 3 years Bachelor’s or 15 years of education for a Master’s?", "Yes, Netherlands universities accept 3-year Indian bachelor’s degrees for master’s."], ["What is the turnaround time for Offer letters from Institutions?", "The turnaround time is around 3 to 6 weeks."], ["Are backlogs accepted by Dutch universities?", "No, backlogs are not accepted."], ["A student completed his Bachelor’s degree in 2010 and has been working since then. He has a total work experience of 9 years. Can the student apply for a Masters’ course?", "Yes, the student can apply."], ["Can IELTS be waived off in the Netherlands?", "No, IELTS is a mandatory requirement."], ["If a student has already completed a Master’s and would like to pursue a second Master’s program in Netherlands, is it possible?", "Yes, a student can apply for a second Master’s in Netherlands"]]),
+  },
 ];
 
 /** Extra blog-post fields introduced by the canvas design (key takeaways, sources, tags). Keyed by post slug. */

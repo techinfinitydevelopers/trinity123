@@ -1402,3 +1402,32 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Verified: home page has 3 `/destinations/south-korea` links, same as Australia and Singapore; a fresh
   browser tab loads the page with no console errors. (A long-lived tab keeps showing the old errors in its
   console history — open a new tab to judge.)
+
+## 2026-11-17 — Netherlands destination page added (second tab of the client document)
+
+- Source: the same Google Doc, tab "Netherlands". Page: `/destinations/netherlands` (it was globe-only before).
+- `src/lib/seed-countries.ts`: new `nl` entry (order 130): intro, 4 stats, 4 reasons, 6 courses, visa, intakes, 4 cost
+  rows, requirements, 4 visa steps, work text, 6 FAQs, SEO description. `sch` and `workPoints` are empty because the
+  document has none (its scholarship table is blank) — the page hides the Scholarships section and its jump-nav
+  entry when `sch` is empty, and shows the work paragraph without bullets.
+- `scripts/add-south-korea-page.ts` renamed to `scripts/add-country-pages.ts` and made to cover both new pages
+  (`kr`, `nl`, or pass codes); still dry run by default, `--apply` writes, idempotent per country. Applied locally:
+  `kr` already existed, `nl` created.
+- `TrinityWorldHost.tsx`: `netherlands` removed from NO_PAGE so the globe links to the page. The menu, footer and
+  search already resolve it by slug (`netherlands` is both the agreed-order key and the page slug), so no
+  duplicate entry like the South Korea one.
+- Wording: same conventions as South Korea — list numbering/bullets dropped, trailing punctuation fixed, living
+  expenses tidied to `Euro 15,000 / year (updated: €17,000 / year)` so the cost card can read the period and put
+  the note on its own line, title without the "| Trinity Study Abroad" suffix.
+- Verified on localhost: page 200, every section populated, title correct, 3 menu/footer links (same as other
+  countries), none left to `/#c=netherlands`, `/search?q=netherlands` redirects to it, fresh tab has no
+  console errors.
+- For the client to confirm: (1) the first intro sentence in the document is spliced with the third paragraph
+  ("…English Educational opportunities of the highest standards and a multicultural population. speaking
+  population in Europe…"); it was restored to "Country with one of the highest English speaking population in
+  Europe (above 90%)." — an inference; (2) hero tagline "PR-friendly pathways" is Canada's, as the Korea tab's
+  was Sweden's; (3) the stat label "PGWP" is the Canadian term (the page text says Post-Graduation Work Permit);
+  (4) the Intakes text says "Feb" while the other months are spelled out; (5) tuition and total rows carry no
+  "/ year" in the document, so none was added; (6) no universities and no scholarships were supplied.
+- Production: not applied. Needs `scripts/add-country-pages.ts` against the production database (creates both
+  `kr` and `nl`), the commits pushed, and a redeploy.
