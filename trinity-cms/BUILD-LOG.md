@@ -1707,3 +1707,22 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
   horizontal overflow; at 1000 and 800px still one row, labels 2–3 lines, nothing clipped; at 375px a vertical rail (60px icons, 4px line), no overflow.
 - Production: not applied — needs these commits pushed and `add-about-roadmap.ts --replace --apply` against the production database (production has the old ten-step
   "Personalized Guidance" block), then a redeploy.
+
+## 2026-11-17 — About Us process, second version: the client's own ten steps, with icons (replaces the seven-step "Our Process")
+
+- Client: use this content — "Personalized Guidance": Profile Evaluation → Test Preps → University Shortlisting → SOP & LOR Assistance → University Application Support →
+  Scholarship Assistance → Education Loan Guidance → Student Visa Assistance → Accommodation Assistance → Pre-Departure Support — and use images or icons, whichever is best.
+  The seven-step "Our Process" (written from the reference image) is therefore replaced: heading back to "Personalized [Guidance]", ten steps, each with an illustration.
+- Icons over photos: flat SVG illustrations, the same style as the reference (teal / orange / yellow on pastel circles) — they stay crisp at any size, weigh under 1 KB each, and match
+  the site's palette; photos would have needed ten consistent shots. `public/assets/img/process/`, now named by step instead of numbered: profile-evaluation (new),
+  test-preps, university-shortlisting, sop-lor (new), application-support, scholarship (new), education-loan (new), student-visa, accommodation (new), pre-departure.
+  The seven-step set's `01-career-counsellor.svg` and `05-offer-letter.svg` are removed (no step uses them); the other five were renamed.
+- Layout (`Segments.tsx`, `site.css`): with more than seven steps the icon process runs as two rows of equal width — ten → 5 + 5 — instead of one cramped row; `--n` is the column
+  count, and `road__step--end` marks the last step of each row so the yellow line stops there. Up to seven steps it is still one row. Under 760px it is a vertical rail, the line running
+  down to the ninth step and stopping at the tenth.
+- Database: `scripts/add-about-roadmap.ts --replace --apply` swaps the block for the seed's (done locally; the dry run shows `"Our [Process]", 7 steps -> "Personalized [Guidance]", 10 steps`).
+  Production still has the original ten numbered steps without icons — the same ten, so after the push and the script the page keeps its wording and gains the icon design.
+- Verified on localhost: HTML has the ten steps and ten icons; two rows of five at 1263, 1000 and 800px with the line pattern `1111011110` (stops after steps 5 and 10), every icon loaded, no label clipped,
+  no horizontal overflow; at 375px a single column, 60px icons, line pattern `1111111110`.
+- Local environment note: the local Postgres (embedded, port 5433) had stopped answering after the session restart — its listener was held by an orphaned child process (PID 2668) whose parent was
+  gone. Killed that child and restarted `npm run db:dev`; `.pgdata` untouched, all 9 pages present.

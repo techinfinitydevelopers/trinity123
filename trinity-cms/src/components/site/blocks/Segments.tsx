@@ -70,6 +70,8 @@ export function Roadmap({ b }: { b: RoadmapBlock }) {
   const steps = Array.isArray(b.steps) ? b.steps : [];
   if (!steps.length) return null;
   const withIcons = steps.every((s) => s.icon);
+  /* Seven or fewer steps run in a single row; more than that split into two rows of equal width (ten → 5 + 5), the line stopping at the end of each row. */
+  const cols = steps.length > 7 ? Math.ceil(steps.length / 2) : steps.length;
   return (
     <section className="section roadsec" id="roadmap">
       <div className="container">
@@ -78,9 +80,9 @@ export function Roadmap({ b }: { b: RoadmapBlock }) {
           <Title text={b.title} className="h2" />
           {b.lead ? <p className="lead">{b.lead}</p> : null}
         </div>
-        <ol className={withIcons ? "road road--icons" : "road"} style={withIcons ? { ["--n" as string]: steps.length } : undefined}>
+        <ol className={withIcons ? "road road--icons" : "road"} style={withIcons ? { ["--n" as string]: cols } : undefined}>
           {steps.map((s, i) => (
-            <li key={i} className="road__step" data-reveal style={{ ["--d" as string]: `${(withIcons ? i : i % 5) * 0.08}s` }}>
+            <li key={i} className={withIcons && ((i + 1) % cols === 0 || i === steps.length - 1) ? "road__step road__step--end" : "road__step"} data-reveal style={{ ["--d" as string]: `${(withIcons ? i % cols : i % 5) * 0.08}s` }}>
               {withIcons ? (
                 <span className="road__ico"><img src={s.icon} alt="" width={42} height={42} loading="lazy" /></span>
               ) : (

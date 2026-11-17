@@ -381,17 +381,21 @@ const aboutBlocks: Block[] = [
   /* "Personalized Guidance" — the ten-step roadmap — comes right after the Founder's video, above the Business Segments (client request).
      scripts/add-about-roadmap.ts puts it there in a database, moving it if it is somewhere else. */
   {
-    type: "roadmap", kicker: "How we help", title: "Our [Process]",
+    type: "roadmap", kicker: "How we help", title: "Personalized [Guidance]",
     lead: "One team beside you from the first profile evaluation to the day you fly.",
-    /* The process, as the client gave it (reference image, 2026-11-17): seven steps, each with an illustration. */
+    /* The process as the client gave it (2026-11-17): ten steps from profile evaluation to pre-departure, each with an illustration (public/assets/img/process/);
+       drawn as two rows of five. */
     steps: [
-      { title: "Career Counsellor", icon: "/assets/img/process/01-career-counsellor.svg" },
-      { title: "Courses & University Selection", icon: "/assets/img/process/02-courses-university.svg" },
-      { title: "Test Preparation", icon: "/assets/img/process/03-test-preparation.svg" },
-      { title: "Application & Development", icon: "/assets/img/process/04-application-development.svg" },
-      { title: "Offer Letter & Acceptance", icon: "/assets/img/process/05-offer-letter.svg" },
-      { title: "Student Visa Application", icon: "/assets/img/process/06-student-visa.svg" },
-      { title: "Pre-Departure Support", icon: "/assets/img/process/07-pre-departure.svg" },
+      { title: "Profile Evaluation", icon: "/assets/img/process/profile-evaluation.svg" },
+      { title: "Test Preps", icon: "/assets/img/process/test-preps.svg" },
+      { title: "University Shortlisting", icon: "/assets/img/process/university-shortlisting.svg" },
+      { title: "SOP & LOR Assistance", icon: "/assets/img/process/sop-lor.svg" },
+      { title: "University Application Support", icon: "/assets/img/process/application-support.svg" },
+      { title: "Scholarship Assistance", icon: "/assets/img/process/scholarship.svg" },
+      { title: "Education Loan Guidance", icon: "/assets/img/process/education-loan.svg" },
+      { title: "Student Visa Assistance", icon: "/assets/img/process/student-visa.svg" },
+      { title: "Accommodation Assistance", icon: "/assets/img/process/accommodation.svg" },
+      { title: "Pre-Departure Support", icon: "/assets/img/process/pre-departure.svg" },
     ],
   },
   /* The sister companies (client brief, "OUR Business Segments"): the same block type as Mission & Vision, with no heading of its own. */

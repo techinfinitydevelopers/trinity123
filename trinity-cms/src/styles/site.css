@@ -2156,18 +2156,18 @@ main:has(> .cta-block:last-child) + .footer{background:var(--cream);padding-top:
 }
 
 /* ---- About Us process, icon version: one row of illustrated circles on a yellow line ---------------------------------------------------
-   Used when every step has an `icon` (see RoadmapBlock). Seven circles in the page's pastel tints — lavender, peach, light blue, repeating — each with a
+   Used when every step has an `icon` (see RoadmapBlock). Seven (or ten, as two rows of five) circles in the page's pastel tints — lavender, peach, light blue, repeating — each with a
    flat illustration (public/assets/img/process/), the step name centred under it, and a soft-yellow line running from circle to circle. Labels wrap to
    two or three lines in a narrow column ("Courses & University Selection"). From 1000px down the row stays a row; under 760px it becomes a vertical rail,
    icon on the left, name on the right, the line running down between the circles. */
-.road--icons{grid-template-columns:repeat(var(--n,7),minmax(0,1fr));row-gap:0;max-width:none;margin-left:0;margin-right:0}
+.road--icons{grid-template-columns:repeat(var(--n,7),minmax(0,1fr));row-gap:clamp(30px,3.6vw,46px);max-width:none;margin-left:0;margin-right:0}
 .road--icons .road__step{flex-direction:column;align-items:center;text-align:center;padding:0 8px;gap:0}
 .road--icons .road__ico{position:relative;z-index:1;display:grid;place-items:center;flex:none;width:72px;height:72px;border-radius:50%;background:#ece8f8;box-shadow:0 8px 22px rgba(35,47,112,.10)}
 .road--icons .road__step:nth-child(3n+2) .road__ico{background:#fbe8d6}
 .road--icons .road__step:nth-child(3n) .road__ico{background:#dcedf6}
 .road--icons .road__ico img{width:42px;height:42px;display:block}
 .road--icons .road__label{margin:16px 0 0;max-width:150px;font:600 .94rem/1.32 var(--font-h);color:var(--navy)}
-.road--icons .road__step:not(:last-child)::before{content:"";position:absolute;top:34px;bottom:auto;left:calc(50% + 36px);right:calc(-50% + 36px);width:auto;height:4px;border-radius:4px;background:var(--gold)}
+.road--icons .road__step:not(.road__step--end)::before{content:"";position:absolute;top:34px;bottom:auto;left:calc(50% + 36px);right:calc(-50% + 36px);width:auto;height:4px;border-radius:4px;background:var(--gold)}
 @media (max-width:760px){
   .road--icons{grid-template-columns:1fr;max-width:420px;margin-left:auto;margin-right:auto}
   .road--icons .road__step{flex-direction:row;text-align:left;padding:0 0 24px;gap:16px}
@@ -2175,7 +2175,8 @@ main:has(> .cta-block:last-child) + .footer{background:var(--cream);padding-top:
   .road--icons .road__ico{width:60px;height:60px}
   .road--icons .road__ico img{width:36px;height:36px}
   .road--icons .road__label{margin:0;max-width:none;font-size:1rem}
-  .road--icons .road__step:not(:last-child)::before{top:60px;bottom:0;left:28px;right:auto;width:4px;height:auto}
+  .road--icons{row-gap:0}
+  .road--icons .road__step:not(:last-child)::before{content:"";position:absolute;top:60px;bottom:0;left:28px;right:auto;width:4px;height:auto;border-radius:4px;background:var(--gold)}
 }
 
 /* Videos block: navy section (same family as the home page's dark sections), solid gold accents, tap-to-play clips. */
