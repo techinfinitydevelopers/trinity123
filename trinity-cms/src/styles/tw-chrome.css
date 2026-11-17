@@ -300,6 +300,17 @@ body:has(.tw-host){--twc-top:78px}
    in their place. Only the back-to-top takes the drop-in's round shape. */
 .to-top{border-radius:50%;background:var(--twc-gold);color:var(--twc-gold-ink)}
 
+/* The back-to-top button sat 22px in from the left edge and 44px across, so it reached x=66 — while the text inside a
+   card starts at x=54 (24px of page gutter plus the card's own padding). Scrolled to a card, it covered the first
+   letters of its heading: "Phone" on /contact-us lost its "P" (client report, measured on production at 1263px).
+   Smaller and closer in, it ends at x=46, clear of card text; plain text that runs to the page gutter (x=24) is still
+   passed over for a moment as you scroll, as it is under any fixed button. Phones keep the original size: their gutter
+   is narrower than any button could clear, and the footer's last row is already padded for it. Bottom 18 and 36px
+   keep it within the 66px the footer padding was measured against. */
+@media (min-width:641px){
+  .to-top{left:10px;bottom:18px;width:36px;height:36px;font-size:14px}
+}
+
 /* ---- breakpoints -------------------------------------------------------------------------------
    site.css hides `.nav__links` below 1420px. The pill holds the eight labels in less than that,
    so the row is given back between 1260 and 1420 — measured: logo 104 + links 687 + actions 332

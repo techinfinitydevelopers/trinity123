@@ -1568,3 +1568,17 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Applied to the local database and production (dry run first on both: the same four items, all on `why-study-abroad`).
   Verified locally: the page has globe links only for `europe`, and each of the four new pages is linked from its card.
 - Production: needs the redeploy that the push triggers to drop the cached page (a direct write never reaches `revalidateSite()`).
+
+## 2026-11-17 — /contact-us: back-to-top button covered the first letters of card text
+
+- Report: on the production contact page the cards' text looked overlapped. Reproduced at the report's width (1263px):
+  the gold back-to-top button is fixed at left 22px and 44px wide, so it spans x 22–66; the "Phone" card's text starts at
+  x=54 (24px page gutter + the card's padding), so scrolled to that card the button covered the "P" of "Phone".
+- `src/styles/tw-chrome.css`: from 641px up the button is 36px wide, 10px from the left edge and 18px up (it ends at
+  x=46, clear of card text at x=54; it still sits within the 66px the footer's bottom padding was measured against).
+  Phones keep the original size. Measured locally at 1263px: button x 10–46; card text at x 54 / 463 / 873.
+- Not covered: plain text that runs to the page gutter (x=24) is still passed over for a moment as you scroll, as under any
+  fixed button. Also seen while checking: the chatbot's "Planning to study abroad?" nudge bubble, on the right, covers part
+  of the Head Office address until it is closed with its ×. It is the chatbot's own popup, left as is.
+- The blank email icon in the report's hero card is not a missing icon: the glyphs (`fa-phone-alt`, `fa-envelope`) exist and
+  Font Awesome is loaded; the screenshot caught the moment before the icon font finished loading.
