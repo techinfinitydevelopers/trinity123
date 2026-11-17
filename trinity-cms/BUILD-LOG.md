@@ -1686,3 +1686,24 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Production: not applied. It needs `add-about-roadmap.ts --apply` against the production database (it will add the block in the right place) and a
   redeploy, plus these commits pushed (the seed). Production's About page currently ends with: intro → Mission & Vision → Founder's video →
   Business Segments → Offer → Journey.
+
+## 2026-11-17 — About Us: "Personalized Guidance" becomes "Our Process", drawn like the client's reference (7 icon steps in one row)
+
+- Client: replace the text with "our process" and draw it like the reference image — one row of illustrated circles on a yellow line, the step names under them:
+  Career Counsellor · Courses & University Selection · Test Preparation · Application & Development · Offer Letter & Acceptance · Student Visa Application ·
+  Pre-Departure Support (seven steps; the old block had ten numbered ones).
+- Block: heading "Personalized [Guidance]" → "Our [Process]"; the kicker "How we help" and the lead sentence ("One team beside you from the first profile evaluation to the
+  day you fly") are kept — an assumption, the client only said to change the text. Seven steps replace the ten.
+- Icons: the reference artwork is not ours, so seven original flat icons were drawn as SVGs (teal / orange / yellow palette) in `public/assets/img/process/`
+  (01-career-counsellor … 07-pre-departure). Each step carries an `icon` path, editable in /admin like any image (the generic field editor already offers a picker for
+  image-valued `icon` fields).
+- `src/lib/blocks.ts`: `RoadmapBlock.steps` may have `icon`. `src/components/site/blocks/Segments.tsx`: when every step has an icon the list is rendered as the icon process
+  (`road road--icons`, `--n` = number of steps); without icons it is the original numbered path. `src/styles/site.css`: seven circles in a row (72px; lavender, peach,
+  light blue, repeating), the soft-yellow line (`--gold`) running circle to circle, labels wrapping to 2–3 lines; from 760px down a vertical rail with the line running down
+  between the circles. The row stays a row at 1000 and 800px.
+- Content in the databases: `scripts/add-about-roadmap.ts --replace --apply` swaps an existing roadmap block for the seed's (the default run still only moves it and keeps
+  /admin edits). Applied locally (dry run first, then applied, re-run is a no-op).
+- Verified on localhost: HTML has the seven steps and seven icons, no "Personalized"; at 1263px the seven steps are on one row (1200px wide) with every icon loaded, no
+  horizontal overflow; at 1000 and 800px still one row, labels 2–3 lines, nothing clipped; at 375px a vertical rail (60px icons, 4px line), no overflow.
+- Production: not applied — needs these commits pushed and `add-about-roadmap.ts --replace --apply` against the production database (production has the old ten-step
+  "Personalized Guidance" block), then a redeploy.

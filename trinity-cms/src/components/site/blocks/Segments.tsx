@@ -63,11 +63,13 @@ export function Segments({ b }: { b: SegmentsBlock }) {
   );
 }
 
-/* About Us: every service from first evaluation to pre-departure, as one numbered path. Desktop runs it as
-   a connected row-wrapped timeline; on a phone it becomes a single vertical rail. */
+/* About Us: the process from first counselling to pre-departure.
+   With an icon on every step it is drawn as the icon process: a single row of illustrated circles joined by a yellow line, the step name under each
+   (a vertical rail on a phone). Without icons it is the original numbered path, five to a row. */
 export function Roadmap({ b }: { b: RoadmapBlock }) {
   const steps = Array.isArray(b.steps) ? b.steps : [];
   if (!steps.length) return null;
+  const withIcons = steps.every((s) => s.icon);
   return (
     <section className="section roadsec" id="roadmap">
       <div className="container">
@@ -76,10 +78,14 @@ export function Roadmap({ b }: { b: RoadmapBlock }) {
           <Title text={b.title} className="h2" />
           {b.lead ? <p className="lead">{b.lead}</p> : null}
         </div>
-        <ol className="road">
+        <ol className={withIcons ? "road road--icons" : "road"} style={withIcons ? { ["--n" as string]: steps.length } : undefined}>
           {steps.map((s, i) => (
-            <li key={i} className="road__step" data-reveal style={{ ["--d" as string]: `${(i % 5) * 0.08}s` }}>
-              <span className="road__num">{i + 1}</span>
+            <li key={i} className="road__step" data-reveal style={{ ["--d" as string]: `${(withIcons ? i : i % 5) * 0.08}s` }}>
+              {withIcons ? (
+                <span className="road__ico"><img src={s.icon} alt="" width={42} height={42} loading="lazy" /></span>
+              ) : (
+                <span className="road__num">{i + 1}</span>
+              )}
               <span className="road__label">{s.title}</span>
             </li>
           ))}

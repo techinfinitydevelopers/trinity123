@@ -381,12 +381,17 @@ const aboutBlocks: Block[] = [
   /* "Personalized Guidance" — the ten-step roadmap — comes right after the Founder's video, above the Business Segments (client request).
      scripts/add-about-roadmap.ts puts it there in a database, moving it if it is somewhere else. */
   {
-    type: "roadmap", kicker: "How we help", title: "Personalized [Guidance]",
+    type: "roadmap", kicker: "How we help", title: "Our [Process]",
     lead: "One team beside you from the first profile evaluation to the day you fly.",
+    /* The process, as the client gave it (reference image, 2026-11-17): seven steps, each with an illustration. */
     steps: [
-      { title: "Profile Evaluation" }, { title: "Test Preps" }, { title: "University Shortlisting" }, { title: "SOP & LOR Assistance" },
-      { title: "University Application Support" }, { title: "Scholarship Assistance" }, { title: "Education Loan Guidance" },
-      { title: "Student Visa Assistance" }, { title: "Accommodation Assistance" }, { title: "Pre-Departure Support" },
+      { title: "Career Counsellor", icon: "/assets/img/process/01-career-counsellor.svg" },
+      { title: "Courses & University Selection", icon: "/assets/img/process/02-courses-university.svg" },
+      { title: "Test Preparation", icon: "/assets/img/process/03-test-preparation.svg" },
+      { title: "Application & Development", icon: "/assets/img/process/04-application-development.svg" },
+      { title: "Offer Letter & Acceptance", icon: "/assets/img/process/05-offer-letter.svg" },
+      { title: "Student Visa Application", icon: "/assets/img/process/06-student-visa.svg" },
+      { title: "Pre-Departure Support", icon: "/assets/img/process/07-pre-departure.svg" },
     ],
   },
   /* The sister companies (client brief, "OUR Business Segments"): the same block type as Mission & Vision, with no heading of its own. */

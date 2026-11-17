@@ -158,7 +158,9 @@ export type FaqBlock = {
 };
 
 /* About Us: the services Trinity covers, laid out as a numbered roadmap (a vertical rail on phones). */
-export type RoadmapBlock = { type: "roadmap"; kicker: string; title: string; lead: string; steps: { title: string }[] };
+/* A step may carry an `icon` (an image). When every step has one the block is drawn as the icon process — one row of pastel circles on a yellow line;
+   without icons it stays the numbered path. */
+export type RoadmapBlock = { type: "roadmap"; kicker: string; title: string; lead: string; steps: { title: string; icon?: string }[] };
 
 /* Tap-to-play vertical video clips beside a short text column (About page, home page). */
 export type VideosBlock = {
