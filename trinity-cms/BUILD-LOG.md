@@ -1536,3 +1536,18 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Production: not applied. `scripts/add-country-pages.ts` (creates `kr`, `nl`, `jp`, `my`) and
   `scripts/update-country-pages.ts` (updates `it`, `dk`) against the production database — dry runs first — the commits
   pushed, and a redeploy.
+
+## 2026-11-17 — Doc pages pushed and applied to production; full-stop convention
+
+- Pushed the commits for the six client-document tabs (South Korea, Netherlands, Japan, Malaysia new; Italy, Denmark
+  updated) plus the menu / globe / search link changes, and ran the scripts against the production database:
+  `add-country-pages.ts --apply` created `kr`, `nl`, `jp`, `my`; `update-country-pages.ts --apply` updated `it`, `dk`
+  (old values: `scripts/backups/italy-page-*.json`, `denmark-page-*.json`). A re-run of both reports nothing to do.
+- Found by the production dry run, before anything was written: every destination page on the live site ends each reason, visa-step
+  text and scholarship text with a full stop (UK, Sweden, Italy, Denmark… — from the earlier content imports), while the
+  seed and the document mostly do not. Applied as written, Italy and Denmark would have lost their stops and the four new
+  pages would have had none. `src/lib/seed-countries.ts` now adds a closing full stop to reasons, steps and scholarship
+  texts of these six entries (`DOC_PAGES`) — punctuation only. The dry run afterwards listed only real content changes.
+  Production's own inconsistency left alone: one Denmark step ("Give biometrics") had no stop and now has one.
+- Local database was not re-synced for this punctuation (it predates production's style); run
+  `update-country-pages.ts it dk kr nl jp my --apply` locally if the local pages should match.

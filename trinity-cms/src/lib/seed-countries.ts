@@ -338,6 +338,20 @@ export const seedCountries: CountrySeed[] = [
   },
 ];
 
+/* The pages written from the client's destination-page document (2026-11-17): South Korea, the Netherlands, Japan,
+   Malaysia, and the updates to Italy and Denmark. The document's reasons, visa steps and scholarship texts mostly
+   have no closing full stop, but every other destination page on the live site ends all three with one — they came in
+   that way in the earlier content imports. So these six follow the site, not the document, on that one point of
+   punctuation: a full stop is added where there is none. Nothing else is touched. */
+const DOC_PAGES = new Set(["kr", "nl", "jp", "my", "it", "dk"]);
+const stop = (t: string) => (/[.!?]\s*$/.test(t) ? t : `${t.trimEnd()}.`);
+for (const c of seedCountries) {
+  if (!DOC_PAGES.has(c.code)) continue;
+  c.why = c.why.map(stop);
+  c.steps = c.steps.map((x) => ({ ...x, text: stop(x.text) }));
+  c.sch = c.sch.map((x) => ({ ...x, text: stop(x.text) }));
+}
+
 /** Extra blog-post fields introduced by the canvas design (key takeaways, sources, tags). Keyed by post slug. */
 export const postExtras: Record<string, { tags: string[]; takeaways: string[]; sources: { label: string; href: string }[] }> = {
   "how-to-choose-the-right-country-to-study-abroad": {
