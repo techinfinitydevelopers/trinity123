@@ -1617,3 +1617,18 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
   the cards, 0px clipped by the hero, 0px past its right edge; the hero is 100px taller on the contact page at desktop widths.
 - Other page heroes keep the previous fix (watermark inside the hero's edge, no parallax). Any other page whose first section is
   pulled up over its hero would show the same cut; none found besides contact and the destination pages.
+
+## 2026-11-17 — Header menu: "Affordable Europe" sub-tab (MBBS) opens to the right, not underneath (client request)
+
+- Before: hovering / focusing / clicking "Affordable Europe" slid an MBBS sub-row down under it, inside the grid cell. Now the MBBS card
+  appears to the right of the row on hover.
+- `src/styles/tw-chrome.css` only (no markup or script change): `.cv-dsubmenu` is `position:absolute; left:100%; top:0` instead of an
+  in-flow row with a `max-height` slide, so it takes no height and moves nothing; the gold elbow connector is gone; the card is a solid
+  navy panel with a gold border and a shadow; the row's chevron nudges right instead of rotating down; an 8px transparent
+  padding on the card's left edge bridges the gap so the pointer can cross from the row to the card without the hover ending.
+- Placement: Affordable Europe is the last item of the middle column and the third column's last cell is empty, so the card lands in free space.
+  Measured at 1263px (the narrowest width the desktop menu shows — below 1261px the header turns into the phone menu, unchanged): card
+  x 749–973, panel right edge 994 (0px past it), same top as the row, the row's cell height unchanged (55px), the panel no taller.
+- Behaviour kept from the earlier version: hover, keyboard focus (`:focus-within`) and click (toggle, no navigation — for touch) all open it,
+  and MBBS still goes to /contact-us. With the panel open, checked: focus shows it, blur hides it, click toggles it, moving the pointer
+  onto the card keeps it, moving to another country closes it.
