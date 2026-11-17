@@ -1735,3 +1735,21 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
   `scripts/add-about-roadmap.ts --replace --apply` applied locally (dry run: `"Personalized [Guidance]", 10 steps -> "Our [Process]", 10 steps`; re-run is a no-op).
 - Verified on localhost: the section reads "How we help / Our Process / One team beside you…", "Personalized" no longer appears on the page, the icon rows are as before.
 - Production: not applied (still the original numbered ten under "Personalized Guidance"). Needs the push and `add-about-roadmap.ts --replace --apply`.
+
+## 2026-11-17 — Success Stories: eight client testimonials added
+
+- Client sent eight student / parent testimonials (Shonel D’souza, Atulya Shitole, Lynstel Fernandes, AC Santosh, Jai Baloda, Sandesh Chandrashekaran, Charu Mangal, Betsy John) for
+  the Success Stories page. They are added after the two stories already there (Rohan Nair, Sharanya Santosh) in the client's order and wording — only stray leading / trailing spaces
+  were trimmed; Jai Baloda's three paragraphs are kept as three. The page now has ten, two to a row.
+- `src/lib/seed-content.ts`: `clientStories` (exported) and the Success Stories page's testimonials block uses `[...testimonials.items, ...clientStories]`. The shared `testimonials`
+  constant itself is untouched, so other pages that use it do not get these.
+- None came with a photo, so `Testimonials` (`Pages.tsx`) shows initials when `img` is empty — the first letters of the first and last word of the name ("Shonel D’souza" → SD;
+  a " – Mumbai" suffix is ignored) on a navy disc in gold, with the same gold ring as the photos (`.tcard__ini`, `site.css`). The `course` line is only drawn when there is one.
+  `.tcard p{white-space:pre-line}` so a story's paragraph breaks show.
+- The small grey line under each name ("course") is not in the client's text. It is the context the story states about itself, nothing added: UK student visa (Shonel, Atulya), Irish
+  student visa (Lynstel), Parent (AC Santosh), Study in the UK (Jai, Charu), Parent · MS in Australia (Sandesh), Study abroad (Betsy). Editable in /admin; to be confirmed with the client.
+- `scripts/add-success-stories.ts` adds them to a database: dry run by default, `--apply` writes, old blocks backed up to `scripts/backups/success-stories-*.json`, idempotent by name
+  (a story already there — or edited in /admin — is left alone). Applied locally: 2 -> 10 stories; a re-run adds nothing.
+- Verified on localhost: ten cards (8 with initials, 2 with photos) in 5 rows of 2 at 1000px; Jai's three paragraphs render as three and the card beside it matches its height; one
+  column at 375px with no clipped text and no horizontal overflow.
+- Production: not applied. Needs the push (renderer + seed) and `add-success-stories.ts --apply` against the production database (dry run first), then a redeploy.

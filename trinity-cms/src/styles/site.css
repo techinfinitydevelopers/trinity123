@@ -608,6 +608,10 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .tcard__q{width:48px;height:48px;border-radius:50%;background:var(--primary);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:18px}
 .tcard .stars{font-size:13px;margin-bottom:14px}
 .tcard p{position:relative;line-height:1.85;font-size:15px;text-wrap:pretty;flex:1}
+/* A story with several paragraphs keeps them (the text field holds a blank line between them). */
+.tcard p{white-space:pre-line}
+/* No photo: the initials on a navy disc, with the same gold ring the photos have. */
+.tcard__ini{flex:none;display:grid;place-items:center;width:60px;height:60px;border-radius:50%;background:var(--navy);color:var(--gold);border:3px solid var(--gold);font:700 1.05rem var(--font-h);letter-spacing:.04em}
 
 /* ---------- Contact ---------- */
 .contact{padding-top:0}

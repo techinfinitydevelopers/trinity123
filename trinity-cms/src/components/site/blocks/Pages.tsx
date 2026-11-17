@@ -32,6 +32,13 @@ export function Journey({ b }: { b: JourneyBlock }) {
   );
 }
 
+/* Two letters for a testimonial that has no photo: the first letters of the first and last words of the name ("Shonel D’souza" → SD). A place after a
+   dash ("Rohan Nair – Mumbai") is not part of the name. */
+const initials = (name: string) => {
+  const w = name.split(/\s[–—-]\s/)[0].trim().split(/\s+/).filter(Boolean);
+  return ((w[0]?.[0] ?? "") + (w.length > 1 ? w[w.length - 1][0] : "")).toUpperCase();
+};
+
 export async function Testimonials({ b }: { b: TestimonialsBlock }) {
   const L = (await getLabels()).common;
   return (
@@ -43,7 +50,7 @@ export async function Testimonials({ b }: { b: TestimonialsBlock }) {
             <blockquote key={i} className="tcard" data-reveal style={d(i)}>
               <span className="tcard__blob" />
               <div className="tcard__head">
-                <div className="tcard__who"><img src={t.img} alt={t.name} loading="lazy" /><div><strong>{t.name}</strong><small>{t.course}</small></div></div>
+                <div className="tcard__who">{t.img ? <img src={t.img} alt={t.name} loading="lazy" /> : <span className="tcard__ini" aria-hidden="true">{initials(t.name)}</span>}<div><strong>{t.name}</strong>{t.course ? <small>{t.course}</small> : null}</div></div>
                 <span className="tcard__q"><i className="fas fa-quote-right" /></span>
               </div>
               <Stars label={L.ratingLabel} />

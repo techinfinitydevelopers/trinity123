@@ -514,8 +514,22 @@ const blogBlocks: Block[] = [
   },
 ];
 
+/* The student and parent testimonials the client sent for the Success Stories page (2026-11-17), in the order given and in their own words (only stray spaces
+   trimmed). None came with a photo, so they render with initials. The `course` line is the context each story states about itself — the visa or country it
+   mentions, or that the writer is a parent — nothing added; the client can change it in /admin. scripts/add-success-stories.ts adds them to a database. */
+export const clientStories: TestimonialsBlock["items"] = [
+  { img: "", name: "Shonel D’souza", course: "UK student visa", text: "I’m extremely grateful to Shraddha and the Trinity Study Abroad team for making my UK student visa process smooth and stress-free. Their proactive support, timely follow-ups, and guidance made the entire process seamless. Highly recommended!" },
+  { img: "", name: "Atulya Shitole", course: "UK student visa", text: "TSA made my UK student visa process smooth and stress-free. Their clear guidance and constant support made every step easy and well-managed. Special thanks to Shraddha for her personal attention. Highly recommended." },
+  { img: "", name: "Lynstel Fernandes", course: "Irish student visa", text: "Highly recommend TSA for their personalised and professional support. Shraddha and her team are reliable, proactive, and thorough, making the entire visa process simple and stress-free. Their attention to detail and genuine care helped me secure my Irish student visa on time. Excellent service!" },
+  { img: "", name: "AC Santosh", course: "Parent", text: "Grateful to Trinity Study Abroad for their excellent guidance and personalised support throughout my child’s study-abroad journey. They made the entire process smooth and stress-free. Highly recommended!" },
+  { img: "", name: "Jai Baloda", course: "Study in the UK", text: "My experience with Trinity Study Abroad has been exceptional. From the beginning of my UK education journey, they took the time to understand my goals and guided me in choosing the right university and course.\n\nHer support throughout the application, scholarship, fee payment, medical, and visa process was clear and consistent. The entire team was approachable, supportive, and genuinely committed to making my journey smooth and stress-free.\n\nI’m truly grateful to Shraddha and the Trinity Study Abroad team for their guidance and support. I highly recommend them to anyone planning to study in the UK or abroad." },
+  { img: "", name: "Sandesh Chandrashekaran", course: "Parent · MS in Australia", text: "We are very grateful to Trinity Study Abroad for their excellent guidance in helping our son pursue his MS in Australia. From university selection to visa processing, their support was professional and seamless. Their expertise made the entire process smooth, and our son is now successfully studying in Australia. Highly recommended!" },
+  { img: "", name: "Charu Mangal", course: "Study in the UK", text: "I had a great experience with Shraddha and Trinity Study Abroad during my UK study journey. From university selection to visa processing, Shraddha provided clear guidance and constant support. Her expertise and personalised approach made the entire process smooth and stress-free. I’m truly grateful for her support and highly recommend Trinity Study Abroad." },
+  { img: "", name: "Betsy John", course: "Study abroad", text: "Trinity Study Abroad is a one-stop solution for all study-abroad needs. Their team provides clear guidance on choosing the right country, university, and course, along with visa, travel, and other requirements. I highly recommend Trinity Study Abroad to students and parents planning to study abroad." },
+];
+
 const successBlocks: Block[] = [
-  { ...testimonials, kicker: "In Their Words", title: "Stories of [Success]", lead: "Every one of these started with a free counselling session. Yours can too." },
+  { ...testimonials, kicker: "In Their Words", title: "Stories of [Success]", lead: "Every one of these started with a free counselling session. Yours can too.", items: [...testimonials.items, ...clientStories] },
   {
     type: "journey", kicker: "How It Goes", title: "What a Trinity [Journey Looks Like]",
     lead: "The same five steps behind every story on this page.",
