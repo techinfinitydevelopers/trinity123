@@ -1551,3 +1551,6 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
   Production's own inconsistency left alone: one Denmark step ("Give biometrics") had no stop and now has one.
 - Local database was not re-synced for this punctuation (it predates production's style); run
   `update-country-pages.ts it dk kr nl jp my --apply` locally if the local pages should match.
+## 2026-11-17 — Car Rental link, menu: Affordable Europe
+- About Us: Trinity Car Rental card now links (Visit site) to http://www.trinityairtravel.com/services/car-rental/ (`seed-content.ts`). **Production needs the same value in the database** (the About page's Segments block) — a push only changes the seed default.
+- Header destinations menu (`destination-order.ts`): Denmark now before Europe; "Other Europe" renamed "Affordable Europe"; clicking it toggles an MBBS sub-row (no navigation), MBBS goes to /contact-us (`Header.tsx`, `tw-chrome.css`).

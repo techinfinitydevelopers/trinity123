@@ -574,9 +574,9 @@ body:has(.tw-host) .nav__social:hover .nav__social-caret,body:has(.tw-host) .nav
 .cv-ddgrid{align-items:start}
 .cv-dsubwrap{position:relative}
 .cv-dsubarrow{margin-left:auto;font-size:10px;opacity:.55;transition:transform .25s,opacity .25s}
-.cv-dsubwrap:hover .cv-dsubarrow,.cv-dsubwrap:focus-within .cv-dsubarrow{opacity:1;transform:rotate(90deg);color:var(--twc-gold)}
+.cv-dsubwrap:hover .cv-dsubarrow,.cv-dsubwrap:focus-within .cv-dsubarrow,.cv-dsubwrap.is-open .cv-dsubarrow{opacity:1;transform:rotate(90deg);color:var(--twc-gold)}
 .cv-dsubmenu{position:relative;max-height:0;overflow:hidden;box-sizing:border-box;opacity:0;visibility:hidden;transition:max-height .3s cubic-bezier(.4,0,.2,1),opacity .22s,visibility .3s}
-.cv-dsubwrap:hover .cv-dsubmenu,.cv-dsubwrap:focus-within .cv-dsubmenu{max-height:64px;opacity:1;visibility:visible}
+.cv-dsubwrap:hover .cv-dsubmenu,.cv-dsubwrap:focus-within .cv-dsubmenu,.cv-dsubwrap.is-open .cv-dsubmenu{max-height:64px;opacity:1;visibility:visible}
 .cv-dsubmenu::before{content:"";position:absolute;left:24px;top:0;width:14px;height:26px;border-left:2px solid rgba(245,184,46,.6);border-bottom:2px solid rgba(245,184,46,.6);border-bottom-left-radius:8px}
 .cv-dsubitem{display:flex;align-items:center;gap:8px;min-width:0;margin:2px 6px 4px 40px;padding:8px 10px 8px 8px;border-radius:14px;color:#fff;background:rgba(245,184,46,.10);border:1px solid rgba(245,184,46,.28);transition:background .2s,border-color .2s,transform .2s}
 .cv-dsubitem:hover,.cv-dsubitem:focus-visible{background:rgba(245,184,46,.2);border-color:rgba(245,184,46,.6)}
