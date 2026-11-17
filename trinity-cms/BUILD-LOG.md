@@ -1460,3 +1460,26 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
   title and description are the same as the page's defaults, so they were not stored.
 - Production: not applied. Needs `scripts/update-italy-page.ts --apply` against the production database (after a
   dry run to see what production currently holds), then a redeploy.
+
+## 2026-11-17 — Japan destination page added (fourth tab of the client document)
+
+- Source: the same Google Doc, tab "Japan". Page: `/destinations/japan` (it was globe-only before).
+- `src/lib/seed-countries.ts`: new `jp` entry (order 140): intro (2 paragraphs), 4 stats, 7 reasons, 6 courses, visa,
+  intakes, 5 cost rows, requirements, 2 scholarships (JASSO, university), 5 visa steps, work text + the part-time point,
+  2 FAQs, SEO description. `scripts/add-country-pages.ts` now defaults to `kr`, `nl`, `jp`; `TrinityWorldHost.tsx` no
+  longer lists `japan` in NO_PAGE, so the globe links to the page. Menu, footer and search resolve it by slug
+  (`japan` is already the agreed-order key) — 3 menu/footer links like every other country, none left to `/#c=japan`,
+  `/search?q=japan` redirects to it.
+- Wording: same conventions as the earlier tabs. The visa field is one paragraph, so the three bullet lines (undergraduate /
+  master's / language-school validity) are folded into it with full stops. Periods written as "/ year", "per month".
+- Layout fix found while verifying: the total row's note "(21,00,000 to 47,00,000 annually)" was cut off at the card's edge
+  ("annu"). "annually" is dropped — the card already says "/ year" — so the note reads "(21,00,000 to 47,00,000)" and fits.
+  No cost card or stat is clipped now; the fourth stat ("¥10,00,000 - ¥18,00,000") wraps onto two lines inside its card.
+- Verified on localhost: page 200 with every section filled, title correct, fresh tab with no console errors, no
+  horizontal overflow.
+- For the client to confirm: (1) hero tagline "Sustainability leaders" is Sweden's — it was on the South Korea tab too, so
+  it looks like a copied template line; (2) the visa-fee row ends "¥30,000 (" — an unfinished bracket, shown as "¥30,000";
+  (3) the total's second range has no ¥ sign in the document; (4) the stat says 5 universities; no university list
+  was supplied, so the gallery is empty; (5) "Sep / April" mixes an abbreviated and a full month, as written.
+- Production: not applied. `scripts/add-country-pages.ts` (creates `kr`, `nl`, `jp`) against the production database,
+  `scripts/update-italy-page.ts`, the commits pushed, and a redeploy.

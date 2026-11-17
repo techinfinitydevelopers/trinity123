@@ -266,6 +266,36 @@ export const seedCountries: CountrySeed[] = [
     workPoints: [],
     faq: qa([["Do Institutions accept a 3 years Bachelor’s or 15 years of education for a Master’s?", "Yes, Netherlands universities accept 3-year Indian bachelor’s degrees for master’s."], ["What is the turnaround time for Offer letters from Institutions?", "The turnaround time is around 3 to 6 weeks."], ["Are backlogs accepted by Dutch universities?", "No, backlogs are not accepted."], ["A student completed his Bachelor’s degree in 2010 and has been working since then. He has a total work experience of 9 years. Can the student apply for a Masters’ course?", "Yes, the student can apply."], ["Can IELTS be waived off in the Netherlands?", "No, IELTS is a mandatory requirement."], ["If a student has already completed a Master’s and would like to pursue a second Master’s program in Netherlands, is it possible?", "Yes, a student can apply for a second Master’s in Netherlands"]]),
   },
+  {
+    /* Japan — copy supplied by the client in the "destination page" document, tab "Japan" (2026-11-17); same
+       conventions as South Korea and the Netherlands: list markers dropped, periods as "/ year" or "per month" where
+       the cost cards can read them, the visa bullets folded into the visa paragraph (that field is one paragraph),
+       stray spaces and a doubled space removed.
+       Handled, not hidden:
+       - the visa-fee row ends "¥30,000 (" — an unfinished bracket; shown as "¥30,000";
+       - the total's bracketed second range "(21,00,000 to 47,00,000 annually)" has no currency sign in the document;
+         kept as written except for "annually", which the card's "/ year" already says and which was cut off at the
+         card's edge;
+       - the hero tagline "Sustainability leaders" is Sweden's (it was also on the South Korea tab) — kept, to be
+         confirmed with the client. */
+    code: "jp", slug: "japan", name: "Japan", tag: "Sustainability leaders", img: `${IMG}/countries/japan.png`, hero: "Study in Japan", order: 140,
+    seoTitle: "Study in Japan — Cost, Requirements, Visa & Scholarships",
+    seoDesc: "Study in Japan from India: tuition and living costs, admission requirements, scholarships, visa process and post-study work options — guided by Trinity Study Abroad.",
+    intro: "Japan is an increasingly attractive study abroad destination for students looking for high-quality education, advanced technology, research opportunities and international exposure. It offers a unique combination of academic excellence, innovation, rich culture and career opportunities.\n\nJapan is experiencing an aging society and declining birth rates, which has led to a growing openness to foreign talent and international students.",
+    stats: stat([["5", "Universities"], ["12 months", "Job-search permit"], ["Sep / April", "Intakes"], ["¥10,00,000 - ¥18,00,000", "Tuition / year"]]),
+    why: ["World-Class Education with advanced research infrastructure", "Strong Career Prospects including post-study work and industry exposure", "Affordable Tuition and low living costs", "English-Taught Programs available across disciplines", "Student-friendly cities & excellent healthcare and public services", "Welcoming Immigration Policies and growing demand for global talent", "Opportunity to Learn Japanese, enhancing global career value"],
+    courses: ["Digital Business & Innovation", "Business Finance & Economics", "Data Science, AI & Engineering", "Liberal Arts, Music, Visual Arts", "Business Administration & MBA", "Japanese conversation course"],
+    unis: [],
+    visa: "The length of a student visa in Japan is aligned with the academic program in which the student is enrolled. Undergraduate programs – Typically valid for up to 4 years. Master’s programs- Typically valid up to 2 years. Japanese language schools – Usually 6 months to 1 year. Documents required - COE from the Immigration Services Bureau of Japan. Financial documents like bank statements and ITRs of sponsors, academic documents and covering letter.",
+    intakes: "September and April",
+    cost: pair([["Tuition", "¥10,00,000 - ¥18,00,000 / year"], ["Living expenses", "¥80,000 - ¥1,60,000 per month"], ["Visa processing fee", "¥30,000"], ["Insurance", "¥10,000 / year"], ["Total year one (approximately)", "¥11,00,000 - ¥25,00,000 / year (21,00,000 to 47,00,000)"]]),
+    req: pair([["Academics", "A bachelor’s degree with 55%+ and above, differs from university to university"], ["English test", "IELTS 6.0 and above"], ["Funds", "Approximately ¥ 120000 per month during the study period"], ["Documents", "SOP, CV, LORs, transcripts, passport, insurance"]]),
+    sch: named([["JASSO (Japan Student Services Organization)", "Living stipend of ¥48000 per month for 6 months."], ["University scholarships", "Merit based scholarships from 30% to 100%"]]),
+    steps: stepList([["Application & approval", "Educational institutions send admission approval letters."], ["Education Institute", "Submits application for COE to Immigration Bureau"], ["Immigration Bureau", "Sends COE to educational institute / university"], ["Student", "Receives COE from university and applies for permission to land to the Japanese Embassy"], ["Regional Immigration Bureau", "Receive residence card when you land"]]),
+    work: "Students are generally given 90 days time to apply for a change in residency status after their course.\n\nThey need to apply for a Job Hunting or Designated Activities visa with the Immigration Bureau. The visa will be valid for 6 months, extendable up to 1 year maximum.\n\nWhen the student receives the job offer they can directly switch to a Work visa which is valid as long as the student is employed.",
+    workPoints: ["Part-Time Work: Student visa holders can work up to 28 hours/week and up to 40 hours a week over vacations."],
+    faq: qa([["Can I study in Japan without knowing Japanese?", "Yes. Several Japanese universities offer programmes taught entirely in English. However, learning basic Japanese is helpful for daily life and employment opportunities."], ["Can international students find job opportunities in Japan after graduation?", "Japan is the world’s 5th largest economy, known for leading companies in business, technology, automotive, and manufacturing. Its ageing and shrinking population is creating new opportunities for international students."]]),
+  },
 ];
 
 /** Extra blog-post fields introduced by the canvas design (key takeaways, sources, tags). Keyed by post slug. */
