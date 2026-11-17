@@ -5,7 +5,8 @@
    a function to a client one — so this sits between them. It is also the single place where
    the drop-in's own vocabulary is mapped onto this site's: its country keys onto our
    destination slugs, and its lead payload onto the shape /api/leads actually accepts. */
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import type { WorldSettings } from "@/lib/settings";
 import TrinityWorld from "./TrinityWorld";
 import { mountBoardingPass } from "./boardingPass";
@@ -40,7 +41,7 @@ const EARTH_PRELOAD = [
   ["clouds", "/tw/earth/earth_clouds_1024.png", false],
 ] as const;
 
-export default function TrinityWorldHost({ initialCountry, world }: { initialCountry?: string; world?: WorldSettings }) {
+export default function TrinityWorldHost({ initialCountry, world, below }: { initialCountry?: string; world?: WorldSettings; below?: ReactNode }) {
   /* Written during render, not in an effect: the engine is imported by the child's effect,
      and importing it is what evaluates data.ts, which reads this. Parent render always
      precedes child effect, so the content is in place in time. */
@@ -50,6 +51,47 @@ export default function TrinityWorldHost({ initialCountry, world }: { initialCou
   }
 
   const box = useRef<HTMLDivElement>(null);
+
+  /* `below` is content the page wants shown inside the world, just above its closing "Book your free counselling session" boarding
+     pass (the home page puts the student-videos section there). The boarding pass is part of the engine's own markup, which the engine
+     builds on the client, so it cannot be reordered from React — and pulling it out of the engine's root would break the "#cta"
+     anchors and the lookups the engine does inside its root. So a slot <div> is added to that markup right before `#cta` and `below`
+     is rendered into it through a portal: React owns the content, the engine's DOM is only added to.
+     Until the slot exists (the server HTML, the moments before the engine has built its markup, or if it never does) `below` renders
+     in place, after the world, as it always did — so it can never go missing. The slot is left in the engine's DOM when this unmounts:
+     the engine parks that DOM and resumes it on a return, and the next mount finds the slot by its id and reuses it. */
+  const [slot, setSlot] = useState<HTMLElement | null>(null);
+  const hasBelow = Boolean(below);
+  useEffect(() => {
+    const el = box.current;
+    if (!el || !hasBelow) return;
+    let ro: ResizeObserver | undefined;
+    let t = 0;
+    const place = () => {
+      const cta = el.querySelector<HTMLElement>("#cta");
+      if (!cta || !cta.parentElement) return false;
+      let s = cta.parentElement.querySelector<HTMLElement>(":scope > #tw-below");
+      if (!s) {
+        s = document.createElement("div");
+        s.id = "tw-below";
+        cta.parentElement.insertBefore(s, cta);
+      }
+      setSlot(s);
+      /* The engine pins and measures sections by their position on the page; the slot changes where everything after it starts and its
+         height settles as images load, so ScrollTrigger is asked to re-measure (it does so on a window resize). */
+      const refresh = () => { window.clearTimeout(t); t = window.setTimeout(() => window.dispatchEvent(new Event("resize")), 250); };
+      ro = new ResizeObserver(refresh);
+      ro.observe(s);
+      refresh();
+      return true;
+    };
+    let mo: MutationObserver | undefined;
+    if (!place()) {
+      mo = new MutationObserver(() => { if (place()) mo?.disconnect(); });
+      mo.observe(el, { childList: true, subtree: true });
+    }
+    return () => { mo?.disconnect(); ro?.disconnect(); window.clearTimeout(t); setSlot(null); };
+  }, [hasBelow]);
 
   /* Where the visitor had got to, remembered for the length of the tab.
 
@@ -222,6 +264,7 @@ export default function TrinityWorldHost({ initialCountry, world }: { initialCou
         if (!res.ok) throw new Error(`lead POST failed: ${res.status}`);
       }}
     />
+    {below ? (slot ? createPortal(below, slot) : below) : null}
     </div>
   );
 }

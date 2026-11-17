@@ -446,3 +446,30 @@ body:has(.tw-host:not(:has(.tw))) .footer,body:has(.tw-host:not(:has(.tw))) .fcr
    by a percentage. */
 .tw #loading,
 .tw #introUI { display: none; }
+
+/* ======== the student-videos section inside the world (`#tw-below`) ==========================
+   The home page renders the "Hear it from our students" videos block between the world's testimonials and its closing boarding pass
+   (see `below` in TrinityWorldHost), which puts it inside `.tw`. The drop-in's rules reach every descendant: `.tw *{margin:0;padding:0}`,
+   `.tw h2{font-family:Sora;letter-spacing:-.02em}` and `.tw a{color:inherit}` all out-rank the block's own single-class rules, so inside the
+   world it lost its section padding (113px top and bottom), the container's 24px gutters, the button's pill padding and dark label, the
+   caption's padding, the kicker/lead spacing, and its heading font. Found by cloning the block outside `.tw` and diffing every computed
+   property (80 differences, all of these).
+   Each rule below puts one of those values back, with the `#tw-below` id so it wins. The values are the block's own, from site.css
+   (`.vbk`, `.container`, `.vbk__*`): change them there and here together. */
+.tw #tw-below{font-family:var(--font-b)}
+/* The world's own sections are `section.page{position:relative;z-index:3}` (tw.css), which is what keeps the fixed 3D canvas behind them; this
+   slot is not a `.page`, so without a z-index the globe is painted over the videos (seen in the first test of this move). Same layer as them. */
+.tw #tw-below{position:relative;z-index:3}
+.tw #tw-below .vbk{padding:clamp(72px,9vw,120px) 0}
+.tw #tw-below .vbk .container{padding:0 24px}
+.tw #tw-below .vbk__kicker{margin:0 0 18px}
+.tw #tw-below .vbk__title{font-family:var(--font-h);letter-spacing:-.01em}
+.tw #tw-below .vbk__lead{margin:18px 0 30px}
+.tw #tw-below .vbk__btn{padding:14px 26px;color:#241a00}
+.tw #tw-below .vbk__btn i{color:inherit}
+.tw #tw-below .vbk__cap{padding:8px 14px}
+@media (max-width:1000px){
+  .tw #tw-below .vbk__grid{margin-inline:-20px}
+  .tw #tw-below .vbk__dots{margin-top:6px}
+  .tw #tw-below .vbk--single .vbk__grid--1{margin:0 auto}
+}

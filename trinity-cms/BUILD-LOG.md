@@ -1632,3 +1632,27 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Behaviour kept from the earlier version: hover, keyboard focus (`:focus-within`) and click (toggle, no navigation — for touch) all open it,
   and MBBS still goes to /contact-us. With the panel open, checked: focus shows it, blur hides it, click toggles it, moving the pointer
   onto the card keeps it, moving to another country closes it.
+
+## 2026-11-17 — Home page: student videos now sit above the boarding pass (client request: swap the two sections)
+
+- Order before: … Knowledge Hub → "Student stories (samples)" (text testimonials) → "Book your free counselling session" (boarding pass)
+  → "Student stories — Hear it from our students" (videos) → footer. Now: … → testimonials → videos → boarding pass → footer, so the booking
+  card is the last thing before the footer.
+- Assumption to confirm: "Student stories section" was taken to be the videos block, the one directly under the boarding pass. The page also has
+  the testimonials marquee ("Student stories (samples)") directly above it; if that was the one meant, the swap is with that section instead.
+- How: the boarding pass is part of the globe engine's own markup (built on the client; `#cta` is looked up inside the engine's root by its
+  anchors and by `chooseCountry`), so it could not be moved out without breaking those. Instead the videos block is passed to the host as a prop
+  (`below`) and rendered, through a React portal, into a `<div id="tw-below">` inserted into the engine's markup right before `#cta`
+  (`TrinityWorldHost.tsx`, `page.tsx`). Until that slot exists — server HTML, or if the engine never builds — the block renders in place after the
+  world as before, so it cannot go missing. The slot is left in the engine's parked DOM and reused when the visitor comes back to the home page.
+  A ResizeObserver on the slot asks ScrollTrigger to re-measure (window resize) as the block's height settles.
+- Two things the move broke, found while testing and fixed in `tw-site.css`:
+  1. Inside `.tw` the block lost its styling: the drop-in's `.tw *{margin:0;padding:0}`, `.tw h2{font-family:Sora}` and `.tw a{color:inherit}` out-rank
+     the block's single-class rules (80 computed-style differences found by diffing a clone outside `.tw`: section 113px padding, container
+     gutters, button padding and dark label, caption padding, kicker/lead margins, heading font and letter-spacing). `.tw #tw-below …` rules restore each
+     value. Re-checked the same diff at 1263, 900 and 375px: 0 differences, no horizontal overflow.
+  2. The fixed 3D globe canvas painted over the videos: the world's own sections are `position:relative; z-index:3`, the slot was not. It has the same now.
+- Verified on localhost: DOM order `#voices → #tw-below(.vbk) → #cta`, nothing left outside `.tw`; the video plays through the portal; the `#cta` anchor
+  still scrolls; leaving to /about-us and back keeps one slot, one block, one canvas; fresh-tab console clean. The new order is seen after the engine builds
+  (client-side), as the globe and the boarding pass are.
+- Reverting: pass the block outside again (`<BlockRenderer …/>` after `<TrinityWorldHost/>`) and drop the `below` prop.

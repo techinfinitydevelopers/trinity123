@@ -33,9 +33,10 @@ export default async function HomePage() {
         {/* The drop-in's CSS names Sora; the site's heading face is Poppins, so without this
             every heading in it falls back. */}
         <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet" />
-        <TrinityWorldHost world={settings.world} />
-        {/* Below the world: the two student videos (the founder's video is on the About page). */}
-        <BlockRenderer blocks={[homeVideos]} ctx={{ settings }} />
+        {/* The two student videos (the founder's video is on the About page). They sit inside the world, between its testimonials and its
+            closing "Book your free counselling session" boarding pass, so the booking card is the last thing before the footer — see
+            `below` in TrinityWorldHost. */}
+        <TrinityWorldHost world={settings.world} below={<BlockRenderer blocks={[homeVideos]} ctx={{ settings }} />} />
       </>
     );
   }
