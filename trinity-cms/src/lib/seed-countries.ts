@@ -196,21 +196,32 @@ export const seedCountries: CountrySeed[] = [
     faq: qa([["Is Sweden expensive?", "Tuition is mid-range and living costs are high, but scholarships and tuition waivers are widely available."], ["Do I need Swedish?", "No for English-taught master’s; Swedish helps with local hiring outside tech."], ["When do I apply?", "The autumn intake application window opens roughly a year ahead — mid-October to mid-January."], ["What is Sweden strong in?", "Sustainability, clean energy, product design, computer science and innovation management."]]),
   },
   {
+    /* Denmark — updated from the client's "destination page" document, tab "Denmark" (2026-11-17). The document
+       reflects the change from the 3-year establishment card to a 1-year job-search permit (stat, first reason, work
+       text, bullets), new living-cost / proof-of-funds / permit-fee figures in DKK, and drops the "What is the
+       establishment card?" FAQ. Run scripts/update-country-pages.ts to bring a database up to this.
+       Fitted to the layout rather than copied, as with Italy: the document's stats carry whole sentences and two
+       tuition ranges each, so the stat card shows the two ends ("DKK 45,000 – 260,750+") and the standard /
+       specialised tuition ranges, with their ₹ and € equivalents, are their own cost rows (the ₹ range and the word
+       "approximately" ride in the row label, because an amount plus a note wider than the card is cut off); the long explanations of
+       living costs and of the permit fee ("processed through SIRI") sit in the visa paragraph, since a cost card has
+       room for an amount and a short note, not a sentence. The work bullet that the document runs together with the
+       term-time limit ("…full time in summer (September to May (Term Time)…") is split in two, wording unchanged. */
     code: "dk", slug: "denmark", name: "Denmark", tag: "Innovation & design", img: `${IMG}/unversity/z7.jpg`, hero: "Study in Denmark", order: 170,
     intro: "Denmark blends design thinking with strong engineering and life-science research, taught in small, collaborative cohorts with close industry links.",
-    stats: stat([["8", "Universities"], ["3 yrs", "Establishment card"], ["Sept / Feb", "Intakes"], ["€6k–16k", "Tuition / year"]]),
-    why: ["Three-year establishment card to work after graduation", "Project- and teamwork-based teaching", "Strengths in design, engineering and life sciences", "High quality of life and safety"],
+    stats: stat([["8", "Universities — Denmark has 8 main public research universities, though the broader higher education system includes more than 35 total institutions"], ["Upto 1 year", "Job-search permit — for applications after October 1, 2026"], ["Aug / Sep & Jan / Feb", "Main intake / minor intake"], ["DKK 45,000 – 260,750+", "Tuition / year, standard to specialised programmes"]]),
+    why: ["Eligible for a job-seeking residence permit for up to 1 year (12 months)", "Project- and teamwork-based teaching", "Strengths in design, engineering, life sciences, green tech, pharma/biotech, maritime, IT, design and public policy", "High quality of life and safety"],
     courses: ["Industrial Design", "Engineering & Robotics", "Life Sciences & Biotech", "Sustainable Architecture", "Business Innovation"],
     unis: [],
-    visa: "Danish student residence permit — admission letter, tuition payment proof and funds evidence for living costs.",
+    visa: "Danish student residence permit — admission letter, tuition payment proof and funds evidence for living costs. Living costs are DKK 89,112 for a full 12-month period (or calculated for the exact duration of your study program up to 12 months). The official application fee for a Denmark student residence permit (processed through SIRI) is DKK 3,060 (approximately €410).",
     intakes: "September is the main intake, February is limited. Apply 9–11 months ahead.",
-    cost: pair([["Tuition (master’s)", "€6,000 – €16,000 / year"], ["Living expenses", "€9,000 – €12,000 / year"], ["Proof of funds", "DKK 6,397 per month"], ["Permit fee", "€255 one-time"], ["Total year one", "€16,000 – €29,000"]]),
-    req: pair([["Academics", "A relevant bachelor’s degree with 65%+ and matching prerequisites"], ["English test", "IELTS 6.5 overall (7.0 for some programmes)"], ["Funds", "Documented funds of roughly DKK 6,397 per month"], ["Documents", "SOP, CV, LORs, transcripts, passport, insurance"]]),
+    cost: pair([["Tuition (master’s)", "€6,000 – €16,000 / year"], ["Tuition (standard programmes, ₹6,62,000 to ₹17,65,000)", "DKK 45,000 to 120,000 / year"], ["Tuition (specialised programmes)", "up to €35,000 / year (DKK 260,750+)"], ["Living expenses", "DKK 89,112 / year"], ["Proof of funds (approximately)", "DKK 7,426 per month"], ["Permit fee", "DKK 3,060 (approximately €410)"], ["Total year one", "€16,000 – €29,000"]]),
+    req: pair([["Academics", "A relevant bachelor’s degree with 65%+ and matching prerequisites"], ["English test", "IELTS 6.5 overall (7.0 for some programmes)"], ["Funds", "approximately DKK 7,426 per month"], ["Documents", "SOP, CV, LORs, transcripts, passport, insurance"]]),
     sch: named([["Danish Government Scholarships", "Tuition waivers and grants for non-EU master’s students"], ["University talent scholarships", "Merit awards covering part of the tuition fee"], ["Erasmus Mundus joint master’s", "Fully funded multi-country programmes with Danish partners"]]),
     steps: stepList([["Accept admission", "Confirm the place and pay the tuition deposit"], ["Document funds", "Evidence living costs for the study period"], ["Apply for ST1 permit", "Submit the student residence permit application online"], ["Give biometrics", "At the Danish embassy or an accredited centre"], ["Register on arrival", "Get your CPR number and residence card in Denmark"]]),
-    work: "Students can work 20 hours a week during term and full time in June, July and August. After graduating you receive a 3-year establishment card to work or start a business in Denmark.",
-    workPoints: ["20 hrs/week; full time in summer", "3-year establishment card", "Positive List and Pay Limit work schemes"],
-    faq: qa([["Why study in Denmark?", "Project-based teaching, close industry links and strong design, engineering and life-science faculties."], ["Is Danish required?", "No for English-taught programmes; Danish supports local job hunting."], ["What is the establishment card?", "A 3-year permit allowing graduates to work or start a business in Denmark."], ["Which intakes exist?", "September is the main intake; a limited February intake exists for some programmes."]]),
+    work: "Students can work 20 hours a week during term and full time in June, July and August. After graduating you receive 1 year for most higher education graduates (professional bachelor’s, bachelor’s, part-time master’s, or master’s degrees).",
+    workPoints: ["20 hrs/week; full time in summer", "September to May (Term Time): You are allowed to work up to 90 hours per month.", "June, July, and August (Summer): You can work full-time (unlimited hours).", "Positive List and Pay Limit work schemes"],
+    faq: qa([["Why study in Denmark?", "Project-based teaching, close industry links and strong design, engineering and life-science faculties."], ["Is Danish required?", "No for English-taught programmes; Danish supports local job hunting."], ["Which intakes exist?", "September is the main intake; a limited February intake exists for some programmes."]]),
   },
   {
     /* South Korea — copy supplied by the client in the "destination page" document (2026-11-17). The wording is

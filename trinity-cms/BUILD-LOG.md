@@ -1505,3 +1505,34 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
   document; (5) no universities were supplied (the stat says 45+), so the gallery is empty.
 - Production: not applied. `scripts/add-country-pages.ts` (creates `kr`, `nl`, `jp`, `my`) and `scripts/update-italy-page.ts`
   against the production database, the commits pushed, and a redeploy.
+
+## 2026-11-17 — Denmark page updated from the client document (sixth tab)
+
+- Source: the same Google Doc, tab "Denmark". Denmark already had a page, so this is an update (like Italy).
+- The document reflects a rule change — the 3-year establishment card became a 1-year job-search permit — and new
+  DKK figures. Changed against the stored page (8 fields): stats (job-search permit "Upto 1 year, for applications after
+  October 1, 2026" replaces "3 yrs Establishment card"; intakes "Aug / Sep & Jan / Feb"; tuition; the first label spells
+  out the 8 research universities / 35+ institutions); reason 1 and reason 3; the visa paragraph; cost (living expenses
+  DKK 89,112, proof of funds DKK 7,426 per month, permit fee DKK 3,060 ≈ €410; the document's standard / specialised
+  tuition ranges); requirement "Funds"; work text ("1 year") and bullets; and the FAQ "What is the establishment card?" is
+  gone because the document no longer has it.
+- `scripts/update-italy-page.ts` renamed `scripts/update-country-pages.ts` and made to cover `it` and `dk` (or pass codes):
+  dry run by default, `--apply` writes the content fields only with the old values backed up, idempotent per country,
+  and it replaces /admin edits to those fields. Applied locally: Italy already matched, Denmark updated.
+- Fitted to the layout rather than copied (wording kept): the document's stats are sentences and double ranges; the stat
+  card shows "DKK 45,000 – 260,750+", and the standard / specialised tuition ranges are cost rows. The long explanations
+  (living costs "for a full 12-month period…", the permit fee "processed through SIRI") sit in the visa paragraph. The ₹
+  range and the word "approximately" ride in their row labels — as value + note they were cut off at the card edge,
+  which a fresh-tab check caught. The document's work bullet "20 hrs/week; full time in summer (September to May (Term
+  Time): … 90 hours per month." runs two bullets together with unbalanced brackets; it is split in two, words unchanged.
+- Verified on localhost with a fresh tab: no console errors, no horizontal overflow, no clipped card, the SIRI note and
+  the term-time bullets present, three FAQs, no mention of the establishment card. (The long-lived tab's console history
+  shows old HMR / duplicate-key messages from before earlier fixes — judge by a new tab.)
+- For the client to confirm: (1) the "Job-search permit" label was written as "Job-search permit — for applications after
+  October 1, 2026": the document gives only "For applications after October 1, 2026" as that stat's label; (2) the document
+  lists "₹6,62,000 to ₹17,65,000" for the standard tuition with an unmatched bracket in the source; (3) the stat for
+  intakes calls Aug / Sep and Jan / Feb "Main / Minor" while the Intakes text says September main, February limited;
+  (4) no universities were supplied.
+- Production: not applied. `scripts/add-country-pages.ts` (creates `kr`, `nl`, `jp`, `my`) and
+  `scripts/update-country-pages.ts` (updates `it`, `dk`) against the production database — dry runs first — the commits
+  pushed, and a redeploy.
