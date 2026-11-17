@@ -1359,3 +1359,7 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
   cap, globe intro unchanged, cabin and window CSS as the drop-in ships them.
 - Nothing lost: the dropped commits are on branch `wip/home-page-nov17` (tip `816cdb0`), the earlier globe-intro
   speed-up is on `wip/globe-intro`. Not deployed: the revert commit is local until pushed.
+
+## 2026-11-17 — Car Rental link, menu: Affordable Europe
+- About Us: Trinity Car Rental card now links (Visit site) to http://www.trinityairtravel.com/services/car-rental/ (`seed-content.ts`). **Production needs the same value in the database** (the About page's Segments block) — a push only changes the seed default.
+- Header destinations menu (`destination-order.ts`): Denmark now before Europe; "Other Europe" renamed "Affordable Europe"; clicking it toggles an MBBS sub-row (no navigation), MBBS goes to /contact-us (`Header.tsx`, `tw-chrome.css`).
