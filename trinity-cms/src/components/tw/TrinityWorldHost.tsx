@@ -41,7 +41,7 @@ const EARTH_PRELOAD = [
   ["clouds", "/tw/earth/earth_clouds_1024.png", false],
 ] as const;
 
-export default function TrinityWorldHost({ initialCountry, world, below }: { initialCountry?: string; world?: WorldSettings; below?: ReactNode }) {
+export default function TrinityWorldHost({ initialCountry, world, below, webinars }: { initialCountry?: string; world?: WorldSettings; below?: ReactNode; webinars?: ReactNode }) {
   /* Written during render, not in an effect: the engine is imported by the child's effect,
      and importing it is what evaluates data.ts, which reads this. Parent render always
      precedes child effect, so the content is in place in time. */
@@ -92,6 +92,41 @@ export default function TrinityWorldHost({ initialCountry, world, below }: { ini
     }
     return () => { mo?.disconnect(); ro?.disconnect(); window.clearTimeout(t); setSlot(null); };
   }, [hasBelow]);
+
+  /* `webinars` replaces the engine's own static "Knowledge Hub" (`<section id="webinar">`, the "Current webinar update" panel): a slot is
+     added right before that section, the section is hidden, and `webinars` is portalled into the slot — same approach as `below`.
+     Until the slot exists it renders after the world, so it cannot go missing; the hidden section is left in place for the engine. */
+  const [wslot, setWslot] = useState<HTMLElement | null>(null);
+  const hasWebinars = Boolean(webinars);
+  useEffect(() => {
+    const el = box.current;
+    if (!el || !hasWebinars) return;
+    let ro: ResizeObserver | undefined;
+    let t = 0;
+    const place = () => {
+      const old = el.querySelector<HTMLElement>("section#webinar");
+      if (!old || !old.parentElement) return false;
+      let s = old.parentElement.querySelector<HTMLElement>(":scope > #tw-webinar-slot");
+      if (!s) {
+        s = document.createElement("div");
+        s.id = "tw-webinar-slot";
+        old.parentElement.insertBefore(s, old);
+      }
+      old.style.display = "none";
+      setWslot(s);
+      const refresh = () => { window.clearTimeout(t); t = window.setTimeout(() => window.dispatchEvent(new Event("resize")), 250); };
+      ro = new ResizeObserver(refresh);
+      ro.observe(s);
+      refresh();
+      return true;
+    };
+    let mo: MutationObserver | undefined;
+    if (!place()) {
+      mo = new MutationObserver(() => { if (place()) mo?.disconnect(); });
+      mo.observe(el, { childList: true, subtree: true });
+    }
+    return () => { mo?.disconnect(); ro?.disconnect(); window.clearTimeout(t); setWslot(null); };
+  }, [hasWebinars]);
 
   /* Where the visitor had got to, remembered for the length of the tab.
 
@@ -264,6 +299,7 @@ export default function TrinityWorldHost({ initialCountry, world, below }: { ini
         if (!res.ok) throw new Error(`lead POST failed: ${res.status}`);
       }}
     />
+    {webinars ? (wslot ? createPortal(webinars, wslot) : webinars) : null}
     {below ? (slot ? createPortal(below, slot) : below) : null}
     </div>
   );

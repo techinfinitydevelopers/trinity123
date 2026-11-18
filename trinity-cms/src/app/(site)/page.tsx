@@ -36,7 +36,7 @@ export default async function HomePage() {
         {/* The two student videos (the founder's video is on the About page). They sit inside the world, between its testimonials and its
             closing "Book your free counselling session" boarding pass, so the booking card is the last thing before the footer — see
             `below` in TrinityWorldHost. */}
-        <TrinityWorldHost world={settings.world} below={<BlockRenderer blocks={[homeWebinars, homeVideos]} ctx={{ settings }} />} />
+        <TrinityWorldHost world={settings.world} webinars={<BlockRenderer blocks={[homeWebinars]} ctx={{ settings }} />} below={<BlockRenderer blocks={[homeVideos]} ctx={{ settings }} />} />
       </>
     );
   }

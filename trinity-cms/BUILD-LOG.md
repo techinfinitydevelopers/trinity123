@@ -1814,3 +1814,9 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Not copied from the reference: "Only 1500 seats left", the live countdown and "500+ registered" — no such data was given. The status is computed in the browser from `date`, so a cached page never shows a stale label.
 - Code: `WebinarBlock` gained layout "carousel" + `current[].date/href` (blocks.ts); `homeWebinars` in seed-content.ts, rendered by `(site)/page.tsx` next to `homeVideos` (code-only, no DB script needed); `WebinarCarousel.tsx`; `.wbc*` CSS (prefixed `section.wbc` to beat the world page's `.tw *` reset).
 - Verified on localhost (1024 and 375 wide): section order, poster/placeholder slides, status pill, buttons, no horizontal scroll. Not pushed.
+
+## 2026-11-18 — Home: webinar slider takes the old "Knowledge Hub" place
+
+- The world home page has its own static Knowledge Hub (`section#webinar` in `tw/markup.ts`: "Current webinar update" + concluded snippets). The new slider now sits exactly there and the old section is hidden. `TrinityWorldHost` got a `webinars` prop: a slot (`#tw-webinar-slot`) is inserted before `section#webinar`, the old section is `display:none`, and the slider is portalled in (renders after the world until the slot exists, like `below`). `page.tsx` passes `webinars={homeWebinars}`; `below` is the videos only.
+- Verified on localhost: order slider → testimonials (#voices) → student videos → boarding pass; one `.wbc`; old section hidden.
+- The concluded-webinar photos no longer show on the home page; they are still on /webinars-events. Not pushed.
