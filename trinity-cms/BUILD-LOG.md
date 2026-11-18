@@ -1842,3 +1842,8 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - `FieldEditor.tsx`: `date` input, `when` hint, `carousel` layout option, `current` shape (title/date/when/text/img/href), hidden keys in `ObjectFields`.
 - `scripts/add-home-webinars.ts` (dry run / `--apply` / `--replace`, backup, idempotent: a slider that already has webinars is left alone so admin edits survive) — applied to the local DB. **Production still needs: push, then this script, then a redeploy/Save in /admin** (direct DB writes don't revalidate).
 - Verified locally: home renders the slider from the DB (6 webinars, heading, old hub hidden). Local dev needed `.next/dev/cache` cleared to see the DB change (cached page). Not verified: the admin screen itself (no admin password available locally); type-check clean for the touched files.
+
+## 2026-11-18 — Production: editable home webinar slider (Railway)
+
+- Pushed 0f479cb. `add-home-webinars.ts` run against the production DB via `railway run --service Postgres` (`DATABASE_URL=$DATABASE_PUBLIC_URL`): dry run → apply → re-run "already set up". Backup: scripts/backups/home-webinars-2026-11-18T06-43-14-064Z.json. (First dry run hit a transient connection error; the retry was clean.)
+- `railway redeploy --service trinity123 -y` refreshed the cached home page. Verified live: "Free webinars" slider present with the After-12th and Prepare-2027 posters.
