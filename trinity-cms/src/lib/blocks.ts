@@ -170,6 +170,8 @@ export type VideosBlock = {
   items: { src?: string; poster?: string; caption?: string }[];
   /* Light background (success-stories page) instead of the dark navy default. */
   light?: boolean;
+  /* Short facts shown as chips under the text (About page, Founder). */
+  points?: { value: string; label: string }[];
 };
 
 /* Events page: one card per event Trinity attended or held, each opening a photo viewer. The first photo is the card's cover. */

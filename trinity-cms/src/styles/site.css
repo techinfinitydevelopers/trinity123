@@ -2469,3 +2469,19 @@ section.wbc .wbc__dots button.is-on{width:42px;background:var(--navy)}
 .tcard[data-open] .tcard__more i{transform:rotate(180deg)}
 .tcard[data-open]{border-color:rgba(247,221,125,.9);box-shadow:0 24px 50px rgba(26,36,86,.12)}
 @media (prefers-reduced-motion:reduce){.tcard__body,.tcard__more,.tcard__more i{transition:none}}
+
+/* ---- Founder video section (About page): a single video. Tighter and centred instead of a wide text column with a lot of air around a small
+   card; three fact chips fill out the text side. ---- */
+.vbk--single{padding:clamp(44px,5.5vw,76px) 0}
+.vbk__pts{list-style:none;display:flex;flex-wrap:wrap;gap:10px;margin:0 0 28px;padding:0}
+.vbk__pts li{display:flex;flex-direction:column;gap:2px;min-width:104px;padding:12px 18px;border-radius:16px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14)}
+.vbk__pts b{font-family:var(--font-h);font-weight:800;font-size:1.35rem;line-height:1.1;color:#f5b82e}
+.vbk__pts span{font-size:.8rem;color:#b4c2dc}
+.vbk--light .vbk__pts li{background:#fff;border-color:rgba(13,27,52,.12)}
+.vbk--light .vbk__pts b{color:#9a6f00}
+.vbk--light .vbk__pts span{color:#5b6b86}
+@media (min-width:1001px){
+  .vbk--single .vbk__wrap{grid-template-columns:minmax(0,540px) 270px;justify-content:center;gap:clamp(44px,7vw,100px)}
+  .vbk--single .vbk__lead{max-width:440px;margin-bottom:24px}
+}
+@media (max-width:560px){.vbk__pts li{flex:1 1 30%;min-width:0;padding:10px 12px}}

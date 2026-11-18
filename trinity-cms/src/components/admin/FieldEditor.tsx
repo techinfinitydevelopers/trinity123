@@ -26,6 +26,7 @@ const SHAPES: Record<string, object> = {
   past: { title: "", when: "", img: "", href: "" },
   events: { name: "", place: "", date: "", text: "", photos: [{ img: "", alt: "" }] },
   photos: { img: "", alt: "" },
+  points: { value: "", label: "" },
   videos: { title: "", name: "", youtube: "", poster: "", note: "" },
   unis: { name: "", img: "" },
   items: { label: "", value: "" },

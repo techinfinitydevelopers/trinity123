@@ -1894,3 +1894,10 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 
 - Pushed aad0188 (everything pending: webinar poster fixes, three-across story cards, Read more cards + the fix, home Student-stories button → /success-stories). Production DB: `add-success-videos.ts` (dry → apply; re-run "already split") → stories(3) > videos(3) > stories(7) > journey > cta; backup scripts/backups/success-videos-2026-11-18T11-11-30-212Z.json. The events scripts had already been applied earlier.
 - Waited for the push deploy, then `railway redeploy --service trinity123 -y` for the cached pages. Verified live: success-stories has the light video section and the headless continuation block; the home page's Student-stories link points to /success-stories.
+
+## 2026-11-18 — About: Founder section tightened (client: too much empty space)
+
+- Problem: a single vertical video (260px) sat in a wide text-column layout with ~110px gap and 92px padding above and below → a 647px band with large empty areas.
+- Now: section padding 44–76px (was up to 120); on desktop the text (max 540px) and the video (270px) form one **centred group** with a 44–100px gap; three fact chips under the text — **42+ Years' experience · 50+ Countries · 1,200+ Universities** (the track-record figures) — fill the text side before the button. Section height 647 → 575px at 1024 wide; mobile stacks, no horizontal scroll (375px checked).
+- Code: `VideosBlock.points?` (chips), rendered in `Videos.tsx` as `.vbk__pts`; `aboutVideos.points` in seed; `points` shape in FieldEditor (editable in /admin: Pages → About Us → Founder video → Points); CSS block at the end of site.css (`.vbk--single`, `.vbk__pts`). A first attempt used an `auto` video column which collapsed the card to 1px (its width is a percentage) — fixed with a fixed 270px column. Applies only to single-video blocks (the Founder).
+- `scripts/update-about-founder.ts` (dry run / `--apply`, backup, idempotent; keeps chips already edited in /admin) applied locally. **Production still needs: push, the script, a redeploy.**

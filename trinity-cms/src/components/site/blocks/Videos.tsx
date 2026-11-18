@@ -39,6 +39,7 @@ export default function Videos({ b }: { b: VideosBlock }) {
           <p className="vbk__kicker">{b.kicker}</p>
           <h2 className="vbk__title">{b.title}</h2>
           {b.lead ? <p className="vbk__lead">{b.lead}</p> : null}
+          {b.points?.length ? <ul className="vbk__pts">{b.points.map((p, i) => <li key={i}><b>{p.value}</b><span>{p.label}</span></li>)}</ul> : null}
           {b.ctaLabel ? <a className="vbk__btn" href={b.ctaHref || "/contact-us"}>{b.ctaLabel}<i className="fas fa-arrow-right" aria-hidden="true" /></a> : null}
         </div>
         <div className="vbk__stage">
