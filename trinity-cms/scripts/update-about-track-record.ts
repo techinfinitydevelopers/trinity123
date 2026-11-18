@@ -1,10 +1,11 @@
-/* About Us page: removes "What We Offer" (the offer block) and "Start Today" (the journey block), and adds the track-record figures at the end.
+/* About Us page: removes "What We Offer" (the offer block) and "Start Today" (the journey block), and puts the track-record figures right above the Business Segments.
 
      DATABASE_URL="<url>" npx tsx scripts/update-about-track-record.ts            # dry run
      DATABASE_URL="<url>" npx tsx scripts/update-about-track-record.ts --apply    # write
 
-   The track-record block is the stats block in src/lib/seed-content.ts (the last one in aboutBlocks). Idempotent: once the page has no offer or journey
-   block and already has the track-record stats block, it does nothing. The old blocks are saved to scripts/backups/ first. A direct database write never
+   The track-record block is the stats block in src/lib/seed-content.ts. It goes immediately before the Business Segments (the `segments` block that has logos); a
+   page that already has it elsewhere gets it moved. Idempotent: once the page has no offer or journey block and has the track-record block in that place,
+   it does nothing. The old blocks are saved to scripts/backups/ first. A direct database write never
    reaches `revalidateSite()`, so redeploy (or save the page in /admin) afterwards. */
 import { PrismaClient } from "../src/generated/prisma/index.js";
 import { seedPages } from "../src/lib/seed-content";
@@ -25,10 +26,12 @@ async function main() {
   if (!page) throw new Error("about-us page not found");
   const blocks = page.blocks as unknown as Block[];
   const kept = blocks.filter((b) => !REMOVE.has(String(b.type)) && !isTrack(b));
-  const next = [...kept, track];
+  const logosAt = kept.findIndex((b) => b.type === "segments" && Array.isArray(b.logos) && b.logos.length);
+  const at = logosAt >= 0 ? logosAt : kept.length;
+  const next = [...kept.slice(0, at), track, ...kept.slice(at)];
   const gone = blocks.filter((b) => REMOVE.has(String(b.type))).map((b) => String(b.type));
   if (!gone.length && blocks.some(isTrack) && names(blocks) === names(next)) { console.log("about-us: already up to date — nothing to do"); return; }
-  console.log(`about-us: removing ${gone.length ? gone.join(" + ") : "nothing"}; adding the track-record figures at the end`);
+  console.log(`about-us: removing ${gone.length ? gone.join(" + ") : "nothing"}; putting the track-record figures above the Business Segments`);
   console.log(`  now:  ${names(blocks)}`);
   console.log(`  then: ${names(next)}`);
   if (!apply) { console.log("dry run — pass --apply to write"); return; }

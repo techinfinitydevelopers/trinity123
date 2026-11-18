@@ -1773,3 +1773,11 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Verified on localhost after a fresh load: 42+ Years' experience · 50+ Countries · 1,200+ Universities · 1 lakh+ Courses · 1 Stop solution; all reveal elements on the page switch to visible.
   (A first load right after the dev server starts may not hydrate; reloading fixed it — a dev-server effect, not the change.)
 - Still to do: 375px check; production — push, then `update-about-track-record.ts --apply` (dry run first).
+
+## 2026-11-18 — About: track record moved above the Business Segments (client request)
+
+- Order was: … Mission & Vision → Founder's video → Our Process → Business Segments → Track record. Now: … → Our Process → **Track record** → Business Segments.
+- `seed-content.ts`: the stats block sits before the logos `segments` block. `scripts/update-about-track-record.ts` now puts the block immediately before the Business Segments (the `segments`
+  block that has logos) — adding it, or moving it if it is elsewhere; still removes offer/journey if present; idempotent. Applied locally (dry run: `… > segments > stats` → `… > stats > segments`).
+- Verified on localhost: page text order Mission → Founder's video → Process (Profile Evaluation) → Numbers that landed → Our Business Segments; no "What We Offer" / "Start Today".
+- Production: needs the push and `update-about-track-record.ts --apply` (production is currently `… > segments > stats`).

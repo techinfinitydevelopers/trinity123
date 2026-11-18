@@ -398,6 +398,18 @@ const aboutBlocks: Block[] = [
       { title: "Pre-Departure Support", icon: "/assets/img/process/pre-departure.svg" },
     ],
   },
+  /* Track record (client request, 2026-11-17): the About page's figures, above the Business Segments, in the reference layout (a heading over one row of plain figures).
+     Replaces "What We Offer" and "Start Today", which the client asked to remove. */
+  {
+    type: "stats", kicker: "Track record", title: "Numbers that landed.",
+    items: [
+      { count: 42, suffix: "+", label: "Years' experience" },
+      { count: 50, suffix: "+", label: "Countries" },
+      { count: 1200, suffix: "+", label: "Universities" },
+      { count: 1, suffix: " lakh+", label: "Courses" },
+      { count: 1, suffix: "", label: "Stop solution" },
+    ],
+  },
   /* The sister companies (client brief, "OUR Business Segments"): the same block type as Mission & Vision, with no heading of its own. */
   {
     type: "segments",
@@ -410,18 +422,6 @@ const aboutBlocks: Block[] = [
       { name: "Trinity Car Rental", img: `${IMG}/sister/car.webp`, href: "http://www.trinityairtravel.com/services/car-rental/" },
     ],
     ctaLabel: "Talk to a trusted counsellor", ctaHref: C,
-  },
-  /* Track record (client request, 2026-11-17): the closing figures of the About page, in the reference layout (a heading over one row of plain figures).
-     Replaces "What We Offer" and "Start Today", which the client asked to remove. */
-  {
-    type: "stats", kicker: "Track record", title: "Numbers that landed.",
-    items: [
-      { count: 42, suffix: "+", label: "Years' experience" },
-      { count: 50, suffix: "+", label: "Countries" },
-      { count: 1200, suffix: "+", label: "Universities" },
-      { count: 1, suffix: " lakh+", label: "Courses" },
-      { count: 1, suffix: "", label: "Stop solution" },
-    ],
   },
 
 ];
