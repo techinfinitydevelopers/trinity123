@@ -1864,3 +1864,8 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Removed the six "The Events We Hold" cards and the gallery's own "Where you will find us" heading. The photo gallery now opens with the **"What we run — The Events We Hold"** heading and its intake-calendar line, and nothing else between the webinar section and the photos.
 - `seed-content.ts`: featureCards block dropped from `webinarsEventsBlocks`; `eventGallery` kicker/title/lead set to the kept heading. `scripts/simplify-events-page.ts` (dry run / `--apply`, backup, idempotent) removes the card block and sets the heading on a stored page; applied locally. Page order: pageHero > webinar > events > leadForm > cta.
 - Verified locally: no "University fairs"/"Where you" text, heading directly above the cards. **Production still needs: push, `add-events-gallery.ts --apply`, `simplify-events-page.ts --apply`, redeploy** (or just run the first with the new seed — see below).
+
+## 2026-11-18 — Production: events gallery + simplified events page (Railway)
+
+- Pushed 94f732f. Ran against the production DB via `railway run --service Postgres` (`DATABASE_URL=$DATABASE_PUBLIC_URL`): `add-events-gallery.ts` (dry → apply), then `simplify-events-page.ts` (dry → apply; re-run "already simplified"). Backups: scripts/backups/events-gallery-2026-11-18T09-50-24-035Z.json, events-simplify-2026-11-18T09-50-32-920Z.json. Order matters: add the gallery first, then simplify.
+- Waited for the push deploy to finish, then `railway redeploy --service trinity123 -y` to refresh the cached page. Verified live: gallery cards present, "University fairs" gone, event images served (200).
