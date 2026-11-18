@@ -1828,3 +1828,4 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 ## 2026-11-18 — Home webinars: poster for "Study Abroad After 12th"
 
 - Client's image saved as `public/assets/img/webinar/after-12th.webp` (435×245 source, 16:9) and set as `img` of the 21 Nov webinar in `homeWebinars` (seed-content.ts). The source is small, so it looks soft at full card width — a larger original would be sharper.
+- Follow-up: the screenshot carried the editor's blue selection border and corner/edge handles. Re-cropped 7px off every side (now 422×231) from the original; no blue pixels remain.
