@@ -33,7 +33,7 @@ export default function Videos({ b }: { b: VideosBlock }) {
   };
 
   return (
-    <section className={`vbk${items.length === 1 ? " vbk--single" : ""}`}>
+    <section className={`vbk${items.length === 1 ? " vbk--single" : ""}${b.light ? " vbk--light" : ""}`}>
       <div className="container vbk__wrap">
         <div className="vbk__txt">
           <p className="vbk__kicker">{b.kicker}</p>

@@ -567,8 +567,13 @@ export const clientStories: TestimonialsBlock["items"] = [
   { img: "", name: "Betsy John", course: "Study abroad", text: "Trinity Study Abroad is a one-stop solution for all study-abroad needs. Their team provides clear guidance on choosing the right country, university, and course, along with visa, travel, and other requirements. I highly recommend Trinity Study Abroad to students and parents planning to study abroad." },
 ];
 
+const SUCCESS_SPLIT = 4;
 const successBlocks: Block[] = [
-  { ...testimonials, kicker: "In Their Words", title: "Stories of [Success]", lead: "Every one of these started with a free counselling session. Yours can too.", items: [...testimonials.items, ...clientStories] },
+  /* The student-video section sits inside the stories, after the second row (the first four stories — the grid is two across): the
+     stories continue below it in a heading-less block. Same videos as the home page, in the light look. */
+  { ...testimonials, kicker: "In Their Words", title: "Stories of [Success]", lead: "Every one of these started with a free counselling session. Yours can too.", items: [...testimonials.items, ...clientStories].slice(0, SUCCESS_SPLIT) },
+  { ...homeVideos, light: true },
+  { ...testimonials, kicker: "", title: "", lead: "", items: [...testimonials.items, ...clientStories].slice(SUCCESS_SPLIT) },
   {
     type: "journey", kicker: "How It Goes", title: "What a Trinity [Journey Looks Like]",
     lead: "The same five steps behind every story on this page.",

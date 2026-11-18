@@ -2435,3 +2435,18 @@ section.wbc .wbc__dots button.is-on{width:42px;background:var(--navy)}
 @media (max-width:980px){.evg__grid{grid-template-columns:repeat(2,minmax(0,1fr))}.evg__card--lead{grid-column:span 2;aspect-ratio:16/10;min-height:0}}
 @media (max-width:620px){.evg__grid{grid-template-columns:1fr}.evg__card--lead{grid-column:auto}.evg__card,.evg__card--lead{aspect-ratio:4/3.3}.evg__nav{width:42px;height:42px}.evg__stage{padding:0 8px}.evg__strip button{width:58px;height:44px}}
 @media (prefers-reduced-motion:reduce){.evg__card,.evg__shot img,.evg__lb,.evg__stage img{animation:none;transition:none}.evg__card:hover{transform:none}.evg__card:hover .evg__shot img{transform:none}}
+
+/* ---- Videos on a light background (success-stories page; the home page gets the same look from tw-site.css) and a testimonials grid that
+   continues under another section without repeating its heading ---- */
+.vbk--light{background:linear-gradient(180deg,#eef3fb,#e3ecf9);color:#0d1b34}
+.vbk--light .vbk__kicker{color:#9a6f00}
+.vbk--light .vbk__kicker::before{background:#9a6f00}
+.vbk--light .vbk__title{color:#0d1b34}
+.vbk--light .vbk__lead{color:#5b6b86}
+.vbk--light .vbk__card{border-color:rgba(13,27,52,.14);box-shadow:0 24px 60px rgba(13,27,52,.28)}
+.vbk--light .vbk__card:hover{border-color:rgba(245,184,46,.7);box-shadow:0 30px 70px rgba(13,27,52,.34)}
+.vbk--light .vbk__grid--1 .vbk__card{box-shadow:0 30px 80px rgba(13,27,52,.32)}
+.vbk--light .vbk__dots i{background:rgba(13,27,52,.22)}
+.vbk--light .vbk__dots i.on{background:#f5b82e}
+.vbk--light:not(.vbk--single) .vbk__stage{background:none;border-color:transparent;box-shadow:none;padding:0}
+.section.testi--cont{padding-top:0}

@@ -42,9 +42,9 @@ const initials = (name: string) => {
 export async function Testimonials({ b }: { b: TestimonialsBlock }) {
   const L = (await getLabels()).common;
   return (
-    <section className="section testi">
+    <section className={b.kicker || b.title || b.lead ? "section testi" : "section testi testi--cont"}>
       <div className="container">
-        <SectionHead kicker={b.kicker} title={b.title} lead={b.lead} center />
+        {b.kicker || b.title || b.lead ? <SectionHead kicker={b.kicker} title={b.title} lead={b.lead} center /> : null}
         <div className="grid grid--2">
           {b.items.map((t, i) => (
             <blockquote key={i} className="tcard" data-reveal style={d(i)}>

@@ -168,6 +168,8 @@ export type RoadmapBlock = { type: "roadmap"; kicker: string; title: string; lea
 export type VideosBlock = {
   type: "videos"; kicker: string; title: string; lead: string; ctaLabel?: string; ctaHref?: string;
   items: { src?: string; poster?: string; caption?: string }[];
+  /* Light background (success-stories page) instead of the dark navy default. */
+  light?: boolean;
 };
 
 /* Events page: one card per event Trinity attended or held, each opening a photo viewer. The first photo is the card's cover. */
