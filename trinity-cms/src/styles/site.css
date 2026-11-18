@@ -400,6 +400,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
    Hover: the card lifts and its shadow deepens, a gold bar draws along the foot, the badge flips to navy with a gold icon and tilts a little. Five boxes fit one row from about
    1100px; they wrap to three and two, and to one full-width box each on a phone. */
 .trk{background:var(--grey)}
+.section.trk{padding-bottom:0}
 .trk__row{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(210px,100%),1fr));gap:18px;margin-top:clamp(30px,4vw,52px)}
 .trk__item{position:relative;overflow:hidden;display:flex;align-items:center;gap:16px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px 20px;box-shadow:0 12px 30px rgba(35,47,112,.07);transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s}
 .trk__item::after{content:"";position:absolute;left:20px;right:20px;bottom:0;height:3px;border-radius:3px 3px 0 0;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}

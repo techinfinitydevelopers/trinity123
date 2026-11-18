@@ -1790,3 +1790,7 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - `update-about-track-record.ts` now compares full block content, so a re-run picks up seed changes (icons). Applied locally (backup in scripts/backups/).
 - Verified on localhost: 5 boxes in one row at 1263px, 4+1 at 1000px, stacked full-width at 375px with no horizontal scroll; counters 42+ / 50+ / 1,200+ / 1 lakh+ / 1; hover CSS rules loaded (real pointer hover could not be triggered in the preview pane).
 - Production: needs push, then `update-about-track-record.ts` (dry run first, then `--apply`).
+
+## 2026-11-18 — About: track record bottom space halved
+
+- Gap below the track-record boxes was ~210px (section bottom padding 100 + next section top padding 110). `site.css`: `.section.trk{padding-bottom:0}` → ~110px. Verified computed: padding-bottom 0, next section padding-top 110. Mobile gets the same (0 + 56).
