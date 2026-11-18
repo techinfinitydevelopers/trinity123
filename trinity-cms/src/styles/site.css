@@ -2335,46 +2335,69 @@ mark.hl{background:none;color:var(--navy);font-weight:700}
 @keyframes cpopUp{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){.cpop,.cpop__card{animation:none}}
 
-/* ---- Home webinar slider (WebinarCarousel) ---- */
-.section.wbc{background:#fff;padding:clamp(64px,8vw,110px) 0;display:flex;justify-content:center}
-section.wbc .wbc__wrap{width:min(1180px,100% - 40px);margin-inline:auto}
+/* ---- Home webinar schedule (WebinarCarousel): dark section to sit with the world page, featured card + list of all sessions.
+   Every selector is prefixed `section.wbc` to beat the world page reset `.tw *{margin:0;padding:0}`. ---- */
+.section.wbc{position:relative;z-index:3;display:flex;justify-content:center;padding:clamp(64px,8vw,110px) 0;background:radial-gradient(900px 560px at 85% 0%,rgba(11,61,145,.5),transparent 70%),radial-gradient(700px 480px at 0% 100%,rgba(247,221,125,.07),transparent 70%),#050f26;color:#fff}
+section.wbc .wbc__wrap{width:min(1180px,100% - 40px)}
 section.wbc .wbc__head{text-align:center;max-width:720px;margin:0 auto clamp(30px,4vw,50px)}
-section.wbc .wbc__kicker{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 0 14px;font-family:var(--font-h);font-weight:600;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--primary)}
+section.wbc .wbc__kicker{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 0 14px;font-family:var(--font-h);font-weight:600;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
 section.wbc .wbc__kicker::before{content:"";width:34px;height:2px;background:var(--gold)}
-section.wbc .wbc__h2{font-family:var(--font-h);font-weight:800;font-size:clamp(28px,3.6vw,46px);line-height:1.12;letter-spacing:-1px;color:var(--navy);margin:0}
-section.wbc .wbc__h2 .accent,section.wbc .wbc__h2 .gold,section.wbc .wbc__h2 .grad{color:#c79a0b;font-style:normal}
-section.wbc .wbc__lead{margin:16px 0 0;font-size:17px;line-height:1.7;color:var(--muted-ink)}
-section.wbc .wbc__card{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);gap:clamp(22px,3vw,44px);align-items:center;padding:clamp(22px,3vw,40px);border-radius:32px;background:linear-gradient(135deg,#FFF8DD,#FFF1C2 70%,#FFEBAA);border:1px solid rgba(247,221,125,.7);box-shadow:0 26px 60px rgba(35,47,112,.10)}
-section.wbc .wbc__body{display:flex;flex-direction:column;align-items:flex-start;animation:wbcIn .55s var(--ease) both}
-section.wbc .wbc__top{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;margin-bottom:clamp(18px,2.4vw,30px)}
-section.wbc .wbc__pill{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;border-radius:50px;font-family:var(--font-h);font-weight:600;font-size:13px;letter-spacing:.2px;color:#fff;background:var(--navy)}
-section.wbc .wbc__pill--soon{background:linear-gradient(90deg,var(--navy-3),var(--navy-2))}
-section.wbc .wbc__pill--soon i{color:var(--gold)}
-section.wbc .wbc__pill--done{background:#fff;color:var(--muted-ink);border:1px solid var(--line)}
-section.wbc .wbc__pill--done i{color:var(--green,#2E9E63)}
-section.wbc .wbc__count{font-family:var(--font-h);font-weight:700;font-size:13px;letter-spacing:1px;color:rgba(35,47,112,.45)}
-section.wbc .wbc__when{display:flex;align-items:center;gap:10px;font-family:var(--font-h);font-weight:600;font-size:14px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted-ink);margin:0 0 12px}
-section.wbc .wbc__when i{color:#c79a0b}
-section.wbc .wbc__title{font-family:var(--font-h);font-weight:700;font-size:clamp(24px,2.6vw,36px);line-height:1.18;letter-spacing:-.5px;color:var(--navy);margin:0 0 14px;text-wrap:balance}
-section.wbc .wbc__text{font-size:16px;line-height:1.7;color:var(--text);margin:0 0 6px;max-width:46ch;text-wrap:pretty}
-section.wbc .wbc__btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(20px,2.6vw,32px)}
-section.wbc .wbc__btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-width:150px;padding:15px 28px;border-radius:50px;font-family:var(--font-h);font-weight:600;font-size:15px;transition:transform .3s var(--ease),background .3s,color .3s,box-shadow .3s,border-color .3s}
-section.wbc .wbc__btn--ghost{color:var(--navy);border:1.5px solid rgba(35,47,112,.35);background:transparent}
-section.wbc .wbc__btn--ghost:hover{background:#fff;border-color:var(--navy);transform:translateY(-2px)}
-section.wbc .wbc__btn--solid{color:#fff;background:var(--navy);border:1.5px solid var(--navy);box-shadow:0 12px 26px rgba(35,47,112,.25)}
-section.wbc .wbc__btn--solid i{font-size:12px;color:var(--gold);transition:transform .3s var(--ease)}
-section.wbc .wbc__btn--solid:hover{background:var(--navy-3);transform:translateY(-2px);box-shadow:0 18px 34px rgba(35,47,112,.32)}
-section.wbc .wbc__btn--solid:hover i{transform:translateX(4px)}
-section.wbc .wbc__media{position:relative;aspect-ratio:16/9;border-radius:24px;overflow:hidden;background:var(--navy-3);box-shadow:0 22px 50px rgba(35,47,112,.22);animation:wbcIn .6s .05s var(--ease) both}
+section.wbc .wbc__h2{font-family:var(--font-h);font-weight:800;font-size:clamp(28px,3.6vw,46px);line-height:1.12;letter-spacing:-1px;color:#fff;margin:0}
+section.wbc .wbc__h2 .accent,section.wbc .wbc__h2 .gold,section.wbc .wbc__h2 .grad{color:var(--gold)}
+section.wbc .wbc__lead{margin:16px 0 0;font-size:17px;line-height:1.7;color:rgba(255,255,255,.72)}
+section.wbc .wbc__grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(18px,2.4vw,30px);align-items:stretch}
+
+section.wbc .wbc__feat{display:flex;flex-direction:column;background:#fff;color:var(--text);border-radius:28px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.35);animation:wbcIn .5s var(--ease) both}
+section.wbc .wbc__media{position:relative;aspect-ratio:16/9;background:var(--navy-3);overflow:hidden}
 section.wbc .wbc__media img{display:block;width:100%;height:100%;object-fit:cover}
-section.wbc .wbc__ph{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:12px;padding:clamp(22px,3vw,44px);color:#fff;background:radial-gradient(420px 300px at 85% 10%,rgba(247,221,125,.28),transparent 70%),radial-gradient(380px 280px at 0% 100%,rgba(91,132,196,.4),transparent 70%),linear-gradient(135deg,var(--navy-3),var(--navy) 60%,var(--navy-2))}
+section.wbc .wbc__ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;padding:clamp(22px,3.4vw,48px);color:#fff;background:radial-gradient(420px 300px at 85% 10%,rgba(247,221,125,.28),transparent 70%),radial-gradient(380px 280px at 0% 100%,rgba(91,132,196,.4),transparent 70%),linear-gradient(135deg,var(--navy-3),var(--navy) 60%,var(--navy-2))}
+section.wbc .wbc__ph > i{display:grid;place-items:center;width:84px;height:84px;border-radius:50%;background:var(--gold);color:var(--navy);font-size:32px;box-shadow:0 0 0 12px rgba(247,221,125,.16)}
 section.wbc .wbc__ph-date{align-self:flex-start;padding:7px 16px;border-radius:50px;background:var(--gold);color:var(--navy);font-family:var(--font-h);font-weight:700;font-size:13px;letter-spacing:.6px;text-transform:uppercase}
-section.wbc .wbc__ph-title{font-family:var(--font-h);font-weight:800;font-size:clamp(22px,2.6vw,36px);line-height:1.15;letter-spacing:-.5px;text-wrap:balance}
+section.wbc .wbc__ph-title{font-family:var(--font-h);font-weight:800;font-size:clamp(22px,2.8vw,34px);line-height:1.15;letter-spacing:-.5px;text-wrap:balance;margin-top:6px}
 section.wbc .wbc__ph-tag{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.7)}
-section.wbc .wbc__dots{display:flex;justify-content:center;gap:10px;margin-top:26px}
-section.wbc .wbc__dots button{width:11px;height:11px;border-radius:50px;border:0;padding:0;background:#d5d9e6;cursor:pointer;transition:width .35s var(--ease),background .3s}
-section.wbc .wbc__dots button:hover{background:#aab1cc}
-section.wbc .wbc__dots button.is-on{width:42px;background:var(--navy)}
-@keyframes wbcIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-@media (max-width:860px){section.wbc .wbc__card{grid-template-columns:1fr}section.wbc .wbc__media{order:-1}section.wbc .wbc__btn{flex:1 1 140px}}
-@media (prefers-reduced-motion:reduce){section.wbc .wbc__body,section.wbc .wbc__media{animation:none}section.wbc .wbc__btn,section.wbc .wbc__dots button{transition:none}}
+section.wbc .wbc__pill{position:absolute;left:16px;top:16px;display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:50px;font-family:var(--font-h);font-weight:600;font-size:13px;box-shadow:0 8px 22px rgba(0,0,0,.28)}
+section.wbc .wbc__pill--soon{background:var(--gold);color:var(--navy)}
+section.wbc .wbc__pill--done{background:rgba(255,255,255,.94);color:var(--muted-ink)}
+section.wbc .wbc__pill--done i{color:var(--green,#2E9E63)}
+section.wbc .wbc__info{display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:clamp(22px,2.6vw,34px)}
+section.wbc .wbc__when{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0;font-family:var(--font-h);font-weight:600;font-size:13.5px;letter-spacing:1px;text-transform:uppercase;color:var(--muted-ink)}
+section.wbc .wbc__when i{color:#c79a0b}
+section.wbc .wbc__when span{padding:3px 10px;border-radius:50px;background:#EAF7EF;color:#227A4B;font-size:11.5px;letter-spacing:.4px}
+section.wbc .wbc__title{font-family:var(--font-h);font-weight:700;font-size:clamp(22px,2.3vw,32px);line-height:1.2;letter-spacing:-.4px;color:var(--navy);margin:0;text-wrap:balance}
+section.wbc .wbc__text{margin:0;font-size:16px;line-height:1.65;color:var(--text);max-width:56ch;text-wrap:pretty}
+section.wbc .wbc__btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px}
+section.wbc .wbc__btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 26px;border-radius:50px;font-family:var(--font-h);font-weight:600;font-size:15px;transition:transform .3s var(--ease),background .3s,color .3s,box-shadow .3s,border-color .3s}
+section.wbc .wbc__btn--solid{background:var(--navy);color:#fff;border:1.5px solid var(--navy);box-shadow:0 12px 26px rgba(35,47,112,.28)}
+section.wbc .wbc__btn--solid i{font-size:12px;color:var(--gold);transition:transform .3s var(--ease)}
+section.wbc .wbc__btn--solid:hover{background:var(--navy-3);transform:translateY(-2px)}
+section.wbc .wbc__btn--solid:hover i{transform:translateX(4px)}
+section.wbc .wbc__btn--ghost{background:transparent;color:var(--navy);border:1.5px solid rgba(35,47,112,.3)}
+section.wbc .wbc__btn--ghost:hover{border-color:var(--navy);background:var(--grey);transform:translateY(-2px)}
+
+section.wbc .wbc__list{list-style:none;display:flex;flex-direction:column;gap:10px;margin:0;padding:0}
+section.wbc .wbc__list li{flex:1 1 0;display:flex}
+section.wbc .wbc__row{flex:1;display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:12px 16px 12px 12px;border-radius:20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#fff;font:inherit;cursor:pointer;transition:background .3s,border-color .3s,transform .3s var(--ease),box-shadow .3s}
+section.wbc .wbc__row:hover{background:rgba(255,255,255,.11);transform:translateX(4px)}
+section.wbc .wbc__row:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+section.wbc .wbc__row.is-on{background:#fff;border-color:#fff;box-shadow:0 14px 34px rgba(0,0,0,.3);transform:translateX(0)}
+section.wbc .wbc__tile{flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;width:58px;height:58px;border-radius:16px;background:var(--gold);color:var(--navy);line-height:1}
+section.wbc .wbc__tile b{font-family:var(--font-h);font-weight:800;font-size:21px}
+section.wbc .wbc__tile small{margin-top:3px;font-family:var(--font-h);font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase}
+section.wbc .wbc__row.is-done .wbc__tile{background:rgba(255,255,255,.14);color:rgba(255,255,255,.8)}
+section.wbc .wbc__row.is-on.is-done .wbc__tile{background:var(--grey);color:var(--navy)}
+section.wbc .wbc__rt{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
+section.wbc .wbc__rt strong{font-family:var(--font-h);font-weight:600;font-size:15px;line-height:1.3;color:inherit;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+section.wbc .wbc__rt em{display:flex;align-items:center;gap:8px;font-style:normal;font-size:12.5px;color:rgba(255,255,255,.66)}
+section.wbc .wbc__row.is-on .wbc__rt strong{color:var(--navy)}
+section.wbc .wbc__row.is-on .wbc__rt em{color:var(--muted-ink)}
+section.wbc .wbc__next{padding:2px 9px;border-radius:50px;background:var(--gold);color:var(--navy);font-family:var(--font-h);font-weight:700;font-size:10.5px;letter-spacing:.6px;text-transform:uppercase}
+section.wbc .wbc__row > i{flex:none;font-size:12px;color:rgba(255,255,255,.4);transition:transform .3s var(--ease),color .3s}
+section.wbc .wbc__row:hover > i{transform:translateX(3px);color:var(--gold)}
+section.wbc .wbc__row.is-on > i{color:var(--navy)}
+section.wbc .wbc__all{margin:28px 0 0;text-align:center}
+section.wbc .wbc__all a{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-h);font-weight:600;font-size:15px;color:var(--gold);border-bottom:1.5px solid transparent;padding-bottom:3px;transition:border-color .3s,gap .3s}
+section.wbc .wbc__all a:hover{border-color:var(--gold);gap:14px}
+@keyframes wbcIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media (max-width:920px){section.wbc .wbc__grid{grid-template-columns:1fr}section.wbc .wbc__list{order:-1;flex-direction:row;overflow-x:auto;scroll-snap-type:x proximity;padding:4px 2px 12px;margin:0 -20px;padding-inline:20px;scrollbar-width:thin}section.wbc .wbc__list li{flex:0 0 min(272px,78vw);scroll-snap-align:start}section.wbc .wbc__row:hover{transform:none}section.wbc .wbc__row > i{display:none}}
+@media (max-width:560px){section.wbc .wbc__btns{width:100%}section.wbc .wbc__btn{flex:1 1 140px}section.wbc .wbc__tile{width:52px;height:52px}}
+@media (prefers-reduced-motion:reduce){section.wbc .wbc__feat{animation:none}section.wbc .wbc__row,section.wbc .wbc__btn{transition:none}}

@@ -1820,3 +1820,12 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - The world home page has its own static Knowledge Hub (`section#webinar` in `tw/markup.ts`: "Current webinar update" + concluded snippets). The new slider now sits exactly there and the old section is hidden. `TrinityWorldHost` got a `webinars` prop: a slot (`#tw-webinar-slot`) is inserted before `section#webinar`, the old section is `display:none`, and the slider is portalled in (renders after the world until the slot exists, like `below`). `page.tsx` passes `webinars={homeWebinars}`; `below` is the videos only.
 - Verified on localhost: order slider → testimonials (#voices) → student videos → boarding pass; one `.wbc`; old section hidden.
 - The concluded-webinar photos no longer show on the home page; they are still on /webinars-events. Not pushed.
+
+## 2026-11-18 — Home webinars: redesigned as a schedule (client: UI/UX not good enough)
+
+- Problem with the first version: a one-card auto-advancing slider hid 5 of 6 webinars, moved the card away from anyone reading, and its white section clashed with the dark world page around it.
+- Now: dark navy section (matches the page); **left** a large featured card (poster with status pill, date + "Free to attend", title, detail, **Register now** / More info; completed ones show "View webinar details" and no register button); **right** a list of all six with date tiles (gold = upcoming, dim = completed), "Next" tag on the nearest upcoming and "In N days" under it. Click a row to swap the card; opens on the next upcoming one. No autoplay. Rows are real buttons (`aria-pressed`, focus ring).
+- Mobile (≤920px): the list becomes a swipeable rail **above** the card, so picking a webinar changes the card right under the finger; no horizontal page scroll (375px checked).
+- Posters missing (webinars 4–6) → navy placeholder with a video icon + "Free live webinar" (no repeated title/date).
+- Fix: `.wbc` needed `position:relative; z-index:3` (like the engine's `section.page`) or the world's fixed scene paints over it once the section sits in the engine's flow.
+- Files: `WebinarCarousel.tsx` (rewritten), `.wbc*` CSS in site.css. Verified on localhost: 6 rows, selection/pressed state, placeholder + poster slides, mobile order. Not pushed (commits 07705e0, 0728357 + this one are local).
