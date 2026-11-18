@@ -150,6 +150,11 @@ export const eventGallery: EventsBlock = {
     { name: "Mithibai College", place: "Mumbai", date: "", text: "Trinity stand at the college's education fair.", photos: evPhotos("mithibai", 12) },
     { name: "St Francis", place: "Mumbai", date: "", text: "A guest lecture and counselling session on campus.", photos: evPhotos("st-francis", 12) },
     { name: "St. John", place: "", date: "", text: "Trinity stand at a college event.", photos: evPhotos("st-john", 9) },
+    /* Added 2026-11-18 from the client's mail ("college seminar of Pillai College of Engineering and Pillai College of Arts, Commerce and
+       Science" and "K J Somaiya seminar pics"). Dates are not in the mail or the files, so they are left for the owner. Sion is on the
+       K J Somaiya building's own sign. */
+    { name: "Pillai College of Engineering & Pillai College of Arts, Commerce and Science", place: "", date: "", text: "College seminar on studying abroad.", photos: evPhotos("pillai-colleges", 4) },
+    { name: "K J Somaiya Institute of Technology", place: "Sion, Mumbai", date: "", text: "College seminar on studying abroad.", photos: evPhotos("kj-somaiya", 2) },
   ],
 };
 
