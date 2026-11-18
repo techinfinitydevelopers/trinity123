@@ -16,7 +16,8 @@ export const aboutVideos: VideosBlock = {
 export const homeVideos: VideosBlock = {
   type: "videos", kicker: "Student stories", title: "Hear it from our students.",
   lead: "Students share their journey with Trinity Study Abroad. Tap a video to watch.",
-  ctaLabel: "Get free counselling", ctaHref: C,
+  /* The home page's button goes to the Success Stories page (client request); the copy on that page overrides this to the contact page. */
+  ctaLabel: "Get free counselling", ctaHref: "/success-stories",
   /* Third card: the thumbnail only, its video is still to come (add `src: "/tw/voices/voice-4.mp4"` and drop the caption). */
   items: [VOICE(1), VOICE(3), { poster: "/tw/voices/thumb-4.jpg", caption: "Video coming soon" }],
 };
@@ -572,7 +573,7 @@ const successBlocks: Block[] = [
   /* The student-video section sits inside the stories, in the second row's place (after the first three stories — the grid is three across): the
      stories continue below it in a heading-less block. Same videos as the home page, in the light look. */
   { ...testimonials, kicker: "In Their Words", title: "Stories of [Success]", lead: "Every one of these started with a free counselling session. Yours can too.", items: [...testimonials.items, ...clientStories].slice(0, SUCCESS_SPLIT) },
-  { ...homeVideos, light: true },
+  { ...homeVideos, light: true, ctaHref: C },
   { ...testimonials, kicker: "", title: "", lead: "", items: [...testimonials.items, ...clientStories].slice(SUCCESS_SPLIT) },
   {
     type: "journey", kicker: "How It Goes", title: "What a Trinity [Journey Looks Like]",

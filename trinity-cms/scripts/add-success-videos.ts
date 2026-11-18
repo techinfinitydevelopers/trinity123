@@ -43,7 +43,7 @@ async function main() {
     if (at < 0) throw new Error("success-stories has no testimonials block");
     const stories = blocks[at];
     const items = (stories.items as unknown[]) ?? [];
-    const videos = { ...(homeVideos as unknown as Block), light: true };
+    const videos = { ...(homeVideos as unknown as Block), light: true, ctaHref: "/contact-us" };
     if (items.length > SPLIT) {
       const first = { ...stories, items: items.slice(0, SPLIT) };
       const rest = { ...stories, kicker: "", title: "", lead: "", items: items.slice(SPLIT) };
