@@ -1858,3 +1858,9 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - `scripts/add-events-gallery.ts` (dry run / `--apply` / `--replace`, backup, idempotent) applied to the local DB. **Production still needs: push, this script, a redeploy.**
 - Verified locally: 5 cards, no broken images, viewer open/close/keys, 375px (no horizontal scroll, strip scrolls). Type-check clean for touched files.
 - Follow-up (client): removed the "5 events · 59 photos" chips under the Events gallery heading (markup + `.evg__stats` CSS).
+
+## 2026-11-18 — Events page simplified (client request)
+
+- Removed the six "The Events We Hold" cards and the gallery's own "Where you will find us" heading. The photo gallery now opens with the **"What we run — The Events We Hold"** heading and its intake-calendar line, and nothing else between the webinar section and the photos.
+- `seed-content.ts`: featureCards block dropped from `webinarsEventsBlocks`; `eventGallery` kicker/title/lead set to the kept heading. `scripts/simplify-events-page.ts` (dry run / `--apply`, backup, idempotent) removes the card block and sets the heading on a stored page; applied locally. Page order: pageHero > webinar > events > leadForm > cta.
+- Verified locally: no "University fairs"/"Where you" text, heading directly above the cards. **Production still needs: push, `add-events-gallery.ts --apply`, `simplify-events-page.ts --apply`, redeploy** (or just run the first with the new seed — see below).

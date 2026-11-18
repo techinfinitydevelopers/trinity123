@@ -139,8 +139,8 @@ export const homeWebinars: WebinarBlock = {
 const evPhotos = (slug: string, n: number) =>
   Array.from({ length: n }, (_, i) => { const k = String(i + 1).padStart(2, "0"); return { img: `${IMG}/events/${slug}/${k}.webp`, thumb: `${IMG}/events/${slug}/${k}-t.webp`, alt: "" }; });
 export const eventGallery: EventsBlock = {
-  type: "events", kicker: "On the ground", title: "Where you [will find us]",
-  lead: "College seminars and education expos across Mumbai — the Trinity team meeting students and parents in person. Open an event to see its photos.",
+  type: "events", kicker: "What We Run", title: "The Events We [Hold]",
+  lead: "Dates change with the intake calendar, so register your interest and we will write to you when one is confirmed.",
   events: [
     { name: "TOI Expo – Dadar", place: "Dadar, Mumbai", date: "", text: "Trinity stand at the TOI education expo.", photos: evPhotos("toi-expo-dadar", 15) },
     { name: "Nagindas College seminar – Malad", place: "Malad, Mumbai", date: "6 August 2025", text: "A study-abroad seminar for the college's students.", photos: evPhotos("nagindas-malad", 11) },
@@ -598,18 +598,6 @@ const webinarsEventsBlocks: Block[] = [
     aside: { kind: "visual", img: "/assets/img/hero-light/desk.jpg", chipA: { big: "Free", small: "No charge to attend" }, chipB: { icon: "fas fa-video", strong: "Online & in person", small: "Join from anywhere" } },
   },
   { ...webinar, layout: "gallery" },
-  {
-    type: "featureCards", kicker: "What We Run", title: "The Events We [Hold]",
-    lead: "Dates change with the intake calendar, so register your interest and we will write to you when one is confirmed.",
-    cards: [
-      { icon: "fas fa-university", title: "University fairs", text: "Delegates from partner universities in the UK, Ireland, Canada, Australia and Europe answer course, fee and campus questions directly \u2014 no middle layer." },
-      { icon: "fas fa-file-signature", title: "Spot-admission days", text: "Bring your documents and receive a decision on the same day from visiting university representatives, with the application fee often waived." },
-      { icon: "fas fa-passport", title: "Visa & documentation workshops", text: "A working session on financial documents, SOPs and the interview \u2014 the three places applications most often come apart." },
-      { icon: "fas fa-pen-alt", title: "Test-prep sessions", text: "IELTS, TOEFL, GRE, GMAT and SAT briefings: what each test actually scores, how long to prepare, and which universities will accept what." },
-      { icon: "fas fa-users", title: "Parent counselling evenings", text: "For the questions parents ask and students forget to: safety, part-time work rules, total cost over the full course, and what happens after graduation." },
-      { icon: "fas fa-plane-departure", title: "Pre-departure briefings", text: "Held before each intake for students already holding a visa \u2014 forex, accommodation, insurance, packing and the first week on campus." },
-    ],
-  },
   eventGallery,
   { ...leadForm, kicker: "Register Interest", tagline: "Tell us what you want to [attend]", text: "We will write to you when the next event for your country or course is scheduled. No charge, and no obligation to attend.", formTitle: "Register your interest", submitLabel: "Notify me", okMsg: "Registered. We will email you as soon as the next relevant event is confirmed." },
   {
