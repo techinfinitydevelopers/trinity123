@@ -2336,7 +2336,7 @@ mark.hl{background:none;color:var(--navy);font-weight:700}
 @media(prefers-reduced-motion:reduce){.cpop,.cpop__card{animation:none}}
 
 /* ---- Home webinar slider (WebinarCarousel) ---- */
-.section.wbc{background:#fff;padding:clamp(64px,8vw,110px) 0;display:flex;justify-content:center}
+.section.wbc{position:relative;z-index:3;background:#fff;padding:clamp(64px,8vw,110px) 0;display:flex;justify-content:center}
 section.wbc .wbc__wrap{width:min(1180px,100% - 40px);margin-inline:auto}
 section.wbc .wbc__head{text-align:center;max-width:720px;margin:0 auto clamp(30px,4vw,50px)}
 section.wbc .wbc__kicker{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 0 14px;font-family:var(--font-h);font-weight:600;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--primary)}

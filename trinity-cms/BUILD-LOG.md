@@ -1820,3 +1820,7 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - The world home page has its own static Knowledge Hub (`section#webinar` in `tw/markup.ts`: "Current webinar update" + concluded snippets). The new slider now sits exactly there and the old section is hidden. `TrinityWorldHost` got a `webinars` prop: a slot (`#tw-webinar-slot`) is inserted before `section#webinar`, the old section is `display:none`, and the slider is portalled in (renders after the world until the slot exists, like `below`). `page.tsx` passes `webinars={homeWebinars}`; `below` is the videos only.
 - Verified on localhost: order slider → testimonials (#voices) → student videos → boarding pass; one `.wbc`; old section hidden.
 - The concluded-webinar photos no longer show on the home page; they are still on /webinars-events. Not pushed.
+
+## 2026-11-18 — Home webinars: schedule redesign undone (client asked to go back)
+
+- `git revert` of 867479c: the section is back to the one-card slider (cream card, poster right, dots), still placed where the old Knowledge Hub was. Kept one fix from the reverted work: `.section.wbc{position:relative;z-index:3}` so the world page's fixed scene cannot paint over it.
