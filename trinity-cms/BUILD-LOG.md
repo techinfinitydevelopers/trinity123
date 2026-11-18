@@ -1824,3 +1824,7 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 ## 2026-11-18 — Home webinars: schedule redesign undone (client asked to go back)
 
 - `git revert` of 867479c: the section is back to the one-card slider (cream card, poster right, dots), still placed where the old Knowledge Hub was. Kept one fix from the reverted work: `.section.wbc{position:relative;z-index:3}` so the world page's fixed scene cannot paint over it.
+
+## 2026-11-18 — Home webinars: poster for "Study Abroad After 12th"
+
+- Client's image saved as `public/assets/img/webinar/after-12th.webp` (435×245 source, 16:9) and set as `img` of the 21 Nov webinar in `homeWebinars` (seed-content.ts). The source is small, so it looks soft at full card width — a larger original would be sharper.
