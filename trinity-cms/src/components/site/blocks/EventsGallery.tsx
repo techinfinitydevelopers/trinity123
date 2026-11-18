@@ -68,7 +68,6 @@ export function EventsGallery({ b }: { b: EventsBlock }) {
               style={{ ["--d" as string]: `${(i % 3) * 0.08}s` }}
             >
               <span className="evg__shot"><img src={ev.photos[0].img} alt="" loading={i < 2 ? "eager" : "lazy"} /></span>
-              <span className="evg__count"><i className="fas fa-camera" aria-hidden="true" />{ev.photos.length} photos</span>
               <span className="evg__info">
                 <strong>{ev.name}</strong>
                 <span className="evg__meta">
@@ -90,7 +89,6 @@ export function EventsGallery({ b }: { b: EventsBlock }) {
               <strong>{cur.name}</strong>
               <span>{[cur.place, cur.date].filter(Boolean).join(" · ")}</span>
             </div>
-            <span className="evg__n">{open.p + 1} / {cur.photos.length}</span>
             <button type="button" className="evg__x" onClick={close} aria-label="Close gallery" autoFocus><i className="fas fa-times" aria-hidden="true" /></button>
           </div>
 
