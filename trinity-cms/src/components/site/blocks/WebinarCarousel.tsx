@@ -1,19 +1,18 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { WebinarBlock } from "@/lib/blocks";
 import { Title } from "../ui";
 
-/* The home page's webinar schedule: the whole year at a glance. A list of every webinar (date tile, title, status) sits beside one large
-   featured card — poster, date, title, a line of detail and the register button — and clicking a row swaps the card. Nothing moves on its
-   own: an auto-advancing slider hid five of the six sessions at any moment and took the card from under anyone reading it.
+/* The home page's webinar slider: one card at a time — a status pill, the date, the title and a short line on the left, the poster on
+   the right — with dots underneath. Slides come from `b.current`; an item with `date` (YYYY-MM-DD) shows "Upcoming · In 3 days" until
+   that day passes and "Completed" afterwards. An item with no poster gets a branded placeholder (date + title) instead of a blank box.
 
-   Rows come from `b.current`. An item with `date` (YYYY-MM-DD) is "Upcoming · In 3 days" until that day passes and "Completed" after;
-   the first upcoming one is pre-selected and marked "Next". The state is worked out in the browser after mount, since this page can sit
-   in a cache for days and a label baked in at build time would go stale. An item with no poster gets a branded placeholder. */
+   The state is worked out in the browser, after mount: this page can sit in a cache for days, so a label baked in at build time would
+   go stale. Until then the slider shows the first slide with no status. It opens on the next upcoming webinar and advances itself every
+   few seconds, stopping while the pointer or keyboard focus is on it and for anyone who prefers reduced motion. */
 
 type Item = WebinarBlock["current"][number];
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 function dayStart(d: Date) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
 function parse(date?: string) { if (!date) return null; const [y, m, d] = date.split("-").map(Number); return y && m && d ? new Date(y, m - 1, d) : null; }
@@ -21,18 +20,17 @@ function parse(date?: string) { if (!date) return null; const [y, m, d] = date.s
 /* null = no date, otherwise whole days from today (negative = already held). */
 function daysTo(item: Item, today: Date) { const d = parse(item.date); return d ? Math.round((d.getTime() - today.getTime()) / 86400000) : null; }
 
-function label(n: number | null) {
-  if (n === null) return "";
-  if (n < 0) return "Completed";
-  return n === 0 ? "Today" : n === 1 ? "Tomorrow" : `In ${n} days`;
+function status(n: number | null) {
+  if (n === null) return null;
+  if (n < 0) return { cls: "done", label: "Completed" };
+  return { cls: "soon", label: n === 0 ? "Today" : n === 1 ? "Tomorrow" : `In ${n} days` };
 }
 
 export function WebinarCarousel({ b }: { b: WebinarBlock }) {
   const items = b.current;
   const [today, setToday] = useState<Date | null>(null);
   const [i, setI] = useState(0);
-
-  const nextUp = today ? items.findIndex((w) => { const n = daysTo(w, today); return n !== null && n >= 0; }) : -1;
+  const hold = useRef(false);
 
   useEffect(() => {
     const t = dayStart(new Date());
@@ -42,14 +40,21 @@ export function WebinarCarousel({ b }: { b: WebinarBlock }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items.length]);
 
+  useEffect(() => {
+    if (items.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = window.setInterval(() => { if (!hold.current) setI((v) => (v + 1) % items.length); }, 7000);
+    return () => window.clearInterval(id);
+  }, [items.length]);
+
   if (!items.length) return null;
   const w = items[i];
   const n = today ? daysTo(w, today) : null;
+  const st = status(n);
   const upcoming = n !== null && n >= 0;
   const registerHref = w.href || b.ctaHref || "/contact-us";
 
   return (
-    <section className="section wbc" id="webinars" aria-label="Webinars">
+    <section className="section wbc" id="webinars" aria-roledescription="carousel" aria-label="Webinars">
       <div className="wbc__wrap">
         <div className="wbc__head" data-reveal>
           <p className="wbc__kicker">{b.kicker}</p>
@@ -57,64 +62,46 @@ export function WebinarCarousel({ b }: { b: WebinarBlock }) {
           {b.lead ? <p className="wbc__lead">{b.lead}</p> : null}
         </div>
 
-        <div className="wbc__grid" data-reveal>
-          <article className="wbc__feat" key={i} aria-live="polite">
-            <div className="wbc__media">
-              {w.img ? (
-                <img src={w.img} alt={w.title} loading="lazy" />
-              ) : (
-                <div className="wbc__ph" aria-hidden="true">
-                  <i className="fas fa-video" />
-                  <span className="wbc__ph-title">Free live webinar</span>
-                  <span className="wbc__ph-tag">Trinity Study Abroad</span>
-                </div>
-              )}
-              {today && n !== null ? (
-                <span className={upcoming ? "wbc__pill wbc__pill--soon" : "wbc__pill wbc__pill--done"}>
-                  <i className={upcoming ? "fas fa-clock" : "fas fa-check-circle"} aria-hidden="true" />
-                  {upcoming ? `Upcoming · ${label(n)}` : "Completed"}
-                </span>
-              ) : null}
+        <div
+          className="wbc__card"
+          onMouseEnter={() => { hold.current = true; }}
+          onMouseLeave={() => { hold.current = false; }}
+          onFocus={() => { hold.current = true; }}
+          onBlur={() => { hold.current = false; }}
+          data-reveal
+        >
+          <div className="wbc__body" key={i}>
+            <div className="wbc__top">
+              {st ? <span className={`wbc__pill wbc__pill--${st.cls}`}><i className={st.cls === "done" ? "fas fa-check-circle" : "fas fa-clock"} aria-hidden="true" />{st.cls === "done" ? st.label : `Upcoming · ${st.label}`}</span> : null}
+              <span className="wbc__count" aria-hidden="true">{String(i + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}</span>
             </div>
-            <div className="wbc__info">
-              <p className="wbc__when"><i className="far fa-calendar-alt" aria-hidden="true" />{w.when}<span>Free to attend</span></p>
-              <h3 className="wbc__title">{w.title}</h3>
-              {w.text ? <p className="wbc__text">{w.text}</p> : null}
-              <div className="wbc__btns">
-                {upcoming ? <Link className="wbc__btn wbc__btn--solid" href={registerHref}>Register now <i className="fas fa-arrow-right" aria-hidden="true" /></Link> : null}
-                {b.moreHref ? <Link className="wbc__btn wbc__btn--ghost" href={b.moreHref}>{upcoming ? "More info" : "View webinar details"}</Link> : null}
-              </div>
+            <p className="wbc__when"><i className="far fa-calendar-alt" aria-hidden="true" />{w.when}</p>
+            <h3 className="wbc__title">{w.title}</h3>
+            {w.text ? <p className="wbc__text">{w.text}</p> : null}
+            <div className="wbc__btns">
+              {b.moreHref ? <Link className="wbc__btn wbc__btn--ghost" href={b.moreHref}>More Info</Link> : null}
+              {upcoming ? <Link className="wbc__btn wbc__btn--solid" href={registerHref}>Register Now <i className="fas fa-arrow-right" aria-hidden="true" /></Link> : null}
             </div>
-          </article>
+          </div>
 
-          <ol className="wbc__list" aria-label="All webinars">
-            {items.map((it, k) => {
-              const d = parse(it.date);
-              const nn = today ? daysTo(it, today) : null;
-              const done = nn !== null && nn < 0;
-              return (
-                <li key={k}>
-                  <button type="button" className={`wbc__row${k === i ? " is-on" : ""}${done ? " is-done" : ""}`} aria-pressed={k === i} onClick={() => setI(k)}>
-                    <span className="wbc__tile" aria-hidden="true">
-                      <b>{d ? String(d.getDate()).padStart(2, "0") : "—"}</b>
-                      <small>{d ? MONTHS[d.getMonth()] : ""}</small>
-                    </span>
-                    <span className="wbc__rt">
-                      <strong>{it.title}</strong>
-                      <em>
-                        {k === nextUp ? <span className="wbc__next">Next</span> : null}
-                        {nn === null ? it.when : done ? "Completed" : label(nn)}
-                      </em>
-                    </span>
-                    <i className="fas fa-chevron-right" aria-hidden="true" />
-                  </button>
-                </li>
-              );
-            })}
-          </ol>
+          <div className="wbc__media" key={`m${i}`}>
+            {w.img ? (
+              <img src={w.img} alt={w.title} loading="lazy" />
+            ) : (
+              <div className="wbc__ph" aria-hidden="true">
+                <span className="wbc__ph-date">{w.when}</span>
+                <span className="wbc__ph-title">{w.title}</span>
+                <span className="wbc__ph-tag">Trinity Study Abroad</span>
+              </div>
+            )}
+          </div>
         </div>
 
-        {b.moreHref ? <p className="wbc__all"><Link href={b.moreHref}>{b.moreLabel || "All webinars"} <i className="fas fa-arrow-right" aria-hidden="true" /></Link></p> : null}
+        <div className="wbc__dots" role="tablist" aria-label="Choose a webinar">
+          {items.map((it, k) => (
+            <button key={k} type="button" role="tab" aria-selected={k === i} aria-label={`${it.title}, ${it.when}`} className={k === i ? "is-on" : ""} onClick={() => setI(k)} />
+          ))}
+        </div>
       </div>
     </section>
   );
