@@ -2456,3 +2456,16 @@ section.wbc .wbc__dots button.is-on{width:42px;background:var(--navy)}
 .testi .tcard{padding:32px}
 @media (max-width:1000px){.testi .grid--2{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:640px){.testi .grid--2{grid-template-columns:minmax(0,1fr)}.testi .tcard{padding:26px}}
+
+/* Story cards: long stories fold to six lines with a fade and a "Read more" link (TestimonialCard). */
+.tcard__body{position:relative;overflow:hidden;flex:1 1 auto;transition:max-height .45s var(--ease)}
+.tcard__body p{margin:0}
+.tcard__body.is-cut::after{content:"";position:absolute;left:0;right:0;bottom:0;height:64px;background:linear-gradient(180deg,rgba(255,255,255,0),#fff 85%);pointer-events:none}
+.tcard__more{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:8px 16px;border:1.5px solid rgba(35,47,112,.22);border-radius:50px;background:#fff;color:var(--navy);font-family:var(--font-h);font-weight:600;font-size:13.5px;cursor:pointer;transition:background .25s,color .25s,border-color .25s,transform .25s}
+.tcard__more i{font-size:11px;color:#c79a0b;transition:transform .35s var(--ease),color .25s}
+.tcard__more:hover{background:var(--navy);border-color:var(--navy);color:#fff;transform:translateY(-1px)}
+.tcard__more:hover i{color:var(--gold)}
+.tcard__more:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.tcard.is-open .tcard__more i{transform:rotate(180deg)}
+.tcard.is-open{border-color:rgba(247,221,125,.9);box-shadow:0 24px 50px rgba(26,36,86,.12)}
+@media (prefers-reduced-motion:reduce){.tcard__body,.tcard__more,.tcard__more i{transition:none}}

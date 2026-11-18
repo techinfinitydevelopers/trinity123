@@ -1,8 +1,9 @@
 import type { JourneyBlock, TestimonialsBlock, IntroBlock, FeatureCardsBlock, ServicesBlock, ContactBlock } from "@/lib/blocks";
 import type { ContactSettings } from "@/lib/settings";
 import { getLabels } from "@/lib/labels";
-import { A, SectionHead, Title, Stars, d } from "../ui";
+import { A, SectionHead, Title, d } from "../ui";
 import ContactForm from "../ContactForm";
+import { TestimonialCard } from "./TestimonialCard";
 
 export function Journey({ b }: { b: JourneyBlock }) {
   return (
@@ -47,15 +48,7 @@ export async function Testimonials({ b }: { b: TestimonialsBlock }) {
         {b.kicker || b.title || b.lead ? <SectionHead kicker={b.kicker} title={b.title} lead={b.lead} center /> : null}
         <div className="grid grid--2">
           {b.items.map((t, i) => (
-            <blockquote key={i} className="tcard" data-reveal style={d(i)}>
-              <span className="tcard__blob" />
-              <div className="tcard__head">
-                <div className="tcard__who">{t.img ? <img src={t.img} alt={t.name} loading="lazy" /> : <span className="tcard__ini" aria-hidden="true">{initials(t.name)}</span>}<div><strong>{t.name}</strong>{t.course ? <small>{t.course}</small> : null}</div></div>
-                <span className="tcard__q"><i className="fas fa-quote-right" /></span>
-              </div>
-              <Stars label={L.ratingLabel} />
-              <p>{t.text}</p>
-            </blockquote>
+            <TestimonialCard key={i} index={i} name={t.name} course={t.course} img={t.img} text={t.text} initials={initials(t.name)} ratingLabel={L.ratingLabel} />
           ))}
         </div>
       </div>
