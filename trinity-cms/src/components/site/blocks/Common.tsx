@@ -99,7 +99,7 @@ function TrackRecord({ b }: { b: StatsBlock }) {
   return (
     <section className="section trk" id="stats" aria-label="Track record">
       <div className="container">
-        <SectionHead kicker={b.kicker ?? ""} title={b.title ?? ""} gold />
+        <SectionHead kicker={b.kicker ?? ""} title={b.title ?? ""} gold light />
         <div className="trk__row" style={{ ["--n" as string]: b.items.length }}>
           {b.items.map((s, i) => (
             <div key={i} className="trk__item" data-reveal style={d(i)}>

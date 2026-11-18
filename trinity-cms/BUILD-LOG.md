@@ -1794,3 +1794,9 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 ## 2026-11-18 — About: track record bottom space halved
 
 - Gap below the track-record boxes was ~210px (section bottom padding 100 + next section top padding 110). `site.css`: `.section.trk{padding-bottom:0}` → ~110px. Verified computed: padding-bottom 0, next section padding-top 110. Mobile gets the same (0 + 56).
+
+## 2026-11-18 — About: section colours varied (client: too much white/grey)
+
+- Rhythm now: intro white → Mission & Vision grey → Founder video dark → **Our Process white** → **Track record navy** (gradient + soft gold/blue glows, white heading, gold kicker, white cards) → **Business Segments white** (logo cards grey, no border).
+- `site.css`: `.roadsec` white; `.trk` navy gradient; `.segsec:not(:has(.seg__pillars))` white. `Common.tsx`: track-record heading uses `light`. Bottom padding on `.trk` set to clamp(64–90px) since the navy edge now shows (replaces the earlier 0).
+- Verified on localhost: computed backgrounds per section; navy section screenshot (heading, cards, counters). Not pushed.
