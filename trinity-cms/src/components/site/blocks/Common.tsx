@@ -93,10 +93,11 @@ export async function CoursesSection({ b }: { b: CoursesBlock }) {
   );
 }
 
-/* The track-record layout: a heading, then one row of figures, each with a hairline above it. Used when the block has a title. */
+/* The track-record layout: a heading, then one row of figures, each with a hairline above it. Used when the block has a title.
+   The section's id is "stats" on purpose: the counter script (SiteScripts) looks for that id, and under any other the figures never count up and stay at 0. */
 function TrackRecord({ b }: { b: StatsBlock }) {
   return (
-    <section className="section trk" id="track-record" aria-label="Track record">
+    <section className="section trk" id="stats" aria-label="Track record">
       <div className="container">
         <SectionHead kicker={b.kicker ?? ""} title={b.title ?? ""} gold />
         <div className="trk__row" style={{ ["--n" as string]: b.items.length }}>

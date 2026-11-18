@@ -1764,3 +1764,12 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - `scripts/update-about-track-record.ts`: removes offer/journey from the About page and appends the track-record block; dry run by default, `--apply` writes with backup, idempotent.
 - Applied to the local database; local page checked at 1263px: five figures in one row, no horizontal overflow.
 - Not yet done: check at 375px; the figures count up from 0 (the existing counter script); production — needs the push and `update-about-track-record.ts --apply`.
+
+## 2026-11-18 — Track record on About: the figures were stuck at 0
+
+- Symptom: the track-record row showed "0+ / 0+ / 0+ / 0 lakh+ / 0" instead of 42+ Years' experience, 50+ Countries, 1,200+ Universities, 1 lakh+ Courses, 1 Stop solution.
+- Cause: the figures are filled in by the page's counter script (`SiteScripts.tsx`), which only looks for an element with id `stats`; the track-record section had id `track-record`, so nothing ever
+  counted. `Common.tsx` (`TrackRecord`): the section id is now `stats` (with a comment saying why).
+- Verified on localhost after a fresh load: 42+ Years' experience · 50+ Countries · 1,200+ Universities · 1 lakh+ Courses · 1 Stop solution; all reveal elements on the page switch to visible.
+  (A first load right after the dev server starts may not hydrate; reloading fixed it — a dev-server effect, not the change.)
+- Still to do: 375px check; production — push, then `update-about-track-record.ts --apply` (dry run first).
