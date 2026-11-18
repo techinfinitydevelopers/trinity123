@@ -1889,3 +1889,8 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 
 - The "Get free counselling" button in the home page's Student stories section now links to **/success-stories** (`homeVideos.ctaHref`, seed-content.ts; code-only, so a push is all it needs). The copy of this section on the Success Stories page keeps pointing to /contact-us (overridden in the seed and in `add-success-videos.ts`) so it does not link to its own page.
 - Verified on localhost: button text "Get free counselling", href `/success-stories`. The label was left as asked — it now reads oddly for a link to stories ("See success stories" would fit); say if you want it changed.
+
+## 2026-11-18 — Production: success-stories videos, Read more cards, home button (Railway)
+
+- Pushed aad0188 (everything pending: webinar poster fixes, three-across story cards, Read more cards + the fix, home Student-stories button → /success-stories). Production DB: `add-success-videos.ts` (dry → apply; re-run "already split") → stories(3) > videos(3) > stories(7) > journey > cta; backup scripts/backups/success-videos-2026-11-18T11-11-30-212Z.json. The events scripts had already been applied earlier.
+- Waited for the push deploy, then `railway redeploy --service trinity123 -y` for the cached pages. Verified live: success-stories has the light video section and the headless continuation block; the home page's Student-stories link points to /success-stories.
