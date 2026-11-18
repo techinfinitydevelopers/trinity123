@@ -142,8 +142,8 @@ export type UniversitiesBlock = {
   items: { img: string; name: string; flag: string; city: string; rating: string; href: string }[];
 };
 
-/* With a `title` the block is drawn as a "track record": a heading over a plain row of figures (About Us). Without one, the familiar four cards. */
-export type StatsBlock = { type: "stats"; kicker?: string; title?: string; items: { count: number; suffix: string; label: string }[] };
+/* With a `title` the block is drawn as a "track record": a heading over a row of boxes, each a round icon badge (`icon`, a Font Awesome class) beside the figure and its label (About Us). Without one, the familiar four cards. */
+export type StatsBlock = { type: "stats"; kicker?: string; title?: string; items: { count: number; suffix: string; label: string; icon?: string }[] };
 
 export type CtaBlock = {
   type: "cta"; layout: "split" | "center";

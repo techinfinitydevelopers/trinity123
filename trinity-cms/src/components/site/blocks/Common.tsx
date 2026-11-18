@@ -93,7 +93,7 @@ export async function CoursesSection({ b }: { b: CoursesBlock }) {
   );
 }
 
-/* The track-record layout: a heading, then one row of figures, each with a hairline above it. Used when the block has a title.
+/* The track-record layout: a heading, then a row of boxes — a round icon badge beside the figure and its label. Used when the block has a title.
    The section's id is "stats" on purpose: the counter script (SiteScripts) looks for that id, and under any other the figures never count up and stay at 0. */
 function TrackRecord({ b }: { b: StatsBlock }) {
   return (
@@ -103,8 +103,11 @@ function TrackRecord({ b }: { b: StatsBlock }) {
         <div className="trk__row" style={{ ["--n" as string]: b.items.length }}>
           {b.items.map((s, i) => (
             <div key={i} className="trk__item" data-reveal style={d(i)}>
-              <p className="trk__num"><span className="counter" data-count={s.count}>0</span>{s.suffix ? <span>{s.suffix}</span> : null}</p>
-              <p className="trk__label">{s.label}</p>
+              {s.icon ? <span className="trk__ico" aria-hidden="true"><i className={s.icon} /></span> : null}
+              <div className="trk__txt">
+                <p className="trk__num"><span className="counter" data-count={s.count}>0</span>{s.suffix ? <span className="trk__suf">{s.suffix}</span> : null}</p>
+                <p className="trk__label">{s.label}</p>
+              </div>
             </div>
           ))}
         </div>

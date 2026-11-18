@@ -403,11 +403,11 @@ const aboutBlocks: Block[] = [
   {
     type: "stats", kicker: "Track record", title: "Numbers that landed.",
     items: [
-      { count: 42, suffix: "+", label: "Years' experience" },
-      { count: 50, suffix: "+", label: "Countries" },
-      { count: 1200, suffix: "+", label: "Universities" },
-      { count: 1, suffix: " lakh+", label: "Courses" },
-      { count: 1, suffix: "", label: "Stop solution" },
+      { count: 42, suffix: "+", label: "Years' experience", icon: "fas fa-award" },
+      { count: 50, suffix: "+", label: "Countries", icon: "fas fa-globe-americas" },
+      { count: 1200, suffix: "+", label: "Universities", icon: "fas fa-university" },
+      { count: 1, suffix: " lakh+", label: "Courses", icon: "fas fa-book-reader" },
+      { count: 1, suffix: "", label: "Stop solution", icon: "fas fa-handshake" },
     ],
   },
   /* The sister companies (client brief, "OUR Business Segments"): the same block type as Mission & Vision, with no heading of its own. */

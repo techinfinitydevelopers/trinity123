@@ -1781,3 +1781,12 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
   block that has logos) — adding it, or moving it if it is elsewhere; still removes offer/journey if present; idempotent. Applied locally (dry run: `… > segments > stats` → `… > stats > segments`).
 - Verified on localhost: page text order Mission → Founder's video → Process (Profile Evaluation) → Numbers that landed → Our Business Segments; no "What We Offer" / "Start Today".
 - Production: needs the push and `update-about-track-record.ts --apply` (production is currently `… > segments > stats`).
+
+## 2026-11-18 — About: track record restyled as boxes with icons + hover (client request)
+
+- Each figure is now its own white rounded card: gold circular icon badge on the left, big number (gold suffix) + label. Section background light grey; heading unchanged.
+- Hover: card lifts, gold border + gold top bar slides in, badge flips to navy with a gold icon and tilts. `prefers-reduced-motion` respected.
+- `blocks.ts`: stats items take an optional `icon` (Font Awesome class). `Common.tsx` `TrackRecord` renders badge + `.trk__txt`. `site.css` `.trk*` rewritten. `seed-content.ts`: icons award / globe / university / book-reader / handshake.
+- `update-about-track-record.ts` now compares full block content, so a re-run picks up seed changes (icons). Applied locally (backup in scripts/backups/).
+- Verified on localhost: 5 boxes in one row at 1263px, 4+1 at 1000px, stacked full-width at 375px with no horizontal scroll; counters 42+ / 50+ / 1,200+ / 1 lakh+ / 1; hover CSS rules loaded (real pointer hover could not be triggered in the preview pane).
+- Production: needs push, then `update-about-track-record.ts` (dry run first, then `--apply`).

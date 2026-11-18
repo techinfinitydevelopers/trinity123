@@ -4,8 +4,8 @@
      DATABASE_URL="<url>" npx tsx scripts/update-about-track-record.ts --apply    # write
 
    The track-record block is the stats block in src/lib/seed-content.ts. It goes immediately before the Business Segments (the `segments` block that has logos); a
-   page that already has it elsewhere gets it moved. Idempotent: once the page has no offer or journey block and has the track-record block in that place,
-   it does nothing. The old blocks are saved to scripts/backups/ first. A direct database write never
+   page that already has it elsewhere gets it moved. Idempotent: once the page has no offer or journey block and has the track-record block, as in the seed, in that place, it does nothing
+   (the comparison is on content too, so a change to the seed's block — new icons, say — is picked up). It replaces the page's track-record block with the seed's. The old blocks are saved to scripts/backups/ first. A direct database write never
    reaches `revalidateSite()`, so redeploy (or save the page in /admin) afterwards. */
 import { PrismaClient } from "../src/generated/prisma/index.js";
 import { seedPages } from "../src/lib/seed-content";
@@ -17,6 +17,7 @@ type Block = Record<string, unknown>;
 const REMOVE = new Set(["offer", "journey"]);
 const isTrack = (b: Block) => b.type === "stats" && b.title === "Numbers that landed.";
 const names = (bs: Block[]) => bs.map((b) => String(b.type)).join(" > ");
+const stable = (v: unknown): string => JSON.stringify(v, (_k, x) => (x && typeof x === "object" && !Array.isArray(x) ? Object.fromEntries(Object.entries(x).sort(([a], [b]) => a.localeCompare(b))) : x));
 
 async function main() {
   const seed = seedPages.find((p) => p.slug === "about-us")?.blocks as unknown as Block[] | undefined;
@@ -30,7 +31,7 @@ async function main() {
   const at = logosAt >= 0 ? logosAt : kept.length;
   const next = [...kept.slice(0, at), track, ...kept.slice(at)];
   const gone = blocks.filter((b) => REMOVE.has(String(b.type))).map((b) => String(b.type));
-  if (!gone.length && blocks.some(isTrack) && names(blocks) === names(next)) { console.log("about-us: already up to date — nothing to do"); return; }
+  if (!gone.length && stable(blocks) === stable(next)) { console.log("about-us: already up to date — nothing to do"); return; }
   console.log(`about-us: removing ${gone.length ? gone.join(" + ") : "nothing"}; putting the track-record figures above the Business Segments`);
   console.log(`  now:  ${names(blocks)}`);
   console.log(`  then: ${names(next)}`);
