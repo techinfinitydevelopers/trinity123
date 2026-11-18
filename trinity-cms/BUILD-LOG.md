@@ -1857,3 +1857,4 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Content notes: only facts the files show were filled in — Nagindas is dated 6 Aug 2025 (from the photo file names); Dadar and Malad come from the folder names; the other places/dates are blank for the client or owner to add. Names are the folder names — the full college names should be confirmed.
 - `scripts/add-events-gallery.ts` (dry run / `--apply` / `--replace`, backup, idempotent) applied to the local DB. **Production still needs: push, this script, a redeploy.**
 - Verified locally: 5 cards, no broken images, viewer open/close/keys, 375px (no horizontal scroll, strip scrolls). Type-check clean for touched files.
+- Follow-up (client): removed the "5 events · 59 photos" chips under the Events gallery heading (markup + `.evg__stats` CSS).

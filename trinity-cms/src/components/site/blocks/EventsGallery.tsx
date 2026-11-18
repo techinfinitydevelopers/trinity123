@@ -44,7 +44,6 @@ export function EventsGallery({ b }: { b: EventsBlock }) {
   }, [open]);
 
   if (!events.length) return null;
-  const total = events.reduce((s, e) => s + e.photos.length, 0);
   const cur = open ? events[open.e] : null;
   const photo = cur && open ? cur.photos[open.p] : null;
 
@@ -55,10 +54,6 @@ export function EventsGallery({ b }: { b: EventsBlock }) {
           {b.kicker ? <p className="evg__kicker">{b.kicker}</p> : null}
           <Title text={b.title} className="evg__h2" />
           {b.lead ? <p className="evg__lead">{b.lead}</p> : null}
-          <ul className="evg__stats" aria-label="At a glance">
-            <li><b>{events.length}</b><span>{events.length === 1 ? "event" : "events"}</span></li>
-            <li><b>{total}</b><span>photos</span></li>
-          </ul>
         </div>
 
         <div className="evg__grid">

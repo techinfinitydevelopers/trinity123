@@ -2389,10 +2389,6 @@ section.wbc .wbc__dots button.is-on{width:42px;background:var(--navy)}
 .evg__h2{font-family:var(--font-h);font-weight:800;font-size:clamp(28px,3.6vw,46px);line-height:1.12;letter-spacing:-1px;color:var(--navy);margin:0}
 .evg__h2 .accent,.evg__h2 .gold{color:#c79a0b}
 .evg__lead{margin:16px 0 0;font-size:17px;line-height:1.7;color:var(--muted-ink)}
-.evg__stats{list-style:none;display:flex;justify-content:center;gap:12px;margin:24px 0 0;padding:0}
-.evg__stats li{display:flex;align-items:baseline;gap:8px;padding:10px 20px;border-radius:50px;background:#fff;border:1px solid var(--line);box-shadow:0 8px 22px rgba(35,47,112,.06)}
-.evg__stats b{font-family:var(--font-h);font-weight:800;font-size:22px;color:var(--navy)}
-.evg__stats span{font-size:14px;color:var(--muted-ink)}
 
 .evg__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2vw,26px)}
 .evg__card{position:relative;display:block;padding:0;border:0;text-align:left;font:inherit;color:#fff;cursor:pointer;border-radius:28px;overflow:hidden;background:var(--navy-3);aspect-ratio:1/1.02;box-shadow:0 18px 44px rgba(35,47,112,.16);transition:transform .45s var(--ease),box-shadow .45s var(--ease)}
