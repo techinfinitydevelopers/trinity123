@@ -2450,3 +2450,9 @@ section.wbc .wbc__dots button.is-on{width:42px;background:var(--navy)}
 .vbk--light .vbk__dots i.on{background:#f5b82e}
 .vbk--light:not(.vbk--single) .vbk__stage{background:none;border-color:transparent;box-shadow:none;padding:0}
 .section.testi--cont{padding-top:0}
+
+/* Success stories: three story cards across on desktop (two on tablets, one on phones); the cards are a little tighter to fit. */
+.testi .grid--2{grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.testi .tcard{padding:32px}
+@media (max-width:1000px){.testi .grid--2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.testi .grid--2{grid-template-columns:minmax(0,1fr)}.testi .tcard{padding:26px}}

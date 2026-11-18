@@ -1,11 +1,11 @@
 /* Success Stories page: puts the "Student stories" video section inside the stories, in the second row's place — after the first row
-   (the first two stories; the grid is two across), with the remaining stories continuing underneath. First version put it after four
+   (the first three stories; the grid is three across), with the remaining stories continuing underneath. First version put it after four
    stories; running this again moves it (the stories either side are merged and re-split, nothing is lost).
 
      DATABASE_URL="<url>" npx tsx scripts/add-success-videos.ts            # dry run
      DATABASE_URL="<url>" npx tsx scripts/add-success-videos.ts --apply    # write
 
-   Result:  testimonials (first 2) > videos (light) > testimonials (the rest, no heading) > journey > cta
+   Result:  testimonials (first 3) > videos (light) > testimonials (the rest, no heading) > journey > cta
 
    - The videos block is `homeVideos` (src/lib/seed-content.ts) with `light: true`; stories keep whatever text the owner edited in /admin —
      only the split point is new. An existing videos block keeps its own edits too; it is only moved.
@@ -16,7 +16,7 @@ import { PrismaClient } from "../src/generated/prisma/index.js";
 import { homeVideos } from "../src/lib/seed-content";
 import { mkdirSync, writeFileSync } from "node:fs";
 
-const SPLIT = 2;
+const SPLIT = 3;
 const apply = process.argv.includes("--apply");
 const db = new PrismaClient();
 type Block = Record<string, unknown>;
