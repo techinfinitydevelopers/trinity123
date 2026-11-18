@@ -2481,7 +2481,10 @@ section.wbc .wbc__dots button.is-on{width:42px;background:var(--navy)}
 .vbk--light .vbk__pts b{color:#9a6f00}
 .vbk--light .vbk__pts span{color:#5b6b86}
 @media (min-width:1001px){
-  .vbk--single .vbk__wrap{grid-template-columns:minmax(0,540px) 270px;justify-content:center;gap:clamp(44px,7vw,100px)}
-  .vbk--single .vbk__lead{max-width:440px;margin-bottom:24px}
+  /* Text stays on the left, starting where the sections above start; the video sits at the right end of the row. */
+  .vbk--single .vbk__wrap{grid-template-columns:minmax(0,1fr) 280px;justify-content:stretch;gap:clamp(40px,6vw,96px)}
+  .vbk--single .vbk__grid--1{width:280px}
+  .vbk--single .vbk__lead{max-width:520px;margin-bottom:24px}
+  .vbk--single .vbk__title{font-size:clamp(2.4rem,4.6vw,3.9rem)}
 }
 @media (max-width:560px){.vbk__pts li{flex:1 1 30%;min-width:0;padding:10px 12px}}
