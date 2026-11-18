@@ -1800,3 +1800,9 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Rhythm now: intro white → Mission & Vision grey → Founder video dark → **Our Process white** → **Track record navy** (gradient + soft gold/blue glows, white heading, gold kicker, white cards) → **Business Segments white** (logo cards grey, no border).
 - `site.css`: `.roadsec` white; `.trk` navy gradient; `.segsec:not(:has(.seg__pillars))` white. `Common.tsx`: track-record heading uses `light`. Bottom padding on `.trk` set to clamp(64–90px) since the navy edge now shows (replaces the earlier 0).
 - Verified on localhost: computed backgrounds per section; navy section screenshot (heading, cards, counters). Not pushed.
+
+## 2026-11-18 — Production: track record order + icons (Railway)
+
+- Pushed c64e439. Production is on Railway (project Trinity, services `trinity123` + `Postgres`; CLI already logged in). Ran `update-about-track-record.ts` against the production DB via `railway run --service Postgres` with `DATABASE_URL=$DATABASE_PUBLIC_URL` (dry run → apply → re-run "already up to date"). Backup: scripts/backups/about-track-record-2026-11-18T05-27-29-028Z.json.
+- The page stayed cached after the DB write; `railway redeploy --service trinity123 -y` refreshed it.
+- Verified live: "Numbers that landed" now before "Our Business Segments", icons present.
