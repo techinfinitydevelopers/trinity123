@@ -22,7 +22,7 @@ const SHAPES: Record<string, object> = {
      list and reloading leaves "+ Add" pushing a bare string into a list of objects. */
   hive: { value: "", label: "", img: "", icon: "" },
   trust: { icon: "", text: "" },
-  current: { badge: "", title: "", when: "", text: "", img: "" },
+  current: { title: "", date: "", when: "", text: "", img: "", href: "" },
   past: { title: "", when: "", img: "", href: "" },
   videos: { title: "", name: "", youtube: "", poster: "", note: "" },
   unis: { name: "", img: "" },
@@ -83,10 +83,13 @@ export default function FieldEditor({ value, onChange, name, depth = 0 }: { valu
        showed a blank select, and touching it dropped the page to the two-column layout with no
        way back. Whatever the block is actually set to stays on the list. */
     if (name === "layout") {
-      const LAYOUTS: [string, string][] = [["split", "Split (text + visual)"], ["center", "Centered"], ["gallery", "Gallery (full width)"]];
+      const LAYOUTS: [string, string][] = [["split", "Split (text + visual)"], ["center", "Centered"], ["gallery", "Gallery (full width)"], ["carousel", "Webinar slider (home page)"]];
       const opts = LAYOUTS.some(([v]) => v === value) ? LAYOUTS : [...LAYOUTS, [value, value] as [string, string]];
       return <Row label="Layout"><select className="inp inp-sm" value={value} onChange={(e) => onChange(e.target.value)}>{opts.map(([v, l]) => <option key={v} value={v}>{l}</option>)}</select></Row>;
     }
+    /* Webinar slider: the date drives the Upcoming / Completed label and the Register button, so it is picked, not typed. */
+    if (name === "date") return <Row label="Webinar date" hint="Pick the day. Before it passes the card says Upcoming and shows Register; after, it says Completed."><input type="date" className="inp inp-sm" value={value} onChange={(e) => onChange(e.target.value)} /></Row>;
+    if (name === "when") return <Row label="Date as shown" hint="Written out as visitors read it, e.g. 21 November 2026"><input className="inp inp-sm" value={value} onChange={(e) => onChange(e.target.value)} /></Row>;
     if (name === "secondaryKind") return <Row label="Secondary button"><select className="inp inp-sm" value={value} onChange={(e) => onChange(e.target.value)}><option value="phone">Phone pill</option><option value="whatsapp">WhatsApp button</option></select></Row>;
     if (name === "flag" || name === "flags") return <Row label={label} hint="ISO country code, e.g. us, gb, de"><input className="inp inp-sm" value={value} onChange={(e) => onChange(e.target.value.toLowerCase())} /></Row>;
     // `icon`-suffixed keys are always Font Awesome classes except Journey's SVG icons,
@@ -176,7 +179,9 @@ export function ObjectFields({ value, onChange, depth = 0, skip = [], collapsibl
   /* Content first, plumbing last: title and text lead, ids/links/icons sink to the bottom. */
   const FIRST = ["title", "name", "label", "q", "question", "t", "strong"], SECOND = ["text", "a", "answer", "lead", "sub", "html"], LAST = ["id", "href", "linkLabel", "wide", "icon"];
   const rank = (k: string): number => FIRST.includes(k) ? 0 : SECOND.includes(k) ? 1 : LAST.includes(k) ? 9 : 5;
-  const keys = Object.keys(value).filter((k) => k !== "type" && !skip.includes(k));
+  /* The webinar slider ignores the old two-column fields; showing them would only invite edits that change nothing. */
+  const hidden = value.type === "webinar" && value.layout === "carousel" ? ["currentTitle", "currentNote", "pastTitle", "pastNote", "past", "ctaLabel"] : "date" in value && "badge" in value ? ["badge"] : [];
+  const keys = Object.keys(value).filter((k) => k !== "type" && !skip.includes(k) && !hidden.includes(k));
   keys.sort((a, b) => rank(a) - rank(b));
   const summary = String(value.title ?? value.name ?? value.label ?? value.q ?? value.question ?? value.strong ?? value.text ?? value.t ?? `Item ${(index ?? 0) + 1}`).slice(0, 60);
   if (collapsible && !open) return <button type="button" className="flex w-full items-center justify-between rounded-lg px-2 py-1 text-left text-[13px] font-medium text-ink hover:bg-canvas" onClick={() => setOpen(true)}><span className="truncate">{summary}</span><span className="text-ink-3">Edit ›</span></button>;

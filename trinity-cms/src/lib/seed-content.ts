@@ -114,8 +114,8 @@ export const webinar: WebinarBlock = {
 };
 
 /* Home page webinar slider (client list, 2026-11-18). The first three have posters; 4–6 are waiting for the client's images, so
-   the slider draws a branded placeholder for them. The 6th has a date but no topic yet. Not stored in the database — like
-   `homeVideos` it is rendered by the home page itself, so a push is all it needs. */
+   the slider draws a branded placeholder for them. The 6th has a date but no topic yet. This is the starting content: scripts/add-home-webinars.ts copies it into the `webinar` block of the stored "home" page,
+   which is what the site draws and what /admin edits; this constant is only the fallback when that block is missing. */
 export const homeWebinars: WebinarBlock = {
   ...webinar,
   layout: "carousel",

@@ -3,6 +3,7 @@ import { getPage } from "@/lib/content";
 import { getAllSettings } from "@/lib/settings-server";
 import { BlockRenderer } from "@/components/site/blocks";
 import TrinityWorldHost from "@/components/tw/TrinityWorldHost";
+import type { Block, WebinarBlock } from "@/lib/blocks";
 import { homeVideos, homeWebinars } from "@/lib/seed-content";
 import "@/styles/tw-site.css";
 import "@/styles/tw-boarding-pass.css";
@@ -21,6 +22,14 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+/* The home page's webinar slider is the `webinar` block of the "home" page in /admin (so the owner edits its heading, dates, posters and
+   links there); it is always drawn as the slider. Pages saved before that block was converted, or a database without the block, fall back to
+   the seeded schedule. A block with no webinars simply hides the section. */
+function homeWebinarBlock(blocks?: Block[]): WebinarBlock {
+  const b = blocks?.find((x): x is WebinarBlock => x.type === "webinar");
+  return b ? { ...b, layout: "carousel" } : homeWebinars;
+}
+
 export default async function HomePage() {
   const [page, settings] = await Promise.all([getPage("home"), getAllSettings()]);
   /* Settings → Home page → "Use the Trinity World home page". On, the globe-and-flight
@@ -36,7 +45,7 @@ export default async function HomePage() {
         {/* The two student videos (the founder's video is on the About page). They sit inside the world, between its testimonials and its
             closing "Book your free counselling session" boarding pass, so the booking card is the last thing before the footer — see
             `below` in TrinityWorldHost. */}
-        <TrinityWorldHost world={settings.world} webinars={<BlockRenderer blocks={[homeWebinars]} ctx={{ settings }} />} below={<BlockRenderer blocks={[homeVideos]} ctx={{ settings }} />} />
+        <TrinityWorldHost world={settings.world} webinars={<BlockRenderer blocks={[homeWebinarBlock(page?.blocks)]} ctx={{ settings }} />} below={<BlockRenderer blocks={[homeVideos]} ctx={{ settings }} />} />
       </>
     );
   }
