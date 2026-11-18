@@ -3,7 +3,7 @@ import { getPage } from "@/lib/content";
 import { getAllSettings } from "@/lib/settings-server";
 import { BlockRenderer } from "@/components/site/blocks";
 import TrinityWorldHost from "@/components/tw/TrinityWorldHost";
-import { homeVideos } from "@/lib/seed-content";
+import { homeVideos, homeWebinars } from "@/lib/seed-content";
 import "@/styles/tw-site.css";
 import "@/styles/tw-boarding-pass.css";
 
@@ -36,7 +36,7 @@ export default async function HomePage() {
         {/* The two student videos (the founder's video is on the About page). They sit inside the world, between its testimonials and its
             closing "Book your free counselling session" boarding pass, so the booking card is the last thing before the footer — see
             `below` in TrinityWorldHost. */}
-        <TrinityWorldHost world={settings.world} below={<BlockRenderer blocks={[homeVideos]} ctx={{ settings }} />} />
+        <TrinityWorldHost world={settings.world} below={<BlockRenderer blocks={[homeWebinars, homeVideos]} ctx={{ settings }} />} />
       </>
     );
   }

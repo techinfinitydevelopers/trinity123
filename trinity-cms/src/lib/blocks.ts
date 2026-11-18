@@ -108,12 +108,13 @@ export type CampusBlock = {
 export type WebinarBlock = {
   type: "webinar"; kicker: string; title: string; lead: string;
   currentTitle: string; currentNote: string; ctaLabel: string; ctaHref: string;
-  current: { badge: string; title: string; when: string; text: string; img: string }[];
+  current: { badge: string; title: string; when: string; text: string; img: string; date?: string; href?: string }[];
   pastTitle: string; pastNote: string;
   past: { title: string; when: string; img: string; href: string }[];
   /* "split" is the home page's two columns. "gallery" gives the recordings the full width of
-     the page and prints each one whole, for the Webinars page. */
-  layout?: "split" | "gallery";
+     the page and prints each one whole, for the Webinars page. "carousel" is the home page's one-card-at-a-time slider over `current`
+     (each item may carry `date` as YYYY-MM-DD, which drives its Upcoming / Completed state, and `href` for its register link). */
+  layout?: "split" | "gallery" | "carousel";
   /* A link out to that page, shown under the home page's strip. */
   moreHref?: string; moreLabel?: string;
 };

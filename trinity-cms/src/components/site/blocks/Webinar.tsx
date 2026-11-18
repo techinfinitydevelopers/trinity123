@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { WebinarBlock } from "@/lib/blocks";
 import { Title } from "../ui";
+import { WebinarCarousel } from "./WebinarCarousel";
 
 /* Section 7 — the Knowledge Hub. Both lists start empty, and each says so in its own words
    rather than showing a skeleton of a webinar that does not exist.
@@ -9,6 +10,7 @@ import { Title } from "../ui";
    sessions. "gallery" is the Webinars page: the same content, but the recordings get the full
    width and each poster is printed whole rather than cropped into a thumbnail. */
 export function Webinar({ b }: { b: WebinarBlock }) {
+  if (b.layout === "carousel") return <WebinarCarousel b={b} />;
   const gallery = b.layout === "gallery";
 
   const coming = (

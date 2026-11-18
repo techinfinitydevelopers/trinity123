@@ -113,6 +113,25 @@ export const webinar: WebinarBlock = {
   past: [1, 2, 3].map((n) => ({ title: "", when: "", img: `${IMG}/webinar/concluded-2026-${n}.jpg`, href: "" })),
 };
 
+/* Home page webinar slider (client list, 2026-11-18). The first three have posters; 4–6 are waiting for the client's images, so
+   the slider draws a branded placeholder for them. The 6th has a date but no topic yet. Not stored in the database — like
+   `homeVideos` it is rendered by the home page itself, so a push is all it needs. */
+export const homeWebinars: WebinarBlock = {
+  ...webinar,
+  layout: "carousel",
+  kicker: "Free webinars", title: "Learn live from our [Counsellors]",
+  lead: "Free sessions on countries, tests and planning — open to students and parents.",
+  ctaLabel: "Register now", ctaHref: "/contact-us", moreHref: "/webinars-events", moreLabel: "All webinars",
+  current: [
+    { badge: "", title: "Study in Europe on a Budget", when: "24 July 2026", date: "2026-07-24", text: "Affordable tuition, quality education and global careers.", img: `${IMG}/webinar/snippet-3.webp` },
+    { badge: "", title: "Unlock Your Future in New Zealand", when: "22 August 2026", date: "2026-08-22", text: "Study, work and settle — your complete guide to studying in New Zealand.", img: `${IMG}/webinar/snippet-4.webp` },
+    { badge: "", title: "Test Prep for Studying Abroad", when: "26 September 2026", date: "2026-09-26", text: "Which test is right for you? IELTS, TOEFL, PTE, GRE, SAT, GMAT.", img: `${IMG}/webinar/snippet-2.webp` },
+    { badge: "", title: "Missed 2026? Prepare for 2027", when: "24 October 2026", date: "2026-10-24", text: "Your step-by-step guide to planning for 2027.", img: "" },
+    { badge: "", title: "Study Abroad After 12th – Pathway for Indian Students", when: "21 November 2026", date: "2026-11-21", text: "", img: "" },
+    { badge: "", title: "Topic to be announced", when: "19 December 2026", date: "2026-12-19", text: "", img: "" },
+  ],
+};
+
 export const vision: VisionBlock = {
   type: "vision",
   kicker: "In their words",
