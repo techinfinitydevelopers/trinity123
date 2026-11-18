@@ -2466,6 +2466,6 @@ section.wbc .wbc__dots button.is-on{width:42px;background:var(--navy)}
 .tcard__more:hover{background:var(--navy);border-color:var(--navy);color:#fff;transform:translateY(-1px)}
 .tcard__more:hover i{color:var(--gold)}
 .tcard__more:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
-.tcard.is-open .tcard__more i{transform:rotate(180deg)}
-.tcard.is-open{border-color:rgba(247,221,125,.9);box-shadow:0 24px 50px rgba(26,36,86,.12)}
+.tcard[data-open] .tcard__more i{transform:rotate(180deg)}
+.tcard[data-open]{border-color:rgba(247,221,125,.9);box-shadow:0 24px 50px rgba(26,36,86,.12)}
 @media (prefers-reduced-motion:reduce){.tcard__body,.tcard__more,.tcard__more i{transition:none}}

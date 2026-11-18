@@ -2,7 +2,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Stars } from "../ui";
 
-/* One story card. A long story shows its first few lines with a soft fade and a "Read more" link; the link opens the card to the full text
+/* One story card. The open state is a data attribute, never part of `className`: the page's reveal script adds an `in` class to every
+   `[data-reveal]` element, and React rewriting `className` on a re-render wipes it — the card goes back to its hidden pre-reveal state
+   and vanishes (that was the "card disappears on Read more" bug). A long story shows its first few lines with a soft fade and a "Read more" link; the link opens the card to the full text
    and turns into "Show less". Short stories show whole, with no link. Whether the text is long is measured in the browser (it depends on
    the card's width), so the link appears only where it is needed and follows window resizes. */
 
@@ -39,7 +41,7 @@ export function TestimonialCard({ name, course, img, text, initials, ratingLabel
   const h = long ? (open ? full : cut) : undefined;
 
   return (
-    <blockquote className={`tcard${long && open ? " is-open" : ""}`} data-reveal style={{ ["--d" as string]: `${(index % 3) * 0.08}s` }}>
+    <blockquote className="tcard" data-open={long && open ? "" : undefined} data-reveal style={{ ["--d" as string]: `${(index % 3) * 0.08}s` }}>
       <span className="tcard__blob" />
       <div className="tcard__head">
         <div className="tcard__who">
