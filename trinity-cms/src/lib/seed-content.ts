@@ -126,7 +126,7 @@ export const homeWebinars: WebinarBlock = {
     { badge: "", title: "Study in Europe on a Budget", when: "24 July 2026", date: "2026-07-24", text: "Affordable tuition, quality education and global careers.", img: `${IMG}/webinar/snippet-3.webp` },
     { badge: "", title: "Unlock Your Future in New Zealand", when: "22 August 2026", date: "2026-08-22", text: "Study, work and settle — your complete guide to studying in New Zealand.", img: `${IMG}/webinar/snippet-4.webp` },
     { badge: "", title: "Test Prep for Studying Abroad", when: "26 September 2026", date: "2026-09-26", text: "Which test is right for you? IELTS, TOEFL, PTE, GRE, SAT, GMAT.", img: `${IMG}/webinar/snippet-2.webp` },
-    { badge: "", title: "Missed 2026? Prepare for 2027", when: "24 October 2026", date: "2026-10-24", text: "Your step-by-step guide to planning for 2027.", img: "" },
+    { badge: "", title: "Missed 2026? Prepare for 2027", when: "24 October 2026", date: "2026-10-24", text: "Your step-by-step guide to planning for 2027.", img: `${IMG}/webinar/prepare-2027.webp` },
     { badge: "", title: "Study Abroad After 12th – Pathway for Indian Students", when: "21 November 2026", date: "2026-11-21", text: "", img: `${IMG}/webinar/after-12th.webp` },
     { badge: "", title: "Topic to be announced", when: "19 December 2026", date: "2026-12-19", text: "", img: "" },
   ],

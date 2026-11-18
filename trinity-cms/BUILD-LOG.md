@@ -1829,3 +1829,8 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 
 - Client's image saved as `public/assets/img/webinar/after-12th.webp` (435×245 source, 16:9) and set as `img` of the 21 Nov webinar in `homeWebinars` (seed-content.ts). The source is small, so it looks soft at full card width — a larger original would be sharper.
 - Follow-up: the screenshot carried the editor's blue selection border and corner/edge handles. Re-cropped 7px off every side (now 422×231) from the original; no blue pixels remain.
+
+## 2026-11-18 — Webinar posters: "Prepare for 2027" added, "After 12th" edges fixed
+
+- `prepare-2027.webp` (client image, cropped to exact 16:9, 614×345) is now the poster of the 24 Oct "Missed 2026? Prepare for 2027" webinar (`homeWebinars`, seed-content.ts).
+- "After 12th": the S of "Study" and the d of "Abroad" were being clipped — my 7px side crop plus the card's `object-fit:cover` on a 1.83:1 image. Rebuilt from the original: the full width is kept, only the two selection handles at the left/right edge middle are painted out, the top/bottom 6px (border + handles) are replaced by replicated edge rows, so the file is exactly 16:9 and nothing is cropped in the card. The letters touch the edges in the client's own slide; a wider original would be needed to show them fully.
