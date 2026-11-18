@@ -170,6 +170,12 @@ export type VideosBlock = {
   items: { src?: string; poster?: string; caption?: string }[];
 };
 
+/* Events page: one card per event Trinity attended or held, each opening a photo viewer. The first photo is the card's cover. */
+export type EventsBlock = {
+  type: "events"; kicker: string; title: string; lead: string;
+  events: { name: string; place: string; date: string; text: string; photos: { img: string; thumb?: string; alt?: string }[] }[];
+};
+
 export type JourneyBlock = {
   type: "journey"; kicker: string; title: string; lead: string;
   cards: { icon: string; title: string; text: string }[];
@@ -207,7 +213,7 @@ export type RichTextBlock = { type: "richText"; html: string; grey: boolean };
 
 export type Block =
   | HeroBlock | PageHeroBlock | BandBlock | UspBlock | LeadFormBlock | WorldMapBlock | CoursesBlock | AboutBlock | OfferBlock | StepsBlock | CountriesBlock
-  | CampusBlock | WebinarBlock | VisionBlock | SegmentsBlock | UniversitiesBlock | StatsBlock | CtaBlock | FaqBlock | JourneyBlock | RoadmapBlock | VideosBlock | TestimonialsBlock
+  | CampusBlock | WebinarBlock | EventsBlock | VisionBlock | SegmentsBlock | UniversitiesBlock | StatsBlock | CtaBlock | FaqBlock | JourneyBlock | RoadmapBlock | VideosBlock | TestimonialsBlock
   | IntroBlock | FeatureCardsBlock | ServicesBlock | ContactBlock | BlogListBlock | RichTextBlock;
 
 export type BlockType = Block["type"];
@@ -218,6 +224,7 @@ export const BLOCK_META: Record<BlockType, { label: string; desc: string }> = {
   band: { label: "Marquee Band", desc: "Scrolling ticker strip" },
   usp: { label: "USP Rail", desc: "Scrolling list of services with one pinned claim" },
   campus: { label: "Find your Campus", desc: "Public / private universities, criteria and logos" },
+  events: { label: "Event Photos", desc: "Event cards that open a photo gallery" },
   webinar: { label: "Knowledge Hub", desc: "Upcoming webinar, past snippets and a register button" },
   vision: { label: "Our Vision to their Journey", desc: "Management and student videos" },
   segments: { label: "Mission, Vision & Group", desc: "Mission and vision statements, and the sister-company logos" },

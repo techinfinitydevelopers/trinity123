@@ -1,6 +1,6 @@
 /* Default site content — mirrors the original static export exactly.
    Used by `prisma db seed` and by the admin "Reset to default" action. */
-import type { Block, BandBlock, UspBlock, LeadFormBlock, WorldMapBlock, CoursesBlock, TestimonialsBlock, StatsBlock, CountriesBlock, OfferBlock, CampusBlock, WebinarBlock, VisionBlock, VideosBlock} from "./blocks";
+import type { Block, BandBlock, UspBlock, LeadFormBlock, WorldMapBlock, CoursesBlock, TestimonialsBlock, StatsBlock, CountriesBlock, OfferBlock, CampusBlock, WebinarBlock, EventsBlock, VisionBlock, VideosBlock} from "./blocks";
 
 const IMG = "/assets/img";
 const C = "/contact-us";
@@ -129,6 +129,24 @@ export const homeWebinars: WebinarBlock = {
     { badge: "", title: "Missed 2026? Prepare for 2027", when: "24 October 2026", date: "2026-10-24", text: "Your step-by-step guide to planning for 2027.", img: `${IMG}/webinar/prepare-2027.webp` },
     { badge: "", title: "Study Abroad After 12th – Pathway for Indian Students", when: "21 November 2026", date: "2026-11-21", text: "", img: `${IMG}/webinar/after-12th.webp` },
     { badge: "", title: "Topic to be announced", when: "19 December 2026", date: "2026-12-19", text: "", img: "" },
+  ],
+};
+
+/* Events page photo gallery (client's event photos, 2026-11-18): web-sized copies live in public/assets/img/events/<event>/NN.webp with a
+   small NN-t.webp for the viewer's strip. The first photo is each card's cover. Names come from the client's folder names; only
+   dates and places that the files themselves show are filled in (Nagindas: the photos are dated 6 Aug 2025) — the rest are for the
+   owner to add in /admin. Receipts, taxi-meter shots and photos carrying a GPS-camera overlay were left out. */
+const evPhotos = (slug: string, n: number) =>
+  Array.from({ length: n }, (_, i) => { const k = String(i + 1).padStart(2, "0"); return { img: `${IMG}/events/${slug}/${k}.webp`, thumb: `${IMG}/events/${slug}/${k}-t.webp`, alt: "" }; });
+export const eventGallery: EventsBlock = {
+  type: "events", kicker: "On the ground", title: "Where you [will find us]",
+  lead: "College seminars and education expos across Mumbai — the Trinity team meeting students and parents in person. Open an event to see its photos.",
+  events: [
+    { name: "TOI Expo – Dadar", place: "Dadar, Mumbai", date: "", text: "Trinity stand at the TOI education expo.", photos: evPhotos("toi-expo-dadar", 15) },
+    { name: "Nagindas College seminar – Malad", place: "Malad, Mumbai", date: "6 August 2025", text: "A study-abroad seminar for the college's students.", photos: evPhotos("nagindas-malad", 11) },
+    { name: "Mithibai College", place: "Mumbai", date: "", text: "Trinity stand at the college's education fair.", photos: evPhotos("mithibai", 12) },
+    { name: "St Francis", place: "Mumbai", date: "", text: "A guest lecture and counselling session on campus.", photos: evPhotos("st-francis", 12) },
+    { name: "St. John", place: "", date: "", text: "Trinity stand at a college event.", photos: evPhotos("st-john", 9) },
   ],
 };
 
@@ -592,6 +610,7 @@ const webinarsEventsBlocks: Block[] = [
       { icon: "fas fa-plane-departure", title: "Pre-departure briefings", text: "Held before each intake for students already holding a visa \u2014 forex, accommodation, insurance, packing and the first week on campus." },
     ],
   },
+  eventGallery,
   { ...leadForm, kicker: "Register Interest", tagline: "Tell us what you want to [attend]", text: "We will write to you when the next event for your country or course is scheduled. No charge, and no obligation to attend.", formTitle: "Register your interest", submitLabel: "Notify me", okMsg: "Registered. We will email you as soon as the next relevant event is confirmed." },
   {
     type: "cta", layout: "center", badgeIcon: "fas fa-calendar-check", badge: "Cannot wait for the next one?", title: "Book a session {this week}",

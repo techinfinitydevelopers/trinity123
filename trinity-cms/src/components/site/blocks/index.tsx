@@ -8,6 +8,7 @@ import { Faq } from "./Faq";
 import { BlogList } from "./BlogList";
 import Campus from "./Campus";
 import { Webinar } from "./Webinar";
+import { EventsGallery } from "./EventsGallery";
 import Vision from "./Vision";
 import Videos from "./Videos";
 import { Segments, Roadmap } from "./Segments";
@@ -25,6 +26,7 @@ function renderBlock(b: Block, ctx: RenderCtx) {
     case "worldMap": return <WorldMapSection b={b} />;
     case "campus": return <Campus b={b} />;
     case "webinar": return <Webinar b={b} />;
+    case "events": return <EventsGallery b={b} />;
     case "vision": return <Vision b={b} />;
     case "segments": return <Segments b={b} />;
     case "courses": return <CoursesSection b={b} />;

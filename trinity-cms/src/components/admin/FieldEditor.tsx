@@ -24,6 +24,8 @@ const SHAPES: Record<string, object> = {
   trust: { icon: "", text: "" },
   current: { title: "", date: "", when: "", text: "", img: "", href: "" },
   past: { title: "", when: "", img: "", href: "" },
+  events: { name: "", place: "", date: "", text: "", photos: [{ img: "", alt: "" }] },
+  photos: { img: "", alt: "" },
   videos: { title: "", name: "", youtube: "", poster: "", note: "" },
   unis: { name: "", img: "" },
   items: { label: "", value: "" },
@@ -180,7 +182,7 @@ export function ObjectFields({ value, onChange, depth = 0, skip = [], collapsibl
   const FIRST = ["title", "name", "label", "q", "question", "t", "strong"], SECOND = ["text", "a", "answer", "lead", "sub", "html"], LAST = ["id", "href", "linkLabel", "wide", "icon"];
   const rank = (k: string): number => FIRST.includes(k) ? 0 : SECOND.includes(k) ? 1 : LAST.includes(k) ? 9 : 5;
   /* The webinar slider ignores the old two-column fields; showing them would only invite edits that change nothing. */
-  const hidden = value.type === "webinar" && value.layout === "carousel" ? ["currentTitle", "currentNote", "pastTitle", "pastNote", "past", "ctaLabel"] : "date" in value && "badge" in value ? ["badge"] : [];
+  const hidden = value.type === "webinar" && value.layout === "carousel" ? ["currentTitle", "currentNote", "pastTitle", "pastNote", "past", "ctaLabel"] : "date" in value && "badge" in value ? ["badge"] : "thumb" in value && "img" in value ? ["thumb"] : [];
   const keys = Object.keys(value).filter((k) => k !== "type" && !skip.includes(k) && !hidden.includes(k));
   keys.sort((a, b) => rank(a) - rank(b));
   const summary = String(value.title ?? value.name ?? value.label ?? value.q ?? value.question ?? value.strong ?? value.text ?? value.t ?? `Item ${(index ?? 0) + 1}`).slice(0, 60);
