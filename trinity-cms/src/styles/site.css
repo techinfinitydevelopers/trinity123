@@ -2384,7 +2384,7 @@ section.wbc .wbc__when i{color:#c79a0b}
 section.wbc .wbc__title{font-family:var(--font-h);font-weight:700;font-size:clamp(24px,2.6vw,36px);line-height:1.18;letter-spacing:-.5px;color:var(--navy);margin:0 0 14px;text-wrap:balance}
 section.wbc .wbc__text{font-size:16px;line-height:1.7;color:var(--text);margin:0 0 6px;max-width:46ch;text-wrap:pretty}
 section.wbc .wbc__btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(20px,2.6vw,32px)}
-section.wbc .wbc__btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-width:150px;padding:15px 28px;border-radius:50px;font-family:var(--font-h);font-weight:600;font-size:15px;transition:transform .3s var(--ease),background .3s,color .3s,box-shadow .3s,border-color .3s}
+section.wbc .wbc__btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-width:150px;padding:15px 28px;border-radius:50px;font-family:var(--font-h);font-weight:600;font-size:15px;white-space:nowrap;transition:transform .3s var(--ease),background .3s,color .3s,box-shadow .3s,border-color .3s}
 section.wbc .wbc__btn--ghost{color:var(--navy);border:1.5px solid rgba(35,47,112,.35);background:transparent}
 section.wbc .wbc__btn--ghost:hover{background:#fff;border-color:var(--navy);transform:translateY(-2px)}
 section.wbc .wbc__btn--solid{color:#fff;background:var(--navy);border:1.5px solid var(--navy);box-shadow:0 12px 26px rgba(35,47,112,.25)}
@@ -2402,7 +2402,13 @@ section.wbc .wbc__dots button{width:11px;height:11px;border-radius:50px;border:0
 section.wbc .wbc__dots button:hover{background:#aab1cc}
 section.wbc .wbc__dots button.is-on{width:42px;background:var(--navy)}
 @keyframes wbcIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-@media (max-width:860px){section.wbc .wbc__card{grid-template-columns:1fr}section.wbc .wbc__media{order:-1}section.wbc .wbc__btn{flex:1 1 140px}}
+@media (max-width:860px){section.wbc .wbc__card{grid-template-columns:1fr}section.wbc .wbc__media{order:-1}
+ /* `flex:1 1 140px` forced both buttons to the same width; "Register Now" (with its icon) needs more
+    room than that to stay on one line than "More Info" does, so it wrapped to two lines while More
+    Info sat correctly on one (client report, mobile, 19 Nov 2026). Sizing to content instead — same
+    as the desktop default — and wrapping the pair onto their own row on a narrow phone, as this
+    already does, reads better than two unevenly-squeezed pills. */
+ section.wbc .wbc__btn{flex:0 1 auto}}
 @media (prefers-reduced-motion:reduce){section.wbc .wbc__body,section.wbc .wbc__media{animation:none}section.wbc .wbc__btn,section.wbc .wbc__dots button{transition:none}}
 
 
