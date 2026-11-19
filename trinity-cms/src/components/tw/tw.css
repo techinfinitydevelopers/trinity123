@@ -56,7 +56,11 @@
 .tw .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
 .tw .chips span{font-size:.72rem;font-weight:600;padding:5px 11px;border-radius:99px;background:rgba(255,255,255,.14);backdrop-filter:blur(6px)}
 .tw .ucard .no{position:absolute;top:18px;right:20px;z-index:2;font:800 2.4rem Sora;color:rgba(255,255,255,.35)}
-.tw .ucard.intro{background:transparent;box-shadow:none;display:flex;flex-direction:column;justify-content:center;flex-basis:clamp(300px,34vw,480px);height:auto}
+/* `.ucard` is `overflow:hidden` with a 26px rounded corner so a photo card's image doesn't poke past it; the
+   intro card has no photo to clip, but it inherited both, and its text starts flush at the top-left — exactly
+   where that corner curves — so the rounded corner was slicing into the "D" of "Destination" (client report,
+   mobile, 19 Nov 2026). Neither property does anything useful here, so both come off. */
+.tw .ucard.intro{background:transparent;box-shadow:none;display:flex;flex-direction:column;justify-content:center;flex-basis:clamp(300px,34vw,480px);height:auto;overflow:visible;border-radius:0}
 .tw .ucard.intro:after{display:none}
 .tw .bar{height:3px;background:rgba(255,255,255,.15);border-radius:3px;margin:34px clamp(20px,6vw,90px) 0;overflow:hidden}
 .tw .bar i{display:block;height:100%;width:100%;background:var(--gold);transform:scaleX(0);transform-origin:left}
