@@ -29,6 +29,106 @@ export const UNI: Record<string,{src:string;artist?:string|null;license?:string|
   "artist": "L Maule",
   "license": "CC BY-SA 4.0"
  },
+ "University of Western Australia": {
+  "src": "uni/university-of-western-australia.jpg",
+  "artist": "Leon Brooks",
+  "license": "Public domain"
+ },
+ "Tokyo International University": {
+  "src": "uni/tokyo-international-university.jpg",
+  "artist": "Tokyo International University Public Relations",
+  "license": "Copyrighted free use"
+ },
+ "Le Cordon Bleu-Sookmyung Academy": {
+  "src": "uni/le-cordon-bleu-sookmyung-academy.jpg",
+  "artist": "revi",
+  "license": "CC BY 2.0 kr"
+ },
+ "University of Pennsylvania": {
+  "src": "uni/university-of-pennsylvania.jpg",
+  "artist": "Smallbones",
+  "license": "Public domain"
+ },
+ "Johns Hopkins University": {
+  "src": "uni/johns-hopkins-university.jpg",
+  "artist": "Daderot",
+  "license": "Public domain"
+ },
+ "Northwestern University": {
+  "src": "uni/northwestern-university.jpg",
+  "artist": "Madcoverboy",
+  "license": "CC BY-SA 3.0"
+ },
+ "University of Texas at Austin": {
+  "src": "uni/university-of-texas-at-austin.jpg",
+  "artist": "Daderot",
+  "license": "CC0"
+ },
+ "UCLA": {
+  "src": "uni/ucla.jpg",
+  "artist": "Beyond My Ken",
+  "license": "CC BY-SA 4.0"
+ },
+ "Fordham University": {
+  "src": "uni/fordham-university.jpg",
+  "artist": "Fordham University Library",
+  "license": "Public domain"
+ },
+ "University of Massachusetts Amherst": {
+  "src": "uni/university-of-massachusetts-amherst.jpg",
+  "artist": "Tomwsulcer",
+  "license": "CC0"
+ },
+ "University of Calgary": {
+  "src": "uni/university-of-calgary.jpg",
+  "artist": "Jgcab",
+  "license": "CC BY-SA 4.0"
+ },
+ "University of Twente": {
+  "src": "uni/university-of-twente.jpg",
+  "artist": "Berteun Damman",
+  "license": "Public domain"
+ },
+ "Tunku Abdul Rahman University of Management and Technology": {
+  "src": "uni/tunku-abdul-rahman-university-of-management-and-technology.jpg",
+  "artist": "Aiweny",
+  "license": "CC BY-SA 4.0"
+ },
+ "University of Southern Denmark": {
+  "src": "uni/university-of-southern-denmark.jpg",
+  "artist": "Søren Møller",
+  "license": "CC BY-SA 4.0"
+ },
+ "VIA University College": {
+  "src": "uni/via-university-college.jpg",
+  "artist": "RhinoMind",
+  "license": "CC BY-SA 4.0"
+ },
+ "Uppsala University": {
+  "src": "uni/uppsala-university.jpg",
+  "artist": "Thecoolnoob",
+  "license": "CC BY-SA 4.0"
+ },
+ "Stockholm School of Economics": {
+  "src": "uni/stockholm-school-of-economics.jpg",
+  "artist": "I99pema",
+  "license": "CC BY-SA 4.0"
+ },
+ "KTH Royal Institute of Technology": {
+  "src": "uni/kth-royal-institute-of-technology.jpg",
+  "artist": "User Stern (sv.wikipedia)",
+  "license": "CC BY-SA 3.0"
+ },
+ "University of Gothenburg": {
+  "src": "uni/university-of-gothenburg.jpg",
+  "artist": "Andrzej Otrębski",
+  "license": "CC BY-SA 3.0"
+ },
+ "Simon Fraser University": {
+  "src": "uni/simon-fraser-university.jpg",
+  "artist": "SFU and 4D LABS",
+  "license": "Public domain"
+ },
  "Khalifa University": {
   "src": "uni/khalifa-university-campus.jpg",
   "pos": "6% 40%",
