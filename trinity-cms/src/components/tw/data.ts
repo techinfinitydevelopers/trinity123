@@ -4,8 +4,8 @@ export const FIELDS='Business · Data & AI · Engineering · Health';
 const BASE=[
 /* Each `u` list below is the client's own partner-institution sheet (shared 19 Nov 2026,
    "Website - Countries & University.xlsx") — only universities Trinity can actually place
-   students into, not every well-known name for that country. Italy and "Other Europe" are
-   not in that sheet, so their lists are left as they were. */
+   students into, not every well-known name for that country. Italy and "Affordable Europe"
+   are not in that sheet, so their lists are left as they were. */
 {k:'uk',n:'United Kingdom',s:'UK',lat:51.5,lon:-0.12,city:'London',test:'IELTS · UKVI',u:['University College London','King\'s College London','University of Edinburgh','University of Manchester','University of Bristol','University of Glasgow','University of Warwick','University of Birmingham']},
 {k:'ireland',n:'Ireland',s:'Ireland',lat:53.35,lon:-6.26,city:'Dublin',test:'IELTS · PTE',u:['Trinity College Dublin','University College Dublin','University College Cork','University of Galway','Dublin City University']},
 {k:'france',n:'France',s:'France',lat:48.86,lon:2.35,city:'Paris',test:'IELTS · TCF / DELF',u:['Sciences Po','INSEAD','EM Normandie','ESCP Business School','SKEMA Business School','Emlyon Business School']},
@@ -21,7 +21,7 @@ const BASE=[
 {k:'netherlands',n:'Netherlands',s:'Netherlands',lat:52.37,lon:4.9,city:'Amsterdam',url:'',test:'IELTS · TOEFL',u:['TU Delft','University of Twente','Radboud University','Wittenborg University of Applied Sciences','University of Amsterdam']},
 {k:'italy',n:'Italy',s:'Italy',lat:41.9,lon:12.5,city:'Rome',url:'',test:'IELTS · PTE',u:['Politecnico di Milano','Bocconi University','Sapienza University of Rome','University of Bologna','University of Padua','Politecnico di Torino']},
 {k:'malaysia',n:'Malaysia',s:'Malaysia',lat:3.14,lon:101.69,city:'Kuala Lumpur',url:'',test:'IELTS · MUET',u:['University of Southampton Malaysia','Universiti Sains Malaysia','Tunku Abdul Rahman University of Management and Technology','Universiti Teknologi Malaysia','Taylor\'s University']},
-{k:'europe',n:'Other Europe',s:'Europe',lat:50.08,lon:14.43,city:'Prague',url:'',test:'IELTS · Local language',u:['KU Leuven','ETH Zurich','Politecnico di Milano','University of Copenhagen','University of Vienna','Charles University']},
+{k:'europe',n:'Affordable Europe',s:'Europe',lat:50.08,lon:14.43,city:'Prague',url:'',test:'IELTS · Local language',u:['KU Leuven','ETH Zurich','Politecnico di Milano','University of Copenhagen','University of Vienna','Charles University']},
 {k:'denmark',n:'Denmark',s:'Denmark',lat:55.68,lon:12.57,city:'Copenhagen',url:'',test:'IELTS · TOEFL',u:['University of Southern Denmark','International Business Academy','VIA University College','Copenhagen Academy of Digital Arts']},
 {k:'sweden',n:'Sweden',s:'Sweden',lat:59.33,lon:18.07,city:'Stockholm',url:'',test:'IELTS · TOEFL',u:['Lund University','Uppsala University','Stockholm School of Economics','KTH Royal Institute of Technology','University of Gothenburg']}
 ];
