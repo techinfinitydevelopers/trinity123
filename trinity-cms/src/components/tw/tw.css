@@ -211,7 +211,7 @@
  .tw #path .h2,.tw #life .h2,.tw #kit .h2{font-size:1.7rem!important}.tw .ptxt p{font-size:.9rem}
  .tw #life .lr{order:-1}.tw .deck{width:min(46vw,30vh*.8*1.6);max-width:230px}.tw .lbeats{height:190px;margin-top:12px}.tw .beat p{font-size:.92rem}
  /* Client asked for this card bigger too, and the column pulled up the same way as the dial and the checklist (19 Nov 2026). */
- .tw #life .lwrap{padding-top:32px}.tw #life .deck{width:min(70vw,42vh);max-width:320px}.tw #life .lbeats{margin-top:22px}
+ .tw #life .lwrap{padding-top:32px}.tw #life .deck{width:min(70vw,42vh);max-width:320px}.tw #life .lbeats{margin-top:64px}
  .tw .kcount b{font-size:3.2rem}.tw .klist{gap:6px}.tw .klist li{padding:9px 12px;gap:10px}.tw .klist b{font-size:.86rem}.tw .klist small{font-size:.72rem}.tw .klist .ck{width:24px;height:24px}
  .tw #kit .lead,.tw .klist small{display:none}.tw #kit .kwrap{padding-top:32px;gap:8px}.tw #kit .eyebrow{margin-bottom:6px}.tw .kcount{margin-top:8px}.tw .kbar{margin:8px 0 12px}.tw #kcta{margin-top:10px;padding:10px 18px}.tw .klist li{padding:8px 12px}
 }
