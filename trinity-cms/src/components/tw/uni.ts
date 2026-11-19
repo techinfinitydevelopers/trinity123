@@ -1,4 +1,34 @@
 export const UNI: Record<string,{src:string;artist?:string|null;license?:string|null;pos?:string}> = {
+ "University of Bristol": {
+  "src": "uni/university-of-bristol.jpg",
+  "artist": "Klafubra",
+  "license": "CC BY-SA 3.0"
+ },
+ "University of Glasgow": {
+  "src": "uni/university-of-glasgow.jpg",
+  "artist": "Diliff",
+  "license": "CC BY 3.0"
+ },
+ "University of Warwick": {
+  "src": "uni/university-of-warwick.jpg",
+  "artist": "David P Howard",
+  "license": "CC BY-SA 2.0"
+ },
+ "University of Birmingham": {
+  "src": "uni/university-of-birmingham.jpg",
+  "artist": "JimmyGuano",
+  "license": "CC BY-SA 3.0"
+ },
+ "SKEMA Business School": {
+  "src": "uni/skema-business-school.jpg",
+  "artist": "SKEMA Business School",
+  "license": "CC BY-SA 4.0"
+ },
+ "Victoria University of Wellington": {
+  "src": "uni/victoria-university-of-wellington.jpg",
+  "artist": "L Maule",
+  "license": "CC BY-SA 4.0"
+ },
  "Khalifa University": {
   "src": "uni/khalifa-university-campus.jpg",
   "pos": "6% 40%",
