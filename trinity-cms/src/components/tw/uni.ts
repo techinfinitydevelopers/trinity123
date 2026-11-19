@@ -1,4 +1,39 @@
 export const UNI: Record<string,{src:string;artist?:string|null;license?:string|null;pos?:string}> = {
+ "Curtin University Dubai": {
+  "src": "uni/curtin-university-dubai.jpg",
+  "artist": "Curtin University Dubai",
+  "license": "official campus photo"
+ },
+ "De Montfort University Dubai": {
+  "src": "uni/de-montfort-university-dubai.jpg",
+  "artist": "De Montfort University",
+  "license": "official campus photo"
+ },
+ "Kangwon National University": {
+  "src": "uni/kangwon-national-university.jpg",
+  "artist": "Kangwon National University",
+  "license": "official photo"
+ },
+ "Namseoul University": {
+  "src": "uni/namseoul-university.jpg",
+  "artist": "Namseoul University",
+  "license": "official photo"
+ },
+ "Lakeland University Japan": {
+  "src": "uni/lakeland-university-japan.jpg",
+  "artist": "Lakeland University Japan",
+  "license": "official photo"
+ },
+ "Kudan Institute of Japanese Language & Culture": {
+  "src": "uni/kudan-institute-of-japanese-language-culture.jpg",
+  "artist": "Kudan Institute of Japanese Language & Culture",
+  "license": "official facility photo"
+ },
+ "International College of Liberal Arts": {
+  "src": "uni/international-college-of-liberal-arts.jpg",
+  "artist": "iCLA, Yamanashi Gakuin University",
+  "license": "official campus photo"
+ },
  "University of Birmingham Dubai": {
   "src": "uni/university-of-birmingham-dubai.jpg",
   "artist": "Hopkins Architects",
