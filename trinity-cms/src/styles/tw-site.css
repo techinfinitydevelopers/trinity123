@@ -235,8 +235,15 @@
    `width:min(40vw,520px,62vh)` was written against a column that keeps growing. Past the wrap's
    1240px cap it does not: the column shrinks from 512px to 498px as the viewport widens, while
    the 520px term holds. The dial then overhangs by up to 22px and closes the gap the layout is
-   drawn around. `100%` is the column, so it is always the true ceiling. */
-.tw .dial{width:min(40vw,520px,62vh,100%)}
+   drawn around. `100%` is the column, so it is always the true ceiling.
+   Scoped to >=861px: below that, tw.css's own `@media(max-width:860px){.dial{width:min(56vw,34vh)}}`
+   deliberately grows the dial for phones, and this rule — having no media query of its own — came
+   later in the cascade and always won, undoing it: the circle rendered at the desktop 40vw ratio
+   and left a mismatched gap around it where the mobile layout expected a bigger dial (client
+   report, "How Your Journey Works" looking small with extra spacing, mobile, 19 Nov 2026). */
+@media (min-width:861px){
+  .tw .dial{width:min(40vw,520px,62vh,100%)}
+}
 
 /* ---- the visa checklist is clipped on a short, wide window -------------------------------------
    `#kit`'s eight rows sit in a `height:100vh` stage that clips, and tw.css only compacts them
