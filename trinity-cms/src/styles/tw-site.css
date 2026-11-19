@@ -520,3 +520,17 @@ body:has(.tw-host:not(:has(.tw))) .footer,body:has(.tw-host:not(:has(.tw))) .fcr
 .tw #tw-below .vbk__grid--1 .vbk__card{box-shadow:0 30px 80px rgba(13,27,52,.32)}
 .tw #tw-below .vbk__dots i{background:rgba(13,27,52,.22)}
 .tw #tw-below .vbk__dots i.on{background:#f5b82e}
+
+/* ---- scroll stutter in the boarding/arrival scenes, phone only --------------------------
+   User-reported: scrolling through "Boarding" → "Seat 1A" → "Descending" → the
+   "Welcome to <country>" card feels janky on a phone. Those four `.tag` pills (tw.css:22)
+   all use `backdrop-filter:blur(8px)`, and every one of them sits inside an element GSAP
+   is actively translating/fading on scroll with `scrub` (engine.ts: `.arrive .inner`
+   y:-140, and the equivalent cap fades earlier in the timeline) — a backdrop blur has to be
+   resampled from whatever is behind it on every frame the element moves, which is the
+   single most expensive thing a mobile GPU can be asked to do mid-scroll. Desktop scrubs
+   the same tweens but has GPU headroom to spare, so the blur stays there; phones get a
+   plain translucent pill instead (opacity bumped up to still read as a label on a photo). */
+@media (max-width:860px){
+  .tw .tag{backdrop-filter:none;background:rgba(255,255,255,.28)}
+}
