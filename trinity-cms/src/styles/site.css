@@ -588,6 +588,14 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .note{margin-top:22px;background:var(--grey);border-radius:24px;padding:24px 26px;display:flex;gap:18px;align-items:flex-start}
 .note p{line-height:1.8;font-size:15.5px;text-wrap:pretty}
 .note strong{color:var(--navy)}
+/* The site's floating WhatsApp/chat buttons sit fixed at the bottom-right of every screen (see
+   .fab-wa/.tc-fab below). The Intro block's hero paragraph is long enough to still be on screen
+   on load, right where those buttons sit, running the last word or two of two lines under them
+   (site-wide responsive pass, 19 Nov 2026, found on /about-us at 390 wide). A little right padding,
+   only on a phone, clears it without moving the buttons, which stay put on every other page. */
+@media (max-width:640px){
+  .split > div > p{padding-right:64px}
+}
 .note__ico{width:46px;height:46px;border-radius:14px;background:var(--primary);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 .bento2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .bento2__wide{grid-column:1/-1;border-radius:28px;overflow:hidden;aspect-ratio:16/9;box-shadow:0 30px 60px rgba(26,36,86,.16);will-change:transform}
@@ -828,6 +836,13 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .pcard__media img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
 .pcard:hover .pcard__media img{transform:scale(1.06)}
 .pcard__cat{position:absolute;left:16px;top:16px;background:var(--gold);color:var(--navy);font-family:var(--font-h);font-weight:600;font-size:12px;padding:6px 12px;border-radius:var(--r-pill)}
+/* The search page's result cards have no .pcard__media image box — .pcard__cat sits
+   straight in .pcard__body instead. With no positioned ancestor between it and .pcard,
+   its `position:absolute` escaped to the page's nearest positioned ancestor (a hero
+   section far above), landing every card's category badge on top of each other near
+   the top of the page (site-wide responsive pass, 19 Nov 2026, /search?q=visa). Only
+   this placement needs it static; the blog-listing badge still floats on its image. */
+.pcard__body > .pcard__cat{position:static;align-self:flex-start}
 .pcard__body{padding:26px 26px 28px;display:flex;flex-direction:column;gap:12px;flex:1}
 .pcard--big .pcard__body{padding:clamp(28px,4vw,52px);justify-content:center}
 .pcard__meta{display:flex;gap:10px;font-size:13px;color:var(--muted)}
