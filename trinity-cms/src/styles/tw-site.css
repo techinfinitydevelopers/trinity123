@@ -174,6 +174,23 @@
   .tw .meter{top:auto!important}
 }
 
+/* ---- "Scroll to take off" vs the altitude readout, once a country is picked -----------------
+   Both sit on the same row at the bottom of a phone screen: the hint is centred (`left:50%`)
+   and the meter is the readout fixed above, now correctly released to `bottom:4vh` by the
+   fix above. Measured at 390x844: the hint spans x 110-280 ("Scroll to take off") and the
+   meter 219-314 ("Mumbai → UK" / "Altitude (ft)") — a 61px overlap, both rows landing within
+   4px of each other vertically (client report, mobile, 19 Nov 2026).
+   The meter's own width is set by the longer of its two lines — the origin/destination pair,
+   which can run longer than "Mumbai → UK" — and its `right:76px` is already tuned to clear
+   this site's floating WhatsApp/chat buttons, so it cannot move further right to make room.
+   That leaves two widths to take back instead of one position to shift: the hint's own
+   `.2em` letter-spacing alone costs it ~40px on "Scroll to take off", so trimming that (and
+   the font a touch) buys back enough width that a modest leftward shift clears the meter with
+   a real margin at both 360 and 390 wide — checked at both, not just the one that was reported. */
+@media (max-width:760px){
+  .tw.picked .hint{left:30%;font-size:.64rem;letter-spacing:.08em;gap:6px}
+}
+
 /* ---- the timeline rail does not run through its own dots ----------------------------------
    `.tl svg` is pinned at `left:18px` and paints a 3px stroke at x 19.5-22.5, centre 21. The dot
    centre is `padding-left + before.left + 9` — 64-54+9 = 19 on desktop, and 44-38+9 = 15 under
