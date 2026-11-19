@@ -1,4 +1,84 @@
 export const UNI: Record<string,{src:string;artist?:string|null;license?:string|null;pos?:string}> = {
+ "University of Birmingham Dubai": {
+  "src": "uni/university-of-birmingham-dubai.jpg",
+  "artist": "Hopkins Architects",
+  "license": "CC BY 4.0"
+ },
+ "University of Wollongong Dubai": {
+  "src": "uni/university-of-wollongong-dubai.jpg",
+  "artist": "Sami Khatib / Threedots Photography",
+  "license": "CC BY-SA 4.0"
+ },
+ "Radboud University": {
+  "src": "uni/radboud-university.jpg",
+  "artist": "Choinowski",
+  "license": "CC BY-SA 4.0"
+ },
+ "Woosong University": {
+  "src": "uni/woosong-university.jpg",
+  "artist": "Youngjin Ko",
+  "license": "CC BY-SA 3.0"
+ },
+ "Daegu University": {
+  "src": "uni/daegu-university.jpg",
+  "artist": "Dittwjfsdgkvkdjg",
+  "license": "CC BY-SA 3.0"
+ },
+ "Universiti Sains Malaysia": {
+  "src": "uni/universiti-sains-malaysia.jpg",
+  "artist": "Dnydegger",
+  "license": "CC BY-SA 3.0"
+ },
+ "Bocconi University": {
+  "src": "uni/bocconi-university.jpg",
+  "artist": "Corinto88",
+  "license": "CC BY-SA 4.0"
+ },
+ "Sapienza University of Rome": {
+  "src": "uni/sapienza-university-of-rome.jpg",
+  "artist": "Carlo Dani",
+  "license": "CC BY-SA 4.0"
+ },
+ "University of Bologna": {
+  "src": "uni/university-of-bologna.jpg",
+  "artist": "Phyrexian",
+  "license": "CC BY-SA 4.0"
+ },
+ "University of Padua": {
+  "src": "uni/university-of-padua.jpg",
+  "artist": "Simonosa",
+  "license": "CC BY-SA 4.0"
+ },
+ "Politecnico di Torino": {
+  "src": "uni/politecnico-di-torino.jpg",
+  "artist": "Gabridelca",
+  "license": "CC BY-SA 3.0"
+ },
+ "University of Copenhagen": {
+  "src": "uni/university-of-copenhagen.jpg",
+  "artist": "Doyle of London",
+  "license": "CC BY-SA 4.0"
+ },
+ "University of Vienna": {
+  "src": "uni/university-of-vienna.jpg",
+  "artist": "Ian Ehm",
+  "license": "CC BY 4.0"
+ },
+ "Charles University": {
+  "src": "uni/charles-university.jpg",
+  "artist": "VitVit",
+  "license": "CC BY-SA 4.0"
+ },
+ "INSEAD": {
+  "src": "uni/insead.jpg",
+  "artist": "Baidax",
+  "license": "CC BY-SA 4.0"
+ },
+ "ESCP Business School": {
+  "src": "uni/escp-business-school.jpg",
+  "artist": null,
+  "license": "CC BY-SA 3.0"
+ },
  "University of Bristol": {
   "src": "uni/university-of-bristol.jpg",
   "artist": "Klafubra",
