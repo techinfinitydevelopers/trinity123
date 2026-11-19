@@ -24,7 +24,12 @@ export default function Footer({ nav, contact, site, footer, destinations }: { n
           <div>
             <h3 className="footer__title">{footer.destinationsTitle}</h3>
             <div className="footer__tags">
-              {navDestinations(destinations).map((c) => <Link key={c.key} href={c.href}><img src={FLAG(c.code)} alt="" width={18} height={18} />{c.name}</Link>)}
+              {navDestinations(destinations).map((c) => (
+                <Link key={c.key} href={c.href}>
+                  {c.icon ? <i className={c.icon} aria-hidden="true" /> : <img src={FLAG(c.code)} alt="" width={18} height={18} />}
+                  {c.name}
+                </Link>
+              ))}
             </div>
           </div>
           <div>
