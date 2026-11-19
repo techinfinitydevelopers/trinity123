@@ -712,7 +712,8 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .footer__tags a{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(35,47,112,.14);background:rgba(255,255,255,.7);color:var(--navy);font-size:13px;padding:7px 12px 7px 7px;border-radius:50px;transition:all .3s}
 .footer__tags a:hover{background:var(--primary);border-color:var(--primary);color:#fff}
 .footer__tags img{width:18px;height:18px;border-radius:50%;object-fit:cover}
-.footer__tags a i{width:18px;text-align:center}
+/* MBBS's badge, gold-circle like the destinations menu's (.cv-dsubico in tw-chrome.css), not a bare icon. */
+.footer__tag-ico{flex:none;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:var(--gold);color:var(--navy);font-size:10px}
 .footer__contact{font-style:normal;display:flex;flex-direction:column;gap:12px;font-size:14.5px;line-height:1.6}
 .footer__contact p,.footer__contact a{display:flex;gap:14px;align-items:center;color:var(--muted-ink)}
 .footer__contact p{align-items:flex-start}

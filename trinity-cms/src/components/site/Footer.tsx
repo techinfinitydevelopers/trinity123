@@ -26,7 +26,7 @@ export default function Footer({ nav, contact, site, footer, destinations }: { n
             <div className="footer__tags">
               {navDestinations(destinations).map((c) => (
                 <Link key={c.key} href={c.href}>
-                  {c.icon ? <i className={c.icon} aria-hidden="true" /> : <img src={FLAG(c.code)} alt="" width={18} height={18} />}
+                  {c.icon ? <span className="footer__tag-ico" aria-hidden="true"><i className={c.icon} /></span> : <img src={FLAG(c.code)} alt="" width={18} height={18} />}
                   {c.name}
                 </Link>
               ))}
