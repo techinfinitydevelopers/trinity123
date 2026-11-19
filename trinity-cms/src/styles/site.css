@@ -476,6 +476,22 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .page-hero__bg{background:radial-gradient(ellipse 55% 60% at 80% 30%,rgba(91,132,196,.20),transparent 70%),radial-gradient(ellipse 40% 40% at 10% 90%,rgba(26,188,156,.14),transparent 70%),linear-gradient(160deg,#fff8ec 0%,var(--cream) 55%,#fdf3e0 100%)}
 .page-hero__ghost{position:absolute;right:-2%;bottom:-30px;font-family:var(--font-h);font-weight:800;font-size:clamp(6rem,16vw,15rem);line-height:1;letter-spacing:-8px;color:transparent;-webkit-text-stroke:1px rgba(35,47,112,.10);pointer-events:none;user-select:none;white-space:nowrap;will-change:transform}
 .page-hero__inner{position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:40px;align-items:center;padding:0}
+/* Up to ~1000px, the "visual" aside's own two columns (minmax 300px each) still fit side by side at
+   641-999px, but there isn't enough height in that strip for the photo plus its two overlaid chips to
+   clear the ghost watermark pinned to the hero's bottom edge — the photo's rounded card ran into
+   "WEBINARS & EVENTS" (client report, 19 Nov 2026, /webinars-events at ~700px wide). Stacking the whole
+   way up to 999px, not just 641+, also covers 481-640px, where the photo already stacks on its own but
+   still only clears the watermark by ~12px. Other page-hero asides (statchips, svcchips, quick) have no
+   tall overlaid photo, so they keep two columns. */
+@media (max-width:999px){
+  .page-hero:has(.hero-visual) .page-hero__inner{grid-template-columns:1fr}
+  .page-hero:has(.hero-visual) .hero-visual{max-width:360px;margin-left:auto;margin-right:auto}
+}
+/* Comfortable clearance above the watermark at every width, phones aside (which already get their own
+   64px section padding, @media max-width:640px below). */
+@media (min-width:481px){
+  .page-hero:has(.hero-visual) .hero-visual{margin-bottom:40px}
+}
 .page-hero .h1{color:var(--navy)}
 .page-hero__sub{color:var(--text);margin-top:22px;font-size:17px;max-width:600px;line-height:1.7;text-wrap:pretty;opacity:0;animation:wordUp .9s .5s var(--ease) forwards}
 .crumbs{display:inline-flex;align-items:center;gap:10px;color:var(--muted-ink);font-family:var(--font-h);font-weight:500;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:22px}
@@ -1097,9 +1113,14 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 /* The photo sat at a fixed 500px inside a left column nearly twice that wide, which left a
    large empty gap between it and the enquiry form. Above 1200px the honeycomb comes out from
    under the photo and sits beside it, which is what fills the column; between 981 and 1200
-   there is no room for that, so the photo simply grows to the column's width instead. */
+   there is no room for that, so the photo simply grows to the column's width instead.
+   Scoped to `.hero` (the home page): `.hero-visual` is shared with `.page-hero`'s "visual"
+   aside (webinars/mbbs), which has no `.hero-visual__frame` to cap it, so an unscoped
+   `max-width:none` here let its photo grow to the full column width — 640px at 1800px wide,
+   which at its own aspect-ratio is taller than the hero and ran into the ghost watermark below
+   it (client report, 19 Nov 2026, /webinars-events). */
 @media (min-width:1200px){
-  .hero-visual{display:flex;align-items:center;max-width:none;margin-bottom:0}
+  .hero .hero-visual{display:flex;align-items:center;max-width:none;margin-bottom:0}
   .hero-visual__frame{flex:1 1 auto;max-width:520px;min-width:0}
   /* Negative margin: the comb tucks over the card's edge so the two interlock rather than sit
      either side of a gutter. `z-index` keeps it above the card's shadow. */
@@ -1109,7 +1130,7 @@ html.no-js [data-reveal]{opacity:1;transform:none}
   .hive{position:relative;flex:0 0 auto;margin:0 0 0 clamp(-40px,-2.4vw,-22px);z-index:2}
 }
 @media (min-width:981px) and (max-width:1199px){
-  .hero-visual{max-width:none}
+  .hero .hero-visual{max-width:none}
 }
 
 /* ---------- Find your Campus ---------- */
@@ -1468,6 +1489,7 @@ a.seg__logo:hover .seg__logo-go i{transform:translate(2px,-2px)}
   font-size:14px!important;border-bottom:0!important;
 }
 .mm-countries img{width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.mm-countries a i{width:22px;text-align:center;flex-shrink:0}
 
 /* ---------- Hero: bringing the call to action above the fold ---------- */
 /* At 1440x900 the two buttons sat at y913 — 71px past the fold, so the first thing a visitor
@@ -2143,7 +2165,11 @@ main:has(> .cta-block:last-child) + .footer{background:var(--cream);padding-top:
 /* `.98` so a fractional viewport width cannot fall between this band and the 1200px row and
    leave the comb on its old absolute position. */
 @media (min-width:861px) and (max-width:1199.98px){
-  .hero-visual{display:flex;flex-direction:column;align-items:center;gap:20px;max-width:none}
+  /* Scoped to `.hero` (the home page) — see the 19 Nov 2026 note above the 1200px/981px rules:
+     `.hero-visual` is shared with `.page-hero`'s "visual" aside, which has no `.hero-visual__frame`
+     to cap it, so this `max-width:none` let its photo grow unchecked and overlap the hero's own
+     ghost watermark on /webinars-events and /mbbs. */
+  .hero .hero-visual{display:flex;flex-direction:column;align-items:center;gap:20px;max-width:none}
   .hero-visual__frame{width:min(380px,46vw);max-width:none;margin:0}
   .hive{position:relative;margin:0;transform:none;width:calc(var(--w) * 3)}
   .hive__item{position:absolute}
