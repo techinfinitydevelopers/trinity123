@@ -44,7 +44,7 @@ export default function ThemeForm({ initial }: { initial: ThemeSettings }) {
                   <input type="color" className="absolute inset-0 h-full w-full cursor-pointer opacity-0" value={t[c.k] as string} onChange={(e) => set({ [c.k]: e.target.value } as Partial<ThemeSettings>)} />
                 </label>
                 <div className="min-w-0 flex-1"><p className="text-[13px] font-semibold text-ink">{c.l}</p>{c.d ? <p className="text-[11px] text-ink-3">{c.d}</p> : null}</div>
-                <input className="inp inp-sm w-28 font-mono uppercase" value={t[c.k] as string} onChange={(e) => set({ [c.k]: e.target.value } as Partial<ThemeSettings>)} />
+                <input className="inp inp-sm w-28! shrink-0 font-mono uppercase" value={t[c.k] as string} onChange={(e) => set({ [c.k]: e.target.value } as Partial<ThemeSettings>)} />
               </div>
             ))}
           </div>

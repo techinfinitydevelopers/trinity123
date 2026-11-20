@@ -128,8 +128,8 @@ export default function SettingsForms({ initial }: { initial: SettingsMap }) {
                       <button className="rounded px-1 text-[10px] text-ink-3 hover:bg-white disabled:opacity-30" onClick={() => swap(i + 1)} disabled={i === s.contact.socialLinks.length - 1} aria-label="Move down">&#9660;</button>
                     </div>
                     <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-brand-soft text-brand"><i className={it.icon} /></span>
-                    <input className="inp inp-sm w-28 shrink-0" placeholder="Name" value={it.label} onChange={(e) => setAt({ label: e.target.value })} />
-                    <input className="inp inp-sm w-44 shrink-0 font-mono" placeholder="fab fa-facebook-f" value={it.icon} onChange={(e) => setAt({ icon: e.target.value })} />
+                    <input className="inp inp-sm w-28! shrink-0" placeholder="Name" value={it.label} onChange={(e) => setAt({ label: e.target.value })} />
+                    <input className="inp inp-sm w-44! shrink-0 font-mono" placeholder="fab fa-facebook-f" value={it.icon} onChange={(e) => setAt({ icon: e.target.value })} />
                     <input className="inp inp-sm min-w-[180px] flex-1" placeholder="https://…" value={it.href} onChange={(e) => setAt({ href: e.target.value })} />
                     <button className="btn-ghost btn-xs shrink-0" onClick={() => setAt({ hidden: !it.hidden })} aria-pressed={!!it.hidden}>{it.hidden ? "Show" : "Hide"}</button>
                     <button className="btn-ghost btn-xs shrink-0" onClick={() => setS({ ...s, contact: { ...s.contact, socialLinks: s.contact.socialLinks.filter((_, k) => k !== i) } })} aria-label="Remove">&#10005;</button>
