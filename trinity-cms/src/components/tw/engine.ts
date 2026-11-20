@@ -73,7 +73,14 @@ const onWin=(t:string,f:any,o?:any)=>{window.addEventListener(t,f,o);cleanups.pu
 root.classList.add('tw');root.innerHTML=MARKUP;
 const $=(s:string)=>root.querySelector(s) as any,$$=(s:string)=>[...root.querySelectorAll(s)] as any[];
 const G:any={};
-G.__UNI__=Object.fromEntries(Object.entries(UNI).map(([k,v])=>[k,{url:pick('uni',k,AB+'/'+v.src),artist:v.artist,license:v.license,pos:(v as any).pos}]));
+/* A university the dashboard has a photo for but that never shipped in `UNI` (it has no asset
+   of its own, nothing to fall back to) still needs a slot here — otherwise `pick` is never even
+   called for it and the dashboard's override is silently ignored. */
+const uniOverrideOnly=Object.keys(IMG_OVERRIDE.uni||{}).filter(k=>!(k in UNI));
+G.__UNI__=Object.fromEntries([
+  ...Object.entries(UNI).map(([k,v])=>[k,{url:pick('uni',k,AB+'/'+v.src),artist:v.artist,license:v.license,pos:(v as any).pos}]),
+  ...uniOverrideOnly.map(k=>[k,{url:IMG_OVERRIDE.uni[k]}]),
+]);
 const IMG:any=Object.fromEntries(COUNTRIES.map((c:any)=>[c.k,pick('city',c.k,AB+'/city/'+c.k+'.jpg?v=2')]));
 gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.config({ignoreMobileResize:true});
