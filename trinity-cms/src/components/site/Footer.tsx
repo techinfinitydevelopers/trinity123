@@ -27,7 +27,9 @@ export default function Footer({ nav, contact, site, footer, destinations }: { n
               {navDestinations(destinations).map((c) => (
                 <Link key={c.key} href={c.href}>
                   {c.icon ? <span className="footer__tag-ico" aria-hidden="true"><i className={c.icon} /></span> : <img src={FLAG(c.code)} alt="" width={18} height={18} />}
-                  {c.name}
+                  {/* "Affordable Europe" alone is wider than this column, so it never sits beside Sweden
+                      as asked (20 Nov 2026) — shortened here only; the header menu and globe keep the full name. */}
+                  {c.key === "europe" ? "Europe" : c.name}
                 </Link>
               ))}
             </div>
