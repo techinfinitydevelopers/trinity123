@@ -368,10 +368,12 @@ const lookC=new THREE.CatmullRomCurve3([[0,2,0],[8,2,0],[14,2.2,0],[14,2.3,2.4],
 
 /* ---------- camera rig ---------- */
 const st={t:0,cur:0,speed:0,show:true,arc:0};
-const wideOff=()=>mobile()?new THREE.Vector3(0,-5.5,0):new THREE.Vector3(-Math.min(12,7.2+Math.max(0,1.7-asp())*10),0,0);
+/* Mobile: the camera rig sits well below the globe so the globe renders in the top half of
+   the screen, clear of the search panel anchored at the bottom (client report, 20 Nov 2026). */
+const wideOff=()=>mobile()?new THREE.Vector3(0,-20,0):new THREE.Vector3(-Math.min(12,7.2+Math.max(0,1.7-asp())*10),0,0);
 /* Ultra-wide screens (asp > 1.8) get a closer camera so the globe fills more of the stage
    instead of floating as a small ball in a lot of empty sky. */
-const wideDist=()=>mobile()?58:40+Math.max(0,1.7-asp())*12-Math.min(6,Math.max(0,asp()-1.8)*9);
+const wideDist=()=>mobile()?62:40+Math.max(0,1.7-asp())*12-Math.min(6,Math.max(0,asp()-1.8)*9);
 const P=new THREE.Vector3(),L=new THREE.Vector3(),W1=new THREE.Vector3(),W2=new THREE.Vector3();
 const clock=new THREE.Clock();
 function pinProject(){
