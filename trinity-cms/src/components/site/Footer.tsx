@@ -27,12 +27,12 @@ export default function Footer({ nav, contact, site, footer, destinations }: { n
             <div className="footer__tags">
               {navDestinations(destinations).map((c) => (
                 <Fragment key={c.key}>
-                  {/* Whatever precedes Sweden varies with the column's width (the wrap is a plain flex-wrap,
-                      greedy left to right), so without this, Affordable Europe landed next to Sweden at some
-                      widths and not others. Forcing a line break right before Sweden means it always starts a
-                      fresh row, and Affordable Europe — next in the list — is reliably the first thing on it,
-                      as asked for (20 Nov 2026). */}
-                  {c.key === "sweden" ? <span className="footer__tags-break" aria-hidden="true" /> : null}
+                  {/* Where a row happens to break varies with the column's width (the wrap is a plain
+                      flex-wrap, greedy left to right) and with whatever wrapped just before it, so without
+                      this, Sweden and Affordable Europe didn't reliably land on the rows the client wants —
+                      Sweden beside Denmark, Affordable Europe and MBBS together on the next line (20 Nov
+                      2026). Forcing a break before each pin's first item holds both regardless of width. */}
+                  {c.key === "denmark" || c.key === "europe" ? <span className="footer__tags-break" aria-hidden="true" /> : null}
                   <Link href={c.href}>
                     {c.icon ? <span className="footer__tag-ico" aria-hidden="true"><i className={c.icon} /></span> : <img src={FLAG(c.code)} alt="" width={18} height={18} />}
                     {c.name}
