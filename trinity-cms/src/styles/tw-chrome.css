@@ -279,7 +279,7 @@ body:has(.tw-host){--twc-top:78px}
    `clamp` on the large line rather than a fixed size: at 17vw the name is edge-to-edge on a
    phone and still only 15rem on a very wide screen, where it would otherwise run off. */
 .footer__word{
-  text-align:center;margin:56px 0 10px;user-select:none;
+  text-align:center;margin:28px 0 10px;user-select:none;
   display:flex;flex-direction:column;align-items:center;gap:2px;
 }
 .footer__word strong,.footer__word span{
@@ -292,7 +292,7 @@ body:has(.tw-host){--twc-top:78px}
   /* The tracking adds a trailing gap on the right that the centring then counts, so the whole
      line sits visibly left of the big one. Half the tracking back as padding re-centres it. */
   padding-left:.34em}
-@media (max-width:520px){.footer__word{margin:16px 0 8px}}
+@media (max-width:520px){.footer__word{margin:8px 0 8px}}
 .footer .footer__bottom{border-top:1px solid rgba(255,255,255,.1);color:var(--twc-foot-text);font-size:.84rem}
 .footer__bottom a{color:var(--twc-foot-text)}
 .footer__bottom a:hover{color:var(--twc-gold)}
