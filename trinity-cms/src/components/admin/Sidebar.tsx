@@ -101,12 +101,15 @@ export default function Sidebar({ user, logo, unread }: { user: SessionUser; log
 
   return (
     <>
-      {/* mobile topbar */}
-      <div className="fixed inset-x-0 top-0 z-40 flex h-14 items-center justify-between border-b border-line bg-white px-4 lg:hidden">
+      {/* mobile topbar — padded for the notch/status-bar safe area, or the logo ends up partly
+          hidden behind it on a real phone. The room this bar needs below it is reserved by
+          DashLayout padding its content column directly (this bar is `fixed`, so it pushes
+          nothing in flow — a sibling spacer div doesn't work here, since the flex row it would
+          need to sit above is this component's *own* row, not a stack). */}
+      <div className="fixed inset-x-0 top-0 z-40 flex h-14 items-center justify-between border-b border-line bg-white px-4 lg:hidden" style={{ paddingTop: "env(safe-area-inset-top)", height: "calc(3.5rem + env(safe-area-inset-top))" }}>
         <img src={logo} alt="" className="h-7 w-auto" />
         <button className="btn-ghost btn-sm" onClick={() => setOpen(true)} aria-label="Open menu">Menu</button>
       </div>
-      <div className="h-14 lg:hidden" />
       {open ? <button className="fixed inset-0 z-40 bg-navy/60 backdrop-blur-sm lg:hidden" aria-label="Close menu" onClick={() => setOpen(false)} /> : null}
 
       <aside className={`fixed inset-y-0 left-0 z-50 flex w-[260px] flex-col bg-navy bg-gradient-to-b from-navy-2 via-navy to-navy-3 transition-transform lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 ${open ? "translate-x-0" : "-translate-x-full"}`}>

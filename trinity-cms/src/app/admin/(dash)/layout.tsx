@@ -11,7 +11,12 @@ export default async function DashLayout({ children }: { children: ReactNode }) 
   return (
     <div className="flex min-h-screen">
       <Sidebar user={me} logo={site.logo} unread={unread} />
-      <div className="min-w-0 flex-1">
+      {/* The mobile topbar is `fixed`, so it pushes nothing in flow — its old sibling spacer div
+          in Sidebar.tsx never worked, because this container is a flex *row*: that div sat next
+          to this one, not above it, so the page heading rendered straight under the fixed bar,
+          and on a phone with a notch/status bar, partly behind it. Padding this container itself
+          is what actually reserves the room. */}
+      <div className="min-w-0 flex-1 pt-[calc(3.5rem_+_env(safe-area-inset-top))] lg:pt-0">
         <div className="mx-auto max-w-[1400px] px-4 py-6 sm:px-6 lg:px-10 lg:py-8">{children}</div>
       </div>
       <ToastHost />
