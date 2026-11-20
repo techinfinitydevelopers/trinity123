@@ -83,7 +83,7 @@ export default async function Dashboard() {
         <Stat label="Open urgent requests" value={openUrgent} href="/admin/chats?urgent=1" icon="urgent" tint="bg-red-50 text-red-600" accent={openUrgent ? "text-red-600" : undefined} />
       </div>
 
-      <div className="mt-6 grid gap-6 xl:grid-cols-[1.4fr_1fr]">
+      <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-[1.4fr_1fr]">
         <section className="card overflow-hidden">
           <div className="card-head">
             <h2 className="card-title">

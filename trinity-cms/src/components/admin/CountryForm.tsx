@@ -27,7 +27,7 @@ export default function CountryForm({ initial }: { initial: CountryInput }) {
   const lists = { stats: c.stats, why: c.why, courses: c.courses, unis: c.unis, cost: c.cost, req: c.req, sch: c.sch, steps: c.steps, workPoints: c.workPoints, faq: c.faq } as Record<string, unknown>;
 
   return (
-    <div className="grid gap-6 xl:grid-cols-[1fr_320px]">
+    <div className="grid grid-cols-1 gap-6 xl:grid-cols-[1fr_320px]">
       <div className="space-y-5">
         <div className="inline-flex rounded-xl bg-white p-1 text-[13px] font-semibold shadow-card">
           {(["basics", "content", "seo"] as const).map((t) => <button key={t} className={`rounded-lg px-4 py-2 capitalize ${tab === t ? "bg-brand-soft text-brand" : "text-ink-3"}`} onClick={() => setTab(t)}>{t === "basics" ? "Basics" : t === "content" ? "Page content" : "SEO"}</button>)}

@@ -16,7 +16,7 @@ export default function MediaGrid() {
   useEffect(() => { const t = setTimeout(() => void load(q), 250); return () => clearTimeout(t); }, [q]);
 
   return (
-    <div className="grid gap-5 lg:grid-cols-[1fr_320px]">
+    <div className="grid grid-cols-1 gap-5 lg:grid-cols-[1fr_320px]">
       <div>
         <div className={`card mb-4 flex flex-wrap items-center gap-3 p-3 transition ${drag ? "ring-4 ring-brand/20" : ""}`}
           onDragOver={(e) => { e.preventDefault(); setDrag(true); }} onDragLeave={() => setDrag(false)} onDrop={async (e) => { e.preventDefault(); setDrag(false); if (e.dataTransfer.files.length) await upload(e.dataTransfer.files); }}>

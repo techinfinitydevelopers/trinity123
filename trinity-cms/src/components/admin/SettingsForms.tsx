@@ -79,7 +79,7 @@ export default function SettingsForms({ initial }: { initial: SettingsMap }) {
   const tabs: [Tab, string][] = [["site", "General"], ["contact", "Contact & social"], ["nav", "Navigation"], ["world", "Home page"], ["footer", "Footer"], ["labels", "Text & labels"], ["security", "Security"]];
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[220px_1fr]">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[220px_1fr]">
       <nav className="card h-fit p-2">
         {tabs.map(([k, l]) => <button key={k} onClick={() => setTab(k)} className={`block w-full rounded-xl px-3 py-2.5 text-left text-[14px] font-medium ${tab === k ? "bg-brand-soft text-brand" : "text-ink-2 hover:bg-canvas"}`}>{l}</button>)}
       </nav>
@@ -153,13 +153,13 @@ export default function SettingsForms({ initial }: { initial: SettingsMap }) {
                 const kind = it.kind === "destinations" ? "destinations" : it.children ? "dropdown" : "link";
                 return (
                   <div key={i} className="rounded-xl border border-line bg-canvas/60 p-2">
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <div className="flex flex-col">
                         <button className="text-ink-3 hover:text-ink disabled:opacity-30" disabled={i === 0} onClick={() => setItems((n) => { [n[i - 1], n[i]] = [n[i], n[i - 1]]; return n; })} aria-label="Move up">&#9650;</button>
                         <button className="text-ink-3 hover:text-ink disabled:opacity-30" disabled={i === s.nav.items.length - 1} onClick={() => setItems((n) => { [n[i + 1], n[i]] = [n[i], n[i + 1]]; return n; })} aria-label="Move down">&#9660;</button>
                       </div>
-                      <input className="inp inp-sm w-40 shrink-0" placeholder="Label" value={it.label} onChange={(e) => setAt({ label: e.target.value })} />
-                      <input className="inp inp-sm min-w-[140px] flex-1 font-mono" placeholder="/path" value={it.href} onChange={(e) => setAt({ href: e.target.value })} />
+                      <input className="inp inp-sm w-24 shrink-0 sm:w-40" placeholder="Label" value={it.label} onChange={(e) => setAt({ label: e.target.value })} />
+                      <input className="inp inp-sm min-w-[90px] flex-1 font-mono sm:min-w-[140px]" placeholder="/path" value={it.href} onChange={(e) => setAt({ href: e.target.value })} />
                       <select
                         className="inp inp-sm w-[170px] shrink-0"
                         value={kind}
@@ -179,10 +179,10 @@ export default function SettingsForms({ initial }: { initial: SettingsMap }) {
                     {kind === "dropdown" ? (
                       <div className="mt-2 space-y-1.5 border-l-2 border-line pl-3">
                         {(it.children ?? []).map((c, j) => (
-                          <div key={j} className="flex items-center gap-2">
+                          <div key={j} className="flex flex-wrap items-center gap-2">
                             <i className="fas fa-chevron-right text-[9px] text-ink-3" />
-                            <input className="inp inp-sm w-40 shrink-0" placeholder="Label" value={c.label} onChange={(e) => setAt({ children: (it.children ?? []).map((x, k) => (k === j ? { ...x, label: e.target.value } : x)) })} />
-                            <input className="inp inp-sm min-w-[140px] flex-1 font-mono" placeholder="/path" value={c.href} onChange={(e) => setAt({ children: (it.children ?? []).map((x, k) => (k === j ? { ...x, href: e.target.value } : x)) })} />
+                            <input className="inp inp-sm w-20 shrink-0 sm:w-40" placeholder="Label" value={c.label} onChange={(e) => setAt({ children: (it.children ?? []).map((x, k) => (k === j ? { ...x, label: e.target.value } : x)) })} />
+                            <input className="inp inp-sm min-w-0 flex-1 font-mono sm:min-w-[140px]" placeholder="/path" value={c.href} onChange={(e) => setAt({ children: (it.children ?? []).map((x, k) => (k === j ? { ...x, href: e.target.value } : x)) })} />
                             <button className="btn-ghost btn-xs shrink-0" onClick={() => setAt({ children: (it.children ?? []).filter((_, k) => k !== j) })} aria-label="Remove">&#10005;</button>
                           </div>
                         ))}

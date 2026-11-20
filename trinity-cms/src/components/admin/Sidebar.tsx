@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { SessionUser } from "@/lib/auth";
 import { logoutAction } from "@/lib/actions";
 
@@ -47,6 +47,15 @@ export default function Sidebar({ user, logo, unread }: { user: SessionUser; log
   const path = usePathname();
   const [open, setOpen] = useState(false);
   const active = (h: string) => (h === "/admin" ? path === "/admin" : path.startsWith(h));
+
+  /* The backdrop closes the mobile drawer on click; Escape should too, the way every other
+     overlay on the site already behaves. */
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
   const nav = (
     <nav className="nice-scroll flex flex-1 flex-col gap-0.5 overflow-y-auto px-3 py-1">

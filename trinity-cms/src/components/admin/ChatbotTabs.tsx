@@ -20,7 +20,7 @@ export default function ChatbotTabs({ cfg, items, unanswered }: { cfg: SettingsM
   ];
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[200px_1fr]">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[200px_1fr]">
       <nav className="card h-fit p-2">
         {tabs.map(([k, l, count]) => (
           <button key={k} onClick={() => setTab(k)} className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-[14px] font-medium ${tab === k ? "bg-brand-soft text-brand" : "text-ink-2 hover:bg-canvas"}`}>

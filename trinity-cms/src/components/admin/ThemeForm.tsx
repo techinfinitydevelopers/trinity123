@@ -33,7 +33,7 @@ export default function ThemeForm({ initial }: { initial: ThemeSettings }) {
   const save = async () => { setSaving(true); const r = await saveSettingsAction("theme", t); setSaving(false); r.ok ? toast("Theme saved · live on the site") : toast(r.error, "err"); };
 
   return (
-    <div className="grid gap-6 xl:grid-cols-[400px_1fr]">
+    <div className="grid grid-cols-1 gap-6 xl:grid-cols-[400px_1fr]">
       <div className="space-y-5">
         <div className="card p-5">
           <h3 className="mb-3 text-[15px] font-bold text-navy">Colours</h3>

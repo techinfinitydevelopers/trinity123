@@ -80,12 +80,15 @@ export default async function ChatsPage({ searchParams }: { searchParams: Promis
         {(q || status || date || urgent) ? <Link href={qs({ q: undefined, status: undefined, date: undefined, urgent: undefined })} className="text-[12px] text-ink-3 hover:underline">Clear</Link> : null}
       </form>
 
-      <div className="grid gap-5 lg:grid-cols-[340px_1fr]">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-[340px_1fr]">
         <div className="card max-h-[70vh] overflow-auto nice-scroll">
           <ul className="divide-y divide-line">
             {sessions.map((s) => (
               <li key={s.id}>
-                <Link href={qs({ id: s.id })} className={`block px-4 py-3 transition hover:bg-canvas/60 ${id === s.id ? "bg-brand-soft/50" : ""}`}>
+                {/* The hash jumps straight to the detail panel on a phone, where it renders below this
+                    list rather than beside it — without it, picking a conversation looked like nothing
+                    happened until the admin scrolled all the way past the list by hand. */}
+                <Link href={`${qs({ id: s.id })}#chat-detail`} className={`block px-4 py-3 transition hover:bg-canvas/60 ${id === s.id ? "bg-brand-soft/50" : ""}`}>
                   <div className="flex items-center gap-2">
                     <span className={`h-2 w-2 shrink-0 rounded-full ${s.phone ? "bg-emerald-500" : "bg-line"}`} />
                     <span className="truncate text-[14px] font-semibold text-navy">{s.name ?? `Visitor ${s.visitorId.slice(0, 6)}`}</span>
@@ -101,7 +104,7 @@ export default async function ChatsPage({ searchParams }: { searchParams: Promis
           </ul>
         </div>
 
-        <div className="card p-5">
+        <div id="chat-detail" className="card scroll-mt-20 p-5">
           {active ? <ChatDetail session={active} /> : <p className="py-20 text-center text-[13px] text-ink-3">Select a conversation to read it.</p>}
         </div>
       </div>
