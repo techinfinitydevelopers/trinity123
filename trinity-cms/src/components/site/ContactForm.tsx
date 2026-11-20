@@ -16,7 +16,7 @@ export default function ContactForm({ okMsg, labels: L }: { okMsg: string; label
        visitor walks away believing the message was sent. */
     try {
       const res = await fetch("/api/leads", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-      if (res.ok) return setState("ok");
+      if (res.ok) { form.reset(); return setState("ok"); }
       const json = await res.json().catch(() => null);
       setError(json?.error ?? null);
       setState("err");

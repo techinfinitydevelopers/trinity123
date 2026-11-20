@@ -683,6 +683,11 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .form .btn{grid-column:1/-1;justify-self:start}
 .form__ok{grid-column:1/-1;background:var(--grey);border-radius:16px;padding:18px 20px;color:var(--navy);font-weight:500;display:flex;gap:10px;align-items:center}
 .form__ok[hidden]{display:none}
+/* `.form__field` and `.btn` each set their own `display`, at the same specificity as the
+   browser's default `[hidden]{display:none}` — so without this, hiding the fields after a
+   successful send left them (empty, thanks to the reset, but visible) sitting above the
+   confirmation message instead of being replaced by it. */
+.form [hidden]{display:none}
 .form__ok i{color:var(--primary);font-size:20px}
 .mapcol{display:flex;flex-direction:column;gap:20px}
 .map{border-radius:32px;overflow:hidden;flex:1;min-height:360px;box-shadow:0 20px 50px rgba(26,36,86,.06);background:var(--line);position:relative}
