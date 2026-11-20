@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import Link from "next/link";
 import type { ContactSettings, FooterSettings, NavSettings, SiteSettings } from "@/lib/settings";
 import { FLAG, Socials } from "./ui";
@@ -25,12 +26,18 @@ export default function Footer({ nav, contact, site, footer, destinations }: { n
             <h3 className="footer__title">{footer.destinationsTitle}</h3>
             <div className="footer__tags">
               {navDestinations(destinations).map((c) => (
-                <Link key={c.key} href={c.href}>
-                  {c.icon ? <span className="footer__tag-ico" aria-hidden="true"><i className={c.icon} /></span> : <img src={FLAG(c.code)} alt="" width={18} height={18} />}
-                  {/* "Affordable Europe" alone is wider than this column, so it never sits beside Sweden
-                      as asked (20 Nov 2026) — shortened here only; the header menu and globe keep the full name. */}
-                  {c.key === "europe" ? "Europe" : c.name}
-                </Link>
+                <Fragment key={c.key}>
+                  {/* Whatever precedes Sweden varies with the column's width (the wrap is a plain flex-wrap,
+                      greedy left to right), so without this, Affordable Europe landed next to Sweden at some
+                      widths and not others. Forcing a line break right before Sweden means it always starts a
+                      fresh row, and Affordable Europe — next in the list — is reliably the first thing on it,
+                      as asked for (20 Nov 2026). */}
+                  {c.key === "sweden" ? <span className="footer__tags-break" aria-hidden="true" /> : null}
+                  <Link href={c.href}>
+                    {c.icon ? <span className="footer__tag-ico" aria-hidden="true"><i className={c.icon} /></span> : <img src={FLAG(c.code)} alt="" width={18} height={18} />}
+                    {c.name}
+                  </Link>
+                </Fragment>
               ))}
             </div>
           </div>

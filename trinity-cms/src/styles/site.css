@@ -722,6 +722,9 @@ html.no-js [data-reveal]{opacity:1;transform:none}
 .footer__links a:hover{color:var(--navy);transform:translateX(4px)}
 .footer__links a:hover .dot{background:var(--teal-ink);width:14px;border-radius:4px}
 .footer__tags{display:flex;flex-wrap:wrap;gap:8px}
+/* Forces the next tag (Sweden) onto a new line regardless of what the greedy flex-wrap packed
+   before it — see Footer.tsx. */
+.footer__tags-break{flex-basis:100%;width:0}
 .footer__tags a{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(35,47,112,.14);background:rgba(255,255,255,.7);color:var(--navy);font-size:13px;padding:7px 12px 7px 7px;border-radius:50px;transition:all .3s}
 .footer__tags a:hover{background:var(--primary);border-color:var(--primary);color:#fff}
 .footer__tags img{width:18px;height:18px;border-radius:50%;object-fit:cover}
