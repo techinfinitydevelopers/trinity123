@@ -153,15 +153,15 @@ export default function SettingsForms({ initial }: { initial: SettingsMap }) {
                 const kind = it.kind === "destinations" ? "destinations" : it.children ? "dropdown" : "link";
                 return (
                   <div key={i} className="rounded-xl border border-line bg-canvas/60 p-2">
-                    <div className="flex flex-wrap items-center gap-2">
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                       <div className="flex flex-col">
                         <button className="text-ink-3 hover:text-ink disabled:opacity-30" disabled={i === 0} onClick={() => setItems((n) => { [n[i - 1], n[i]] = [n[i], n[i - 1]]; return n; })} aria-label="Move up">&#9650;</button>
                         <button className="text-ink-3 hover:text-ink disabled:opacity-30" disabled={i === s.nav.items.length - 1} onClick={() => setItems((n) => { [n[i + 1], n[i]] = [n[i], n[i + 1]]; return n; })} aria-label="Move down">&#9660;</button>
                       </div>
-                      <input className="inp inp-sm w-24 shrink-0 sm:w-40" placeholder="Label" value={it.label} onChange={(e) => setAt({ label: e.target.value })} />
-                      <input className="inp inp-sm min-w-[90px] flex-1 font-mono sm:min-w-[140px]" placeholder="/path" value={it.href} onChange={(e) => setAt({ href: e.target.value })} />
+                      <input className="inp inp-sm sm:w-40! sm:shrink-0" placeholder="Label" value={it.label} onChange={(e) => setAt({ label: e.target.value })} />
+                      <input className="inp inp-sm flex-1 font-mono sm:min-w-[140px]" placeholder="/path" value={it.href} onChange={(e) => setAt({ href: e.target.value })} />
                       <select
-                        className="inp inp-sm w-[170px] shrink-0"
+                        className="inp inp-sm sm:w-[170px]! sm:shrink-0"
                         value={kind}
                         onChange={(e) => {
                           const v = e.target.value;
@@ -179,10 +179,10 @@ export default function SettingsForms({ initial }: { initial: SettingsMap }) {
                     {kind === "dropdown" ? (
                       <div className="mt-2 space-y-1.5 border-l-2 border-line pl-3">
                         {(it.children ?? []).map((c, j) => (
-                          <div key={j} className="flex flex-wrap items-center gap-2">
-                            <i className="fas fa-chevron-right text-[9px] text-ink-3" />
-                            <input className="inp inp-sm w-20 shrink-0 sm:w-40" placeholder="Label" value={c.label} onChange={(e) => setAt({ children: (it.children ?? []).map((x, k) => (k === j ? { ...x, label: e.target.value } : x)) })} />
-                            <input className="inp inp-sm min-w-0 flex-1 font-mono sm:min-w-[140px]" placeholder="/path" value={c.href} onChange={(e) => setAt({ children: (it.children ?? []).map((x, k) => (k === j ? { ...x, href: e.target.value } : x)) })} />
+                          <div key={j} className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                            <i className="fas fa-chevron-right hidden text-[9px] text-ink-3 sm:block" />
+                            <input className="inp inp-sm sm:w-40! sm:shrink-0" placeholder="Label" value={c.label} onChange={(e) => setAt({ children: (it.children ?? []).map((x, k) => (k === j ? { ...x, label: e.target.value } : x)) })} />
+                            <input className="inp inp-sm flex-1 font-mono sm:min-w-[140px]" placeholder="/path" value={c.href} onChange={(e) => setAt({ children: (it.children ?? []).map((x, k) => (k === j ? { ...x, href: e.target.value } : x)) })} />
                             <button className="btn-ghost btn-xs shrink-0" onClick={() => setAt({ children: (it.children ?? []).filter((_, k) => k !== j) })} aria-label="Remove">&#10005;</button>
                           </div>
                         ))}
