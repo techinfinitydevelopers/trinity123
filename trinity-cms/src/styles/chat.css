@@ -125,9 +125,9 @@
 @media (max-width:640px){
   .tc-panel{right:8px;left:8px;bottom:16px;width:auto;height:min(calc(100vh - 140px),540px);height:min(calc(100dvh - 140px),540px)}
   .tc-nudge{right:88px;left:12px;max-width:none}
-  .fab-wa{right:10px;bottom:max(14px,env(safe-area-inset-bottom));width:54px;height:54px;font-size:30px}
-  .tc-fab{right:14px;bottom:74px;width:58px;height:58px;font-size:23px}
-  .tc-fab:not(.is-open){right:10px;bottom:68px;width:52px;height:52px}
+  .fab-wa{right:10px;bottom:max(14px,env(safe-area-inset-bottom));width:60px;height:60px;font-size:34px}
+  .tc-fab{right:12px;bottom:92px;width:62px;height:62px;font-size:25px}
+  .tc-fab:not(.is-open){right:8px;bottom:86px;width:58px;height:58px}
   .tc-fab__txt{display:none}
     }
 @media (prefers-reduced-motion:reduce){
