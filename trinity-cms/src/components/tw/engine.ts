@@ -371,7 +371,7 @@ const st={t:0,cur:0,speed:0,show:true,arc:0};
 /* Mobile looks below the globe so it sits high on the screen: at -5.5 the hero heading, search
    and country chips (stacked under it) ran over the globe's lower third on a phone. A portrait
    tablet is also "mobile" here but has more room, and at -13 its globe tucked under the header. */
-const wideOff=()=>mobile()?new THREE.Vector3(0,innerWidth<760?-13:-11,0):new THREE.Vector3(-Math.min(12,7.2+Math.max(0,1.7-asp())*10),0,0);
+const wideOff=()=>mobile()?new THREE.Vector3(0,innerWidth<760?-17:-11,0):new THREE.Vector3(-Math.min(12,7.2+Math.max(0,1.7-asp())*10),0,0);
 /* Ultra-wide screens (asp > 1.8) get a closer camera so the globe fills more of the stage
    instead of floating as a small ball in a lot of empty sky. */
 const wideDist=()=>mobile()?58:40+Math.max(0,1.7-asp())*12-Math.min(6,Math.max(0,asp()-1.8)*9);
