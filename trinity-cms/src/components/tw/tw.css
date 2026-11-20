@@ -256,25 +256,7 @@
 .tw .meter small{display:block;margin-bottom:4px}
 .tw .meter em{display:block;font:600 .68rem Inter;letter-spacing:.14em;font-style:normal;color:#f5d58a;margin-bottom:10px}
 .tw .credits{font-size:.68rem;opacity:.55;max-width:900px;margin:14px auto 0;line-height:1.5}
-/* `#panel`'s unconditional `top:calc(50% + 28px)!important` above (needed so it doesn't drift
-   as its own content height changes) otherwise beats this media query's `top:auto` outright —
-   !important always wins over a plain declaration at equal specificity, media query or not — so
-   on a phone the panel still rendered centred, overlapping the lower half of the globe below it
-   (client report, 20 Nov 2026). Matching it with !important here is what actually anchors the
-   panel to the bottom instead. */
-@media(max-width:760px),(max-aspect-ratio:5/4){
-  .tw #panel{top:auto!important;bottom:4vh;transform:none}
-  /* Phones: lift the panel clear of the floating Tisa/WhatsApp buttons in the bottom-right corner. */
-  @media(max-width:760px){.tw #panel{bottom:calc(150px + env(safe-area-inset-bottom))}}
-  .tw #panel p.s{display:none}
-  .tw #cname{bottom:auto!important;top:19vh}
-  /* All the chips wrapped into six rows, making the panel ~475px tall, so its heading climbed
-     into the globe. One swipeable row keeps the panel short enough to sit below the globe
-     (engine.ts lifts the globe on mobile to match). */
-  .tw #chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-right:-14px;padding-right:14px}
-  .tw #chips::-webkit-scrollbar{display:none}
-  .tw #chips .chip{flex:none}
-}
+@media(max-width:760px),(max-aspect-ratio:5/4){.tw #panel{top:auto;bottom:4vh;transform:none}.tw #panel p.s{display:none}.tw #cname{bottom:auto!important;top:19vh}}
 
 .tw #loading{position:fixed;inset:0;z-index:100;background:#07142e;color:#fff;display:grid;place-items:center;font:600 .8rem Sora;letter-spacing:.24em;text-transform:uppercase;transition:opacity .8s,visibility .8s}
 .tw #loading.done{opacity:0;visibility:hidden}
