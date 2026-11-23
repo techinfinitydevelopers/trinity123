@@ -10,12 +10,21 @@ export const metadata = { title: "Conversations" };
 
 type SearchParams = { id?: string; status?: string; urgent?: string; q?: string; date?: string };
 
+/* Each row shows its status, so an open request stands out from a resolved one in the list. (It
+   used to show only a green dot — which meant "left a phone number" but read as "active".) */
+const STATUS = {
+  OPEN: { label: "Open", cls: "bg-amber-50 text-amber-700" },
+  IN_PROGRESS: { label: "In progress", cls: "bg-sky-50 text-sky-700" },
+  RESOLVED: { label: "Resolved", cls: "bg-emerald-50 text-emerald-700" },
+} as const;
+
 export default async function ChatsPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
   await requireAdminPage();
   const { id, status, urgent, q, date } = await searchParams;
 
   const where: Prisma.ChatSessionWhereInput = {};
   if (status && ["OPEN", "IN_PROGRESS", "RESOLVED"].includes(status)) where.status = status as never;
+  else if (status === "UNRESOLVED") where.status = { not: "RESOLVED" };
   if (urgent === "1") where.isUrgent = true;
   if (q?.trim()) {
     const term = q.trim();
@@ -70,6 +79,7 @@ export default async function ChatsPage({ searchParams }: { searchParams: Promis
         <input className="inp inp-sm max-w-[220px]" name="q" defaultValue={q} placeholder="Search name, email or phone…" />
         <select className="inp inp-sm max-w-[150px]" name="status" defaultValue={status ?? ""}>
           <option value="">All statuses</option>
+          <option value="UNRESOLVED">Not resolved</option>
           <option value="OPEN">Open</option>
           <option value="IN_PROGRESS">In Progress</option>
           <option value="RESOLVED">Resolved</option>
@@ -90,13 +100,12 @@ export default async function ChatsPage({ searchParams }: { searchParams: Promis
                     happened until the admin scrolled all the way past the list by hand. */}
                 <Link href={`${qs({ id: s.id })}#chat-detail`} className={`block px-4 py-3 transition hover:bg-canvas/60 ${id === s.id ? "bg-brand-soft/50" : ""}`}>
                   <div className="flex items-center gap-2">
-                    <span className={`h-2 w-2 shrink-0 rounded-full ${s.phone ? "bg-emerald-500" : "bg-line"}`} />
                     <span className="truncate text-[14px] font-semibold text-navy">{s.name ?? `Visitor ${s.visitorId.slice(0, 6)}`}</span>
                     {s.isUrgent ? <span className="shrink-0 text-[11px]">🚩</span> : null}
-                    <span className="ml-auto shrink-0 text-[11px] text-ink-3">{s._count.messages} msg</span>
+                    <span className={`ml-auto shrink-0 rounded-full px-2 py-0.5 text-[10.5px] font-semibold ${STATUS[s.status].cls}`}>{STATUS[s.status].label}</span>
                   </div>
                   <p className="mt-1 truncate text-[12.5px] text-ink-2">{s.messages[0]?.content ?? "—"}</p>
-                  <p className="mt-1 text-[11px] text-ink-3">{fmt(s.createdAt)}{s.phone ? ` · ${s.phone}` : ""}</p>
+                  <p className="mt-1 text-[11px] text-ink-3">{fmt(s.createdAt)}{s.phone ? ` · ${s.phone}` : ""} · {s._count.messages} msg</p>
                 </Link>
               </li>
             ))}

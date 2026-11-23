@@ -80,7 +80,7 @@ export default async function Dashboard() {
         <Stat label="Knowledge base questions" value={`${questions} · ${answered} answered`} href="/admin/chatbot" icon="question" tint="bg-emerald-50 text-emerald-600" />
         <Stat label="Unmatched questions" value={unmatched} href="/admin/chatbot" icon="question" tint="bg-amber-50 text-amber-600" accent={unmatched ? "text-amber-600" : undefined} />
         <Stat label="Urgent queries" value={urgentQueries} href="/admin/chats?urgent=1" icon="urgent" tint="bg-red-50 text-red-600" accent={urgentQueries ? "text-red-600" : undefined} />
-        <Stat label="Open urgent requests" value={openUrgent} href="/admin/chats?urgent=1" icon="urgent" tint="bg-red-50 text-red-600" accent={openUrgent ? "text-red-600" : undefined} />
+        <Stat label="Open urgent requests" value={openUrgent} href="/admin/chats?urgent=1&status=UNRESOLVED"icon="urgent" tint="bg-red-50 text-red-600" accent={openUrgent ? "text-red-600" : undefined} />
       </div>
 
       <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-[1.4fr_1fr]">
