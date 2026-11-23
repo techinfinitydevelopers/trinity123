@@ -41,10 +41,12 @@ const EARTH_PRELOAD = [
   ["clouds", "/tw/earth/earth_clouds_1024.png", false],
 ] as const;
 
-export default function TrinityWorldHost({ initialCountry, world, below, webinars }: { initialCountry?: string; world?: WorldSettings; below?: ReactNode; webinars?: ReactNode }) {
+export default function TrinityWorldHost({ initialCountry, world, hidden, below, webinars }: { initialCountry?: string; world?: WorldSettings; hidden?: string[]; below?: ReactNode; webinars?: ReactNode }) {
   /* Written during render, not in an effect: the engine is imported by the child's effect,
      and importing it is what evaluates data.ts, which reads this. Parent render always
-     precedes child effect, so the content is in place in time. */
+     precedes child effect, so the content is in place in time. `hidden` is the list of
+     destinations switched off in Settings → Navigation; data.ts drops them from the globe. */
+  (globalThis as unknown as { __TW_HIDDEN__?: string[] }).__TW_HIDDEN__ = hidden ?? [];
   if (world?.countries?.length) {
     (globalThis as unknown as { __TW_CONTENT__?: Record<string, unknown> }).__TW_CONTENT__ =
       Object.fromEntries(world.countries.map((c) => [c.k, c]));

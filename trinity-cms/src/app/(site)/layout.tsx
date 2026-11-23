@@ -12,6 +12,7 @@ import "@/styles/chat.css";
 import "@/styles/tw-chrome.css";
 import { getAllSettings } from "@/lib/settings-server";
 import { getCountries } from "@/lib/content";
+import { HiddenDestinationsProvider } from "@/components/site/HiddenDestinations";
 import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
 import SiteScripts from "@/components/site/SiteScripts";
@@ -63,7 +64,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
       <ThemeStyle t={settings.theme} />
       <OrgSchema site={settings.site} contact={settings.contact} />
       <Header nav={settings.nav} contact={settings.contact} site={settings.site} labels={settings.labels.header} destinations={destinations} />
-      <main id="main">{children}</main>
+      <HiddenDestinationsProvider hidden={settings.nav.hiddenDestinations}><main id="main">{children}</main></HiddenDestinationsProvider>
       <Footer nav={settings.nav} contact={settings.contact} site={settings.site} footer={settings.footer} destinations={destinations} />
       {settings.chatbot.enabled ? <ChatWidget cfg={settings.chatbot} contact={settings.contact} /> : null}
       <SiteScripts />

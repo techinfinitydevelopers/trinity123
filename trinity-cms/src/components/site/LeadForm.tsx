@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
 import type { LabelSettings } from "@/lib/settings";
-import { HIDDEN_DESTINATIONS } from "@/lib/hidden-destinations";
+import { isHiddenDestination } from "@/lib/hidden-destinations";
+import { useHiddenDestinations } from "./HiddenDestinations";
 
 /* The dialling codes the form offers, and the flag that goes with each. */
 const CODE_FLAG: Record<string, string> = {
@@ -16,26 +17,29 @@ const CODE_FLAG: Record<string, string> = {
    its flag. The list the block carries (editable in /admin) still counts: anything it has beyond these —
    anything else — follows, in its own order. "Not decided yet" is dropped at the client's request. */
 type Dest = { name: string; flag?: string };
-const HOME_DESTS: (Dest & { alias?: string[] })[] = [
-  { name: "UK", flag: "gb", alias: ["united kingdom"] }, { name: "Ireland", flag: "ie" }, { name: "France", flag: "fr" },
-  { name: "Germany", flag: "de" }, { name: "New Zealand", flag: "nz" }, { name: "UAE", flag: "ae-sq", alias: ["dubai", "united arab emirates"] },
-  { name: "Singapore", flag: "sg" }, { name: "Australia", flag: "au" }, { name: "Japan", flag: "jp" },
-  { name: "South Korea", flag: "kr", alias: ["korea"] }, { name: "USA", flag: "us", alias: ["united states", "us"] }, { name: "Canada", flag: "ca" },
-  { name: "Netherlands", flag: "nl" }, { name: "Italy", flag: "it" }, { name: "Malaysia", flag: "my" },
-  { name: "Other Europe", flag: "eu", alias: ["europe"] }, { name: "Denmark", flag: "dk" },
+/* `key` is the destination's key in Settings → Navigation → "Destinations on the site"; one switched off there
+   is left out of the list. Sweden and MBBS are in it so they show up here when switched back on. */
+const HOME_DESTS: (Dest & { key: string; alias?: string[] })[] = [
+  { key: "uk", name: "UK", flag: "gb", alias: ["united kingdom"] }, { key: "ireland", name: "Ireland", flag: "ie" }, { key: "france", name: "France", flag: "fr" },
+  { key: "germany", name: "Germany", flag: "de" }, { key: "new-zealand", name: "New Zealand", flag: "nz" }, { key: "uae", name: "UAE", flag: "ae-sq", alias: ["dubai", "united arab emirates"] },
+  { key: "singapore", name: "Singapore", flag: "sg" }, { key: "australia", name: "Australia", flag: "au" }, { key: "japan", name: "Japan", flag: "jp" },
+  { key: "korea", name: "South Korea", flag: "kr", alias: ["korea"] }, { key: "usa", name: "USA", flag: "us", alias: ["united states", "us"] }, { key: "canada", name: "Canada", flag: "ca" },
+  { key: "netherlands", name: "Netherlands", flag: "nl" }, { key: "italy", name: "Italy", flag: "it" }, { key: "malaysia", name: "Malaysia", flag: "my" },
+  { key: "europe", name: "Other Europe", flag: "eu", alias: ["europe", "affordable europe"] }, { key: "denmark", name: "Denmark", flag: "dk" },
+  { key: "sweden", name: "Sweden", flag: "se" }, { key: "mbbs", name: "MBBS" },
 ];
 const EXTRA_FLAG: Record<string, string> = { italy: "it", denmark: "dk" };
-function orderDestinations(incoming: string[]): Dest[] {
+function orderDestinations(incoming: string[], hidden: readonly string[]): Dest[] {
   const norm = (v: string) => v.trim().toLowerCase();
   const home = new Set(HOME_DESTS.flatMap((d) => [norm(d.name), ...(d.alias ?? [])]));
   const extras: Dest[] = [];
   for (const n of incoming) {
     const k = norm(n);
-    if (!k || home.has(k) || HIDDEN_DESTINATIONS.has(k)) continue;
+    if (!k || home.has(k) || isHiddenDestination(hidden, k)) continue;
     if (/not decided|undecided|^other$/.test(k)) continue;
     extras.push({ name: n, flag: EXTRA_FLAG[k] });
   }
-  const shown = HOME_DESTS.filter((d) => ![d.name.toLowerCase(), ...(d.alias ?? [])].some((a) => HIDDEN_DESTINATIONS.has(a)));
+  const shown = HOME_DESTS.filter((d) => !isHiddenDestination(hidden, d.key));
   return [...shown.map(({ name, flag }) => ({ name, flag })), ...extras];
 }
 
@@ -104,6 +108,7 @@ function DestinationSelect({ options, label, placeholder }: { options: Dest[]; l
 export default function LeadForm({
   title, destinations, okMsg, submitLabel, trust = [], labels: L, source = "home-enquiry",
 }: { title: string; cities?: string[]; destinations: string[]; okMsg: string; submitLabel: string; trust?: { icon: string; text: string }[]; labels: LabelSettings["forms"]; /** Which form the lead came from, shown in the dashboard. */ source?: string }) {
+  const hiddenDestinations = useHiddenDestinations();
   const [state, setState] = useState<"idle" | "busy" | "ok" | "err">("idle");
   /* The design shows a flag beside the dialling code. A <select> cannot hold an image, so the
      flag sits in the field's padding and follows whatever the visitor picks. */
@@ -169,7 +174,7 @@ export default function LeadForm({
             </span>
             <span className="leadcard__f"><i className="fas fa-mobile-alt" aria-hidden="true" /><input name="phone" type="tel" inputMode="tel" autoComplete="tel-national" required minLength={7} pattern="[0-9 ]{7,15}" title="Your number without the country code" placeholder={L.leadPhone} aria-label={L.leadPhone} /></span>
           </div>
-          <DestinationSelect options={orderDestinations(destinations)} label={L.leadDestination} placeholder={L.leadDestination} />
+          <DestinationSelect options={orderDestinations(destinations, hiddenDestinations)} label={L.leadDestination} placeholder={L.leadDestination} />
           {/* Honeypot — the API rejects the submission if a bot fills this. */}
           <input type="text" name="hp_url" tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ position: "absolute", left: -9999 }} />
           <button className="leadcard__btn" type="submit" disabled={state === "busy"}>

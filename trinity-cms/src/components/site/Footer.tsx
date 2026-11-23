@@ -25,7 +25,7 @@ export default function Footer({ nav, contact, site, footer, destinations }: { n
           <div>
             <h3 className="footer__title">{footer.destinationsTitle}</h3>
             <div className="footer__tags">
-              {navDestinations(destinations).map((c) => (
+              {navDestinations(destinations, nav.hiddenDestinations).map((c) => (
                 <Fragment key={c.key}>
                   {/* Where a row happens to break varies with the column's width (the wrap is a plain
                       flex-wrap, greedy left to right) and with whatever wrapped just before it, so without

@@ -6,6 +6,7 @@ import ImagePicker from "./ImagePicker";
 import { Field, Toggle, toast } from "./ui";
 import { ObjectFields } from "./FieldEditor";
 import { UNI } from "@/components/tw/uni";
+import { DESTINATION_OPTIONS, isHiddenDestination } from "@/lib/hidden-destinations";
 
 type Tab = "site" | "contact" | "nav" | "world" | "footer" | "labels" | "security";
 
@@ -197,6 +198,22 @@ export default function SettingsForms({ initial }: { initial: SettingsMap }) {
             <div className="grid gap-4 sm:grid-cols-2">
               <Field label="Header button label"><input className="inp inp-sm" value={s.nav.ctaLabel} onChange={(e) => setS({ ...s, nav: { ...s.nav, ctaLabel: e.target.value } })} /></Field>
               <Field label="Header button link"><input className="inp inp-sm font-mono" value={s.nav.ctaHref} onChange={(e) => setS({ ...s, nav: { ...s.nav, ctaHref: e.target.value } })} /></Field>
+            </div>
+            <div className="rounded-xl border border-line bg-canvas/60 p-4">
+              <h4 className="text-[14px] font-bold text-navy">Destinations on the site</h4>
+              <p className="mb-3 mt-1 text-[13px] text-ink-2">Untick a destination to take it off the whole website — the header and footer menus, the home page globe, the enquiry form, search and its own page. Nothing is deleted; tick it again and it comes back.</p>
+              <div className="grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
+                {DESTINATION_OPTIONS.map((d) => {
+                  const on = !isHiddenDestination(s.nav.hiddenDestinations, d.key);
+                  return (
+                    <label key={d.key} className="flex cursor-pointer items-center gap-2.5 text-[13.5px] text-ink">
+                      <input type="checkbox" className="h-4 w-4 accent-brand" checked={on}
+                        onChange={() => setS({ ...s, nav: { ...s.nav, hiddenDestinations: on ? [...s.nav.hiddenDestinations, d.key] : s.nav.hiddenDestinations.filter((h) => !isHiddenDestination([h], d.key)) } })} />
+                      <span className={on ? "" : "text-ink-3 line-through"}>{d.name}</span>
+                    </label>
+                  );
+                })}
+              </div>
             </div>
             <button className="btn-primary" onClick={() => save("nav")} disabled={saving}>Save</button>
           </div>

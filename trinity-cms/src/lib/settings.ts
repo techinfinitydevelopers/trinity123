@@ -1,4 +1,5 @@
-import { COUNTRIES as TW_COUNTRIES } from "@/components/tw/data";
+import { ALL_COUNTRIES as TW_COUNTRIES } from "@/components/tw/data";
+import { DEFAULT_HIDDEN_DESTINATIONS } from "./hidden-destinations";
 
 /* ---------- Typed settings ---------- */
 
@@ -31,7 +32,11 @@ export type ContactSettings = {
     country mega-menu, built from the destinations table rather than from `children`. The order of
     `nav.items` is the order in the header, dropdowns included. */
 export type NavItem = { label: string; href: string; kind?: "destinations"; children?: { label: string; href: string }[] };
-export type NavSettings = { items: NavItem[]; ctaLabel: string; ctaHref: string };
+export type NavSettings = {
+  items: NavItem[]; ctaLabel: string; ctaHref: string;
+  /** Destination keys switched off on the site (see hidden-destinations.ts). Absent in an older row → the default. */
+  hiddenDestinations: string[];
+};
 
 export type ChatbotSettings = {
   enabled: boolean; name: string; greeting: string;
@@ -223,6 +228,7 @@ export const DEFAULTS: SettingsMap = {
     ],
     ctaLabel: "Free Counselling",
     ctaHref: "/contact-us",
+    hiddenDestinations: DEFAULT_HIDDEN_DESTINATIONS,
   } satisfies NavSettings,
   chatbot: {
     enabled: true,

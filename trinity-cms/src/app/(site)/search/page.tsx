@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { db } from "@/lib/db";
-import { getCountries } from "@/lib/content";
+import { getCountries, getHiddenDestinations } from "@/lib/content";
 import { FLAG } from "@/components/site/ui";
 import { getLabels } from "@/lib/labels";
 import { navDestinations } from "@/lib/destination-order";
@@ -25,7 +25,7 @@ export default async function SearchPage({ searchParams }: Props) {
     /* A search for a destination goes straight to that country's page, not a results list. */
     const key = q.toLowerCase().replace(/\s+/g, " ");
     const slug = ALIAS[key] ?? key.replace(/ /g, "-");
-    const hit = navDestinations(await getCountries()).find((d) => d.key === slug || d.name.toLowerCase() === key);
+    const hit = navDestinations(await getCountries(), await getHiddenDestinations()).find((d) => d.key === slug || d.name.toLowerCase() === key);
     if (hit) redirect(hit.href);
   }
   const all = await getLabels();

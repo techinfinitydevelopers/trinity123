@@ -39,7 +39,7 @@ let pending: { key: string; promise: Promise<Live> } | null = null;
 const cacheKey=(p:WorldOpts)=>{
   let content='';
   try{content=JSON.stringify((globalThis as any).__TW_CONTENT__??null)}catch{content='?'}
-  return JSON.stringify({a:p.assetBase??'/tw',i:p.images??null,c:content.length+':'+content.slice(0,200)});
+  return JSON.stringify({a:p.assetBase??'/tw',i:p.images??null,h:(globalThis as any).__TW_HIDDEN__??[],c:content.length+':'+content.slice(0,200)});
 };
 
 /* Start fetching the engine (three, gsap, the scene) the moment this module is evaluated in the

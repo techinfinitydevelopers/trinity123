@@ -1734,6 +1734,7 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   `top:37%` (30%-12px under 800px tall), tighter chips, all countries visible without scrolling.
 - Conversations: "Not resolved" status filter (dashboard "Open urgent requests" links to it) and a status
   pill on each row.
-- 23/11: Sweden, Affordable Europe and MBBS hidden from the whole site via `src/lib/hidden-destinations.ts`
-  (menus, footer, globe, enquiry form, sitemap; /destinations/sweden and /mbbs return 404). Data and code
-  kept; delete a key from that set to bring one back. The chatbot knowledge base still has a Sweden answer.
+- 23/11: Sweden, Affordable Europe and MBBS hidden from the whole site (menus, footer, globe, enquiry form, sitemap;
+  /destinations/sweden and /mbbs return 404). Now admin-controlled: Settings → Navigation → "Destinations on the site"
+  (stored as `nav.hiddenDestinations`, default = those three; keys in `src/lib/hidden-destinations.ts`). Untick = hidden,
+  tick = back. Data and code kept. The chatbot knowledge base still has a Sweden answer.

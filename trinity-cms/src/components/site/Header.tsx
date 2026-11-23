@@ -83,7 +83,7 @@ export default function Header({ nav, contact, site, labels, destinations }: { n
           <div className="cv-ddmenu cv-ddmenu--dest" id="destinations-menu" onKeyDown={(e) => { if (e.key === "Escape") setOpenMenu(-1); }} style={ddMenu({ width: "min(740px, calc(100vw - 32px))" })}>
             <div className="cv-ddgrid" style={{ display: "grid", gridTemplateColumns: "repeat(3,minmax(0,1fr))", gap: 4 }}>
               {/* Affordable Europe and MBBS are two plain, equal rows — both go straight to the enquiry form. */}
-              {navDestinations(destinations).map((c) => (
+              {navDestinations(destinations, nav.hiddenDestinations).map((c) => (
                 <Link key={c.key} href={c.href} className="cv-ditem" onClick={hide(i)} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 14, transition: "all .25s", color: "var(--navy)", background: "transparent", boxShadow: "none" }}>
                   {c.icon ? (
                     <span className="cv-dsubico" aria-hidden="true"><i className={c.icon} /></span>
@@ -198,7 +198,7 @@ export default function Header({ nav, contact, site, labels, destinations }: { n
                   ) : null}
                   {isCountries ? (
                     <div className="mm-countries">
-                      {navDestinations(destinations).map((c) => (
+                      {navDestinations(destinations, nav.hiddenDestinations).map((c) => (
                         <Link key={c.key} href={c.href} onClick={() => setOpen(false)}>
                           {c.icon ? <i className={c.icon} aria-hidden="true" /> : <img src={FLAG(c.code)} alt="" loading="lazy" />}{c.name}
                         </Link>

@@ -1,7 +1,8 @@
 import { unstable_cache, revalidateTag, revalidatePath } from "next/cache";
 import { db } from "./db";
 import type { Block } from "./blocks";
-import { HIDDEN_DESTINATIONS } from "./hidden-destinations";
+import { isHiddenDestination } from "./hidden-destinations";
+import { getSetting } from "./settings-server";
 
 /* `unstable_cache` serialises its result as JSON, so Date columns come back as ISO strings.
    These helpers revive them, letting callers rely on Date methods.
@@ -34,7 +35,10 @@ const pageSlugsCached = unstable_cache(
   ["page-slugs"],
   { tags: ["pages"] },
 );
-export const getPageSlugs = async () => reviveAll(await pageSlugsCached()).filter((p) => !HIDDEN_DESTINATIONS.has(p.slug));
+export const getPageSlugs = async () => {
+  const [rows, hidden] = await Promise.all([pageSlugsCached(), getHiddenDestinations()]);
+  return reviveAll(rows).filter((p) => !isHiddenDestination(hidden, p.slug));
+};
 
 const postCached = unstable_cache(
   async (slug: string) => db.post.findUnique({ where: { slug, status: "PUBLISHED" }, include: { author: { select: { name: true } } } }),
@@ -99,9 +103,13 @@ const countriesCached = unstable_cache(
   ["countries"],
   { tags: ["countries"] },
 );
-/* Hidden destinations are filtered out here, outside the cache, so changing the list takes effect without
-   waiting for the cached rows to expire. */
-export const getCountries = async () => (await countriesCached()).filter((c) => !HIDDEN_DESTINATIONS.has(c.slug));
+/** The destinations Settings → Navigation has switched off. */
+export const getHiddenDestinations = async () => (await getSetting("nav")).hiddenDestinations ?? [];
+/* Hidden destinations are filtered out here, outside the cache, so changing the setting shows at once. */
+export const getCountries = async () => {
+  const [rows, hidden] = await Promise.all([countriesCached(), getHiddenDestinations()]);
+  return rows.filter((c) => !isHiddenDestination(hidden, c.slug));
+};
 
 const countryCached = unstable_cache(
   async (slug: string) => db.country.findUnique({ where: { slug } }),

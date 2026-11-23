@@ -22,7 +22,7 @@ export default async function TrinityWorldPreview() {
         href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap"
         rel="stylesheet"
       />
-      <TrinityWorldHost world={s.world} />
+      <TrinityWorldHost world={s.world} hidden={s.nav.hiddenDestinations} />
     </>
   );
 }
