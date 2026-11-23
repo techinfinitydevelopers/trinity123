@@ -5,6 +5,7 @@ import { getAllSettings } from "@/lib/settings-server";
 import { BlockRenderer } from "@/components/site/blocks";
 import CounsellingPopup from "@/components/site/CounsellingPopup";
 import { getLabels } from "@/lib/labels";
+import { HIDDEN_DESTINATIONS } from "@/lib/hidden-destinations";
 import { leadForm } from "@/lib/seed-content";
 
 type Props = { params: Promise<{ slug: string }>; searchParams: Promise<Record<string, string | undefined>> };
@@ -33,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Page({ params, searchParams }: Props) {
   const { slug } = await params;
   const sp = await searchParams;
-  if (slug === "home") notFound();
+  if (slug === "home" || HIDDEN_DESTINATIONS.has(slug)) notFound();
   const [page, settings] = await Promise.all([getPage(slug), getAllSettings()]);
   if (!page) notFound();
   return (

@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
 import type { LabelSettings } from "@/lib/settings";
+import { HIDDEN_DESTINATIONS } from "@/lib/hidden-destinations";
 
 /* The dialling codes the form offers, and the flag that goes with each. */
 const CODE_FLAG: Record<string, string> = {
@@ -30,11 +31,12 @@ function orderDestinations(incoming: string[]): Dest[] {
   const extras: Dest[] = [];
   for (const n of incoming) {
     const k = norm(n);
-    if (!k || home.has(k) || k === "sweden") continue;
+    if (!k || home.has(k) || HIDDEN_DESTINATIONS.has(k)) continue;
     if (/not decided|undecided|^other$/.test(k)) continue;
     extras.push({ name: n, flag: EXTRA_FLAG[k] });
   }
-  return [...HOME_DESTS.map(({ name, flag }) => ({ name, flag })), ...extras];
+  const shown = HOME_DESTS.filter((d) => ![d.name.toLowerCase(), ...(d.alias ?? [])].some((a) => HIDDEN_DESTINATIONS.has(a)));
+  return [...shown.map(({ name, flag }) => ({ name, flag })), ...extras];
 }
 
 /* A <select> cannot hold images, so the destination picker is a small listbox: the flag beside each country,

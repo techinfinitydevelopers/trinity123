@@ -1,6 +1,7 @@
 import { unstable_cache, revalidateTag, revalidatePath } from "next/cache";
 import { db } from "./db";
 import type { Block } from "./blocks";
+import { HIDDEN_DESTINATIONS } from "./hidden-destinations";
 
 /* `unstable_cache` serialises its result as JSON, so Date columns come back as ISO strings.
    These helpers revive them, letting callers rely on Date methods.
@@ -33,7 +34,7 @@ const pageSlugsCached = unstable_cache(
   ["page-slugs"],
   { tags: ["pages"] },
 );
-export const getPageSlugs = async () => reviveAll(await pageSlugsCached());
+export const getPageSlugs = async () => reviveAll(await pageSlugsCached()).filter((p) => !HIDDEN_DESTINATIONS.has(p.slug));
 
 const postCached = unstable_cache(
   async (slug: string) => db.post.findUnique({ where: { slug, status: "PUBLISHED" }, include: { author: { select: { name: true } } } }),
@@ -89,7 +90,7 @@ export function inAgreedOrder<T extends { slug: string }>(rows: T[]): T[] {
   const rank = (slug: string) => { const i = AGREED_ORDER.indexOf(slug); return i < 0 ? AGREED_ORDER.length : i; };
   return rows.map((r, i) => ({ r, i })).sort((a, b) => rank(a.r.slug) - rank(b.r.slug) || a.i - b.i).map((x) => x.r);
 }
-export const getCountries = unstable_cache(
+const countriesCached = unstable_cache(
   async () => {
     const rows = await db.country.findMany({ where: { isActive: true }, orderBy: { order: "asc" }, select: { code: true, slug: true, name: true, tag: true, img: true } });
     const rank = (slug: string) => { const i = AGREED_ORDER.indexOf(slug); return i < 0 ? AGREED_ORDER.length : i; };
@@ -98,6 +99,9 @@ export const getCountries = unstable_cache(
   ["countries"],
   { tags: ["countries"] },
 );
+/* Hidden destinations are filtered out here, outside the cache, so changing the list takes effect without
+   waiting for the cached rows to expire. */
+export const getCountries = async () => (await countriesCached()).filter((c) => !HIDDEN_DESTINATIONS.has(c.slug));
 
 const countryCached = unstable_cache(
   async (slug: string) => db.country.findUnique({ where: { slug } }),

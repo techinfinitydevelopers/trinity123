@@ -1719,3 +1719,21 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 - Open: rotate the Railway Postgres password (the internal URL was pasted in chat once); a /credits page for
   the globe's CC attribution; Japan/South Korea/Malaysia/Other Europe have no destination pages.
 - Home landing photos: `public/tw/city/<key>.jpg`, 2560 px wide, from Wikimedia Commons (credits in BUILD-LOG 2026-11-06). `/tw/*` is cached 30 days, so changing a photo needs the `?v=` bump in `engine.ts` (line ~77). Sweden/Netherlands now have real photos.
+
+## Build log — 2026-11-20 to 2026-11-23
+- Footer: Malaysia/Denmark/Sweden share a line, Affordable Europe+MBBS forced onto the next (break span in
+  Footer.tsx keyed on "europe"); Destinations column widened in tw-chrome.css; TRINITY wordmark gap tightened.
+- Contact form now resets and hides its fields after a successful send (site.css `.form [hidden]`).
+- Admin: fixed mobile overflow (grid-cols-1 base on every `xl:/lg:grid-cols-[..]` split), Navigation rows
+  stack on phones, Escape closes the mobile drawer, page headings no longer hidden under the mobile topbar
+  (DashLayout pads the content column; the old sibling spacer never worked inside the flex row).
+- Gotcha: `.inp{width:100%}` in globals.css is unlayered, so it beats any plain Tailwind `w-*` utility —
+  fixed widths on `.inp` need the `!` suffix (`w-28!`, `sm:w-40!`).
+- Home globe (mobile): camera stays level and the image is lens-shifted up (setViewOffset in engine.ts);
+  on phones the globe is sized to the band between header and hero heading (`phoneBand()`); hero panel
+  `top:37%` (30%-12px under 800px tall), tighter chips, all countries visible without scrolling.
+- Conversations: "Not resolved" status filter (dashboard "Open urgent requests" links to it) and a status
+  pill on each row.
+- 23/11: Sweden, Affordable Europe and MBBS hidden from the whole site via `src/lib/hidden-destinations.ts`
+  (menus, footer, globe, enquiry form, sitemap; /destinations/sweden and /mbbs return 404). Data and code
+  kept; delete a key from that set to bring one back. The chatbot knowledge base still has a Sweden answer.

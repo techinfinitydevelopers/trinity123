@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getCountry, getCountries } from "@/lib/content";
 import { getSetting } from "@/lib/settings-server";
+import { HIDDEN_DESTINATIONS } from "@/lib/hidden-destinations";
 import CountryPage from "@/components/site/CountryPage";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -26,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function DestinationPage({ params }: Props) {
   const { slug } = await params;
   const [c, all, contact] = await Promise.all([getCountry(slug), getCountries(), getSetting("contact")]);
-  if (!c || !c.isActive) notFound();
+  if (!c || !c.isActive || HIDDEN_DESTINATIONS.has(c.slug)) notFound();
   const others = all.filter((x) => x.code !== c.code).slice(0, 6);
   const url = `${base()}/destinations/${c.slug}`;
   const faq = c.faq as { q: string; a: string }[];

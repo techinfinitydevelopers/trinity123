@@ -12,12 +12,14 @@
    Sweden already had a destinations-table row (full page content, flag) but was kept out of
    every list here until the globe had somewhere to send it — added 19 Nov 2026 alongside the
    client's partner-university sheet, which is the first thing that needed Sweden on the globe. */
+import { HIDDEN_DESTINATIONS } from "./hidden-destinations";
+
 export type NavDestination = { key: string; name: string; code: string; href: string; tag: string; icon?: string };
 
 type Row = { slug: string; code: string; name: string; tag: string };
 
 const NAV_ORDER = ["uk", "ireland", "france", "germany", "new-zealand", "uae", "singapore", "australia", "japan", "korea", "usa", "canada", "netherlands", "italy", "malaysia", "denmark", "sweden", "europe", "mbbs"];
-const HIDDEN = new Set<string>();
+const HIDDEN = HIDDEN_DESTINATIONS;
 const LABEL: Record<string, string> = { dubai: "UAE" }; // only for a database that still has the old slug
 const GLOBE_ONLY: Record<string, { name: string; code: string; tag: string; href?: string; icon?: string }> = {
   japan: { name: "Japan", code: "jp", tag: "Research & tech leaders" },
@@ -32,6 +34,7 @@ export function navDestinations(rows: Row[]): NavDestination[] {
   const out: NavDestination[] = [];
   const used = new Set<string>();
   for (const k of NAV_ORDER) {
+    if (HIDDEN.has(k)) continue;
     /* The agreed order says "korea" (the globe's key); the page itself is `south-korea`, so accept either. */
     const d = rows.find((x) => x.slug === k || (k === "korea" && x.slug === "south-korea"));
     if (d) { used.add(d.slug); out.push({ key: d.slug, name: LABEL[d.slug] ?? d.name, code: d.code, href: `/destinations/${d.slug}`, tag: d.tag }); }

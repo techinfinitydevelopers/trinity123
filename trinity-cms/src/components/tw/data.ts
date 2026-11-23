@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { HIDDEN_DESTINATIONS } from '@/lib/hidden-destinations';
 export const ORIGIN={name:'Mumbai',lat:19.076,lon:72.878};
 export const FIELDS='Business · Data & AI · Engineering · Health';
 const BASE=[
@@ -34,7 +35,7 @@ const BASE=[
 
    TrinityWorldHost writes this global while it renders, which is before the child effect that
    imports the engine — and importing the engine is what evaluates this module. */
-export const COUNTRIES = BASE.map((c) => {
+export const COUNTRIES = BASE.filter((c) => !HIDDEN_DESTINATIONS.has(c.k)).map((c) => {
   const o = (globalThis as any).__TW_CONTENT__?.[c.k];
   return o ? { ...c, ...o, k: c.k, lat: c.lat, lon: c.lon } : c;
 });
