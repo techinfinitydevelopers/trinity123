@@ -368,15 +368,32 @@ const lookC=new THREE.CatmullRomCurve3([[0,2,0],[8,2,0],[14,2.2,0],[14,2.3,2.4],
 
 /* ---------- camera rig ---------- */
 const st={t:0,cur:0,speed:0,show:true,arc:0};
-/* Mobile looks below the globe so it sits high on the screen: at -5.5 the hero heading, search
-   and country chips (stacked under it) ran over the globe's lower third on a phone. A portrait
-   tablet is also "mobile" here but has more room, and at -13 its globe tucked under the header. */
-const wideOff=()=>mobile()?new THREE.Vector3(0,innerWidth<760?(innerHeight<800?-32:-23):-11,0):new THREE.Vector3(-Math.min(12,7.2+Math.max(0,1.7-asp())*10),0,0);
+const wideOff=()=>mobile()?new THREE.Vector3(0,0,0):new THREE.Vector3(-Math.min(12,7.2+Math.max(0,1.7-asp())*10),0,0);
+/* Mobile needs the globe high on the screen, clear of the hero text and country chips stacked
+   under it. Moving the camera down to get there made it look up at the globe's unlit underside —
+   a dark band along its bottom — so instead the camera stays level and the picture itself is
+   shifted up (a lens shift: setViewOffset in frame()).
+   On a phone the globe is sized and placed to fill the band between the top of the canvas (just
+   under the header) and the hero heading, whose top is where tw.css puts #panel: 37% of the
+   stage, or 30% - 12px under 800px tall. Both are fractions of the canvas height, from its top. */
+const phone=()=>innerWidth<760;
+const wideFov=()=>{const a=asp(),fs=a<1?Math.min(1.9,Math.pow(1/a,.7)):1;return Math.min(78,36*fs)};
+function phoneBand(){
+  const Hc=renderer.domElement.clientHeight||innerHeight;
+  const head=innerHeight<800?.30-12/Hc:.37,top=10/Hc,bot=head-22/Hc;
+  return{c:(top+bot)/2,r:(bot-top)/2};
+}
+const lensUp=()=>!mobile()?0:phone()?.5-phoneBand().c:.23;
 /* Ultra-wide screens (asp > 1.8) get a closer camera so the globe fills more of the stage
-   instead of floating as a small ball in a lot of empty sky. */
-/* Phones pull back (62, or 88 on a short screen — most phones once the browser's own bars take
-   their share) so the smaller globe leaves room for every country chip below it. */
-const wideDist=()=>mobile()?(innerWidth<760?(innerHeight<800?88:62):58):40+Math.max(0,1.7-asp())*12-Math.min(6,Math.max(0,asp()-1.8)*9);
+   instead of floating as a small ball in a lot of empty sky. On a phone: the distance at which
+   the globe's on-screen radius is phoneBand().r of the canvas height. */
+const wideDist=()=>{
+  if(!mobile())return 40+Math.max(0,1.7-asp())*12-Math.min(6,Math.max(0,asp()-1.8)*9);
+  if(!phone())return 58;
+  const k=2*phoneBand().r*Math.tan(wideFov()*Math.PI/360);
+  return R*Math.sqrt(1+1/(k*k));
+};
+let viewKey='';
 const P=new THREE.Vector3(),L=new THREE.Vector3(),W1=new THREE.Vector3(),W2=new THREE.Vector3();
 const clock=new THREE.Clock();
 function pinProject(){
@@ -438,6 +455,11 @@ function frame(){
   }
   const a=asp(),fs=a<1?Math.min(1.9,Math.pow(1/a,.7)):1,F=Math.min(78,fov*fs);
   if(Math.abs(camera.fov-F)>.01){camera.fov=F;camera.updateProjectionMatrix()}
+  {
+    /* the mobile lens shift (see lensUp) eases out as the camera leaves for a flight */
+    const sy=Math.round(lensUp()*(planeOn?1-sm(0,.2,t):1)*innerHeight),vk=innerWidth+'x'+innerHeight+':'+sy;
+    if(vk!==viewKey){viewKey=vk;if(sy)camera.setViewOffset(innerWidth,innerHeight,0,sy,innerWidth,innerHeight);else camera.clearViewOffset()}
+  }
   atmo.visible=intro.done?t<.5:(intro.p>.9);
   if(!intro.done)applyIntro();
   pinProject();
