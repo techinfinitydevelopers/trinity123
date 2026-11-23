@@ -1738,3 +1738,7 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   /destinations/sweden and /mbbs return 404). Now admin-controlled: Settings → Navigation → "Destinations on the site"
   (stored as `nav.hiddenDestinations`, default = those three; keys in `src/lib/hidden-destinations.ts`). Untick = hidden,
   tick = back. Data and code kept. The chatbot knowledge base still has a Sweden answer.
+- 23/11: Preloader held longer (MIN 3.2s, MAX 4.5s, CSS failsafe 5.6s) so it can be seen fully. Pushed (6642662).
+- 23/11: "Student stories (They flew. You're next.)" section removed from the home page at the client's request.
+  Done in `engine.ts` (removes `#voices` right after `root.innerHTML=MARKUP`, mq scroll animation guarded) — not in
+  `markup.ts`, which the next drop-in overwrites. To bring it back, delete that `querySelector('#voices')?.remove()`.

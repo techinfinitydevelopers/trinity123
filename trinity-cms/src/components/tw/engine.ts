@@ -70,7 +70,7 @@ const one=(key:string,fallback:string)=>{
 };
 const cleanups:Array<()=>void>=[];let raf=0;
 const onWin=(t:string,f:any,o?:any)=>{window.addEventListener(t,f,o);cleanups.push(()=>window.removeEventListener(t,f,o))};
-root.classList.add('tw');root.innerHTML=MARKUP;
+root.classList.add('tw');root.innerHTML=MARKUP;/* Client request (23/11): the "Student stories" strip is off the home page. It is removed here, not from markup.ts, which the next drop-in overwrites. */root.querySelector('#voices')?.remove();
 const $=(s:string)=>root.querySelector(s) as any,$$=(s:string)=>[...root.querySelectorAll(s)] as any[];
 const G:any={};
 /* A university the dashboard has a photo for but that never shipped in `UNI` (it has no asset
@@ -737,10 +737,7 @@ function setStage(i,force){
 })();
 
 
-enterExit('#voices .wrap',{y:70});
-const mq=$('#mq');
-gsap.fromTo(mq,{x:0},{x:()=>-(mq.scrollWidth-innerWidth+40),ease:'none',scrollTrigger:{trigger:'#voices',start:'top bottom',end:'bottom top',scrub:.8,invalidateOnRefresh:true}});
-gsap.fromTo(mq,{opacity:0,y:80},{opacity:1,y:0,ease:'none',scrollTrigger:{trigger:'#voices',start:'top 90%',end:'top 50%',scrub:.6}});
+const mq=$('#mq');if(mq){enterExit('#voices .wrap',{y:70});gsap.fromTo(mq,{x:0},{x:()=>-(mq.scrollWidth-innerWidth+40),ease:'none',scrollTrigger:{trigger:'#voices',start:'top bottom',end:'bottom top',scrub:.8,invalidateOnRefresh:true}});gsap.fromTo(mq,{opacity:0,y:80},{opacity:1,y:0,ease:'none',scrollTrigger:{trigger:'#voices',start:'top 90%',end:'top 50%',scrub:.6}});}
 curtain('#cta');
 gsap.fromTo('.cbox',{y:120,opacity:0,scale:.94},{y:0,opacity:1,scale:1,ease:'none',scrollTrigger:{trigger:'.cbox',start:'top 98%',end:'top 55%',scrub:.7}});
 /* Pins add a spacer to the page, and ScrollTrigger measures in creation order — so a trigger made
