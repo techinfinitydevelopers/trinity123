@@ -1742,3 +1742,6 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 - 23/11: "Student stories (They flew. You're next.)" section removed from the home page at the client's request.
   Done in `engine.ts` (removes `#voices` right after `root.innerHTML=MARKUP`, mq scroll animation guarded) — not in
   `markup.ts`, which the next drop-in overwrites. To bring it back, delete that `querySelector('#voices')?.remove()`.
+- 23/11: After removing Student stories, home colour rhythm re-balanced in `src/styles/tw-site.css`: webinars (white) → videos
+  (their own dark look) → boarding pass section (light #e9f0fb, `--seam` matched) → footer (dark). Before, the pass and footer
+  were both navy and the videos sat next to the white webinars.
