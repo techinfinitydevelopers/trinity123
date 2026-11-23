@@ -395,13 +395,13 @@ body:has(.mobile-menu:not([hidden])){overflow:hidden}
 
    The keyframe is the fail-safe. If the component never mounts — a chunk that fails, a thrown
    error — nothing would ever set the attribute and the overlay would cover the site for good.
-   So it fades on its own: the animation holds it opaque for 2.7s, then takes it away. React
+   So it fades on its own: the animation holds it opaque for 4.5s, then takes it away. React
    almost always gets there first and the transition wins; the animation is the floor. */
 .tw-pre{
   position:fixed;inset:0;z-index:200;
   display:grid;place-items:center;align-content:center;gap:18px;
   background:radial-gradient(900px 600px at 50% 38%,#0b2452,var(--twc-navy) 70%);
-  animation:tw-pre-failsafe 3.4s linear forwards;
+  animation:tw-pre-failsafe 5.6s linear forwards;
 }
 :root[data-preloaded] .tw-pre{display:none}
 :root[data-preloading="out"] .tw-pre{opacity:0;pointer-events:none;transition:opacity .45s ease}

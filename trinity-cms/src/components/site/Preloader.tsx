@@ -37,8 +37,8 @@ const KEY = "tw:preloaded";
    here: the overlay is in the server HTML, so it has been on screen since the first paint. Counting
    from hydration made a slow page hold it for as long as hydration took and then start the 1.5s —
    fifteen seconds on a cold dev load. `performance.now()` is already time since navigation. */
-const MIN_MS = 1200;
-const MAX_MS = 2600;
+const MIN_MS = 3200;
+const MAX_MS = 4500;
 
 export default function Preloader({ logo, name, tagline }: { logo: string; name: string; tagline?: string }) {
   useEffect(() => {
