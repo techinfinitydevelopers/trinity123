@@ -1835,3 +1835,7 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 - 24/11 (client sheet, About Us › "A word from our Founder"): the old lead ("Hear how Trinity Study Abroad guides every student…") is replaced by the
   Founder's quotation, signed "Mrs. Melissa Antony" (new optional `leadBy` on VideosBlock → `.vbk__lead--quote` + `.vbk__by`); the 42+/50+/1,200+ chips
   (`points`) removed from that block. Seed `aboutVideos` + stored about-us page (local done) → production needs `scripts/fix-founder-quote.ts --apply`.
+- 24/11 (client sheet, About Us › Our Process): "One team beside you…" lead replaced by the tagline "Because Every Dream Needs a Direction" (gold, bold);
+  stored in the about-us roadmap block → production needs `scripts/fix-process-lead.ts --apply`. Direction arrows: every connector ends in an amber arrowhead
+  (`--road-arrow:#f0b323`), and an elbow arrow runs from the end of row 1 (step 5, class `road__step--turn`) back to the start of row 2 (step 6,
+  `road__step--resume`, arrowhead on its circle) — classes added in Segments.tsx, CSS at the end of site.css. Phones (≤760px): downward arrowheads on the rail.

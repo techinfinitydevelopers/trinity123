@@ -2567,3 +2567,19 @@ body:not(:has(.tw-host)) section.wbc{background:linear-gradient(180deg,#eef3fb,#
 .vbk__by{margin:0 0 30px;padding-left:23px;font-size:.92rem;font-weight:700;letter-spacing:.04em;color:#f5b82e}
 .vbk__by::before{content:"— "}
 .vbk--light .vbk__by{color:#9a6f00}
+
+/* ---- Our Process: direction arrows (client sheet, 24/11) ---------------------------------------------------------------------------------
+   Every connector now ends in an arrowhead so the steps read in order, and where the first row of five ends an elbow arrow carries the eye down
+   and back to the start of the second row ("leading to the 2nd part"). On a phone the rail runs downward with a small arrowhead at the end of
+   each segment. The tagline is the section's lead. */
+.road--icons{--rg:clamp(30px,3.6vw,46px);--road-arrow:#f0b323;row-gap:var(--rg)}
+.roadsec .lead{color:#9a6f00;font-weight:700;letter-spacing:.03em}
+.road--icons .road__step:not(.road__step--end)::after{content:"";position:absolute;top:26px;left:calc(150% - 36px - 11px);width:0;height:0;border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:14px solid var(--road-arrow)}
+.road--icons .road__step--turn::before{content:"";position:absolute;left:50%;top:calc(100% - 2px);width:4px;height:calc(var(--rg) / 2 + 2px);margin-left:-2px;background:var(--road-arrow);border-radius:4px}
+.road--icons .road__step--turn::after{content:"";position:absolute;top:calc(100% + var(--rg) / 2);left:calc((1.5 - var(--n)) * 100%);width:calc((var(--n) - 1) * 100%);height:calc(var(--rg) / 2);border-top:4px solid var(--road-arrow);border-left:4px solid var(--road-arrow);border-radius:6px 0 0 0;box-sizing:border-box}
+.road--icons .road__step--resume .road__ico::after{content:"";position:absolute;top:-17px;left:50%;margin-left:-8px;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:12px solid var(--road-arrow)}
+@media (max-width:760px){
+  .road--icons .road__step--turn::before,.road--icons .road__step--turn::after,.road--icons .road__step--resume .road__ico::after{display:none}
+  .road--icons .road__step:not(:last-child)::after{content:"";position:absolute;top:auto;bottom:6px;left:20px;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:12px solid var(--road-arrow);border-bottom:0}
+  .road--icons .road__step--end:not(:last-child)::after{display:block}
+}
