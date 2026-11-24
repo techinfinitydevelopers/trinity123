@@ -93,6 +93,14 @@ const lenisSync=()=>ScrollTrigger.update();lenis.on('scroll',lenisSync);
 const tick=t=>lenis.raf(t*1000);
 if(ownLenis){gsap.ticker.add(tick);gsap.ticker.lagSmoothing(0)}
 cleanups.push(()=>{lenis.off&&lenis.off('scroll',lenisSync);if(ownLenis){gsap.ticker.remove(tick);lenis.destroy()}else lenis.start()});
+/* "Another country?" row on the arrival screen (client sheet, 24/11): someone who lands on the home page and then decides on a
+   different country should be able to switch right here and see that country's page, without scrolling back up through the
+   flight. choose() re-renders every country-dependent section in place, so the scroll position does not move. */
+{const inner=root.querySelector('.arrive .inner');
+ if(inner){const sw=document.createElement('div');sw.className='swap';
+  sw.innerHTML='<span class="swap__t">Looking at another country? Switch here</span><div class="swap__row">'+COUNTRIES.map(c=>'<button type="button" data-k="'+c.k+'">'+c.s+'</button>').join('')+'</div>';
+  inner.appendChild(sw);
+  sw.addEventListener('click',e=>{const b=(e.target as HTMLElement).closest('button');if(!b)return;const k=(b as HTMLElement).dataset.k;if(k&&k!==state.k){choose(k)}});}}
 /* Quick navigation (client sheet, 24/11): getting from the home page to a section meant scrolling the whole journey again. This bar sits
    over the page once the visitor is past the globe and jumps straight to a section. They are plain `#id` links, so the handler below
    does the scrolling (and picks a country first if none is chosen yet). */
@@ -540,7 +548,7 @@ function choose(k){
   gsap.fromTo('#pickedBox',{opacity:0,y:20},{opacity:1,y:0,duration:.8,delay:.5});
   gsap.fromTo('#cname',{opacity:0,y:40,letterSpacing:'.5em'},{opacity:1,y:0,letterSpacing:'.12em',duration:1.4,ease:'power3.out',delay:.3});
   opts.onPick&&opts.onPick(k);
-  root.classList.add('picked');$('#hint').firstChild.textContent='Scroll to take off';
+  root.classList.add('picked');$('#hint').firstChild.textContent='Scroll to take off';root.querySelectorAll('.swap button').forEach(b=>b.classList.toggle('on',(b as HTMLElement).dataset.k===k));
   lenis.start();
 }
 $('#change').addEventListener('click',()=>{root.classList.remove('compact');lenis.start();lenis.scrollTo(root,{duration:2.6,easing:x=>1-Math.pow(1-x,4),onComplete:()=>input.focus()})});

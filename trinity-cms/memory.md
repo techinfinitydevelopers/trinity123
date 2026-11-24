@@ -1751,3 +1751,6 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   Quick-nav bar `#qnav` (engine.ts + tw-site.css): Universities · Your journey · Visa documents · Student life · Webinars · Book a
   session; shows between "Pick your campus" and the booking pass; plain #id links handled by the engine's anchor handler (Webinars,
   which is outside the world root, has its own click handler). Settings cache key bumped to v4.
+- 24/11 (client sheet, navigation point): the arrival screen ("Study in <country>…") now has a "Looking at another country? Switch
+  here" chip row (`.swap`, built in engine.ts before the quick-nav block, styled in tw-site.css). Click → `choose(k)` re-renders
+  every country-dependent section in place; scroll position does not move, so the visitor does not replay the flight.

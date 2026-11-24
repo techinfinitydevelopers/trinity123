@@ -541,3 +541,12 @@ body:has(.tw-host:not(:has(.tw))) .footer,body:has(.tw-host:not(:has(.tw))) .fcr
 .tw #qnav a:hover{color:#fff;background:rgba(255,255,255,.1)}
 .tw #qnav a.on{background:#f5b82e;color:#241a00}
 @media(max-width:760px){.tw #qnav{bottom:12px;left:10px;max-width:calc(100vw - 100px);transform:translateY(24px)}.tw #qnav.show{transform:none}.tw #qnav a{padding:8px 13px;font-size:.78rem}}
+
+/* ---- "Looking at another country?" row under the arrival buttons (engine.ts, .swap) ---------------------------- */
+.tw .arrive .swap{margin:34px auto 0;max-width:820px}
+.tw .arrive .swap__t{display:block;font:600 .78rem Inter,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:12px}
+.tw .arrive .swap__row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.tw .arrive .swap button{pointer-events:auto;cursor:pointer;padding:8px 15px;border-radius:999px;border:1px solid rgba(255,255,255,.28);background:rgba(7,20,46,.45);color:#fff;font:600 .84rem Inter,system-ui,sans-serif;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:background .25s,color .25s,border-color .25s,transform .25s}
+.tw .arrive .swap button:hover{background:rgba(255,255,255,.18);transform:translateY(-1px)}
+.tw .arrive .swap button.on{background:#f5b82e;border-color:#f5b82e;color:#241a00}
+@media(max-width:760px){.tw .arrive .swap{margin-top:22px}.tw .arrive .swap__row{gap:6px}.tw .arrive .swap button{padding:6px 11px;font-size:.76rem}}
