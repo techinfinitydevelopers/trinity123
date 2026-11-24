@@ -598,3 +598,12 @@ body:has(.tw-host) .nav__social:hover .nav__social-caret,body:has(.tw-host) .nav
 .footer__tag i{width:6px;height:6px;border-radius:50%;background:var(--twc-gold);opacity:.8}
 .footer__tag span{color:rgba(255,255,255,.92)}
 @media (max-width:520px){.footer__lockup .footer__word{margin:8px 0 0}.footer__tag{margin-top:14px}.footer__tag{flex-direction:column;gap:6px}.footer__tag i{display:none}}
+
+/* The footer tagline, toned down (client: "bulky and over-visible"): small, light, wide-tracked, the colour of the footer's other secondary text — it
+   signs off the wordmark instead of competing with it. A hairline divider replaces the gold dot and the glow is gone. */
+.footer__lockup{padding-bottom:22px}
+.footer__tag{gap:clamp(10px,1.4vw,14px);margin-top:clamp(2px,.6vw,8px);font:500 clamp(.78rem,1.1vw,.92rem)/1.5 var(--font-b,Inter),system-ui,sans-serif;letter-spacing:.09em;color:rgba(255,255,255,.58)}
+.footer__tag b{font:700 .92em/1 var(--font-b,Inter),system-ui,sans-serif;letter-spacing:.28em;text-indent:.28em;color:rgba(245,184,46,.92);text-shadow:none}
+.footer__tag i{width:1px;height:13px;border-radius:0;background:rgba(255,255,255,.22);opacity:1}
+.footer__tag span{color:rgba(255,255,255,.66)}
+@media (max-width:520px){.footer__tag{gap:4px;margin-top:6px;font-size:.78rem;letter-spacing:.07em}.footer__tag b{text-indent:0}}

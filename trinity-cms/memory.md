@@ -1853,3 +1853,5 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   to force fresh reads on the next deploy. Lesson: after any direct DB write, bump those keys (or save once in /admin) — Railway keeps .next/cache between builds.
 - 24/11: footer lockup order reversed again at the client's request — the tagline "TSA • Because Every Dream Needs a Direction" is BELOW the ghost
   "TRINITY / STUDY ABROAD" wordmark (it was above for a short while). Margins restored to the first version.
+- 24/11: footer tagline toned down (client: "bulky and over-visible") — small .78–.92rem, weight 500, wide tracking, muted white (.58–.66), gold TSA at 92%
+  without glow, hairline divider instead of the dot (override block at the end of tw-chrome.css).
