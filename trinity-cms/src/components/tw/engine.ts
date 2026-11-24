@@ -81,8 +81,8 @@ G.__UNI__=Object.fromEntries([
   ...Object.entries(UNI).map(([k,v])=>[k,{url:pick('uni',k,AB+'/'+v.src),artist:v.artist,license:v.license,pos:(v as any).pos}]),
   ...uniOverrideOnly.map(k=>[k,{url:IMG_OVERRIDE.uni[k]}]),
 ]);
-const FOCUS:Record<string,string>={france:'66% 6%',nz:'48% 30%'};
-const IMG:any=Object.fromEntries(COUNTRIES.map((c:any)=>[c.k,pick('city',c.k,AB+'/city/'+c.k+'.jpg?v=3')]));
+const FOCUS:Record<string,string>={france:'66% 6%',nz:'48% 30%',australia:'60% 68%',uae:'60% 8%',korea:'66% 30%',usa:'29% 0%'};
+const IMG:any=Object.fromEntries(COUNTRIES.map((c:any)=>[c.k,pick('city',c.k,AB+'/city/'+c.k+'.jpg?v=4')]));
 gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.config({ignoreMobileResize:true});
 

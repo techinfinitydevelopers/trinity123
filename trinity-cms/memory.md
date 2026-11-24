@@ -1823,3 +1823,6 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 - 24/11: the landing photo was being cropped (centred `cover` + the .bg inset -6% + parallax): Eiffel Tower top and Sky Tower spire cut off. engine.ts now
   has `FOCUS` (focal point per country key: france '66% 6%', nz '48% 30%') applied to `.arrive .bg` and `.v2` as background-position. Add a key there for
   any other photo that crops badly; unlisted countries stay centred.
+- 24/11 (client): four more landing photos replaced — Australia (Sydney Opera House), UAE (Dubai/Burj Khalifa), Korea (Seoul/Lotte Tower), USA (Statue of
+  Liberty + Manhattan panorama, only 2000x750, so it is upscaled on tall screens and looks softer). `public/tw/city/{australia,uae,korea,usa}.jpg`, old
+  ones in scripts/backups/city-prev-2026-11-24/. `FOCUS` gained australia '60% 68%', uae '60% 8%', korea '66% 30%', usa '29% 0%'; cache-buster `?v=3` → `?v=4`.
