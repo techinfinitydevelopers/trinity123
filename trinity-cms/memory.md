@@ -1794,3 +1794,6 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   tw-site.css rules are still there). The landing chips, the skip-the-flight behaviour and the pinned-section anchor fix stay.
 - 24/11 (client sheet): home "Student stories / Hear it from our students" button reads "Explore More" (→ /success-stories) — `homeVideos` in
   seed-content.ts (the home page has no stored videos block). The Success Stories page's own copy keeps "Get free counselling" → /contact-us.
+- 24/11 (client sheet): boarding-pass ticket route shows names, not airport codes: "Mumbai ✈ UK / Ireland / New Zealand …" (small captions
+  "From" / "Study destination"). boardingPass.ts `readRoute()` writes the destination from `#route`, proper-cased (UK/UAE/USA kept upper). Flight/gate
+  numbers on the stub are unchanged; the airport `code` in TICKETS is no longer shown.

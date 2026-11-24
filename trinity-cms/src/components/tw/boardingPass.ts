@@ -91,9 +91,9 @@ export function mountBoardingPass(root: HTMLElement): () => void {
     main.append(
       el("header", "bp__head", '<span class="bp__air">Trinity <em>Study Abroad</em></span><span class="bp__kind">Boarding pass</span>'),
       el("div", "bp__route",
-        '<div class="bp__place from"><b>BOM</b><small>Mumbai</small></div>' +
+        '<div class="bp__place from"><b>Mumbai</b><small>From</small></div>' +
         '<div class="bp__dash"><span>&#9992;</span></div>' +
-        '<div class="bp__place to"><b data-bp="code">———</b><small data-bp="city">Your destination</small></div>'),
+        '<div class="bp__place to"><b data-bp="code">———</b><small>Study destination</small></div>'),
     );
     intro.classList.add("bp__intro");
     main.append(intro, form);
@@ -143,11 +143,9 @@ export function mountBoardingPass(root: HTMLElement): () => void {
       const to = route?.textContent?.split("→")[1]?.trim();
       if (!to) return;
       const t = ticketFor(to);
-      const code = at("code"), city = at("city"), fl = at("flight"), gate = at("gate");
-      if (code) code.textContent = t.code;
-      /* Both, because either alone misleads: the code is an airport, so "LGW / United
-         Kingdom" reads wrong, and "London" alone loses the country they actually picked. */
-      if (city) city.textContent = t.city === to ? to : `${t.city}, ${to}`;
+      const code = at("code"), fl = at("flight"), gate = at("gate");
+      /* Client sheet (24/11): the ticket shows the study destination by name ("Mumbai — UK"), not an airport code. */
+      if (code) code.textContent = /^(uk|uae|usa)$/i.test(to) ? to.toUpperCase() : to.toLowerCase().replace(/(^| )[a-z]/g, (c) => c.toUpperCase());
       if (fl) fl.textContent = t.flight;
       if (gate) gate.textContent = t.gate;
     };

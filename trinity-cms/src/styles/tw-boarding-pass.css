@@ -191,3 +191,9 @@
 @media (prefers-reduced-motion: reduce) {
   .bp.is-torn .bp__main, .bp.is-torn .bp__stub, .bp.is-torn .bp__kept { animation-duration: .01ms; }
 }
+
+/* Names, not airport codes, on the route (client sheet, 24/11): "Mumbai — UK", "Mumbai — New Zealand". Names run longer than three letters, so
+   the type is a step smaller and may wrap rather than push the plane off the ticket. */
+.bp__route { grid-template-columns: auto minmax(28px, 1fr) auto; gap: 12px; }
+.bp__place b { font-size: clamp(1.25rem, 2.5vw, 1.9rem); letter-spacing: .01em; overflow-wrap: anywhere; }
+.bp__place.to { max-width: 14em; }
