@@ -61,26 +61,28 @@ export default function Footer({ nav, contact, site, footer, destinations }: { n
             the dashboard still renames this. `footer.marqueeWord` is no longer painted —
             the setting is left in place rather than removed, in case it is wanted back.
             aria-hidden: it repeats the name the footer has already given. */}
+        {/* One lockup: the ghost wordmark with the brand tagline set directly under it, so the two read as a single closing mark
+            ("TSA · Because Every Dream Needs a Direction", site.footerTagline; client sheet, 24/11). The part before the first dash is the
+            brand, the rest the line. The wordmark itself stays aria-hidden; the tagline is real text. */}
         {(() => {
-          const [first, ...rest] = site.siteName.trim().split(/\s+/);
+          const [first, ...rest] = site.siteName.trim().split(/ +/);
+          const m = site.footerTagline ? site.footerTagline.match(/^ *(.+?) *[–—-] *(.+)$/) : null;
           return (
-            <div className="footer__word" aria-hidden="true">
-              <strong>{first}</strong>
-              {rest.length ? <span>{rest.join(" ")}</span> : null}
+            <div className="footer__lockup">
+              <div className="footer__word" aria-hidden="true">
+                <strong>{first}</strong>
+                {rest.length ? <span>{rest.join(" ")}</span> : null}
+              </div>
+              {site.footerTagline ? (
+                <p className="footer__tag">
+                  {m ? <b>{m[1]}</b> : null}
+                  {m ? <i aria-hidden="true" /> : null}
+                  <span>{m ? m[2] : site.footerTagline}</span>
+                </p>
+              ) : null}
             </div>
           );
         })()}
-        {site.footerTagline ? (() => {
-          /* "TSA – Because Every Dream Needs a Direction": the part before the first dash is the brand mark, the rest the line itself. */
-          const m = site.footerTagline.match(/^s*(.+?)s*[–—-]s*(.+)$/);
-          return (
-            <div className="footer__sign">
-              {m ? <span className="footer__sign-brand">{m[1]}</span> : null}
-              {m ? <span className="footer__sign-rule" aria-hidden="true" /> : null}
-              <p className="footer__sign-line">{m ? m[2] : site.footerTagline}</p>
-            </div>
-          );
-        })() : null}
         <div className="container footer__bottom">
           <p>{site.copyright}</p>
           {footer.poweredByText ? <p>Powered by <a href={footer.poweredByUrl} target="_blank" rel="noopener">{footer.poweredByText}</a></p> : null}

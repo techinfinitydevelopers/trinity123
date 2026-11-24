@@ -1811,3 +1811,7 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   the page titles. No DB script needed: the DB `site` row merges the new default. Settings cache key bumped to v7.
 - 24/11: footer sign-off redesigned (client: "UI not good"): `.footer__sign` = gold "TSA" badge + short gold rule + white tagline on one row, with a hairline
   above; stacks centred on phones. Footer.tsx splits `site.footerTagline` at the first dash (before = brand badge, after = the line); no dash → plain line.
+- 24/11 (2nd redesign): the footer wordmark and the tagline are ONE lockup (`.footer__lockup`): ghost "TRINITY / STUDY ABROAD" with
+  "TSA · Because Every Dream Needs a Direction" (gold TSA, dot, white line) right under it; the badge/rule version is gone. TRAP: backslashes typed in
+  my shell/node edits were stripped once (regex `\s` became `s`, which split "Study" on the letter s) — Footer.tsx now uses `/ +/` and `/^ *(.+?) *[–—-] *(.+)$/`
+  with no backslashes; check the wordmark still reads "TRINITY / STUDY ABROAD" after any edit there.
