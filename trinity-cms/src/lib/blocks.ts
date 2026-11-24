@@ -166,7 +166,7 @@ export type RoadmapBlock = { type: "roadmap"; kicker: string; title: string; lea
 
 /* Tap-to-play vertical video clips beside a short text column (About page, home page). */
 export type VideosBlock = {
-  type: "videos"; kicker: string; title: string; lead: string; ctaLabel?: string; ctaHref?: string;
+  type: "videos"; kicker: string; title: string; lead: string; /** Who the lead is quoted from (the Founder's line on About Us); when set the lead is set as a quotation. */ leadBy?: string; ctaLabel?: string; ctaHref?: string;
   items: { src?: string; poster?: string; caption?: string }[];
   /* Light background (success-stories page) instead of the dark navy default. */
   light?: boolean;

@@ -2560,3 +2560,10 @@ section.wbc .wbc__hint i:last-child{animation-name:wbcNudgeR}
    the two ran together. Off the home page it gets a soft blue wash — in the page's own palette, between white sections and the blue CTA /
    dark footer — so it always reads as its own band. (The home page keeps its plain look: it sits inside the world.) */
 body:not(:has(.tw-host)) section.wbc{background:linear-gradient(180deg,#eef3fb,#e4ecf9)}
+
+/* The Founder's line on About Us (client sheet, 24/11): the lead is her quotation, set larger with a gold rule, signed underneath. */
+.vbk__lead--quote{position:relative;margin:20px 0 10px;padding-left:20px;border-left:3px solid #f5b82e;color:#fff;font-family:var(--font-h);font-size:clamp(1.1rem,1.8vw,1.4rem);font-weight:600;line-height:1.5;font-style:italic;max-width:520px}
+.vbk--light .vbk__lead--quote{color:var(--navy)}
+.vbk__by{margin:0 0 30px;padding-left:23px;font-size:.92rem;font-weight:700;letter-spacing:.04em;color:#f5b82e}
+.vbk__by::before{content:"— "}
+.vbk--light .vbk__by{color:#9a6f00}

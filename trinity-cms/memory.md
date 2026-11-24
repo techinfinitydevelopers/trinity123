@@ -1832,3 +1832,6 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 - 24/11 (client sheet, About Us): "Our Story" pill 2 = "Learn Globally, Succeed Confidently." (was "Study Globally, Succeed Anywhere."). Seed `aboutUs` block
   (seed-content.ts ~line 402) + the stored about-us page (local done) → production needs `scripts/fix-about-pill.ts --apply`. The home page's own
   "About Trinity" block (line ~318) still has the old wording on purpose (the sheet said About Us only).
+- 24/11 (client sheet, About Us › "A word from our Founder"): the old lead ("Hear how Trinity Study Abroad guides every student…") is replaced by the
+  Founder's quotation, signed "Mrs. Melissa Antony" (new optional `leadBy` on VideosBlock → `.vbk__lead--quote` + `.vbk__by`); the 42+/50+/1,200+ chips
+  (`points`) removed from that block. Seed `aboutVideos` + stored about-us page (local done) → production needs `scripts/fix-founder-quote.ts --apply`.

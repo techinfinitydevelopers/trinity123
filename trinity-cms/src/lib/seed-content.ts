@@ -10,10 +10,8 @@ const C = "/contact-us";
 const VOICE = (n: number) => ({ src: `/tw/voices/voice-${n}.mp4`, poster: `/tw/voices/thumb-${n}.jpg` });
 export const aboutVideos: VideosBlock = {
   type: "videos", kicker: "From our Founder", title: "A word from our Founder.",
-  lead: "Hear how Trinity Study Abroad guides every student, in the Founder's own words.",
+  lead: "“Because choosing the right path for your future is a journey we believe in supporting”", leadBy: "Mrs. Melissa Antony",
   ctaLabel: "Get free counselling", ctaHref: C, items: [VOICE(2)],
-  /* The same figures as the About page's track record. */
-  points: [{ value: "42+", label: "Years' experience" }, { value: "50+", label: "Countries" }, { value: "1,200+", label: "Universities" }],
 };
 export const homeVideos: VideosBlock = {
   type: "videos", kicker: "Student stories", title: "Hear it from our students.",
