@@ -607,3 +607,14 @@ body:has(.tw-host) .nav__social:hover .nav__social-caret,body:has(.tw-host) .nav
 .footer__tag i{width:1px;height:13px;border-radius:0;background:rgba(255,255,255,.22);opacity:1}
 .footer__tag span{color:rgba(255,255,255,.66)}
 @media (max-width:520px){.footer__tag{gap:4px;margin-top:6px;font-size:.78rem;letter-spacing:.07em}.footer__tag b{text-indent:0}}
+
+/* Footer lockup, third pass (client: wordmark higher, tagline right under it): the ghost wordmark is pulled up closer to the columns above, and the
+   tagline sits directly beneath "STUDY ABROAD", a touch larger and brighter than the previous quiet version so it reads as the line that
+   belongs to the mark. */
+.footer__lockup{padding-bottom:26px}
+.footer__lockup .footer__word{margin-top:clamp(-46px,-3vw,-14px)}
+.footer__lockup .footer__tag{margin-top:clamp(-6px,-.4vw,0px);font-size:clamp(.9rem,1.35vw,1.1rem);letter-spacing:.07em;color:rgba(255,255,255,.82)}
+.footer__lockup .footer__tag span{color:rgba(255,255,255,.88)}
+.footer__lockup .footer__tag b{font-size:.9em;color:#f5b82e}
+.footer__lockup .footer__tag i{height:15px;background:rgba(255,255,255,.3)}
+@media (max-width:520px){.footer__lockup .footer__word{margin-top:-6px}.footer__lockup .footer__tag{margin-top:2px;font-size:.88rem}}

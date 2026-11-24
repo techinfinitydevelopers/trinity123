@@ -1855,3 +1855,5 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   "TRINITY / STUDY ABROAD" wordmark (it was above for a short while). Margins restored to the first version.
 - 24/11: footer tagline toned down (client: "bulky and over-visible") — small .78–.92rem, weight 500, wide tracking, muted white (.58–.66), gold TSA at 92%
   without glow, hairline divider instead of the dot (override block at the end of tw-chrome.css).
+- 24/11 (3rd pass): footer wordmark pulled up (~20px closer to the columns) and the tagline sits tight under "STUDY ABROAD", slightly larger/brighter than the "quiet"
+  version (.9–1.1rem, white .82–.88, gold TSA, hairline divider). Override block "third pass" at the end of tw-chrome.css.
