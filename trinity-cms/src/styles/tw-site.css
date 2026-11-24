@@ -550,3 +550,5 @@ body:has(.tw-host:not(:has(.tw))) .footer,body:has(.tw-host:not(:has(.tw))) .fcr
 .tw .arrive .swap button:hover{background:rgba(255,255,255,.18);transform:translateY(-1px)}
 .tw .arrive .swap button.on{background:#f5b82e;border-color:#f5b82e;color:#241a00}
 @media(max-width:760px){.tw .arrive .swap{margin-top:22px}.tw .arrive .swap__row{gap:6px}.tw .arrive .swap button{padding:6px 11px;font-size:.76rem}}
+.tw .arrive .swap.pulse .swap__row{animation:tw-swap-pulse 1.6s ease-out 1}
+@keyframes tw-swap-pulse{0%{box-shadow:0 0 0 0 rgba(245,184,46,.7)}60%{box-shadow:0 0 0 18px rgba(245,184,46,0)}100%{box-shadow:0 0 0 0 rgba(245,184,46,0)}}

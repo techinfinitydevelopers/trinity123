@@ -1754,3 +1754,7 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 - 24/11 (client sheet, navigation point): the arrival screen ("Study in <country>…") now has a "Looking at another country? Switch
   here" chip row (`.swap`, built in engine.ts before the quick-nav block, styled in tw-site.css). Click → `choose(k)` re-renders
   every country-dependent section in place; scroll position does not move, so the visitor does not replay the flight.
+- 24/11 (client sheet, navigation — revised): once the visitor has scrolled past the flight (`landedOnce`, set by a ScrollTrigger on
+  `#unis`), changing country never replays the globe/cabin/descent: the header "Change country" button, the landing chips, and a
+  pick made after scrolling back to the top all call `toLanding()` (immediate jump to the flight end, `fl.scrollTrigger.end`).
+  First-time visitors still get the full flight. Code in engine.ts next to `choose()`.

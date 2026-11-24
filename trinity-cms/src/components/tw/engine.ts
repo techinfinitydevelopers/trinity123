@@ -539,6 +539,12 @@ function render(c){
 }
 function fitName(){const n=$('#cname');n.style.removeProperty('font-size');n.style.whiteSpace='nowrap';n.style.overflow='visible';const fs=parseFloat(getComputedStyle(n).fontSize),r=document.createRange();r.selectNodeContents(n);const w=r.getBoundingClientRect().width,max=innerWidth*.88;if(w>max)n.style.setProperty('font-size',(fs*max/w)+'px','important')}
 onWin('resize',()=>{if($('#cname').textContent)fitName()});
+/* Once a visitor has reached the landing screen the flight is behind them for good: changing country (the chips on the landing, the
+   "Change country" button, or a pick made after scrolling back up) puts them back on the landing for the new country instead of
+   replaying the globe, the cabin and the descent (client sheet, 24/11). `flightEnd()` is the scroll position of that landing. */
+let landedOnce=false;
+const flightEnd=()=>fl.scrollTrigger.end;
+const toLanding=()=>{lenis.start();lenis.scrollTo(flightEnd(),{immediate:true,force:true})};
 function choose(k){
   const c=COUNTRIES.find(x=>x.k===k);if(!c)return;
   const first=!state.k;state.k=k;state.c=c;
@@ -548,10 +554,10 @@ function choose(k){
   gsap.fromTo('#pickedBox',{opacity:0,y:20},{opacity:1,y:0,duration:.8,delay:.5});
   gsap.fromTo('#cname',{opacity:0,y:40,letterSpacing:'.5em'},{opacity:1,y:0,letterSpacing:'.12em',duration:1.4,ease:'power3.out',delay:.3});
   opts.onPick&&opts.onPick(k);
-  root.classList.add('picked');$('#hint').firstChild.textContent='Scroll to take off';root.querySelectorAll('.swap button').forEach(b=>b.classList.toggle('on',(b as HTMLElement).dataset.k===k));
+  root.classList.add('picked');$('#hint').firstChild.textContent='Scroll to take off';if(landedOnce&&!first)requestAnimationFrame(()=>{ScrollTrigger.refresh();toLanding()});root.querySelectorAll('.swap button').forEach(b=>b.classList.toggle('on',(b as HTMLElement).dataset.k===k));
   lenis.start();
 }
-$('#change').addEventListener('click',()=>{root.classList.remove('compact');lenis.start();lenis.scrollTo(root,{duration:2.6,easing:x=>1-Math.pow(1-x,4),onComplete:()=>input.focus()})});
+$('#change').addEventListener('click',()=>{if(landedOnce||scrollY>=flightEnd()-4){toLanding();const sw=$('.swap');if(sw){sw.classList.remove('pulse');void (sw as HTMLElement).offsetWidth;sw.classList.add('pulse')}return}root.classList.remove('compact');lenis.start();lenis.scrollTo(root,{duration:2.6,easing:x=>1-Math.pow(1-x,4),onComplete:()=>input.focus()})});
 if((opts.hashPick!==false&&location.hash.startsWith('#c='))){setTimeout(()=>choose(location.hash.slice(3)),400)}
 
 /* ---------------- FLIGHT TIMELINE ---------------- */
@@ -573,6 +579,7 @@ const fl=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{trigger:'#flight',
     let a=u<6.4?36000*sm(.2,3.2,u):(u<10?36000:36000-sm(9.9,12.6,u)*35200);
     altEl.textContent=(Math.round(a/10)*10).toLocaleString('en-US');
   }}});
+ScrollTrigger.create({trigger:'#unis',start:'top bottom',onEnter:()=>{landedOnce=true}});
 fl.to(st,{t:1,duration:7,ease:'none'},0)
   .to('#panel',{opacity:0,x:-60,duration:.7},.05)
   .to('#cname',{opacity:0,duration:.8},.3)
