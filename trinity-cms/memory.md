@@ -1845,3 +1845,5 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   lines because the old numbered-roadmap rule draws a navy `::before` line on every step). Old thin-line icon version rules were removed.
 - 24/11: Our Process cards slimmed (client: "bulky") — desktop cards 240×140 (was ~236 tall), icon 54px, label .9rem, padding 22/12/16, lighter shadow, row gap 46;
   phones: 68px-tall cards. Override block "Our Process, slimmer" at the end of site.css (after "redesigned").
+- 24/11 (client sheet, About Us): sister-companies block heading "Our Business Segments" → "Our Group Companies" and its button "Talk to a trusted
+  counsellor" → "Talk to our Counsellor" (seed-content.ts + stored about-us block, local done) → production needs `scripts/fix-group-companies.ts --apply`.
