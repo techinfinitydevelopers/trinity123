@@ -182,12 +182,13 @@ export const DEFAULTS: SettingsMap = {
     fontHeading: "Poppins", fontBody: "Inter", radiusCard: 28, radiusPill: 50, container: 1320,
   } satisfies ThemeSettings,
   contact: {
-    phones: ["+91-8453045304", "+91-8828800367", "+91-8828800368"],
-    landline: "+91-22-69655855",
+    phones: ["+91-84-5304-5304", "+91-8828800367", "+91-8828800368"],
+    landline: "+91-22-69-655-855",
     email: "helpdesk@trinitystudyabroad.com",
     whatsapp: "918453045304",
-    address: "301- 3rd Floor, Kumar Plaza, Kalina-Kurla Road, Kalina, Santacruz-(E), Mumbai- 400029",
-    mapEmbed: "",
+    address: "301, 3rd Floor, Kumar Plaza, Kalina Kurla Road, Above HDFC Bank, Kalina, Santacruz East, Mumbai – 400029",
+    /* Pinned to the Trinity Study Abroad Google Business listing (cid), so the map cannot land on another business in the building such as Trinity Air Travel. */
+    mapEmbed: "https://www.google.com/maps?cid=5400192786684215025&output=embed",
     hours: "Mon – Sat · 10:00 AM – 7:00 PM",
     socialLinks: [
       { label: "Facebook", icon: "fab fa-facebook-f", href: "https://www.facebook.com/profile.php?id=61565625483023" },

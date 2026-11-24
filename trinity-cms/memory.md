@@ -1800,3 +1800,8 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 - 24/11 (client sheet): footer description = "Trinity Study Abroad helps students find the right direction with expert guidance, from counselling to visa
   approval and settling in." (`site.footerText`; also feeds the org JSON-LD description and the blog sidebar). Stored in the DB → production needs
   `scripts/fix-footer-text.ts --apply` with the prod DATABASE_URL (local done). Settings cache key bumped to v5.
+- 24/11 (client sheet, footer Get in touch): address "301, 3rd Floor, Kumar Plaza, Kalina Kurla Road, Above HDFC Bank, Kalina, Santacruz East,
+  Mumbai – 400029"; numbers shown "+91-22-69-655-855" / "+91-84-5304-5304" (tel: links still digits only; phones[0] is used in header, hero, chat,
+  org JSON-LD too). Contact-page map now `mapEmbed = https://www.google.com/maps?cid=5400192786684215025&output=embed` — the cid of the Trinity
+  Study Abroad Google Business listing (place 0x3be7c9002dad6f63:0x4af156ba60f07ef1, 19.077949,72.866248), so it cannot show Trinity Air Travel.
+  Stored in the DB → production needs `scripts/fix-contact-details.ts --apply`. Settings cache key bumped to v6.

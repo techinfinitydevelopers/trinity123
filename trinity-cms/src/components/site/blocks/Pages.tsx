@@ -121,7 +121,8 @@ export function Services({ b, contact }: { b: ServicesBlock; contact: ContactSet
 export async function Contact({ b, contact }: { b: ContactBlock; contact: ContactSettings }) {
   const all = await getLabels();
   const L = all.contactCards;
-  const mapQ = encodeURIComponent(contact.address);
+  /* The business name leads the query so Google pins Trinity Study Abroad itself, not a neighbour in the same building (Trinity Air Travel). */
+  const mapQ = encodeURIComponent(`Trinity Study Abroad, ${contact.address}`);
   return (
     <section className="section section--grey contact">
       <div className="container grid grid--3 contact__cards">
