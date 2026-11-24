@@ -1,6 +1,6 @@
 /* Study-destination page — a faithful port of the canvas "Country" screen (inline styles preserved). */
 import Link from "next/link";
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import type { Country } from "@/generated/prisma";
 import type { ContactSettings, LabelSettings } from "@/lib/settings";
 import { FLAG, Marked, fillCountry } from "./ui";
@@ -34,7 +34,7 @@ const jumpItems = (L: LabelSettings["destination"], name: string): [string, stri
   ["c-funding", L.jumpScholarships], ["c-visa", L.jumpVisa], ["c-work", L.jumpWork], ["c-faq", L.jumpFaq],
 ];
 
-export default async function CountryPage({ c, others, contact }: { c: Country; others: DestinationLite[]; contact: ContactSettings }) {
+export default async function CountryPage({ c, others, contact, webinars }: { c: Country; others: DestinationLite[]; contact: ContactSettings; /** The home page's webinar slider, shown just above the blue CTA block (client sheet, 24/11). */ webinars?: ReactNode }) {
   const all = await getLabels();
   const L = all.destination;
   const C = all.common;
@@ -337,6 +337,8 @@ export default async function CountryPage({ c, others, contact }: { c: Country; 
           </div>
         </section>
       ) : null}
+
+      {webinars}
 
       {/* CTA */}
       <section className="cv-section" style={{ padding: "0 24px 100px", background: "#fff" }}>

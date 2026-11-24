@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getCountry, getCountries, getHiddenDestinations } from "@/lib/content";
+import { getCountry, getCountries, getHiddenDestinations, getHomeWebinar } from "@/lib/content";
+import { Webinar } from "@/components/site/blocks/Webinar";
 import { getSetting } from "@/lib/settings-server";
 import { isHiddenDestination } from "@/lib/hidden-destinations";
 import CountryPage from "@/components/site/CountryPage";
@@ -26,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function DestinationPage({ params }: Props) {
   const { slug } = await params;
-  const [c, all, contact, hidden] = await Promise.all([getCountry(slug), getCountries(), getSetting("contact"), getHiddenDestinations()]);
+  const [c, all, contact, hidden, webinar] = await Promise.all([getCountry(slug), getCountries(), getSetting("contact"), getHiddenDestinations(), getHomeWebinar()]);
   if (!c || !c.isActive || isHiddenDestination(hidden, c.slug)) notFound();
   const others = all.filter((x) => x.code !== c.code).slice(0, 6);
   const url = `${base()}/destinations/${c.slug}`;
@@ -46,7 +47,7 @@ export default async function DestinationPage({ params }: Props) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(ld) }} />
-      <CountryPage c={c} others={others} contact={contact} />
+      <CountryPage c={c} others={others} contact={contact} webinars={<Webinar b={webinar} />} />
     </>
   );
 }

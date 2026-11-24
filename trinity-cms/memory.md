@@ -1778,3 +1778,8 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   (`AUTO_MS`, one timeout per slide so a manual pick also gets the full time), prev/next arrows beside the dots, touch swipe, a "Swipe left or right
   to see more webinars" hint with nudging arrows, and the sub-line under each webinar title (`w.text`) is no longer rendered (data kept).
   Console "clientX of undefined" errors seen in testing came from synthetic touchend events hitting Lenis, not from real touches.
+- 24/11 (client sheet): the Free-webinars slider now closes every page just above the blue CTA block, except home (has it), blog
+  (list + posts) and webinars-events. One source: the `webinar` block stored on the home page (`getHomeWebinar()` in content.ts, falls back to
+  `homeWebinars`), inserted by `withWebinar()` (src/lib/webinar-everywhere.ts) in `[slug]/page.tsx` — before the last `cta` block, else at the end —
+  and passed to `CountryPage` (`webinars` prop) for /destinations/*. Editing that block in /admin changes it everywhere. To exclude a
+  page, add its slug to `NO_WEBINARS`. Search and 404 pages don't get it.

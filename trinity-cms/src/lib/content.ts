@@ -1,6 +1,7 @@
 import { unstable_cache, revalidateTag, revalidatePath } from "next/cache";
 import { db } from "./db";
-import type { Block } from "./blocks";
+import type { Block, WebinarBlock } from "./blocks";
+import { homeWebinars } from "./seed-content";
 import { isHiddenDestination } from "./hidden-destinations";
 import { getSetting } from "./settings-server";
 
@@ -137,4 +138,11 @@ export function extractToc(html: string) {
   let m: RegExpExecArray | null;
   while ((m = re.exec(html))) out.push({ id: m[1], text: m[2].replace(/<[^>]+>/g, "").replace(/^\d+\.\s*/, "") });
   return out;
+}
+
+/* The home page's webinar slider block, reused at the bottom of the other pages (see webinar-everywhere.ts). Falls back to the seeded one. */
+export async function getHomeWebinar(): Promise<WebinarBlock> {
+  const home = await getPage("home").catch(() => null);
+  const stored = home?.blocks.find((b) => b?.type === "webinar") as WebinarBlock | undefined;
+  return stored && stored.current?.length ? stored : homeWebinars;
 }

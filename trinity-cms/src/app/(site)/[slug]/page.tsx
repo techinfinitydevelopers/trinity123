@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getPage, getPageSlugs, getHiddenDestinations } from "@/lib/content";
+import { getPage, getPageSlugs, getHiddenDestinations, getHomeWebinar } from "@/lib/content";
+import { withWebinar } from "@/lib/webinar-everywhere";
 import { getAllSettings } from "@/lib/settings-server";
 import { BlockRenderer } from "@/components/site/blocks";
 import CounsellingPopup from "@/components/site/CounsellingPopup";
@@ -35,11 +36,11 @@ export default async function Page({ params, searchParams }: Props) {
   const { slug } = await params;
   const sp = await searchParams;
   if (slug === "home" || isHiddenDestination(await getHiddenDestinations(), slug)) notFound();
-  const [page, settings] = await Promise.all([getPage(slug), getAllSettings()]);
+  const [page, settings, webinar] = await Promise.all([getPage(slug), getAllSettings(), getHomeWebinar()]);
   if (!page) notFound();
   return (
     <>
-      <BlockRenderer blocks={page.blocks} ctx={{ settings, searchParams: sp }} />
+      <BlockRenderer blocks={withWebinar(slug, page.blocks, webinar)} ctx={{ settings, searchParams: sp }} />
       {/* About Us: "Get free counselling" and the other CTAs open a form here instead of going to the
           contact page (client request). Only this page, and only its own content. */}
       {slug === "about-us" ? (
