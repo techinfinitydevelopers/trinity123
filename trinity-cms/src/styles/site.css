@@ -2607,3 +2607,30 @@ body:not(:has(.tw-host)) section.wbc{background:linear-gradient(180deg,#eef3fb,#
 .roadsec .road--icons .road__step:not(.road__step--turn):not(.road__step--resume)::before{content:none}
 .roadsec .road--icons .road__step.road__step--resume::before{right:auto;background:none;height:0;border-radius:0}
 .roadsec .road--icons .road__step.road__step--turn::before{right:auto;background:none;border-radius:0}
+
+/* Our Process, slimmer (client: "cards are bulky"): less padding and height, smaller icon and type, lighter shadow; the text sits right under the icon
+   instead of floating in a tall box. Same layout and arrows as above. */
+.road--icons{--cg:30px;--rg:46px}
+.road--icons .road__step{justify-content:flex-start;padding:22px 12px 16px;border-radius:16px;box-shadow:0 8px 22px rgba(35,47,112,.06)}
+.road--icons .road__step:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(35,47,112,.11)}
+.road--icons .road__no{top:8px;left:10px;padding:2px 8px;font-size:.68rem}
+.road--icons .road__ico{width:54px;height:54px}
+.road--icons .road__ico img{width:30px;height:30px}
+.road--icons .road__label{margin-top:10px;font-size:.9rem;line-height:1.28}
+.road--icons .road__step:not(.road__step--end)::after{width:26px;height:26px;margin-top:-13px;right:calc(-1 * (var(--cg) / 2) - 13px);font-size:1.15rem;padding-bottom:2px}
+@media (max-width:1000px){
+  .road--icons{--cg:22px;--rg:40px}
+  .road--icons .road__step{padding:20px 6px 14px}
+  .road--icons .road__ico{width:46px;height:46px}.road--icons .road__ico img{width:26px;height:26px}
+  .road--icons .road__label{font-size:.78rem}
+  .road--icons .road__step:not(.road__step--end)::after{width:22px;height:22px;margin-top:-11px;right:calc(-1 * (var(--cg) / 2) - 11px);font-size:1rem}
+}
+@media (max-width:760px){
+  .road--icons{row-gap:30px}
+  .road--icons .road__step{padding:11px 14px;gap:14px;border-radius:14px}
+  .road--icons .road__step:last-child{padding-bottom:11px}
+  .road--icons .road__no{top:6px;right:10px;left:auto}
+  .road--icons .road__ico{width:44px;height:44px}.road--icons .road__ico img{width:26px;height:26px}
+  .road--icons .road__label{font-size:.95rem;padding-right:30px}
+  .road--icons .road__step:not(:last-child)::after{bottom:-29px;width:26px;height:26px;margin-left:-13px;font-size:1.15rem}
+}

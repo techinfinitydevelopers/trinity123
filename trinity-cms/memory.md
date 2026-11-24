@@ -1843,3 +1843,5 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   each gap, dashed elbow with an arrowhead from card 5 to card 6; phones: one column of cards with a down-chevron between them; section gets a soft
   gradient background and the tagline sits right under the heading. CSS = the "Our Process, redesigned" block at the end of site.css (+ three override
   lines because the old numbered-roadmap rule draws a navy `::before` line on every step). Old thin-line icon version rules were removed.
+- 24/11: Our Process cards slimmed (client: "bulky") — desktop cards 240×140 (was ~236 tall), icon 54px, label .9rem, padding 22/12/16, lighter shadow, row gap 46;
+  phones: 68px-tall cards. Override block "Our Process, slimmer" at the end of site.css (after "redesigned").
