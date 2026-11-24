@@ -1847,3 +1847,7 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   phones: 68px-tall cards. Override block "Our Process, slimmer" at the end of site.css (after "redesigned").
 - 24/11 (client sheet, About Us): sister-companies block heading "Our Business Segments" → "Our Group Companies" and its button "Talk to a trusted
   counsellor" → "Talk to our Counsellor" (seed-content.ts + stored about-us block, local done) → production needs `scripts/fix-group-companies.ts --apply`.
+- 24/11: all 7 production DB scripts were APPLIED to production (contact details, footer text, webinar title, About pill, Founder quote, Process lead, Group
+  companies) with the Railway public DB URL the user pasted (not stored anywhere); backups are in scripts/backups/*-2026-11-24T11-5*.json. The live site still
+  showed the old text afterwards because of the cached settings/page reads, so the settings cache key went v7→v8 and the page cache key `["page"]`→`["page","v2"]`
+  to force fresh reads on the next deploy. Lesson: after any direct DB write, bump those keys (or save once in /admin) — Railway keeps .next/cache between builds.
