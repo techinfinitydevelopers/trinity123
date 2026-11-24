@@ -1826,3 +1826,6 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 - 24/11 (client): four more landing photos replaced — Australia (Sydney Opera House), UAE (Dubai/Burj Khalifa), Korea (Seoul/Lotte Tower), USA (Statue of
   Liberty + Manhattan panorama, only 2000x750, so it is upscaled on tall screens and looks softer). `public/tw/city/{australia,uae,korea,usa}.jpg`, old
   ones in scripts/backups/city-prev-2026-11-24/. `FOCUS` gained australia '60% 68%', uae '60% 8%', korea '66% 30%', usa '29% 0%'; cache-buster `?v=3` → `?v=4`.
+- 24/11: USA landing photo was a 2.67:1 panorama (2000x750), so `cover` cropped it hard on 16:10 screens. `public/tw/city/usa.jpg` is now the client's panorama
+  centred on a 2000x1250 canvas whose top/bottom are a blurred extension of the same photo (feathered 90px seams), so the whole width shows on desktop.
+  The untouched original is scripts/backups/city-prev-2026-11-24/usa-client-original-panorama.jpg. `FOCUS.usa` = '29% 50%'; cache-buster now `?v=5`.
