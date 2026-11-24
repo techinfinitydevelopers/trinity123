@@ -1790,3 +1790,5 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   `.qn-list` built in engine.ts, CSS in tw-site.css. Reason: six links scrolled sideways and sat under the chat/WhatsApp buttons.
 - 24/11 (phones, 2nd pass): quick-nav collapsed = 46px round compass button (label/chevron only when open); fades out while scrolling, back
   0.7s after; an open list closes on scroll. The red/black "N" at the bottom-left in dev is Next's dev badge, not part of the site.
+- 24/11: quick-nav bar removed at the client's request — `const QUICK_NAV=false` in engine.ts (set true to bring it back; markup, CSS and the
+  tw-site.css rules are still there). The landing chips, the skip-the-flight behaviour and the pinned-section anchor fix stay.

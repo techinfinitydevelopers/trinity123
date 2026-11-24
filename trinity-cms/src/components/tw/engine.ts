@@ -104,7 +104,9 @@ cleanups.push(()=>{lenis.off&&lenis.off('scroll',lenisSync);if(ownLenis){gsap.ti
 /* Quick navigation (client sheet, 24/11): getting from the home page to a section meant scrolling the whole journey again. This bar sits
    over the page once the visitor is past the globe and jumps straight to a section. They are plain `#id` links, so the handler below
    does the scrolling (and picks a country first if none is chosen yet). */
-{const qn=document.createElement('nav');qn.id='qnav';qn.setAttribute('aria-label','Jump to a section');
+/* Switched off at the client's request (24/11) — set to true to bring the quick-navigation bar back. */
+const QUICK_NAV=false;
+if(QUICK_NAV){const qn=document.createElement('nav');qn.id='qnav';qn.setAttribute('aria-label','Jump to a section');
  /* On a wide screen this is a pill of six links. On a phone six links do not fit and scroll sideways under the chat buttons, so it folds
     into one small button that names the section you are in; tapping it opens the list upward (CSS decides which form is shown). */
  qn.innerHTML='<button type="button" class="qn-toggle" aria-expanded="false" aria-controls="qn-list"><i class="fas fa-compass" aria-hidden="true"></i><span class="qn-cur">Jump to a section</span><i class="fas fa-chevron-up qn-chev" aria-hidden="true"></i></button><div class="qn-list" id="qn-list">'+[['unis','Universities'],['path','Your journey'],['kit','Visa documents'],['life','Student life'],['webinars','Webinars'],['cta','Book a session']].map(([i,t])=>'<a href="#'+i+'" data-qn="'+i+'">'+t+'</a>').join('')+'</div>';
