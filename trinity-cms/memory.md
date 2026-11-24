@@ -1788,3 +1788,5 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 - 24/11: quick-nav `#qnav` on phones (≤760px) folds into one bottom-left button that names the current section ("Visa documents ⌃");
   tapping opens a vertical list upward (44px targets, closes on pick / outside tap / Esc). Desktop keeps the one-line pill. Markup: toggle +
   `.qn-list` built in engine.ts, CSS in tw-site.css. Reason: six links scrolled sideways and sat under the chat/WhatsApp buttons.
+- 24/11 (phones, 2nd pass): quick-nav collapsed = 46px round compass button (label/chevron only when open); fades out while scrolling, back
+  0.7s after; an open list closes on scroll. The red/black "N" at the bottom-left in dev is Next's dev badge, not part of the site.

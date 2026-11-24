@@ -114,7 +114,10 @@ cleanups.push(()=>{lenis.off&&lenis.off('scroll',lenisSync);if(ownLenis){gsap.ti
  tg.addEventListener('click',()=>setOpen(!qn.classList.contains('open')));
  qn.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setOpen(false)));
  onWin('pointerdown',(e:any)=>{if(!qn.contains(e.target))setOpen(false)},{passive:true});
- onWin('keydown',(e:any)=>{if(e.key==='Escape')setOpen(false)});}
+ onWin('keydown',(e:any)=>{if(e.key==='Escape')setOpen(false)});
+ /* Phones: it must not sit on top of what is being read. Collapsed it is a small round button, and it steps aside while the page is moving
+    (back 0.7s after the scroll stops). An open list closes as soon as the page scrolls. */
+ let qnT=0;onWin('scroll',()=>{qn.classList.add('scrolling');if(qn.classList.contains('open'))setOpen(false);clearTimeout(qnT);qnT=window.setTimeout(()=>qn.classList.remove('scrolling'),700)},{passive:true});}
 /* A pinned section (#path, #kit, #life) that has already been scrolled past sits at the END of its pin spacer, so scrolling "to the
    element" lands after the whole pinned scene (it showed up as the quick-nav "Student life" link landing on the next section). Its
    ScrollTrigger start is where the scene begins. */

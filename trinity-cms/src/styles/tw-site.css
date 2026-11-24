@@ -579,3 +579,14 @@ body:has(.tw-host:not(:has(.tw))) .footer,body:has(.tw-host:not(:has(.tw))) .fcr
   .tw #qnav.open .qn-list{display:flex}
   .tw #qnav .qn-list a{display:block;padding:12px 14px;border-radius:14px;font-size:.92rem;min-height:44px;line-height:1.3}
 }
+
+/* Phones, second pass (client: "it covers the page"): collapsed = a 46px round button; the section name and chevron only show once it is open.
+   It fades away while the page is scrolling and returns 0.7s after. */
+@media(max-width:760px){
+  .tw #qnav{min-width:0;width:auto;border-radius:23px;transition:opacity .25s,transform .35s,border-radius .2s}
+  .tw #qnav:not(.open){width:46px;height:46px}
+  .tw #qnav:not(.open) .qn-toggle{padding:0;justify-content:center;width:46px;height:46px;min-height:0}
+  .tw #qnav:not(.open) .qn-cur,.tw #qnav:not(.open) .qn-chev{display:none}
+  .tw #qnav.open{min-width:196px;border-radius:22px}
+  .tw #qnav.scrolling:not(.open){opacity:0;pointer-events:none}
+}
