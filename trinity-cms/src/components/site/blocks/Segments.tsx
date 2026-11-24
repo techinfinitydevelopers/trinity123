@@ -83,6 +83,7 @@ export function Roadmap({ b }: { b: RoadmapBlock }) {
         <ol className={withIcons ? "road road--icons" : "road"} style={withIcons ? { ["--n" as string]: cols } : undefined}>
           {steps.map((s, i) => (
             <li key={i} className={`road__step${withIcons && ((i + 1) % cols === 0 || i === steps.length - 1) ? " road__step--end" : ""}${withIcons && steps.length > cols && i + 1 === cols ? " road__step--turn" : ""}${withIcons && steps.length > cols && i === cols ? " road__step--resume" : ""}`} data-reveal style={{ ["--d" as string]: `${(withIcons ? i % cols : i % 5) * 0.08}s` }}>
+              {withIcons ? <span className="road__no" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span> : null}
               {withIcons ? (
                 <span className="road__ico"><img src={s.icon} alt="" width={42} height={42} loading="lazy" /></span>
               ) : (

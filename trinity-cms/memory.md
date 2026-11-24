@@ -1839,3 +1839,7 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   stored in the about-us roadmap block → production needs `scripts/fix-process-lead.ts --apply`. Direction arrows: every connector ends in an amber arrowhead
   (`--road-arrow:#f0b323`), and an elbow arrow runs from the end of row 1 (step 5, class `road__step--turn`) back to the start of row 2 (step 6,
   `road__step--resume`, arrowhead on its circle) — classes added in Segments.tsx, CSS at the end of site.css. Phones (≤760px): downward arrowheads on the rail.
+- 24/11 (client: "UI not good, spacing, UX, mobile"): Our Process redesigned — ten numbered white cards (01–10, `road__no`), five per row, round amber chevron in
+  each gap, dashed elbow with an arrowhead from card 5 to card 6; phones: one column of cards with a down-chevron between them; section gets a soft
+  gradient background and the tagline sits right under the heading. CSS = the "Our Process, redesigned" block at the end of site.css (+ three override
+  lines because the old numbered-roadmap rule draws a navy `::before` line on every step). Old thin-line icon version rules were removed.

@@ -2247,7 +2247,6 @@ main:has(> .cta-block:last-child) + .footer{background:var(--cream);padding-top:
 .road--icons .road__step:nth-child(3n) .road__ico{background:#dcedf6}
 .road--icons .road__ico img{width:42px;height:42px;display:block}
 .road--icons .road__label{margin:16px 0 0;max-width:150px;font:600 .94rem/1.32 var(--font-h);color:var(--navy)}
-.road--icons .road__step:not(.road__step--end)::before{content:"";position:absolute;top:34px;bottom:auto;left:calc(50% + 36px);right:calc(-50% + 36px);width:auto;height:4px;border-radius:4px;background:var(--gold)}
 @media (max-width:760px){
   .road--icons{grid-template-columns:1fr;max-width:420px;margin-left:auto;margin-right:auto}
   .road--icons .road__step{flex-direction:row;text-align:left;padding:0 0 24px;gap:16px}
@@ -2256,7 +2255,6 @@ main:has(> .cta-block:last-child) + .footer{background:var(--cream);padding-top:
   .road--icons .road__ico img{width:36px;height:36px}
   .road--icons .road__label{margin:0;max-width:none;font-size:1rem}
   .road--icons{row-gap:0}
-  .road--icons .road__step:not(:last-child)::before{content:"";position:absolute;top:60px;bottom:0;left:28px;right:auto;width:4px;height:auto;border-radius:4px;background:var(--gold)}
 }
 
 /* Videos block: navy section (same family as the home page's dark sections), solid gold accents, tap-to-play clips. */
@@ -2568,18 +2566,44 @@ body:not(:has(.tw-host)) section.wbc{background:linear-gradient(180deg,#eef3fb,#
 .vbk__by::before{content:"— "}
 .vbk--light .vbk__by{color:#9a6f00}
 
-/* ---- Our Process: direction arrows (client sheet, 24/11) ---------------------------------------------------------------------------------
-   Every connector now ends in an arrowhead so the steps read in order, and where the first row of five ends an elbow arrow carries the eye down
-   and back to the start of the second row ("leading to the 2nd part"). On a phone the rail runs downward with a small arrowhead at the end of
-   each segment. The tagline is the section's lead. */
-.road--icons{--rg:clamp(30px,3.6vw,46px);--road-arrow:#f0b323;row-gap:var(--rg)}
-.roadsec .lead{color:#9a6f00;font-weight:700;letter-spacing:.03em}
-.road--icons .road__step:not(.road__step--end)::after{content:"";position:absolute;top:26px;left:calc(150% - 36px - 11px);width:0;height:0;border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:14px solid var(--road-arrow)}
-.road--icons .road__step--turn::before{content:"";position:absolute;left:50%;top:calc(100% - 2px);width:4px;height:calc(var(--rg) / 2 + 2px);margin-left:-2px;background:var(--road-arrow);border-radius:4px}
-.road--icons .road__step--turn::after{content:"";position:absolute;top:calc(100% + var(--rg) / 2);left:calc((1.5 - var(--n)) * 100%);width:calc((var(--n) - 1) * 100%);height:calc(var(--rg) / 2);border-top:4px solid var(--road-arrow);border-left:4px solid var(--road-arrow);border-radius:6px 0 0 0;box-sizing:border-box}
-.road--icons .road__step--resume .road__ico::after{content:"";position:absolute;top:-17px;left:50%;margin-left:-8px;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:12px solid var(--road-arrow)}
-@media (max-width:760px){
-  .road--icons .road__step--turn::before,.road--icons .road__step--turn::after,.road--icons .road__step--resume .road__ico::after{display:none}
-  .road--icons .road__step:not(:last-child)::after{content:"";position:absolute;top:auto;bottom:6px;left:20px;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:12px solid var(--road-arrow);border-bottom:0}
-  .road--icons .road__step--end:not(:last-child)::after{display:block}
+/* ---- Our Process, redesigned (client: "UI not good — spacing, UX, mobile") -----------------------------------------------------------------
+   Ten numbered cards, five to a row. A round amber chevron in each gap points to the next step; where row one ends, a dashed elbow arrow
+   carries the eye down and back to the start of row two. Phones: one column of cards with a down-chevron between them. The tagline sits
+   tight under the heading as the section's lead. */
+.roadsec{background:linear-gradient(180deg,#f6f8fd,#fff 70%)}
+.roadsec .section-head{margin-bottom:0}
+.roadsec .lead{margin-top:10px;color:#9a6f00;font-weight:700;letter-spacing:.03em}
+.road--icons{--cg:34px;--rg:60px;column-gap:var(--cg);row-gap:var(--rg);margin-top:clamp(28px,3.6vw,44px)}
+.road--icons .road__step{position:relative;padding:34px 14px 24px;background:#fff;border:1px solid rgba(35,47,112,.10);border-radius:22px;box-shadow:0 14px 34px rgba(35,47,112,.07);transition:transform .25s,box-shadow .25s,border-color .25s}
+.road--icons .road__step:hover{transform:translateY(-4px);box-shadow:0 20px 44px rgba(35,47,112,.13);border-color:rgba(240,179,35,.55)}
+.road--icons .road__no{position:absolute;top:12px;left:14px;padding:3px 10px;border-radius:99px;background:#fff4d6;color:#9a6f00;font:800 .74rem/1.4 var(--font-h);letter-spacing:.06em}
+.road--icons .road__ico{width:74px;height:74px}
+.road--icons .road__label{margin:16px 0 0;max-width:none;font:700 .98rem/1.32 var(--font-h);color:var(--navy)}
+/* the chevron in the gap */
+.road--icons .road__step:not(.road__step--end)::after{content:"›";position:absolute;top:50%;right:calc(-1 * (var(--cg) / 2) - 15px);margin-top:-15px;width:30px;height:30px;display:grid;place-items:center;padding-bottom:3px;border-radius:50%;background:#f0b323;color:#241a00;font:800 1.35rem/1 var(--font-h);box-shadow:0 6px 14px rgba(240,179,35,.4);z-index:2}
+/* row one → row two: dashed elbow, arrowhead into the first card of row two */
+.road--icons .road__step--turn::before{content:"";position:absolute;left:50%;top:100%;width:0;height:calc(var(--rg) / 2);margin-left:-1.5px;border-left:3px dashed #f0b323}
+.road--icons .road__step--turn::after{content:"";position:absolute;top:calc(100% + var(--rg) / 2);left:calc(50% - (var(--n) - 1) * (100% + var(--cg)));width:calc((var(--n) - 1) * (100% + var(--cg)));height:calc(var(--rg) / 2);border-top:3px dashed #f0b323;border-left:3px dashed #f0b323;border-radius:16px 0 0 0;box-sizing:border-box;background:none;box-shadow:none;margin:0;padding:0;right:auto;font-size:0}
+.road--icons .road__step--resume::before{content:"";position:absolute;top:-17px;left:50%;margin-left:-9px;width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;border-top:14px solid #f0b323}
+@media (max-width:1000px){
+  .road--icons{--cg:26px;--rg:52px}
+  .road--icons .road__step{padding:32px 8px 20px;border-radius:18px}
+  .road--icons .road__ico{width:60px;height:60px}.road--icons .road__ico img{width:34px;height:34px}
+  .road--icons .road__label{font-size:.86rem}
+  .road--icons .road__step:not(.road__step--end)::after{width:26px;height:26px;margin-top:-13px;right:calc(-1 * (var(--cg) / 2) - 13px);font-size:1.15rem}
 }
+@media (max-width:760px){
+  .road--icons{grid-template-columns:1fr;max-width:440px;margin-left:auto;margin-right:auto;column-gap:0;row-gap:38px}
+  .road--icons .road__step{flex-direction:row;text-align:left;align-items:center;gap:16px;padding:16px 16px 16px 18px}
+  .road--icons .road__step:last-child{padding-bottom:16px}
+  .road--icons .road__no{top:8px;left:auto;right:12px}
+  .road--icons .road__ico{flex:none;width:58px;height:58px}.road--icons .road__ico img{width:34px;height:34px}
+  .road--icons .road__label{margin:0;font-size:1rem;padding-right:34px}
+  .road--icons .road__step--turn::before,.road--icons .road__step--turn::after,.road--icons .road__step--resume::before{display:none}
+  .road--icons .road__step:not(:last-child)::after{content:"›";top:auto;bottom:-34px;right:auto;left:50%;margin:0 0 0 -15px;width:30px;height:30px;font-size:1.35rem;transform:rotate(90deg);padding:0 0 3px;display:grid}
+  .road--icons .road__step--end:not(:last-child)::after{display:grid;top:auto;left:50%;width:30px;height:30px;border:0;background:#f0b323}
+}
+/* the first, numbered-roadmap rule draws a navy line on every ::before; the icon version has its own connectors, so switch that off */
+.roadsec .road--icons .road__step:not(.road__step--turn):not(.road__step--resume)::before{content:none}
+.roadsec .road--icons .road__step.road__step--resume::before{right:auto;background:none;height:0;border-radius:0}
+.roadsec .road--icons .road__step.road__step--turn::before{right:auto;background:none;border-radius:0}
