@@ -721,7 +721,7 @@ function renderStudent(c){
   $('#kt').textContent=KIT.length;
   $$('#klist li').forEach((li,i)=>{li.querySelector('b').textContent=KIT[i][0];li.querySelector('small').textContent=KIT[i][1]});
   $$('.beat').forEach((b,i)=>{const x=BEATS[i];b.querySelector('small').textContent=x[0];b.querySelector('h3').textContent=x[1];b.querySelector('p').textContent=x[2];b.querySelector('.fact').textContent=x[3]});
-  /* Card 2 goes with the beat "Classes, campus & community"; it uses the client's own photo, supplied 24/11. */const dimg=[UQ(SIMG.cam),AB+'/life/classes-campus-community.webp?v=1',UQ(SIMG.fr),UQ(SIMG.caps)],dl=['Campus life · '+c.n,'Study groups','Friends for life','Graduation day'];
+  /* Card 2 goes with the beat "Classes, campus & community"; it uses the client's own photo, supplied 24/11; cards 3 ("Work and Studies") and 4 ("Your next step") too. */const dimg=[UQ(SIMG.cam),AB+'/life/classes-campus-community.webp?v=1',AB+'/life/work-and-studies.webp?v=1',AB+'/life/your-next-step.webp?v=1'],dl=['Campus life · '+c.n,'Study groups','Work while you study','Graduation day'];
   $$('.dcard').forEach((d,i)=>{const im=d.querySelector('img');im.src=dimg[i];im.onerror=()=>{im.onerror=null;im.src=IMG[c.k]};d.querySelector('span').textContent=dl[i]});
   G.__pimgs=pImgs.map((x,i)=>x?UQ(x,900):uImg);
   setStage(G.__stg||0,true);

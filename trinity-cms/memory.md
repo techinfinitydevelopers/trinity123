@@ -1770,3 +1770,6 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   square), wired as card 2 of the Student-life deck in engine.ts (`dimg[1]`, via `AB+'/life/…?v=1'`). New file, nothing in public/tw renamed.
 - 24/11: anchor/quick-nav links to a PINNED section (#path, #kit, #life) used to land at the END of its pin when clicked from below;
   `pinStart()` in engine.ts now scrolls to the ScrollTrigger start instead.
+- 24/11 (client sheet): Student-life deck now uses the client's photos on cards 2–4: `public/tw/life/classes-campus-community.webp`,
+  `work-and-studies.webp` ("Work and Studies", caption "Work while you study"), `your-next-step.webp` ("Your next step", caption
+  "Graduation day"). Converted from the client's PNGs with sharp (webp q82). All ~460–490px square; card 1 (Campus life) still stock.
