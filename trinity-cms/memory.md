@@ -1829,3 +1829,6 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 - 24/11: USA landing photo was a 2.67:1 panorama (2000x750), so `cover` cropped it hard on 16:10 screens. `public/tw/city/usa.jpg` is now the client's panorama
   centred on a 2000x1250 canvas whose top/bottom are a blurred extension of the same photo (feathered 90px seams), so the whole width shows on desktop.
   The untouched original is scripts/backups/city-prev-2026-11-24/usa-client-original-panorama.jpg. `FOCUS.usa` = '29% 50%'; cache-buster now `?v=5`.
+- 24/11 (client sheet, About Us): "Our Story" pill 2 = "Learn Globally, Succeed Confidently." (was "Study Globally, Succeed Anywhere."). Seed `aboutUs` block
+  (seed-content.ts ~line 402) + the stored about-us page (local done) → production needs `scripts/fix-about-pill.ts --apply`. The home page's own
+  "About Trinity" block (line ~318) still has the old wording on purpose (the sheet said About Us only).

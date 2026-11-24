@@ -399,7 +399,7 @@ const aboutBlocks: Block[] = [
     ],
     tags: [
       { icon: "fas fa-globe-europe", text: "Your Global Education, Our Expertise." },
-      { icon: "fas fa-rocket", text: "Study Globally, Succeed Anywhere." },
+      { icon: "fas fa-rocket", text: "Learn Globally, Succeed Confidently." },
       { icon: "fas fa-heart", text: "Your Future, Our Priority." },
     ],
     primary: { label: "Learn More", href: C }, showPhone: false,
