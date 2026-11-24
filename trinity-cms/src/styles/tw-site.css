@@ -529,3 +529,15 @@ body:has(.tw-host:not(:has(.tw))) .footer,body:has(.tw-host:not(:has(.tw))) .fcr
 @media (max-width:860px){
   .tw .tag{backdrop-filter:none;background:rgba(255,255,255,.28)}
 }
+
+/* ---- quick navigation bar on the home page (engine.ts, #qnav) ------------------------------------------------
+   Fixed pill at the bottom, shown only between "Pick your campus" and the booking pass. Scrolls sideways on a phone rather than wrapping. */
+.tw #qnav{position:fixed;left:50%;bottom:18px;z-index:60;transform:translate(-50%,24px);opacity:0;pointer-events:none;transition:opacity .35s,transform .35s;
+  display:flex;gap:4px;max-width:calc(100vw - 24px);overflow-x:auto;scrollbar-width:none;padding:6px;border-radius:999px;
+  background:rgba(7,20,46,.82);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 14px 40px rgba(2,8,24,.4)}
+.tw #qnav::-webkit-scrollbar{display:none}
+.tw #qnav.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.tw #qnav a{flex:none;padding:9px 16px;border-radius:999px;color:#cfdcf5;font:600 .82rem Inter,system-ui,sans-serif;text-decoration:none;white-space:nowrap;transition:background .25s,color .25s}
+.tw #qnav a:hover{color:#fff;background:rgba(255,255,255,.1)}
+.tw #qnav a.on{background:#f5b82e;color:#241a00}
+@media(max-width:760px){.tw #qnav{bottom:12px;left:10px;max-width:calc(100vw - 100px);transform:translateY(24px)}.tw #qnav.show{transform:none}.tw #qnav a{padding:8px 13px;font-size:.78rem}}

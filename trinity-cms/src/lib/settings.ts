@@ -345,7 +345,7 @@ export const DEFAULTS: SettingsMap = {
       processTitle: "From first call to<br>boarding pass.",
       pathTitle: "How Your<br>Journey Works",
       lifeTitle: "What life actually<br>looks like.",
-      kitTitle: "Document<br>Checklist",
+      kitTitle: "Visa Document<br>Checklist",
       statsTitle: "Numbers that landed.",
       voicesTitle: "They flew. You're next.",
       ctaTitle: "Book your free counselling session.",

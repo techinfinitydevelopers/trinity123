@@ -1745,3 +1745,9 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 - 23/11: After removing Student stories, home colour rhythm re-balanced in `src/styles/tw-site.css`: webinars (white) → videos
   (their own dark look) → boarding pass section (light #e9f0fb, `--seam` matched) → footer (dark). Before, the pass and footer
   were both navy and the videos sat next to the white webinars.
+- 24/11 (client final sheet, change 2 — Document Checklist): title "Visa Document Checklist" (`kitTitle` default in settings.ts),
+  the "For <country> you will need: <visa>" line removed (engine.ts removes `#kvisa` after MARKUP, line ~73), button reads
+  "Get Documents Reviewed by TSA". Item sub-lines (small text under each point) were kept — sheet's example was the kvisa line.
+  Quick-nav bar `#qnav` (engine.ts + tw-site.css): Universities · Your journey · Visa documents · Student life · Webinars · Book a
+  session; shows between "Pick your campus" and the booking pass; plain #id links handled by the engine's anchor handler (Webinars,
+  which is outside the world root, has its own click handler). Settings cache key bumped to v4.

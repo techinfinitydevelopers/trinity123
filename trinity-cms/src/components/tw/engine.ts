@@ -70,7 +70,7 @@ const one=(key:string,fallback:string)=>{
 };
 const cleanups:Array<()=>void>=[];let raf=0;
 const onWin=(t:string,f:any,o?:any)=>{window.addEventListener(t,f,o);cleanups.push(()=>window.removeEventListener(t,f,o))};
-root.classList.add('tw');root.innerHTML=MARKUP;/* Client request (23/11): the "Student stories" strip is off the home page. It is removed here, not from markup.ts, which the next drop-in overwrites. */root.querySelector('#voices')?.remove();
+root.classList.add('tw');root.innerHTML=MARKUP;/* Client request (23/11): the "Student stories" strip is off the home page. It is removed here, not from markup.ts, which the next drop-in overwrites. */root.querySelector('#voices')?.remove();/* Client sheet (24/11), Visa Document Checklist: the "For <country> you will need: <visa>" line is gone and the button reads "Get Documents Reviewed by TSA". */root.querySelector('#kvisa')?.remove();const kcta=root.querySelector('#kcta');if(kcta)kcta.innerHTML='Get Documents Reviewed by TSA <em>→</em>';
 const $=(s:string)=>root.querySelector(s) as any,$$=(s:string)=>[...root.querySelectorAll(s)] as any[];
 const G:any={};
 /* A university the dashboard has a photo for but that never shipped in `UNI` (it has no asset
@@ -93,6 +93,12 @@ const lenisSync=()=>ScrollTrigger.update();lenis.on('scroll',lenisSync);
 const tick=t=>lenis.raf(t*1000);
 if(ownLenis){gsap.ticker.add(tick);gsap.ticker.lagSmoothing(0)}
 cleanups.push(()=>{lenis.off&&lenis.off('scroll',lenisSync);if(ownLenis){gsap.ticker.remove(tick);lenis.destroy()}else lenis.start()});
+/* Quick navigation (client sheet, 24/11): getting from the home page to a section meant scrolling the whole journey again. This bar sits
+   over the page once the visitor is past the globe and jumps straight to a section. They are plain `#id` links, so the handler below
+   does the scrolling (and picks a country first if none is chosen yet). */
+{const qn=document.createElement('nav');qn.id='qnav';qn.setAttribute('aria-label','Jump to a section');
+ qn.innerHTML=[['unis','Universities'],['path','Your journey'],['kit','Visa documents'],['life','Student life'],['webinars','Webinars'],['cta','Book a session']].map(([i,t])=>'<a href="#'+i+'" data-qn="'+i+'">'+t+'</a>').join('');
+ root.appendChild(qn);}
 /* Was: `if(!state.k){shake();return}` — a link to a section that answered with a shake. It
    picks a country and goes there now. The scroll is deferred by a frame so choose() has
    rendered the target before Lenis measures where it is. */
@@ -683,7 +689,6 @@ function renderStudent(c){
    ['Proof of funds',S.funds],
    [S.visa,'Application, biometrics and interview prep'],
    ['Insurance & travel','Health cover, tickets and accommodation proof']];
-  $('#kvisa').textContent='For '+c.n+' you will need: '+S.visa+'.';
   $('#kt').textContent=KIT.length;
   $$('#klist li').forEach((li,i)=>{li.querySelector('b').textContent=KIT[i][0];li.querySelector('small').textContent=KIT[i][1]});
   $$('.beat').forEach((b,i)=>{const x=BEATS[i];b.querySelector('small').textContent=x[0];b.querySelector('h3').textContent=x[1];b.querySelector('p').textContent=x[2];b.querySelector('.fact').textContent=x[3]});
@@ -752,6 +757,12 @@ if(document.readyState==='complete')ScrollTrigger.refresh();else onWin('load',()
 /* ---------- host integration ---------- */
 ScrollTrigger.create({trigger:root,start:'top bottom',end:'bottom top',onToggle:s=>root.classList.toggle('live',s.isActive)});
 root.classList.add('live');
+{const qn=$('#qnav');
+ if(qn){ScrollTrigger.create({trigger:'#unis',start:'top 70%',endTrigger:'#cta',end:'bottom 40%',onToggle:s=>qn.classList.toggle('show',s.isActive)});
+  qn.querySelectorAll('a').forEach(a=>{const id=a.dataset.qn;if(!document.getElementById(id))return;ScrollTrigger.create({trigger:'#'+id,start:'top 55%',end:'bottom 55%',onToggle:s=>{a.classList.toggle('on',s.isActive);if(s.isActive&&qn.scrollWidth>qn.clientWidth)qn.scrollTo({left:a.offsetLeft-qn.clientWidth/2+a.offsetWidth/2,behavior:'smooth'})}})});
+ /* The webinars strip is the site's own section, rendered after the world and outside `root`, so the shared anchor handler cannot see it. */
+ {const wl=qn.querySelector('a[data-qn="webinars"]'),wt=document.getElementById('webinars');
+  if(wl&&wt)wl.addEventListener('click',e=>{e.preventDefault();ensure();requestAnimationFrame(()=>{ScrollTrigger.refresh();requestAnimationFrame(()=>lenis.scrollTo(wt,{duration:2.4,easing:x=>1-Math.pow(1-x,4)}))})});}}}
 {const lf=$('#leadForm');
  lf.addEventListener('submit',async e=>{e.preventDefault();
   const fd=Object.fromEntries(new FormData(lf));const btn=lf.querySelector('button');
