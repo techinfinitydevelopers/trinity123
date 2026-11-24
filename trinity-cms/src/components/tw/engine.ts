@@ -544,7 +544,9 @@ onWin('resize',()=>{if($('#cname').textContent)fitName()});
    replaying the globe, the cabin and the descent (client sheet, 24/11). `flightEnd()` is the scroll position of that landing. */
 let landedOnce=false;
 const flightEnd=()=>fl.scrollTrigger.end;
-const toLanding=()=>{lenis.start();lenis.scrollTo(flightEnd(),{immediate:true,force:true})};
+/* The flight is scrubbed with a 1.1s smoothing, so a bare jump would play the whole thing backwards-then-forwards on screen (the lag
+   reported on 24/11). Completing the scrub tween and the timeline at once puts it at the landing frame with nothing to catch up. */
+const toLanding=()=>{lenis.start();lenis.scrollTo(flightEnd(),{immediate:true,force:true});const t=fl.scrollTrigger.getTween?.();if(t)t.progress(1);fl.progress(1)};
 function choose(k){
   const c=COUNTRIES.find(x=>x.k===k);if(!c)return;
   const first=!state.k;state.k=k;state.c=c;
@@ -554,7 +556,7 @@ function choose(k){
   gsap.fromTo('#pickedBox',{opacity:0,y:20},{opacity:1,y:0,duration:.8,delay:.5});
   gsap.fromTo('#cname',{opacity:0,y:40,letterSpacing:'.5em'},{opacity:1,y:0,letterSpacing:'.12em',duration:1.4,ease:'power3.out',delay:.3});
   opts.onPick&&opts.onPick(k);
-  root.classList.add('picked');$('#hint').firstChild.textContent='Scroll to take off';if(landedOnce&&!first)requestAnimationFrame(()=>{ScrollTrigger.refresh();toLanding()});root.querySelectorAll('.swap button').forEach(b=>b.classList.toggle('on',(b as HTMLElement).dataset.k===k));
+  root.classList.add('picked');$('#hint').firstChild.textContent='Scroll to take off';if(landedOnce&&!first){toLanding();/* the flight sits above everything the new country changes, so the landing is already in place; the re-measure of the sections below can wait a beat */setTimeout(()=>ScrollTrigger.refresh(),160)}root.querySelectorAll('.swap button').forEach(b=>b.classList.toggle('on',(b as HTMLElement).dataset.k===k));
   lenis.start();
 }
 $('#change').addEventListener('click',()=>{if(landedOnce||scrollY>=flightEnd()-4){toLanding();const sw=$('.swap');if(sw){sw.classList.remove('pulse');void (sw as HTMLElement).offsetWidth;sw.classList.add('pulse')}return}root.classList.remove('compact');lenis.start();lenis.scrollTo(root,{duration:2.6,easing:x=>1-Math.pow(1-x,4),onComplete:()=>input.focus()})});

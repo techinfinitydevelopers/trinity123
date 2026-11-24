@@ -1758,3 +1758,6 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   `#unis`), changing country never replays the globe/cabin/descent: the header "Change country" button, the landing chips, and a
   pick made after scrolling back to the top all call `toLanding()` (immediate jump to the flight end, `fl.scrollTrigger.end`).
   First-time visitors still get the full flight. Code in engine.ts next to `choose()`.
+- 24/11: lag on "Change country" after landing fixed — `toLanding()` now completes the flight's scrub tween (`fl.scrollTrigger.getTween().progress(1)`,
+  `fl.progress(1)`) so the 1.1s scrub smoothing does not replay the flight, and the ScrollTrigger re-measure after a switch is deferred
+  160ms instead of blocking the click. Measured: jump lands in one frame; a chip switch is one ~70ms task (dev build) + a later ~65ms refresh.
