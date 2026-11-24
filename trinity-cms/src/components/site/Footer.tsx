@@ -70,6 +70,7 @@ export default function Footer({ nav, contact, site, footer, destinations }: { n
             </div>
           );
         })()}
+        {site.footerTagline ? <p className="footer__tagline">{site.footerTagline}</p> : null}
         <div className="container footer__bottom">
           <p>{site.copyright}</p>
           {footer.poweredByText ? <p>Powered by <a href={footer.poweredByUrl} target="_blank" rel="noopener">{footer.poweredByText}</a></p> : null}

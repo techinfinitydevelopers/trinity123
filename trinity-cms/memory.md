@@ -1805,3 +1805,7 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   org JSON-LD too). Contact-page map now `mapEmbed = https://www.google.com/maps?cid=5400192786684215025&output=embed` — the cid of the Trinity
   Study Abroad Google Business listing (place 0x3be7c9002dad6f63:0x4af156ba60f07ef1, 19.077949,72.866248), so it cannot show Trinity Air Travel.
   Stored in the DB → production needs `scripts/fix-contact-details.ts --apply`. Settings cache key bumped to v6.
+- 24/11 (client sheet): tagline line at the bottom of every page: "TSA – Because Every Dream Needs a Direction" — new setting `site.footerTagline`
+  (default in settings.ts, editable in Settings → Site → "Bottom-of-page tagline", empty hides it), rendered by Footer.tsx between the ghost
+  wordmark and the copyright row, styled `.footer__tagline` in tw-chrome.css. `site.tagline` ("Every Dream Needs a Direction") is unchanged — it feeds
+  the page titles. No DB script needed: the DB `site` row merges the new default. Settings cache key bumped to v7.

@@ -168,7 +168,7 @@ export type WorldSettings = {
 };
 
 export type SiteSettings = {
-  siteName: string; tagline: string; logo: string; footerText: string; copyright: string;
+  siteName: string; tagline: string; /** The line printed at the bottom of every page, e.g. "TSA – Because Every Dream Needs a Direction". */ footerTagline: string; logo: string; footerText: string; copyright: string;
   gaId: string;
 };
 
@@ -256,6 +256,7 @@ export const DEFAULTS: SettingsMap = {
   site: {
     siteName: "Trinity Study Abroad",
     tagline: "Every Dream Needs a Direction",
+    footerTagline: "TSA – Because Every Dream Needs a Direction",
     logo: "/assets/img/logo/logo.png",
     footerText: "Trinity Study Abroad helps students find the right direction with expert guidance, from counselling to visa approval and settling in.",
     copyright: "Copyright © Trinity Study Abroad Private Limited. All Rights Reserved.",
