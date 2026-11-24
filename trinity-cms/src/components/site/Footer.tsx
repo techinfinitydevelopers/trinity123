@@ -65,13 +65,11 @@ export default function Footer({ nav, contact, site, footer, destinations }: { n
             ("TSA · Because Every Dream Needs a Direction", site.footerTagline; client sheet, 24/11). The part before the first dash is the
             brand, the rest the line. The wordmark itself stays aria-hidden; the tagline is real text. */}
         {(() => {
-          const [first, ...rest] = site.siteName.trim().split(/ +/);
           const m = site.footerTagline ? site.footerTagline.match(/^ *(.+?) *[–—-] *(.+)$/) : null;
           return (
             <div className="footer__lockup">
               <div className="footer__word" aria-hidden="true">
-                <strong>{first}</strong>
-                {rest.length ? <span>{rest.join(" ")}</span> : null}
+                <strong>{site.siteName}</strong>
               </div>
               {site.footerTagline ? (
                 <p className="footer__tag">

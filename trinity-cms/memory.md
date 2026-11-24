@@ -1857,3 +1857,6 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   without glow, hairline divider instead of the dot (override block at the end of tw-chrome.css).
 - 24/11 (3rd pass): footer wordmark pulled up (~20px closer to the columns) and the tagline sits tight under "STUDY ABROAD", slightly larger/brighter than the "quiet"
   version (.9–1.1rem, white .82–.88, gold TSA, hairline divider). Override block "third pass" at the end of tw-chrome.css.
+- 24/11 (v3, client): footer lockup = the WHOLE company name as ONE ghost line ("TRINITY STUDY ABROAD", `footer__word strong`, font clamp(1.55rem,6.7vw,6.6rem)) with the
+  tagline under it at about a fifth of the size (clamp .86–1.2rem). Footer.tsx renders `site.siteName` as one <strong> (no more first-word/rest split).
+  Desktop 1440: 96px, 1153px wide; phone 390: 26px, 312px wide — always a single line, no horizontal overflow.
