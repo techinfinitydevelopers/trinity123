@@ -1785,3 +1785,6 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   page, add its slug to `NO_WEBINARS`. Search and 404 pages don't get it.
 - 24/11: webinar slider on inner pages gets a soft blue wash (`body:not(:has(.tw-host)) section.wbc` in site.css) — on About Us it was white
   directly under a white section and the two merged. Home page keeps its plain look.
+- 24/11: quick-nav `#qnav` on phones (≤760px) folds into one bottom-left button that names the current section ("Visa documents ⌃");
+  tapping opens a vertical list upward (44px targets, closes on pick / outside tap / Esc). Desktop keeps the one-line pill. Markup: toggle +
+  `.qn-list` built in engine.ts, CSS in tw-site.css. Reason: six links scrolled sideways and sat under the chat/WhatsApp buttons.

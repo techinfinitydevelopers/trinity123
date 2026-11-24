@@ -105,8 +105,16 @@ cleanups.push(()=>{lenis.off&&lenis.off('scroll',lenisSync);if(ownLenis){gsap.ti
    over the page once the visitor is past the globe and jumps straight to a section. They are plain `#id` links, so the handler below
    does the scrolling (and picks a country first if none is chosen yet). */
 {const qn=document.createElement('nav');qn.id='qnav';qn.setAttribute('aria-label','Jump to a section');
- qn.innerHTML=[['unis','Universities'],['path','Your journey'],['kit','Visa documents'],['life','Student life'],['webinars','Webinars'],['cta','Book a session']].map(([i,t])=>'<a href="#'+i+'" data-qn="'+i+'">'+t+'</a>').join('');
- root.appendChild(qn);}
+ /* On a wide screen this is a pill of six links. On a phone six links do not fit and scroll sideways under the chat buttons, so it folds
+    into one small button that names the section you are in; tapping it opens the list upward (CSS decides which form is shown). */
+ qn.innerHTML='<button type="button" class="qn-toggle" aria-expanded="false" aria-controls="qn-list"><i class="fas fa-compass" aria-hidden="true"></i><span class="qn-cur">Jump to a section</span><i class="fas fa-chevron-up qn-chev" aria-hidden="true"></i></button><div class="qn-list" id="qn-list">'+[['unis','Universities'],['path','Your journey'],['kit','Visa documents'],['life','Student life'],['webinars','Webinars'],['cta','Book a session']].map(([i,t])=>'<a href="#'+i+'" data-qn="'+i+'">'+t+'</a>').join('')+'</div>';
+ root.appendChild(qn);
+ const tg=qn.querySelector('.qn-toggle') as HTMLElement;
+ const setOpen=(o:boolean)=>{qn.classList.toggle('open',o);tg.setAttribute('aria-expanded',String(o))};
+ tg.addEventListener('click',()=>setOpen(!qn.classList.contains('open')));
+ qn.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setOpen(false)));
+ onWin('pointerdown',(e:any)=>{if(!qn.contains(e.target))setOpen(false)},{passive:true});
+ onWin('keydown',(e:any)=>{if(e.key==='Escape')setOpen(false)});}
 /* A pinned section (#path, #kit, #life) that has already been scrolled past sits at the END of its pin spacer, so scrolling "to the
    element" lands after the whole pinned scene (it showed up as the quick-nav "Student life" link landing on the next section). Its
    ScrollTrigger start is where the scene begins. */
@@ -788,7 +796,7 @@ ScrollTrigger.create({trigger:root,start:'top bottom',end:'bottom top',onToggle:
 root.classList.add('live');
 {const qn=$('#qnav');
  if(qn){ScrollTrigger.create({trigger:'#unis',start:'top 70%',endTrigger:'#cta',end:'bottom 40%',onToggle:s=>qn.classList.toggle('show',s.isActive)});
-  qn.querySelectorAll('a').forEach(a=>{const id=a.dataset.qn;if(!document.getElementById(id))return;ScrollTrigger.create({trigger:'#'+id,start:'top 55%',end:'bottom 55%',onToggle:s=>{a.classList.toggle('on',s.isActive);if(s.isActive&&qn.scrollWidth>qn.clientWidth)qn.scrollTo({left:a.offsetLeft-qn.clientWidth/2+a.offsetWidth/2,behavior:'smooth'})}})});
+  qn.querySelectorAll('a').forEach(a=>{const id=a.dataset.qn;if(!document.getElementById(id))return;ScrollTrigger.create({trigger:'#'+id,start:'top 55%',end:'bottom 55%',onToggle:s=>{a.classList.toggle('on',s.isActive);if(s.isActive){const cur=qn.querySelector('.qn-cur');if(cur)cur.textContent=a.textContent}if(s.isActive&&qn.scrollWidth>qn.clientWidth)qn.scrollTo({left:a.offsetLeft-qn.clientWidth/2+a.offsetWidth/2,behavior:'smooth'})}})});
  /* The webinars strip is the site's own section, rendered after the world and outside `root`, so the shared anchor handler cannot see it. */
  {const wl=qn.querySelector('a[data-qn="webinars"]'),wt=document.getElementById('webinars');
   if(wl&&wt)wl.addEventListener('click',e=>{e.preventDefault();ensure();requestAnimationFrame(()=>{ScrollTrigger.refresh();requestAnimationFrame(()=>lenis.scrollTo(wt,{duration:2.4,easing:x=>1-Math.pow(1-x,4)}))})});}}}
