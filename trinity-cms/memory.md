@@ -1764,3 +1764,5 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 - 24/11: "Change country" jump from far down: JS cost is tiny (~20ms); the stall is the cold re-raster of the landing (big photo layer).
   `toLanding()` now covers a far jump with a navy `#jumpveil` (tw-site.css) that fades off in 0.4s. Do NOT snap every ScrollTrigger tween
   in toLanding (tried; no gain). Note: the preview pane throttles rAF to ~1Hz when hidden, so frame timings there are meaningless.
+- 24/11 (client sheet): "Rules change — we confirm the latest before you apply." under "What life actually looks like" is now a highlighted
+  callout (`.lnote` in tw-site.css: gold wash + gold edge + bold navy text + "!" mark) instead of a small grey footnote.

@@ -555,3 +555,11 @@ body:has(.tw-host:not(:has(.tw))) .footer,body:has(.tw-host:not(:has(.tw))) .fcr
 
 /* Veil that covers the jump back to the landing screen (engine.ts, toLanding). Sits under the header (z 60 qnav, header above). */
 .tw #jumpveil{position:fixed;inset:0;z-index:50;background:#07142e;opacity:0;pointer-events:none}
+
+/* "Rules change — we confirm the latest before we apply." under "What life actually looks like" (client sheet, 24/11): it was a small grey
+   footnote; it is now a highlighted callout (gold wash, gold edge, navy bold text, an info mark) so it cannot be missed. */
+.tw .lnote{display:flex;align-items:flex-start;gap:12px;margin-top:22px;padding:15px 18px;max-width:460px;border-radius:14px;
+  background:linear-gradient(135deg,rgba(245,184,46,.22),rgba(245,184,46,.1));border:1px solid rgba(245,184,46,.55);border-left:5px solid #f5b82e;
+  color:#0d1b34;font:700 1rem/1.4 Inter,system-ui,sans-serif;box-shadow:0 10px 26px rgba(245,184,46,.18)}
+.tw .lnote::before{content:"!";flex:none;display:grid;place-items:center;width:24px;height:24px;margin-top:1px;border-radius:50%;background:#f5b82e;color:#241a00;font:800 .9rem/1 Inter,system-ui,sans-serif}
+@media(max-width:760px){.tw .lnote{margin-top:14px;padding:11px 14px;font-size:.88rem;gap:10px}.tw .lnote::before{width:20px;height:20px;font-size:.78rem}}
