@@ -1816,3 +1816,7 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   my shell/node edits were stripped once (regex `\s` became `s`, which split "Study" on the letter s) — Footer.tsx now uses `/ +/` and `/^ *(.+?) *[–—-] *(.+)$/`
   with no backslashes; check the wordmark still reads "TRINITY / STUDY ABROAD" after any edit there.
 - 24/11: footer lockup order is now tagline ABOVE the ghost "TRINITY / STUDY ABROAD" wordmark (client: "keep it above the trinity study abroad").
+- 24/11 (client): landing-screen photos replaced for France (Paris aerial with the Eiffel Tower) and New Zealand (Auckland, Sky Tower from Mt Eden):
+  `public/tw/city/france.jpg` and `nz.jpg` (same file names, mozjpeg q82, 2000px wide); old ones saved in scripts/backups/city-prev-2026-11-24/. The
+  image URL cache-buster in engine.ts line ~84 went `?v=2` → `?v=3` (/tw/* is cached 30 days). If the dashboard (Settings → World → city photo) has an
+  override for these two countries it wins over these files.

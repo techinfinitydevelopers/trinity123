@@ -81,7 +81,7 @@ G.__UNI__=Object.fromEntries([
   ...Object.entries(UNI).map(([k,v])=>[k,{url:pick('uni',k,AB+'/'+v.src),artist:v.artist,license:v.license,pos:(v as any).pos}]),
   ...uniOverrideOnly.map(k=>[k,{url:IMG_OVERRIDE.uni[k]}]),
 ]);
-const IMG:any=Object.fromEntries(COUNTRIES.map((c:any)=>[c.k,pick('city',c.k,AB+'/city/'+c.k+'.jpg?v=2')]));
+const IMG:any=Object.fromEntries(COUNTRIES.map((c:any)=>[c.k,pick('city',c.k,AB+'/city/'+c.k+'.jpg?v=3')]));
 gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.config({ignoreMobileResize:true});
 
