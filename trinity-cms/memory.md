@@ -1815,3 +1815,4 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   "TSA · Because Every Dream Needs a Direction" (gold TSA, dot, white line) right under it; the badge/rule version is gone. TRAP: backslashes typed in
   my shell/node edits were stripped once (regex `\s` became `s`, which split "Study" on the letter s) — Footer.tsx now uses `/ +/` and `/^ *(.+?) *[–—-] *(.+)$/`
   with no backslashes; check the wordmark still reads "TRINITY / STUDY ABROAD" after any edit there.
+- 24/11: footer lockup order is now tagline ABOVE the ghost "TRINITY / STUDY ABROAD" wordmark (client: "keep it above the trinity study abroad").
