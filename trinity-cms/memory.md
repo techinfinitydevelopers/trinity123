@@ -1792,3 +1792,5 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   0.7s after; an open list closes on scroll. The red/black "N" at the bottom-left in dev is Next's dev badge, not part of the site.
 - 24/11: quick-nav bar removed at the client's request — `const QUICK_NAV=false` in engine.ts (set true to bring it back; markup, CSS and the
   tw-site.css rules are still there). The landing chips, the skip-the-flight behaviour and the pinned-section anchor fix stay.
+- 24/11 (client sheet): home "Student stories / Hear it from our students" button reads "Explore More" (→ /success-stories) — `homeVideos` in
+  seed-content.ts (the home page has no stored videos block). The Success Stories page's own copy keeps "Get free counselling" → /contact-us.
