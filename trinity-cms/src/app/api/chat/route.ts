@@ -5,7 +5,7 @@ import { getSetting } from "@/lib/settings-server";
 import { rateLimit, clientIp } from "@/lib/chat";
 import { matchKnowledgeBase, isNonEnglish } from "@/lib/chat-match";
 
-const ENGLISH_ONLY_MESSAGE = "TISA answers in English only — could you please ask your question in English?";
+const ENGLISH_ONLY_MESSAGE = "This assistant answers in English only — could you please ask your question in English?";
 
 export const runtime = "nodejs";
 export const maxDuration = 30;
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
   const { sessionId, visitorId, message } = parsed.data;
 
   const [cfg, contact] = await Promise.all([getSetting("chatbot"), getSetting("contact")]);
-  if (!cfg.enabled) return NextResponse.json({ error: "TISA is currently offline." }, { status: 503 });
+  if (!cfg.enabled) return NextResponse.json({ error: "The assistant is currently offline." }, { status: 503 });
 
   // The conversation must already exist — created by the pre-chat name/email/phone form
   // (startChatSessionAction). A guessed id must not let someone append to another student's
@@ -54,7 +54,7 @@ export async function POST(req: Request) {
     userMessageId = (await db.chatMessage.create({ data: { sessionId, role: "user", content: message } })).id;
   } catch (err) {
     console.error("[chat] session setup", err);
-    return NextResponse.json({ error: "Sorry — TISA is unavailable. Please call or WhatsApp us." }, { status: 503 });
+    return NextResponse.json({ error: "Sorry — the assistant is unavailable. Please call or WhatsApp us." }, { status: 503 });
   }
 
   const encoder = new TextEncoder();

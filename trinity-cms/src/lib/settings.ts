@@ -233,7 +233,7 @@ export const DEFAULTS: SettingsMap = {
   chatbot: {
     enabled: true,
     name: "TISA",
-    greeting: "Hi! 👋 I am TISA – your Trinity Study Abroad Guide. Share a few details and I'll help with countries, courses, visas, fees or intakes. Please ask your questions in English.",
+    greeting: "Hi! 👋 I'm TISA, the Trinity Study Abroad assistant. Share a few details and I'll help with countries, courses, visas, fees or intakes. Please ask your questions in English.",
     matchThreshold: 0.55,
     unmatchedMessage: "I couldn't find a suitable answer to your question. Would you like to contact our support team?",
     urgentMessage: "Thanks — I've flagged this as urgent for our team. Someone will reach out to you shortly, or call us right away for immediate help.",

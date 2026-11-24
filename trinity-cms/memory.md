@@ -1745,6 +1745,3 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 - 23/11: After removing Student stories, home colour rhythm re-balanced in `src/styles/tw-site.css`: webinars (white) → videos
   (their own dark look) → boarding pass section (light #e9f0fb, `--seam` matched) → footer (dark). Before, the pass and footer
   were both navy and the videos sat next to the white webinars.
-- 24/11 (client final sheet, change 1): chat greeting now "Hi! 👋 I am TISA – your Trinity Study Abroad Guide. …" (no word
-  "assistant"); API error texts say "TISA". Greeting is saved in the DB (`chatbot.greeting`), so production needs
-  `scripts/fix-chatbot-greeting.ts --apply` with the prod DATABASE_URL (local already applied). Settings cache key bumped to v4.
