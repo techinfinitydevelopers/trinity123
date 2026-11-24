@@ -1766,3 +1766,7 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   in toLanding (tried; no gain). Note: the preview pane throttles rAF to ~1Hz when hidden, so frame timings there are meaningless.
 - 24/11 (client sheet): "Rules change — we confirm the latest before you apply." under "What life actually looks like" is now a highlighted
   callout (`.lnote` in tw-site.css: gold wash + gold edge + bold navy text + "!" mark) instead of a small grey footnote.
+- 24/11 (client sheet): photo for "Classes, campus & community" = `public/tw/life/classes-campus-community.webp` (client's image, 456px
+  square), wired as card 2 of the Student-life deck in engine.ts (`dimg[1]`, via `AB+'/life/…?v=1'`). New file, nothing in public/tw renamed.
+- 24/11: anchor/quick-nav links to a PINNED section (#path, #kit, #life) used to land at the END of its pin when clicked from below;
+  `pinStart()` in engine.ts now scrolls to the ScrollTrigger start instead.

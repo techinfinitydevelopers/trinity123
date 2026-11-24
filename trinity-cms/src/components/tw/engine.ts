@@ -107,10 +107,14 @@ cleanups.push(()=>{lenis.off&&lenis.off('scroll',lenisSync);if(ownLenis){gsap.ti
 {const qn=document.createElement('nav');qn.id='qnav';qn.setAttribute('aria-label','Jump to a section');
  qn.innerHTML=[['unis','Universities'],['path','Your journey'],['kit','Visa documents'],['life','Student life'],['webinars','Webinars'],['cta','Book a session']].map(([i,t])=>'<a href="#'+i+'" data-qn="'+i+'">'+t+'</a>').join('');
  root.appendChild(qn);}
+/* A pinned section (#path, #kit, #life) that has already been scrolled past sits at the END of its pin spacer, so scrolling "to the
+   element" lands after the whole pinned scene (it showed up as the quick-nav "Student life" link landing on the next section). Its
+   ScrollTrigger start is where the scene begins. */
+const pinStart=(el:Element):number|null=>{const s=ScrollTrigger.getAll().find(x=>x.pin&&x.trigger===el);return s?s.start:null};
 /* Was: `if(!state.k){shake();return}` — a link to a section that answered with a shake. It
    picks a country and goes there now. The scroll is deferred by a frame so choose() has
    rendered the target before Lenis measures where it is. */
-$$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=root.querySelector(a.getAttribute('href'));if(t&&t.id){e.preventDefault();const had=!!state.k;ensure();const go=()=>lenis.scrollTo(t,{duration:2.4,easing:x=>1-Math.pow(1-x,4)});/* When the click is what picked the country, choose() has just rendered the sections and every
+$$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=root.querySelector(a.getAttribute('href'));if(t&&t.id){e.preventDefault();const had=!!state.k;ensure();const go=()=>lenis.scrollTo(pinStart(t)??t,{duration:2.4,easing:x=>1-Math.pow(1-x,4)});/* When the click is what picked the country, choose() has just rendered the sections and every
      offset below has moved. Scrolling on the next frame lands short — measured 904px short of
      #ielts — because Lenis reads a position ScrollTrigger has not re-measured yet. Refresh
      first, then go. */
@@ -717,7 +721,7 @@ function renderStudent(c){
   $('#kt').textContent=KIT.length;
   $$('#klist li').forEach((li,i)=>{li.querySelector('b').textContent=KIT[i][0];li.querySelector('small').textContent=KIT[i][1]});
   $$('.beat').forEach((b,i)=>{const x=BEATS[i];b.querySelector('small').textContent=x[0];b.querySelector('h3').textContent=x[1];b.querySelector('p').textContent=x[2];b.querySelector('.fact').textContent=x[3]});
-  const dimg=[UQ(SIMG.cam),UQ(SIMG.lib),UQ(SIMG.fr),UQ(SIMG.caps)],dl=['Campus life · '+c.n,'Study groups','Friends for life','Graduation day'];
+  /* Card 2 goes with the beat "Classes, campus & community"; it uses the client's own photo, supplied 24/11. */const dimg=[UQ(SIMG.cam),AB+'/life/classes-campus-community.webp?v=1',UQ(SIMG.fr),UQ(SIMG.caps)],dl=['Campus life · '+c.n,'Study groups','Friends for life','Graduation day'];
   $$('.dcard').forEach((d,i)=>{const im=d.querySelector('img');im.src=dimg[i];im.onerror=()=>{im.onerror=null;im.src=IMG[c.k]};d.querySelector('span').textContent=dl[i]});
   G.__pimgs=pImgs.map((x,i)=>x?UQ(x,900):uImg);
   setStage(G.__stg||0,true);
