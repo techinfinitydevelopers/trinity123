@@ -1851,3 +1851,5 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   companies) with the Railway public DB URL the user pasted (not stored anywhere); backups are in scripts/backups/*-2026-11-24T11-5*.json. The live site still
   showed the old text afterwards because of the cached settings/page reads, so the settings cache key went v7→v8 and the page cache key `["page"]`→`["page","v2"]`
   to force fresh reads on the next deploy. Lesson: after any direct DB write, bump those keys (or save once in /admin) — Railway keeps .next/cache between builds.
+- 24/11: footer lockup order reversed again at the client's request — the tagline "TSA • Because Every Dream Needs a Direction" is BELOW the ghost
+  "TRINITY / STUDY ABROAD" wordmark (it was above for a short while). Margins restored to the first version.

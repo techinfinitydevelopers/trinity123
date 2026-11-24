@@ -61,7 +61,7 @@ export default function Footer({ nav, contact, site, footer, destinations }: { n
             the dashboard still renames this. `footer.marqueeWord` is no longer painted —
             the setting is left in place rather than removed, in case it is wanted back.
             aria-hidden: it repeats the name the footer has already given. */}
-        {/* One lockup: the brand tagline set directly above the ghost wordmark, so the two read as a single closing mark
+        {/* One lockup: the brand tagline set directly below the ghost wordmark, so the two read as a single closing mark
             ("TSA · Because Every Dream Needs a Direction", site.footerTagline; client sheet, 24/11). The part before the first dash is the
             brand, the rest the line. The wordmark itself stays aria-hidden; the tagline is real text. */}
         {(() => {
@@ -69,6 +69,10 @@ export default function Footer({ nav, contact, site, footer, destinations }: { n
           const m = site.footerTagline ? site.footerTagline.match(/^ *(.+?) *[–—-] *(.+)$/) : null;
           return (
             <div className="footer__lockup">
+              <div className="footer__word" aria-hidden="true">
+                <strong>{first}</strong>
+                {rest.length ? <span>{rest.join(" ")}</span> : null}
+              </div>
               {site.footerTagline ? (
                 <p className="footer__tag">
                   {m ? <b>{m[1]}</b> : null}
@@ -76,10 +80,6 @@ export default function Footer({ nav, contact, site, footer, destinations }: { n
                   <span>{m ? m[2] : site.footerTagline}</span>
                 </p>
               ) : null}
-              <div className="footer__word" aria-hidden="true">
-                <strong>{first}</strong>
-                {rest.length ? <span>{rest.join(" ")}</span> : null}
-              </div>
             </div>
           );
         })()}
