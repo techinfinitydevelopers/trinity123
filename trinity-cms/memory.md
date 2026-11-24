@@ -1809,3 +1809,5 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   (default in settings.ts, editable in Settings → Site → "Bottom-of-page tagline", empty hides it), rendered by Footer.tsx between the ghost
   wordmark and the copyright row, styled `.footer__tagline` in tw-chrome.css. `site.tagline` ("Every Dream Needs a Direction") is unchanged — it feeds
   the page titles. No DB script needed: the DB `site` row merges the new default. Settings cache key bumped to v7.
+- 24/11: footer sign-off redesigned (client: "UI not good"): `.footer__sign` = gold "TSA" badge + short gold rule + white tagline on one row, with a hairline
+  above; stacks centred on phones. Footer.tsx splits `site.footerTagline` at the first dash (before = brand badge, after = the line); no dash → plain line.

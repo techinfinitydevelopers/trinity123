@@ -70,7 +70,17 @@ export default function Footer({ nav, contact, site, footer, destinations }: { n
             </div>
           );
         })()}
-        {site.footerTagline ? <p className="footer__tagline">{site.footerTagline}</p> : null}
+        {site.footerTagline ? (() => {
+          /* "TSA – Because Every Dream Needs a Direction": the part before the first dash is the brand mark, the rest the line itself. */
+          const m = site.footerTagline.match(/^s*(.+?)s*[–—-]s*(.+)$/);
+          return (
+            <div className="footer__sign">
+              {m ? <span className="footer__sign-brand">{m[1]}</span> : null}
+              {m ? <span className="footer__sign-rule" aria-hidden="true" /> : null}
+              <p className="footer__sign-line">{m ? m[2] : site.footerTagline}</p>
+            </div>
+          );
+        })() : null}
         <div className="container footer__bottom">
           <p>{site.copyright}</p>
           {footer.poweredByText ? <p>Powered by <a href={footer.poweredByUrl} target="_blank" rel="noopener">{footer.poweredByText}</a></p> : null}

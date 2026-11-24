@@ -589,7 +589,11 @@ body:has(.tw-host) .nav__social:hover .nav__social-caret,body:has(.tw-host) .nav
 .cv-ddgrid{align-items:start}
 .cv-dsubico{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--twc-gold);color:#0a1834;font-size:13px}
 
-/* The tagline line closing every page (site.footerTagline, e.g. "TSA – Because Every Dream Needs a Direction"; client sheet, 24/11). */
-.footer__tagline{margin:6px 0 0;padding:0 24px;text-align:center;font:600 clamp(.95rem,1.6vw,1.2rem)/1.4 var(--font-h,Poppins),system-ui,sans-serif;letter-spacing:.04em;color:var(--twc-gold)}
-.footer__tagline::before,.footer__tagline::after{content:"";display:inline-block;vertical-align:middle;width:clamp(18px,5vw,56px);height:1px;margin:0 14px;background:linear-gradient(90deg,transparent,rgba(245,184,46,.7))}
-.footer__tagline::after{transform:scaleX(-1)}
+/* The sign-off closing every page: brand mark + tagline (site.footerTagline, "TSA – Because Every Dream Needs a Direction"; client sheet, 24/11). */
+.footer__sign{display:flex;align-items:center;justify-content:center;gap:clamp(12px,2vw,22px);flex-wrap:wrap;margin:10px auto 0;padding:30px 24px 32px;max-width:1180px;
+  border-top:1px solid rgba(255,255,255,.1);text-align:center}
+.footer__sign-brand{display:inline-grid;place-items:center;padding:9px 18px;border-radius:12px;background:linear-gradient(135deg,#f7c548,#f5b82e);color:var(--twc-gold-ink,#241a00);
+  font:800 clamp(1rem,1.6vw,1.25rem)/1 var(--font-h,Poppins),system-ui,sans-serif;letter-spacing:.18em;text-indent:.18em;box-shadow:0 10px 28px rgba(245,184,46,.25)}
+.footer__sign-rule{width:clamp(24px,5vw,64px);height:2px;border-radius:2px;background:linear-gradient(90deg,#f5b82e,rgba(245,184,46,.15))}
+.footer__sign-line{margin:0;color:#fff;font:600 clamp(1.1rem,2.2vw,1.7rem)/1.3 var(--font-h,Poppins),system-ui,sans-serif;letter-spacing:.005em}
+@media (max-width:640px){.footer__sign{flex-direction:column;gap:12px;padding:26px 20px 24px}.footer__sign-rule{display:none}}
