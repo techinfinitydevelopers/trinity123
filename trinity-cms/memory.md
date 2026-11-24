@@ -1820,3 +1820,6 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   `public/tw/city/france.jpg` and `nz.jpg` (same file names, mozjpeg q82, 2000px wide); old ones saved in scripts/backups/city-prev-2026-11-24/. The
   image URL cache-buster in engine.ts line ~84 went `?v=2` → `?v=3` (/tw/* is cached 30 days). If the dashboard (Settings → World → city photo) has an
   override for these two countries it wins over these files.
+- 24/11: the landing photo was being cropped (centred `cover` + the .bg inset -6% + parallax): Eiffel Tower top and Sky Tower spire cut off. engine.ts now
+  has `FOCUS` (focal point per country key: france '66% 6%', nz '48% 30%') applied to `.arrive .bg` and `.v2` as background-position. Add a key there for
+  any other photo that crops badly; unlisted countries stay centred.

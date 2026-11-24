@@ -81,6 +81,7 @@ G.__UNI__=Object.fromEntries([
   ...Object.entries(UNI).map(([k,v])=>[k,{url:pick('uni',k,AB+'/'+v.src),artist:v.artist,license:v.license,pos:(v as any).pos}]),
   ...uniOverrideOnly.map(k=>[k,{url:IMG_OVERRIDE.uni[k]}]),
 ]);
+const FOCUS:Record<string,string>={france:'66% 6%',nz:'48% 30%'};
 const IMG:any=Object.fromEntries(COUNTRIES.map((c:any)=>[c.k,pick('city',c.k,AB+'/city/'+c.k+'.jpg?v=3')]));
 gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.config({ignoreMobileResize:true});
@@ -516,6 +517,9 @@ function render(c){
   const url=IMG[c.k];
   $('.v2').style.backgroundImage=`url(${url})`;
   $('.arrive .bg').style.backgroundImage=`url(${url})`;
+  /* `cover` crops the photo to the screen, centred — which cut the top off the Eiffel Tower and the spire of the Sky Tower (client, 24/11). The focal point of each
+     photo is set so the landmark stays in frame, on a wide screen and on a tall phone alike. Countries not listed stay centred. */
+  $('.arrive .bg').style.backgroundPosition=FOCUS[c.k]||'center';$('.v2').style.backgroundPosition=FOCUS[c.k]||'center';
   $('.arrive .tag').textContent='Welcome to '+c.n;
   $('.arrive h2').innerHTML='<span class="ln">Study in <em>'+c.n+'.</em></span><span class="ln">Let <em>Trinity Study Abroad</em> assist you.</span>';
   $('.arrive p').textContent='';
