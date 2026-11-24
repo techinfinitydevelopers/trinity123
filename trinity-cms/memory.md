@@ -1761,3 +1761,6 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 - 24/11: lag on "Change country" after landing fixed — `toLanding()` now completes the flight's scrub tween (`fl.scrollTrigger.getTween().progress(1)`,
   `fl.progress(1)`) so the 1.1s scrub smoothing does not replay the flight, and the ScrollTrigger re-measure after a switch is deferred
   160ms instead of blocking the click. Measured: jump lands in one frame; a chip switch is one ~70ms task (dev build) + a later ~65ms refresh.
+- 24/11: "Change country" jump from far down: JS cost is tiny (~20ms); the stall is the cold re-raster of the landing (big photo layer).
+  `toLanding()` now covers a far jump with a navy `#jumpveil` (tw-site.css) that fades off in 0.4s. Do NOT snap every ScrollTrigger tween
+  in toLanding (tried; no gain). Note: the preview pane throttles rAF to ~1Hz when hidden, so frame timings there are meaningless.

@@ -546,7 +546,15 @@ let landedOnce=false;
 const flightEnd=()=>fl.scrollTrigger.end;
 /* The flight is scrubbed with a 1.1s smoothing, so a bare jump would play the whole thing backwards-then-forwards on screen (the lag
    reported on 24/11). Completing the scrub tween and the timeline at once puts it at the landing frame with nothing to catch up. */
-const toLanding=()=>{lenis.start();lenis.scrollTo(flightEnd(),{immediate:true,force:true});const t=fl.scrollTrigger.getTween?.();if(t)t.progress(1);fl.progress(1)};
+const toLanding=()=>{
+  /* From far down the page the landing has to be rasterised from cold (its big photo layer is long gone from the GPU), which showed as a
+     stall with half a picture. A navy veil covers the jump and fades off over 0.4s, so the cut reads as a transition instead of a hang. */
+  const far=Math.abs(scrollY-flightEnd())>innerHeight*1.5;
+  let veil=root.querySelector('#jumpveil') as HTMLElement|null;
+  if(far){if(!veil){veil=document.createElement('div');veil.id='jumpveil';root.appendChild(veil)}veil.style.transition='none';veil.style.opacity='1'}
+  lenis.start();lenis.scrollTo(flightEnd(),{immediate:true,force:true});const t=fl.scrollTrigger.getTween?.();if(t)t.progress(1);fl.progress(1);
+  if(far&&veil){const v=veil;setTimeout(()=>{v.style.transition='opacity .4s ease-out';v.style.opacity='0'},60)}
+};
 function choose(k){
   const c=COUNTRIES.find(x=>x.k===k);if(!c)return;
   const first=!state.k;state.k=k;state.c=c;
