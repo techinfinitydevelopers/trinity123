@@ -1773,3 +1773,8 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 - 24/11 (client sheet): Student-life deck now uses the client's photos on cards 2–4: `public/tw/life/classes-campus-community.webp`,
   `work-and-studies.webp` ("Work and Studies", caption "Work while you study"), `your-next-step.webp` ("Your next step", caption
   "Graduation day"). Converted from the client's PNGs with sharp (webp q82). All ~460–490px square; card 1 (Campus life) still stock.
+- 24/11 (client sheet, Free Webinar): heading "Learn live from our TSA [Counsellors]" (seed-content.ts + stored `webinar` block of the home page →
+  production needs `scripts/fix-webinar-title.ts --apply` with the prod DATABASE_URL; local applied). WebinarCarousel.tsx: slide time 7.5s
+  (`AUTO_MS`, one timeout per slide so a manual pick also gets the full time), prev/next arrows beside the dots, touch swipe, a "Swipe left or right
+  to see more webinars" hint with nudging arrows, and the sub-line under each webinar title (`w.text`) is no longer rendered (data kept).
+  Console "clientX of undefined" errors seen in testing came from synthetic touchend events hitting Lenis, not from real touches.

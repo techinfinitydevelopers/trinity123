@@ -12,6 +12,9 @@ import { Title } from "../ui";
    go stale. Until then the slider shows the first slide with no status. It opens on the next upcoming webinar and advances itself every
    few seconds, stopping while the pointer or keyboard focus is on it and for anyone who prefers reduced motion. */
 
+/* How long each webinar stays on screen before the slider moves on by itself (client sheet, 24/11: 7–8 seconds). */
+const AUTO_MS = 7500;
+
 type Item = WebinarBlock["current"][number];
 
 function dayStart(d: Date) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
@@ -40,11 +43,18 @@ export function WebinarCarousel({ b }: { b: WebinarBlock }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items.length]);
 
+  /* Each slide stays for AUTO_MS, counted from the moment it appears — so a slide picked by hand or by a swipe also gets its full time
+     instead of inheriting what was left of the last tick. Held while the pointer or keyboard focus is on the card. */
   useEffect(() => {
     if (items.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = window.setInterval(() => { if (!hold.current) setI((v) => (v + 1) % items.length); }, 7000);
-    return () => window.clearInterval(id);
-  }, [items.length]);
+    let id = 0;
+    const arm = () => { id = window.setTimeout(() => { if (hold.current) arm(); else setI((v) => (v + 1) % items.length); }, AUTO_MS); };
+    arm();
+    return () => window.clearTimeout(id);
+  }, [i, items.length]);
+
+  const go = (d: number) => setI((v) => (v + d + items.length) % items.length);
+  const touch = useRef<{ x: number; y: number } | null>(null);
 
   if (!items.length) return null;
   const w = items[i];
@@ -68,6 +78,8 @@ export function WebinarCarousel({ b }: { b: WebinarBlock }) {
           onMouseLeave={() => { hold.current = false; }}
           onFocus={() => { hold.current = true; }}
           onBlur={() => { hold.current = false; }}
+          onTouchStart={(e) => { touch.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }; }}
+          onTouchEnd={(e) => { const s = touch.current; touch.current = null; if (!s) return; const dx = e.changedTouches[0].clientX - s.x, dy = e.changedTouches[0].clientY - s.y; if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.4) go(dx < 0 ? 1 : -1); }}
           data-reveal
         >
           <div className="wbc__body" key={i}>
@@ -77,7 +89,6 @@ export function WebinarCarousel({ b }: { b: WebinarBlock }) {
             </div>
             <p className="wbc__when"><i className="far fa-calendar-alt" aria-hidden="true" />{w.when}</p>
             <h3 className="wbc__title">{w.title}</h3>
-            {w.text ? <p className="wbc__text">{w.text}</p> : null}
             <div className="wbc__btns">
               {b.moreHref ? <Link className="wbc__btn wbc__btn--ghost" href={b.moreHref}>More Info</Link> : null}
               {upcoming ? <Link className="wbc__btn wbc__btn--solid" href={registerHref}>Register Now <i className="fas fa-arrow-right" aria-hidden="true" /></Link> : null}
@@ -97,11 +108,18 @@ export function WebinarCarousel({ b }: { b: WebinarBlock }) {
           </div>
         </div>
 
-        <div className="wbc__dots" role="tablist" aria-label="Choose a webinar">
-          {items.map((it, k) => (
-            <button key={k} type="button" role="tab" aria-selected={k === i} aria-label={`${it.title}, ${it.when}`} className={k === i ? "is-on" : ""} onClick={() => setI(k)} />
-          ))}
-        </div>
+        {items.length > 1 ? (
+          <div className="wbc__nav">
+            <button type="button" className="wbc__arrow" aria-label="Previous webinar" onClick={() => go(-1)}><i className="fas fa-chevron-left" aria-hidden="true" /></button>
+            <div className="wbc__dots" role="tablist" aria-label="Choose a webinar">
+              {items.map((it, k) => (
+                <button key={k} type="button" role="tab" aria-selected={k === i} aria-label={`${it.title}, ${it.when}`} className={k === i ? "is-on" : ""} onClick={() => setI(k)} />
+              ))}
+            </div>
+            <button type="button" className="wbc__arrow" aria-label="Next webinar" onClick={() => go(1)}><i className="fas fa-chevron-right" aria-hidden="true" /></button>
+          </div>
+        ) : null}
+        {items.length > 1 ? <p className="wbc__hint"><i className="fas fa-arrow-left" aria-hidden="true" /><span>Swipe left or right to see more webinars</span><i className="fas fa-arrow-right" aria-hidden="true" /></p> : null}
       </div>
     </section>
   );

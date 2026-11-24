@@ -122,7 +122,7 @@ export const webinar: WebinarBlock = {
 export const homeWebinars: WebinarBlock = {
   ...webinar,
   layout: "carousel",
-  kicker: "Free webinars", title: "Learn live from our [Counsellors]",
+  kicker: "Free webinars", title: "Learn live from our TSA [Counsellors]",
   lead: "Free sessions on countries, tests and planning — open to students and parents.",
   ctaLabel: "Register now", ctaHref: "/contact-us", moreHref: "/webinars-events", moreLabel: "All webinars",
   current: [
