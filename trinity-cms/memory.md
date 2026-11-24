@@ -1797,3 +1797,6 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 - 24/11 (client sheet): boarding-pass ticket route shows names, not airport codes: "Mumbai ✈ UK / Ireland / New Zealand …" (small captions
   "From" / "Study destination"). boardingPass.ts `readRoute()` writes the destination from `#route`, proper-cased (UK/UAE/USA kept upper). Flight/gate
   numbers on the stub are unchanged; the airport `code` in TICKETS is no longer shown.
+- 24/11 (client sheet): footer description = "Trinity Study Abroad helps students find the right direction with expert guidance, from counselling to visa
+  approval and settling in." (`site.footerText`; also feeds the org JSON-LD description and the blog sidebar). Stored in the DB → production needs
+  `scripts/fix-footer-text.ts --apply` with the prod DATABASE_URL (local done). Settings cache key bumped to v5.

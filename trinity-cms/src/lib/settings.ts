@@ -256,7 +256,7 @@ export const DEFAULTS: SettingsMap = {
     siteName: "Trinity Study Abroad",
     tagline: "Every Dream Needs a Direction",
     logo: "/assets/img/logo/logo.png",
-    footerText: "Trinity Study Abroad guides students to top universities across 39+ countries counselling, admissions, visas and beyond.",
+    footerText: "Trinity Study Abroad helps students find the right direction with expert guidance, from counselling to visa approval and settling in.",
     copyright: "Copyright © Trinity Study Abroad Private Limited. All Rights Reserved.",
     gaId: "",
   } satisfies SiteSettings,
