@@ -1860,3 +1860,6 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 - 24/11 (v3, client): footer lockup = the WHOLE company name as ONE ghost line ("TRINITY STUDY ABROAD", `footer__word strong`, font clamp(1.55rem,6.7vw,6.6rem)) with the
   tagline under it at about a fifth of the size (clamp .86–1.2rem). Footer.tsx renders `site.siteName` as one <strong> (no more first-word/rest split).
   Desktop 1440: 96px, 1153px wide; phone 390: 26px, 312px wide — always a single line, no horizontal overflow.
+- 24/11 (v4, client): "TSA" removed from the footer tagline — `site.footerTagline` default is now "Because Every Dream Needs a Direction" (no DB script needed: the DB site row has no
+  footerTagline, it merges the default; settings cache key → v9). Company name larger and clearer (7.4vw, cap 9rem, gradient .46→.12), tagline ~1/6 the size
+  (1.22vw, .78rem min) at 50% white. Checked at 1440 (106px name / 17.6px tagline), 820 and 390 (29px / 12.5px) — one line each, no overflow.

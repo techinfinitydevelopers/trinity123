@@ -616,3 +616,12 @@ body:has(.tw-host) .nav__social:hover .nav__social-caret,body:has(.tw-host) .nav
 .footer__lockup .footer__tag b{font-size:.9em;letter-spacing:.26em;text-indent:.26em}
 .footer__lockup .footer__tag i{height:15px}
 @media (max-width:520px){.footer__lockup .footer__word{margin-top:16px}.footer__lockup .footer__tag{margin-top:10px;font-size:.84rem}}
+
+/* Closing lockup, version 4 (client: no "TSA"; company name bigger and clearer, tagline quieter and sized to match): the name is as large as one line
+   allows (7.4vw → 106px on a 1440 screen, 29px on a phone, capped at 9rem) and clearly visible but still a watermark; the tagline is about a sixth of that
+   size at half strength, with wide tracking so it reads as a caption under the name. */
+.footer__lockup .footer__word{margin:22px 0 0}
+.footer__lockup .footer__word strong{font-size:clamp(1.6rem,7.4vw,9rem);letter-spacing:-.025em;background:linear-gradient(180deg,rgba(255,255,255,.46),rgba(255,255,255,.12) 92%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.footer__lockup .footer__tag{margin-top:clamp(10px,1.3vw,22px);font:500 clamp(.78rem,1.22vw,1.15rem)/1.5 var(--font-b,Inter),system-ui,sans-serif;letter-spacing:.1em;color:rgba(255,255,255,.5)}
+.footer__lockup .footer__tag span{color:rgba(255,255,255,.5)}
+@media (max-width:520px){.footer__lockup .footer__word{margin-top:14px}.footer__lockup .footer__tag{margin-top:8px;font-size:.78rem;letter-spacing:.07em;padding:0 6px}}

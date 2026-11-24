@@ -93,7 +93,7 @@ export default function SettingsForms({ initial }: { initial: SettingsMap }) {
               <Field label="Site name"><input className="inp" value={s.site.siteName} onChange={(e) => setS({ ...s, site: { ...s.site, siteName: e.target.value } })} /></Field>
               <Field label="Tagline"><input className="inp" value={s.site.tagline} onChange={(e) => setS({ ...s, site: { ...s.site, tagline: e.target.value } })} /></Field>
             </div>
-            <Field label="Bottom-of-page tagline" hint="Printed at the very bottom of every page with the brand name, e.g. TSA – Because Every Dream Needs a Direction. Leave empty to hide."><input className="inp" value={s.site.footerTagline ?? ""} onChange={(e) => setS({ ...s, site: { ...s.site, footerTagline: e.target.value } })} /></Field>
+            <Field label="Bottom-of-page tagline" hint="Printed at the very bottom of every page, under the company name, e.g. Because Every Dream Needs a Direction. Leave empty to hide."><input className="inp" value={s.site.footerTagline ?? ""} onChange={(e) => setS({ ...s, site: { ...s.site, footerTagline: e.target.value } })} /></Field>
             <ImagePicker label="Logo" value={s.site.logo} onChange={(v) => setS({ ...s, site: { ...s.site, logo: v } })} />
             <Field label="Footer description"><textarea className="inp" rows={3} value={s.site.footerText} onChange={(e) => setS({ ...s, site: { ...s.site, footerText: e.target.value } })} /></Field>
             <Field label="Copyright line"><input className="inp" value={s.site.copyright} onChange={(e) => setS({ ...s, site: { ...s.site, copyright: e.target.value } })} /></Field>
