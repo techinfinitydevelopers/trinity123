@@ -2555,3 +2555,8 @@ section.wbc .wbc__hint i:last-child{animation-name:wbcNudgeR}
 @keyframes wbcNudgeR{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
 @media (max-width:860px){section.wbc .wbc__nav{gap:12px}section.wbc .wbc__arrow{width:38px;height:38px}}
 @media (prefers-reduced-motion:reduce){section.wbc .wbc__hint i{animation:none}}
+
+/* The webinar slider closes the inner pages too (client sheet, 24/11). On About Us it sat white-on-white against the section above it, so
+   the two ran together. Off the home page it gets a soft blue wash — in the page's own palette, between white sections and the blue CTA /
+   dark footer — so it always reads as its own band. (The home page keeps its plain look: it sits inside the world.) */
+body:not(:has(.tw-host)) section.wbc{background:linear-gradient(180deg,#eef3fb,#e4ecf9)}

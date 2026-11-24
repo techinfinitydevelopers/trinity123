@@ -1783,3 +1783,5 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   `homeWebinars`), inserted by `withWebinar()` (src/lib/webinar-everywhere.ts) in `[slug]/page.tsx` — before the last `cta` block, else at the end —
   and passed to `CountryPage` (`webinars` prop) for /destinations/*. Editing that block in /admin changes it everywhere. To exclude a
   page, add its slug to `NO_WEBINARS`. Search and 404 pages don't get it.
+- 24/11: webinar slider on inner pages gets a soft blue wash (`body:not(:has(.tw-host)) section.wbc` in site.css) — on About Us it was white
+  directly under a white section and the two merged. Home page keeps its plain look.
