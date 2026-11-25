@@ -48,6 +48,11 @@ export default async function CountryPage({ c, others, contact, webinars }: { c:
   if (steps.length) shown.add("c-visa");
   if (workPoints.length || c.work) shown.add("c-work");
   if (faq.length) shown.add("c-faq");
+  /* A visa text written as a list (a lead-in line, then one requirement per line) gets its own full-width section; a one-paragraph text stays in the small card. */
+  const visaLines = (c.visa ?? "").split(/\n+/).map((x) => x.trim()).filter(Boolean);
+  const visaList = visaLines.length >= 3;
+  const visaIntro = visaList && visaLines[0].endsWith(":") ? visaLines[0] : "";
+  const visaItems = (visaIntro ? visaLines.slice(1) : visaLines).map((x) => x.replace(/[,;.]+$/, ""));
   /* The navy card is the row that calls itself the total, not simply the last one. */
   const wa = `https://wa.me/${contact.whatsapp}`;
   const flag = FLAG(c.code);
@@ -127,11 +132,11 @@ export default async function CountryPage({ c, others, contact, webinars }: { c:
                 {courses.map((x, i) => <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#fff", border: "1px solid var(--line)", fontFamily: P, fontWeight: 500, fontSize: 14, color: "var(--navy)", padding: "10px 18px", borderRadius: 50 }}><i className="fas fa-circle" style={{ fontSize: 5, color: "var(--gold)" }} />{x}</span>)}
               </div>
             </div>
-            <div data-reveal style={{ background: "var(--navy)", color: "#fff", borderRadius: 26, padding: 30, position: "relative", overflow: "hidden" }}>
+            {!visaList ? <div data-reveal style={{ background: "var(--navy)", color: "#fff", borderRadius: 26, padding: 30, position: "relative", overflow: "hidden" }}>
               <span style={{ position: "absolute", width: 180, height: 180, borderRadius: "50%", background: "var(--primary)", filter: "blur(55px)", opacity: 0.55, right: -60, top: -60 }} />
               <div style={{ position: "relative", fontFamily: P, fontWeight: 600, fontSize: 13, letterSpacing: 2, textTransform: "uppercase", color: "var(--gold)", marginBottom: 14 }}>{L.visaRequirements}</div>
               <p style={{ position: "relative", fontSize: 15.5, lineHeight: 1.8, color: "rgba(255,255,255,.8)" }}>{c.visa}</p>
-            </div>
+            </div> : null}
             <div data-reveal style={{ background: "#fff", border: "1px solid var(--line)", borderRadius: 26, padding: 30 }}>
               <div style={{ fontFamily: P, fontWeight: 600, fontSize: 13, letterSpacing: 2, textTransform: "uppercase", color: "var(--primary)", marginBottom: 14 }}>{L.intakes}</div>
               <p style={{ fontSize: 15.5, lineHeight: 1.8, color: "var(--text)", whiteSpace: "pre-line" }}>{c.intakes}</p>
@@ -219,6 +224,28 @@ export default async function CountryPage({ c, others, contact, webinars }: { c:
       </section>
 
       {/* visa steps */}
+      {/* The visa requirements, as a checklist, when the country's visa text is a list. */}
+      {visaList ? (
+        <section id="c-visa-req" className="cv-section cv-visareq" style={{ padding: "90px 24px", background: "var(--grey)", scrollMarginTop: 110 }}>
+          <div style={{ maxWidth: 1320, margin: "0 auto" }} className="cv-visareq__grid">
+            <div data-reveal>
+              <div style={kicker("Student visa")}><span style={{ width: 28, height: 2, background: "var(--primary)" }} />Student visa</div>
+              <h2 style={h2}>{c.name} {L.visaRequirements.toLowerCase()}</h2>
+              {visaIntro ? <p style={{ marginTop: 18, fontSize: 17, lineHeight: 1.8, color: "var(--text)", maxWidth: 520 }}>{visaIntro.replace(/:$/, ".")}</p> : null}
+              <Link className="cv-btny" href="/contact-us" style={{ ...btnSolid, marginTop: 26 }}>{L.heroButton} <i className="fas fa-arrow-right" style={{ fontSize: 12 }} /></Link>
+            </div>
+            <ul className="cv-visareq__list" style={{ listStyle: "none", margin: 0, padding: 0 }}>
+              {visaItems.map((x, i) => (
+                <li key={i} data-reveal style={{ transitionDelay: d(i, 4) }}>
+                  <span className="cv-visareq__tick"><i className="fas fa-check" aria-hidden="true" /></span>
+                  <span>{x}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      ) : null}
+
       {/* The visa walkthrough, only when there are steps for it. */}
       {steps.length ? (
         <section id="c-visa" className="cv-section" style={{ padding: "90px 24px", background: "var(--navy)", position: "relative", overflow: "hidden", scrollMarginTop: 110 }}>

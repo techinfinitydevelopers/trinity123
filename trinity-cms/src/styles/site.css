@@ -2751,3 +2751,11 @@ body:not(:has(.tw-host)) section.wbc{background:linear-gradient(180deg,#eef3fb,#
 .wcap__mode{align-self:flex-start;padding:4px 10px;border-radius:50px;background:#eceffa;color:var(--navy);font-weight:600}
 .wcap__mode i{font-size:11px}
 .wcap__text{display:block!important;color:var(--text);font-size:13px!important;line-height:1.55!important;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+
+/* Country page: visa requirements as a checklist */
+.cv-visareq__grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);gap:clamp(28px,5vw,72px);align-items:start}
+.cv-visareq__list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.cv-visareq__list li{display:flex;align-items:flex-start;gap:14px;padding:18px 20px;background:#fff;border:1px solid var(--line);border-radius:18px;font-family:var(--font-h);font-weight:500;font-size:15.5px;line-height:1.45;color:var(--navy);box-shadow:0 6px 18px rgba(26,36,86,.05)}
+.cv-visareq__tick{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:var(--gold);font-size:12px;margin-top:-1px}
+@media(max-width:900px){.cv-visareq__grid{grid-template-columns:1fr}}
+@media(max-width:560px){.cv-visareq__list{grid-template-columns:1fr}.cv-visareq{padding:64px 20px!important}}

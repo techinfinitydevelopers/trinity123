@@ -109,7 +109,7 @@ export const seedCountries: CountrySeed[] = [
     why: ["Temporary Graduate visa of 2–4 years", "High part-time earning potential during study", "8 universities in the global top 150", "Regional study bonuses add extra stay-back time"],
     courses: ["Nursing & Healthcare", "Information Technology", "Accounting & Business", "Engineering", "Hospitality & Tourism"],
     unis: [],
-    visa: "Subclass 500 Student visa — CoE, Genuine Student requirement, OSHC health cover and financial capacity evidence.",
+    visa: "International students generally apply for the Student visa (subclass 500). Key requirements include:\nConfirmation of Enrolment (CoE) from an eligible institution\nEvidence of financial capacity\nITRs of sponsors\nEnglish-language requirements, where applicable\nOverseas Student Health Cover (OSHC)\nGenuine Student assessment requirement\nHealth and character assessments\nValid passport and supporting documentation",
     intakes: "February and July are the two main intakes, with some November starts. Apply 6–9 months ahead.",
     cost: pair([["Tuition (master’s)", "AUD 25,000 – 45,000 / year"], ["Living expenses", "AUD 29,710 / year (visa min)"], ["OSHC health cover", "AUD 600 – 800 / year"], ["Visa fee", "AUD 1,600 one-time"], ["Total year one", "AUD 55,000 – 78,000"]]),
     req: pair([["Academics", "60%+ in bachelor’s; some programmes accept 55%"], ["English test", "IELTS 6.5 overall with no band below 6.0"], ["GS requirement", "Genuine Student statement explaining course choice and plans"], ["Documents", "SOP/GS, LORs, transcripts, passport, OSHC, funds proof"]]),
