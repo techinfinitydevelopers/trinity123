@@ -1881,3 +1881,5 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 - 25/11 (Success Stories page check): all images/posters/videos load, no horizontal overflow at 1440/390. Fixed the orphan: ten stories on three columns left "Betsy John"
   alone at the left of the last row → `.testi .grid--2>:last-child:nth-child(3n+1){grid-column:2}` (and a centred half-width card on two columns). Known gap (not changed): the page has no <h1>
   ("Stories of Success" is an h2) — worth fixing for SEO/accessibility if asked.
+- 25/11 (client): the blue CTA card under the webinar band touched the band's edge (`.section--tight` has padding-top 0) — `.wbc + .section--tight{padding-top:clamp(48px,6vw,88px)}`
+  (end of site.css), ~86px on desktop. Applies on every inner page that has a CTA block after the webinar slider.

@@ -2636,6 +2636,6 @@ body:not(:has(.tw-host)) section.wbc{background:linear-gradient(180deg,#eef3fb,#
   .road--icons .road__step:not(:last-child)::after{bottom:-29px;width:26px;height:26px;margin-left:-13px;font-size:1.15rem}
 }
 
-/* A story grid whose last row has a single card (ten stories on three columns) centres that card instead of leaving it hanging at the left (client, 25/11 page check). */
-@media (min-width:1001px){.testi .grid--2>:last-child:nth-child(3n+1){grid-column:2}}
-@media (min-width:641px) and (max-width:1000px){.testi .grid--2>:last-child:nth-child(2n+1){grid-column:1/-1;justify-self:center;width:calc(50% - 12px)}}
+/* The webinar band is a tinted full-width section; the blue CTA card that follows has no top padding of its own (.section--tight), so it sat flush
+   against the band's edge. Give it room (client, 25/11). */
+.wbc + .section--tight{padding-top:clamp(48px,6vw,88px)}
