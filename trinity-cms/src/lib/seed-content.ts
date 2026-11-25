@@ -18,8 +18,8 @@ export const homeVideos: VideosBlock = {
   lead: "Students share their journey with Trinity Study Abroad. Tap a video to watch.",
   /* The home page's button goes to the Success Stories page (client request); the copy on that page overrides this to the contact page. */
   ctaLabel: "Explore More", ctaHref: "/success-stories",
-  /* Third card: the thumbnail only, its video is still to come (add `src: "/tw/voices/voice-4.mp4"` and drop the caption). */
-  items: [VOICE(1), VOICE(3), { poster: "/tw/voices/thumb-4.jpg", caption: "Video coming soon" }],
+  /* Third card: Kamran's testimonial (25/11, client's HD file "kamran video.mp4", 1440x2560 VP9 20 MB → re-encoded to 720x1280 H.264 7.6 MB like the other three). */
+  items: [VOICE(1), VOICE(3), VOICE(4)],
 };
 
 export const band: BandBlock = {
