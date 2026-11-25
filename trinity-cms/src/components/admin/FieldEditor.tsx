@@ -22,8 +22,8 @@ const SHAPES: Record<string, object> = {
      list and reloading leaves "+ Add" pushing a bare string into a list of objects. */
   hive: { value: "", label: "", img: "", icon: "" },
   trust: { icon: "", text: "" },
-  current: { title: "", date: "", when: "", text: "", img: "", href: "" },
-  past: { title: "", when: "", img: "", href: "" },
+  current: { title: "", date: "", when: "", text: "", img: "", time: "", mode: "", host: "", hostRole: "", hostImg: "", about: "", href: "" },
+  past: { title: "", when: "", mode: "", text: "", img: "", href: "" },
   events: { name: "", place: "", date: "", text: "", photos: [{ img: "", alt: "" }] },
   photos: { img: "", alt: "" },
   points: { value: "", label: "" },
@@ -39,7 +39,7 @@ const SHAPES: Record<string, object> = {
 };
 const shapeKey = (name: string, depth: number) => `${depth}:${name}`;
 const IMG_KEY = /(img|image|logo|cover|icon$)/i;
-const LONG_KEY = /^(text|sub|lead|paragraph|a|answer|noteText|excerpt|okMsg|statText|greeting|systemPrompt|footerText|handoffMessage)$/;
+const LONG_KEY = /^(about|text|sub|lead|paragraph|a|answer|noteText|excerpt|okMsg|statText|greeting|systemPrompt|footerText|handoffMessage)$/;
 const isImgVal = (v: string) => /^(\/|https?:).*\.(png|jpe?g|webp|gif|svg|avif)(\?.*)?$/i.test(v) || v.startsWith("/uploads/");
 const isFa = (v: string) => /^fa[srb]? fa-/.test(v);
 

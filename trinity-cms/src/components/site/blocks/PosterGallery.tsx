@@ -4,7 +4,20 @@ import { useCallback, useEffect, useState } from "react";
 /* The recap posters on the Webinars page: a compact grid (five across on a desktop), each opening full size in a lightbox so the small print stays readable
    — the posters are portrait with a lot of text on them, which is why they used to run three to a row at ~520px wide. Arrow keys / Escape work; the page
    behind does not scroll while it is open. A poster that has a link keeps being a link. */
-type Snip = { img: string; title?: string; when?: string; href?: string };
+type Snip = { img: string; title?: string; when?: string; href?: string; mode?: string; text?: string };
+
+/* What is printed under a poster (and in the lightbox): date, title, format and a one-line summary. Anything left empty in /admin is simply not shown. */
+function Caption({ w }: { w: Snip }) {
+  if (!w.title && !w.when && !w.mode && !w.text) return null;
+  return (
+    <span className="wcap">
+      {w.when ? <small className="wcap__when"><i className="far fa-calendar-alt" aria-hidden="true" />{w.when}</small> : null}
+      {w.title ? <strong>{w.title}</strong> : null}
+      {w.mode ? <small className="wcap__mode"><i className="fas fa-video" aria-hidden="true" />{w.mode}</small> : null}
+      {w.text ? <small className="wcap__text">{w.text}</small> : null}
+    </span>
+  );
+}
 
 export default function PosterGallery({ items }: { items: Snip[] }) {
   const [at, setAt] = useState<number | null>(null);
@@ -28,8 +41,7 @@ export default function PosterGallery({ items }: { items: Snip[] }) {
     <>
       <div className="webinar__snips webinar__snips--wide">
         {items.map((w, i) => {
-          const caption = w.title || w.when ? <span><strong>{w.title}</strong>{w.when ? <small>{w.when}</small> : null}</span> : null;
-          const inner = <><img src={w.img} alt={w.title || `Webinar recap ${i + 1}`} loading="lazy" />{caption}<i className="webinar__zoom fas fa-expand-alt" aria-hidden="true" /></>;
+          const inner = <><img src={w.img} alt={w.title || `Webinar recap ${i + 1}`} loading="lazy" /><Caption w={w} /><i className="webinar__zoom fas fa-expand-alt" aria-hidden="true" /></>;
           return w.href
             ? <a key={i} className="webinar__snip" href={w.href} target="_blank" rel="noopener">{inner}</a>
             : <button key={i} type="button" className="webinar__snip webinar__snip--btn" onClick={() => setAt(i)} aria-label={`View ${w.title || `recap ${i + 1}`} full size`}>{inner}</button>;

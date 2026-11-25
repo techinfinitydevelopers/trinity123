@@ -96,6 +96,15 @@ export const campus: CampusBlock = {
   ],
 };
 
+/* The five concluded webinars behind the recap posters (recap-1 … recap-5), newest first. Shown under each poster on the Webinars & Events page. */
+const RECAPS = [
+  { title: "Study Abroad After 12th – Pathway for Indian Students", when: "21 November 2026", text: "" },
+  { title: "Missed 2026? Prepare for 2027", when: "24 October 2026", text: "Your step-by-step guide to planning for 2027." },
+  { title: "Test Prep for Studying Abroad", when: "26 September 2026", text: "Which test is right for you? IELTS, TOEFL, PTE, GRE, SAT, GMAT." },
+  { title: "Unlock Your Future in New Zealand", when: "22 August 2026", text: "Study, work and settle — your complete guide to studying in New Zealand." },
+  { title: "Study in Europe on a Budget", when: "24 July 2026", text: "Affordable tuition, quality education and global careers." },
+];
+
 export const webinar: WebinarBlock = {
   type: "webinar",
   kicker: "Be updated",
@@ -112,7 +121,7 @@ export const webinar: WebinarBlock = {
   /* The client's own photographs from their most recent webinar. They came without captions, so
      the strip shows the pictures alone until someone adds a title or a date in the editor. */
   /* 25/11: the five recap posters the client sent (After 12th, 2027 readiness, test prep, New Zealand, Affordable Europe), newest first; they replace the three earlier photographs. */
-  past: [1, 2, 3, 4, 5].map((n) => ({ title: "", when: "", img: `${IMG}/webinar/recap-${n}.webp`, href: "" })),
+  past: RECAPS.map((r, i) => ({ ...r, mode: "Online webinar", img: `${IMG}/webinar/recap-${i + 1}.webp`, href: "" })),
 };
 
 /* Home page webinar slider (client list, 2026-11-18). The first three have posters; 4–6 are waiting for the client's images, so

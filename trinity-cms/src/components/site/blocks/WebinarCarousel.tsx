@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { WebinarBlock } from "@/lib/blocks";
 import { Title } from "../ui";
+import { webinarSlug } from "@/lib/webinar";
 
 /* The home page's webinar slider: one card at a time — a status pill, the date, the title and a short line on the left, the poster on
    the right — with dots underneath. Slides come from `b.current`; an item with `date` (YYYY-MM-DD) shows "Upcoming · In 3 days" until
@@ -90,7 +91,10 @@ export function WebinarCarousel({ b }: { b: WebinarBlock }) {
             <p className="wbc__when"><i className="far fa-calendar-alt" aria-hidden="true" />{w.when}</p>
             <h3 className="wbc__title">{w.title}</h3>
             <div className="wbc__btns">
-              {b.moreHref ? <Link className="wbc__btn wbc__btn--ghost" href={b.moreHref}>More Info</Link> : null}
+              {/* Only an upcoming webinar has its own page; a finished one points to its recap on the Webinars & Events page. */}
+              {n === null || n >= 0
+                ? <Link className="wbc__btn wbc__btn--ghost" href={`/webinars/${webinarSlug(w)}`}>More Info</Link>
+                : b.moreHref ? <Link className="wbc__btn wbc__btn--ghost" href={b.moreHref}>View recap</Link> : null}
               {upcoming ? <Link className="wbc__btn wbc__btn--solid" href={registerHref}>Register Now <i className="fas fa-arrow-right" aria-hidden="true" /></Link> : null}
             </div>
           </div>
