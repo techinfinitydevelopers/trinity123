@@ -1867,3 +1867,6 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   (`CounsellingPopup` rendered in CountryPage.tsx; the button opts in with `data-cpop="scholarship"`; the popup's click interceptor also matches `a[data-cpop]`).
   The visited country is pre-selected (new optional `defaultDestination` on LeadForm/CounsellingPopup) and the lead's `source` is "destination-scholarship"
   (new `source` prop; the leads API allows any string ≤40 chars). Other destination buttons are untouched. The popup text is built in code (lead line) — not admin-editable yet.
+- 25/11 (client): the "Services" folder row (folder icon + "Services") on top of the Services dropdown is gone — `NO_PARENT_LINK` in Header.tsx now holds
+  ["Resources","Services"] (matched by menu label). Same switch also drops the phone menu's "Go to Services" row. Everything else in the dropdown is unchanged;
+  the /our-service overview page is no longer linked from the nav (still reachable by URL / footer).

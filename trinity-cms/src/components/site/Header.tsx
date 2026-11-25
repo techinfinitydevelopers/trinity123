@@ -9,8 +9,8 @@ import { navDestinations } from "@/lib/destination-order";
 export type Destination = { code: string; slug: string; name: string; tag: string };
 
 /* Dropdowns that list only their children: no "Resources" heading row on top of Webinars & Events
-   (client request). Services keeps its row, since that page has an overview. */
-const NO_PARENT_LINK = new Set(["Resources"]);
+   (client request). Services lost its "Services" folder row too (client, 25/11); its overview page is still reachable by URL and from the page footer links. */
+const NO_PARENT_LINK = new Set(["Resources", "Services"]);
 
 export default function Header({ nav, contact, site, labels, destinations }: { nav: NavSettings; contact: ContactSettings; site: SiteSettings; labels: LabelSettings["header"]; destinations: Destination[] }) {
   const path = usePathname();
