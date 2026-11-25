@@ -565,6 +565,11 @@ onWin('resize',()=>{if($('#cname').textContent)fitName()});
    replaying the globe, the cabin and the descent (client sheet, 24/11). `flightEnd()` is the scroll position of that landing. */
 let landedOnce=false;
 const flightEnd=()=>fl.scrollTrigger.end;
+/* The landing's headline and photo are faded and slid up by two scrubbed tweens as the next section scrolls in. A jump back from far down the page
+   ("Change country" after the landing) moves the scroll position instantly, but those scrubs ease back over ~0.8 s and were left with the
+   headline at opacity 0 — the visitor saw the bare photograph, not the "Study in …" text and the country chips. Rewind them with the jump. */
+let arriveFade=null,arriveBg=null;
+const rewindLanding=()=>{ScrollTrigger.update();for(const tw of [arriveFade,arriveBg]){if(!tw)continue;/* finish the scrub easing at the position we just jumped to (progress 0 here), then pin the tween there */tw.scrollTrigger?.getTween?.()?.progress(1);tw.progress(0)}};
 /* The flight is scrubbed with a 1.1s smoothing, so a bare jump would play the whole thing backwards-then-forwards on screen (the lag
    reported on 24/11). Completing the scrub tween and the timeline at once puts it at the landing frame with nothing to catch up. */
 const toLanding=()=>{
@@ -573,7 +578,7 @@ const toLanding=()=>{
   const far=Math.abs(scrollY-flightEnd())>innerHeight*1.5;
   let veil=root.querySelector('#jumpveil') as HTMLElement|null;
   if(far){if(!veil){veil=document.createElement('div');veil.id='jumpveil';root.appendChild(veil)}veil.style.transition='none';veil.style.opacity='1'}
-  lenis.start();lenis.scrollTo(flightEnd(),{immediate:true,force:true});const t=fl.scrollTrigger.getTween?.();if(t)t.progress(1);fl.progress(1);
+  lenis.start();lenis.scrollTo(flightEnd(),{immediate:true,force:true});rewindLanding();const t=fl.scrollTrigger.getTween?.();if(t)t.progress(1);/* 0 then 1: GSAP skips a render when the time has not changed, which would leave the headline where the rewind put it. */fl.progress(0).progress(1);
   if(far&&veil){const v=veil;setTimeout(()=>{v.style.transition='opacity .4s ease-out';v.style.opacity='0'},60)}
 };
 function choose(k){
@@ -638,8 +643,11 @@ fl.to(st,{t:1,duration:7,ease:'none'},0)
   .fromTo('.arrive .inner',{y:60,opacity:0},{y:0,opacity:1,duration:.8},13.3)
   .to('#cabin',{opacity:0,duration:.01},13.8)
   .to({},{duration:.7},14.3);
-gsap.to('.arrive .inner',{y:-140,opacity:0,ease:'none',scrollTrigger:{trigger:'#unis',start:'top bottom',end:'top 35%',scrub:.8}});
-gsap.to('.arrive .bg',{yPercent:12,scale:1.08,ease:'none',scrollTrigger:{trigger:'#unis',start:'top bottom',end:'top top',scrub:.8}});
+/* Kept in variables: toLanding() has to rewind them (see there). */
+/* fromTo with the landing's own resting state: a plain .to() recorded whatever the flight timeline had left on the headline when it first rendered (y:60, opacity:0),
+   so progress 0 of this fade meant "hidden" — scrolling back up to the landing, or jumping to it, left the bare photograph with no headline or chips. */
+arriveFade=gsap.fromTo('.arrive .inner',{y:0,opacity:1},{y:-140,opacity:0,ease:'none',immediateRender:false,scrollTrigger:{trigger:'#unis',start:'top bottom',end:'top 35%',scrub:.8}});
+arriveBg=gsap.fromTo('.arrive .bg',{yPercent:0,scale:1},{yPercent:12,scale:1.08,ease:'none',immediateRender:false,scrollTrigger:{trigger:'#unis',start:'top bottom',end:'top top',scrub:.8}});
 /* The nav the drop-in used to carry went solid here, once the flight is behind us and the page
    turns pale. The site's header does that for itself on scroll, so these two triggers have
    nothing left to drive — kept as the anchors they are, in case a host wants them back. */
