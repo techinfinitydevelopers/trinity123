@@ -46,9 +46,9 @@ function orderDestinations(incoming: string[], hidden: readonly string[]): Dest[
 /* A <select> cannot hold images, so the destination picker is a small listbox: the flag beside each country,
    two columns on a wide card, arrow keys / Home / End / Escape for the keyboard. A visually hidden required
    input carries the value, so the form's own validity check still stops an empty submit. */
-function DestinationSelect({ options, label, placeholder }: { options: Dest[]; label: string; placeholder: string }) {
+function DestinationSelect({ options, label, placeholder, initial }: { options: Dest[]; label: string; placeholder: string; initial?: string }) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(initial ?? "");
   const root = useRef<HTMLDivElement>(null);
   const btn = useRef<HTMLButtonElement>(null);
   const sel = options.find((o) => o.name === value);
@@ -106,8 +106,8 @@ function DestinationSelect({ options, label, placeholder }: { options: Dest[]; l
    are. The nearest-city field was removed at the client's request; `cities` stays an accepted (ignored)
    prop so the blocks that still carry the list keep compiling. */
 export default function LeadForm({
-  title, destinations, okMsg, submitLabel, trust = [], labels: L, source = "home-enquiry",
-}: { title: string; cities?: string[]; destinations: string[]; okMsg: string; submitLabel: string; trust?: { icon: string; text: string }[]; labels: LabelSettings["forms"]; /** Which form the lead came from, shown in the dashboard. */ source?: string }) {
+  title, destinations, okMsg, submitLabel, trust = [], labels: L, source = "home-enquiry", defaultDestination,
+}: { title: string; /** A country to pre-select (the destination page the form was opened from). */ defaultDestination?: string; cities?: string[]; destinations: string[]; okMsg: string; submitLabel: string; trust?: { icon: string; text: string }[]; labels: LabelSettings["forms"]; /** Which form the lead came from, shown in the dashboard. */ source?: string }) {
   const hiddenDestinations = useHiddenDestinations();
   const [state, setState] = useState<"idle" | "busy" | "ok" | "err">("idle");
   /* The design shows a flag beside the dialling code. A <select> cannot hold an image, so the
@@ -174,7 +174,12 @@ export default function LeadForm({
             </span>
             <span className="leadcard__f"><i className="fas fa-mobile-alt" aria-hidden="true" /><input name="phone" type="tel" inputMode="tel" autoComplete="tel-national" required minLength={7} pattern="[0-9 ]{7,15}" title="Your number without the country code" placeholder={L.leadPhone} aria-label={L.leadPhone} /></span>
           </div>
-          <DestinationSelect options={orderDestinations(destinations, hiddenDestinations)} label={L.leadDestination} placeholder={L.leadDestination} />
+          {(() => {
+            const opts = orderDestinations(destinations, hiddenDestinations);
+            const want = (defaultDestination ?? "").trim().toLowerCase();
+            const pre = want ? HOME_DESTS.find((d) => d.name.toLowerCase() === want || d.key === want || (d.alias ?? []).includes(want))?.name : undefined;
+            return <DestinationSelect options={opts} label={L.leadDestination} placeholder={L.leadDestination} initial={pre && opts.some((o) => o.name === pre) ? pre : undefined} />;
+          })()}
           {/* Honeypot — the API rejects the submission if a bot fills this. */}
           <input type="text" name="hp_url" tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ position: "absolute", left: -9999 }} />
           <button className="leadcard__btn" type="submit" disabled={state === "busy"}>

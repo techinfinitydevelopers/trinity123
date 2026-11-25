@@ -5,6 +5,8 @@ import type { Country } from "@/generated/prisma";
 import type { ContactSettings, LabelSettings } from "@/lib/settings";
 import { FLAG, Marked, fillCountry } from "./ui";
 import { getLabels } from "@/lib/labels";
+import CounsellingPopup from "./CounsellingPopup";
+import { leadForm } from "@/lib/seed-content";
 
 type Pair = { label: string; value: string };
 type QA = { q: string; a: string };
@@ -209,7 +211,7 @@ export default async function CountryPage({ c, others, contact, webinars }: { c:
                     <p style={{ position: "relative", fontSize: 15, lineHeight: 1.75, color: "var(--text)" }}>{s.text}</p>
                   </div>
                 ))}
-                <Link className="cv-btny" href="/contact-us" style={{ display: "inline-flex", alignItems: "center", justifyContent: "space-between", gap: 10, background: "var(--navy)", color: "#fff", fontFamily: P, fontWeight: 600, fontSize: 15, padding: "18px 20px 18px 26px", borderRadius: 50, transition: "all .3s" }}>{L.fundingButton} <span style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--gold)", color: "var(--navy)", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 12 }}><i className="fas fa-arrow-right" /></span></Link>
+                <Link className="cv-btny" href="/contact-us" data-cpop="scholarship" style={{ display: "inline-flex", alignItems: "center", justifyContent: "space-between", gap: 10, background: "var(--navy)", color: "#fff", fontFamily: P, fontWeight: 600, fontSize: 15, padding: "18px 20px 18px 26px", borderRadius: 50, transition: "all .3s" }}>{L.fundingButton} <span style={{ width: 34, height: 34, borderRadius: "50%", background: "var(--gold)", color: "var(--navy)", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 12 }}><i className="fas fa-arrow-right" /></span></Link>
               </div>
             </div>
           ) : null}
@@ -339,6 +341,9 @@ export default async function CountryPage({ c, others, contact, webinars }: { c:
       ) : null}
 
       {webinars}
+
+      {/* Scholarship › "Check what you qualify for" opens the same call-back form as the About Us buttons (client sheet, 25/11), with this country pre-selected. */}
+      <CounsellingPopup title={L.fundingButton} lead={`Tell us about yourself and a Trinity counsellor will call you back to check the scholarships you qualify for in ${c.name}.`} destinations={leadForm.destinations} okMsg={leadForm.okMsg} submitLabel="Request a call back" labels={all.forms} source="destination-scholarship" defaultDestination={c.name} />
 
       {/* CTA */}
       <section className="cv-section" style={{ padding: "0 24px 100px", background: "#fff" }}>

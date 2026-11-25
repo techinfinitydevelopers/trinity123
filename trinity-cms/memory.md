@@ -1863,3 +1863,7 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 - 24/11 (v4, client): "TSA" removed from the footer tagline — `site.footerTagline` default is now "Because Every Dream Needs a Direction" (no DB script needed: the DB site row has no
   footerTagline, it merges the default; settings cache key → v9). Company name larger and clearer (7.4vw, cap 9rem, gradient .46→.12), tagline ~1/6 the size
   (1.22vw, .78rem min) at 50% white. Checked at 1440 (106px name / 17.6px tagline), 820 and 390 (29px / 12.5px) — one line each, no overflow.
+- 25/11 (client sheet, destination pages): Scholarship › "Check what you qualify for" (`fundingButton`) now opens the same call-back popup as About Us
+  (`CounsellingPopup` rendered in CountryPage.tsx; the button opts in with `data-cpop="scholarship"`; the popup's click interceptor also matches `a[data-cpop]`).
+  The visited country is pre-selected (new optional `defaultDestination` on LeadForm/CounsellingPopup) and the lead's `source` is "destination-scholarship"
+  (new `source` prop; the leads API allows any string ≤40 chars). Other destination buttons are untouched. The popup text is built in code (lead line) — not admin-editable yet.

@@ -8,8 +8,8 @@ import LeadForm from "./LeadForm";
    the buttons stay plain links, so they still work with JavaScript off and for anyone opening them in a
    new tab. The header and footer are left alone: those are site-wide navigation, not this page's CTA. */
 export default function CounsellingPopup({
-  title, lead, destinations, okMsg, submitLabel, labels,
-}: { title: string; lead?: string; destinations: string[]; okMsg: string; submitLabel: string; labels: LabelSettings["forms"] }) {
+  title, lead, destinations, okMsg, submitLabel, labels, source = "about-popup", defaultDestination,
+}: { title: string; lead?: string; source?: string; defaultDestination?: string; destinations: string[]; okMsg: string; submitLabel: string; labels: LabelSettings["forms"] }) {
   const [open, setOpen] = useState(false);
   const card = useRef<HTMLDivElement>(null);
   const opener = useRef<HTMLElement | null>(null);
@@ -29,7 +29,7 @@ export default function CounsellingPopup({
       /* Call-to-action buttons only, wherever they sit: the page's own three, plus "Free Counselling" in the
          header and in the phone menu. Left alone: the "Contact" menu link and the three "Explore" cards in the
          solutions section — links to a page, not a request for a call back. */
-      const a = (e.target as HTMLElement | null)?.closest?.("a.btn, a.vbk__btn") as HTMLAnchorElement | null;
+      const a = (e.target as HTMLElement | null)?.closest?.("a.btn, a.vbk__btn, a[data-cpop]") as HTMLAnchorElement | null;
       if (!a || a.target === "_blank") return;
       const href = a.getAttribute("href") ?? "";
       if (!/^\/contact-us(?:[#?]|$)/.test(href)) return;
@@ -62,7 +62,7 @@ export default function CounsellingPopup({
           <i className="fas fa-times" aria-hidden="true" />
         </button>
         {lead ? <p className="cpop__lead">{lead}</p> : null}
-        <LeadForm title={title} destinations={destinations} okMsg={okMsg} submitLabel={submitLabel} labels={labels} source="about-popup" />
+        <LeadForm title={title} destinations={destinations} okMsg={okMsg} submitLabel={submitLabel} labels={labels} source={source} defaultDestination={defaultDestination} />
       </div>
     </div>
   );
