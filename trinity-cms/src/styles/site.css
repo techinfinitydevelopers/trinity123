@@ -2501,7 +2501,8 @@ section.wbc .wbc__dots button.is-on{width:42px;background:var(--navy)}
 .vbk--light .vbk__dots i{background:rgba(13,27,52,.22)}
 .vbk--light .vbk__dots i.on{background:#f5b82e}
 .vbk--light:not(.vbk--single) .vbk__stage{background:none;border-color:transparent;box-shadow:none;padding:0}
-.section.testi--cont{padding-top:0}
+/* The heading-less continuation of the stories now sits under the student-video band, so it needs its own breathing room (client, 25/11: the cards touched the band's edge). */
+.section.testi--cont{padding-top:clamp(56px,6.5vw,96px)}
 
 /* Success stories: three story cards across on desktop (two on tablets, one on phones); the cards are a little tighter to fit. */
 .testi .grid--2{grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}

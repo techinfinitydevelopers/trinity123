@@ -1876,3 +1876,5 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   snippet/concluded files are still on disk, unused. The home page's own TW "Knowledge Hub" teaser (`#webinar`, hidden) was left alone.
 - 25/11 (client): the "What a Trinity Journey Looks Like" (`journey`, "How it goes") section is removed from Success Stories — dropped from the seed `successBlocks` and
   from the stored page (local done) → production needs `scripts/remove-success-journey.ts --apply`. The `journey` block type still exists for other pages.
+- 25/11 (client): Success Stories — the continuation testimonials grid touched the bottom edge of the student-video band; `.section.testi--cont` padding-top is now
+  clamp(56px,6.5vw,96px) (was 0), ~94px on desktop.
