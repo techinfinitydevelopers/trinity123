@@ -1898,3 +1898,7 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   rebuilds in the background; on a quiet site that can look like "never"). All admin-triggered revalidations (`revalidateSite`, `saveSetting`, knowledge actions) now use
   `{ expire: 0 }` = blocking refresh, so the next page view shows the edit. Cache keys bumped again for the deploy: settings v10, page v3 (so everything saved so far is re-read
   from the DB on the first request). Rule: admin writes → `{ expire: 0 }`; never "max" for a CMS.
+- 25/11 (client sheet, Webinars & Events › Register interest): the "REGISTER INTEREST" kicker line is gone (LeadFormSection now renders the kicker only when non-empty),
+  heading "Get notified about events", paragraph "Choose your country or course. We’ll notify you about the next event.", and the boy-in-green-shirt photo is replaced by
+  `public/assets/img/home/hero-student.webp` (the girl with glasses; the client did not send a specific photo — swap in /admin if they have one). Form untouched. Seed + stored page
+  (local done) → production needs `scripts/fix-register-interest.ts --apply`. Other leadForm blocks keep their kickers.

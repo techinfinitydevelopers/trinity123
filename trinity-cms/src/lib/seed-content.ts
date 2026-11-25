@@ -601,7 +601,7 @@ const webinarsEventsBlocks: Block[] = [
   },
   { ...webinar, layout: "gallery" },
   eventGallery,
-  { ...leadForm, kicker: "Register Interest", tagline: "Tell us what you want to [attend]", text: "We will write to you when the next event for your country or course is scheduled. No charge, and no obligation to attend.", formTitle: "Register your interest", submitLabel: "Notify me", okMsg: "Registered. We will email you as soon as the next relevant event is confirmed." },
+  { ...leadForm, kicker: "", tagline: "Get notified about events", text: "Choose your country or course. We’ll notify you about the next event.", image: `${IMG}/home/hero-student.webp`, imageAlt: "Smiling student with a bag, ready to study abroad", formTitle: "Register your interest", submitLabel: "Notify me", okMsg: "Registered. We will email you as soon as the next relevant event is confirmed." },
   {
     type: "cta", layout: "center", badgeIcon: "fas fa-calendar-check", badge: "Cannot wait for the next one?", title: "Book a session {this week}",
     text: "Our counsellors meet students at the Mumbai office six days a week, and online whenever you are.",

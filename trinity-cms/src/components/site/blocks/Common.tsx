@@ -43,7 +43,7 @@ export async function LeadFormSection({ b }: { b: LeadFormBlock }) {
     <section className="section leadsec" id="enquiry">
       <div className="container leadsec__grid">
         <div className="leadsec__copy" data-reveal>
-          <p className="kicker kicker--gold">{b.kicker}</p>
+          {b.kicker ? <p className="kicker kicker--gold">{b.kicker}</p> : null}
           {/* `Title` renders its own heading — wrapping it in another <h2> nested one inside the
              other, which is invalid HTML and broke hydration. */}
           <Title text={b.tagline} className="h2 leadsec__tagline" />
