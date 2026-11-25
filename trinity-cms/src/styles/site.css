@@ -2639,3 +2639,26 @@ body:not(:has(.tw-host)) section.wbc{background:linear-gradient(180deg,#eef3fb,#
 /* The webinar band is a tinted full-width section; the blue CTA card that follows has no top padding of its own (.section--tight), so it sat flush
    against the band's edge. Give it room (client, 25/11). */
 .wbc + .section--tight{padding-top:clamp(48px,6vw,88px)}
+
+/* ---- Webinars page recap posters, compact (client, 25/11: "reduce the size of the snippets, make the UI better") ----
+   Five across on a desktop (each ~220px instead of ~520px), three on a tablet, two on a phone; every poster opens full size in a lightbox (PosterGallery.tsx). */
+.webinar__snips--wide{grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(12px,1.5vw,20px)}
+.webinar__snips--wide .webinar__snip{position:relative;border-radius:14px;border-color:rgba(13,27,52,.08);box-shadow:0 8px 22px rgba(13,27,52,.08);gap:0}
+.webinar__snips--wide .webinar__snip--btn{appearance:none;-webkit-appearance:none;padding:0;font:inherit;text-align:left;cursor:zoom-in;width:100%}
+.webinar__snips--wide .webinar__snip--btn:hover,.webinar__snips--wide .webinar__snip--btn:focus-visible{transform:translateY(-4px);box-shadow:0 16px 34px rgba(13,27,52,.16)}
+.webinar__snips--wide .webinar__snip--btn:focus-visible{outline:3px solid #f0b323;outline-offset:2px}
+.webinar__zoom{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:rgba(7,20,46,.72);color:#fff;font-size:.7rem;display:grid;place-items:center;opacity:0;transition:opacity .25s;pointer-events:none}
+.webinar__snip:hover .webinar__zoom,.webinar__snip:focus-visible .webinar__zoom{opacity:1}
+@media (hover:none){.webinar__zoom{display:none}}
+@media (max-width:1180px){.webinar__snips--wide{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){.webinar__snips--wide{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
+
+.pgbox{position:fixed;inset:0;z-index:300;background:rgba(5,12,28,.93);display:grid;place-items:center;padding:20px}
+.pgbox__img{display:block;max-width:min(92vw,860px);max-height:88vh;width:auto;height:auto;object-fit:contain;border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.55);background:#fff}
+.pgbox__x,.pgbox__nav{position:absolute;display:grid;place-items:center;border:0;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;cursor:pointer;transition:background .2s}
+.pgbox__x:hover,.pgbox__nav:hover{background:rgba(255,255,255,.28)}
+.pgbox__x{top:16px;right:16px;width:44px;height:44px;font-size:1.05rem}
+.pgbox__nav{top:50%;width:46px;height:46px;margin-top:-23px;font-size:1rem}
+.pgbox__nav--prev{left:clamp(8px,2vw,28px)}.pgbox__nav--next{right:clamp(8px,2vw,28px)}
+.pgbox__count{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.75);font:600 .82rem var(--font-b,Inter),system-ui,sans-serif;letter-spacing:.08em}
+@media (max-width:600px){.pgbox{padding:10px}.pgbox__nav{width:38px;height:38px;margin-top:-19px}.pgbox__img{max-width:96vw;max-height:84vh}}

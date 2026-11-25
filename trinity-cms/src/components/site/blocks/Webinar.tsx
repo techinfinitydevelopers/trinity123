@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { WebinarBlock } from "@/lib/blocks";
 import { Title } from "../ui";
 import { WebinarCarousel } from "./WebinarCarousel";
+import PosterGallery from "./PosterGallery";
 
 /* Section 7 — the Knowledge Hub. Both lists start empty, and each says so in its own words
    rather than showing a skeleton of a webinar that does not exist.
@@ -48,19 +49,21 @@ export function Webinar({ b }: { b: WebinarBlock }) {
     <div className={gallery ? "webinar__past webinar__past--wide" : "webinar__past"} data-reveal={gallery ? "" : "right"}>
       <h3>{b.pastTitle}</h3>
       {b.past.length ? (
-        <div className={gallery ? "webinar__snips webinar__snips--wide" : "webinar__snips"}>
-          {b.past.map((w, i) => {
-            /* The client sent posters without captions, so a snippet renders as just the
-               picture unless a title or date has been filled in. */
-            const caption = w.title || w.when
-              ? <span><strong>{w.title}</strong>{w.when ? <small>{w.when}</small> : null}</span>
-              : null;
-            const inner = <><img src={w.img} alt={w.title || ""} loading="lazy" />{caption}</>;
-            return w.href
-              ? <a key={i} className="webinar__snip" href={w.href} target="_blank" rel="noopener">{inner}</a>
-              : <span key={i} className="webinar__snip">{inner}</span>;
-          })}
-        </div>
+        gallery ? <PosterGallery items={b.past} /> : (
+          <div className={gallery ? "webinar__snips webinar__snips--wide" : "webinar__snips"}>
+            {b.past.map((w, i) => {
+              /* The client sent posters without captions, so a snippet renders as just the
+                 picture unless a title or date has been filled in. */
+              const caption = w.title || w.when
+                ? <span><strong>{w.title}</strong>{w.when ? <small>{w.when}</small> : null}</span>
+                : null;
+              const inner = <><img src={w.img} alt={w.title || ""} loading="lazy" />{caption}</>;
+              return w.href
+                ? <a key={i} className="webinar__snip" href={w.href} target="_blank" rel="noopener">{inner}</a>
+                : <span key={i} className="webinar__snip">{inner}</span>;
+            })}
+          </div>
+        )
       ) : (
         <p className="webinar__empty">{b.pastNote}</p>
       )}

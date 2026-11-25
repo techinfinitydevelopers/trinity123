@@ -1883,3 +1883,6 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   ("Stories of Success" is an h2) — worth fixing for SEO/accessibility if asked.
 - 25/11 (client): the blue CTA card under the webinar band touched the band's edge (`.section--tight` has padding-top 0) — `.wbc + .section--tight{padding-top:clamp(48px,6vw,88px)}`
   (end of site.css), ~86px on desktop. Applies on every inner page that has a CTA block after the webinar slider.
+- 25/11 (client: "reduce the snippet size, make the UI better"): Webinars page recap posters are now a compact grid — 5 across (~248px cards, 310px tall) ≥1181px, 3 across
+  ≤1180, 2 across ≤760 — and each opens full size in a lightbox (new client component `PosterGallery.tsx`, used only for the `gallery` layout; arrows/Esc/click-outside; the
+  hover zoom badge is hidden on touch). Webinar.tsx keeps its old markup for the home "split" layout. CSS at the end of site.css ("recap posters, compact" + `.pgbox*`).
