@@ -1891,3 +1891,6 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   was backed up first (scripts/backups/local-before-sync-2026-11-25.json). Dev cache cleared + server restarted. Side effect: the two LOCAL-only DB edits not yet on production
   (recap posters list on webinars-events, journey section removed from success-stories) were overwritten by prod's versions — re-run `fix-webinar-recaps.ts` /
   `remove-success-journey.ts` (local or prod) to bring them back. The `.json` backups are content only (no users/leads/chats).
+- 25/11: applied `fix-webinar-recaps.ts` and `remove-success-journey.ts` to PRODUCTION (Railway CLI public URL, user said "do this and check on production"; backups
+  scripts/backups/webinar-recaps-*07-20* / success-journey-*07-20*). Production still served the old pages afterwards (page cache), so the page cache key went
+  `["page","v2"]` → `["page","v3"]` in content.ts. There is no revalidate API — after any direct DB write either bump that key + deploy, or Save a page once in /admin.

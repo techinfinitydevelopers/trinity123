@@ -22,7 +22,7 @@ const reviveAll = <T extends Partial<Record<DateKeys, unknown>>>(rows: T[]) => r
 
 const pageCached = unstable_cache(
   async (slug: string) => db.page.findUnique({ where: { slug } }),
-  ["page", "v2"],
+  ["page", "v3"],
   { tags: ["pages"] },
 );
 export async function getPage(slug: string) {
