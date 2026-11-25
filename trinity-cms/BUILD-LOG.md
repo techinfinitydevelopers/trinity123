@@ -1917,3 +1917,9 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 ## 2026-11-18 — Production: Pillai + K J Somaiya events, counts hidden (Railway)
 
 - Pushed 87cdfe5. `add-more-events.ts` on the production DB via `railway run --service Postgres` (dry → apply; re-run "all seed events are already there"): events 5 → 7; backup scripts/backups/more-events-2026-11-18T12-25-02-459Z.json. Waited for the push deploy, then `railway redeploy --service trinity123 -y`. Verified live: the Pillai event is on the page, no photo-count chips in the HTML, K J Somaiya image served (200).
+
+## 2026-11-25 — Local DB synced from production
+- Exported production content (read-only, 330 rows) and restored into local Postgres: 9 pages, 3 posts, 8 settings, 17 countries, 293 knowledge items. Local pre-sync backup kept. Dev server restarted to clear the settings/page cache. Images uploaded via /admin on production are not copied (not in DB export).
+
+## 2026-11-25 — Home "Free webinars": TBA (19 Dec 2026) slide first
+- Client: the "Topic to be announced / 19 December 2026" slide was 06/06; now 01/06.  Then reordered (client): rest newest→oldest: 19 Dec, 21 Nov, 24 Oct, 26 Sep, 22 Aug, 24 Jul. Seed (`seed-content.ts` webinar `current`) reordered; `scripts/move-webinar-tba-first.ts` (dry run / `--apply`, backup, idempotent) applied locally. Verified on localhost: slide 01/06 = 19 December 2026. Dev cache needed `.next/cache` cleared after a direct DB write. **Production still needs: push, the script, a redeploy.**
