@@ -111,7 +111,8 @@ export const webinar: WebinarBlock = {
   pastNote: "Snippets from recent sessions are on their way.",
   /* The client's own photographs from their most recent webinar. They came without captions, so
      the strip shows the pictures alone until someone adds a title or a date in the editor. */
-  past: [1, 2, 3].map((n) => ({ title: "", when: "", img: `${IMG}/webinar/concluded-2026-${n}.jpg`, href: "" })),
+  /* 25/11: the five recap posters the client sent (After 12th, 2027 readiness, test prep, New Zealand, Affordable Europe), newest first; they replace the three earlier photographs. */
+  past: [1, 2, 3, 4, 5].map((n) => ({ title: "", when: "", img: `${IMG}/webinar/recap-${n}.webp`, href: "" })),
 };
 
 /* Home page webinar slider (client list, 2026-11-18). The first three have posters; 4–6 are waiting for the client's images, so

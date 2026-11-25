@@ -1870,3 +1870,7 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 - 25/11 (client): the "Services" folder row (folder icon + "Services") on top of the Services dropdown is gone — `NO_PARENT_LINK` in Header.tsx now holds
   ["Resources","Services"] (matched by menu label). Same switch also drops the phone menu's "Go to Services" row. Everything else in the dropdown is unchanged;
   the /our-service overview page is no longer linked from the nav (still reachable by URL / footer).
+- 25/11 (client): Webinars & Events › "Snippets of our recently concluded webinar: 2026" now shows the five recap posters the client sent (After 12th, 2027 readiness,
+  test prep, New Zealand, Affordable Europe) — `public/assets/img/webinar/recap-1..5.webp` (1080px wide webp), no captions; they replaced the six `snippet-N.webp`
+  in the stored `past` list (seed `webinar.past` too). Production needs the deploy (images) FIRST, then `scripts/fix-webinar-recaps.ts --apply`. The old
+  snippet/concluded files are still on disk, unused. The home page's own TW "Knowledge Hub" teaser (`#webinar`, hidden) was left alone.
