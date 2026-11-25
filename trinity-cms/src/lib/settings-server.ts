@@ -11,7 +11,7 @@ export const getSetting = unstable_cache(
   },
   /* "v2": a database write made outside the admin (a script) never calls revalidateTag, and Railway keeps
      `.next/cache` between builds, so the old entries survived a redeploy. Bump this to force a fresh read. */
-  ["setting", "v9"],
+  ["setting", "v10"],
   { tags: ["settings"] },
 );
 
@@ -23,5 +23,5 @@ export async function getAllSettings(): Promise<SettingsMap> {
 
 export async function saveSetting<K extends SettingsKey>(key: K, value: SettingsMap[K]) {
   await db.setting.upsert({ where: { key }, create: { key, value }, update: { value } });
-  revalidateTag("settings", "max");
+  revalidateTag("settings", { expire: 0 });
 }

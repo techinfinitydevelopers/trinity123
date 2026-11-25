@@ -1894,3 +1894,7 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 - 25/11: applied `fix-webinar-recaps.ts` and `remove-success-journey.ts` to PRODUCTION (Railway CLI public URL, user said "do this and check on production"; backups
   scripts/backups/webinar-recaps-*07-20* / success-journey-*07-20*). Production still served the old pages afterwards (page cache), so the page cache key went
   `["page","v2"]` → `["page","v3"]` in content.ts. There is no revalidate API — after any direct DB write either bump that key + deploy, or Save a page once in /admin.
+- 25/11 (client: "my production admin text edits don't show"): cause = `revalidateTag(tag, "max")` (stale-while-revalidate: the next visitor is served the OLD content while Next
+  rebuilds in the background; on a quiet site that can look like "never"). All admin-triggered revalidations (`revalidateSite`, `saveSetting`, knowledge actions) now use
+  `{ expire: 0 }` = blocking refresh, so the next page view shows the edit. Cache keys bumped again for the deploy: settings v10, page v3 (so everything saved so far is re-read
+  from the DB on the first request). Rule: admin writes → `{ expire: 0 }`; never "max" for a CMS.

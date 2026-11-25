@@ -198,13 +198,13 @@ export async function saveKnowledgeAction(input: z.infer<typeof knowledgeSchema>
     const { id, ...data } = knowledgeSchema.parse(input);
     if (id) await db.knowledgeItem.update({ where: { id }, data });
     else await db.knowledgeItem.create({ data });
-    revalidateTag("knowledge", "max");
+    revalidateTag("knowledge", { expire: 0 });
     revalidatePath("/admin/chatbot");
     return { ok: true, message: "Saved" };
   } catch (e) { return fail(e); }
 }
 export async function deleteKnowledgeAction(id: string): Promise<ActionResult> {
-  try { await requireSession(); await db.knowledgeItem.delete({ where: { id } }); revalidateTag("knowledge", "max"); revalidatePath("/admin/chatbot"); return { ok: true }; } catch (e) { return fail(e); }
+  try { await requireSession(); await db.knowledgeItem.delete({ where: { id } }); revalidateTag("knowledge", { expire: 0 }); revalidatePath("/admin/chatbot"); return { ok: true }; } catch (e) { return fail(e); }
 }
 
 export type BulkRow = { question: string; answer: string; followUp?: string; keywords?: string; category?: string };
@@ -240,7 +240,7 @@ export async function bulkImportKnowledgeAction(rows: BulkRow[]): Promise<Action
     if (toCreate.length) await db.knowledgeItem.createMany({ data: toCreate });
     report.imported = toCreate.length;
 
-    revalidateTag("knowledge", "max");
+    revalidateTag("knowledge", { expire: 0 });
     revalidatePath("/admin/chatbot");
     return { ok: true, report, message: `Imported ${report.imported}, skipped ${report.skipped} duplicate(s), ${report.errors.length} error(s).` };
   } catch (e) { return fail(e); }

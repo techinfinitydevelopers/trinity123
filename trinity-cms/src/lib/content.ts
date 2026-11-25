@@ -122,12 +122,14 @@ export async function getCountry(slug: string) {
   return c ? revive(c) : null;
 }
 
+/* `{ expire: 0 }`, not the "max" profile: with "max" Next serves the OLD content to the next visitor while it rebuilds in the background, which is why an
+   admin's edit seemed not to show on production (client, 25/11). An edit in the dashboard must be what the very next page view shows. */
 export function revalidateSite() {
-  revalidateTag("pages", "max");
-  revalidateTag("posts", "max");
-  revalidateTag("settings", "max");
-  revalidateTag("countries", "max");
-  revalidateTag("knowledge", "max");
+  revalidateTag("pages", { expire: 0 });
+  revalidateTag("posts", { expire: 0 });
+  revalidateTag("settings", { expire: 0 });
+  revalidateTag("countries", { expire: 0 });
+  revalidateTag("knowledge", { expire: 0 });
   revalidatePath("/", "layout");
 }
 
