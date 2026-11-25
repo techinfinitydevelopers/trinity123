@@ -1874,3 +1874,5 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   test prep, New Zealand, Affordable Europe) — `public/assets/img/webinar/recap-1..5.webp` (1080px wide webp), no captions; they replaced the six `snippet-N.webp`
   in the stored `past` list (seed `webinar.past` too). Production needs the deploy (images) FIRST, then `scripts/fix-webinar-recaps.ts --apply`. The old
   snippet/concluded files are still on disk, unused. The home page's own TW "Knowledge Hub" teaser (`#webinar`, hidden) was left alone.
+- 25/11 (client): the "What a Trinity Journey Looks Like" (`journey`, "How it goes") section is removed from Success Stories — dropped from the seed `successBlocks` and
+  from the stored page (local done) → production needs `scripts/remove-success-journey.ts --apply`. The `journey` block type still exists for other pages.

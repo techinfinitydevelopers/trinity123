@@ -581,17 +581,7 @@ const successBlocks: Block[] = [
   { ...testimonials, kicker: "In Their Words", title: "Stories of [Success]", lead: "Every one of these started with a free counselling session. Yours can too.", items: [...testimonials.items, ...clientStories].slice(0, SUCCESS_SPLIT) },
   { ...homeVideos, light: true, ctaLabel: "Get free counselling", ctaHref: C },
   { ...testimonials, kicker: "", title: "", lead: "", items: [...testimonials.items, ...clientStories].slice(SUCCESS_SPLIT) },
-  {
-    type: "journey", kicker: "How It Goes", title: "What a Trinity [Journey Looks Like]",
-    lead: "The same five steps behind every story on this page.",
-    cards: [
-      { icon: "fas fa-comments", title: "Free counselling", text: "A counsellor reads your academics, budget and target intake, then maps the realistic options \u2014 not the expensive ones." },
-      { icon: "fas fa-tasks", title: "Shortlist & apply", text: "Universities chosen for your profile, applications prepared and submitted with the documentation checked line by line." },
-      { icon: "fas fa-envelope-open-text", title: "Offers in hand", text: "Offers compared on course content, fees, city and stay-back rules so the decision is made on facts." },
-      { icon: "fas fa-passport", title: "Visa, cleared", text: "Financial documents, forms and interview preparation handled by the team that files them every week." },
-      { icon: "fas fa-plane-departure", title: "Landed and settled", text: "Forex, accommodation, insurance and a pre-departure briefing \u2014 then a first week that is not spent guessing." },
-    ],
-  },
+  /* 25/11: the "What a Trinity Journey Looks Like" section was removed from this page at the client's request. */
   {
     type: "cta", layout: "center", badgeIcon: "fas fa-star", badge: "Your story next", title: "Start the story {you will tell}",
     text: "Book a free counselling session. No fee, no obligation \u2014 just a clear reading of where your profile can take you.",
