@@ -1878,3 +1878,6 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   from the stored page (local done) → production needs `scripts/remove-success-journey.ts --apply`. The `journey` block type still exists for other pages.
 - 25/11 (client): Success Stories — the continuation testimonials grid touched the bottom edge of the student-video band; `.section.testi--cont` padding-top is now
   clamp(56px,6.5vw,96px) (was 0), ~94px on desktop.
+- 25/11 (Success Stories page check): all images/posters/videos load, no horizontal overflow at 1440/390. Fixed the orphan: ten stories on three columns left "Betsy John"
+  alone at the left of the last row → `.testi .grid--2>:last-child:nth-child(3n+1){grid-column:2}` (and a centred half-width card on two columns). Known gap (not changed): the page has no <h1>
+  ("Stories of Success" is an h2) — worth fixing for SEO/accessibility if asked.
