@@ -1886,3 +1886,8 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
 - 25/11 (client: "reduce the snippet size, make the UI better"): Webinars page recap posters are now a compact grid — 5 across (~248px cards, 310px tall) ≥1181px, 3 across
   ≤1180, 2 across ≤760 — and each opens full size in a lightbox (new client component `PosterGallery.tsx`, used only for the `gallery` layout; arrows/Esc/click-outside; the
   hover zoom badge is hidden on touch). Webinar.tsx keeps its old markup for the home "split" layout. CSS at the end of site.css ("recap posters, compact" + `.pgbox*`).
+- 25/11: PULLED production CMS content into the local DB (user had edited content in /admin). Used the linked Railway CLI (`railway variables --service Postgres --kv` →
+  DATABASE_PUBLIC_URL, never printed/stored) → `backup-content.ts` (prod → scripts/backups/production-content-2026-11-25.json) → `restore-content.ts` into local; the local DB
+  was backed up first (scripts/backups/local-before-sync-2026-11-25.json). Dev cache cleared + server restarted. Side effect: the two LOCAL-only DB edits not yet on production
+  (recap posters list on webinars-events, journey section removed from success-stories) were overwritten by prod's versions — re-run `fix-webinar-recaps.ts` /
+  `remove-success-journey.ts` (local or prod) to bring them back. The `.json` backups are content only (no users/leads/chats).
