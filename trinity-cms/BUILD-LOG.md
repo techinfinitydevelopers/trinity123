@@ -1975,3 +1975,6 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Change: `.arrive .bg` inset set to 0 in engine.ts (tw.css is the drop-in's, left alone) and a full `FOCUS` map (x% y%) for the 17 city photos (tall landmarks anchored at the top; x also chosen for portrait windows).
 - Was verified on localhost at 1918×866 for all 16 chip countries and at 820×1100 for six. Reverted once at the client's request, then re-applied (still local only, NOT pushed) so they can check it on localhost. Production untouched.
 - Heads-up: the admin-uploaded city photos are 2.5–3.2 MB PNGs; the first pick of one can show navy for a few seconds until it downloads — re-upload as ~300 KB .webp.
+
+## 2026-11-26 — Home world: "Document Checklist" → "Visa Document Checklist"
+- Client: the checklist section heading (with "3 / 8 ready") must read "Visa Document Checklist". The code default (`settings.ts` kitTitle) already said "Visa Document<br>Checklist", but the stored `world` setting (`text.kitTitle`, Admin → Home page → "Your file — heading") still held "Document<br>Checklist" and overrides it. `scripts/fix-world-kit-title.ts` (dry run / `--apply`, backup, idempotent) applied locally; verified in the page DOM (`#kit .h2` = "Visa Document<br>Checklist"). **Production needs: push (the script), `fix-world-kit-title.ts --apply`, redeploy.**
