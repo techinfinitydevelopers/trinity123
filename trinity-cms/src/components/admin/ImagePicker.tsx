@@ -2,20 +2,24 @@
 import { useEffect, useRef, useState } from "react";
 import { toast } from "./ui";
 
-export type MediaItem = { id: string; url: string; filename: string; alt: string; bytes: number; createdAt: string };
+export type MediaItem = { id: string; url: string; filename: string; alt: string; bytes: number; createdAt: string; folder?: string };
+export type MediaFolder = { name: string; count: number };
 
 export function useMedia() {
   const [items, setItems] = useState<MediaItem[]>([]);
+  const [folders, setFolders] = useState<MediaFolder[]>([]);
+  const [countries, setCountries] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  const load = async (q = "") => {
+  const load = async (q = "", folder = "") => {
     setLoading(true);
-    const r = await fetch(`/api/media?q=${encodeURIComponent(q)}`);
-    if (r.ok) setItems((await r.json()).items);
+    const r = await fetch(`/api/media?q=${encodeURIComponent(q)}&folder=${encodeURIComponent(folder)}`);
+    if (r.ok) { const j = await r.json(); setItems(j.items); setFolders(j.folders ?? []); setCountries(j.countries ?? []); }
     setLoading(false);
   };
-  const upload = async (files: FileList | File[]) => {
+  const upload = async (files: FileList | File[], folder = "") => {
     const fd = new FormData();
     Array.from(files).forEach((f) => fd.append("file", f));
+    if (folder) fd.append("folder", folder);
     const r = await fetch("/api/media", { method: "POST", body: fd });
     const j = await r.json();
     if (!r.ok) { toast(j.error ?? "Upload failed", "err"); return [] as MediaItem[]; }
@@ -23,28 +27,30 @@ export function useMedia() {
     toast(`${j.items.length} file${j.items.length > 1 ? "s" : ""} uploaded`);
     return j.items as MediaItem[];
   };
-  return { items, loading, load, upload, setItems };
+  return { items, folders, countries, loading, load, upload, setItems };
 }
 
 export function MediaModal({ onPick, onClose }: { onPick: (url: string) => void; onClose: () => void }) {
-  const { items, loading, load, upload } = useMedia();
+  const { items, folders, loading, load, upload } = useMedia();
   const [q, setQ] = useState("");
+  const [folder, setFolder] = useState("");
   const inp = useRef<HTMLInputElement>(null);
   useEffect(() => { void load(); }, []);
-  useEffect(() => { const t = setTimeout(() => void load(q), 250); return () => clearTimeout(t); }, [q]);
+  useEffect(() => { const t = setTimeout(() => void load(q, folder), 250); return () => clearTimeout(t); }, [q, folder]);
 
   return (
     <div className="fixed inset-0 z-[90] grid place-items-center bg-navy/60 p-4 backdrop-blur-sm" onClick={onClose}>
       <div className="card flex max-h-[85vh] w-full max-w-4xl flex-col overflow-hidden fade-up" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center gap-3 border-b border-line px-5 py-3">
           <h3 className="text-[16px] font-bold text-navy">Media library</h3>
-          <input className="inp inp-sm ml-auto max-w-xs" placeholder="Search…" value={q} onChange={(e) => setQ(e.target.value)} />
+          <select className="inp inp-sm ml-auto max-w-[180px]" value={folder} onChange={(e) => setFolder(e.target.value)}><option value="">All categories</option>{folders.map((x) => <option key={x.name} value={x.name}>{x.name} ({x.count})</option>)}</select>
+          <input className="inp inp-sm max-w-xs" placeholder="Search…" value={q} onChange={(e) => setQ(e.target.value)} />
           <button className="btn-primary btn-sm" onClick={() => inp.current?.click()}>Upload</button>
-          <input ref={inp} type="file" accept="image/*" multiple hidden onChange={async (e) => { if (e.target.files?.length) { const r = await upload(e.target.files); if (r[0]) onPick(r[0].url); } }} />
+          <input ref={inp} type="file" accept="image/*" multiple hidden onChange={async (e) => { if (e.target.files?.length) { const r = await upload(e.target.files, folder); if (r[0]) onPick(r[0].url); } }} />
           <button className="btn-ghost btn-sm" onClick={onClose}>Close</button>
         </div>
         <div className="nice-scroll grid flex-1 grid-cols-3 gap-3 overflow-auto p-4 sm:grid-cols-4 md:grid-cols-6"
-          onDragOver={(e) => e.preventDefault()} onDrop={async (e) => { e.preventDefault(); if (e.dataTransfer.files.length) await upload(e.dataTransfer.files); }}>
+          onDragOver={(e) => e.preventDefault()} onDrop={async (e) => { e.preventDefault(); if (e.dataTransfer.files.length) await upload(e.dataTransfer.files, folder); }}>
           {loading && !items.length ? <p className="col-span-full py-10 text-center text-[13px] text-ink-3">Loading…</p> : null}
           {!loading && !items.length ? <p className="col-span-full py-10 text-center text-[13px] text-ink-3">No images yet. Upload or drag files here.</p> : null}
           {items.map((m) => (

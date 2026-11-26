@@ -14,13 +14,14 @@ export async function POST(req: Request) {
   const files = form.getAll("file").filter((f): f is File => f instanceof File);
   if (!files.length) return NextResponse.json({ error: "No file" }, { status: 400 });
 
+  const folder = String(form.get("folder") ?? "").trim().slice(0, 60) || "uploads";
   const out = [];
   for (const file of files) {
     if (!ALLOWED.includes(file.type)) return NextResponse.json({ error: `Unsupported type: ${file.type}` }, { status: 415 });
     if (file.size > MAX) return NextResponse.json({ error: "File too large (max 8 MB)" }, { status: 413 });
     const stored = await storeFile(file);
     const row = await db.media.create({
-      data: { url: stored.url, filename: file.name, bytes: stored.bytes, mimeType: file.type, alt: file.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " ") },
+      data: { url: stored.url, filename: file.name, bytes: stored.bytes, mimeType: file.type, folder, alt: file.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " ") },
     });
     out.push(row);
   }
@@ -29,10 +30,18 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   if (!(await getSession())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  const q = new URL(req.url).searchParams.get("q")?.trim();
+  const sp = new URL(req.url).searchParams;
+  const q = sp.get("q")?.trim();
+  const folder = sp.get("folder")?.trim();
   const items = await db.media.findMany({
-    where: q ? { OR: [{ filename: { contains: q, mode: "insensitive" } }, { alt: { contains: q, mode: "insensitive" } }] } : undefined,
-    orderBy: { createdAt: "desc" }, take: 200,
+    where: {
+      ...(q ? { OR: [{ filename: { contains: q, mode: "insensitive" } }, { alt: { contains: q, mode: "insensitive" } }] } : {}),
+      ...(folder ? { folder } : {}),
+    },
+    orderBy: { createdAt: "desc" }, take: 500,
   });
-  return NextResponse.json({ items });
+  /* Category list with counts (all files, ignoring the search), plus every country name so each is offered even while empty. */
+  const groups = await db.media.groupBy({ by: ["folder"], _count: { _all: true } });
+  const countries = await db.country.findMany({ select: { name: true }, orderBy: { name: "asc" } });
+  return NextResponse.json({ items, folders: groups.map((g) => ({ name: g.folder, count: g._count._all })), countries: countries.map((c) => c.name) });
 }

@@ -1911,3 +1911,5 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   - The dark "Student stories" videos section on the HOME page comes from `homeVideos` in code (not the admin list); Success Stories / About have editable copies. Third video = `public/tw/voices/voice-4.mp4` (Kamran, HD re-encoded 720×1280 H.264). Not yet done: make the home videos block admin-editable (offered, not requested).
   - Tried and DISCARDED at the client's request: seven landscape country photos on country landing heroes (can be redone: new `.webp` per slug, hero CSS with cream veil + mobile band).
   - Gotcha: Windows `taskkill` of the dev server leaves no zombie but the background-task notice says "failed" — harmless; restart with `npm run dev`.
+
+- Media library categories: `Media.folder` = category (country names). Script `scripts/categorize-media-by-country.ts` sorts existing uploads; run on production with `--apply` after deploy. Local DB has no countries/media of note.

@@ -2000,3 +2000,11 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 
 ## 2026-11-26 — Home world, France: work rule wording
 - Client: the "Work and Studies" line for France read "Up to about 964 hours a year alongside study" → now "Up to about 20 hours per week alongside study" (`STU.france.work` in `src/components/tw/engine.ts`; the engine adds the full stop). Only France had the "964 hours" wording; the other countries' rules are unchanged. Note: this per-country text is in code, not editable in /admin. Verified on localhost with France selected (MONTH 3 · Work and Studies). **Production needs a push (+ redeploy); code only.** Heads-up: France's legal limit is 964 h/year (~18.5 h/week), so "20 hours per week" is the client's rounding.
+
+## 2026-11-26 — Production: France work wording (Railway)
+- Pushed b9f25fd; build SUCCESS 12:25. Verified live in the browser pane with France selected: MONTH 3 · Work and Studies · "Up to about 20 hours per week alongside study." No database change.
+
+## 26/11 — Media library categories (country-wise)
+- Admin → Media: category chips (All + each country + other categories, with counts), filter by chip, tick files and "Move to category…" (or type a new category), per-file Category dropdown in the side panel. Uploads/drops go into the selected category. The image picker modal has a category filter too.
+- Uses the existing `Media.folder` column (no migration). API `/api/media` returns `folders` + `countries`; new `moveMediaAction`.
+- `scripts/categorize-media-by-country.ts` sorts the 95 production photos by explicit filename→country map (Belgium/Switzerland/Austria/Czechia → "Other countries"; logos + settlement photo → "General"). Dry-run/`--apply`, idempotent. Verified locally (move works); production dry run OK, NOT yet applied.

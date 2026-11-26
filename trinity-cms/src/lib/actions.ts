@@ -157,6 +157,15 @@ export async function deleteLeadAction(id: string): Promise<ActionResult> {
 export async function updateMediaAction(id: string, alt: string): Promise<ActionResult> {
   try { await requireSession(); await db.media.update({ where: { id }, data: { alt } }); revalidatePath("/admin/media"); return { ok: true }; } catch (e) { return fail(e); }
 }
+export async function moveMediaAction(ids: string[], folder: string): Promise<ActionResult> {
+  try {
+    await requireSession();
+    const name = folder.trim().slice(0, 60) || "uploads";
+    await db.media.updateMany({ where: { id: { in: ids } }, data: { folder: name } });
+    revalidatePath("/admin/media");
+    return { ok: true };
+  } catch (e) { return fail(e); }
+}
 export async function deleteMediaAction(id: string): Promise<ActionResult> {
   try {
     await requireSession();
