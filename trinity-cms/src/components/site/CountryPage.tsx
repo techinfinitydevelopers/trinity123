@@ -13,7 +13,6 @@ type QA = { q: string; a: string };
 type Named = { name: string; text: string };
 type Step = { title: string; text: string };
 type Stat = { v: string; l: string };
-type Uni = { name: string; img: string };
 export type DestinationLite = { code: string; slug: string; name: string; tag: string };
 
 const P = "var(--font-h)";
@@ -40,7 +39,7 @@ export default async function CountryPage({ c, others, contact, webinars }: { c:
   const all = await getLabels();
   const L = all.destination;
   const C = all.common;
-  const stats = c.stats as Stat[], why = c.why as string[], courses = c.courses as string[], unis = c.unis as Uni[];
+  const stats = c.stats as Stat[], why = c.why as string[], courses = c.courses as string[];
   const cost = c.cost as Pair[], req = c.req as Pair[], sch = c.sch as Named[], steps = c.steps as Step[], workPoints = c.workPoints as string[], faq = c.faq as QA[];
   /* Which sections actually have content — the jump nav lists only those. */
   const shown = new Set<string>(["c-why", "c-cost", "c-admission"]);
@@ -289,30 +288,6 @@ export default async function CountryPage({ c, others, contact, webinars }: { c:
                 <img src={flag} alt="" style={{ width: 34, height: 34, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }} />
                 <span style={{ display: "flex", flexDirection: "column" }}><span style={{ color: "#fff", fontFamily: P, fontWeight: 600, fontSize: 16 }}>{c.name}</span><span style={{ color: "rgba(255,255,255,.75)", fontSize: 13 }}>{c.tag}</span></span>
               </span>
-            </div>
-          </div>
-        </section>
-      ) : null}
-
-      {/* universities */}
-      {unis.length ? (
-        <section className="cv-section" style={{ padding: "90px 24px", background: "var(--grey)" }}>
-          <div style={{ maxWidth: 1320, margin: "0 auto" }}>
-            <div data-reveal style={{ marginBottom: 40 }}>
-              <div style={kicker(L.universitiesKicker)}><span style={{ width: 28, height: 2, background: "var(--gold)" }} />{L.universitiesKicker}</div>
-              <h2 style={h2}>{L.universitiesTitle}</h2>
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 24 }}>
-              {unis.map((u, i) => (
-                <Link key={i} className="cv-hcard" href="/contact-us" data-reveal style={{ position: "relative", height: 320, borderRadius: 28, overflow: "hidden", display: "block", transition: "all .45s cubic-bezier(.4,0,.2,1)", transitionDelay: d(i), boxShadow: "0 20px 45px rgba(26,36,86,.12)" }}>
-                  <img className="cv-zoom" src={u.img} alt={u.name} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", transition: "transform .8s cubic-bezier(.4,0,.2,1)" }} />
-                  <span style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg,rgba(26,36,86,.1) 35%,rgba(26,36,86,.92) 100%)" }} />
-                  <span style={{ position: "absolute", left: 24, right: 24, bottom: 24, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
-                    <span style={{ color: "#fff", fontFamily: P, fontWeight: 600, fontSize: 20, lineHeight: 1.25 }}>{u.name}</span>
-                    <span style={{ width: 40, height: 40, borderRadius: "50%", background: "var(--gold)", color: "var(--navy)", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 13, flexShrink: 0 }}><i className="fas fa-arrow-right" /></span>
-                  </span>
-                </Link>
-              ))}
             </div>
           </div>
         </section>

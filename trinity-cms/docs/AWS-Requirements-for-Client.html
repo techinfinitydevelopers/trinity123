@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Trinity website on AWS: what we need from you</title>
+<style>
+@page{size:A4;margin:16mm 16mm}
+*{box-sizing:border-box}
+body{font-family:"Segoe UI",Arial,sans-serif;color:#1f2540;font-size:11.2pt;line-height:1.5;margin:0}
+h1{font-size:22pt;margin:0 0 4px;color:#1b1f5c}
+.sub{color:#5b617f;margin:0 0 14px}
+h2{font-size:14pt;color:#1b1f5c;border-bottom:2px solid #e3e5f2;padding-bottom:4px;margin:20px 0 8px}
+p{margin:6px 0}
+table{width:100%;border-collapse:collapse;margin:8px 0;font-size:10.4pt}
+th,td{border:1px solid #d9dcec;padding:7px 9px;vertical-align:top;text-align:left}
+th{background:#f1f2fa;color:#1b1f5c}
+.box{border:1px solid #d9dcec;border-radius:8px;padding:10px 14px;background:#f8f9fe;margin:10px 0}
+.warn{background:#fff7e6;border-color:#f0d9a8}
+ol,ul{margin:6px 0 6px 20px;padding:0}
+li{margin:3px 0}
+.chk{width:15px;height:15px;border:1.5px solid #1b1f5c;display:inline-block;vertical-align:-2px;margin-right:6px;border-radius:3px}
+.tick li{list-style:none;margin-left:-20px}
+.small{font-size:9.6pt;color:#5b617f}
+</style></head><body>
+
+<h1>Moving the Trinity website to AWS</h1>
+<p class="sub">What we need from you, in simple words</p>
+
+<h2>1. What is happening?</h2>
+<p>The Trinity website is working today on another hosting service. You asked for it to run on <b>AWS (Amazon Web Services)</b> instead. Think of AWS as a big, reliable building where the website, its database and its photos are kept. Nothing changes for your visitors. The website looks and works the same. Only the "building" it lives in changes.</p>
+
+<h2>2. What we need from you</h2>
+<table>
+<tr><th style="width:26%">Item</th><th>What it means</th><th style="width:15%">Who</th></tr>
+<tr><td><b>1. An AWS account</b></td><td>The account must be in <b>the company's name</b>, so you own everything. Sign up at aws.amazon.com. A company card or billing method is needed.</td><td>Client</td></tr>
+<tr><td><b>2. Access for our developer</b></td><td>Please do <b>not</b> share your main (root) password. Instead, create a separate login for us: in AWS go to <i>IAM &rarr; Users &rarr; Create user</i> and give it "AdministratorAccess" for the setup period. We can guide you step by step on a short call. You can remove the login when the work is finished.</td><td>Client</td></tr>
+<tr><td><b>3. Billing approval</b></td><td>AWS charges monthly for what is used. Please approve the estimate in section 4 and add the billing method. It is also useful to set a budget alert (we will show you how).</td><td>Client</td></tr>
+<tr><td><b>4. Server location</b></td><td>We suggest <b>Mumbai (India)</b>. It is the closest to your students, so pages load faster. Please confirm, or tell us if you prefer another location.</td><td>Client</td></tr>
+<tr><td><b>5. Website address (domain)</b></td><td>Tell us the domain name and where it is bought (GoDaddy, BigRock and so on). We need someone who can change its settings (called DNS) on the day we go live. We will send the exact lines to add.</td><td>Client</td></tr>
+<tr><td><b>6. Email and chatbot accounts</b></td><td>The contact-form emails and the chatbot use two outside services (Resend and Anthropic). Please confirm they continue as they are. We will reuse their keys, which are sent in a safe way, never by plain email or chat.</td><td>Client</td></tr>
+<tr><td><b>7. Go-live time</b></td><td>On the switch day, edits in the admin panel should pause for about <b>1 to 2 hours</b>, so nothing is lost. Please choose a quiet time, for example late evening.</td><td>Client</td></tr>
+<tr><td><b>8. One contact person</b></td><td>A name and phone number for decisions and approvals during the move.</td><td>Client</td></tr>
+</table>
+
+<h2>3. What will be set up on AWS (and why)</h2>
+<table>
+<tr><th style="width:28%">AWS service</th><th>Plain meaning</th></tr>
+<tr><td><b>App Runner</b></td><td>Runs the website. It restarts itself if something fails and gives a secure (https) address.</td></tr>
+<tr><td><b>RDS (database)</b></td><td>Keeps all the content: pages, blog posts, leads, country details. It is backed up automatically every day.</td></tr>
+<tr><td><b>S3 (file storage)</b></td><td>Keeps all uploaded photos, such as university images.</td></tr>
+<tr><td><b>Route 53 / DNS</b></td><td>Points your domain name to the new website.</td></tr>
+</table>
+
+<h2>4. Estimated monthly cost</h2>
+<table>
+<tr><th>Item</th><th style="width:30%">Approx. per month (USD)</th></tr>
+<tr><td>Website hosting (App Runner)</td><td>15 to 30</td></tr>
+<tr><td>Database (RDS, small size)</td><td>15 to 25</td></tr>
+<tr><td>Photo storage and traffic (S3)</td><td>2 to 8</td></tr>
+<tr><td><b>Total (estimate)</b></td><td><b>about 35 to 65</b></td></tr>
+</table>
+<p class="small">These are estimates for normal traffic and can change with visitors and AWS pricing. We will confirm the exact amount once it is running.</p>
+
+<h2>5. How the move works</h2>
+<ol>
+<li><b>Preparation (our side):</b> we prepare the website so it runs on AWS. Nothing changes on the live site.</li>
+<li><b>Setup:</b> with your AWS login, we create the services above.</li>
+<li><b>Copy:</b> we copy the content and photos to AWS. The old site keeps running meanwhile.</li>
+<li><b>Testing:</b> we test every page, the admin panel, the forms, uploads and the chatbot on a temporary AWS address.</li>
+<li><b>Go-live:</b> in the agreed time slot, the domain is pointed to AWS.</li>
+<li><b>Safety period:</b> the old hosting stays on for a few days as a backup, then it is switched off.</li>
+</ol>
+<p>Expected time: <b>about 3 to 5 working days</b> after we receive the AWS access.</p>
+
+<div class="box warn"><b>Safety rules.</b> Never send passwords or secret keys over WhatsApp or email. Use the IAM user above, and share any key through a password manager or a private call. After the work, the access can be removed.</div>
+
+<h2>6. Quick checklist for the client</h2>
+<ul class="tick">
+<li><span class="chk"></span>AWS account created in the company's name, with billing added</li>
+<li><span class="chk"></span>Separate login (IAM user) created for our developer</li>
+<li><span class="chk"></span>Monthly cost estimate approved</li>
+<li><span class="chk"></span>Server location confirmed (Mumbai suggested)</li>
+<li><span class="chk"></span>Domain name and DNS access person confirmed</li>
+<li><span class="chk"></span>Resend (email) and Anthropic (chatbot) accounts confirmed</li>
+<li><span class="chk"></span>Go-live date and time chosen</li>
+<li><span class="chk"></span>Contact person named</li>
+</ul>
+
+</body></html>

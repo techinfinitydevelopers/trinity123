@@ -2012,3 +2012,6 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 ## 26/11 — Media picker popup fix
 - Bug: with many photos the "Choose / upload" popup squashed every tile into a thin strip (grid rows shrank inside the flex column).
 - Fix (`ImagePicker.tsx` MediaModal): fixed-height popup, scrolling body (`min-h-0`, `content-start`), country chips with counts, search, "Upload to <category>", 4:3 tiles, "Load more" 48 at a time. Admin Media grid got `content-start` too. Verified locally with 100 mocked images.
+
+## 26/11 — Country pages: "Partner institutions" section removed
+- `CountryPage.tsx`: removed the universities block (kicker "Partner institutions", title "Universities we place students in", photo cards) for every country. Country `unis` data is untouched (still stored and editable in admin), only the section is not rendered. Settings text keys `universitiesKicker/Title` remain unused.
