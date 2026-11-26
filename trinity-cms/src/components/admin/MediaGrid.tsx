@@ -58,7 +58,7 @@ export default function MediaGrid() {
             <button className="btn-ghost btn-sm" onClick={() => setPicked([])}>Clear</button>
           </div>
         ) : null}
-        <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 xl:grid-cols-6">
+        <div className="grid grid-cols-3 content-start gap-3 sm:grid-cols-4 md:grid-cols-5 xl:grid-cols-6">
           {loading && !items.length ? <p className="col-span-full py-10 text-center text-[13px] text-ink-3">Loading…</p> : null}
           {items.map((m) => (
             <div key={m.id} className="relative">

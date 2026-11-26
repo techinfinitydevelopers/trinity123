@@ -2008,3 +2008,7 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 - Admin → Media: category chips (All + each country + other categories, with counts), filter by chip, tick files and "Move to category…" (or type a new category), per-file Category dropdown in the side panel. Uploads/drops go into the selected category. The image picker modal has a category filter too.
 - Uses the existing `Media.folder` column (no migration). API `/api/media` returns `folders` + `countries`; new `moveMediaAction`.
 - `scripts/categorize-media-by-country.ts` sorts the 95 production photos by explicit filename→country map (Belgium/Switzerland/Austria/Czechia → "Other countries"; logos + settlement photo → "General"). Dry-run/`--apply`, idempotent. Verified locally (move works); production dry run OK, NOT yet applied.
+
+## 26/11 — Media picker popup fix
+- Bug: with many photos the "Choose / upload" popup squashed every tile into a thin strip (grid rows shrank inside the flex column).
+- Fix (`ImagePicker.tsx` MediaModal): fixed-height popup, scrolling body (`min-h-0`, `content-start`), country chips with counts, search, "Upload to <category>", 4:3 tiles, "Load more" 48 at a time. Admin Media grid got `content-start` too. Verified locally with 100 mocked images.
