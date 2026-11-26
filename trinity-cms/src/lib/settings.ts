@@ -142,7 +142,7 @@ export type WorldSettings = {
     heroTag: string; heroTitle: string; heroSub: string;
     unisTitle: string; unisOutro: string;
     ieltsTitle: string; ieltsLead: string;
-    processTitle: string; pathTitle: string; lifeTitle: string; kitTitle: string;
+    processTitle: string; pathTitle: string; lifeTitle: string; lifeNote: string; kitTitle: string;
     statsTitle: string; voicesTitle: string; ctaTitle: string; ctaLead: string;
   };
   /* Dashboard replacements for the pictures. Sparse on purpose: a key is only written when
@@ -347,6 +347,7 @@ export const DEFAULTS: SettingsMap = {
       processTitle: "From first call to<br>boarding pass.",
       pathTitle: "How Your<br>Journey Works",
       lifeTitle: "What life actually<br>looks like.",
+      lifeNote: "Rules change — we confirm the latest before you apply.",
       kitTitle: "Visa Document<br>Checklist",
       statsTitle: "Numbers that landed.",
       voicesTitle: "They flew. You're next.",

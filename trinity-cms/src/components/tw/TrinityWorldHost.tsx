@@ -27,7 +27,7 @@ const TEXT_AT: Record<keyof WorldSettings["text"], string> = {
   heroTag: "#panel .tag", heroTitle: "#panel h1", heroSub: "#panel p.s",
   unisTitle: "#unis .h2", unisOutro: "#out-t",
   ieltsTitle: "#ielts .h2", ieltsLead: "#ielts .lead",
-  processTitle: "#process .h2", pathTitle: "#path .h2", lifeTitle: "#life .h2", kitTitle: "#kit .h2",
+  processTitle: "#process .h2", pathTitle: "#path .h2", lifeTitle: "#life .h2", lifeNote: "#life .lnote", kitTitle: "#kit .h2",
   statsTitle: "#stats .h2", voicesTitle: "#voices .h2", ctaTitle: "#cta .h2", ctaLead: "#cta .lead",
 };
 

@@ -1978,3 +1978,10 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 
 ## 2026-11-26 — Home world: "Document Checklist" → "Visa Document Checklist"
 - Client: the checklist section heading (with "3 / 8 ready") must read "Visa Document Checklist". The code default (`settings.ts` kitTitle) already said "Visa Document<br>Checklist", but the stored `world` setting (`text.kitTitle`, Admin → Home page → "Your file — heading") still held "Document<br>Checklist" and overrides it. `scripts/fix-world-kit-title.ts` (dry run / `--apply`, backup, idempotent) applied locally; verified in the page DOM (`#kit .h2` = "Visa Document<br>Checklist"). **Production needs: push (the script), `fix-world-kit-title.ts --apply`, redeploy.**
+
+## 2026-11-26 — Production: landing background + Visa Document Checklist (Railway)
+- Pushed 3915443 (landing background focal points, no extra bleed) and ebb6e6a (Visa Document Checklist script). `fix-world-kit-title.ts` on the production DB via `railway run --service Postgres` (dry → apply; re-run "already correct"); backup scripts/backups/world-kit-title-2026-11-26T05-38-02-015Z.json. Redeployed `trinity123`. Verified live (see chat).
+
+## 2026-11-26 — Home world: "Rules change — we confirm the latest before you apply." editable in the admin
+- Client asked to change the Student-life note from the admin. It was hard-coded in the drop-in markup (`#life .lnote`), so only the heading was editable. New world text key `lifeNote` (`settings.ts` type + default = the current sentence, `TrinityWorldHost` TEXT_AT `#life .lnote`, admin field "Student life — note under the list" in Settings → Home page; blank = keep the default). Code-only (no DB script): production needs a push + redeploy, then edit the field in Settings → Home page.
+- Verified on localhost end to end: typed a test value in Settings → Home page → Save ("Saved · live") → the home page's `#life .lnote` showed it; test value removed afterwards (local DB back to blank/default).

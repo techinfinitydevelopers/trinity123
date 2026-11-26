@@ -10,7 +10,7 @@ import { DESTINATION_OPTIONS, isHiddenDestination } from "@/lib/hidden-destinati
 
 type Tab = "site" | "contact" | "nav" | "world" | "footer" | "labels" | "security";
 
-/* The fifteen editable strings on the Trinity World page, with the wording the dashboard
+/* The sixteen editable strings on the Trinity World page, with the wording the dashboard
    shows for each. The keys match WorldSettings["text"]; the selectors they map to live in
    TrinityWorldHost. */
 type WorldTextKey = keyof SettingsMap["world"]["text"];
@@ -19,7 +19,7 @@ const WORLD_TEXT: [WorldTextKey, string][] = [
   ["unisTitle", "Universities — heading"], ["unisOutro", "Universities — closing card"],
   ["ieltsTitle", "IELTS — heading"], ["ieltsLead", "IELTS — paragraph"],
   ["processTitle", "How it works — heading"],
-  ["pathTitle", "Your year — heading"], ["lifeTitle", "Student life — heading"], ["kitTitle", "Your file — heading"],
+  ["pathTitle", "Your year — heading"], ["lifeTitle", "Student life — heading"], ["lifeNote", "Student life — note under the list"], ["kitTitle", "Your file — heading"],
   ["statsTitle", "Numbers — heading"], ["voicesTitle", "Stories — heading"],
   ["ctaTitle", "Enquiry — heading"], ["ctaLead", "Enquiry — paragraph"],
 ];
