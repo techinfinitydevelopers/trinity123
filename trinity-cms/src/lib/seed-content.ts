@@ -1,6 +1,6 @@
 /* Default site content — mirrors the original static export exactly.
    Used by `prisma db seed` and by the admin "Reset to default" action. */
-import type { Block, BandBlock, UspBlock, LeadFormBlock, WorldMapBlock, CoursesBlock, TestimonialsBlock, StatsBlock, CountriesBlock, OfferBlock, CampusBlock, WebinarBlock, EventsBlock, VisionBlock, VideosBlock} from "./blocks";
+import type { Block, BandBlock, UspBlock, LeadFormBlock, WorldMapBlock, CoursesBlock, TestimonialsBlock, StatsBlock, CountriesBlock, OfferBlock, CampusBlock, WebinarBlock, EventsBlock, VisionBlock, VideosBlock, LifeBlock} from "./blocks";
 
 const IMG = "/assets/img";
 const C = "/contact-us";
@@ -13,6 +13,20 @@ export const aboutVideos: VideosBlock = {
   lead: "“Because choosing the right path for your future is a journey we believe in supporting”", leadBy: "Mrs. Melissa Antony",
   ctaLabel: "Get free counselling", ctaHref: C, items: [VOICE(2)],
 };
+/* The globe home page's "What life actually looks like" section (read by TrinityWorldHost → the engine; see LifeBlock). These are the photos and captions the
+   engine used before this block existed, so adding the block changes nothing until the owner edits it. */
+export const homeLife: LifeBlock = {
+  type: "life",
+  heading: "What life actually<br>looks like.",
+  note: "Rules change — we confirm the latest before you apply.",
+  cards: [
+    { img: "/tw/stu/1531545514256-b1400bc00f31.jpg", caption: "Campus life · {country}" },
+    { img: "/tw/life/classes-campus-community.webp", caption: "Study groups" },
+    { img: "/tw/life/work-and-studies.webp", caption: "Work while you study" },
+    { img: "/tw/life/your-next-step.webp", caption: "Graduation day" },
+  ],
+};
+
 export const homeVideos: VideosBlock = {
   type: "videos", kicker: "Student stories", title: "Hear it from our students.",
   lead: "Students share their journey with Trinity Study Abroad. Tap a video to watch.",
@@ -360,6 +374,7 @@ const homeBlocks: Block[] = [
     ],
   },
   courses,
+  homeLife,
   webinar,
   testimonials,
   vision,

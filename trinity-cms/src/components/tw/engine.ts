@@ -38,6 +38,8 @@ export type WorldOpts={
   /** Dashboard overrides for any image the page paints. Every one is optional and falls back
       to the file shipped in `assetBase`, so an empty object changes nothing — which is what
       lets the owner replace one campus photo without having to supply the other seventy-seven. */
+  /** The four photo cards of the "What life actually looks like" deck (Pages → Home → Student Life). An empty image or caption keeps the built-in one; "{country}" in a caption becomes the chosen country. */
+  life?:{img?:string;caption?:string}[];
   images?:{
     /** country key -> city photo url */
     city?:Record<string,string>;
@@ -748,7 +750,8 @@ function renderStudent(c){
   $('#kt').textContent=KIT.length;
   $$('#klist li').forEach((li,i)=>{li.querySelector('b').textContent=KIT[i][0];li.querySelector('small').textContent=KIT[i][1]});
   $$('.beat').forEach((b,i)=>{const x=BEATS[i];b.querySelector('small').textContent=x[0];b.querySelector('h3').textContent=x[1];b.querySelector('p').textContent=x[2];b.querySelector('.fact').textContent=x[3]});
-  /* Card 2 goes with the beat "Classes, campus & community"; it uses the client's own photo, supplied 24/11; cards 3 ("Work and Studies") and 4 ("Your next step") too. */const dimg=[UQ(SIMG.cam),AB+'/life/classes-campus-community.webp?v=1',AB+'/life/work-and-studies.webp?v=1',AB+'/life/your-next-step.webp?v=1'],dl=['Campus life · '+c.n,'Study groups','Work while you study','Graduation day'];
+  /* Card 2 goes with the beat "Classes, campus & community"; it uses the client's own photo, supplied 24/11; cards 3 ("Work and Studies") and 4 ("Your next step") too. */const LC=(opts.life||[]) as any[];/* the owner's cards, if any: an empty image/caption keeps the built-in one */const lcImg=(i:number,d:string)=>((LC[i]&&typeof LC[i].img==='string'&&LC[i].img.trim())||d);const lcCap=(i:number,d:string)=>(((LC[i]&&typeof LC[i].caption==='string'&&LC[i].caption.trim())||d) as string).replace(/\{country\}/gi,c.n);
+  const dimg=[lcImg(0,UQ(SIMG.cam)),lcImg(1,AB+'/life/classes-campus-community.webp?v=1'),lcImg(2,AB+'/life/work-and-studies.webp?v=1'),lcImg(3,AB+'/life/your-next-step.webp?v=1')],dl=[lcCap(0,'Campus life · {country}'),lcCap(1,'Study groups'),lcCap(2,'Work while you study'),lcCap(3,'Graduation day')];
   $$('.dcard').forEach((d,i)=>{const im=d.querySelector('img');im.src=dimg[i];im.onerror=()=>{im.onerror=null;im.src=IMG[c.k]};d.querySelector('span').textContent=dl[i]});
   G.__pimgs=pImgs.map((x,i)=>x?UQ(x,900):uImg);
   setStage(G.__stg||0,true);

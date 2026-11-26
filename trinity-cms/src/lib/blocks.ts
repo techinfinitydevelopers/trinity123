@@ -213,12 +213,20 @@ export type ContactBlock = {
 
 export type BlogListBlock = { type: "blogList"; tags: string[] };
 
+/* The "What life actually looks like" section of the globe-and-flight home page (Settings → Home page → "Use Trinity World as the home page"): its
+   heading, the small note under the list of points, and the four photo cards stacked on the right. It only feeds that section — on a normal home page
+   this block draws nothing. Empty fields keep the built-in text/photo. "{country}" in a caption is replaced by the country the visitor chose. */
+export type LifeBlock = {
+  type: "life"; heading: string; note: string;
+  cards: { img: string; caption: string }[];
+};
+
 export type RichTextBlock = { type: "richText"; html: string; grey: boolean };
 
 export type Block =
   | HeroBlock | PageHeroBlock | BandBlock | UspBlock | LeadFormBlock | WorldMapBlock | CoursesBlock | AboutBlock | OfferBlock | StepsBlock | CountriesBlock
   | CampusBlock | WebinarBlock | EventsBlock | VisionBlock | SegmentsBlock | UniversitiesBlock | StatsBlock | CtaBlock | FaqBlock | JourneyBlock | RoadmapBlock | VideosBlock | TestimonialsBlock
-  | IntroBlock | FeatureCardsBlock | ServicesBlock | ContactBlock | BlogListBlock | RichTextBlock;
+  | IntroBlock | FeatureCardsBlock | ServicesBlock | ContactBlock | BlogListBlock | RichTextBlock | LifeBlock;
 
 export type BlockType = Block["type"];
 
@@ -253,6 +261,7 @@ export const BLOCK_META: Record<BlockType, { label: string; desc: string }> = {
   contact: { label: "Contact Section", desc: "Info cards, form, map" },
   blogList: { label: "Blog List", desc: "Latest posts from the blog" },
   richText: { label: "Rich Text", desc: "Free HTML content" },
+  life: { label: "Student Life", desc: "Globe home page: heading, note and the four photo cards" },
 };
 
 /** Parse `[accent]` and `{gold}` markers inside headings. */

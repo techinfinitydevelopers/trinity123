@@ -8,6 +8,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import type { WorldSettings } from "@/lib/settings";
+import type { LifeBlock } from "@/lib/blocks";
 import TrinityWorld from "./TrinityWorld";
 import { mountBoardingPass } from "./boardingPass";
 
@@ -41,7 +42,7 @@ const EARTH_PRELOAD = [
   ["clouds", "/tw/earth/earth_clouds_1024.png", false],
 ] as const;
 
-export default function TrinityWorldHost({ initialCountry, world, hidden, below, webinars }: { initialCountry?: string; world?: WorldSettings; hidden?: string[]; below?: ReactNode; webinars?: ReactNode }) {
+export default function TrinityWorldHost({ initialCountry, world, hidden, below, webinars, life }: { initialCountry?: string; world?: WorldSettings; hidden?: string[]; below?: ReactNode; webinars?: ReactNode; life?: LifeBlock }) {
   /* Written during render, not in an effect: the engine is imported by the child's effect,
      and importing it is what evaluates data.ts, which reads this. Parent render always
      precedes child effect, so the content is in place in time. `hidden` is the list of
@@ -170,13 +171,17 @@ export default function TrinityWorldHost({ initialCountry, world, hidden, below,
         const node = tw.querySelector(sel);
         if (node && typeof v === "string" && v.trim()) node.innerHTML = v;
       }
+      /* The Student Life block (Pages → Home) wins over Settings → Home page for its heading and note. Admin-only content, like the rest of this table. */
+      const lh = life?.heading?.trim(), ln = life?.note?.trim();
+      if (lh) { const n = tw.querySelector("#life .h2"); if (n) n.innerHTML = lh; }
+      if (ln) { const n = tw.querySelector("#life .lnote"); if (n) n.textContent = ln; }
       return true;
     };
     if (apply()) return;
     const mo = new MutationObserver(() => { if (apply()) mo.disconnect(); });
     mo.observe(el, { childList: true, subtree: true });
     return () => mo.disconnect();
-  }, [world]);
+  }, [world, life]);
 
   /* "Change country" sits at the end of the header's link pill rather than floating under the
      bar. The engine builds the button inside the drop-in and has already bound its click handler
@@ -273,6 +278,8 @@ export default function TrinityWorldHost({ initialCountry, world, hidden, below,
       onReady={() => { try { sessionStorage.setItem("tw:seen", "1"); } catch {} }}
       onPick={(k) => { try { sessionStorage.setItem("tw:country", k); } catch {} }}
       images={world?.images}
+      /* Pages → Home → "Student Life": the four photo cards of the "What life actually looks like" deck. */
+      life={life?.cards}
       /* The site header floats over this page. It flips itself to white glass after 40px of
          scroll, which is right everywhere else and wrong here: the first screens are night sky,
          so a white pill with dark ink lands on a black globe and the navigation disappears into

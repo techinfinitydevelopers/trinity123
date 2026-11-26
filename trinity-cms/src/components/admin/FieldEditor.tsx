@@ -27,6 +27,7 @@ const SHAPES: Record<string, object> = {
   events: { name: "", place: "", date: "", text: "", photos: [{ img: "", alt: "" }] },
   photos: { img: "", alt: "" },
   points: { value: "", label: "" },
+  cards: { img: "", caption: "" },
   videos: { title: "", name: "", youtube: "", poster: "", note: "" },
   unis: { name: "", img: "" },
   items: { label: "", value: "" },
@@ -180,13 +181,13 @@ export default function FieldEditor({ value, onChange, name, depth = 0 }: { valu
 export function ObjectFields({ value, onChange, depth = 0, skip = [], collapsible, index }: { value: Obj; onChange: (v: Obj) => void; depth?: number; skip?: string[]; collapsible?: boolean; index?: number }) {
   const [open, setOpen] = useState(!collapsible);
   /* Content first, plumbing last: title and text lead, ids/links/icons sink to the bottom. */
-  const FIRST = ["title", "name", "label", "q", "question", "t", "strong"], SECOND = ["text", "a", "answer", "lead", "sub", "html"], LAST = ["id", "href", "linkLabel", "wide", "icon"];
+  const FIRST = ["title", "heading", "name", "label", "q", "question", "t", "strong", "caption"], SECOND = ["text", "a", "answer", "lead", "sub", "html"], LAST = ["id", "href", "linkLabel", "wide", "icon"];
   const rank = (k: string): number => FIRST.includes(k) ? 0 : SECOND.includes(k) ? 1 : LAST.includes(k) ? 9 : 5;
   /* The webinar slider ignores the old two-column fields; showing them would only invite edits that change nothing. */
   const hidden = value.type === "webinar" && value.layout === "carousel" ? ["currentTitle", "currentNote", "pastTitle", "pastNote", "past", "ctaLabel"] : "date" in value && "badge" in value ? ["badge"] : "thumb" in value && "img" in value ? ["thumb"] : [];
   const keys = Object.keys(value).filter((k) => k !== "type" && !skip.includes(k) && !hidden.includes(k));
   keys.sort((a, b) => rank(a) - rank(b));
-  const summary = String(value.title ?? value.name ?? value.label ?? value.q ?? value.question ?? value.strong ?? value.text ?? value.t ?? `Item ${(index ?? 0) + 1}`).slice(0, 60);
+  const summary = String(value.title ?? value.heading ?? value.name ?? value.label ?? value.q ?? value.question ?? value.strong ?? value.caption ?? value.text ?? value.t ?? `Item ${(index ?? 0) + 1}`).slice(0, 60);
   if (collapsible && !open) return <button type="button" className="flex w-full items-center justify-between rounded-lg px-2 py-1 text-left text-[13px] font-medium text-ink hover:bg-canvas" onClick={() => setOpen(true)}><span className="truncate">{summary}</span><span className="text-ink-3">Edit ›</span></button>;
   return (
     <div className="space-y-3">
