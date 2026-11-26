@@ -81,7 +81,9 @@ G.__UNI__=Object.fromEntries([
   ...Object.entries(UNI).map(([k,v])=>[k,{url:pick('uni',k,AB+'/'+v.src),artist:v.artist,license:v.license,pos:(v as any).pos}]),
   ...uniOverrideOnly.map(k=>[k,{url:IMG_OVERRIDE.uni[k]}]),
 ]);
-const FOCUS:Record<string,string>={france:'66% 6%',nz:'48% 30%',australia:'60% 68%',uae:'60% 8%',korea:'66% 30%',usa:'29% 50%'};
+/* Where the landmark sits in each landing photo (x% y%). On a wide screen (a 1918x866 window is 2.2:1, the photos are 16:9 or 2:1) `cover` trims 10–30% off the
+   height, so the y value decides whether the tower's top or the foreground goes; on a phone it trims the width and x decides. Client 26/11: Big Ben was cut at the top. */
+const FOCUS:Record<string,string>={uk:'46% 0%',canada:'66% 0%',germany:'84% 25%',ireland:'78% 5%',japan:'32% 0%',korea:'64% 70%',netherlands:'80% 40%',nz:'40% 12%',france:'66% 6%',australia:'60% 68%',uae:'60% 8%',usa:'12% 0%',singapore:'50% 20%',italy:'40% 0%',denmark:'60% 10%',malaysia:'50% 0%',sweden:'75% 0%'};
 const IMG:any=Object.fromEntries(COUNTRIES.map((c:any)=>[c.k,pick('city',c.k,AB+'/city/'+c.k+'.jpg?v=5')]));
 gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.config({ignoreMobileResize:true});
@@ -519,7 +521,7 @@ function render(c){
   $('.arrive .bg').style.backgroundImage=`url(${url})`;
   /* `cover` crops the photo to the screen, centred — which cut the top off the Eiffel Tower and the spire of the Sky Tower (client, 24/11). The focal point of each
      photo is set so the landmark stays in frame, on a wide screen and on a tall phone alike. Countries not listed stay centred. */
-  $('.arrive .bg').style.backgroundPosition=FOCUS[c.k]||'center';$('.v2').style.backgroundPosition=FOCUS[c.k]||'center';
+  $('.arrive .bg').style.inset='0';/* the drop-in's -6% bleed only cropped more of the photo (it was never needed for the parallax) */$('.arrive .bg').style.backgroundPosition=FOCUS[c.k]||'center';$('.v2').style.backgroundPosition=FOCUS[c.k]||'center';
   $('.arrive .tag').textContent='Welcome to '+c.n;
   $('.arrive h2').innerHTML='<span class="ln">Study in <em>'+c.n+'.</em></span><span class="ln">Let <em>Trinity Study Abroad</em> assist you.</span>';
   $('.arrive p').textContent='';
