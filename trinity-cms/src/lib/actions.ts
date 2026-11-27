@@ -285,7 +285,7 @@ export async function resolveUnmatchedAction(messageId: string): Promise<ActionR
 /* ---------- destinations ---------- */
 export type CountryInput = {
   id?: string; code: string; slug: string; name: string; tag: string; img: string; hero: string; intro: string;
-  stats: unknown[]; why: unknown[]; courses: unknown[]; unis: unknown[]; visa: string; intakes: string;
+  stats: unknown[]; why: unknown[]; courses: unknown[]; unis: unknown[]; visa: string; visaList: string; intakes: string;
   cost: unknown[]; req: unknown[]; sch: unknown[]; steps: unknown[]; work: string; workPoints: unknown[]; faq: unknown[];
   seoTitle: string; seoDesc: string; isActive: boolean; order: number;
 };

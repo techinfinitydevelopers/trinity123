@@ -17,7 +17,7 @@ export default async function EditDestination({ params }: { params: Promise<{ id
   const { id } = await params;
   let initial: CountryInput = {
     code: "", slug: "", name: "", tag: "", img: "", hero: "", intro: "",
-    stats: [{ v: "", l: "" }], why: [""], courses: [""], unis: [{ name: "", img: "" }], visa: "", intakes: "",
+    stats: [{ v: "", l: "" }], why: [""], courses: [""], unis: [{ name: "", img: "" }], visa: "", visaList: "", intakes: "",
     cost: [{ label: "", value: "" }], req: [{ label: "", value: "" }], sch: [{ name: "", text: "" }], steps: [{ title: "", text: "" }],
     work: "", workPoints: [""], faq: [{ q: "", a: "" }], seoTitle: "", seoDesc: "", isActive: true, order: 99,
   };
@@ -26,7 +26,7 @@ export default async function EditDestination({ params }: { params: Promise<{ id
     if (!c) notFound();
     initial = {
       id: c.id, code: c.code, slug: c.slug, name: c.name, tag: c.tag, img: c.img, hero: c.hero, intro: c.intro,
-      stats: c.stats as unknown[], why: c.why as unknown[], courses: c.courses as unknown[], unis: c.unis as unknown[], visa: c.visa, intakes: c.intakes,
+      stats: c.stats as unknown[], why: c.why as unknown[], courses: c.courses as unknown[], unis: c.unis as unknown[], visa: c.visa, visaList: c.visaList, intakes: c.intakes,
       cost: c.cost as unknown[], req: c.req as unknown[], sch: c.sch as unknown[], steps: c.steps as unknown[], work: c.work, workPoints: c.workPoints as unknown[], faq: c.faq as unknown[],
       seoTitle: c.seoTitle ?? "", seoDesc: c.seoDesc ?? "", isActive: c.isActive, order: c.order,
     };

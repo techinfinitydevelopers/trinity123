@@ -48,7 +48,8 @@ export default async function CountryPage({ c, others, contact, webinars }: { c:
   if (workPoints.length || c.work) shown.add("c-work");
   if (faq.length) shown.add("c-faq");
   /* A visa text written as a list (a lead-in line, then one requirement per line) gets its own full-width section; a one-paragraph text stays in the small card. */
-  const visaLines = (c.visa ?? "").split(/\n+/).map((x) => x.trim()).filter(Boolean);
+  const visaListText = (c as { visaList?: string }).visaList ?? "";
+  const visaLines = (visaListText.split(/\n+/).filter((x) => x.trim()).length >= 3 ? visaListText : (c.visa ?? "")).split(/\n+/).map((x) => x.trim()).filter(Boolean);
   const visaList = visaLines.length >= 3;
   const visaIntro = visaList && visaLines[0].endsWith(":") ? visaLines[0] : "";
   const visaItems = (visaIntro ? visaLines.slice(1) : visaLines).map((x) => x.replace(/[,;.]+$/, ""));

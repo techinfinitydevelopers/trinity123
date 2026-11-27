@@ -1913,3 +1913,8 @@ SVGs are not one set (some white, some navy), so they now sit on a dark chip for
   - Gotcha: Windows `taskkill` of the dev server leaves no zombie but the background-task notice says "failed" — harmless; restart with `npm run dev`.
 
 - Media library categories: `Media.folder` = category (country names). Script `scripts/categorize-media-by-country.ts` sorts existing uploads; run on production with `--apply` after deploy. Local DB has no countries/media of note.
+
+- AWS move (client request, 26/11): plan = App Runner + RDS Postgres + S3 (uploads) in Mumbai; needs Dockerfile + S3 storage adapter (not started). Client PDF of requirements: `docs/Trinity-AWS-Requirements.pdf`.
+- Old client site is on cPanel (account `trinide0`, trinitystudyabroad.com): 0 databases, ~102 MB, 1 mailbox (keep MX/TXT DNS records unchanged on switch). Backup taken 26/11 by user (public_html zip saved on their PC; full backup may still be generating). Still needed: public_html file list + Zone Editor DNS screenshots; plan 301 redirects for old URLs.
+
+- Australia visa checklist section is driven by `Country.visaList` (not `visa`) since 27/11; `visa` is only the summary card. Admin saves of a country write ALL fields, so stale forms can overwrite data — reload before saving.

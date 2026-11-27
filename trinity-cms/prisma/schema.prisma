@@ -193,6 +193,7 @@ model Country {
   courses   Json     @default("[]")
   unis      Json     @default("[]")
   visa      String   @default("")
+  visaList  String   @default("")
   intakes   String   @default("")
   cost      Json     @default("[]")
   req       Json     @default("[]")

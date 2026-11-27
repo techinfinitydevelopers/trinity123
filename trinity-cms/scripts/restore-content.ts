@@ -80,11 +80,11 @@ async function main() {
 
   for (const c of backup.data.country) {
     const {
-      id, code, slug, name, tag, img, hero, intro, stats, why, courses, unis, visa, intakes,
+      id, code, slug, name, tag, img, hero, intro, stats, why, courses, unis, visa, visaList, intakes,
       cost, req, sch, steps, work, workPoints, faq, seoTitle, seoDesc, isActive, order,
     } = c as Record<string, any>;
     const fields = {
-      slug, name, tag, img, hero, intro, stats, why, courses, unis, visa, intakes, cost, req,
+      slug, name, tag, img, hero, intro, stats, why, courses, unis, visa, ...(visaList !== undefined ? { visaList } : {}), intakes, cost, req,
       sch, steps, work, workPoints, faq, seoTitle, seoDesc, isActive, order,
     };
     await db.country.upsert({ where: { code }, create: { id, code, ...fields }, update: fields });

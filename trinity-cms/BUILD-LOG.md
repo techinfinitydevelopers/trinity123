@@ -2015,3 +2015,13 @@ Still outstanding and not ours to do: `ANTHROPIC_API_KEY` is unset on Railway, s
 
 ## 26/11 — Country pages: "Partner institutions" section removed
 - `CountryPage.tsx`: removed the universities block (kicker "Partner institutions", title "Universities we place students in", photo cards) for every country. Country `unis` data is untouched (still stored and editable in admin), only the section is not rendered. Settings text keys `universitiesKicker/Title` remain unused.
+
+## 26/11 — AWS migration prep + old cPanel backup
+- Wrote client requirements PDF (`docs/Trinity-AWS-Requirements.pdf`). Guided user through cPanel backup of the old site (files zip saved locally). No code changes. Next: review old `public_html` + DNS records, then Dockerfile and S3 storage.
+
+## 27/11 — Australia visa checklist moved to its own field (`Country.visaList`)
+- Problem: production's Australia `visa` (summary card) was reset to a one-line text twice (25/11 before my script, and 27/11 13:39 IST via an admin save; only `visa` differed in the backups), which hid the checklist section because it was driven by `visa` (needs 3+ lines).
+- Fix: new column `Country.visaList` (String, default ""). `CountryPage.tsx` uses `visaList` when it has 3+ lines, else falls back to the old `visa` rule (other countries unchanged). Admin → Destinations → (country) → Basics has a new "Visa requirements checklist (full section)" textarea. `restore-content.ts` carries the field. `scripts/set-australia-visa-list.ts` (dry run / `--apply`, backup) fills Australia.
+- Verified on localhost: with `visa` set to the short text, the section still renders and the summary card stays hidden. tsc clean.
+- Production still needs: push (start command runs `prisma db push`, adds the column), `set-australia-visa-list.ts --apply` via Railway, redeploy.
+- Also 27/11: pulled production content to local (backups `production-content-2026-11-27*.json`, `local-before-sync-2026-11-27.json`); local embedded Postgres had hung (killed leftover postgres.exe, removed postmaster.pid).

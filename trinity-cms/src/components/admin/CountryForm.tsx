@@ -48,6 +48,7 @@ export default function CountryForm({ initial }: { initial: CountryInput }) {
               <Field label="Visa requirements (summary card)"><textarea className="inp" rows={4} value={c.visa} onChange={(e) => set({ visa: e.target.value })} /></Field>
               <Field label="Intakes & timeline"><textarea className="inp" rows={4} value={c.intakes} onChange={(e) => set({ intakes: e.target.value })} /></Field>
             </div>
+            <Field label="Visa requirements checklist (full section)" hint="First line = intro, ending with a colon. Then one requirement per line (3 or more lines shows the checklist section). Independent of the summary card above."><textarea className="inp" rows={8} value={c.visaList} onChange={(e) => set({ visaList: e.target.value })} /></Field>
             <Field label="Work & settlement paragraph"><textarea className="inp" rows={3} value={c.work} onChange={(e) => set({ work: e.target.value })} /></Field>
           </div>
         ) : null}
